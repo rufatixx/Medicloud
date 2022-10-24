@@ -1,0 +1,499 @@
+﻿@page
+@{
+    ViewData["Title"] = "Admin";
+}
+<form class="needs-validation container" novalidate style="margin-top:2%" id="form1">
+    <div class="row">
+        <div class="col-md-12 ">
+            <div class="row">
+                <div class="col-md-3 ">
+                    <div class="form-group border-right">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h2>Təşkilat tərifi</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 ">
+                    <div class="form-group ">
+                        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                            <button type="button" class="btn btn-primary "
+                                    onclick=" $('#addCompanyGroup').modal('show');">
+                                + Qrup əlavə et
+                            </button>
+                            <button type="button" class="btn btn-primary border-left"
+                                    onclick=" $('#addCompany').modal('show');">
+                                + Təşkilat əlavə et
+                            </button>
+
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <!-- <div class="col-6 text-right ">     <button type="button" class="btn btn-dark " onclick=" $('#patientSearch').modal('show');">Axtar</button></div> -->
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-6">Qruplar</div>
+                        <div class="col-md-6 text-right">
+                            <input class="form-check-input" type="checkbox" id="groupsIsActive" onclick="filterGroups()"
+                                   checked>
+                            <label class="form-check-label">
+                                Aktiv
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-group" id="cGroups">
+
+
+
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-6">Təşkilatlar</div>
+                        <div class="col-md-6 text-right">
+                            <input class="form-check-input" type="checkbox" id="companiesIsActive"
+                                   onclick="filterCompanies()" checked>
+                            <label class="form-check-label">
+                                Aktiv
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-group" id="companiesInBuilding">
+
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+        <div class="col-md-4 ">
+            <div class="card  groupSettings" style="display: none;">
+                <div class="card-header">
+                    <ul class="nav nav-tabs card-header-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active generalSettingsButton" onclick="settingsBoxClicked(1)">Ümumi</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link accessSettingsButton" onclick="settingsBoxClicked(2)">İcazələr</a>
+                        </li>
+
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="generalSettings">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="exampleFormControlSelect1">Qrup adı</label>
+                                    <input type="text" class="form-control" required id="groupNameInSettings"
+                                           placeholder="Qrup adı">
+
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="exampleFormControlSelect1">Tipi</label>
+                                    <select class="form-control" required id="selectedCompanyGroupTypeInSettings" disabled>
+                                        <option value="1">Ödənişli</option>
+                                        <option value="2">Rəsmi</option>
+
+                                    </select>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+
+                                    <button type="button" class="btn btn-primary justify-content-center"
+                                            onclick="updateCompanyGroup()">
+                                        Yadda saxla
+                                    </button>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="accessSettings">
+
+                        <div class="form-group">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" onclick="updateCompanyGroup()" id="groupIsActive">
+                                <label class="form-check-label">
+                                    Aktiv
+                                </label>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="card companySettings" style="display: none;">
+                <div class="card-header">
+                    <ul class="nav nav-tabs card-header-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active generalSettingsButton" onclick="settingsBoxClicked(1)">Ümumi</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link accessSettingsButton" onclick="settingsBoxClicked(2)">İcazələr</a>
+                        </li>
+
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="generalSettings">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="exampleFormControlSelect1">Təşkilat adı</label>
+                                    <input type="text" class="form-control" required id="companyNameInSettings"
+                                           placeholder="Təşkilat adı">
+
+                                </div>
+                                <div class="col-md-6">
+
+                                    <label for="exampleFormControlSelect1">Qrup</label>
+                                    <select class="form-control cGroupsAll" id="selectedCompanyGroupInSettings" required disabled>
+                                    </select>
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+
+                                    <button type="button" class="btn btn-primary justify-content-center"
+                                            onclick="updateCompany()">
+                                        Yadda saxla
+                                    </button>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="accessSettings">
+
+                        <div class="form-group">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" onclick="updateCompany()" id="companyIsActive">
+                                <label class="form-check-label">
+                                    Aktiv
+                                </label>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+
+</form>
+
+<div class="modal fade" id="addCompanyGroup" data-backdrop="static" data-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+
+
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <!-- <h3 style="text-align:right; margin-right:2%"><span class="badge badge-secondary">Cəmi: ---</span></h1> -->
+                                <div class="row">
+
+                                    <div class="col-md-12 text-center">
+                                        <img src="/res/pencil.svg" />
+
+                                    </div>
+
+
+
+
+                                </div>
+
+
+
+
+                            </div>
+
+                            <div class="form-group">
+                                <div class="row">
+
+                                    <div class="col-md-12 text-center">
+                                        <h6>Qrupun əlavə edilməsi</h6>
+
+                                    </div>
+
+
+
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <!-- <h3 style="text-align:right; margin-right:2%"><span class="badge badge-secondary">Cəmi: ---</span></h1> -->
+                                <div class="row">
+
+                                    <div class="col-md-6">
+
+
+                                        <label for="exampleFormControlSelect1">Qrup adı</label>
+                                        <!-- <select class="form-control" id="departments">
+                                        </select> -->
+
+                                        <input type="text" class="form-control" required id="groupName"
+                                               placeholder="Qrup">
+                                        <div class="valid-feedback">
+                                            Əla!
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Boşluğu doldurun.
+                                        </div>
+
+
+                                    </div>
+                                    <div class="col-md-6">
+
+
+                                        <label>Tipi</label>
+                                        <select class="form-control" required id="cGroupType">
+                                            <option value="1">Ödənişli</option>
+                                            <option value="2">Rəsmi</option>
+
+                                        </select>
+
+
+                                    </div>
+
+
+
+
+                                </div>
+
+
+
+                            </div>
+                            <div class="form-group">
+                                <!-- <h3 style="text-align:right; margin-right:2%"><span class="badge badge-secondary">Cəmi: ---</span></h1> -->
+                                <div class="row">
+
+                                    <div class="col-md-12 text-center">
+
+
+                                        <button type="button" class="btn btn-primary justify-content-center"
+                                                onclick="insertCGroup()">
+                                            Əlavə et
+                                        </button>
+
+
+                                    </div>
+
+
+
+
+                                </div>
+
+
+
+                            </div>
+
+                        </div>
+
+
+
+
+
+                    </div>
+
+
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="addCompany" data-backdrop="static" data-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+
+
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <!-- <h3 style="text-align:right; margin-right:2%"><span class="badge badge-secondary">Cəmi: ---</span></h1> -->
+                                <div class="row">
+
+                                    <div class="col-md-12 text-center">
+                                        <img src="/res/pencil.svg" />
+
+                                    </div>
+
+
+
+
+                                </div>
+
+
+
+
+                            </div>
+
+                            <div class="form-group">
+                                <div class="row">
+
+                                    <div class="col-md-12 text-center">
+                                        <h6>Təşkilatın əlavə edilməsi</h6>
+
+                                    </div>
+
+
+
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <!-- <h3 style="text-align:right; margin-right:2%"><span class="badge badge-secondary">Cəmi: ---</span></h1> -->
+                                <div class="row">
+
+                                    <div class="col-md-6">
+
+
+                                        <label for="exampleFormControlSelect1">Təşkilat adı</label>
+                                        <!-- <select class="form-control" id="departments">
+                                        </select> -->
+
+                                        <input type="text" class="form-control" required id="companyName"
+                                               placeholder="Təşkilat">
+                                        <div class="valid-feedback">
+                                            Əla!
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Boşluğu doldurun.
+                                        </div>
+
+
+                                    </div>
+                                    <div class="col-md-6">
+
+
+                                        <label>Qrup</label>
+                                        <select class="form-control cGroupsAll" id="cGroupsInModal" required>
+                                        </select>
+
+
+                                    </div>
+
+
+
+
+                                </div>
+
+
+
+                            </div>
+                            <div class="form-group">
+                                <!-- <h3 style="text-align:right; margin-right:2%"><span class="badge badge-secondary">Cəmi: ---</span></h1> -->
+                                <div class="row">
+
+                                    <div class="col-md-12 text-center">
+
+
+                                        <button type="button" class="btn btn-primary justify-content-center"
+                                                onclick="insertCompany()">
+                                            Əlavə et
+                                        </button>
+
+
+                                    </div>
+
+
+
+
+                                </div>
+
+
+
+                            </div>
+
+                        </div>
+
+
+
+
+
+                    </div>
+
+
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+    <script src="~/js/admin/companies/companySettings.js" asp-append-version="true"></script>
+
+}

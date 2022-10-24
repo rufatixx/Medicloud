@@ -1,0 +1,316 @@
+﻿
+
+<form class="needs-validation container" novalidate style="margin-top:2%" id="form1">
+    <div class="row">
+        <div class="col-6"> <h2>Xəstə qeydiyyatı 🩺</h2></div>
+        <div class="col-6 text-right ">     <button type="button" class="btn btn-dark " onclick=" $('#patientSearch').modal('show');">Axtar</button></div>
+    </div>
+
+    <div class="form-group">
+        <!-- <h3 style="text-align:right; margin-right:2%"><span class="badge badge-secondary">Cəmi: ---</span></h1> -->
+        <div class="row">
+
+            <div class="col-md-4">
+                <label for="exampleFormControlInput1">*Xəstənin adi</label>
+                <input type="text" class="form-control" required id="name" placeholder="Ad">
+                <div class="valid-feedback">
+                    Əla!
+                </div>
+                <div class="invalid-feedback">
+                    Boşluğu doldurun.
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label for="exampleFormControlInput1">*Xəstənin soyadı</label>
+                <input type="text" class="form-control" required id="surname" placeholder="Soyad">
+                <div class="valid-feedback">
+                    Əla!
+                </div>
+                <div class="invalid-feedback">
+                    Boşluğu doldurun.
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label for="exampleFormControlInput1">*Xəstənin ata adı</label>
+                <input type="text" class="form-control" required id="father" placeholder="Ata adı">
+                <div class="valid-feedback">
+                    Əla!
+                </div>
+                <div class="invalid-feedback">
+                    Boşluğu doldurun.
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-4">
+                <label for="exampleFormControlSelect1">Cins</label>
+                <select class="form-control dropdown" required id="gender">
+                    <option value="1">Kişi</option>
+                    <option value="2">Qadın</option>
+
+                </select>
+
+
+                <div class="valid-feedback">
+                    Əla!
+                </div>
+                <div class="invalid-feedback">
+                    Boşluğu doldurun.
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label for="exampleFormControlInput1">*Xəstənin əlaqə nömrəsi</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">+994</span>
+                    </div>
+                    <input type="tel" class="form-control" placeholder="51XXXXXXX" id="clientPhone" maxlength="9" aria-describedby="emailHelp" required>
+                    <div class="valid-feedback">
+                        Əla!
+                    </div>
+                    <div class="invalid-feedback">
+                        Boşluğu doldurun.
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label for="exampleFormControlInput1">*ŞV Fin</label>
+                <input type="text" class="form-control" required id="fin" placeholder="Şəxsiyyət vəsiqəsinin fin kodu">
+                <div class="valid-feedback">
+                    Əla!
+                </div>
+                <div class="invalid-feedback">
+                    Boşluğu doldurun.
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label>Xəstənin döğum tarixi:</label>
+                <input class="form-control" type="date" id="bDate"
+                       name="meeting-time" value="2018-06-12T19:30" max=""
+                       required>
+                <div class="valid-feedback">
+                    Əla!
+                </div>
+                <div class="invalid-feedback">
+                    Boşluğu doldurun.
+                </div>
+            </div>
+        </div>
+    </div>
+    <h2>Poliklinika seçimi 🏨</h2>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-4">
+                <label for="exampleFormControlSelect1">Müraciyət növü</label>
+                <select class="form-control" required id="requestType">
+                    <!-- <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option> -->
+                </select>
+                <div class="valid-feedback">
+                    Əla!
+                </div>
+                <div class="invalid-feedback">
+                    Boşluğu doldurun.
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label for="exampleFormControlSelect1">Qiymət qrupu</label>
+                <select class="form-control" id="priceGroup" required disabled>
+                    <option value="1">Ödənişli</option>
+
+                </select>
+                <div class="valid-feedback">
+                    Əla!
+                </div>
+                <div class="invalid-feedback">
+                    Boşluğu doldurun.
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label for="exampleFormControlSelect1">Poliklinika</label>
+                <select class="form-control" required id="departments" onchange="depChanged(this)">
+                    <!-- <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option> -->
+                </select>
+                <div class="valid-feedback">
+                    Əla!
+                </div>
+                <div class="invalid-feedback">
+                    Boşluğu doldurun.
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-4">
+                <label for="exampleFormControlSelect1">Xidmət</label>
+                <select class="form-control" required id="services" onchange="servicesChanged(this)">
+                    <!-- <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option> -->
+                </select>
+                <div class="valid-feedback">
+                    Əla!
+                </div>
+                <div class="invalid-feedback">
+                    Boşluğu doldurun.
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <label for="exampleFormControlSelect1">Poliklinikada xidmət edən həkim</label>
+                <select class="form-control" required id="doctors">
+                    <!-- <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option> -->
+                </select>
+                <div class="valid-feedback">
+                    Əla!
+                </div>
+                <div class="invalid-feedback">
+                    Boşluğu doldurun.
+                </div>
+            </div>
+            <div class="col-md-4">
+
+                <label for="exampleFormControlSelect1">Gödərən həkim</label>
+                <select class="form-control" id="referer">
+                    <!-- <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option> -->
+                </select>
+                <div class="valid-feedback">
+                    Əla!
+                </div>
+                <div class="invalid-feedback">
+                    Boşluğu doldurun.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-12">
+                <label for="exampleFormControlInput1">Qiymət (AZN)</label>
+                <input type="tel" class="form-control" required id="price" placeholder="Məbləğ" disabled>
+                <div class="valid-feedback">
+                    Əla!
+                </div>
+                <div class="invalid-feedback">
+                    Boşluğu doldurun.
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="form-group">
+
+        <label>Qeyd</label>
+        <textarea class="form-control" id="note" rows="3" placeholder="Qeydlərinizi daxil edin"></textarea>
+        <div class="valid-feedback">
+            Əla!
+        </div>
+        <div class="invalid-feedback">
+            Boşluğu doldurun.
+        </div>
+
+    </div>
+    <div class="float-right">
+        <div class="row">
+            <div class="col-md-12">
+                <!--<button type="button" class="btn btn-secondary " data-dismiss="modal">Ləğv et</button>-->
+                <button type="button" class="btn btn-primary " onclick="AddPatient()">Qeydə al</button>
+                <!--<button type="button" class="btn btn-primary " onclick="AddPatient()">Müraciyət əlavə et</button>-->
+            </div>
+        </div>
+    </div>
+
+</form>
+
+<div class="modal fade" id="patientSearch" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Xəstə axtarışı</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <!-- <h3 style="text-align:right; margin-right:2%"><span class="badge badge-secondary">Cəmi: ---</span></h1> -->
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                <label for="exampleFormControlInput1">Xəstənin tam adı </label>
+                                <input type="text" class="form-control" required id="fullNamePattern" placeholder="Məs. Rüfət Əsədzadə Cəbrayıl">
+
+                            </div>
+
+
+
+                        </div>
+
+
+
+                    </div>
+                    <div class="form-group">
+                        <!-- <h3 style="text-align:right; margin-right:2%"><span class="badge badge-secondary">Cəmi: ---</span></h1> -->
+                        <div class="row">
+
+                            <div class="col-md-12">
+
+
+                                <label for="exampleFormControlSelect1">Xəstələr</label>
+                                <select class="form-control form-select" size="3" onclick="foundPatientClicked(this)" id="foundPatients">
+                                </select>
+
+
+
+                            </div>
+
+
+
+                        </div>
+
+
+
+                    </div>
+
+
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Ləğv et</button>
+                <button type="button" class="btn btn-primary" onclick="serachForPatient()">Axtar</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/js/new_patient/new_patient.js" asp-append-version="true"></script>
+}
+

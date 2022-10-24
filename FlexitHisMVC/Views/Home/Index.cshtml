@@ -1,0 +1,403 @@
+﻿
+@{
+    ViewData["Title"] = "Əsas";
+}
+
+
+
+
+<form style="margin:5%">
+    <div class="container">
+        <center>
+            <h1><span class="badge bg-dark" id="hospitalLogo" style="text-align:center;border-radius: 50%; color: white;padding-top:60px;   display: block; width: 160px;height:160px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; "></span></h1>
+
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="selectHospitalDropdownButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="selectHospitalDropdownItems">
+
+                </div>
+            </div>
+        </center>
+
+        <div class="row justify-content-md-center" role="group" aria-label="Basic example">
+            <button type="button" class="btn col-md-2" onclick="location.href='@Url.Action("Index", "NewPatient")'">
+                <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96" fill="none">
+                    <rect width="96" height="96" rx="16" fill="url(#paint0_linear_506_1962)" />
+                    <defs>
+                        <linearGradient id="paint0_linear_506_1962" x1="0" y1="0" x2="96" y2="96" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#DA90BB" />
+                            <stop offset="1" stop-color="#93C1FF" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <br>
+                <br>
+                Xəstə qəbulu
+
+
+            </button>
+            <button type="button" class="btn  col-md-2" >
+                <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96" fill="none">
+                    <rect width="96" height="96" rx="16" fill="url(#paint0_linear_506_1966)" />
+                    <defs>
+                        <linearGradient id="paint0_linear_506_1966" x1="0" y1="0" x2="96" y2="96" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#4BAFAF" />
+                            <stop offset="1" stop-color="#76E170" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <br>
+                <br>
+                Kassa
+
+            </button>
+            <button type="button" class="btn col-md-2" >
+                <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96" fill="none">
+                    <g clip-path="url(#clip0_506_1952)">
+                        <rect width="96" height="96" rx="16" fill="url(#paint0_linear_506_1952)" />
+                        <g filter="url(#filter0_b_506_1952)">
+                            <circle cx="92" cy="11" r="18" fill="white" fill-opacity="0.6" />
+                        </g>
+                        <g filter="url(#filter1_b_506_1952)">
+                            <circle cx="9" cy="84" r="18" fill="white" fill-opacity="0.45" />
+                        </g>
+                        <g filter="url(#filter2_b_506_1952)">
+                            <path d="M84.558 103.175C82.3836 102.248 80.413 100.902 78.7589 99.2133C77.1048 97.5247 75.7995 95.5268 74.9175 93.3337C74.0355 91.1407 73.594 88.7953 73.6184 86.4317C73.6428 84.068 74.1325 81.7323 75.0596 79.5579C75.9867 77.3835 77.3329 75.4129 79.0216 73.7588C80.7102 72.1047 82.708 70.7994 84.9011 69.9174C87.0942 69.0354 89.4395 68.594 91.8032 68.6183C94.1669 68.6427 96.5026 69.1324 98.677 70.0595L96.2485 75.7554C94.8221 75.1472 93.2899 74.826 91.7393 74.81C90.1887 74.794 88.6502 75.0835 87.2115 75.6621C85.7729 76.2407 84.4622 77.097 83.3545 78.1821C82.2468 79.2672 81.3636 80.5599 80.7555 81.9863C80.1473 83.4127 79.8261 84.945 79.8101 86.4956C79.7941 88.0461 80.0836 89.5847 80.6622 91.0233C81.2408 92.462 82.0971 93.7726 83.1822 94.8803C84.2673 95.9881 85.56 96.8712 86.9864 97.4794L84.558 103.175Z" fill="white" fill-opacity="0.6" />
+                        </g>
+                    </g>
+                    <defs>
+                        <filter id="filter0_b_506_1952" x="58.5714" y="-22.4286" width="66.8571" height="66.8571" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                            <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                            <feGaussianBlur in="BackgroundImage" stdDeviation="7.71429" />
+                            <feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_506_1952" />
+                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_backgroundBlur_506_1952" result="shape" />
+                        </filter>
+                        <filter id="filter1_b_506_1952" x="-24.4286" y="50.5714" width="66.8571" height="66.8571" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                            <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                            <feGaussianBlur in="BackgroundImage" stdDeviation="7.71429" />
+                            <feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_506_1952" />
+                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_backgroundBlur_506_1952" result="shape" />
+                        </filter>
+                        <filter id="filter2_b_506_1952" x="58.1891" y="53.1889" width="55.9162" height="65.415" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                            <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                            <feGaussianBlur in="BackgroundImage" stdDeviation="7.71429" />
+                            <feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_506_1952" />
+                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_backgroundBlur_506_1952" result="shape" />
+                        </filter>
+                        <linearGradient id="paint0_linear_506_1952" x1="0" y1="0" x2="96" y2="96" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#7EEFEE" />
+                            <stop offset="0.0001" stop-color="#68E6E7" />
+                            <stop offset="1" stop-color="#4D97FD" />
+                        </linearGradient>
+                        <clipPath id="clip0_506_1952">
+                            <rect width="96" height="96" rx="16" fill="white" />
+                        </clipPath>
+                    </defs>
+                </svg>
+                <br>
+                <br>
+                Poliklinika
+
+            </button>
+            <button type="button" class="btn  col-md-2" onclick="location.href='@Url.Action("Index", "Home", new {Area = "Admin"})'">
+                <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96" fill="none">
+                    <rect width="96" height="96" rx="16" fill="url(#paint0_linear_506_1966)" />
+                    <defs>
+                        <linearGradient id="paint0_linear_506_1966" x1="0" y1="0" x2="96" y2="96" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#4BAFAF" />
+                            <stop offset="1" stop-color="#76E170" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <br>
+                <br>
+                Admin
+
+            </button>
+
+            <!--<button type="button" class="btn btn-outline-success btn-lg" data-toggle="modal" data-target="#newPayment">
+                Mədaxil
+                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-cash-stack" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14 3H1a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1h-1z" />
+                    <path fill-rule="evenodd" d="M15 5H1v8h14V5zM1 4a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H1z" />
+                    <path d="M13 5a2 2 0 0 0 2 2V5h-2zM3 5a2 2 0 0 1-2 2V5h2zm10 8a2 2 0 0 1 2-2v2h-2zM3 13a2 2 0 0 0-2-2v2h2zm7-4a2 2 0 1 1-4 0 2 2 0 0 1 4 0z" />
+                </svg>
+            </button>
+            <button type="button" class="btn btn-outline-success btn-lg" data-toggle="modal" data-target="#newOutcome">
+                Xərc
+                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-cart4" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l.5 2H5V5H3.14zM6 5v2h2V5H6zm3 0v2h2V5H9zm3 0v2h1.36l.5-2H12zm1.11 3H12v2h.61l.5-2zM11 8H9v2h2V8zM8 8H6v2h2V8zM5 8H3.89l.5 2H5V8zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z" />
+                </svg>
+            </button>-->
+        </div>
+    </div>
+
+</form>
+<!-- Button trigger modal -->
+<!-- new order Modal -->
+<div class="modal fade" id="newOrderModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Yeni xəstə qəbulu</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="needs-validation " novalidate>
+
+                    <div class="form-group">
+                        <!-- <h3 style="text-align:right; margin-right:2%"><span class="badge badge-secondary">Cəmi: ---</span></h1> -->
+                        <div class="row">
+
+                            <div class="col-md-4">
+                                <label for="exampleFormControlInput1">*Xəstənin adi</label>
+                                <input type="text" class="form-control" required id="clientFullName" placeholder="Ad">
+                                <div class="valid-feedback">
+                                    Əla!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Boşluğu doldurun.
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="exampleFormControlInput1">*Xəstənin soyadı</label>
+                                <input type="text" class="form-control" required id="clientFullName" placeholder="Soyad">
+                                <div class="valid-feedback">
+                                    Əla!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Boşluğu doldurun.
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="exampleFormControlInput1">*Xəstənin ata adı</label>
+                                <input type="text" class="form-control" required id="clientFather" placeholder="Ata adı">
+                                <div class="valid-feedback">
+                                    Əla!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Boşluğu doldurun.
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="exampleFormControlSelect1">Cins</label>
+                                <select class="form-control dropdown" required id="gender">
+                                    <option value="1">Kişi</option>
+                                    <option value="2">Qadın</option>
+
+                                </select>
+
+
+                                <div class="valid-feedback">
+                                    Əla!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Boşluğu doldurun.
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="exampleFormControlInput1">*Xəstənin əlaqə nömrəsi</label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">+994</span>
+                                    </div>
+                                    <input type="tel" class="form-control" placeholder="51XXXXXXX" id="clientPhone" maxlength="9" aria-describedby="emailHelp" required>
+                                    <div class="valid-feedback">
+                                        Əla!
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Boşluğu doldurun.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="exampleFormControlInput1">*ŞV Fin</label>
+                                <input type="text" class="form-control" required id="fin" placeholder="Şəxsiyyət vəsiqəsinin fin kodu">
+                                <div class="valid-feedback">
+                                    Əla!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Boşluğu doldurun.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="exampleFormControlSelect1">Müraciyət növü</label>
+                                <select class="form-control" required id="requestType">
+                                    <!-- <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option> -->
+                                </select>
+                                <div class="valid-feedback">
+                                    Əla!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Boşluğu doldurun.
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="exampleFormControlSelect1">Qiymət qrupu</label>
+                                <select class="form-control" required disabled>
+                                    <option>Ödənişli</option>
+
+                                </select>
+                                <div class="valid-feedback">
+                                    Əla!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Boşluğu doldurun.
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="exampleFormControlSelect1">Xidmət</label>
+                                <select class="form-control" required id="services" onchange="servicesChanged(this)">
+                                    <!-- <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option> -->
+                                </select>
+                                <div class="valid-feedback">
+                                    Əla!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Boşluğu doldurun.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="exampleFormControlSelect1">Poliklinika</label>
+                                <select class="form-control" required id="policlinic">
+                                    <!-- <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option> -->
+                                </select>
+                                <div class="valid-feedback">
+                                    Əla!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Boşluğu doldurun.
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="exampleFormControlSelect1">Poliklinikada xidmət edən həkim</label>
+                                <select class="form-control" required id="doctor">
+                                    <!-- <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option> -->
+                                </select>
+                                <div class="valid-feedback">
+                                    Əla!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Boşluğu doldurun.
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+
+                                <label for="exampleFormControlSelect1">Gödərən həkim</label>
+                                <select class="form-control" id="referer">
+                                    <!-- <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option> -->
+                                </select>
+                                <div class="valid-feedback">
+                                    Əla!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Boşluğu doldurun.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="exampleFormControlInput1">Qiymət (AZN)</label>
+                                <input type="tel" class="form-control" required id="price" placeholder="Məbləğ" disabled>
+                                <div class="valid-feedback">
+                                    Əla!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Boşluğu doldurun.
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+
+                                <label for="exampleFormControlInput1">Alınan pul (AZN)</label>
+                                <input type="tel" class="form-control" required id="payment" placeholder="100">
+                                <div class="valid-feedback">
+                                    Əla!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Boşluğu doldurun.
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Xəstənin döğum tarixi:</label>
+                                <input class="form-control" type="date" id="product-end-date"
+                                       name="meeting-time" value="2018-06-12T19:30"
+                                       required>
+                                <div class="valid-feedback">
+                                    Əla!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Boşluğu doldurun.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <label>Qeyd</label>
+                        <textarea class="form-control" id="note" rows="3"></textarea>
+                        <div class="valid-feedback">
+                            Əla!
+                        </div>
+                        <div class="invalid-feedback">
+                            Boşluğu doldurun.
+                        </div>
+
+                    </div>
+
+
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Ləğv et</button>
+                <button type="button" class="btn btn-primary" onclick="AddOrder()">Qeydə al</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+<script src="~/js/menu/menu.js" asp-append-version="true"></script>
+}

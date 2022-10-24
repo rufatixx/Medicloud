@@ -1,0 +1,245 @@
+/* _content/FlexitHisMVC/Views/Home/_HomeLayout.cshtml.rz.scp.css */
+  .bg-image[b-bw1mdoquyd] {
+            /* The image used */
+            background-image: url('/res/login_bg.png');
+            /* Add the blur effect */
+            -webkit-filter: blur(50px);
+            -moz-filter: blur(50px);
+            -o-filter: blur(50px);
+            -ms-filter: blur(50px);
+            filter: blur(50px);
+            /* Full height */
+            height: 80%;
+            /* Center and scale the image nicely */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+            position: fixed;
+            left: 0px;
+            right: 0px;
+            margin-left: 100px;
+            margin-right: 100px;
+            margin-bottom: 50px;
+            z-index: -1;
+            display: block;
+        }
+/* _content/FlexitHisMVC/Views/Login/_LoginLayout.cshtml.rz.scp.css */
+  .bg-image[b-gdubaj1td5] {
+            /* The image used */
+            background-image: url('/res/login_bg.png');
+            /* Add the blur effect */
+            -webkit-filter: blur(50px);
+            -moz-filter: blur(50px);
+            -o-filter: blur(50px);
+            -ms-filter: blur(50px);
+            filter: blur(50px);
+            /* Full height */
+            height: 80%;
+            /* Center and scale the image nicely */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+            position: fixed;
+            left: 0px;
+            right: 0px;
+            margin-left: 100px;
+            margin-right: 100px;
+            margin-bottom: 50px;
+            z-index: -1;
+            display: block;
+        }
+/* _content/FlexitHisMVC/Views/Shared/_Layout.cshtml.rz.scp.css */
+/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+/*a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+
+a {
+    color: #0077cc;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.border-top {
+    border-top: 1px solid #e5e5e5;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+    font-size: 1rem;
+    line-height: inherit;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;
+}
+*/
+
+#sidebar[b-ihhgavb77o] {
+    min-width: 250px;
+    max-width: 250px;
+    background: #F8F8F8;
+    color: #4F4F4F;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+    position: relative;
+}
+
+    #sidebar .h6[b-ihhgavb77o] {
+        color: #4F4F4F;
+    }
+
+    #sidebar.active[b-ihhgavb77o] {
+        margin-left: -250px;
+    }
+
+        #sidebar.active .custom-menu[b-ihhgavb77o] {
+            margin-right: -50px;
+        }
+
+    #sidebar h1[b-ihhgavb77o] {
+        margin-bottom: 20px;
+        font-weight: 700;
+    }
+
+        #sidebar h1 .logo[b-ihhgavb77o] {
+            color: #4F4F4F;
+        }
+
+    #sidebar ul.components[b-ihhgavb77o] {
+        padding: 0;
+    }
+
+    #sidebar ul li[b-ihhgavb77o] {
+        font-size: 16px;
+    }
+
+        #sidebar ul li > ul[b-ihhgavb77o] {
+            margin-left: 10px;
+        }
+
+            #sidebar ul li > ul li[b-ihhgavb77o] {
+                font-size: 14px;
+            }
+
+        #sidebar ul li a[b-ihhgavb77o] {
+            padding: 10px 0;
+            display: block;
+            color: #4F4F4F;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+            #sidebar ul li a:hover[b-ihhgavb77o] {
+                color: #2AAEAD;
+            }
+
+        #sidebar ul li.active > a[b-ihhgavb77o] {
+            background: transparent;
+            color: #2AAEAD;
+        }
+
+@media (max-width: 991.98px) {
+    #sidebar[b-ihhgavb77o] {
+        margin-left: -250px;
+    }
+
+        #sidebar.active[b-ihhgavb77o] {
+            margin-left: 0;
+        }
+
+        #sidebar .custom-menu[b-ihhgavb77o] {
+            margin-right: -50px !important;
+            top: 10px !important;
+        }
+}
+
+#sidebar .custom-menu[b-ihhgavb77o] {
+    display: inline-block;
+    position: absolute;
+    top: 20px;
+    right: 0;
+    margin-right: -20px;
+    -webkit-transition: 0.3s;
+    -o-transition: 0.3s;
+    transition: 0.3s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #sidebar .custom-menu[b-ihhgavb77o] {
+        -webkit-transition: none;
+        -o-transition: none;
+        transition: none;
+    }
+}
+
+#sidebar .custom-menu .btn[b-ihhgavb77o] {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+    #sidebar .custom-menu .btn.btn-primary[b-ihhgavb77o] {
+        background: #6749b9;
+        border-color: #6749b9;
+    }
+
+        #sidebar .custom-menu .btn.btn-primary:hover[b-ihhgavb77o],
+        #sidebar .custom-menu .btn.btn-primary:focus[b-ihhgavb77o] {
+            background: #6749b9 !important;
+            border-color: #6749b9 !important;
+        }
+
+a[data-toggle="collapse"][b-ihhgavb77o] {
+    position: relative;
+}
+
+.dropdown-toggle[b-ihhgavb77o]::after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+@media (max-width: 991.98px) {
+    #sidebarCollapse span[b-ihhgavb77o] {
+        display: none;
+    }
+}
+
+#main-content[b-ihhgavb77o] {
+    width: 100%;
+    padding: 0;
+    min-height: 100vh;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
