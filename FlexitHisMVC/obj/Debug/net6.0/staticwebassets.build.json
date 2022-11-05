@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "rNYH5Gd/lGqVrkNtXmWj78uZJAXhnLg/KoKXe+klVII=",
+  "Hash": "x6UzZ45tE+Phzi6H0TH7BwAZmf2NCJG7tYBpmDqAd4c=",
   "Source": "FlexitHisMVC",
   "BasePath": "_content/FlexitHisMVC",
   "Mode": "Default",
@@ -1188,6 +1188,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/res/login_bg.png"
+    },
+    {
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/module.png",
+      "SourceId": "FlexitHisMVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "BasePath": "_content/FlexitHisMVC",
+      "RelativePath": "res/module.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/res/module.png"
     },
     {
       "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/pencil.svg",

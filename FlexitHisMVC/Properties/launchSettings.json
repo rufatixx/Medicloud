@@ -11,7 +11,7 @@
     "FlexitHisMVC": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:44300",
+      "applicationUrl": "http://localhost:24797",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

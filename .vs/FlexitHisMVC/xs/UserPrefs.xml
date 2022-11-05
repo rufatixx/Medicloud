@@ -1,88 +1,63 @@
 ﻿<Properties StartupConfiguration="{94E91CB4-7BC1-46BE-971E-169B5A29C9BE}|Default">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Models/Db/Select.cs" relfile="FlexitHisMVC/Models/Db/Select.cs" line="156" column="1" />
-    </BreakpointStore>
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.ItemProperties.FlexitHisMVC PreferredExecutionTarget="/Applications/Google Chrome.app" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="FlexitHisMVC/Views/Shared/_Layout.cshtml">
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.Workbench ActiveDocument="FlexitHisMVC/Service/UserService.cs">
     <Files>
-      <File FileName="FlexitHisMVC/Views/Shared/_ValidationScriptsPartial.cshtml" Line="1" Column="1" />
-      <File FileName="FlexitHisMVC/Views/Shared/Error.cshtml" Line="1" Column="42" />
-      <File FileName="FlexitHisMVC/Views/_ViewImports.cshtml" Line="2" Column="20" />
-      <File FileName="FlexitHisMVC/Views/_ViewStart.cshtml" Line="1" Column="1" />
-      <File FileName="FlexitHisMVC/Views/Login/Index.cshtml" Line="25" Column="95" />
+      <File FileName="FlexitHisMVC/Models/Kassa/KassaDTO.cs" Line="1" Column="1" />
+      <File FileName="FlexitHisMVC/Models/Kassa.cs" Line="1" Column="1" />
+      <File FileName="FlexitHisMVC/Data/HospitalDAO.cs" Line="8" Column="30" />
+      <File FileName="FlexitHisMVC/Data/PatientDAO.cs" Line="9" Column="29" />
+      <File FileName="FlexitHisMVC/Data/ServicesDAO.cs" Line="7" Column="30" />
+      <File FileName="FlexitHisMVC/Data/PersonalDAO.cs" Line="9" Column="30" />
+      <File FileName="FlexitHisMVC/Controllers/LoginController.cs" Line="44" Column="1" />
+      <File FileName="FlexitHisMVC/Controllers/NewPatientController.cs" Line="53" Column="60" />
+      <File FileName="FlexitHisMVC/Data/CompanyDAO.cs" Line="9" Column="29" />
+      <File FileName="FlexitHisMVC/Data/BuildingDAO.cs" Line="7" Column="30" />
+      <File FileName="FlexitHisMVC/Data/DepartmentsDAO.cs" Line="8" Column="33" />
+      <File FileName="FlexitHisMVC/Data/PatientRequestDAO.cs" Line="8" Column="36" />
+      <File FileName="FlexitHisMVC/Data/DepartmentTypeDAO.cs" Line="9" Column="36" />
+      <File FileName="FlexitHisMVC/Areas/Admin/Model/Department/DepartmentTypeDTO.cs" Line="6" Column="20" />
+      <File FileName="FlexitHisMVC/Areas/Admin/Controllers/CompanyController.cs" Line="129" Column="33" />
+      <File FileName="FlexitHisMVC/Models/DTO/ResponseDTO.cs" Line="6" Column="18" />
+      <File FileName="FlexitHisMVC/Areas/Admin/Controllers/DepartmentController.cs" Line="92" Column="35" />
+      <File FileName="FlexitHisMVC/Areas/Admin/Controllers/HomeController.cs" Line="1" Column="1" />
+      <File FileName="FlexitHisMVC/Areas/Admin/Controllers/PersonalController.cs" Line="1" Column="1" />
       <File FileName="FlexitHisMVC/Controllers/HomeController.cs" Line="26" Column="14" />
-      <File FileName="FlexitHisMVC/Controllers/LoginController.cs" Line="43" Column="30" />
-      <File FileName="FlexitHisMVC/appsettings.json" Line="12" Column="5" />
-      <File FileName="FlexitHisMVC/Models/Db/Select.cs" Line="52" Column="1" />
-      <File FileName="FlexitHisMVC/Models/Db/AdminSelect.cs" Line="81" Column="18" />
-      <File FileName="FlexitHisMVC/wwwroot/js/login/index.js" Line="18" Column="31" />
-      <File FileName="FlexitHisMVC/wwwroot/js/app.js" Line="1" Column="1" />
-      <File FileName="FlexitHisMVC/wwwroot/js/router.js" Line="2" Column="41" />
-      <File FileName="FlexitHisMVC/StandartMessages.cs" Line="7" Column="1" />
-      <File FileName="FlexitHisMVC/Models/Db/AdminInsert.cs" Line="106" Column="54" />
-      <File FileName="FlexitHisMVC/Models/Db/Insert.cs" Line="185" Column="20" />
-      <File FileName="FlexitHisMVC/Program.cs" Line="41" Column="96" />
-      <File FileName="FlexitHisMVC/Models/Structs/LogInStruct.cs" Line="6" Column="18" />
-      <File FileName="FlexitHisMVC/wwwroot/js/site.js" Line="1" Column="1" />
-      <File FileName="FlexitHisMVC/Views/Home/Index.cshtml" Line="134" Column="11" />
-      <File FileName="FlexitHisMVC/wwwroot/js/menu/menu.js" Line="1" Column="1" />
-      <File FileName="FlexitHisMVC/Views/Home/_ViewStart.cshtml" Line="2" Column="20" />
-      <File FileName="FlexitHisMVC/Views/Login/_LoginLayout.cshtml" Line="33" Column="7" />
+      <File FileName="FlexitHisMVC/Controllers/KassaController.cs" Line="1" Column="1" />
+      <File FileName="FlexitHisMVC/Models/NewPatient/PatientDTO.cs" Line="4" Column="25" />
+      <File FileName="FlexitHisMVC/Views/Shared/Components/Modules/default.cshtml" Line="1" Column="39" />
+      <File FileName="FlexitHisMVC/Areas/Admin/Views/Personal/Components/PersonalList/default.cshtml" Line="52" Column="63" />
+      <File FileName="FlexitHisCore/Repositories/PersonalOperations.cs" Line="50" Column="87" />
+      <File FileName="FlexitHisMVC/Areas/Admin/ViewComponents/PersonalSettingsViewComponent.cs" Line="25" Column="57" />
+      <File FileName="FlexitHisMVC/Areas/Admin/ViewComponents/PersonalListViewComponent.cs" Line="25" Column="29" />
+      <File FileName="FlexitHisMVC/Areas/Admin/Model/Personal/PersonalDataStructStruct.cs" Line="12" Column="41" />
+      <File FileName="FlexitHisMVC/Models/Personal.cs" Line="16" Column="3" />
+      <File FileName="FlexitHisMVC/wwwroot/js/login/index.js" Line="83" Column="69" />
+      <File FileName="FlexitHisMVC/Views/Login/Index.cshtml" Line="1" Column="1" />
       <File FileName="FlexitHisMVC/Views/Login/_ViewStart.cshtml" Line="1" Column="1" />
-      <File FileName="FlexitHisMVC/Views/Shared/_Layout.cshtml" Line="300" Column="51" />
-      <File FileName="FlexitHisMVC/Views/Home/_HomeLayout.cshtml" Line="60" Column="43" />
-      <File FileName="FlexitHisMVC/wwwroot/js/new_patient/new_patient.js" Line="121" Column="16" />
-      <File FileName="FlexitHisMVC/Models/Structs/AddPatientStruct.cs" Line="4" Column="18" />
-      <File FileName="FlexitHisMVC/Models/ErrorViewModel.cs" Line="3" Column="27" />
-      <File FileName="FlexitHisMVC/Models/Structs/Building.cs" Line="1" Column="1" />
-      <File FileName="FlexitHisMVC/Views/Home/Index.cshtml.cs" Line="6" Column="14" />
-      <File FileName="FlexitHisMVC/Controllers/NewPatientController.cs" Line="81" Column="19" />
-      <File FileName="FlexitHisMVC/Areas/Admin/Views/Home/Index.cshtml" Line="3" Column="33" />
-      <File FileName="FlexitHisMVC/wwwroot/js/admin/companies/companySettings.js" Line="97" Column="15" />
-      <File FileName="FlexitHisMVC/Areas/Admin/Views/_ViewStart.cshtml" Line="2" Column="44" />
-      <File FileName="FlexitHisMVC/Areas/Admin/Views/_ViewImports.cshtml" Line="2" Column="20" />
-      <File FileName="FlexitHisMVC/Areas/Admin/Views/Home/Index.cshtml.cs" Line="1" Column="1" />
-      <File FileName="FlexitHisMVC/Properties/launchSettings.json" Line="1" Column="1" />
-      <File FileName="FlexitHisMVC/Areas/Admin/Controllers/CompanyController.cs" Line="27" Column="77" />
-      <File FileName="FlexitHisMVC/wwwroot/js/admin/departments/adminDep.js" Line="443" Column="59" />
-      <File FileName="FlexitHisMVC/Areas/Admin/Controllers/HomeController.cs" Line="14" Column="20" />
-      <File FileName="FlexitHisMVC/Areas/Admin/Controllers/PersonalController.cs" Line="11" Column="19" />
-      <File FileName="FlexitHisMVC/Areas/Admin/Views/Personal/Index.cshtml" Line="2" Column="31" />
-      <File FileName="FlexitHisMVC/Models/Db/Security.cs" Line="1" Column="1" />
-      <File FileName="FlexitHisMVC/Areas/Admin/Views/Company/Index.cshtml" Line="3" Column="33" />
+      <File FileName="FlexitHisMVC/Views/Login/_LoginLayout.cshtml" Line="1" Column="1" />
+      <File FileName="FlexitHisMVC/Models/Service.cs" Line="1" Column="1" />
+      <File FileName="FlexitHisMVC/Models/RequestType.cs" Line="1" Column="1" />
+      <File FileName="FlexitHisMVC/Models/RecipeDTO.cs" Line="1" Column="1" />
+      <File FileName="FlexitHisMVC/Models/PaymentTypeDTO.cs" Line="1" Column="1" />
+      <File FileName="FlexitHisMVC/Repository/LoginService.cs" Line="26" Column="29" />
+      <File FileName="FlexitHisMVC/Repository/CompanyGroupDAO.cs" Line="9" Column="34" />
+      <File FileName="FlexitHisMVC/Repository/KassaDAO.cs" Line="8" Column="27" />
+      <File FileName="FlexitHisMVC/Repository/RequestTypeDAO.cs" Line="9" Column="33" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="FlexitHisMVC" expanded="True">
+            <Node name="FlexitHisCore" expanded="True">
+              <Node name="Repositories" expanded="True" />
+            </Node>
             <Node name="FlexitHisMVC" expanded="True">
-              <Node name="Areas" expanded="True">
-                <Node name="Admin" expanded="True">
-                  <Node name="Controllers" expanded="True" />
-                  <Node name="Views" expanded="True">
-                    <Node name="Company" expanded="True" />
-                    <Node name="Home" expanded="True" />
-                    <Node name="Personal" expanded="True" />
-                  </Node>
-                </Node>
-              </Node>
-              <Node name="Controllers" expanded="True" />
-              <Node name="Models" expanded="True">
-                <Node name="Db" expanded="True" />
-              </Node>
-              <Node name="Properties" expanded="True" />
-              <Node name="Views" expanded="True">
-                <Node name="Home" expanded="True" />
-                <Node name="Login" expanded="True" />
-                <Node name="Shared" expanded="True" />
-              </Node>
-              <Node name="wwwroot" expanded="True">
-                <Node name="res" expanded="True" />
+              <Node name="Service" expanded="True">
+                <Node name="UserService.cs" selected="True" />
               </Node>
             </Node>
           </Node>
@@ -93,4 +68,6 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MultiItemStartupConfigurations />
 </Properties>

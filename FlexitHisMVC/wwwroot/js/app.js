@@ -37,7 +37,7 @@ function hideLoading() {
 var parsedJSON = JSON.parse(json);
 
 
-        $("#fullName").text(parsedJSON.name + " " + parsedJSON.surname)
+        $("#fullName").text(parsedJSON.data[0].personal.name + " " + parsedJSON.data[0].personal.surname)
 
         if (!localStorage.selectedHospital) {
             $("#selectHospitalDropdownButton").text(parsedJSON.hospitals[0].hospitalName)

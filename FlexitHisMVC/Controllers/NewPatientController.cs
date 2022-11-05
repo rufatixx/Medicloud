@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
-using FlexitHis_API.Models.Db;
-using FlexitHis_API.Models.Structs;
+using FlexitHisCore.Models;
+using FlexitHisCore.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using FlexitHisMVC.Models.NewPatient;
+using FlexitHisMVC.Models.General;
+using FlexitHisMVC.Data;
+using FlexitHisMVC.Models;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace FlexitHisMVC.Controllers
 {
- 
+
     public class NewPatientController : Controller
     {
         private readonly string ConnectionString;
@@ -31,73 +35,104 @@ namespace FlexitHisMVC.Controllers
         }
         [HttpPost]
         [Route("newPatient/getPageModel")]
-        public ActionResult<AddNewPatientPageStruct> getPageModel()
+        public ActionResult<NewPatientViewDTO> getPageModel()
         {
             if (HttpContext.Session.GetInt32("userid") != null)
             {
-                Select select = new Select(Configuration, _hostingEnvironment);
-                AddNewPatientPageStruct obj = select.GetNewPatientPage();
-                if (obj.status == 3)
-                {
-                    return Unauthorized();
-                }
-                else
-                {
-                    return obj;
-                }
+                NewPatientViewDTO pageStruct = new NewPatientViewDTO();
+                pageStruct.requestTypes = new List<RequestType>();
+                pageStruct.personal = new List<Personal>();
+                pageStruct.departments = new List<Department>();
+                pageStruct.referers = new List<Personal>();
+                pageStruct.services = new List<Service>();
+
+                RequestTypeRepo requestTypeDAO = new RequestTypeRepo(ConnectionString);
+
+                pageStruct.requestTypes.AddRange(requestTypeDAO.GetRequestType());
+
+                ServicesRepo servicesDAO = new ServicesRepo(ConnectionString);
+
+                pageStruct.services.AddRange(servicesDAO.GetServices());
+
+
+                DepartmentsRepo departmentsDAO = new DepartmentsRepo(ConnectionString);
+
+                pageStruct.departments.AddRange(departmentsDAO.GetDepartments());
+
+                PersonalRepo personalDAO = new PersonalRepo(ConnectionString);
+
+                pageStruct.personal.AddRange(personalDAO.GetPersonalList());
+
+
+                pageStruct.referers.AddRange(personalDAO.GetRefererList());
+
+
+
+                pageStruct.status = 1;
+
+                return pageStruct;
             }
             else
             {
                 return Unauthorized();
             }
-            
+
 
 
         }
         [HttpPost]
         [Route("newPatient/add")]
-        public IActionResult AddPatient([FromBody] AddPatientStruct newPatient)
+        public IActionResult AddPatient([FromBody] AddPatientDTO newPatient)
         {
+            ResponseDTO<int> response = new ResponseDTO<int>();
             if (HttpContext.Session.GetInt32("userid") != null)
             {
-                Insert insert = new Insert(Configuration, _hostingEnvironment);
+                PatientRepo insert = new PatientRepo(ConnectionString);
 
-                ResponseStruct<int> response = insert.InsertOrder(Convert.ToInt32(HttpContext.Session.GetInt32("userid")),newPatient);
+                long lastID = insert.InsertPatient(Convert.ToInt32(HttpContext.Session.GetInt32("userid")), newPatient);
 
-                if (response.status == 3)
+
+                if (lastID > 0)
                 {
-                    return Unauthorized();
+                    PatientRequestRepo patientRequestDAO = new PatientRequestRepo(ConnectionString);
+                    bool inserted = patientRequestDAO.InsertPatientRequest(newPatient, Convert.ToInt32(HttpContext.Session.GetInt32("userid")), lastID);
+
+
+                    response.status = 1; //inserted
+
+
                 }
                 else
                 {
-                    return Ok(response);
+                    response.status = 2; // not inserted (Duplicate)
                 }
+
+
+                return Ok(response);
+
             }
-            else {
+            else
+            {
                 return Unauthorized();
             }
 
         }
         [HttpPost]
         [Route("newPatient/search")]
-        public ActionResult<ResponseStruct<PatientStruct>> SearchForPatient( string fullNamePattern, long hospitalID)
+        public IActionResult SearchForPatient(string fullNamePattern, long hospitalID)
         {
             if (HttpContext.Session.GetInt32("userid") != null)
             {
 
-                Select select = new Select(Configuration, _hostingEnvironment);
-                ResponseStruct<PatientStruct> response = select.SearchForPatients( fullNamePattern, hospitalID);
+                PatientRepo select = new PatientRepo(ConnectionString);
+                var response = select.SearchForPatients(fullNamePattern, hospitalID);
 
-                if (response.status == 3)
-                {
-                    return Unauthorized();
-                }
-                else
-                {
-                    return Ok(response);
-                }
+
+                return Ok(response);
+
             }
-            else {
+            else
+            {
                 return Unauthorized();
             }
 

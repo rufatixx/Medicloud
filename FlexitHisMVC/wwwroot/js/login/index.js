@@ -35,38 +35,43 @@ function signIn(btn) {
                     btn.innerText = 'Daxil ol'
                     $("#alert").removeAttr("hidden");
 
+                    if (xhr.status == 200) {
+                        $("#alert").attr("hidden", "");
+                        if (typeof (Storage) !== "undefined") {
+                            // Code for localStorage/sessionStorage.
 
-                    switch (data.status) {
-                        case 1:
-                            $("#alert").attr("hidden", "");
-                            if (typeof (Storage) !== "undefined") {
-                                // Code for localStorage/sessionStorage.
+                            localStorage.json = JSON.stringify(data);
+                            //localStorage.userToken = data.userToken
+                            //localStorage.requestToken = data.requestToken
+                        } else {
+                            $("#alert").removeAttr("hidden");
+                            $('#alert').text('Brauzerinizi yeniləyin, dəstəklənmir');
+                            // Sorry! No Web Storage support..
+                        }
 
-                                localStorage.json = JSON.stringify(data);
-                                localStorage.userToken = data.userToken
-                                localStorage.requestToken = data.requestToken
-                            } else {
-                                $("#alert").removeAttr("hidden");
-                                $('#alert').text('Brauzerinizi yeniləyin, dəstəklənmir');
-                                // Sorry! No Web Storage support..
-                            }
-
-                            //alert(JSON.parse(json).name)
-                            //document.cookie = "jsonData="+data;
-                            window.location.replace("/");
-                            //alert(getCookie("jsonData"))
-                            break;
-                        case 2:
-                            $('#alert').text('İstifadəçi mövcud deyil');
-                            break;
-                        case 3:
-                            $('#alert').text('İstifadəçi deaktiv edilib xahiş olunur administratorla əlaqə saxlayasınız!');
-                            break;
-                        default:
-                            $('#alert').text('Xəta, biraz sonra yenidən cəht edin...');
-                            break;
-
+                        //alert(JSON.parse(json).name)
+                        //document.cookie = "jsonData="+data;
+                        window.location.replace("/");
                     }
+                    else {
+                        $('#alert').text('İstifadəçi mövcud deyil');
+                    }
+                    //switch (data.status) {
+                    //    case 1:
+                         
+                    //        //alert(getCookie("jsonData"))
+                    //        break;
+                    //    case 2:
+                          
+                    //        break;
+                    //    case 3:
+                    //        $('#alert').text('İstifadəçi deaktiv edilib xahiş olunur administratorla əlaqə saxlayasınız!');
+                    //        break;
+                    //    default:
+                    //        $('#alert').text('Xəta, biraz sonra yenidən cəht edin...');
+                    //        break;
+
+                    //}
 
                     //$('p').append(data.name + ' ' + data.surname);
                 },
@@ -74,7 +79,13 @@ function signIn(btn) {
                     btn.disabled = false
                     btn.innerText = 'Daxil ol'
                     $("#alert").removeAttr("hidden");
-                    $('#alert').text('Xəta, internetə bağlı olduğunuzdan əmin olun');
+                    if (jqXhr.status == 401) {
+                        $('#alert').text('İstifadəçi mövcud deyil');
+                    }
+                    else {
+                        $('#alert').text('Xəta, internetə bağlı olduğunuzdan əmin olun');
+                    }
+                    
                     //  $('#alert').text('Error: ' + errorMessage);
                 }
             });
