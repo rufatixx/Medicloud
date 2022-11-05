@@ -1,7 +1,7 @@
 ﻿using System;
 namespace FlexitHisMVC.Models
 {
-    public class RecipeDTO
+    public class Recipe
     {
         public long id { get; set; }
         public long pOperationID { get; set; }
