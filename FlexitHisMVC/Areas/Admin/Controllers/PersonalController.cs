@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FlexitHisCore;
+using FlexitHisMVC.Data;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -26,6 +27,26 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
      
         public IActionResult Index()
         {
+
+            if (HttpContext.Session.GetInt32("userid") != null)
+            {
+                PersonalRepo personal = new PersonalRepo(ConnectionString);
+
+                return View(personal.GetPersonalList());
+
+
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login", new { area = "" });
+            }
+
+
+           
+        }
+        [HttpPost]
+        public IActionResult Create()
+        {
             if (HttpContext.Session.GetInt32("userid") != null)
             {
                 return View();
@@ -37,9 +58,25 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
             }
 
 
-           
+
         }
-        
+        [HttpPost]
+        public IActionResult Update()
+        {
+            if (HttpContext.Session.GetInt32("userid") != null)
+            {
+                return View();
+
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login", new { area = "" });
+            }
+
+
+
+        }
+
     }
 }
 

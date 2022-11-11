@@ -7,8 +7,6 @@ using FlexitHisCore.Models;
 using FlexitHisCore.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using FlexitHisMVC.Models.General;
-using FlexitHisMVC.Areas.Admin.Models.Admin;
-using FlexitHisMVC.Areas.Admin.Models;
 using FlexitHisMVC.Models;
 using FlexitHisMVC.Data;
 

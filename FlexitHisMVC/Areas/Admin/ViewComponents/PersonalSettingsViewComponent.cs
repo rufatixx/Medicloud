@@ -20,18 +20,8 @@ namespace FlexitHisMVC.Areas.Admin.ViewComponents
         }
         public IViewComponentResult Invoke()
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
-            {
-                PersonalRepo personal = new PersonalRepo(ConnectionString);
 
-                return View(personal.GetPersonalList());
-
-            }
-            else
-            {
-                return View();
-            }
-
+            return View();
 
         }
         //[HttpPost]

@@ -49,9 +49,11 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
             if (HttpContext.Session.GetInt32("userid") != null)
             {
                 BuildingRepo select = new BuildingRepo(ConnectionString);
-                var response = select.GetBuildings(hospitalID);
-                response.Reverse();
-
+                var list = select.GetBuildings(hospitalID);
+                list.Reverse();
+                ResponseDTO<Building> response = new ResponseDTO<Building>();
+                response.data = new List<Building>();
+                response.data.AddRange(list);
                 return Ok(response);
 
             }
@@ -70,9 +72,12 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
             {
 
                 DepartmentsRepo select = new DepartmentsRepo(ConnectionString);
-                var response = select.GetDepartments();
+                var list = select.GetDepartments();
 
-                response.Reverse();
+                list.Reverse();
+                ResponseDTO<Department> response = new ResponseDTO<Department>();
+                response.data = new List<Department>();
+                response.data.AddRange(list);
                 return Ok(response);
 
             }
@@ -90,9 +95,12 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
             if (HttpContext.Session.GetInt32("userid") != null)
             {
                 DepartmentTypeRepo select = new DepartmentTypeRepo(ConnectionString);
-                var response = select.GetDepartmentTypes();
+                var list = select.GetDepartmentTypes();
 
-                response.Reverse();
+                list.Reverse();
+                ResponseDTO<DepartmentType> response = new ResponseDTO<DepartmentType>();
+                response.data = new List<DepartmentType>();
+                response.data.AddRange(list);
                 return Ok(response);
 
             }
@@ -106,15 +114,17 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
 
         [HttpPost]
         [Route("admin/departments/getDepartmentsInfoByBuilding")]
-        public ActionResult<ResponseDTO<FlexitHisMVC.Models.Department>> GetDepartmentInfo(int buildingID)
+        public ActionResult<ResponseDTO<Department>> GetDepartmentInfo(int buildingID)
         {
             if (HttpContext.Session.GetInt32("userid") != null)
             {
                 DepartmentsRepo select = new DepartmentsRepo(ConnectionString);
-                var response = select.GetDepartmentsByBuilding(buildingID);
+                var list = select.GetDepartmentsByBuilding(buildingID);
 
-                
-                    return Ok(response);
+                ResponseDTO<Department> response = new ResponseDTO<Department>();
+                response.data = new List<Department>();
+                response.data.AddRange(list);
+                return Ok(response);
                 
 
             }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Specialized;
-using FlexitHisMVC.Areas.Admin.Models.Admin;
 using FlexitHisMVC.Models;
 using Microsoft.AspNetCore.Mvc;
 

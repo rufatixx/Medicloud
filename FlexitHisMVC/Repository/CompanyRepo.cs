@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using FlexitHisMVC.Areas.Admin.Models;
 using FlexitHisMVC.Models;
 using MySql.Data.MySqlClient;
 

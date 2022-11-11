@@ -8,6 +8,7 @@ using MySql.Data.MySqlClient;
 using FlexitHisMVC.Models;
 using FlexitHisMVC.Models.Login;
 using FlexitHisMVC.Models.DTO;
+using MySqlX.XDevAPI;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -62,6 +63,13 @@ namespace FlexitHisMVC.Controllers
                 return Unauthorized();
             }
             
+        }
+        [HttpPost]
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return Ok();
+
         }
     }
 }

@@ -31,8 +31,6 @@
     <None Remove="Views\Shared\Components\Navbar\" />
     <None Remove="Areas\Admin\Views\Department\" />
     <None Remove="Areas\Admin\Views\Home\" />
-    <None Remove="Areas\Admin\Model\Department\" />
-    <None Remove="Areas\Admin\Model\Personal\" />
     <None Remove="Data\" />
     <None Remove="Models\DTO\" />
     <None Remove="Areas\Admin\Model\DTO\" />
@@ -57,8 +55,6 @@
     <Folder Include="Views\Shared\Components\Navbar\" />
     <Folder Include="Areas\Admin\Views\Department\" />
     <Folder Include="Areas\Admin\Views\Home\" />
-    <Folder Include="Areas\Admin\Model\Department\" />
-    <Folder Include="Areas\Admin\Model\Personal\" />
     <Folder Include="Repository\" />
     <Folder Include="Models\DTO\" />
     <Folder Include="Areas\Admin\Model\DTO\" />

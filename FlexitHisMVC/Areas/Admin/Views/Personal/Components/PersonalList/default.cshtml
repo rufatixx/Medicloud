@@ -5,67 +5,7 @@
 @{if (Model != null)
     {
 
-        <div class="col-md-8">
-            <div class="card ">
-                <div class="card-header bg-transparent ml-2 mr-2">
-                    Personal siyahısı
-                </div>
-                <div class="card-header  ml-2 mr-2">
-                    <div class="row">
-                        <div class="col-6">Adı</div>
-                        <div class="col-3">İxtisas</div>
-                        <div class="col-2 text-right">Həkim</div>
-                    </div>
-
-                </div>
-                <div class="list-group-flush ml-3 mr-3" id="depTypesInBuilding">
-
-                    @*<div class="row">
-                            <div class="col">
-                                <div>Adı</div>
-                                <div> </div>
-                                <div> 2</div>
-                                <div>3</div>
-                            </div>
-                            <div class="col">
-                                <div>İxtisas</div>
-                                <div>1</div>
-                                <div>2</div>
-                                <div>3</div>
-                            </div>
-
-                            <div class="col">
-                                <div>Həkim</div>
-                                <div>1</div>
-                                <div>2</div>
-                                <div>3</div>
-                            </div>
-                        </div>*@
-
-                    @{
-                        foreach (var item in Model)
-                        {
-                            <div class="list-group-item list-group-item-action personal-list" onclick=" { $('.personal-list').removeClass('active');$(this).addClass('active'); @a = 'Rufat' }">
-
-                                <div class="row">
-                                    <div class="col-6">@item.name @item.surname @item.father</div>
-                                    <div class="col-3">@item.speciality</div>
-                                    <div class="col-2 text-right">
-                                        <input class=" me-1 " type="checkbox" value="">
-                                    </div>
-                                </div>
-
-                            </div>
-                            @*<a class="list-group-item list-group-item-action personal-list" ></a>*@
-                        }
-                    }
-
-
-                </div>
-            </div>
-
-
-        </div>
+        
 
 
     }
@@ -74,10 +14,6 @@
 
 @section Scripts
 {
-    <script>function personalListClick(obj) {
-            $('.personal-list').removeClass('active');
-            $(obj).addClass('active');
-        }</script>
 
     @*<script src="~/js/admin/departments/adminDep.js" asp-append-version="true"></script>*@
 }
