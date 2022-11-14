@@ -384,3 +384,6 @@
 /Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/obj/Debug/net6.0/FlexitHisMVC.pdb
 /Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/obj/Debug/net6.0/FlexitHisMVC.genruntimeconfig.cache
 /Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/obj/Debug/net6.0/ref/FlexitHisMVC.dll
+/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/obj/Debug/net6.0/FlexitHisMVC.dll
+/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/obj/Debug/net6.0/refint/FlexitHisMVC.dll
+/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/obj/Debug/net6.0/FlexitHisMVC.pdb
