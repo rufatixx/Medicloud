@@ -10,11 +10,3 @@
 /Users/admin/Projects/FlexitHisMVC/FlexitHis.DAL/obj/Debug/net6.0/refint/FlexitHis.DAL.dll
 /Users/admin/Projects/FlexitHisMVC/FlexitHis.DAL/obj/Debug/net6.0/FlexitHis.DAL.pdb
 /Users/admin/Projects/FlexitHisMVC/FlexitHis.DAL/obj/Debug/net6.0/ref/FlexitHis.DAL.dll
-/Users/admin/Projects/FlexitHisMVC/FlexitHisCore/obj/Debug/net6.0/FlexitHisCore.csproj.AssemblyReference.cache
-/Users/admin/Projects/FlexitHisMVC/FlexitHisCore/obj/Debug/net6.0/FlexitHisCore.GeneratedMSBuildEditorConfig.editorconfig
-/Users/admin/Projects/FlexitHisMVC/FlexitHisCore/obj/Debug/net6.0/FlexitHisCore.AssemblyInfoInputs.cache
-/Users/admin/Projects/FlexitHisMVC/FlexitHisCore/obj/Debug/net6.0/FlexitHisCore.AssemblyInfo.cs
-/Users/admin/Projects/FlexitHisMVC/FlexitHisCore/obj/Debug/net6.0/FlexitHisCore.csproj.CoreCompileInputs.cache
-/Users/admin/Projects/FlexitHisMVC/FlexitHisCore/obj/Debug/net6.0/FlexitHis.DAL.dll
-/Users/admin/Projects/FlexitHisMVC/FlexitHisCore/obj/Debug/net6.0/refint/FlexitHis.DAL.dll
-/Users/admin/Projects/FlexitHisMVC/FlexitHisCore/obj/Debug/net6.0/FlexitHis.DAL.pdb

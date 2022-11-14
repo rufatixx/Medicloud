@@ -22,7 +22,7 @@ namespace FlexitHisMVC.Data
             {
 
                 connection.Open();
-                using (MySqlCommand com = new MySqlCommand("SELECT *,(select name from speciality where a.specialityID = id )as specialityName FROM personal a where depTypeID = 1 and referral != 1;", connection))
+                using (MySqlCommand com = new MySqlCommand("SELECT *,(select name from speciality where a.specialityID = id )as specialityName FROM personal a ", connection))
                 {
 
                     MySqlDataReader reader = com.ExecuteReader();
@@ -39,11 +39,14 @@ namespace FlexitHisMVC.Data
                             personal.name = reader["name"].ToString();
                             personal.surname = reader["surname"].ToString();
                             personal.father = reader["father"].ToString();
+                            personal.mobile = reader["mobile"].ToString();
+                            personal.email = reader["email"].ToString();
 
-                          
+                            personal.bDate = Convert.ToDateTime(reader["bDate"]).Date;
                             personal.speciality = reader["specialityName"].ToString();
                             personal.isActive = Convert.ToBoolean(reader["isActive"]);
                             personal.isUser = Convert.ToBoolean(reader["isUser"]);
+                            personal.isDr = Convert.ToBoolean(reader["isDr"]);
 
                             personalList.Add(personal);
 

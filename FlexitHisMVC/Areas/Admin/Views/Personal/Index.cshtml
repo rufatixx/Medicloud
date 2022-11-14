@@ -1,44 +1,35 @@
-﻿@page
-@*<form class="needs-validation" novalidate style="margin-top:2%" id="form1">
-
-    </form>*@
+﻿
 @model List<FlexitHisMVC.Models.Personal>
+
 <div class="row">
     <div class="col-12 ">
         <div class="row">
-            <div class="col-md-2">
+            <div class="col-4">
                 <div class="form-group border-right">
                     <div class="row">
                         <div class="col-md-12">
                             <h2>Personal tərifi</h2>
 
                         </div>
-
-
-
                     </div>
                 </div>
 
             </div>
 
-            <div class="col-md-2">
+            <div class="col-2">
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-12">
                             <button type="button" class="btn btn-primary " onclick=" $('#addDep').modal('show');">+ Əlavə et</button>
-
                         </div>
-
-
-
                     </div>
                 </div>
 
             </div>
-            <div class="col-8">
+            <div class="col-6">
                 <div class="form-group float-right">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <label>Status</label>
                             <select class="form-control" required id="depIsActiveFilter" onchange="{
                                     $('.depTypesInBuildingItem.active').click();}">
@@ -61,7 +52,7 @@
 </div>
 
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-6">
         <div class="card ">
             <div class="card-header bg-transparent ml-2 mr-2">
                 Personal siyahısı
@@ -100,14 +91,25 @@
 
                 @{
                     foreach (var item in Model)
+
                     {
-                        <div class="list-group-item list-group-item-action personal-list" onclick=" { $('.personal-list').removeClass('active'); $(this).addClass('active'); }">
+                        <div class="list-group-item list-group-item-action personal-list" onclick=' personalClicked(this, @Html.Raw(Json.Serialize(item)));'>
 
                             <div class="row">
                                 <div class="col-6">@item.name @item.surname @item.father</div>
                                 <div class="col-3">@item.speciality</div>
                                 <div class="col-2 text-right">
-                                    <input class=" me-1 " type="checkbox" value="">
+                                    @{
+                                        if (item.isDr)
+                                        {
+                                            <input class=" me-1 " type="checkbox" value="" checked>
+                                        }
+                                        else
+                                        {
+                                            <input class=" me-1 " type="checkbox" value="">
+                                        }
+                                    }
+
                                 </div>
                             </div>
 
@@ -122,9 +124,9 @@
 
 
     </div>
-    <div class="col-md-4">
+    <div class="col-md-6">
 
-        <div class="card selectedDepCard" style="width: 18rem;">
+        <div class="card selectedDepCard" >
             <div class="card-header bg-transparent">
                 <ul class="nav nav-tabs card-header-tabs">
                     <li class="nav-item">
@@ -138,29 +140,16 @@
             </div>
             <div class="card-body">
                 <div id="generalSettings">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <label for="exampleFormControlSelect1">Registr kodu</label>
-                            <input type="text" class="form-control" placeholder="00000" aria-label="00000">
-
-                        </div>
-                        <div class="col-md-3">
-                            <label for="exampleFormControlSelect1">Ata adı</label>
-                            <input type="text" class="form-control" placeholder="Cəbrayıl" aria-label="00000">
-
-                        </div>
-
-                    </div>
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="exampleFormControlSelect1">Registr kodu</label>
-                                <input type="text" class="form-control" placeholder="00000" aria-label="00000">
+                                <input type="text" class="form-control" id="reqCode" placeholder="00000" aria-label="00000">
 
                             </div>
                             <div class="col-md-6">
                                 <label for="exampleFormControlSelect1">Ata adı</label>
-                                <input type="text" class="form-control" placeholder="Cəbrayıl" aria-label="00000">
+                                <input type="text" class="form-control" id="father" placeholder="Cəbrayıl" aria-label="00000">
 
                             </div>
 
@@ -169,46 +158,88 @@
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-6">
-                                <label for="exampleFormControlSelect1">Tipi</label>
-                                <select class="form-control" onchange="updateDep()" id="depType">
-                                    <!-- <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option> -->
-                                </select>
+                                <label for="exampleFormControlSelect1">Doğum tarixi</label>
+                                <input type="date" class="form-control" id="bDate" placeholder="00000" aria-label="00000">
 
                             </div>
-
-
                             <div class="col-md-6">
+                                <label for="exampleFormControlSelect1">İxtisas</label>
+                                <input type="text" class="form-control" id="speciality" placeholder="Cəbrayıl" aria-label="00000">
 
-                                <label for="exampleFormControlSelect1">Cinsi</label>
-                                <select class="form-control" onchange="updateDep()" id="gender">
-                                    <!-- <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option> -->
-                                </select>
-                                <div class="valid-feedback">
-                                    Əla!
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group border-bottom">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="exampleFormControlSelect1">Mobil nömrə</label>
+                                <input type="text" class="form-control" id="mobile" placeholder="00000" aria-label="00000">
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-12" style="display:inline">
+                                            <label for="exampleFormControlSelect1">Elektron poçt ünvanı</label>
+                                            <input type="text" class="form-control" id="email" placeholder="Cəbrayıl" aria-label="00000">
+
+
+                                        </div>
+
+
+                                    </div>
                                 </div>
-                                <div class="invalid-feedback">
-                                    Boşluğu doldurun.
+                               
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-12" style="display:inline">
+                                            <input class=" me-1 " type="checkbox" value="">
+                                            <label for="exampleFormControlSelect1">email göndər</label>
+
+
+                                        </div>
+
+
+                                    </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="row">
-                            <div class="col-md-12">
-                                <label for="exampleFormControlSelect1">Doktor məcburi</label>
-                                <select class="form-control" id="docRequired" onchange="updateDep()" ">
-                                </select>
+                            <div class="col-md-6">
+                                <label for="exampleFormControlSelect1" st>Şifrə</label>
+                                <button type="button" class="form-control btn btn-light">Yeni şifrə təyini ></button>
 
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-12" style="display:inline">
+                                            <input class=" me-1 " id="isUser" type="checkbox" value="">
+                                            <label for="exampleFormControlSelect1">İstifadəçi</label>
 
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-12" style="display:inline">
+                                            <input class=" me-1 " id="isActive" type="checkbox" value="">
+                                            <label for="exampleFormControlSelect1">İşdən ayrılan personal</label>
+
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
 
 
                         </div>
@@ -361,12 +392,31 @@
 @section Scripts
 {
 
-    <script>function personalListClick(obj) {
+    <script>
+
+        function personalClicked(component,obj)
+        {
+            $('.personal-list').removeClass('active');
+            $(component).addClass('active');
+            $("#reqCode").val(obj.id);
+
+            var today = new Date(obj.bDate).toISOString().split('T')[0];
+
+            $("#bDate").val(today);
+          
+            $("#speciality").val(obj.speciality);
+            $("#mobile").val(obj.mobile);
+            $("#email").val(obj.email);
+            $("#father").val(obj.father);
+        }
+
+
+        function personalListClick(obj) {
             $('.personal-list').removeClass('active');
             $(obj).addClass('active');
-        }</script>
+        }
 
-    <script>function settingsBoxClicked(box) {
+        function settingsBoxClicked(box) {
             switch (box) {
                 case 1:
                     $('#positionSettings').hide();
