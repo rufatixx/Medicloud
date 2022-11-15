@@ -7,7 +7,7 @@ using FlexitHisCore.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using FlexitHisMVC.Models.General;
 using FlexitHisMVC.Models;
-using FlexitHisMVC.Areas.Admin.Model.Department;
+using FlexitHisMVC.Areas.Admin.Model;
 using FlexitHisMVC.Data;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -66,7 +66,7 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
         }
         [HttpPost]
         [Route("admin/departments/getDepartments")]
-        public IActionResult GetBuildings(int buildingID, int depTypeID)
+        public IActionResult GetDepartments(int buildingID, int depTypeID)
         {
             if (HttpContext.Session.GetInt32("userid") != null)
             {

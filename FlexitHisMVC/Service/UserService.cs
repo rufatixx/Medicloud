@@ -28,7 +28,7 @@ namespace FlexitHisMVC.Models.Login
                 status.personal = personalDAO.GetUser(username, pass);
 
                 HospitalRepo hospitalDAO = new HospitalRepo(ConnectionString);
-                status.hospitals = hospitalDAO.GetHospitalList(status.personal.ID);
+                status.hospitals = hospitalDAO.GetHospitalListByUser(status.personal.ID);
 
                 KassaRepo kassaDAO = new KassaRepo(ConnectionString);
                 status.kassaList = kassaDAO.GetUserAllowedKassaList(status.personal.ID);

@@ -1,5 +1,5 @@
 ﻿using System;
-namespace FlexitHisMVC.Models.General
+namespace FlexitHisMVC.Models
 {
     public class Building
     {

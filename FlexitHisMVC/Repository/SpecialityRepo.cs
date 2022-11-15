@@ -5,27 +5,27 @@ using MySql.Data.MySqlClient;
 
 namespace FlexitHisMVC.Data
 {
-    public class SpecialityRepo
+    public class KassaRepo
     {
         private readonly string ConnectionString;
 
-        public SpecialityRepo(string conString)
+        public KassaRepo(string conString)
         {
             ConnectionString = conString;
         }
-        public List<Speciality> GetSpecialities()
+        public List<Kassa> GetUserAllowedKassaList(int userID)
         {
-            List<Speciality> specialityList = new List<Speciality>();
+            List<Kassa> kassaList = new List<Kassa>();
 
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
             {
 
                 connection.Open();
 
-                using (MySqlCommand kassaCom = new MySqlCommand("SELECT * from speciality;", connection))
+                using (MySqlCommand kassaCom = new MySqlCommand("SELECT *,(select name from kassa where id = a.kassaID)as kassaName FROM kassa_user_rel a where userID =@userID;", connection))
                 {
 
-                 
+                    kassaCom.Parameters.AddWithValue("@userID", userID);
 
                     using (MySqlDataReader kassaReader = kassaCom.ExecuteReader())
                     {
@@ -33,10 +33,12 @@ namespace FlexitHisMVC.Data
                         {
                             while (kassaReader.Read())
                             {
-                                Speciality speciality = new Speciality();
-                                speciality.id = Convert.ToInt32(kassaReader["id"]);
-                                speciality.name = kassaReader["name"].ToString();
-                                specialityList.Add(speciality);
+                                Kassa kassa = new Kassa();
+                                kassa.id = Convert.ToInt32(kassaReader["id"]);
+
+                                kassa.kassaID = Convert.ToInt32(kassaReader["kassaID"]);
+                                kassa.name = kassaReader["kassaName"].ToString();
+                                kassaList.Add(kassa);
                             }
 
 
@@ -47,7 +49,7 @@ namespace FlexitHisMVC.Data
                 }
                 connection.Close();
             }
-            return specialityList;
+            return kassaList;
         }
     }
 }

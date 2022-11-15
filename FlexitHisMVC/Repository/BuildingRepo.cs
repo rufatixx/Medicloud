@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using MySql.Data.MySqlClient;
 
-namespace FlexitHisMVC.Models.General
+namespace FlexitHisMVC.Models
 {
     public class BuildingRepo
     {

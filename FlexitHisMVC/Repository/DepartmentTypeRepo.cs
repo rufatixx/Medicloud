@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using FlexitHisMVC.Areas.Admin.Model.Department;
+using FlexitHisMVC.Areas.Admin.Model;
 using FlexitHisMVC.Models;
 using MySql.Data.MySqlClient;
 

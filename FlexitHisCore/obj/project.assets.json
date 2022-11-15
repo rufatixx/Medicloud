@@ -1712,19 +1712,19 @@
     ]
   },
   "packageFolders": {
-    "/Users/admin/.nuget/packages/": {}
+    "/Users/rufat/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/admin/Projects/FlexitHisMVC/FlexitHisCore/FlexitHisCore.csproj",
+      "projectUniqueName": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisCore/FlexitHisCore.csproj",
       "projectName": "FlexitHis.DAL",
-      "projectPath": "/Users/admin/Projects/FlexitHisMVC/FlexitHisCore/FlexitHisCore.csproj",
-      "packagesPath": "/Users/admin/.nuget/packages/",
-      "outputPath": "/Users/admin/Projects/FlexitHisMVC/FlexitHisCore/obj/",
+      "projectPath": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisCore/FlexitHisCore.csproj",
+      "packagesPath": "/Users/rufat/.nuget/packages/",
+      "outputPath": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisCore/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/admin/.nuget/NuGet/NuGet.Config"
+        "/Users/rufat/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"

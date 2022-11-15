@@ -13,7 +13,7 @@ namespace FlexitHisMVC.Data
         {
             ConnectionString = conString;
         }
-        public List<Hospital> GetHospitalList(int userID)
+        public List<Hospital> GetHospitalListByUser(int userID)
         {
             List<Hospital> hospitalList = new List<Hospital>();
 
@@ -43,6 +43,43 @@ namespace FlexitHisMVC.Data
 
                         }
                       
+                    }
+
+                }
+
+                connection.Close();
+            }
+            return hospitalList;
+        }
+        public List<Hospital> GetHospitalList()
+        {
+            List<Hospital> hospitalList = new List<Hospital>();
+
+            using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+            {
+
+                connection.Open();
+                using (MySqlCommand hospitalCom = new MySqlCommand("SELECT * from hospital", connection))
+                {
+
+                  
+
+                    using (MySqlDataReader hospitalReader = hospitalCom.ExecuteReader())
+                    {
+                        if (hospitalReader.HasRows)
+                        {
+                            while (hospitalReader.Read())
+                            {
+                                Hospital hospital = new Hospital();
+                                hospital.id = Convert.ToInt32(hospitalReader["id"]);
+                              
+                                hospital.hospitalName = hospitalReader["name"].ToString();
+                                hospitalList.Add(hospital);
+                            }
+
+
+                        }
+
                     }
 
                 }

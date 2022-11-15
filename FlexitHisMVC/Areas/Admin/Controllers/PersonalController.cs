@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FlexitHisCore;
+using FlexitHisMVC.Areas.Admin.Model;
 using FlexitHisMVC.Data;
 using FlexitHisMVC.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -31,9 +32,16 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
 
             if (HttpContext.Session.GetInt32("userid") != null)
             {
+                PersonalPageDTO response = new PersonalPageDTO();
                 PersonalRepo personalRepo = new PersonalRepo(ConnectionString);
-               
-                return View(personalRepo.GetPersonalList());
+                SpecialityRepo  specialityRepo = new SpecialityRepo(ConnectionString);
+                HospitalRepo  hospitalRepo = new HospitalRepo(ConnectionString);
+              
+                response.personalList = personalRepo.GetPersonalList();
+                response.specialityList = specialityRepo.GetSpecialities();
+                response.hospitalList = hospitalRepo.GetHospitalList();
+              
+                return View(response);
 
 
             }
