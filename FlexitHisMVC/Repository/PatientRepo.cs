@@ -1,7 +1,7 @@
 ﻿using System;
 using FlexitHisCore.Models;
 using FlexitHisMVC.Data;
-using FlexitHisMVC.Models.General;
+using FlexitHisMVC.Models;
 using MySql.Data.MySqlClient;
 
 namespace FlexitHisMVC.Models.NewPatient

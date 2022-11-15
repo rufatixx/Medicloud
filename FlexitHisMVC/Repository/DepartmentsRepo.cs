@@ -144,6 +144,72 @@ FROM building_to_dep_rel a where buildingID = @buildingID ", connection))
 
             return depListByBuilding;
         }
+        public List<Department> GetDepartmentsByHospital(int hospitalID)
+
+        {
+
+            List<Department> depListByBuilding = new List<Department>();
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+                {
+
+
+                    connection.Open();
+                    using (MySqlCommand com = new MySqlCommand($@"SELECT *,
+(select name from department_type where id= a.depTypeID)as depTypeName,
+(select name from buildings where id= a.buildingID)as buildingName
+FROM building_to_dep_rel a where buildingID in (select id from buildings where hospitalID=1) ", connection))
+                    {
+
+                        com.Parameters.AddWithValue("@hospitalID", hospitalID);
+                        MySqlDataReader reader = com.ExecuteReader();
+                        if (reader.HasRows)
+                        {
+
+
+                            while (reader.Read())
+                            {
+
+                                Department department = new Department();
+                                department.ID = Convert.ToInt64(reader["id"]);
+                                department.name = reader["depName"] == DBNull.Value ? "" : reader["depName"].ToString();
+                                department.type = reader["depTypeName"] == DBNull.Value ? "" : reader["depTypeName"].ToString();
+                                department.typeID = Convert.ToInt64(reader["depTypeID"]);
+                                department.docIsRequired = Convert.ToInt32(reader["DrIsRequired"]);
+                                department.genderID = Convert.ToInt32(reader["genderID"]);
+                                department.buildingID = Convert.ToInt64(reader["buildingID"]);
+                                department.buildingName = reader["buildingName"] == DBNull.Value ? "" : reader["buildingName"].ToString();
+                                department.isActive = Convert.ToInt32(reader["isActive"]);
+                                department.isRandevuActive = Convert.ToInt32(reader["isRandevuActive"]);
+                                depListByBuilding.Add(department);
+
+
+                            }
+
+                            //response.data.Reverse();
+
+                            //response.status = 1;
+                        }
+
+                    }
+                    connection.Close();
+
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                //FlexitHis_API.StandardMessages.CallSerilog(ex);
+                Console.WriteLine(ex.Message);
+
+            }
+
+
+            return depListByBuilding;
+        }
 
         public bool InsertDepartments(long buildingID, string depName, int depTypeID)
         {

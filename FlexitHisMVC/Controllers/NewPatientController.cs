@@ -7,7 +7,7 @@ using FlexitHisCore.Models;
 using FlexitHisCore.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using FlexitHisMVC.Models.NewPatient;
-using FlexitHisMVC.Models.General;
+using FlexitHisMVC.Models;
 using FlexitHisMVC.Data;
 using FlexitHisMVC.Models;
 

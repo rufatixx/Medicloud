@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using FlexitHisCore.Models;
 using FlexitHisCore.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using FlexitHisMVC.Models.General;
+using FlexitHisMVC.Models;
 using FlexitHisMVC.Models;
 using FlexitHisMVC.Areas.Admin.Model;
 using FlexitHisMVC.Data;

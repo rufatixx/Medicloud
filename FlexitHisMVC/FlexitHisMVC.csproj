@@ -22,7 +22,6 @@
     <None Remove="Views\" />
     <None Remove="Views\Shared\" />
     <None Remove="Areas\Admin\Views\Personal\" />
-    <None Remove="Areas\Admin\Model\" />
     <None Remove="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" />
     <None Remove="Areas\Admin\Views\Personal\Components\PersonalView\" />
     <None Remove="Areas\Admin\ViewComponents\" />
@@ -33,7 +32,6 @@
     <None Remove="Areas\Admin\Views\Home\" />
     <None Remove="Data\" />
     <None Remove="Models\DTO\" />
-    <None Remove="Areas\Admin\Model\DTO\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\js\menu\" />
@@ -48,7 +46,6 @@
     <Folder Include="Views\Shared\" />
     <Folder Include="wwwroot\js\admin\departments\" />
     <Folder Include="Areas\Admin\Views\Personal\" />
-    <Folder Include="Areas\Admin\Model\" />
     <Folder Include="Areas\Admin\ViewComponents\" />
     <Folder Include="Views\Shared\Components\" />
     <Folder Include="ViewComponents\" />
@@ -57,7 +54,6 @@
     <Folder Include="Areas\Admin\Views\Home\" />
     <Folder Include="Repository\" />
     <Folder Include="Models\DTO\" />
-    <Folder Include="Areas\Admin\Model\DTO\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MySql.Data" Version="8.0.31" />

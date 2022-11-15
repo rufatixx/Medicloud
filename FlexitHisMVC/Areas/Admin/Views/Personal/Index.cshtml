@@ -16,7 +16,7 @@
 
             </div>
 
-            <div class="col-2">
+            <div class="co-8">
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-12">
@@ -26,11 +26,21 @@
                 </div>
 
             </div>
-            <div class="col-6">
+
+        </div>
+    </div>
+    <!-- <div class="col-6 text-right ">     <button type="button" class="btn btn-dark " onclick=" $('#patientSearch').modal('show');">Axtar</button></div> -->
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card ">
+            <div class="card-header bg-transparent ml-2 mr-2">
+                Personal siyahısı
                 <div class="form-group float-right">
                     <div class="row">
                         <div class="col-md-12">
-                            <label>Status</label>
+
                             <select class="form-control" required id="depIsActiveFilter" onchange="{
                                     $('.depTypesInBuildingItem.active').click();}">
                                 <option value="1">Aktiv</option>
@@ -44,18 +54,6 @@
 
                     </div>
                 </div>
-
-            </div>
-        </div>
-    </div>
-    <!-- <div class="col-6 text-right ">     <button type="button" class="btn btn-dark " onclick=" $('#patientSearch').modal('show');">Axtar</button></div> -->
-</div>
-
-<div class="row">
-    <div class="col-md-6">
-        <div class="card ">
-            <div class="card-header bg-transparent ml-2 mr-2">
-                Personal siyahısı
             </div>
             <div class="card-header  ml-2 mr-2">
                 <div class="row">
@@ -140,14 +138,14 @@
             </div>
             <div class="card-body">
                 <div id="generalSettings">
-                    <ul class="nav nav-pills pb-3 border-bottom">
+                    <ul class="nav nav-pills pb-3">
                         <li class="nav-item">
                             <a class="nav-link active" href="#">Əsas məlumatlar</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Təhlükəsizlik</a>
                         </li>
-                       
+
                     </ul>
                     <div class="row mt-3">
                         <div class="col-8">
@@ -223,48 +221,48 @@
                         <div class="col-4">
                             <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlciUyMHByb2ZpbGV8ZW58MHx8MHx8&w=1000&q=80" class="rounded mx-auto d-block" style="max-width:120px; max-height:160px" alt="...">
                         </div>
-                        </div>
-                      
-                        <div class="form-group border-top">
-                            <div class="row mt-3">
-                                <div class="col-md-6">
-                                    <label for="exampleFormControlSelect1" st>Şifrə</label>
-                                    <button type="button" class="form-control btn btn-light">Yeni şifrə təyini ></button>
+                    </div>
 
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <div class="col-md-12" style="display:inline">
-                                                <input class=" me-1 " id="isUser" type="checkbox" value="">
-                                                <label for="exampleFormControlSelect1">İstifadəçi</label>
-
-
-                                            </div>
-
-
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <div class="col-md-12" style="display:inline">
-                                                <input class=" me-1 " id="isActive" type="checkbox" value="">
-                                                <label for="exampleFormControlSelect1">İşdən ayrılan personal</label>
-
-
-                                            </div>
-
-
-                                        </div>
-                                    </div>
-                                </div>
-
+                    <div class="form-group border-top">
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <label for="exampleFormControlSelect1" st>Şifrə</label>
+                                <button type="button" class="form-control btn btn-light">Yeni şifrə təyini ></button>
 
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-12" style="display:inline">
+                                            <input class=" me-1 " id="isUser" type="checkbox" value="">
+                                            <label for="exampleFormControlSelect1">İstifadəçi</label>
+
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-12" style="display:inline">
+                                            <input class=" me-1 " id="isActive" type="checkbox" value="">
+                                            <label for="exampleFormControlSelect1">İşdən ayrılan personal</label>
+
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+
                         </div>
                     </div>
+                </div>
                 <div id="positionSettings" style="display:none">
-                    <ul class="nav nav-pills pb-1 border-bottom">
+                    <ul class="nav nav-pills pb-1">
                         <li class="nav-item">
                             <a class="nav-link active" href="#">Şöbələr</a>
                         </li>
@@ -273,20 +271,34 @@
                         </li>
 
                     </ul>
-                       
+
                     <div class="form-group">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" onclick="updateDep()" id="depIsActive">
-                            <label class="form-check-label">
-                                Aktiv
-                            </label>
+
+                        <label>Hospital</label>
+                        <div>
+                            <div class="btn-group">
+                                <input class="btn btn-light text-left hospitalDrpTitle" placeholder="Əlavə edin" />
+                                <button type="button" class="border-left  btn btn-light dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    @{
+                                        foreach (var item in Model.hospitalList)
+
+                                        {
+                                            <a class="dropdown-item" id="@item.id" onclick="{$('.hospitalDrpTitle').val('@item.hospitalName');$('.specialityDrpTitle').attr('id','@item.id');}">@item.hospitalName</a>
+
+                                            @*<a class="list-group-item list-group-item-action personal-list" ></a>*@
+                                        }
+                                    }
+
+
+                                </div>
+                            </div>
+
                         </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" onclick="updateDep()" id="isRandevuActive">
-                            <label class="form-check-label" for="flexCheckChecked">
-                                Randevulu Çalışan Birim
-                            </label>
-                        </div>
+
                     </div>
 
 
@@ -364,7 +376,7 @@
 
                                         <label for="exampleFormControlSelect1">Adı</label>
                                         <!-- <select class="form-control" id="departments">
-                                </select> -->
+                                        </select> -->
 
                                         <input type="text" class="form-control" required id="companyName"
                                                placeholder="Daxil edin">
@@ -382,7 +394,7 @@
 
                                         <label for="exampleFormControlSelect1">Soyadı</label>
                                         <!-- <select class="form-control" id="departments">
-                                </select> -->
+                                        </select> -->
 
                                         <input type="text" class="form-control" required id="companyName"
                                                placeholder="Daxil edin">
@@ -414,7 +426,7 @@
 
                                         <label for="exampleFormControlSelect1">Fin nömrə</label>
                                         <!-- <select class="form-control" id="departments">
-                                </select> -->
+                                        </select> -->
 
                                         <input type="text" class="form-control" required id="companyName"
                                                placeholder="Daxil edin">
@@ -431,16 +443,29 @@
 
 
                                         <label>İxtisas</label>
-                                        <select class="form-control" id="specialities" required>
-                                            @{
-                                                foreach (var item in Model.specialityList)
+                                        <div>
+                                            <div class="btn-group">
+                                                <input class="btn btn-light text-left specialityDrpTitle" placeholder="Əlavə edin" />
+                                                <button type="button" class="border-left  btn btn-light dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <span class="sr-only">Toggle Dropdown</span>
+                                                </button>
 
-                                                {
-                                                   <option id="@item.id">@item.name</option>
-                                                    @*<a class="list-group-item list-group-item-action personal-list" ></a>*@
-                                                }
-                                            }
-                                        </select>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                    @{
+                                                        foreach (var item in Model.specialityList)
+
+                                                        {
+                                                            <a class="dropdown-item" id="@item.id" onclick="{$('.specialityDrpTitle').val('@item.name');$('.specialityDrpTitle').attr('id','@item.id');}">@item.name</a>
+
+                                                            @*<a class="list-group-item list-group-item-action personal-list" ></a>*@
+                                                        }
+                                                    }
+
+
+                                                </div>
+                                            </div>
+
+                                        </div>
 
 
                                     </div>
@@ -490,7 +515,7 @@
 
                 </form>
             </div>
-         
+
         </div>
     </div>
 </div>
@@ -510,7 +535,7 @@
         $("#email").val('@Model.personalList[0].email');
         $("#father").val('@Model.personalList[0].father');
 
-        
+
 
         function personalClicked(component,obj)
         {

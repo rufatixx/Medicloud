@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using FlexitHisMVC.Models;
-using FlexitHisMVC.Models.General;
+using FlexitHisMVC.Models;
 
 namespace FlexitHisMVC.Models
 {

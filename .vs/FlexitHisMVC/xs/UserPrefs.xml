@@ -1,23 +1,24 @@
 ﻿<Properties StartupConfiguration="{94E91CB4-7BC1-46BE-971E-169B5A29C9BE}|Default">
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.FlexitHisMVC PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.Workbench ActiveDocument="FlexitHisMVC/Areas/Admin/Views/Personal/Index.cshtml">
+  <MonoDevelop.Ide.Workbench ActiveDocument="FlexitHisMVC/Areas/Admin/Controllers/PersonalController.cs">
     <Files>
-      <File FileName="FlexitHisMVC/Areas/Admin/Views/Personal/Index.cshtml" Line="195" Column="94" />
+      <File FileName="FlexitHisMVC/Areas/Admin/Views/Personal/Index.cshtml" Line="527" Column="38" />
       <File FileName="FlexitHisMVC/Areas/Admin/Views/Personal/Components/PersonalSettings/default.cshtml" />
       <File FileName="FlexitHisMVC/ViewComponents/ModulesViewComponent.cs" />
       <File FileName="FlexitHisMVC/Areas/Admin/Views/Department/Index.cshtml" />
       <File FileName="FlexitHisMVC/Views/Home/Index.cshtml" />
       <File FileName="FlexitHisMVC/Views/NewPatient/Index.cshtml" />
-      <File FileName="FlexitHisMVC/Areas/Admin/Controllers/PersonalController.cs" />
+      <File FileName="FlexitHisMVC/Areas/Admin/Controllers/PersonalController.cs" Line="36" Column="52" />
       <File FileName="FlexitHisMVC/Repository/PersonalRepo.cs" />
       <File FileName="FlexitHisMVC/Models/Personal.cs" />
       <File FileName="FlexitHisCore/Repositories/PersonalOperations.cs" />
       <File FileName="FlexitHisMVC/wwwroot/js/new_patient/new_patient.js" />
-      <File FileName="../../../../../usr/local/share/dotnet/sdk/7.0.100/Sdks/Microsoft.NET.Sdk/targets/Microsoft.PackageDependencyResolution.targets" Line="267" Column="5" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -29,12 +30,13 @@
             <Node name="FlexitHisMVC" expanded="True">
               <Node name="Areas" expanded="True">
                 <Node name="Admin" expanded="True">
-                  <Node name="Controllers" expanded="True" />
+                  <Node name="Controllers" expanded="True">
+                    <Node name="PersonalController.cs" selected="True" />
+                  </Node>
                   <Node name="ViewComponents" expanded="True" />
                   <Node name="Views" expanded="True">
                     <Node name="Personal" expanded="True">
                       <Node name="Components" expanded="True" />
-                      <Node name="Index.cshtml" selected="True" />
                     </Node>
                   </Node>
                 </Node>
@@ -57,6 +59,4 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.ItemProperties.FlexitHisMVC PreferredExecutionTarget="/Applications/Google Chrome.app" />
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>
