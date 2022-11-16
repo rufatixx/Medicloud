@@ -271,38 +271,34 @@
                         </li>
 
                     </ul>
+                    <div class="row">
+                        <div class="col-2">
+                            <label>Hospital</label>
+                            </div>
+                            <div class="col-4">
 
-                    <div class="form-group">
+                                <div class="dropdown">
 
-                        <label>Hospital</label>
-                        <div>
-                            <div class="btn-group">
-                                <input class="btn btn-light text-left hospitalDrpTitle" placeholder="Əlavə edin" />
-                                <button type="button" class="border-left  btn btn-light dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span class="sr-only">Toggle Dropdown</span>
-                                </button>
-
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                    @{
-                                        foreach (var item in Model.hospitalList)
-
-                                        {
-                                            <a class="dropdown-item" id="@item.id" onclick="{$('.hospitalDrpTitle').val('@item.hospitalName');$('.specialityDrpTitle').attr('id','@item.id');}">@item.hospitalName</a>
-
-                                            @*<a class="list-group-item list-group-item-action personal-list" ></a>*@
-                                        }
-                                    }
-
-
+                                    <button class="btn btn-secondary dropdown-toggle w-100 m-3" type="button" id="userHospitals" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    </button>
+                                    <div class="dropdown-menu" id="userHospitalsMenu">
+                                        <h6 class="dropdown-header">Əlavə olunmuş müəssisələr</h6>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="col-6">
+                                <button type="button" class="btn btn-light ">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M15 13H13V15C13 15.55 12.55 16 12 16C11.45 16 11 15.55 11 15V13H9C8.45 13 8 12.55 8 12C8 11.45 8.45 11 9 11H11V9C11 8.45 11.45 8 12 8C12.55 8 13 8.45 13 9V11H15C15.55 11 16 11.45 16 12C16 12.55 15.55 13 15 13ZM12 2C6.486 2 2 6.486 2 12C2 17.514 6.486 22 12 22C17.514 22 22 17.514 22 12C22 6.486 17.514 2 12 2Z" fill="#2AAEAD" />
+                                    </svg> müəssisə əlavə et
+                                </button>
+                            </div>
+
 
                         </div>
 
+
                     </div>
-
-
-                </div>
             </div>
 
 
@@ -317,7 +313,207 @@
 
 </div>
 
+<div class="modal fade" id="addHospital" data-backdrop="static" data-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
 
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+
+
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <!-- <h3 style="text-align:right; margin-right:2%"><span class="badge badge-secondary">Cəmi: ---</span></h1> -->
+                                <div class="row">
+
+                                    <div class="col-md-12 text-center">
+                                        <img src="/res/pencil.svg" />
+
+                                    </div>
+
+
+
+
+                                </div>
+
+
+
+
+                            </div>
+
+                            <div class="form-group">
+                                <div class="row">
+
+                                    <div class="col-md-12 text-center">
+                                        <h6>Xəstəxana əlavə edilməsi</h6>
+
+                                    </div>
+
+
+
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <!-- <h3 style="text-align:right; margin-right:2%"><span class="badge badge-secondary">Cəmi: ---</span></h1> -->
+                                <div class="row">
+
+                                    <div class="col-md-6">
+
+
+                                        <label for="exampleFormControlSelect1">Adı</label>
+                                        <!-- <select class="form-control" id="departments">
+                                        </select> -->
+
+                                        <input type="text" class="form-control" required id="companyName"
+                                               placeholder="Daxil edin">
+                                        <div class="valid-feedback">
+                                            Əla!
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Boşluğu doldurun.
+                                        </div>
+
+
+                                    </div>
+                                    <div class="col-md-6">
+
+
+                                        <label for="exampleFormControlSelect1">Soyadı</label>
+                                        <!-- <select class="form-control" id="departments">
+                                        </select> -->
+
+                                        <input type="text" class="form-control" required id="companyName"
+                                               placeholder="Daxil edin">
+                                        <div class="valid-feedback">
+                                            Əla!
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Boşluğu doldurun.
+                                        </div>
+
+
+                                    </div>
+
+
+
+
+                                </div>
+
+
+
+
+                            </div>
+                            <div class="form-group">
+                                <!-- <h3 style="text-align:right; margin-right:2%"><span class="badge badge-secondary">Cəmi: ---</span></h1> -->
+                                <div class="row">
+
+                                    <div class="col-md-6">
+
+
+                                        <label for="exampleFormControlSelect1">Fin nömrə</label>
+                                        <!-- <select class="form-control" id="departments">
+                                        </select> -->
+
+                                        <input type="text" class="form-control" required id="companyName"
+                                               placeholder="Daxil edin">
+                                        <div class="valid-feedback">
+                                            Əla!
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Boşluğu doldurun.
+                                        </div>
+
+
+                                    </div>
+                                    <div class="col-md-6">
+
+
+                                        <label>İxtisas</label>
+                                        <div>
+                                            <div class="btn-group">
+                                                <input class="btn btn-light text-left specialityDrpTitle" placeholder="Əlavə edin" />
+                                                <button type="button" class="border-left  btn btn-light dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <span class="sr-only">Toggle Dropdown</span>
+                                                </button>
+
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                    @{
+                                                        foreach (var item in Model.specialityList)
+
+                                                        {
+                                                            <a class="dropdown-item" id="@item.id" onclick="{$('.specialityDrpTitle').val('@item.name');$('.specialityDrpTitle').attr('id','@item.id');}">@item.name</a>
+
+                                                            @*<a class="list-group-item list-group-item-action personal-list" ></a>*@
+                                                        }
+                                                    }
+
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+
+
+
+
+                                </div>
+
+
+
+
+                            </div>
+                            <div class="form-group">
+                                <!-- <h3 style="text-align:right; margin-right:2%"><span class="badge badge-secondary">Cəmi: ---</span></h1> -->
+                                <div class="row">
+
+                                    <div class="col-md-12 text-center">
+
+
+                                        <button type="button" class="btn btn-primary justify-content-center"
+                                                onclick="insertCompany()">
+                                            Əlavə et
+                                        </button>
+
+
+                                    </div>
+
+
+
+
+                                </div>
+
+
+
+                            </div>
+
+                        </div>
+
+
+
+
+
+                    </div>
+
+
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
 <div class="modal fade" id="addPersonal" data-backdrop="static" data-keyboard="false" tabindex="-1"
      aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
@@ -523,22 +719,49 @@
 {
 
     <script>
-
+        var selectedPersonalID = @Model.personalList[0].ID;
         $("#reqCode").val(@Model.personalList[0].ID);
 
         var today = new Date('@Model.personalList[0].bDate').toISOString().split('T')[0];
 
         $("#bDate").val(today);
 
-        $("#speciality").val('@Model.personalList[0].speciality');
+        $("#speciality").val(`${selectedPersonalID}`);
         $("#mobile").val('@Model.personalList[0].mobile');
         $("#email").val('@Model.personalList[0].email');
         $("#father").val('@Model.personalList[0].father');
+        getHospitalsByUser(selectedPersonalID);
 
+        function getHospitalsByUser(personalID) {
+            $.get(
+                "/Admin/Personal/HospitalsByUser",
+                { personalID: selectedPersonalID },
+                function (data) {
+                    if (data.length > 0) {
+                        $("#userHospitals").text(data[0].hospitalName);
+                        $("#userHospitalsMenu").empty();
+                        $("#userHospitals").text(data[0].hospitalName);
+                        $.each(data, function () {
+
+                            $("#userHospitalsMenu").append($(`<a id=${this.id} class='dropdown-item'  onclick="{  $('#userHospitals').text('${this.hospitalName}').val('${this.id}');}"/>`).text(this.hospitalName));
+
+
+                        });
+                    }
+                    else {
+                        $("#userHospitals").text("Əlavə edin");
+                        $("#userHospitalsMenu").empty();
+
+                    }
+
+                });
+
+              }
 
 
         function personalClicked(component,obj)
         {
+            selectedPersonalID = obj.id;
             $('.personal-list').removeClass('active');
             $(component).addClass('active');
             $("#reqCode").val(obj.id);
@@ -551,7 +774,16 @@
             $("#mobile").val(obj.mobile);
             $("#email").val(obj.email);
             $("#father").val(obj.father);
-        }
+
+             getHospitalsByUser(selectedPersonalID);
+
+
+
+
+
+    }
+
+
 
 
         function personalListClick(obj) {

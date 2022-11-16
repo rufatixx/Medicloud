@@ -53,6 +53,24 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
 
            
         }
+        [HttpGet]
+        public IActionResult HospitalsByUser(int personalID)
+        {
+            if (HttpContext.Session.GetInt32("userid") != null)
+            {
+                HospitalRepo hospitalRepo = new HospitalRepo(ConnectionString);
+                
+                return Ok(hospitalRepo.GetHospitalListByUser(personalID));
+
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login", new { area = "" });
+            }
+
+
+
+        }
         [HttpPost]
         public IActionResult Create()
         {

@@ -33,10 +33,12 @@ namespace FlexitHisMVC.Data
                             while (hospitalReader.Read())
                             {
                                 Hospital hospital = new Hospital();
-                                hospital.id = Convert.ToInt32(hospitalReader["id"]);
-                                hospital.userID = Convert.ToInt32(hospitalReader["userID"]);
-                                hospital.hospitalID = Convert.ToInt32(hospitalReader["hospitalID"]);
-                                hospital.hospitalName = hospitalReader["hName"].ToString();
+                                hospital.id = hospitalReader["id"] == DBNull.Value ? 0 : Convert.ToInt32(hospitalReader["id"]);
+                                hospital.hospitalName = hospitalReader["hName"] == DBNull.Value ? "" : hospitalReader["hName"].ToString();
+                           
+                                hospital.userID = hospitalReader["userID"] == DBNull.Value ? 0 : Convert.ToInt32(hospitalReader["userID"]);
+                                hospital.hospitalID = hospitalReader["hospitalID"] == DBNull.Value ? 0 : Convert.ToInt32(hospitalReader["hospitalID"]); 
+                              
                                 hospitalList.Add(hospital);
                             }
 
@@ -71,9 +73,9 @@ namespace FlexitHisMVC.Data
                             while (hospitalReader.Read())
                             {
                                 Hospital hospital = new Hospital();
-                                hospital.id = Convert.ToInt32(hospitalReader["id"]);
+                                hospital.id = hospitalReader["id"] == DBNull.Value ? 0 : Convert.ToInt32(hospitalReader["id"]); 
                               
-                                hospital.hospitalName = hospitalReader["name"].ToString();
+                                hospital.hospitalName = hospitalReader["name"] == DBNull.Value ? "" : hospitalReader["name"].ToString();
                                 hospitalList.Add(hospital);
                             }
 

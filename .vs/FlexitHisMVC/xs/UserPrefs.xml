@@ -1,24 +1,39 @@
 ﻿<Properties StartupConfiguration="{94E91CB4-7BC1-46BE-971E-169B5A29C9BE}|Default">
-  <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.ItemProperties.FlexitHisMVC PreferredExecutionTarget="/Applications/Google Chrome.app" />
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="FlexitHisMVC/Areas/Admin/Controllers/PersonalController.cs">
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workbench ActiveDocument="FlexitHisMVC/Areas/Admin/Views/Personal/Index.cshtml">
     <Files>
-      <File FileName="FlexitHisMVC/Areas/Admin/Views/Personal/Index.cshtml" Line="527" Column="38" />
+      <File FileName="FlexitHisMVC/Areas/Admin/Views/Personal/Index.cshtml" Line="727" Column="20" />
       <File FileName="FlexitHisMVC/Areas/Admin/Views/Personal/Components/PersonalSettings/default.cshtml" />
       <File FileName="FlexitHisMVC/ViewComponents/ModulesViewComponent.cs" />
       <File FileName="FlexitHisMVC/Areas/Admin/Views/Department/Index.cshtml" />
       <File FileName="FlexitHisMVC/Views/Home/Index.cshtml" />
-      <File FileName="FlexitHisMVC/Views/NewPatient/Index.cshtml" />
-      <File FileName="FlexitHisMVC/Areas/Admin/Controllers/PersonalController.cs" Line="36" Column="52" />
-      <File FileName="FlexitHisMVC/Repository/PersonalRepo.cs" />
-      <File FileName="FlexitHisMVC/Models/Personal.cs" />
+      <File FileName="FlexitHisMVC/Views/NewPatient/Index.cshtml" Line="1" Column="1" />
+      <File FileName="FlexitHisMVC/Areas/Admin/Controllers/PersonalController.cs" Line="63" Column="45" />
+      <File FileName="FlexitHisMVC/Repository/PersonalRepo.cs" Line="36" Column="34" />
+      <File FileName="FlexitHisMVC/Models/Personal.cs" Line="4" Column="18" />
       <File FileName="FlexitHisCore/Repositories/PersonalOperations.cs" />
-      <File FileName="FlexitHisMVC/wwwroot/js/new_patient/new_patient.js" />
+      <File FileName="FlexitHisMVC/wwwroot/js/new_patient/new_patient.js" Line="74" Column="12" />
+      <File FileName="../../../../../usr/local/share/dotnet/sdk/7.0.100/Sdks/Microsoft.NET.Sdk/targets/Microsoft.PackageDependencyResolution.targets" />
+      <File FileName="FlexitHisMVC/Areas/Admin/Views/Company/Index.cshtml" />
+      <File FileName="FlexitHisMVC/appsettings.json" />
+      <File FileName="FlexitHisMVC/Models/Kassa.cs" />
+      <File FileName="FlexitHisMVC/Repository/KassaRepo.cs" />
+      <File FileName="FlexitHisMVC/Areas/Admin/Controllers/DepartmentController.cs" Line="1" Column="1" />
+      <File FileName="FlexitHisMVC/Repository/DepartmentTypeRepo.cs" />
+      <File FileName="FlexitHisMVC/Models/Department.cs" />
+      <File FileName="FlexitHisMVC/Models/Building.cs" />
+      <File FileName="FlexitHisMVC/Repository/BuildingRepo.cs" Line="43" Column="113" />
+      <File FileName="FlexitHisMVC/Repository/HospitalRepo.cs" Line="16" Column="24" />
+      <File FileName="FlexitHisMVC/Areas/Admin/Controllers/CompanyController.cs" />
+      <File FileName="FlexitHisMVC/Areas/Admin/Model/DTO/PersonalPageDTO.cs" Line="8" Column="26" />
+      <File FileName="FlexitHisMVC/Service/UserService.cs" Line="37" Column="1" />
+      <File FileName="FlexitHisMVC/Models/Hospital.cs" Line="10" Column="39" />
+      <File FileName="FlexitHisMVC/Views/Shared/_Layout.cshtml" Line="7" Column="5" />
+      <File FileName="FlexitHisMVC/Areas/Admin/Views/_ViewImports.cshtml" Line="1" Column="1" />
+      <File FileName="FlexitHisMVC/Areas/Admin/Views/_ViewStart.cshtml" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -33,19 +48,23 @@
                   <Node name="Controllers" expanded="True">
                     <Node name="PersonalController.cs" selected="True" />
                   </Node>
+                  <Node name="Model" expanded="True">
+                    <Node name="DTO" expanded="True" />
+                  </Node>
                   <Node name="ViewComponents" expanded="True" />
                   <Node name="Views" expanded="True">
+                    <Node name="Company" expanded="True" />
+                    <Node name="Department" expanded="True" />
                     <Node name="Personal" expanded="True">
                       <Node name="Components" expanded="True" />
                     </Node>
                   </Node>
                 </Node>
               </Node>
-              <Node name="Controllers" expanded="True" />
-              <Node name="Models" expanded="True" />
-              <Node name="Repository" expanded="True" />
+              <Node name="Service" expanded="True" />
               <Node name="Views" expanded="True">
                 <Node name="Home" expanded="True" />
+                <Node name="NewPatient" expanded="True" />
                 <Node name="Shared" expanded="True" />
               </Node>
               <Node name="wwwroot" expanded="True">
@@ -59,4 +78,9 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/Repository/HospitalRepo.cs" relfile="FlexitHisMVC/Repository/HospitalRepo.cs" line="53" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
 </Properties>

@@ -384,9 +384,6 @@
 /Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/obj/Debug/net6.0/FlexitHisMVC.pdb
 /Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/obj/Debug/net6.0/FlexitHisMVC.genruntimeconfig.cache
 /Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/obj/Debug/net6.0/ref/FlexitHisMVC.dll
-/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/obj/Debug/net6.0/FlexitHisMVC.dll
-/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/obj/Debug/net6.0/refint/FlexitHisMVC.dll
-/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/obj/Debug/net6.0/FlexitHisMVC.pdb
 /Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/bin/Debug/net6.0/appsettings.Development.json
 /Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/bin/Debug/net6.0/appsettings.json
 /Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/bin/Debug/net6.0/FlexitHisMVC.staticwebassets.runtime.json
@@ -768,5 +765,8 @@
 /Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/obj/Debug/net6.0/scopedcss/bundle/FlexitHisMVC.styles.css
 /Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/obj/Debug/net6.0/scopedcss/projectbundle/FlexitHisMVC.bundle.scp.css
 /Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/obj/Debug/net6.0/FlexitHisMVC.csproj.CopyComplete
+/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/obj/Debug/net6.0/FlexitHisMVC.dll
+/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/obj/Debug/net6.0/refint/FlexitHisMVC.dll
+/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/obj/Debug/net6.0/FlexitHisMVC.pdb
 /Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/obj/Debug/net6.0/FlexitHisMVC.genruntimeconfig.cache
 /Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/obj/Debug/net6.0/ref/FlexitHisMVC.dll
