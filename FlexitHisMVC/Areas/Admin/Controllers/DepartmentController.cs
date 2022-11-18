@@ -44,7 +44,7 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
 
         [HttpPost]
         [Route("admin/departments/getBuildings")]
-        public IActionResult GetDepartments(long hospitalID)
+        public IActionResult GetBuildings(long hospitalID)
         {
             if (HttpContext.Session.GetInt32("userid") != null)
             {

@@ -71,6 +71,24 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
 
 
         }
+        [HttpGet]
+        public IActionResult DepartmentsByHospital(int hospitalID)
+        {
+            if (HttpContext.Session.GetInt32("userid") != null)
+            {
+                DepartmentsRepo departmentsRepo = new DepartmentsRepo(ConnectionString);
+
+                return Ok(departmentsRepo.GetDepartmentsByHospital(hospitalID));
+
+            }
+            else
+            {
+                return Unauthorized();
+            }
+
+
+
+        }
         [HttpPost]
         public IActionResult Create()
         {

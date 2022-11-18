@@ -159,7 +159,7 @@ FROM building_to_dep_rel a where buildingID = @buildingID ", connection))
                     using (MySqlCommand com = new MySqlCommand($@"SELECT *,
 (select name from department_type where id= a.depTypeID)as depTypeName,
 (select name from buildings where id= a.buildingID)as buildingName
-FROM building_to_dep_rel a where buildingID in (select id from buildings where hospitalID=1) ", connection))
+FROM building_to_dep_rel a where buildingID in (select id from buildings where hospitalID=@hospitalID) ", connection))
                     {
 
                         com.Parameters.AddWithValue("@hospitalID", hospitalID);

@@ -20,7 +20,7 @@
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-12">
-                            <button type="button" class="btn btn-primary " onclick=" $('#addPersonal').modal('show');">+ Əlavə et</button>
+                            <button type="button" class="btn btn-primary " onclick=" $('#patientSearch').modal('show')">+ Əlavə et</button>
                         </div>
                     </div>
                 </div>
@@ -35,7 +35,7 @@
 <div class="row">
     <div class="col-md-6">
         <div class="card ">
-            <div class="card-header bg-transparent ml-2 mr-2">
+            <div class="card-header bg-transparent">
                 Personal siyahısı
                 <div class="form-group float-right">
                     <div class="row">
@@ -55,7 +55,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card-header  ml-2 mr-2">
+            <div class="card-header ">
                 <div class="row">
                     <div class="col-6">Adı</div>
                     <div class="col-3">İxtisas</div>
@@ -63,7 +63,7 @@
                 </div>
 
             </div>
-            <div class="list-group-flush ml-3 mr-3" id="depTypesInBuilding">
+            <div class="list-group-flush " id="depTypesInBuilding">
 
                 @*<div class="row">
                         <div class="col">
@@ -136,174 +136,197 @@
 
                 </ul>
             </div>
-            <div class="card-body">
-                <div id="generalSettings">
-                    <ul class="nav nav-pills pb-3">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#">Əsas məlumatlar</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Təhlükəsizlik</a>
-                        </li>
+            <div class="m-3" id="generalSettings">
+                <ul class="nav nav-pills pb-3">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Əsas məlumatlar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Təhlükəsizlik</a>
+                    </li>
 
-                    </ul>
-                    <div class="row mt-3">
-                        <div class="col-8">
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label for="exampleFormControlSelect1">Registr kodu</label>
-                                        <input type="text" class="form-control" id="reqCode" placeholder="00000" aria-label="00000">
-
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="exampleFormControlSelect1">Ata adı</label>
-                                        <input type="text" class="form-control" id="father" placeholder="Cəbrayıl" aria-label="00000">
-
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label for="exampleFormControlSelect1">Doğum tarixi</label>
-                                        <input type="date" class="form-control" id="bDate" placeholder="00000" aria-label="00000">
-
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="exampleFormControlSelect1">İxtisas</label>
-                                        <input type="text" class="form-control" id="speciality" placeholder="Cəbrayıl" aria-label="00000">
-
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="form-group ">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label for="exampleFormControlSelect1">Mobil nömrə</label>
-                                        <input type="text" class="form-control" id="mobile" placeholder="00000" aria-label="00000">
-
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <div class="col-md-12" style="display:inline">
-                                                    <label for="exampleFormControlSelect1">E-poçt ünvanı</label>
-                                                    <input type="text" class="form-control" id="email" placeholder="Cəbrayıl" aria-label="00000">
-
-
-                                                </div>
-
-
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <div class="col-md-12" style="display:inline">
-                                                    <input class=" me-1 " type="checkbox" value="">
-                                                    <label for="exampleFormControlSelect1">email göndər</label>
-
-
-                                                </div>
-
-
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-4">
-                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlciUyMHByb2ZpbGV8ZW58MHx8MHx8&w=1000&q=80" class="rounded mx-auto d-block" style="max-width:120px; max-height:160px" alt="...">
-                        </div>
-                    </div>
-
-                    <div class="form-group border-top">
-                        <div class="row mt-3">
-                            <div class="col-md-6">
-                                <label for="exampleFormControlSelect1" st>Şifrə</label>
-                                <button type="button" class="form-control btn btn-light">Yeni şifrə təyini ></button>
-
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-md-12" style="display:inline">
-                                            <input class=" me-1 " id="isUser" type="checkbox" value="">
-                                            <label for="exampleFormControlSelect1">İstifadəçi</label>
-
-
-                                        </div>
-
-
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-md-12" style="display:inline">
-                                            <input class=" me-1 " id="isActive" type="checkbox" value="">
-                                            <label for="exampleFormControlSelect1">İşdən ayrılan personal</label>
-
-
-                                        </div>
-
-
-                                    </div>
-                                </div>
-                            </div>
-
-
-                        </div>
-                    </div>
-                </div>
-                <div id="positionSettings" style="display:none">
-                    <ul class="nav nav-pills pb-1">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#">Şöbələr</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Kassa</a>
-                        </li>
-
-                    </ul>
-
-                    <div class="row">
-
-
-                        <div class="col-12">
-
-                            <label>Hospital</label>
+                </ul>
+                <div class="row mt-3">
+                    <div class="col-8">
+                        <div class="form-group">
                             <div class="row">
-                                <div class="col-4">
-                                    <div class="dropdown">
+                                <div class="col-md-6">
+                                    <label for="exampleFormControlSelect1">Registr kodu</label>
+                                    <input type="text" class="form-control" id="reqCode" placeholder="00000" aria-label="00000">
 
-                                        <button class="btn btn-secondary dropdown-toggle w-100" type="button" id="userHospitals" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        </button>
-                                        <div class="dropdown-menu" id="userHospitalsMenu">
-                                            <h6 class="dropdown-header">Əlavə olunmuş müəssisələr</h6>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="exampleFormControlSelect1">Ata adı</label>
+                                    <input type="text" class="form-control" id="father" placeholder="Cəbrayıl" aria-label="00000">
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="exampleFormControlSelect1">Doğum tarixi</label>
+                                    <input type="date" class="form-control" id="bDate" placeholder="00000" aria-label="00000">
+
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="exampleFormControlSelect1">İxtisas</label>
+                                    <input type="text" class="form-control" id="speciality" placeholder="Cəbrayıl" aria-label="00000">
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="exampleFormControlSelect1">Mobil nömrə</label>
+                                    <input type="text" class="form-control" id="mobile" placeholder="00000" aria-label="00000">
+
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-12" style="display:inline">
+                                                <label for="exampleFormControlSelect1">E-poçt ünvanı</label>
+                                                <input type="text" class="form-control" id="email" placeholder="Cəbrayıl" aria-label="00000">
+
+
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-12" style="display:inline">
+                                                <input class=" me-1 " type="checkbox" value="">
+                                                <label for="exampleFormControlSelect1">email göndər</label>
+
+
+                                            </div>
+
+
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-8">
-                                    <button type="button" class="btn btn-light">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M15 13H13V15C13 15.55 12.55 16 12 16C11.45 16 11 15.55 11 15V13H9C8.45 13 8 12.55 8 12C8 11.45 8.45 11 9 11H11V9C11 8.45 11.45 8 12 8C12.55 8 13 8.45 13 9V11H15C15.55 11 16 11.45 16 12C16 12.55 15.55 13 15 13ZM12 2C6.486 2 2 6.486 2 12C2 17.514 6.486 22 12 22C17.514 22 22 17.514 22 12C22 6.486 17.514 2 12 2Z" fill="#2AAEAD" />
-                                        </svg> müəssisə əlavə et
-                                    </button>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlciUyMHByb2ZpbGV8ZW58MHx8MHx8&w=1000&q=80" class="rounded mx-auto d-block" style="max-width:120px; max-height:160px" alt="...">
+                    </div>
+                </div>
+
+                <div class="form-group border-top">
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <label for="exampleFormControlSelect1" st>Şifrə</label>
+                            <button type="button" class="form-control btn btn-light">Yeni şifrə təyini ></button>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-12" style="display:inline">
+                                        <input class=" me-1 " id="isUser" type="checkbox" value="">
+                                        <label for="exampleFormControlSelect1">İstifadəçi</label>
+
+
                                     </div>
+
+
                                 </div>
                             </div>
-                      
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-12" style="display:inline">
+                                        <input class=" me-1 " id="isActive" type="checkbox" value="">
+                                        <label for="exampleFormControlSelect1">İşdən ayrılan personal</label>
+
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
 
 
                     </div>
+                </div>
+            </div>
+            <div id="positionSettings" style="display:none">
+                <ul class="nav nav-pills m-3 mb-4">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Şöbələr</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Kassa</a>
+                    </li>
+
+                </ul>
+
+                <div class="ml-3 mb-3">
+
+
+
+
+                    <label>Müəssisə</label>
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="dropdown">
+
+                                <button class="btn btn-secondary dropdown-toggle w-100" type="button" id="userHospitals" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                </button>
+                                <div class="dropdown-menu" >
+                                    <h6 class="dropdown-header">Əlavə olunmuş müəssisələr</h6>
+                                    <div id="userHospitalsMenu">
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-8">
+                            <button type="button" class="btn btn-light" onclick="$('addHospital').modal('show')">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M15 13H13V15C13 15.55 12.55 16 12 16C11.45 16 11 15.55 11 15V13H9C8.45 13 8 12.55 8 12C8 11.45 8.45 11 9 11H11V9C11 8.45 11.45 8 12 8C12.55 8 13 8.45 13 9V11H15C15.55 11 16 11.45 16 12C16 12.55 15.55 13 15 13ZM12 2C6.486 2 2 6.486 2 12C2 17.514 6.486 22 12 22C17.514 22 22 17.514 22 12C22 6.486 17.514 2 12 2Z" fill="#2AAEAD" />
+                                </svg> müəssisə əlavə et
+                            </button>
+                        </div>
+                    </div>
+
+
+
 
                 </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card border-light">
+
+                            <div class="card-header ">
+                                <div class="row">
+                                    <div class="col-5">Şöbənin adı</div>
+                                    <div class="col-3">Tipi</div>
+                                    <div class="col-3 text-right">Görüntü</div>
+                                </div>
+
+                            </div>
+                            <div class="list-group-flush" id="depsInHospital">
+
+
+                             
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
 
@@ -748,7 +771,7 @@
                         $("#userHospitals").text(data[0].hospitalName);
                         $.each(data, function () {
 
-                            $("#userHospitalsMenu").append($(`<a id=${this.id} class='dropdown-item'  onclick="{  $('#userHospitals').text('${this.hospitalName}').val('${this.id}');}"/>`).text(this.hospitalName));
+                            $("#userHospitalsMenu").append($(`<a id=${this.id} class='dropdown-item'  onclick="{  $('#userHospitals').text('${this.hospitalName}').val('${this.id}');getDepartmentsByHospital(${this.id})}"/>`).text(this.hospitalName));
 
 
                         });
@@ -762,6 +785,49 @@
                 });
 
               }
+
+        function getDepartmentsByHospital(hospitalID) {
+            $("#depsInHospital").empty();
+            $.get(
+                "/Admin/Personal/DepartmentsByHospital",
+                { hospitalID: hospitalID },
+                function (data) {
+                    if (data.length > 0) {
+                     
+                        $.each(data, function () {
+                        
+                            $("#depsInHospital").append($(`
+
+<div class="list-group-item list-group-item-action dep-list" id=${this.id} onclick="$('.dep-list').removeClass('active');
+            $(this).addClass('active');">
+
+                            <div class="row">
+                                <div class="col-5">${this.name}</div>
+                                <div class="col-3">${this.type}</div>
+                                <div class="col-3 text-right"><input class=" me-1 " type="checkbox" value="">
+
+                                </div>
+                            </div>
+
+                        </div>
+
+
+`));
+
+
+                        });
+                    }
+                    else {
+                      
+                        $("#depsInHospital").empty();
+                      
+                        $("#depsInHospital").append($(`<a href="https://icons8.com/illustrations">Ouch!</a>`))
+
+                    }
+
+                });
+
+        }
 
 
         function personalClicked(component,obj)
