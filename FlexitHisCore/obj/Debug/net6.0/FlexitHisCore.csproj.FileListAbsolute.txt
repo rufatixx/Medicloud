@@ -15,3 +15,8 @@
 /Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisCore/obj/Debug/net6.0/FlexitHisCore.AssemblyInfoInputs.cache
 /Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisCore/obj/Debug/net6.0/FlexitHisCore.AssemblyInfo.cs
 /Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisCore/obj/Debug/net6.0/FlexitHisCore.csproj.CoreCompileInputs.cache
+/Users/admin/Projects/FlexitHisMVC/FlexitHisCore/obj/Debug/net6.0/FlexitHisCore.csproj.AssemblyReference.cache
+/Users/admin/Projects/FlexitHisMVC/FlexitHisCore/obj/Debug/net6.0/FlexitHisCore.GeneratedMSBuildEditorConfig.editorconfig
+/Users/admin/Projects/FlexitHisMVC/FlexitHisCore/obj/Debug/net6.0/FlexitHisCore.AssemblyInfoInputs.cache
+/Users/admin/Projects/FlexitHisMVC/FlexitHisCore/obj/Debug/net6.0/FlexitHisCore.AssemblyInfo.cs
+/Users/admin/Projects/FlexitHisMVC/FlexitHisCore/obj/Debug/net6.0/FlexitHisCore.csproj.CoreCompileInputs.cache

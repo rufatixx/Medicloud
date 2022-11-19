@@ -10,14 +10,8 @@
   <ItemGroup>
     <None Remove="Entities\" />
     <None Remove="Entities\Admin\" />
-    <None Remove="Repositories\" />
     <None Remove="MySql.Data" />
     <None Remove="Serilog.AspNetCore" />
-    <None Remove="Repositories\Admin\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Repositories\" />
-    <Folder Include="Repositories\Admin\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MySql.Data" Version="8.0.31" />

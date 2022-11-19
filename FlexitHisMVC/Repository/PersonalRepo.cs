@@ -2,7 +2,6 @@
 using System.Net.NetworkInformation;
 using FlexitHisMVC.Models;
 using MySql.Data.MySqlClient;
-using Org.BouncyCastle.Asn1.X509.SigI;
 
 namespace FlexitHisMVC.Data
 {
@@ -138,7 +137,7 @@ namespace FlexitHisMVC.Data
 
 
                         }
-                       
+
                     }
 
                 }
@@ -146,9 +145,58 @@ namespace FlexitHisMVC.Data
             }
             return personal;
         }
-        //public List<PersonalStruct> UpdatePersonal(int userID, string name, string surname, string father, string phone, string email, string bDate, string pwd)
+        public int InsertPersonal(string name, string surname, string father,string passportSerialNum,string fin, string phone, string email, string bDate, string username, string pwd, int isUser)
+        {
+            int lastID = 0;
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+                {
+
+
+
+
+                    connection.Open();
+                    using (MySqlCommand com = new MySqlCommand(@"Insert INTO users (name,surname,father,mobile,email,bdate,username,pwd,isUser)
+values (@name,@surname,@father,@mobile,@email,@bDate,@username,@pwd,@isUser)", connection))
+                    {
+                        com.Parameters.AddWithValue("@name", name);
+                        com.Parameters.AddWithValue("@surname", surname);
+                        com.Parameters.AddWithValue("@father", father);
+                        com.Parameters.AddWithValue("@passportSerialNum", passportSerialNum);
+                        com.Parameters.AddWithValue("@fin", fin);
+                        com.Parameters.AddWithValue("@mobile", phone);
+                        com.Parameters.AddWithValue("@email", email);
+                        com.Parameters.AddWithValue("@bDate", bDate);
+                        com.Parameters.AddWithValue("@username", username);
+                        com.Parameters.AddWithValue("@pwd", pwd);
+                        com.Parameters.AddWithValue("@isUser", isUser);
+
+                        lastID = com.ExecuteNonQuery();
+
+
+                    }
+                    connection.Close();
+
+
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex.Message);
+
+
+            }
+            return lastID;
+        }
+
+        //public bool UpdatePersonal(int userID, string name, string surname, string father, string phone, string email, string bDate, string pwd)
         //{
-        //    List<PersonalStruct> personalList = new List<PersonalStruct>();
+        //    List<Personal> personalList = new List<Personal>();
         //    try
         //    {
         //        using (MySqlConnection connection = new MySqlConnection(ConnectionString))
@@ -197,14 +245,13 @@ namespace FlexitHisMVC.Data
         //    }
         //    catch (Exception ex)
         //    {
-        //        FlexitHisCore.StandardMessages.CallSerilog(ex);
+
         //        Console.WriteLine(ex.Message);
 
 
         //    }
         //    return personalList;
         //}
-
 
     }
 }

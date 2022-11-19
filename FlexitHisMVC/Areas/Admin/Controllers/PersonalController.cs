@@ -90,16 +90,18 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
 
         }
         [HttpPost]
-        public IActionResult Create()
+        public IActionResult Add(string name, string surname, string father, string passportSerialNum, string fin, string phone, string email, string bDate, string username, string pwd, int isUser)
         {
             if (HttpContext.Session.GetInt32("userid") != null)
             {
-                return View();
+                PersonalRepo personal = new PersonalRepo(ConnectionString);
+               
+                return Ok(personal.InsertPersonal( name,  surname,  father,  passportSerialNum,  fin,  phone,  email,  bDate,  username,  pwd,  isUser));
 
             }
             else
             {
-                return RedirectToAction("Index", "Login", new { area = "" });
+                return Unauthorized();
             }
 
 
