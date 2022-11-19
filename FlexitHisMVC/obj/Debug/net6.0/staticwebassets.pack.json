@@ -269,6 +269,10 @@
       "PackagePath": "staticwebassets/lib/jquery/dist/jquery.min.map"
     },
     {
+      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/empty.png",
+      "PackagePath": "staticwebassets/res/empty.png"
+    },
+    {
       "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/login_bg.png",
       "PackagePath": "staticwebassets/res/login_bg.png"
     },

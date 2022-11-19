@@ -6,7 +6,6 @@ using FlexitHisCore.Models;
 using FlexitHisCore.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using FlexitHisMVC.Models;
-using FlexitHisMVC.Models;
 using FlexitHisMVC.Areas.Admin.Model;
 using FlexitHisMVC.Data;
 
@@ -64,21 +63,16 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
 
 
         }
-        [HttpPost]
-        [Route("admin/departments/getDepartments")]
-        public IActionResult GetDepartments(int buildingID, int depTypeID)
+        [HttpGet]
+
+        public IActionResult GetDepartmentsByUser(int userID)
         {
             if (HttpContext.Session.GetInt32("userid") != null)
             {
 
                 DepartmentsRepo select = new DepartmentsRepo(ConnectionString);
-                var list = select.GetDepartments();
-
-                list.Reverse();
-                ResponseDTO<Department> response = new ResponseDTO<Department>();
-                response.data = new List<Department>();
-                response.data.AddRange(list);
-                return Ok(response);
+               
+                return Ok(select.GetDepartmentsByUser(Convert.ToInt32(HttpContext.Session.GetInt32("userid"))));
 
             }
             else

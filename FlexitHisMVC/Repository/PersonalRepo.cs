@@ -22,7 +22,7 @@ namespace FlexitHisMVC.Data
             {
 
                 connection.Open();
-                using (MySqlCommand com = new MySqlCommand("SELECT *,(select name from speciality where a.specialityID = id )as specialityName FROM personal a ", connection))
+                using (MySqlCommand com = new MySqlCommand("SELECT *,(select name from speciality where a.specialityID = id )as specialityName FROM users a ", connection))
                 {
 
                     MySqlDataReader reader = com.ExecuteReader();
@@ -71,7 +71,7 @@ namespace FlexitHisMVC.Data
             {
 
                 connection.Open();
-                using (MySqlCommand com = new MySqlCommand("SELECT * FROM personal where referral = 1;", connection))
+                using (MySqlCommand com = new MySqlCommand("SELECT * FROM users where referral = 1;", connection))
                 {
 
                     MySqlDataReader reader = com.ExecuteReader();
@@ -111,7 +111,7 @@ namespace FlexitHisMVC.Data
             {
 
                 connection.Open();
-                using (MySqlCommand com = new MySqlCommand("select * from personal where pwd=SHA2(@pass,256) and username = @username and isActive=1 and isUser=1", connection))
+                using (MySqlCommand com = new MySqlCommand("select * from users where pwd=SHA2(@pass,256) and username = @username and isActive=1 and isUser=1", connection))
                 {
 
                     com.Parameters.AddWithValue("@pass", pass);

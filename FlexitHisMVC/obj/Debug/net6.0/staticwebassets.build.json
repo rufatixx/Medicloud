@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "7hZIwh/9wN6plSOxViGQ7G1KLetSoHnjWnmO6rdOwB4=",
+  "Hash": "a4bnuRMkYeOhBtr5c9A9NG5bEXjPB0xJQ7Dk/7+ZSjA=",
   "Source": "FlexitHisMVC",
   "BasePath": "_content/FlexitHisMVC",
   "Mode": "Default",
@@ -1171,6 +1171,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/lib/jquery/LICENSE.txt"
+    },
+    {
+      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/empty.png",
+      "SourceId": "FlexitHisMVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "BasePath": "_content/FlexitHisMVC",
+      "RelativePath": "res/empty.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/res/empty.png"
     },
     {
       "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/login_bg.png",

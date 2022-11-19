@@ -57,7 +57,7 @@ namespace FlexitHisMVC.Controllers
 
                 DepartmentsRepo departmentsDAO = new DepartmentsRepo(ConnectionString);
 
-                pageStruct.departments.AddRange(departmentsDAO.GetDepartments());
+                pageStruct.departments.AddRange(departmentsDAO.GetDepartmentsByUser(1));
 
                 PersonalRepo personalDAO = new PersonalRepo(ConnectionString);
 

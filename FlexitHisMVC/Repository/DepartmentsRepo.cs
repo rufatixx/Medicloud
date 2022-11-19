@@ -14,7 +14,7 @@ namespace FlexitHisMVC.Data
             ConnectionString = conString;
         }
 
-        public List<Department> GetDepartments()
+        public List<Department> GetDepartmentsByUser(int userID)
 
         {
           
@@ -27,9 +27,9 @@ namespace FlexitHisMVC.Data
 
                     connection.Open();
 
-                    using (MySqlCommand com = new MySqlCommand($@"SELECT * FROM departments", connection))
+                    using (MySqlCommand com = new MySqlCommand($@"SELECT * FROM user_dep_rel where userID = @userID", connection))
                     {
-
+                        com.Parameters.AddWithValue("@userID", userID);
 
                         MySqlDataReader reader = com.ExecuteReader();
                         if (reader.HasRows)
@@ -41,10 +41,7 @@ namespace FlexitHisMVC.Data
 
                                 Department department = new Department();
                                 department.ID = Convert.ToInt64(reader["id"]);
-                                department.name = reader["name"] == DBNull.Value ? "" : reader["name"].ToString();
-                                //department.typeID = Convert.ToInt64(reader["depTypeID"]);
-                                //department.type = reader["typeName"] == DBNull.Value ? "" : reader["typeName"].ToString();
-
+                             
 
 
                                 depList.Add(department);
@@ -93,7 +90,7 @@ namespace FlexitHisMVC.Data
                     using (MySqlCommand com = new MySqlCommand($@"SELECT *,
 (select name from department_type where id= a.depTypeID)as depTypeName,
 (select name from buildings where id= a.buildingID)as buildingName
-FROM building_to_dep_rel a where buildingID = @buildingID ", connection))
+FROM departments a where buildingID = @buildingID ", connection))
                     {
 
                         com.Parameters.AddWithValue("@buildingID", buildingID);
@@ -159,7 +156,7 @@ FROM building_to_dep_rel a where buildingID = @buildingID ", connection))
                     using (MySqlCommand com = new MySqlCommand($@"SELECT *,
 (select name from department_type where id= a.depTypeID)as depTypeName,
 (select name from buildings where id= a.buildingID)as buildingName
-FROM building_to_dep_rel a where buildingID in (select id from buildings where hospitalID=@hospitalID) ", connection))
+FROM departments a where buildingID in (select id from buildings where hospitalID=@hospitalID) ", connection))
                     {
 
                         com.Parameters.AddWithValue("@hospitalID", hospitalID);
@@ -226,7 +223,7 @@ FROM building_to_dep_rel a where buildingID in (select id from buildings where h
 
 
 
-                    using (MySqlCommand com = new MySqlCommand(@"Insert INTO building_to_dep_rel (buildingID,depName,depTypeID) values (@buildingID,@depName,@depTypeID)", connection))
+                    using (MySqlCommand com = new MySqlCommand(@"Insert INTO departments (buildingID,depName,depTypeID) values (@buildingID,@depName,@depTypeID)", connection))
 
                     {
                         com.Parameters.AddWithValue("@buildingID", buildingID);
@@ -278,7 +275,7 @@ FROM building_to_dep_rel a where buildingID in (select id from buildings where h
 
 
 
-                    using (MySqlCommand com = new MySqlCommand(@"UPDATE building_to_dep_rel
+                    using (MySqlCommand com = new MySqlCommand(@"UPDATE departments
 SET buildingID = @buildingID,genderID = @genderID, depTypeID= @depTypeID, DrIsRequired = @DrIsRequired, isActive = @isActive, isRandevuActive =@isRandevuActive
 WHERE id = @id;", connection))
 
