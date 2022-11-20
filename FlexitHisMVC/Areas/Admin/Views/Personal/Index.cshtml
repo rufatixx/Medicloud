@@ -1,7 +1,22 @@
 ﻿
 @model FlexitHisMVC.Areas.Admin.Model.PersonalPageDTO
+<div class="page-header m-1" style="display:inline">
+    <div class="row">
+        <div class="col-2 border-right"> <h1>Personal tərifi</h1></div>
+        <div class="col-9"> <h1>  <button type="button" class="btn btn-primary " onclick=" $('#addPersonal').modal('show')">+ Əlavə et</button></h1></div>
 
-<div class="row">
+    </div>
+   
+
+  
+</div>
+    @*<div class="jumbotron jumbotron-fluid">
+        <div class="container">
+          
+
+        </div>
+    </div>*@
+<!--<div class="row m-3 ml-0 ">
     <div class="col-12 ">
         <div class="row">
             <div class="col-4">
@@ -28,9 +43,9 @@
             </div>
 
         </div>
-    </div>
+    </div>-->
     <!-- <div class="col-6 text-right ">     <button type="button" class="btn btn-dark " onclick=" $('#patientSearch').modal('show');">Axtar</button></div> -->
-</div>
+<!--</div>-->
 
 <div class="row">
     <div class="col-md-6">
@@ -63,7 +78,7 @@
                 </div>
 
             </div>
-            <div class="list-group-flush " id="depTypesInBuilding">
+            <div class="list-group-flush" style="height: 50vh; overflow-y: auto" id="depTypesInBuilding">
 
                 @*<div class="row">
                         <div class="col">
@@ -142,7 +157,6 @@
                         <a class="nav-link active" href="#">Əsas məlumatlar</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Təhlükəsizlik</a>
                     </li>
 
                 </ul>
@@ -223,13 +237,13 @@
                 </div>
 
                 <div class="form-group border-top">
-                    <div class="row mt-3">
-                        <div class="col-md-6">
-                            <label for="exampleFormControlSelect1" st>Şifrə</label>
-                            <button type="button" class="form-control btn btn-light">Yeni şifrə təyini ></button>
+                    <div class="row mt-3 ">
+                        <div class="col-md-5 ">
+                            <label >Şifrə</label>
+                            <button type="button" class="form-control btn text-dark text-left pl-0">Yeni şifrə təyini</button>
 
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-5 ">
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-12" style="display:inline">
@@ -255,10 +269,19 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-2 text-right mt-auto">
+                            <div class="row">
+                                <div class="col-md-12" style="display:inline">
+                                     <button type="button" class="btn text-info">Yadda saxla</button>
+
+                                </div>
 
 
+                            </div>
+                           
+                        </div>
+                        </div>
                     </div>
-                </div>
             </div>
             <div id="positionSettings" style="display:none">
                 <ul class="nav nav-pills m-3 mb-4">
@@ -330,7 +353,7 @@
             </div>
 
 
-            <div class="card-footer"> <button type="button" class="btn btn-info float-right">Yadda saxla</button></div>
+           
         </div>
 
 
@@ -397,10 +420,8 @@
                                     <div class="col-md-12">
 
 
-                                        <label >Xəstəxanalar</label>
+                                        <label>Xəstəxanalar</label>
                                         <select class="form-control dropdown" required id="gender">
-                                        
-
                                         </select>
 
                                     </div>
@@ -445,7 +466,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form>
+                <form class="needs-validation container" novalidate>
 
 
                     <div class="row">
@@ -456,7 +477,7 @@
                                 <div class="row">
 
                                     <div class="col-md-12 text-center">
-                                        <img src="/res/pencil.svg" />
+                                        <img src="/res/user.svg" />
 
                                     </div>
 
@@ -494,7 +515,7 @@
                                         <!-- <select class="form-control" id="departments">
                 </select> -->
 
-                                        <input type="text" class="form-control" required id="companyName"
+                                        <input type="text" class="form-control" required id="newUserName"
                                                placeholder="Daxil edin">
                                         <div class="valid-feedback">
                                             Əla!
@@ -512,7 +533,7 @@
                                         <!-- <select class="form-control" id="departments">
                 </select> -->
 
-                                        <input type="text" class="form-control" required id="companyName"
+                                        <input type="text" class="form-control" required id="newUserSurname"
                                                placeholder="Daxil edin">
                                         <div class="valid-feedback">
                                             Əla!
@@ -544,7 +565,7 @@
                                         <!-- <select class="form-control" id="departments">
                 </select> -->
 
-                                        <input type="text" class="form-control" required id="companyName"
+                                        <input type="text" class="form-control" required id="newUserFather"
                                                placeholder="Daxil edin">
                                         <div class="valid-feedback">
                                             Əla!
@@ -562,7 +583,7 @@
                                         <!-- <select class="form-control" id="departments">
                 </select> -->
 
-                                        <input type="date" class="form-control" required id="companyName"
+                                        <input type="date" class="form-control" required id="newUserBDate"
                                                placeholder="Daxil edin">
                                         <div class="valid-feedback">
                                             Əla!
@@ -594,7 +615,7 @@
                                         <!-- <select class="form-control" id="departments">
                 </select> -->
 
-                                        <input type="text" class="form-control" required id="companyName"
+                                        <input type="text" class="form-control" required id="newUserPassportSerialNo"
                                                placeholder="Daxil edin">
                                         <div class="valid-feedback">
                                             Əla!
@@ -612,7 +633,7 @@
                                         <!-- <select class="form-control" id="departments">
                 </select> -->
 
-                                        <input type="text" class="form-control" required id="companyName"
+                                        <input type="text" class="form-control" required id="newUserFin"
                                                placeholder="Daxil edin">
                                         <div class="valid-feedback">
                                             Əla!
@@ -644,7 +665,7 @@
                                         <!-- <select class="form-control" id="departments">
                 </select> -->
 
-                                        <input type="text" class="form-control" required id="companyName"
+                                        <input type="text" class="form-control" id="newUserMobile"
                                                placeholder="Daxil edin">
                                         <div class="valid-feedback">
                                             Əla!
@@ -662,7 +683,7 @@
                                         <!-- <select class="form-control" id="departments">
                 </select> -->
 
-                                        <input type="text" class="form-control" required id="companyName"
+                                        <input type="text" class="form-control" id="newUserEmail"
                                                placeholder="Daxil edin">
                                         <div class="valid-feedback">
                                             Əla!
@@ -683,7 +704,7 @@
 
 
                             </div>
-                            <div class="form-group border-bottom pb-3">
+                            <div class="form-group ">
                                 <!-- <h3 style="text-align:right; margin-right:2%"><span class="badge badge-secondary">Cəmi: ---</span></h1> -->
                                 <div class="row">
 
@@ -693,10 +714,10 @@
 
                                         <label>İxtisas</label>
                                         <div>
-                                            <div class="btn-group">
-                                                <input class="btn btn-light text-left specialityDrpTitle" placeholder="Əlavə edin" />
-                                                <button type="button" class="border-left  btn btn-light dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <span class="sr-only">Toggle Dropdown</span>
+                                            <div class="dropdown">
+
+                                                <button type="button" class="btn btn-secondary dropdown-toggle w-100" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <span class="justify-content-end newUserSpeciality">Seçin...</span>
                                                 </button>
 
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -704,7 +725,7 @@
                                                         foreach (var item in Model.specialityList)
 
                                                         {
-                                                            <a class="dropdown-item" id="@item.id" onclick="{$('.specialityDrpTitle').val('@item.name');$('.specialityDrpTitle').attr('id','@item.id');}">@item.name</a>
+                                                            <a class="dropdown-item" id="@item.id" onclick="{$('.newUserSpeciality').text('@item.name');$('.newUserSpeciality').attr('id','@item.id');}">@item.name</a>
 
                                                             @*<a class="list-group-item list-group-item-action personal-list" ></a>*@
                                                         }
@@ -728,6 +749,21 @@
 
 
                             </div>
+                            <div class="form-group border-bottom pb-3">
+                                <div class="row">
+
+                                   
+                                    <div class="col-md-6 ">
+                                        <label >Həkim</label>
+                                        <input class=" me-1 " id="isDr" type="checkbox" value="">
+
+
+                                    </div>
+
+
+
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <div class="row">
 
@@ -737,7 +773,7 @@
                                     </div>
                                     <div class="col-md-2 ">
                                         <label for="exampleFormControlSelect1">İstifadəçi</label>
-                                        <input class=" me-1 " id="isUser" type="checkbox" value="">
+                                        <input class=" me-1 " id="isUser" type="checkbox" onclick="checkIsUserBox(this)" value="">
 
 
                                     </div>
@@ -757,7 +793,7 @@
                                         <!-- <select class="form-control" id="departments">
                 </select> -->
 
-                                        <input type="text" class="form-control" required id="companyName"
+                                        <input type="text" class="form-control" id="newUserUsername"
                                                placeholder="Daxil edin">
                                         <div class="valid-feedback">
                                             Əla!
@@ -775,7 +811,7 @@
                                         <!-- <select class="form-control" id="departments">
                 </select> -->
 
-                                        <input type="text" class="form-control" required id="companyName"
+                                        <input type="text" class="form-control" id="newUserPwd"
                                                placeholder="Daxil edin">
                                         <div class="valid-feedback">
                                             Əla!
@@ -804,7 +840,7 @@
 
 
                                         <button type="button" class="btn btn-primary justify-content-center"
-                                                onclick="insertCompany()">
+                                                onclick="addPersonal()">
                                             Əlavə et
                                         </button>
 
@@ -840,6 +876,145 @@
 {
 
     <script>
+        var newPersonalIsUser = 0;
+        function checkIsUserBox(state) {
+            if ($(state).is(':checked'))
+            {
+                $("#newUserUsername").prop('required', true);
+                $("#newUserPwd").prop('required', true);
+                newPersonalIsUser = 1;
+            }
+            else {
+                newPersonalIsUser = 0;
+                $("#newUserUsername").prop('required', false);
+                $("#newUserPwd").prop('required', false);
+            }
+
+        }
+
+
+        function addPersonal() {
+
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function (form) {
+
+
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    //alert('sucess');
+                }
+                //else {
+                //    form.reportValidity()
+                //    //alert('asas');
+                //}
+                form.classList.add('was-validated');
+
+
+            });
+
+            if (forms[0].checkValidity()) {
+                var newUserIsDr = 0;
+
+                if ($("#isDr").is(':checked')) {
+                    newUserIsDr = 1;
+                }
+                
+
+                var name = $('#newUserName').val();
+                var surname = $('#newUserSurname').val();
+                var father = $('#newUserFather').val();
+                var phone = $('#newUserMobile').val();
+                var email = $('#newUserEmail').val();
+                var bDate = $('#newUserBDate').val()
+                var fin = $("#newUserFin").val();
+                var passportSerialNo = $("#newUserPassportSerialNo").val();
+                var username = $("#newUserUsername").val();
+                var password = $("#newUserPwd").val();
+                var specialityID = $('.newUserSpeciality').attr('id')
+
+                //var date = new Date(bDate);
+                //var isoBdate = date.toISOString()
+
+                $('#systemModal').modal('show');
+                $('#systemModalTitle').text("Yüklənir...");
+                $('#systemModalText').html(`<center><div class="spinner-border text-dark mx-auto" role="status">
+    <span class="sr-only">Loading...</span>
+  </div></center>`);
+                $('#systemModalBtn').attr("hidden", "");
+
+                $.ajax({
+
+                    type: "POST",
+                    url: "/Admin/Personal/Add",
+                    data: {
+                            "name": name,
+                            "surname": surname,
+                        "father": father,
+                        "specialityID": specialityID,
+                        "passportSerialNum": passportSerialNo,
+                        "fin": fin,
+                        "phone": phone,
+                        "email": email,
+                        "username": username,
+                        "pwd": password,
+                        "isUser": newPersonalIsUser,
+                        "bDate": bDate,
+                        "isDr": newUserIsDr
+                        },
+                    success: function (data, status, xhr) {   // success callback function
+                        //  var json = JSON.stringify(data)
+                        if (data == 1) {
+                            $('#systemModal').modal('hide')
+                            $('#warningModal').modal('show')
+                            $('#warningText').text('Personal əlavə olundu!');
+                        }
+                        else {
+                            $('#systemModal').modal('hide')
+                            $('#warningModal').modal('show')
+                            $('#warningText').text('Personal artıq mövcuddur!'); }
+                       
+
+
+
+                    },
+                    error: function (jqXhr, textStatus, errorMessage)
+                    {
+
+                        //alert(jqXhr.status)// error callback
+
+                        if (jqXhr.status == 401) {
+
+                            $('#systemModalTitle').text("Sessiyanız başa çatıb");
+                            $('#systemModalText').html(`<p id="systemModalText">Zəhmət olmasa yenidən giriş edin</p>`);
+                            $('#systemModalBtn').removeAttr("hidden");
+                        }
+                        else {
+                            $('#systemModal').modal('hide');
+                            $('#warningModal').modal('show')
+                            $('#warningText').text('Xəta, biraz sonra yenidən cəhd edin');
+                            //  $('#alert').text('Error: ' + errorMessage);
+                        }
+                    }
+
+                });
+                // alert(`
+                // cfn: `+clientFullName+`
+                // cp: `+clientPhone+`
+                // kvm: `+kvm+`
+                // price: `+price+`
+                // payment: `+payment+`
+                // note: `+note+`
+                // productModel: `+productModel+`
+                // productEndDate: `+isoEndDate+`
+                //
+                //   `)
+
+            }
+        }
+
+
         var selectedPersonalID = @Model.personalList[0].ID;
         $("#reqCode").val(@Model.personalList[0].ID);
 

@@ -21,6 +21,7 @@ namespace FlexitHisMVC.Data
             {
 
                 connection.Open();
+         
                 using (MySqlCommand com = new MySqlCommand("SELECT *,(select name from speciality where a.specialityID = id )as specialityName FROM users a ", connection))
                 {
 
@@ -34,18 +35,18 @@ namespace FlexitHisMVC.Data
 
                             Personal personal = new Personal();
                             personal.ID = Convert.ToInt32(reader["id"]);
-                            personal.depID = Convert.ToInt32(reader["departmentID"]);
-                            personal.name = reader["name"].ToString();
-                            personal.surname = reader["surname"].ToString();
-                            personal.father = reader["father"].ToString();
-                            personal.mobile = reader["mobile"].ToString();
-                            personal.email = reader["email"].ToString();
+                            personal.depID = reader["departmentID"] == DBNull.Value ? 0 : Convert.ToInt32(reader["departmentID"]);  
+                            personal.name = reader["name"] == DBNull.Value ? "" : reader["name"].ToString();
+                            personal.surname = reader["surname"] == DBNull.Value ? "" : reader["surname"].ToString();
+                            personal.father = reader["father"] == DBNull.Value ? "" : reader["father"].ToString();
+                            personal.mobile = reader["mobile"] == DBNull.Value ? "" : reader["mobile"].ToString(); 
+                            personal.email = reader["email"] == DBNull.Value ? "" : reader["email"].ToString();
 
-                            personal.bDate = Convert.ToDateTime(reader["bDate"]).Date;
-                            personal.speciality = reader["specialityName"].ToString();
-                            personal.isActive = Convert.ToBoolean(reader["isActive"]);
-                            personal.isUser = Convert.ToBoolean(reader["isUser"]);
-                            personal.isDr = Convert.ToBoolean(reader["isDr"]);
+                            personal.bDate = reader["bDate"] == DBNull.Value ? DateTime.Now.Date : Convert.ToDateTime(reader["bDate"]).Date; 
+                            personal.speciality = reader["specialityName"] == DBNull.Value ? "" : reader["specialityName"].ToString();
+                            personal.isActive = reader["isActive"] == DBNull.Value ? false : Convert.ToBoolean(reader["isActive"]);
+                            personal.isUser = reader["isUser"] == DBNull.Value ? false : Convert.ToBoolean(reader["isUser"]);
+                            personal.isDr = reader["isDr"] == DBNull.Value ? false : Convert.ToBoolean(reader["isDr"]);
 
                             personalList.Add(personal);
 
@@ -145,7 +146,7 @@ namespace FlexitHisMVC.Data
             }
             return personal;
         }
-        public int InsertPersonal(string name, string surname, string father,string passportSerialNum,string fin, string phone, string email, string bDate, string username, string pwd, int isUser)
+        public int InsertPersonal(string name, string surname, string father,int specialityID, string passportSerialNum,string fin, string phone, string email, string bDate, string username, string pwd, int isUser,int isDr)
         {
             int lastID = 0;
             try
@@ -154,15 +155,31 @@ namespace FlexitHisMVC.Data
                 {
 
 
-
+                    var sql = "";
 
                     connection.Open();
-                    using (MySqlCommand com = new MySqlCommand(@"Insert INTO users (name,surname,father,mobile,email,bdate,username,pwd,isUser)
-values (@name,@surname,@father,@mobile,@email,@bDate,@username,@pwd,@isUser)", connection))
+                    if (isUser == 1 && !string.IsNullOrEmpty(username))
+                    {
+                        sql = @"Insert INTO users (name,surname,father,specialityID, mobile,email,bdate,username,pwd,isUser,isDr)
+SELECT @name,@surname,@father,@specialityID,@mobile,@email,@bDate,@username,SHA2(@pwd,256),@isUser,@isDr FROM DUAL
+WHERE NOT EXISTS 
+  (SELECT * FROM users WHERE name=@name and surname=@surname and father= @father or username = @username)";
+
+                    }
+                    else {
+                        sql = @"Insert INTO users (name,surname,father,specialityID, mobile,email,bdate,isUser,isDr)
+SELECT @name,@surname,@father,@specialityID,@mobile,@email,@bDate,@isUser,@isDr FROM DUAL
+WHERE NOT EXISTS 
+  (SELECT * FROM users WHERE name=@name and surname=@surname and father= @father)";
+                      
+                    }
+                   
+                    using (MySqlCommand com = new MySqlCommand(sql, connection))
                     {
                         com.Parameters.AddWithValue("@name", name);
                         com.Parameters.AddWithValue("@surname", surname);
                         com.Parameters.AddWithValue("@father", father);
+                        com.Parameters.AddWithValue("@specialityID", specialityID);
                         com.Parameters.AddWithValue("@passportSerialNum", passportSerialNum);
                         com.Parameters.AddWithValue("@fin", fin);
                         com.Parameters.AddWithValue("@mobile", phone);
@@ -171,6 +188,7 @@ values (@name,@surname,@father,@mobile,@email,@bDate,@username,@pwd,@isUser)", c
                         com.Parameters.AddWithValue("@username", username);
                         com.Parameters.AddWithValue("@pwd", pwd);
                         com.Parameters.AddWithValue("@isUser", isUser);
+                        com.Parameters.AddWithValue("@isDr", isDr);
 
                         lastID = com.ExecuteNonQuery();
 

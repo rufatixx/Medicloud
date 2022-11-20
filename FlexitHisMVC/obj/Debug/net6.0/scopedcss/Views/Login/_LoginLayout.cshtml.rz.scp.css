@@ -1,0 +1,24 @@
+  .bg-image[b-gdubaj1td5] {
+            /* The image used */
+            background-image: url('/res/login_bg.png');
+            /* Add the blur effect */
+            -webkit-filter: blur(50px);
+            -moz-filter: blur(50px);
+            -o-filter: blur(50px);
+            -ms-filter: blur(50px);
+            filter: blur(50px);
+            /* Full height */
+            height: 80%;
+            /* Center and scale the image nicely */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+            position: fixed;
+            left: 0px;
+            right: 0px;
+            margin-left: 100px;
+            margin-right: 100px;
+            margin-bottom: 50px;
+            z-index: -1;
+            display: block;
+        }

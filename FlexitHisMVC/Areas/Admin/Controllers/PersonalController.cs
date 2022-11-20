@@ -90,13 +90,13 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
 
         }
         [HttpPost]
-        public IActionResult Add(string name, string surname, string father, string passportSerialNum, string fin, string phone, string email, string bDate, string username, string pwd, int isUser)
+        public IActionResult Add(string name, string surname, string father,int specialityID, string passportSerialNum, string fin, string phone, string email, string bDate, string username, string pwd, int isUser,int isDr)
         {
             if (HttpContext.Session.GetInt32("userid") != null)
             {
                 PersonalRepo personal = new PersonalRepo(ConnectionString);
                
-                return Ok(personal.InsertPersonal( name,  surname,  father,  passportSerialNum,  fin,  phone,  email,  bDate,  username,  pwd,  isUser));
+                return Ok(personal.InsertPersonal( name,  surname,  father,specialityID,  passportSerialNum,  fin,  phone,  email,  bDate,  username,  pwd,  isUser, isDr));
 
             }
             else
