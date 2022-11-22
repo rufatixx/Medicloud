@@ -90,6 +90,54 @@ namespace FlexitHisMVC.Data
             }
             return hospitalList;
         }
+        public int InsertHospital(int hospitalID, int userID)
+        {
+            int lastID = 0;
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+                {
+
+
+                    var sql = "";
+
+                    connection.Open();
+
+                    sql = @"Insert INTO user_hospital_rel (hospitalID,userID)
+SELECT @hospitalID,@userID FROM DUAL
+WHERE NOT EXISTS 
+  (SELECT * FROM user_hospital_rel WHERE hospitalID=@hospitalID and userID=@userID )";
+
+
+
+                    using (MySqlCommand com = new MySqlCommand(sql, connection))
+                    {
+                        com.Parameters.AddWithValue("@hospitalID", hospitalID);
+                        com.Parameters.AddWithValue("@userID", userID);
+
+
+                        lastID = com.ExecuteNonQuery();
+
+
+                    }
+                    connection.Close();
+
+
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex.Message);
+
+
+            }
+            return lastID;
+        }
+
     }
 }
 

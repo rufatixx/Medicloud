@@ -277,6 +277,14 @@
       "PackagePath": "staticwebassets/res/login_bg.png"
     },
     {
+      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/logo.png",
+      "PackagePath": "staticwebassets/res/logo.png"
+    },
+    {
+      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/logo_transparent.png",
+      "PackagePath": "staticwebassets/res/logo_transparent.png"
+    },
+    {
       "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/module.png",
       "PackagePath": "staticwebassets/res/module.png"
     },

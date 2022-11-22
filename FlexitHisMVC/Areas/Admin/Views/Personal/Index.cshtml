@@ -78,7 +78,7 @@
                 </div>
 
             </div>
-            <div class="list-group-flush" style="height: 50vh; overflow-y: auto" id="depTypesInBuilding">
+            <div class="list-group-flush" style="max-height: 50vh; overflow-y: auto" id="depTypesInBuilding">
 
                 @*<div class="row">
                         <div class="col">
@@ -128,8 +128,10 @@
 
                         </div>
                         @*<a class="list-group-item list-group-item-action personal-list" ></a>*@
-                    }
-                }
+                                        }
+
+
+}
 
 
             </div>
@@ -329,7 +331,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card border-light">
-
+                           
                             <div class="card-header ">
                                 <div class="row">
                                     <div class="col-5">Şöbənin adı</div>
@@ -338,7 +340,7 @@
                                 </div>
 
                             </div>
-                            <div class="list-group-flush" id="depsInHospital">
+                            <div class="list-group-flush" style="max-height: 20vh; overflow-y: auto" id="depsInHospital">
 
 
 
@@ -421,7 +423,11 @@
 
 
                                         <label>Xəstəxanalar</label>
-                                        <select class="form-control dropdown" required id="gender">
+                                        <select class="form-control dropdown" required id="allHospitals">
+                                            @{foreach (var item in Model.hospitalList)
+                                                {
+                                                    <option value="@item.id">@item.hospitalName</option>
+                                                } }
                                         </select>
 
                                     </div>
@@ -436,7 +442,29 @@
 
 
                             </div>
+                            <div class="form-group">
+                                <!-- <h3 style="text-align:right; margin-right:2%"><span class="badge badge-secondary">Cəmi: ---</span></h1> -->
+                                <div class="row">
 
+                                    <div class="col-md-12 text-center">
+
+
+                                        <button type="button" class="btn btn-primary justify-content-center"
+                                                onclick="addHospitalToUser()">
+                                            Əlavə et
+                                        </button>
+
+
+                                    </div>
+
+
+
+
+                                </div>
+
+
+
+                            </div>
 
 
                         </div>
@@ -876,6 +904,21 @@
 {
 
     <script>
+
+
+      var selectedPersonalID = @Model.personalList[0].ID;
+        $("#reqCode").val(@Model.personalList[0].ID);
+
+        var today = new Date('@Model.personalList[0].bDate').toISOString().split('T')[0];
+
+        $("#bDate").val(today);
+        getHospitalsByUser(selectedPersonalID);
+        $("#speciality").val(`${selectedPersonalID}`);
+        $("#mobile").val('@Model.personalList[0].mobile');
+        $("#email").val('@Model.personalList[0].email');
+        $("#father").val('@Model.personalList[0].father');
+
+
         var newPersonalIsUser = 0;
         function checkIsUserBox(state) {
             if ($(state).is(':checked'))
@@ -891,142 +934,13 @@
             }
 
         }
-
-
-        function addPersonal() {
-
-            var forms = document.getElementsByClassName('needs-validation');
-            // Loop over them and prevent submission
-            var validation = Array.prototype.filter.call(forms, function (form) {
-
-
-                if (form.checkValidity() === false) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                    //alert('sucess');
-                }
-                //else {
-                //    form.reportValidity()
-                //    //alert('asas');
-                //}
-                form.classList.add('was-validated');
-
-
+        function addHospitalToUser(hospitalID) {
+            $.post("/Admin/Personal/AddHospitalToUser", { hospitalID: hospitalID, userID: $("#reqCode").val() }, function (data) {
+                $(".result").html(data);
             });
-
-            if (forms[0].checkValidity()) {
-                var newUserIsDr = 0;
-
-                if ($("#isDr").is(':checked')) {
-                    newUserIsDr = 1;
-                }
-                
-
-                var name = $('#newUserName').val();
-                var surname = $('#newUserSurname').val();
-                var father = $('#newUserFather').val();
-                var phone = $('#newUserMobile').val();
-                var email = $('#newUserEmail').val();
-                var bDate = $('#newUserBDate').val()
-                var fin = $("#newUserFin").val();
-                var passportSerialNo = $("#newUserPassportSerialNo").val();
-                var username = $("#newUserUsername").val();
-                var password = $("#newUserPwd").val();
-                var specialityID = $('.newUserSpeciality').attr('id')
-
-                //var date = new Date(bDate);
-                //var isoBdate = date.toISOString()
-
-                $('#systemModal').modal('show');
-                $('#systemModalTitle').text("Yüklənir...");
-                $('#systemModalText').html(`<center><div class="spinner-border text-dark mx-auto" role="status">
-    <span class="sr-only">Loading...</span>
-  </div></center>`);
-                $('#systemModalBtn').attr("hidden", "");
-
-                $.ajax({
-
-                    type: "POST",
-                    url: "/Admin/Personal/Add",
-                    data: {
-                            "name": name,
-                            "surname": surname,
-                        "father": father,
-                        "specialityID": specialityID,
-                        "passportSerialNum": passportSerialNo,
-                        "fin": fin,
-                        "phone": phone,
-                        "email": email,
-                        "username": username,
-                        "pwd": password,
-                        "isUser": newPersonalIsUser,
-                        "bDate": bDate,
-                        "isDr": newUserIsDr
-                        },
-                    success: function (data, status, xhr) {   // success callback function
-                        //  var json = JSON.stringify(data)
-                        if (data == 1) {
-                            $('#systemModal').modal('hide')
-                            $('#warningModal').modal('show')
-                            $('#warningText').text('Personal əlavə olundu!');
-                        }
-                        else {
-                            $('#systemModal').modal('hide')
-                            $('#warningModal').modal('show')
-                            $('#warningText').text('Personal artıq mövcuddur!'); }
-                       
-
-
-
-                    },
-                    error: function (jqXhr, textStatus, errorMessage)
-                    {
-
-                        //alert(jqXhr.status)// error callback
-
-                        if (jqXhr.status == 401) {
-
-                            $('#systemModalTitle').text("Sessiyanız başa çatıb");
-                            $('#systemModalText').html(`<p id="systemModalText">Zəhmət olmasa yenidən giriş edin</p>`);
-                            $('#systemModalBtn').removeAttr("hidden");
-                        }
-                        else {
-                            $('#systemModal').modal('hide');
-                            $('#warningModal').modal('show')
-                            $('#warningText').text('Xəta, biraz sonra yenidən cəhd edin');
-                            //  $('#alert').text('Error: ' + errorMessage);
-                        }
-                    }
-
-                });
-                // alert(`
-                // cfn: `+clientFullName+`
-                // cp: `+clientPhone+`
-                // kvm: `+kvm+`
-                // price: `+price+`
-                // payment: `+payment+`
-                // note: `+note+`
-                // productModel: `+productModel+`
-                // productEndDate: `+isoEndDate+`
-                //
-                //   `)
-
-            }
         }
 
-
-        var selectedPersonalID = @Model.personalList[0].ID;
-        $("#reqCode").val(@Model.personalList[0].ID);
-
-        var today = new Date('@Model.personalList[0].bDate').toISOString().split('T')[0];
-
-        $("#bDate").val(today);
-        getHospitalsByUser(selectedPersonalID);
-        $("#speciality").val(`${selectedPersonalID}`);
-        $("#mobile").val('@Model.personalList[0].mobile');
-        $("#email").val('@Model.personalList[0].email');
-        $("#father").val('@Model.personalList[0].father');
-
+     
 
         function getHospitalsByUser(personalID) {
         return $.get(
@@ -1163,7 +1077,154 @@
                     $("#generalSettingsButton").removeClass("active")
                     break;
             }
-        }</script>
+        }
+
+        function addPersonal() {
+
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function (form) {
+
+
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    //alert('sucess');
+                }
+                //else {
+                //    form.reportValidity()
+                //    //alert('asas');
+                //}
+                form.classList.add('was-validated');
+
+
+            });
+
+            if (forms[0].checkValidity()) {
+                var newUserIsDr = 0;
+
+                if ($("#isDr").is(':checked')) {
+                    newUserIsDr = 1;
+                }
+
+
+                var name = $('#newUserName').val();
+                var surname = $('#newUserSurname').val();
+                var father = $('#newUserFather').val();
+                var phone = $('#newUserMobile').val();
+                var email = $('#newUserEmail').val();
+                var bDate = $('#newUserBDate').val()
+                var fin = $("#newUserFin").val();
+                var passportSerialNo = $("#newUserPassportSerialNo").val();
+                var username = $("#newUserUsername").val();
+                var password = $("#newUserPwd").val();
+                var specialityID = $('.newUserSpeciality').attr('id')
+
+                //var date = new Date(bDate);
+                //var isoBdate = date.toISOString()
+
+                $('#systemModal').modal('show');
+                $('#systemModalTitle').text("Yüklənir...");
+                $('#systemModalText').html(`<center><div class="spinner-border text-dark mx-auto" role="status">
+    <span class="sr-only">Loading...</span>
+  </div></center>`);
+                $('#systemModalBtn').attr("hidden", "");
+
+                $.ajax({
+
+                    type: "POST",
+                    url: "/Admin/Personal/Add",
+                    data: {
+                        "name": name,
+                        "surname": surname,
+                        "father": father,
+                        "specialityID": specialityID,
+                        "passportSerialNum": passportSerialNo,
+                        "fin": fin,
+                        "phone": phone,
+                        "email": email,
+                        "username": username,
+                        "pwd": password,
+                        "isUser": newPersonalIsUser,
+                        "bDate": bDate,
+                        "isDr": newUserIsDr
+                    },
+                    success: function (data, status, xhr) {   // success callback function
+                        //  var json = JSON.stringify(data)
+
+                        if (data > 0) {
+                            $('#systemModal').modal('hide')
+                            $('#warningModal').modal('show')
+                            $('#warningText').text('Personal əlavə olundu!');
+                        }
+                        else {
+                            $('#systemModal').modal('hide')
+                            $('#warningModal').modal('show')
+                            $('#warningText').text('Personal artıq mövcuddur!');
+                        }
+
+
+
+
+                    },
+                    error: function (jqXhr, textStatus, errorMessage) {
+
+                        //alert(jqXhr.status)// error callback
+
+                        if (jqXhr.status == 401) {
+
+                            $('#systemModalTitle').text("Sessiyanız başa çatıb");
+                            $('#systemModalText').html(`<p id="systemModalText">Zəhmət olmasa yenidən giriş edin</p>`);
+                            $('#systemModalBtn').removeAttr("hidden");
+                        }
+                        else {
+                            $('#systemModal').modal('hide');
+                            $('#warningModal').modal('show')
+                            $('#warningText').text('Xəta, biraz sonra yenidən cəhd edin');
+                            //  $('#alert').text('Error: ' + errorMessage);
+                        }
+                    }
+
+                });
+                // alert(`
+                // cfn: `+clientFullName+`
+                // cp: `+clientPhone+`
+                // kvm: `+kvm+`
+                // price: `+price+`
+                // payment: `+payment+`
+                // note: `+note+`
+                // productModel: `+productModel+`
+                // productEndDate: `+isoEndDate+`
+                //
+                //   `)
+
+            }
+        }
+        function addHospitalToUser() {
+
+          ;
+            $.post(
+                "/Admin/Personal/AddHospitalToUser",
+                { hospitalID: $("#allHospitals").val() },
+                function (data) {
+                    if (data.length > 0) {
+                        alert(data);
+                    }
+                    else {
+                        $("#userHospitals").text("Əlavə edin");
+                        $("#userHospitalsMenu").empty();
+
+                    }
+                }
+
+            );
+
+        }
+
+
+
+
+    </script>
 
     @*<script src="~/js/admin/departments/adminDep.js" asp-append-version="true"></script>*@
 }

@@ -9,6 +9,18 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/FlexitHisRazor.styles.css" asp-append-version="true" />
     <style>
+        .badge-notification {
+            --mdb-badge-font-size: 0.6rem;
+            --mdb-badge-padding-x: 0.45em;
+            --mdb-badge-padding-y: 0.2em;
+            --mdb-badge-margin-top: -0.1rem;
+            --mdb-badge-margin-left: -0.5rem;
+            position: absolute;
+            font-size: var(--mdb-badge-font-size);
+            padding: var(--mdb-badge-padding-y) var(--mdb-badge-padding-x);
+            margin-top: var(--mdb-badge-margin-top);
+            margin-left: var(--mdb-badge-margin-left);
+        }
         .footer {
             position: absolute;
             bottom: 0;
@@ -162,7 +174,7 @@
         }
     </style>
 </head>
-<body class="bg-light">
+<body style="background-color: #F8F8F8 ">
 
     @await Component.InvokeAsync("Navbar")
 
