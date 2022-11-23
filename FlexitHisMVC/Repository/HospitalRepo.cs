@@ -90,7 +90,7 @@ namespace FlexitHisMVC.Data
             }
             return hospitalList;
         }
-        public int InsertHospital(int hospitalID, int userID)
+        public int InsertHospital( int userID, int hospitalID)
         {
             int lastID = 0;
             try

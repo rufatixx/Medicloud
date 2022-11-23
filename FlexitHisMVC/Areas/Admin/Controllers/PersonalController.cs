@@ -108,13 +108,13 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
 
         }
         [HttpPost]
-        public IActionResult AddHospitalToUser(int hospitalID)
+        public IActionResult AddHospitalToUser(int userID,int hospitalID)
         {
             if (HttpContext.Session.GetInt32("userid") != null)
             {
                 HospitalRepo hospital = new HospitalRepo(ConnectionString);
 
-                return Ok(hospital.InsertHospital(hospitalID,Convert.ToInt32(HttpContext.Session.GetInt32("userid"))));
+                return Ok(hospital.InsertHospital(userID, hospitalID));
 
             }
             else

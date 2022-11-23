@@ -6,13 +6,13 @@
         <div class="col-9"> <h1>  <button type="button" class="btn btn-primary " onclick=" $('#addPersonal').modal('show')">+ Əlavə et</button></h1></div>
 
     </div>
-   
 
-  
+
+
 </div>
-    @*<div class="jumbotron jumbotron-fluid">
+@*<div class="jumbotron jumbotron-fluid">
         <div class="container">
-          
+
 
         </div>
     </div>*@
@@ -44,7 +44,7 @@
 
         </div>
     </div>-->
-    <!-- <div class="col-6 text-right ">     <button type="button" class="btn btn-dark " onclick=" $('#patientSearch').modal('show');">Axtar</button></div> -->
+<!-- <div class="col-6 text-right ">     <button type="button" class="btn btn-dark " onclick=" $('#patientSearch').modal('show');">Axtar</button></div> -->
 <!--</div>-->
 
 <div class="row">
@@ -128,10 +128,10 @@
 
                         </div>
                         @*<a class="list-group-item list-group-item-action personal-list" ></a>*@
-                                        }
+                    }
 
 
-}
+                }
 
 
             </div>
@@ -241,7 +241,7 @@
                 <div class="form-group border-top">
                     <div class="row mt-3 ">
                         <div class="col-md-5 ">
-                            <label >Şifrə</label>
+                            <label>Şifrə</label>
                             <button type="button" class="form-control btn text-dark text-left pl-0">Yeni şifrə təyini</button>
 
                         </div>
@@ -274,16 +274,16 @@
                         <div class="col-md-2 text-right mt-auto">
                             <div class="row">
                                 <div class="col-md-12" style="display:inline">
-                                     <button type="button" class="btn text-info">Yadda saxla</button>
+                                    <button type="button" class="btn text-info">Yadda saxla</button>
 
                                 </div>
 
 
                             </div>
-                           
-                        </div>
+
                         </div>
                     </div>
+                </div>
             </div>
             <div id="positionSettings" style="display:none">
                 <ul class="nav nav-pills m-3 mb-4">
@@ -331,16 +331,43 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card border-light">
-                           
+
                             <div class="card-header ">
+                                <div class="row d-flex flex-row-reverse">
+
+                                    <div class="col-3 ">
+                                        <div class="dropdown">
+
+                                            <button class="btn btn-light dropdown-toggle w-100" type="button" id="departmentFilter" value="0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Görüntü
+                                            </button>
+                                            <div class="dropdown-menu">
+
+                                                <a class='dropdown-item' onclick="{$('#departmentFilter').text($(this).text());$('#departmentFilter').val(0);}">Görüntü</a>
+                                                <a class='dropdown-item' onclick="{ $('#departmentFilter').text($(this).text()); $('#departmentFilter').val(1); }">İşləm</a>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-1">
+                                        <button type="button" class="btn btn-light" onclick="$('#addDepartment').modal('show')">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M15 13H13V15C13 15.55 12.55 16 12 16C11.45 16 11 15.55 11 15V13H9C8.45 13 8 12.55 8 12C8 11.45 8.45 11 9 11H11V9C11 8.45 11.45 8 12 8C12.55 8 13 8.45 13 9V11H15C15.55 11 16 11.45 16 12C16 12.55 15.55 13 15 13ZM12 2C6.486 2 2 6.486 2 12C2 17.514 6.486 22 12 22C17.514 22 22 17.514 22 12C22 6.486 17.514 2 12 2Z" fill="#2AAEAD" />
+                                            </svg>
+                                        </button>
+                                    </div>
+
+                                </div>
                                 <div class="row">
-                                    <div class="col-5">Şöbənin adı</div>
-                                    <div class="col-3">Tipi</div>
-                                    <div class="col-3 text-right">Görüntü</div>
+                                    <div class="col-6">Şöbənin adı</div>
+                                    <div class="col-6">Tipi</div>
+
                                 </div>
 
+
+
                             </div>
-                            <div class="list-group-flush" style="max-height: 20vh; overflow-y: auto" id="depsInHospital">
+                            <div class="list-group-flush" style="max-height: 20vh; overflow-y: auto" id="depsInHospitalByUser">
 
 
 
@@ -355,7 +382,7 @@
             </div>
 
 
-           
+
         </div>
 
 
@@ -365,7 +392,120 @@
 
 
 </div>
+<div class="modal fade" id="addDepartment" data-backdrop="static" data-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
 
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+
+
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <!-- <h3 style="text-align:right; margin-right:2%"><span class="badge badge-secondary">Cəmi: ---</span></h1> -->
+                                <div class="row">
+
+                                    <div class="col-md-12 text-center">
+                                        <img src="/res/pencil.svg" />
+
+                                    </div>
+
+
+
+
+                                </div>
+
+
+
+
+                            </div>
+
+                            <div class="form-group">
+                                <div class="row">
+
+                                    <div class="col-md-12 text-center">
+                                        <h6>İstifadəçiyə şöbənin əlavə edilməsi</h6>
+
+                                    </div>
+
+
+
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <!-- <h3 style="text-align:right; margin-right:2%"><span class="badge badge-secondary">Cəmi: ---</span></h1> -->
+                                <div class="row">
+
+                                    <div class="col-md-12">
+
+
+                                        <label>Şöbələr</label>
+                                        <select class="form-control dropdown" required id="depsInHospital">
+                                           
+                                        </select>
+
+                                    </div>
+
+
+
+
+
+                                </div>
+
+
+
+
+                            </div>
+                            <div class="form-group">
+                                <!-- <h3 style="text-align:right; margin-right:2%"><span class="badge badge-secondary">Cəmi: ---</span></h1> -->
+                                <div class="row">
+
+                                    <div class="col-md-12 text-center">
+
+
+                                        <button type="button" class="btn btn-primary justify-content-center"
+                                                onclick="addHospitalToUser()">
+                                            Əlavə et
+                                        </button>
+
+
+                                    </div>
+
+
+
+
+                                </div>
+
+
+
+                            </div>
+
+
+                        </div>
+
+
+
+
+
+                    </div>
+
+
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
 <div class="modal fade" id="addHospital" data-backdrop="static" data-keyboard="false" tabindex="-1"
      aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
@@ -427,7 +567,8 @@
                                             @{foreach (var item in Model.hospitalList)
                                                 {
                                                     <option value="@item.id">@item.hospitalName</option>
-                                                } }
+                                                }
+                                            }
                                         </select>
 
                                     </div>
@@ -541,7 +682,7 @@
 
                                         <label for="exampleFormControlSelect1">Adı</label>
                                         <!-- <select class="form-control" id="departments">
-                </select> -->
+                                        </select> -->
 
                                         <input type="text" class="form-control" required id="newUserName"
                                                placeholder="Daxil edin">
@@ -559,7 +700,7 @@
 
                                         <label for="exampleFormControlSelect1">Soyadı</label>
                                         <!-- <select class="form-control" id="departments">
-                </select> -->
+                                        </select> -->
 
                                         <input type="text" class="form-control" required id="newUserSurname"
                                                placeholder="Daxil edin">
@@ -591,7 +732,7 @@
 
                                         <label for="exampleFormControlSelect1">Ata adı</label>
                                         <!-- <select class="form-control" id="departments">
-                </select> -->
+                                        </select> -->
 
                                         <input type="text" class="form-control" required id="newUserFather"
                                                placeholder="Daxil edin">
@@ -609,7 +750,7 @@
 
                                         <label for="exampleFormControlSelect1">Doğum tarixi</label>
                                         <!-- <select class="form-control" id="departments">
-                </select> -->
+                                        </select> -->
 
                                         <input type="date" class="form-control" required id="newUserBDate"
                                                placeholder="Daxil edin">
@@ -641,7 +782,7 @@
 
                                         <label for="exampleFormControlSelect1">ŞV seriyası</label>
                                         <!-- <select class="form-control" id="departments">
-                </select> -->
+                                        </select> -->
 
                                         <input type="text" class="form-control" required id="newUserPassportSerialNo"
                                                placeholder="Daxil edin">
@@ -659,7 +800,7 @@
 
                                         <label for="exampleFormControlSelect1">Fin No</label>
                                         <!-- <select class="form-control" id="departments">
-                </select> -->
+                                        </select> -->
 
                                         <input type="text" class="form-control" required id="newUserFin"
                                                placeholder="Daxil edin">
@@ -691,7 +832,7 @@
 
                                         <label for="exampleFormControlSelect1">Mobil nömrə</label>
                                         <!-- <select class="form-control" id="departments">
-                </select> -->
+                                        </select> -->
 
                                         <input type="text" class="form-control" id="newUserMobile"
                                                placeholder="Daxil edin">
@@ -709,7 +850,7 @@
 
                                         <label for="exampleFormControlSelect1">Elektron poçt ünvanı</label>
                                         <!-- <select class="form-control" id="departments">
-                </select> -->
+                                        </select> -->
 
                                         <input type="text" class="form-control" id="newUserEmail"
                                                placeholder="Daxil edin">
@@ -780,9 +921,9 @@
                             <div class="form-group border-bottom pb-3">
                                 <div class="row">
 
-                                   
+
                                     <div class="col-md-6 ">
-                                        <label >Həkim</label>
+                                        <label>Həkim</label>
                                         <input class=" me-1 " id="isDr" type="checkbox" value="">
 
 
@@ -819,7 +960,7 @@
 
                                         <label for="exampleFormControlSelect1">İstifadəçi adı</label>
                                         <!-- <select class="form-control" id="departments">
-                </select> -->
+                                        </select> -->
 
                                         <input type="text" class="form-control" id="newUserUsername"
                                                placeholder="Daxil edin">
@@ -837,7 +978,7 @@
 
                                         <label for="exampleFormControlSelect1">Şifrə</label>
                                         <!-- <select class="form-control" id="departments">
-                </select> -->
+                                        </select> -->
 
                                         <input type="text" class="form-control" id="newUserPwd"
                                                placeholder="Daxil edin">
@@ -940,7 +1081,7 @@
             });
         }
 
-     
+
 
         function getHospitalsByUser(personalID) {
         return $.get(
@@ -979,23 +1120,31 @@
 
                         $.each(data, function () {
 
+
                             $("#depsInHospital").append($(`
+    <option id='${this.id}'>${this.name} - ${this.type}</option>
 
-<div class="list-group-item list-group-item-action dep-list" id=${this.id} onclick="$('.dep-list').removeClass('active');
-            $(this).addClass('active');">
-
-                            <div class="row">
-                                <div class="col-5">${this.name}</div>
-                                <div class="col-3">${this.type}</div>
-                                <div class="col-3 text-right"><input class=" me-1 " type="checkbox" value="">
-
-                                </div>
-                            </div>
-
-                        </div>
 
 
 `));
+
+//                            $("#depsInHospital").append($(`
+
+//<div class="list-group-item list-group-item-action dep-list" id=${this.id} onclick="$('.dep-list').removeClass('active');
+//            $(this).addClass('active');">
+
+//                            <div class="row">
+//                                <div class="col-5">${this.name}</div>
+//                                <div class="col-3">${this.type}</div>
+//                                <div class="col-3 text-right"><input class=" me-1 " type="checkbox" value="">
+
+//                                </div>
+//                            </div>
+
+//                        </div>
+
+
+//`));
 
 
                         });
@@ -1202,18 +1351,20 @@
         }
         function addHospitalToUser() {
 
-          ;
+
             $.post(
                 "/Admin/Personal/AddHospitalToUser",
-                { hospitalID: $("#allHospitals").val() },
+                { userID: $("#reqCode").val(), hospitalID: $("#allHospitals").val() },
                 function (data) {
-                    if (data.length > 0) {
-                        alert(data);
+                    if (data > 0) {
+                        $('#systemModal').modal('hide')
+                        $('#warningModal').modal('show')
+                        $('#warningText').text('Müəssisə əlavə olundu!');
                     }
                     else {
-                        $("#userHospitals").text("Əlavə edin");
-                        $("#userHospitalsMenu").empty();
-
+                        $('#systemModal').modal('hide')
+                        $('#warningModal').modal('show')
+                        $('#warningText').text('Müəssisə artıq əlavə olunub!');
                     }
                 }
 
