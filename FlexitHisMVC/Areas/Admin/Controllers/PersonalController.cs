@@ -126,6 +126,24 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
 
         }
         [HttpPost]
+        public IActionResult DeleteHospitalFromUser(int userID, int hospitalID)
+        {
+            if (HttpContext.Session.GetInt32("userid") != null)
+            {
+                HospitalRepo hospital = new HospitalRepo(ConnectionString);
+
+                return Ok(hospital.InsertHospital(userID, hospitalID));
+
+            }
+            else
+            {
+                return Unauthorized();
+            }
+
+
+
+        }
+        [HttpPost]
         public IActionResult Update()
         {
             if (HttpContext.Session.GetInt32("userid") != null)

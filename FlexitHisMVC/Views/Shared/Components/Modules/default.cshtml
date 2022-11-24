@@ -1,6 +1,6 @@
 ﻿@model List<FlexitHisMVC.Models.Module>
 
-    <div class="row justify-content-md-center" role="group" aria-label="Basic example">
+    <div class="row justify-content-md-center m-3" role="group" aria-label="Basic example">
 
 
 
@@ -9,8 +9,8 @@
             {
 
 
-                <button type="button" class="btn col-md-2" onclick="location.href='@item.url'">
-                   <img src="~/res/module.png" />
+                <button type="button" class="btn btn-outline-dark col-md-2 m-1" onclick="location.href='@item.url'">
+                   <img src="@item.img" width="100px" height="100px" />
                         <br>
                         <br>
                         @item.name

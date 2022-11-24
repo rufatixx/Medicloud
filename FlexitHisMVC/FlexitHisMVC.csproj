@@ -54,6 +54,8 @@
     <Folder Include="Areas\Admin\Views\Home\" />
     <Folder Include="Repository\" />
     <Folder Include="Models\DTO\" />
+    <Folder Include="wwwroot\res\kassa\" />
+    <Folder Include="wwwroot\res\admin\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MySql.Data" Version="8.0.31" />
@@ -65,6 +67,8 @@
     <Content Remove="wwwroot\js\menu\" />
     <Content Remove="wwwroot\js\new_patient\" />
     <Content Remove="wwwroot\js\admin\departments\" />
+    <Content Remove="wwwroot\res\kassa\" />
+    <Content Remove="wwwroot\res\admin\" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Views\NewPatient">

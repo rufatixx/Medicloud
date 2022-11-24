@@ -28,43 +28,46 @@ namespace FlexitHisMVC.ViewComponents
                 case 1:
                     module.name = "Şöbə";
                     module.url = "/Admin/Department";
+                    module.img = "/res/admin/department.png";
                     submoduleList.Add(module);
 
                     module.name = "Təşkilar";
+                    module.img = "/res/admin/company.png";
                     module.url = "/Admin/Company";
                     submoduleList.Add(module);
 
                     module.name = "Personal";
                     module.url = "/Admin/Personal";
+                    module.img = "/res/admin/personal.png";
                     submoduleList.Add(module);
 
-                    module.name = "Səbəb tərifi";
-                    module.url = "/Admin/Personal";
-                    submoduleList.Add(module);
+                    //module.name = "Səbəb tərifi";
+                    //module.url = "/Admin/Personal";
+                    //submoduleList.Add(module);
 
-                    module.name = "Diaqnoz tərifi";
-                    module.url = "/Admin";
-                    submoduleList.Add(module);
+                    //module.name = "Diaqnoz tərifi";
+                    //module.url = "/Admin";
+                    //submoduleList.Add(module);
 
-                    module.name = "Anbar";
-                    module.url = "/Admin";
-                    submoduleList.Add(module);
+                    //module.name = "Anbar";
+                    //module.url = "/Admin";
+                    //submoduleList.Add(module);
 
-                    module.name = "Sıra təqib";
-                    module.url = "/Admin";
-                    submoduleList.Add(module);
+                    //module.name = "Sıra təqib";
+                    //module.url = "/Admin";
+                    //submoduleList.Add(module);
 
-                    module.name = "Sistem log məlumatları";
-                    module.url = "/Admin";
-                    submoduleList.Add(module);
+                    //module.name = "Sistem log məlumatları";
+                    //module.url = "/Admin";
+                    //submoduleList.Add(module);
 
-                    module.name = "Tərcümələr";
-                    module.url = "/Admin";
-                    submoduleList.Add(module);
+                    //module.name = "Tərcümələr";
+                    //module.url = "/Admin";
+                    //submoduleList.Add(module);
 
-                    module.name = "Parametrlər";
-                    module.url = "/Admin";
-                    submoduleList.Add(module);
+                    //module.name = "Parametrlər";
+                    //module.url = "/Admin";
+                    //submoduleList.Add(module);
 
               
                     break;
@@ -72,20 +75,22 @@ namespace FlexitHisMVC.ViewComponents
                     break;
                 default:
                     module.name = "Xəstə qəbulu";
+                    module.img = "/res/new_patient.png";
                     module.url = "/NewPatient";
                     submoduleList.Add(module);
 
                     module.name = "Kassa";
+                    module.img = "/res/kassa/kassa.png";
                     module.url = "/";
                     submoduleList.Add(module);
 
                     module.name = "Poliklinika";
-
+                    module.img = "/res/policlinic.png";
                     module.url = "/";
                     submoduleList.Add(module);
 
                     module.name = "Admin";
-
+                    module.img = "/res/admin/admin.png";
 
                     module.url = "/Admin";
                     submoduleList.Add(module);

@@ -137,6 +137,50 @@ WHERE NOT EXISTS
             }
             return lastID;
         }
+        public int DeleteHospital(int userID, int hospitalID)
+        {
+            int lastID = 0;
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+                {
+
+
+                    var sql = "";
+
+                    connection.Open();
+
+                    sql = @"DELETE FROM user_hospital_rel WHERE userID = @userID and hospitalID = @hospitalID;";
+
+
+
+                    using (MySqlCommand com = new MySqlCommand(sql, connection))
+                    {
+                        com.Parameters.AddWithValue("@hospitalID", hospitalID);
+                        com.Parameters.AddWithValue("@userID", userID);
+
+
+                        lastID = com.ExecuteNonQuery();
+
+
+                    }
+                    connection.Close();
+
+
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex.Message);
+
+
+            }
+            return lastID;
+        }
 
     }
 }
