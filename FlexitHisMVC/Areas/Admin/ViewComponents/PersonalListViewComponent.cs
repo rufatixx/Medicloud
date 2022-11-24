@@ -22,7 +22,7 @@ namespace FlexitHisMVC.Areas.Admin.Views.ViewComponents
         public IViewComponentResult Invoke() {
             if (HttpContext.Session.GetInt32("userid") != null)
             {
-                PersonalRepo personal = new PersonalRepo(ConnectionString);
+                UserRepo personal = new UserRepo(ConnectionString);
 
                 return View(personal.GetPersonalList());
 

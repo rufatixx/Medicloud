@@ -10,6 +10,8 @@ using FlexitHisMVC.Models.NewPatient;
 using FlexitHisMVC.Models;
 using FlexitHisMVC.Data;
 using FlexitHisMVC.Models;
+using FlexitHisMVC.Repository;
+using FlexitHisMVC.Models.DTO;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -42,7 +44,7 @@ namespace FlexitHisMVC.Controllers
                 NewPatientViewDTO pageStruct = new NewPatientViewDTO();
                 pageStruct.requestTypes = new List<RequestType>();
                 pageStruct.personal = new List<Personal>();
-                pageStruct.departments = new List<Department>();
+                pageStruct.departments = new UserDepRelDTO();
                 pageStruct.referers = new List<Personal>();
                 pageStruct.services = new List<Service>();
 
@@ -55,11 +57,11 @@ namespace FlexitHisMVC.Controllers
                 pageStruct.services.AddRange(servicesDAO.GetServices());
 
 
-                DepartmentsRepo departmentsDAO = new DepartmentsRepo(ConnectionString);
+                UserDepRelRepo departmentsDAO = new UserDepRelRepo(ConnectionString);
 
-                pageStruct.departments.AddRange(departmentsDAO.GetDepartmentsByUser(1));
+                pageStruct.departments = departmentsDAO.GetUserDepartments(1);
 
-                PersonalRepo personalDAO = new PersonalRepo(ConnectionString);
+                UserRepo personalDAO = new UserRepo(ConnectionString);
 
                 pageStruct.personal.AddRange(personalDAO.GetPersonalList());
 

@@ -24,7 +24,7 @@ namespace FlexitHisMVC.Models.Login
           
             try
             {
-                PersonalRepo personalDAO = new PersonalRepo(ConnectionString);
+                UserRepo personalDAO = new UserRepo(ConnectionString);
                 status.personal = personalDAO.GetUser(username, pass);
 
                 HospitalRepo hospitalDAO = new HospitalRepo(ConnectionString);

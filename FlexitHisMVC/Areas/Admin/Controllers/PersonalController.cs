@@ -6,7 +6,9 @@ using FlexitHisCore;
 using FlexitHisMVC.Areas.Admin.Model;
 using FlexitHisMVC.Data;
 using FlexitHisMVC.Models;
+using FlexitHisMVC.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Org.BouncyCastle.Ocsp;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -33,7 +35,7 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
             if (HttpContext.Session.GetInt32("userid") != null)
             {
                 PersonalPageDTO response = new PersonalPageDTO();
-                PersonalRepo personalRepo = new PersonalRepo(ConnectionString);
+                UserRepo personalRepo = new UserRepo(ConnectionString);
                 SpecialityRepo  specialityRepo = new SpecialityRepo(ConnectionString);
                 HospitalRepo  hospitalRepo = new HospitalRepo(ConnectionString);
               
@@ -94,7 +96,7 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
         {
             if (HttpContext.Session.GetInt32("userid") != null)
             {
-                PersonalRepo personal = new PersonalRepo(ConnectionString);
+                UserRepo personal = new UserRepo(ConnectionString);
                
                 return Ok(personal.InsertPersonal( name,  surname,  father,specialityID,  passportSerialNum,  fin,  phone,  email,  bDate,  username,  pwd,  isUser, isDr));
 
@@ -114,7 +116,7 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
             {
                 HospitalRepo hospital = new HospitalRepo(ConnectionString);
 
-                return Ok(hospital.InsertHospital(userID, hospitalID));
+                return Ok(hospital.InsertHospitalToUser(userID, hospitalID));
 
             }
             else
@@ -126,13 +128,68 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
 
         }
         [HttpPost]
-        public IActionResult DeleteHospitalFromUser(int userID, int hospitalID)
+        public IActionResult RemoveHospitalFromUser(int userID, int hospitalID)
         {
             if (HttpContext.Session.GetInt32("userid") != null)
             {
                 HospitalRepo hospital = new HospitalRepo(ConnectionString);
 
-                return Ok(hospital.InsertHospital(userID, hospitalID));
+                return Ok(hospital.RemoveHospitalFromUser(userID, hospitalID));
+
+            }
+            else
+            {
+                return Unauthorized();
+            }
+
+
+
+        }
+        [HttpPost]
+        [HttpPost]
+        public IActionResult AddDepToUser(int userID, int depID, int read_only, int full_access)
+        {
+            if (HttpContext.Session.GetInt32("userid") != null)
+            {
+                UserDepRelRepo departmentsRepo = new UserDepRelRepo(ConnectionString);
+
+                return Ok(departmentsRepo.InsertDepToUser(userID, depID,read_only,full_access));
+
+            }
+            else
+            {
+                return Unauthorized();
+            }
+
+
+
+        }
+        [HttpPost]
+        public IActionResult RemoveDepFromUser(int userID, int depID)
+        {
+            if (HttpContext.Session.GetInt32("userid") != null)
+            {
+                UserDepRelRepo departmentsRepo = new UserDepRelRepo(ConnectionString);
+
+                return Ok(departmentsRepo.RemoveDepFromUser(userID, depID));
+
+            }
+            else
+            {
+                return Unauthorized();
+            }
+
+
+
+        }
+        [HttpGet]
+        public IActionResult GetUserDepByHospital(int userID)
+        {
+            if (HttpContext.Session.GetInt32("userid") != null)
+            {
+                UserDepRelRepo userDepRelRepo = new UserDepRelRepo(ConnectionString);
+
+                return Ok(userDepRelRepo.GetUserDepRel(userID));
 
             }
             else

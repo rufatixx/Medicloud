@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using FlexitHisMVC.Models;
 using FlexitHisMVC.Areas.Admin.Model;
 using FlexitHisMVC.Data;
+using FlexitHisMVC.Repository;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -70,9 +71,9 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
             if (HttpContext.Session.GetInt32("userid") != null)
             {
 
-                DepartmentsRepo select = new DepartmentsRepo(ConnectionString);
+                UserDepRelRepo userDepRel = new UserDepRelRepo(ConnectionString);
                
-                return Ok(select.GetDepartmentsByUser(Convert.ToInt32(HttpContext.Session.GetInt32("userid"))));
+                return Ok(userDepRel.GetUserDepartments(Convert.ToInt32(HttpContext.Session.GetInt32("userid"))));
 
             }
             else

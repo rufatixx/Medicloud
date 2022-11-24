@@ -90,7 +90,7 @@ namespace FlexitHisMVC.Data
             }
             return hospitalList;
         }
-        public int InsertHospital( int userID, int hospitalID)
+        public int InsertHospitalToUser( int userID, int hospitalID)
         {
             int lastID = 0;
             try
@@ -137,7 +137,7 @@ WHERE NOT EXISTS
             }
             return lastID;
         }
-        public int DeleteHospital(int userID, int hospitalID)
+        public int RemoveHospitalFromUser(int userID, int hospitalID)
         {
             int lastID = 0;
             try

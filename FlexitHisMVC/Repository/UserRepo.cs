@@ -5,11 +5,11 @@ using MySql.Data.MySqlClient;
 
 namespace FlexitHisMVC.Data
 {
-    public class PersonalRepo
+    public class UserRepo
     {
         private readonly string ConnectionString;
 
-        public PersonalRepo(string conString)
+        public UserRepo(string conString)
         {
             ConnectionString = conString;
         }
@@ -211,7 +211,13 @@ WHERE NOT EXISTS
             }
             return lastID;
         }
+
+
        
+
+
+
+
         //public bool UpdatePersonal(int userID, string name, string surname, string father, string phone, string email, string bDate, string pwd)
         //{
         //    List<Personal> personalList = new List<Personal>();

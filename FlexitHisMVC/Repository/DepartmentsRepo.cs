@@ -14,66 +14,7 @@ namespace FlexitHisMVC.Data
             ConnectionString = conString;
         }
 
-        public List<Department> GetDepartmentsByUser(int userID)
-
-        {
-          
-            List <Department> depList = new List<Department>();
-            try
-            {
-                using (MySqlConnection connection = new MySqlConnection(ConnectionString))
-                {
-
-
-                    connection.Open();
-
-                    using (MySqlCommand com = new MySqlCommand($@"SELECT * FROM user_dep_rel where userID = @userID", connection))
-                    {
-                        com.Parameters.AddWithValue("@userID", userID);
-
-                        MySqlDataReader reader = com.ExecuteReader();
-                        if (reader.HasRows)
-                        {
-
-
-                            while (reader.Read())
-                            {
-
-                                Department department = new Department();
-                                department.ID = Convert.ToInt64(reader["id"]);
-                             
-
-
-                                depList.Add(department);
-
-
-                            }
-
-                            //response.data.Reverse();
-
-                            //response.status = 1;
-                        }
-                     
-                    }
-
-
-                    connection.Close();
-
-
-                }
-
-
-            }
-            catch (Exception ex)
-            {
-                //FlexitHis_API.StandardMessages.CallSerilog(ex);
-                Console.WriteLine(ex.Message);
-               
-            }
-
-
-            return depList;
-        }
+       
 
         public List<Department> GetDepartmentsByBuilding(int buildingID)
 
@@ -313,7 +254,7 @@ WHERE id = @id;", connection))
          
         }
 
-
+        
 
     }
 }
