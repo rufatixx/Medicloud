@@ -11,7 +11,7 @@ namespace FlexitHisMVC.Models
    
        public List<RequestType> requestTypes { get; set; }
         public List<Service> services { get; set; }
-        public UserDepRelDTO departments { get; set; }
+        public List<UserDepRel> departments { get; set; }
         public List<Personal> personal { get; set; }
         public List<Personal> referers { get; set; }
         public int status { get; set; }

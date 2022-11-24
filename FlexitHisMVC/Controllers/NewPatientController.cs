@@ -44,7 +44,7 @@ namespace FlexitHisMVC.Controllers
                 NewPatientViewDTO pageStruct = new NewPatientViewDTO();
                 pageStruct.requestTypes = new List<RequestType>();
                 pageStruct.personal = new List<Personal>();
-                pageStruct.departments = new UserDepRelDTO();
+                pageStruct.departments = new List<UserDepRel>();
                 pageStruct.referers = new List<Personal>();
                 pageStruct.services = new List<Service>();
 

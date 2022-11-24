@@ -64,25 +64,7 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
 
 
         }
-        [HttpGet]
-
-        public IActionResult GetDepartmentsByUser(int userID)
-        {
-            if (HttpContext.Session.GetInt32("userid") != null)
-            {
-
-                UserDepRelRepo userDepRel = new UserDepRelRepo(ConnectionString);
-               
-                return Ok(userDepRel.GetUserDepartments(Convert.ToInt32(HttpContext.Session.GetInt32("userid"))));
-
-            }
-            else
-            {
-                return Unauthorized();
-            }
-
-
-        }
+       
         [HttpPost]
         [Route("admin/departments/getDepartmentTypes")]
         public IActionResult GetDepartmentTypes(int buildingID)

@@ -13,12 +13,12 @@ namespace FlexitHisMVC.Repository
         {
             ConnectionString = conString;
         }
-        public UserDepRelDTO GetUserDepartments(int userID)
+        public List<UserDepRel> GetUserDepartments(int userID)
 
         {
 
-            UserDepRelDTO userDepRel = new UserDepRelDTO();
-            userDepRel.userDepRels = new List<UserDepRel>();
+            List<UserDepRel> userDepRelList = new List<UserDepRel>();
+            
             try
             {
                 using (MySqlConnection connection = new MySqlConnection(ConnectionString))
@@ -27,7 +27,7 @@ namespace FlexitHisMVC.Repository
 
                     connection.Open();
 
-                    using (MySqlCommand com = new MySqlCommand($@"SELECT * FROM user_dep_rel where userID = @userID and isActive=1", connection))
+                    using (MySqlCommand com = new MySqlCommand($@"SELECT * FROM user_dep_rel where userID = @userID", connection))
                     {
                         com.Parameters.AddWithValue("@userID", userID);
 
@@ -44,9 +44,10 @@ namespace FlexitHisMVC.Repository
                                 department.depID = Convert.ToInt32(reader["depID"]);
                                 department.readOnly = Convert.ToInt32(reader["read_only"]);
                                 department.fullAccess = Convert.ToInt32(reader["full_access"]);
+                                department.isActive = Convert.ToInt32(reader["isActive"]);
 
 
-                                userDepRel.userDepRels.Add(department);
+                                userDepRelList.Add(department);
 
 
                             }
@@ -74,72 +75,9 @@ namespace FlexitHisMVC.Repository
             }
 
 
-            return userDepRel;
+            return userDepRelList;
         }
-        public UserDepRelDTO GetUserDepartmentsByHospital(int userID,int hospitalID)
-
-        {
-
-            UserDepRelDTO userDepRel = new UserDepRelDTO();
-            userDepRel.userDepRels = new List<UserDepRel>();
-            try
-            {
-                using (MySqlConnection connection = new MySqlConnection(ConnectionString))
-                {
-
-
-                    connection.Open();
-
-                    using (MySqlCommand com = new MySqlCommand($@"SELECT *,(select depName from departments where id=a.depID)as depName, (select dep from departments where id=a.depID) FROM user_dep_rel where userID = @userID and isActive=1 and buildingID in (select id from buildings where hospitalID=@hospitalID)", connection))
-                    {
-                        com.Parameters.AddWithValue("@userID", userID);
-                        com.Parameters.AddWithValue("@hospitalID", userID);
-
-                        MySqlDataReader reader = com.ExecuteReader();
-                        if (reader.HasRows)
-                        {
-
-
-                            while (reader.Read())
-                            {
-
-                                UserDepRel department = new UserDepRel();
-                                department.ID = Convert.ToInt64(reader["id"]);
-                                department.depID = Convert.ToInt32(reader["depID"]);
-                                department.readOnly = Convert.ToInt32(reader["read_only"]);
-                                department.fullAccess = Convert.ToInt32(reader["full_access"]);
-
-
-                                userDepRel.userDepRels.Add(department);
-
-
-                            }
-
-                            //response.data.Reverse();
-
-                            //response.status = 1;
-                        }
-
-                    }
-
-
-                    connection.Close();
-
-
-                }
-
-
-            }
-            catch (Exception ex)
-            {
-                //FlexitHis_API.StandardMessages.CallSerilog(ex);
-                Console.WriteLine(ex.Message);
-
-            }
-
-
-            return userDepRel;
-        }
+        
         public int InsertDepToUser(int userID, int depID, int read_only, int full_access)
         {
             int lastID = 0;

@@ -1,12 +1,13 @@
 ﻿
 @model FlexitHisMVC.Areas.Admin.Model.PersonalPageDTO
 <div class="page-header m-1" style="display:inline">
-    <div class="row">
-        <div class="col-2 border-right"> <h1>Personal tərifi</h1></div>
-        <div class="col-9"> <h1>  <button type="button" class="btn btn-primary " onclick=" $('#addPersonal').modal('show')">+ Əlavə et</button></h1></div>
+   
+    <h1>
+        
+        <label class="border-right pr-1" >Personal tərifi</label>
+        <button type="button" class="btn btn-primary" onclick=" $('#addPersonal').modal('show')">+ Əlavə et</button>
 
-    </div>
-
+    </h1>
 
 
 </div>
@@ -343,22 +344,22 @@
                                             Şöbə əlavə et
                                         </button>
                                     </div>
-                                    
+
 
 
                                 </div>
                                 <div class="row">
                                     <div class="col-3">Şöbənin adı</div>
-                                    <div class="col-3">Tipi</div>
-                                    <div class="col-3">Gör</div>
+                                    <div class="col-2">Tipi</div>
+                                    <div class="col-2">Gör</div>
                                     <div class="col-3">Tam kontrol</div>
-
+                                    <div class="col-2">Aktiv</div>
                                 </div>
 
 
 
                             </div>
-                            <div class="list-group-flush" style="max-height: 20vh; overflow-y: auto" id="depsInHospitalByUser">
+                            <div class="list-group-flush" style="max-height: 30vh; overflow-y: auto" id="depsInHospitalByUser">
 
 
 
@@ -1044,7 +1045,7 @@
 
         $("#bDate").val(today);
         getHospitalsByUser(selectedPersonalID);
-        getDepartmentsByUser();
+      
         $("#speciality").val(`${selectedPersonalID}`);
         $("#mobile").val('@Model.personalList[0].mobile');
         $("#email").val('@Model.personalList[0].email');
@@ -1103,7 +1104,9 @@
 
 
                     });
-                     getDepartmentsByHospital($('#userHospitals').val());
+                    getDepartmentsByHospital($('#userHospitals').val());
+                    getUserDepsByHospital()
+
                 }
                 else {
                      selectedHospital = 0;
@@ -1135,7 +1138,7 @@
 
 `));
 
-                           
+
 
 
                         });
@@ -1151,53 +1154,7 @@
                 });
 
         }
-          function getDepartmentsByUser() {
-           
-            $.get(
-                "/Admin/Personal/GetUserDepartments",
-                { userID: $("#reqCode").val() },
-                function (data) {
-                    if (data.userDepRels.length > 0) {
-
-                        $.each(data.userDepRels, function () {
-
-
-                         
-
-                            $("#depsInHospitalByUser").append($(`
-
-<div class="list-group-item list-group-item-action dep-list" id=${this.id} onclick="$('.dep-list').removeClass('active'); $(this).addClass('active');">
-
-                            <div class="row">
-                                <div class="col-3">${this.name}</div>
-                                <div class="col-3">${this.type}</div>
-                                <div class="col-3 ">
-<input class=" me-1 " type="checkbox" value="">
-     
-                                </div>
-<div class="col-3 "><input class=" me-1 " type="checkbox" value="">
-                            </div>
-
-                        </div>
-
-
-`));
-
-
-                        });
-                    }
-                    else {
-
-                        $("#depsInHospitalByUser").empty();
-
-                        $("#depsInHospitalByUser").append($(`<div class='text-center m-3'><img style='height:100px' src="/res/empty.png"/><br><h2 class='mt-3'>Boşdur</h2></div>`))
-
-                    }
-
-                });
-
-        }
-
+         
         function personalClicked(component,obj)
         {
             selectedPersonalID = obj.id;
@@ -1216,12 +1173,113 @@
 
              getHospitalsByUser(selectedPersonalID);
 
+         
 
 
+        }
+
+        function getUserDepsByHospital() {
+            $("#depsInHospitalByUser").empty();
+            var depsByHospital;
+            var userDeps;
+            $.get(
+                "/Admin/Personal/GetDepartmentsByUser",
+                { userID: $("#reqCode").val() },
+                function (data) {
+                    
+                    if (data.length > 0) {
+                        userDeps = data;
+
+                        $.get(
+                            "/Admin/Personal/DepartmentsByHospital",
+                            { hospitalID: $("#userHospitals").val() },
+                            function (data) {
+                                if (data.length > 0) {
+                                    var depsByHospital = data;
+
+                                    for (let a = 0; a < userDeps.length; a++) {
+                                        for (let i = 0; i < depsByHospital.length; i++) {
+                                            if (depsByHospital[i].id == userDeps[a].depID) {
+
+                                                var readOnlyCheckBox;
+
+                                                if (userDeps[a].readOnly > 0) {
+                                                    readOnlyCheckBox = '<input class=" me-1 " type="checkbox" value="" checked>'
+                                                }
+                                                else {
+                                                    readOnlyCheckBox = '<input class=" me-1 " type="checkbox" value="" >'
+                                                }
 
 
-    }
+                                                var fullAccessCheckBox;
 
+                                                if (userDeps[a].fullAccess > 0) {
+                                                    fullAccessCheckBox = '<input class=" me-1 " type="checkbox" value="" checked>'
+                                                }
+                                                else {
+                                                    fullAccessCheckBox = '<input class=" me-1 " type="checkbox" value="" >'
+                                                }
+
+
+                                                var isActiveCheckBox;
+
+                                                if (userDeps[a].isActive > 0) {
+                                                    isActiveCheckBox = '<input class=" me-1 " type="checkbox" value="" checked>'
+                                                }
+                                                else {
+                                                    isActiveCheckBox = '<input class=" me-1 " type="checkbox" value="" >'
+                                                }
+
+                                                $("#depsInHospitalByUser").append($(`
+
+<div class="list-group-item list-group-item-action dep-list" id=${depsByHospital[i].id} onclick="$('.dep-list').removeClass('active'); $(this).addClass('active');">
+
+                            <div class="row">
+                                <div class="col-3">${depsByHospital[i].name}</div>
+                                <div class="col-2">${depsByHospital[i].type}</div>
+                                <div class="col-2 ">
+
+    ${readOnlyCheckBox}
+                                </div>
+<div class="col-3 ">
+${fullAccessCheckBox}
+                            </div>
+<div class="col-2 ">
+${isActiveCheckBox}
+                            </div>
+
+                        </div>
+
+
+`));
+
+                                            }
+                                        }
+                                    }
+
+                                }
+
+                                else {
+                                    $("#depsInHospitalByUser").empty();
+
+                                    $("#depsInHospitalByUser").append($(`<div class='text-center m-3'><img style='height:100px' src="/res/empty.png"/><br><h2 class='mt-3'>Boşdur</h2></div>`))
+
+                                }
+                            });
+
+                    }
+                    else {
+                        $("#depsInHospitalByUser").empty();
+
+                        $("#depsInHospitalByUser").append($(`<div class='text-center m-3'><img style='height:100px' src="/res/empty.png"/><br><h2 class='mt-3'>Boşdur</h2></div>`))
+
+                    }
+
+                });
+
+          
+
+        }
 
 
 
@@ -1431,7 +1489,6 @@
             );
 
         }
-
          function addDepartmentToUser() {
 var id = $("#depsInHospital").find('option:selected').attr('id');
             $.post(

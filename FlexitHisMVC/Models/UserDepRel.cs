@@ -8,6 +8,7 @@ namespace FlexitHisMVC.Models
         public int userID { get; set; }
         public int readOnly { get; set; }
         public int fullAccess { get; set; }
+        public int isActive { get; set; }
         public DateTime cDate { get; set; }
     }
 }

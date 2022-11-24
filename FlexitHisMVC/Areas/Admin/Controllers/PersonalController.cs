@@ -145,7 +145,25 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
 
 
         }
-        [HttpPost]
+        [HttpGet]
+
+        public IActionResult GetDepartmentsByUser(int userID)
+        {
+            if (HttpContext.Session.GetInt32("userid") != null)
+            {
+
+                UserDepRelRepo userDepRel = new UserDepRelRepo(ConnectionString);
+
+                return Ok(userDepRel.GetUserDepartments(userID));
+
+            }
+            else
+            {
+                return Unauthorized();
+            }
+
+
+        }
         [HttpPost]
         public IActionResult AddDepToUser(int userID, int depID, int read_only, int full_access)
         {
@@ -182,24 +200,7 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
 
 
         }
-        [HttpGet]
-        public IActionResult GetUserDepByHospital(int userID)
-        {
-            if (HttpContext.Session.GetInt32("userid") != null)
-            {
-                UserDepRelRepo userDepRelRepo = new UserDepRelRepo(ConnectionString);
-
-                return Ok(userDepRelRepo.GetUserDepRel(userID));
-
-            }
-            else
-            {
-                return Unauthorized();
-            }
-
-
-
-        }
+        
         [HttpPost]
         public IActionResult Update()
         {
