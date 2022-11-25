@@ -202,16 +202,18 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
         }
         
         [HttpPost]
-        public IActionResult Update()
+        public IActionResult UpdateUser(int userID, string name, string surname, string father, int specialityID, string passportSerialNum, string fin, string mobile, string email, string bDate, string username, int isUser, int isDr, int isActive)
         {
             if (HttpContext.Session.GetInt32("userid") != null)
             {
-                return View();
+                UserRepo user = new UserRepo(ConnectionString);
+   
+                return Ok(user.UpdateUser(userID, name, surname, father, specialityID, passportSerialNum, fin, mobile, email, bDate, username, isUser, isDr, isActive));
 
             }
             else
             {
-                return RedirectToAction("Index", "Login", new { area = "" });
+                return Unauthorized();
             }
 
 

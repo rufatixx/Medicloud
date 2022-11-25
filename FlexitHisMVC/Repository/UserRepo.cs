@@ -41,6 +41,8 @@ namespace FlexitHisMVC.Data
                             personal.father = reader["father"] == DBNull.Value ? "" : reader["father"].ToString();
                             personal.mobile = reader["mobile"] == DBNull.Value ? "" : reader["mobile"].ToString(); 
                             personal.email = reader["email"] == DBNull.Value ? "" : reader["email"].ToString();
+                            personal.passportSerialNum = reader["passportSerialNum"] == DBNull.Value ? "" : reader["passportSerialNum"].ToString();
+                            personal.fin = reader["fin"] == DBNull.Value ? "" : reader["fin"].ToString();
 
                             personal.bDate = reader["bDate"] == DBNull.Value ? DateTime.Now.Date : Convert.ToDateTime(reader["bDate"]).Date; 
                             personal.speciality = reader["specialityName"] == DBNull.Value ? "" : reader["specialityName"].ToString();
@@ -212,70 +214,53 @@ WHERE NOT EXISTS
             return lastID;
         }
 
-
-       
-
-
-
-
-        //public bool UpdatePersonal(int userID, string name, string surname, string father, string phone, string email, string bDate, string pwd)
-        //{
-        //    List<Personal> personalList = new List<Personal>();
-        //    try
-        //    {
-        //        using (MySqlConnection connection = new MySqlConnection(ConnectionString))
-        //        {
+        public int UpdateUser(int userID,string name, string surname, string father, int specialityID, string passportSerialNum, string fin, string mobile, string email, string bDate, string username, int isUser, int isDr, int isActive)
+        {
+            int updated = 0;
+            List<Personal> personalList = new List<Personal>();
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+                {
 
 
 
 
-        //            connection.Open();
-        //            using (MySqlCommand com = new MySqlCommand("SELECT *,(select name from speciality where a.specialityID = id )as specialityName FROM personal a", connection))
-        //            {
+                    connection.Open();
+                    using (MySqlCommand com = new MySqlCommand("update users set name = @name, surname= @surnmame, father = @father, mobile=@mobile, isDr=@isDr,username= @username,isActive=@isActive where id = @userID", connection))
+                    {
+                        com.Parameters.AddWithValue("@userID",userID);
+                        com.Parameters.AddWithValue("@name",name);
+                        com.Parameters.AddWithValue("@surname", surname);
+                        com.Parameters.AddWithValue("@father", father);
+                        com.Parameters.AddWithValue("@mobile", mobile);
+                        com.Parameters.AddWithValue("@email", email);
+                        com.Parameters.AddWithValue("@bDate", bDate);
+                        com.Parameters.AddWithValue("@username", username);
+                   
+                        com.Parameters.AddWithValue("@isActive", isActive);
+                        com.Parameters.AddWithValue("@isDr", isDr);
 
-        //                MySqlDataReader reader = com.ExecuteReader();
-        //                if (reader.HasRows)
-        //                {
+                      updated = com.ExecuteNonQuery();
 
-
-        //                    while (reader.Read())
-        //                    {
-
-        //                        PersonalStruct personal = new PersonalStruct();
-        //                        personal.ID = Convert.ToInt32(reader["id"]);
-        //                        //personal.depID = Convert.ToInt32(reader["departmentID"]);
-        //                        personal.name = reader["name"].ToString();
-        //                        personal.surname = reader["surname"].ToString();
-        //                        personal.father = reader["father"].ToString();
-        //                        personal.speciality = reader["specialityName"].ToString();
-        //                        personal.isActive = Convert.ToBoolean(reader["isActive"]);
-        //                        personal.isUser = Convert.ToBoolean(reader["isUser"]);
-
-        //                        personalList.Add(personal);
-        //                    }
+                    }
+                    connection.Close();
 
 
 
-        //                }
-
-        //            }
-        //            connection.Close();
+                }
 
 
+            }
+            catch (Exception ex)
+            {
 
-        //        }
-
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //        Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.Message);
 
 
-        //    }
-        //    return personalList;
-        //}
+            }
+            return updated;
+        }
 
     }
 }

@@ -109,13 +109,14 @@ function Routing(obj, link) {
 
 })(jQuery);
 function logout() {
-    $.post("/login/logout", function (data) {
-       
-    });
+   
     $('#warningModal').modal('show')
     $('#warningText').text('Çıxış etməyinizdən əminsiniz?');
     $("#warningModalButton").text("Bəli");
     $("#warningModalButton").on("click", function () {
+        $.post("/login/logout", function (data) {
+
+        });
         localStorage.json = '';
         window.location.replace("/login");
     });
