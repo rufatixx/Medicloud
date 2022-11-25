@@ -289,6 +289,34 @@
       "PackagePath": "staticwebassets/res/admin/personal.png"
     },
     {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/android-chrome-192x192.png",
+      "PackagePath": "staticwebassets/res/brand/android-chrome-192x192.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/android-chrome-512x512.png",
+      "PackagePath": "staticwebassets/res/brand/android-chrome-512x512.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/apple-touch-icon.png",
+      "PackagePath": "staticwebassets/res/brand/apple-touch-icon.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/favicon-16x16.png",
+      "PackagePath": "staticwebassets/res/brand/favicon-16x16.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/favicon-32x32.png",
+      "PackagePath": "staticwebassets/res/brand/favicon-32x32.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/favicon.ico",
+      "PackagePath": "staticwebassets/res/brand/favicon.ico"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/site.webmanifest",
+      "PackagePath": "staticwebassets/res/brand/site.webmanifest"
+    },
+    {
       "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/empty.png",
       "PackagePath": "staticwebassets/res/empty.png"
     },

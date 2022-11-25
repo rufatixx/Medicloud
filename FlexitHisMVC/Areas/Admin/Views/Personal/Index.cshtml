@@ -1,10 +1,10 @@
 ﻿
 @model FlexitHisMVC.Areas.Admin.Model.PersonalPageDTO
 <div class="page-header m-1" style="display:inline">
-   
+
     <h1>
-        
-        <label class="border-right pr-1" >Personal tərifi</label>
+
+        <label class="border-right pr-1">Personal tərifi</label>
         <button type="button" class="btn btn-primary" onclick=" $('#addPersonal').modal('show')">+ Əlavə et</button>
 
     </h1>
@@ -75,7 +75,7 @@
                 <div class="row">
                     <div class="col-6">Adı</div>
                     <div class="col-6 text-right">İxtisas</div>
-                   
+
                 </div>
 
             </div>
@@ -112,7 +112,7 @@
                             <div class="row">
                                 <div class="col-6">@item.name @item.surname</div>
                                 <div class="col-6 text-right">@item.speciality</div>
-                               
+
                             </div>
 
                         </div>
@@ -205,7 +205,22 @@
                                 </div>
                                 <div class="col-md-4">
                                     <label for="exampleFormControlSelect1">İxtisas</label>
-                                    <input type="text" class="form-control" id="speciality" placeholder="Cəbrayıl" aria-label="00000">
+
+                                    <select class="form-control" id="speciality">
+                                        @{
+                                            foreach (var item in Model.specialityList)
+
+                                            {
+                                                <option data-foo="@item.id">@item.name</option>
+
+                                                @*<a class="list-group-item list-group-item-action personal-list" ></a>*@
+                                            }
+                                        }
+
+
+                                    </select>
+
+
 
                                 </div>
                                 <div class="col-md-4">
@@ -213,18 +228,18 @@
                                     <input type="text" class="form-control" id="mobile" placeholder="00000" aria-label="00000">
 
                                 </div>
-                              
+
 
                             </div>
                         </div>
                         <div class="form-group ">
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-md-12" style="display:inline">
                                                 <label for="exampleFormControlSelect1">E-poçt ünvanı</label>
-                                                <input type="text" class="form-control" id="email" placeholder="Cəbrayıl" aria-label="00000">
+                                                <input type="text" class="form-control" id="email" placeholder="e-poçt" aria-label="00000">
 
 
                                             </div>
@@ -233,7 +248,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
+                                    @*<div class="form-group">
                                         <div class="row">
                                             <div class="col-md-12" style="display:inline">
                                                 <input class=" me-1 " type="checkbox" value="">
@@ -244,57 +259,99 @@
 
 
                                         </div>
-                                    </div>
+                                    </div>*@
                                 </div>
 
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-12" style="display:inline">
+                                                <label for="exampleFormControlSelect1">İstifadəçi adı</label>
+                                                <input type="text" class="form-control" id="username" placeholder="Yoxdur" aria-label="00000">
 
+
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-4" style="display:inline">
+                                                <input class=" me-1 " id="isActiveCheckBox" type="checkbox" value="">
+                                                <label for="exampleFormControlSelect1">Aktiv</label>
+
+
+                                            </div>
+                                            <div class="col-md-4" style="display:inline">
+                                                <input class=" me-1 " id="isDrCheckBox" type="checkbox" value="">
+                                                <label for="exampleFormControlSelect1">Həkim</label>
+
+
+                                            </div>
+                                            <div class="col-md-4" style="display:inline">
+                                                <input class=" me-1 " id="isUserCheckBox" type="checkbox" value="">
+                                                <label for="exampleFormControlSelect1">İstifadəçi</label>
+
+
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-3">
-                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlciUyMHByb2ZpbGV8ZW58MHx8MHx8&w=1000&q=80" class="rounded mx-auto d-block" style="max-width:120px; max-height:160px" alt="...">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-12" style="display:inline">
+                                    <img src="/res/user.svg" class="rounded mx-auto d-block img-fluid" style="width:120px; height:160px" alt="...">
+
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-12" style="display:inline">
+                                    <button type="button" class="form-control btn btn-dark" onclick="$('#passChangeModal').modal('show')">Yeni şifrə</button>
+
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-12" style="display:inline">
+                                    <button type="button" class="form-control btn text-info">Rəsmi imza</button>
+
+
+                                </div>
+
+
+                            </div>
+                        </div>
                     </div>
+
                 </div>
 
                 <div class="form-group border-top">
                     <div class="row mt-3 ">
 
-                        <div class="col-md-5 ">
-                            <label>Şifrə</label>
-                            <button type="button" class="form-control btn text-dark text-left pl-0">Yeni şifrə təyini</button>
-
-                        </div>
-                        <div class="col-md-5 ">
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-12" style="display:inline">
-                                        <input class=" me-1 " id="isUser" type="checkbox" value="">
-                                        <label for="exampleFormControlSelect1">İstifadəçi</label>
 
 
-                                    </div>
-
-
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-12" style="display:inline">
-                                        <input class=" me-1 " id="isActive" type="checkbox" value="">
-                                        <label for="exampleFormControlSelect1">İşdən ayrılan personal</label>
-
-
-                                    </div>
-
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-2 text-right mt-auto">
+                        <div class="col-md-12 text-right mt-auto">
                             <div class="row">
                                 <div class="col-md-12" style="display:inline">
-                                    <button type="button" class="btn text-info">Yadda saxla</button>
+                                    <button type="button" class="btn text-info" onclick="updateUser()">Yadda saxla</button>
 
                                 </div>
 
@@ -402,6 +459,118 @@
     @*@Html.Partial("_PersonalSettingsBoxPartial")*@
 
 
+</div>
+<div class="modal fade" id="passChangeModal" data-backdrop="static" data-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+
+
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <!-- <h3 style="text-align:right; margin-right:2%"><span class="badge badge-secondary">Cəmi: ---</span></h1> -->
+                                <div class="row">
+
+                                    <div class="col-md-12 text-center">
+                                        <img src="/res/pencil.svg" />
+
+                                    </div>
+
+
+
+
+                                </div>
+
+
+
+
+                            </div>
+
+                            <div class="form-group">
+                                <div class="row">
+
+                                    <div class="col-md-12 text-center">
+                                        <h6>İstifadəçi şifrəsinin sıfırlanması</h6>
+
+                                    </div>
+
+
+
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <!-- <h3 style="text-align:right; margin-right:2%"><span class="badge badge-secondary">Cəmi: ---</span></h1> -->
+                                <div class="row">
+
+                                    <div class="col-md-12">
+
+
+                                        <label>Yeni şifrə</label>
+                                        <input class="form-control " placeholder="Şifrə..." id="newPwd"/>
+                                       
+
+                                    </div>
+
+
+
+
+
+                                </div>
+
+
+
+
+                            </div>
+                            <div class="form-group">
+                                <!-- <h3 style="text-align:right; margin-right:2%"><span class="badge badge-secondary">Cəmi: ---</span></h1> -->
+                                <div class="row">
+
+                                    <div class="col-md-12 text-center">
+
+
+                                        <button type="button" class="btn btn-primary justify-content-center" onclick="updateUserPwd()">
+                                            Yenilə
+                                        </button>
+
+
+                                    </div>
+
+
+
+
+                                </div>
+
+
+
+                            </div>
+
+
+                        </div>
+
+
+
+
+
+                    </div>
+
+
+
+                </form>
+            </div>
+
+        </div>
+    </div>
 </div>
 <div class="modal fade" id="addDepartment" data-backdrop="static" data-keyboard="false" tabindex="-1"
      aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -895,7 +1064,7 @@
                                         <div>
                                             <div class="dropdown">
 
-                                                <button type="button" class="btn btn-secondary dropdown-toggle w-100" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <button type="button" class="btn btn-outline-dark dropdown-toggle w-100" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <span class="justify-content-end newUserSpeciality">Seçin...</span>
                                                 </button>
 
@@ -1060,21 +1229,46 @@
       var selectedPersonalID = @Model.personalList[0].ID;
         $("#reqCode").val(@Model.personalList[0].ID);
 
-        var today = new Date('@Model.personalList[0].bDate').toISOString().split('T')[0];
-
-        $("#bDate").val(today);
+        @*var today = new Date('@Model.personalList[0].bDate').toISOString().split('T')[0];
+        alert()*@
+        $("#bDate").val('@Model.personalList[0].bDate');
         getHospitalsByUser(selectedPersonalID);
 
-        $("#speciality").val(`${selectedPersonalID}`);
+        $("#speciality").val('@Model.personalList[0].speciality');
         $("#mobile").val('@Model.personalList[0].mobile');
         $("#email").val('@Model.personalList[0].email');
               $("#name").val('@Model.personalList[0].name');
         $("#surname").val('@Model.personalList[0].surname');
         $("#father").val('@Model.personalList[0].father');
         $("#passportSerialNum").val('@Model.personalList[0].passportSerialNum');
-        $("#passportFin").val('@Model.personalList[0].fin);
+        $("#passportFin").val('@Model.personalList[0].fin');
+        $("#username").val('@Model.personalList[0].username');
+        if (@Model.personalList[0].isActive.ToString().ToLower()) {
+            $("#isActiveCheckBox").prop('checked', true);
 
 
+        }
+        else {
+            $("#isActiveCheckBox").prop('checked', false);
+        }
+
+        if (@Model.personalList[0].isDr.ToString().ToLower()) {
+            $("#isDrCheckBox").prop('checked', true);
+
+
+        }
+        else {
+            $("#isDrCheckBox").prop('checked', false);
+        }
+
+        if (@Model.personalList[0].isUser.ToString().ToLower()) {
+            $("#isUserCheckBox").prop('checked', true);
+
+
+        }
+        else {
+            $("#isUserCheckBox").prop('checked', false);
+        }
 
         var newPersonalIsUser = 0;
         function checkIsUserBox(state) {
@@ -1093,19 +1287,80 @@
         }
 
 
-        //function updateUser(userID, name, surname, father, specialityID, fin, mobile, email, bDate, username, isUser, isDr, isActive) {
+        function updateUser() {
+            var userSpecialityOption = $("#speciality").find('option:selected');
+            var userSpecialityID = userSpecialityOption.data('foo');
 
-        //    $.post("/Admin/Personal/UpdateUser", { userID: userID, name: name, surname: surname, father: father, specialityID: specialityID, fin: fin, mobile: mobile, email: email, bDate: bDate, username: username isUser: isUser, isDr: isDr, isActive: isActive }, function (data) {
-        //        $(".result").html(data);
-        //    });
-        //}
 
-        function addHospitalToUser(hospitalID) {
-            $.post("/Admin/Personal/AddHospitalToUser", { hospitalID: hospitalID, userID: $("#reqCode").val() }, function (data) {
-                $(".result").html(data);
+           var userID =  $("#reqCode").val();
+
+
+
+       var bDate = $("#bDate").val();
+
+       //var specialityID = $("#speciality").val();
+      var mobile =  $("#mobile").val();
+            var email = $("#email").val();
+            var username = $("#username").val();
+           var name =   $("#name").val();
+       var surname = $("#surname").val();
+       var father = $("#father").val();
+            var passportSerialNum = $("#passportSerialNum").val();
+            var fin = $("#passportFin").val();
+            var isActiveCheckBox = 0;
+            if ($("#isActiveCheckBox").prop('checked') == true) {
+                isActiveCheckBox = 1;
+            }
+
+            var isDrCheckBox = 0;
+            if ($("#isDrCheckBox").prop('checked') == true) {
+                isDrCheckBox = 1;
+            }
+
+            var isUserCheckBox = 0;
+            if ($("#isUserCheckBox").prop('checked') == true) {
+                isUserCheckBox = 1;
+            }
+
+            $.post("/Admin/Personal/UpdateUser",
+                { userID: userID, mobile: mobile, email: email, username: username, bDate: bDate, passportSerialNum: passportSerialNum, fin: fin, specialityID: userSpecialityID, name: name, surname: surname, father: father, isActive: isActiveCheckBox, isDr: isDrCheckBox, isUser: isUserCheckBox }, function (data) {
+                    if (data > 0) {
+                       
+                        $('#systemModal').modal('hide')
+                        $('#warningModal').modal('show')
+                        $('#warningText').text('Məlumatlar yeniləndi');
+                    }
+                    else {
+                        $('#systemModal').modal('hide')
+                        $('#warningModal').modal('show')
+                        $('#warningText').text('Məlumatlar yenilənmədi');
+                    }
             });
         }
 
+        function updateUserPwd() {
+            var userID = $("#reqCode").val();
+            var pwd = $("#newPwd").val();
+            
+
+            $.post("/Admin/Personal/UpdateUserPwd",
+                { userID: userID, pwd: pwd }, function (data) {
+                    if (data > 0) {
+
+                        $('#systemModal').modal('hide')
+                        $('#warningModal').modal('show')
+                        $('#warningText').text('Şifrə sıfırlandı');
+                    }
+                    else {
+                        $('#systemModal').modal('hide')
+                        $('#warningModal').modal('show')
+                        $('#warningText').text('Məlumatlar yenilənmədi');
+                    }
+            });
+
+        }
+
+        
 
 
         function getHospitalsByUser(personalID) {
@@ -1211,6 +1466,33 @@
             $("#surname").val(obj.surname);
             $("#passportSerialNum").val(obj.passportSerialNum);
             $("#passportFin").val(obj.fin);
+            $("#username").val(obj.username);
+            if (obj.isActive) {
+            $("#isActiveCheckBox").prop('checked', true);
+
+
+        }
+        else {
+            $("#isActiveCheckBox").prop('checked', false);
+            }
+            if (obj.isDr) {
+                $("#isDrCheckBox").prop('checked', true);
+
+
+            }
+            else {
+                $("#isDrCheckBox").prop('checked', false);
+            }
+
+            if (obj.isUser) {
+                $("#isUserCheckBox").prop('checked', true);
+
+
+            }
+            else {
+                $("#isUserCheckBox").prop('checked', false);
+            }
+
 
              getHospitalsByUser(selectedPersonalID);
 

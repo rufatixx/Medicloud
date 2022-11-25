@@ -40,11 +40,12 @@ namespace FlexitHisMVC.Data
                             personal.surname = reader["surname"] == DBNull.Value ? "" : reader["surname"].ToString();
                             personal.father = reader["father"] == DBNull.Value ? "" : reader["father"].ToString();
                             personal.mobile = reader["mobile"] == DBNull.Value ? "" : reader["mobile"].ToString(); 
+                            personal.username = reader["username"] == DBNull.Value ? "" : reader["username"].ToString(); 
                             personal.email = reader["email"] == DBNull.Value ? "" : reader["email"].ToString();
                             personal.passportSerialNum = reader["passportSerialNum"] == DBNull.Value ? "" : reader["passportSerialNum"].ToString();
                             personal.fin = reader["fin"] == DBNull.Value ? "" : reader["fin"].ToString();
 
-                            personal.bDate = reader["bDate"] == DBNull.Value ? DateTime.Now.Date : Convert.ToDateTime(reader["bDate"]).Date; 
+                            personal.bDate = reader["bDate"] == DBNull.Value ? DateTime.Now.Date.ToString("yyyy-MM-dd") : Convert.ToDateTime(reader["bDate"]).Date.ToString("yyyy-MM-dd"); 
                             personal.speciality = reader["specialityName"] == DBNull.Value ? "" : reader["specialityName"].ToString();
                             personal.isActive = reader["isActive"] == DBNull.Value ? false : Convert.ToBoolean(reader["isActive"]);
                             personal.isUser = reader["isUser"] == DBNull.Value ? false : Convert.ToBoolean(reader["isUser"]);
@@ -227,21 +228,63 @@ WHERE NOT EXISTS
 
 
                     connection.Open();
-                    using (MySqlCommand com = new MySqlCommand("update users set name = @name, surname= @surnmame, father = @father, mobile=@mobile, isDr=@isDr,username= @username,isActive=@isActive where id = @userID", connection))
+                    using (MySqlCommand com = new MySqlCommand("update users set name = @name, surname= @surname, father = @father,bDate = @bDate,passportSerialNum = @passportSerialNum,fin=@fin, mobile=@mobile, specialityID=@specialityID, isDr=@isDr,username= @username,isActive=@isActive where id = @userID", connection))
                     {
                         com.Parameters.AddWithValue("@userID",userID);
-                        com.Parameters.AddWithValue("@name",name);
-                        com.Parameters.AddWithValue("@surname", surname);
-                        com.Parameters.AddWithValue("@father", father);
-                        com.Parameters.AddWithValue("@mobile", mobile);
-                        com.Parameters.AddWithValue("@email", email);
+                        com.Parameters.AddWithValue("@name", name ?? "");
+                        com.Parameters.AddWithValue("@surname", surname ?? "");
+                        com.Parameters.AddWithValue("@father", father ?? "");
+                        com.Parameters.AddWithValue("@mobile", mobile?? "");
+                        com.Parameters.AddWithValue("@email", email ?? "");
                         com.Parameters.AddWithValue("@bDate", bDate);
-                        com.Parameters.AddWithValue("@username", username);
+                        com.Parameters.AddWithValue("@username", username?? "");
+                        com.Parameters.AddWithValue("@passportSerialNum", passportSerialNum ?? "");
+                        com.Parameters.AddWithValue("@fin", fin ?? "");
                    
                         com.Parameters.AddWithValue("@isActive", isActive);
-                        com.Parameters.AddWithValue("@isDr", isDr);
+                        com.Parameters.AddWithValue("@specialityID", specialityID);
+                        com.Parameters.AddWithValue("@isDr", isDr); 
 
                       updated = com.ExecuteNonQuery();
+
+                    }
+                    connection.Close();
+
+
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex.Message);
+
+
+            }
+            return updated;
+        }
+        public int UpdateUserPwd(int userID, string pwd)
+        {
+            int updated = 0;
+            List<Personal> personalList = new List<Personal>();
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+                {
+
+
+
+
+                    connection.Open();
+                    using (MySqlCommand com = new MySqlCommand("update users set pwd = SHA2(@pwd,256) where id = @userID", connection))
+                    {
+                        com.Parameters.AddWithValue("@userID", userID);
+                        com.Parameters.AddWithValue("@pwd", pwd ?? "");
+                      
+
+                        updated = com.ExecuteNonQuery();
 
                     }
                     connection.Close();

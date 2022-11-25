@@ -219,6 +219,24 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
 
 
         }
+        [HttpPost]
+        public IActionResult UpdateUserPwd(int userID, string pwd)
+        {
+            if (HttpContext.Session.GetInt32("userid") != null)
+            {
+                UserRepo user = new UserRepo(ConnectionString);
+
+                return Ok(user.UpdateUserPwd(userID,pwd));
+
+            }
+            else
+            {
+                return Unauthorized();
+            }
+
+
+
+        }
 
     }
 }
