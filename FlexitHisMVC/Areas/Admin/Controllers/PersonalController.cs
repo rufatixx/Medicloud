@@ -146,7 +146,6 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
 
         }
         [HttpGet]
-
         public IActionResult GetDepartmentsByUser(int userID)
         {
             if (HttpContext.Session.GetInt32("userid") != null)
@@ -155,6 +154,24 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
                 UserDepRelRepo userDepRel = new UserDepRelRepo(ConnectionString);
 
                 return Ok(userDepRel.GetUserDepartments(userID));
+
+            }
+            else
+            {
+                return Unauthorized();
+            }
+
+
+        }
+        [HttpGet]
+        public IActionResult GetUserKassaByHospital(int hospitalID)
+        {
+            if (HttpContext.Session.GetInt32("userid") != null)
+            {
+
+                KassaRepo kassaRepo = new KassaRepo(ConnectionString);
+
+                return Ok(kassaRepo.GetUserKassaByHospital(hospitalID));
 
             }
             else

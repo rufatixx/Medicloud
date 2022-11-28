@@ -145,8 +145,7 @@ WHERE NOT EXISTS
 
                     connection.Open();
 
-                    sql = @"UPDATE user_dep_rel SET isActive = 0
- WHERE userID = @userID and depID = @depID;";
+                    sql = @"DELETE FROM user_dep_rel WHERE userID = @userID and depID = @depID;";
 
 
 
