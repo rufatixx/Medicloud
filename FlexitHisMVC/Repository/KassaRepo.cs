@@ -13,7 +13,43 @@ namespace FlexitHisMVC.Data
         {
             ConnectionString = conString;
         }
-        public List<Kassa> GetUserKassaByHospital(int hospitalID)
+        public List<Kassa> GetAllKassaListByHospital(int hospitalID)
+        {
+            List<Kassa> kassaList = new List<Kassa>();
+
+            using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+            {
+
+                connection.Open();
+
+                using (MySqlCommand kassaCom = new MySqlCommand("SELECT *  FROM kassa a where hospitalID =@hospitalID;", connection))
+                {
+
+                    kassaCom.Parameters.AddWithValue("@hospitalID", hospitalID);
+
+                    using (MySqlDataReader kassaReader = kassaCom.ExecuteReader())
+                    {
+                        if (kassaReader.HasRows)
+                        {
+                            while (kassaReader.Read())
+                            {
+                                Kassa kassa = new Kassa();
+                                kassa.id = Convert.ToInt32(kassaReader["id"]);
+                                kassa.name = kassaReader["name"].ToString();
+                                kassaList.Add(kassa);
+                            }
+
+
+                        }
+
+                    }
+
+                }
+                connection.Close();
+            }
+            return kassaList;
+        }
+        public List<Kassa> GetUserKassaByHospital(int hospitalID, int userID)
 
         {
 
@@ -26,10 +62,11 @@ namespace FlexitHisMVC.Data
 
                     connection.Open();
                     using (MySqlCommand com = new MySqlCommand($@"SELECT *,(select name from kassa where id=a.kassaID)as name
-FROM kassa_user_rel a where kassaID in (select id from kassa where hospitalID=@hospitalID) ", connection))
+FROM kassa_user_rel a where kassaID in (select id from kassa where hospitalID=@hospitalID) and userID = @userID", connection))
                     {
 
                         com.Parameters.AddWithValue("@hospitalID", hospitalID);
+                        com.Parameters.AddWithValue("@userID", userID);
                         MySqlDataReader reader = com.ExecuteReader();
                         if (reader.HasRows)
                         {
@@ -41,6 +78,8 @@ FROM kassa_user_rel a where kassaID in (select id from kassa where hospitalID=@h
                                 Kassa kassa = new Kassa();
                                 kassa.id = Convert.ToInt32(reader["id"]);
                                 kassa.kassaID = Convert.ToInt32(reader["kassaID"]);
+                                kassa.readOnly = Convert.ToInt32(reader["read_only"]);
+                                kassa.fullAccess = Convert.ToInt32(reader["full_access"]);
                                 kassa.name = reader["name"].ToString();
                                 kassaList.Add(kassa);
 
@@ -100,7 +139,7 @@ FROM kassa_user_rel a where kassaID in (select id from kassa where hospitalID=@h
 
 
                         }
-                        
+
                     }
 
                 }

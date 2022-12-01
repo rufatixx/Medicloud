@@ -164,14 +164,32 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
 
         }
         [HttpGet]
-        public IActionResult GetUserKassaByHospital(int hospitalID)
+        public IActionResult GetAllKassaByHospital(int hospitalID)
         {
             if (HttpContext.Session.GetInt32("userid") != null)
             {
 
                 KassaRepo kassaRepo = new KassaRepo(ConnectionString);
 
-                return Ok(kassaRepo.GetUserKassaByHospital(hospitalID));
+                return Ok(kassaRepo.GetAllKassaListByHospital(hospitalID));
+
+            }
+            else
+            {
+                return Unauthorized();
+            }
+
+
+        }
+        [HttpGet]
+        public IActionResult GetUserKassaByHospital(int hospitalID,int userID)
+        {
+            if (HttpContext.Session.GetInt32("userid") != null)
+            {
+
+                KassaRepo kassaRepo = new KassaRepo(ConnectionString);
+
+                return Ok(kassaRepo.GetUserKassaByHospital(hospitalID,userID));
 
             }
             else
