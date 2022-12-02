@@ -147,6 +147,104 @@ FROM kassa_user_rel a where kassaID in (select id from kassa where hospitalID=@h
             }
             return kassaList;
         }
+        public int InsertKassaToUser(int userID, int kassaID, bool read_only, bool full_access)
+        {
+            int lastID = 0;
+
+            try
+            {
+                if (userID > 0 && kassaID > 0)
+                {
+                    using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+                    {
+
+
+                        var sql = "";
+
+                        connection.Open();
+
+                        sql = @"Insert INTO kassa_user_rel (kassaID,userID,read_only,full_access )
+SELECT @kassaID,@userID,@read_only,@full_access FROM DUAL
+WHERE NOT EXISTS 
+  (SELECT * FROM kassa_user_rel WHERE kassaID=@kassaID and userID=@userID )";
+
+
+
+                        using (MySqlCommand com = new MySqlCommand(sql, connection))
+                        {
+                            com.Parameters.AddWithValue("@kassaID", kassaID);
+                            com.Parameters.AddWithValue("@userID", userID);
+                            com.Parameters.AddWithValue("@read_only", read_only);
+                            com.Parameters.AddWithValue("@full_access", full_access);
+
+
+                            lastID = com.ExecuteNonQuery();
+
+
+                        }
+                        connection.Close();
+
+
+
+                    }
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex.Message);
+
+
+            }
+            return lastID;
+        }
+        public int RemoveKassaFromUser(int userID, int kassaID)
+        {
+            int lastID = 0;
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+                {
+
+
+                    var sql = "";
+
+                    connection.Open();
+
+                    sql = @"DELETE FROM kassa_user_rel WHERE userID = @userID and kassaID = @kassaID;";
+
+
+
+                    using (MySqlCommand com = new MySqlCommand(sql, connection))
+                    {
+                        com.Parameters.AddWithValue("@kassaID", kassaID);
+                        com.Parameters.AddWithValue("@userID", userID);
+
+
+                        lastID = com.ExecuteNonQuery();
+
+
+                    }
+                    connection.Close();
+
+
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex.Message);
+
+
+            }
+            return lastID;
+        }
     }
 }
 

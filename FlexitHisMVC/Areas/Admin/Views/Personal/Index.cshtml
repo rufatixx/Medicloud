@@ -840,7 +840,7 @@
 
 
                                     </div>
-                                   
+
 
 
                                 </div>
@@ -1754,20 +1754,20 @@
                                                 var readOnlyCheckBox;
 
                                                 if (userDeps[a].readOnly > 0) {
-                                                    readOnlyCheckBox = '<input class=" me-1 " type="checkbox" value="" checked>'
+                                                    readOnlyCheckBox = '<input class=" me-1 " type="checkbox" value="" checked onclick="return false">'
                                                 }
                                                 else {
-                                                    readOnlyCheckBox = '<input class=" me-1 " type="checkbox" value="" >'
+                                                    readOnlyCheckBox = '<input class=" me-1 " type="checkbox" value="" onclick="return false">'
                                                 }
 
 
                                                 var fullAccessCheckBox;
 
                                                 if (userDeps[a].fullAccess > 0) {
-                                                    fullAccessCheckBox = '<input class=" me-1 " type="checkbox" value="" checked>'
+                                                    fullAccessCheckBox = '<input class=" me-1 " type="checkbox" value="" checked onclick="return false">'
                                                 }
                                                 else {
-                                                    fullAccessCheckBox = '<input class=" me-1 " type="checkbox" value="" >'
+                                                    fullAccessCheckBox = '<input class=" me-1 " type="checkbox" value="" onclick="return false">'
                                                 }
 
 
@@ -1775,7 +1775,7 @@
 
                                                 $("#depsInHospitalByUser").append($(`
 
-<div class="list-group-item list-group-item-action dep-list" id=${depsByHospital[i].id} onclick="$('.dep-list').removeClass('active'); $(this).addClass('active');">
+<div class="list-group-item list-group-item-action dep-list" id=${depsByHospital[i].id} >
 
                             <div class="row">
                                 <div class="col-3">${depsByHospital[i].name}</div>
@@ -1845,25 +1845,25 @@ ${fullAccessCheckBox}
                             var readOnlyCheckBox;
 
                             if (this.readOnly > 0) {
-                                readOnlyCheckBox = '<input class=" me-1 " type="checkbox" value="" checked>'
+                                readOnlyCheckBox = '<input class=" me-1 " type="checkbox" value="" checked onclick="return false">'
                             }
                             else {
-                                readOnlyCheckBox = '<input class=" me-1 " type="checkbox" value="" >'
+                                readOnlyCheckBox = '<input class=" me-1 " type="checkbox" value="" onclick="return false">'
                             }
 
 
                             var fullAccessCheckBox;
 
                             if (this.fullAccess > 0) {
-                                fullAccessCheckBox = '<input class=" me-1 " type="checkbox" value="" checked>'
+                                fullAccessCheckBox = '<input class=" me-1 " type="checkbox" value="" checked onclick="return false">'
                             }
                             else {
-                                fullAccessCheckBox = '<input class=" me-1 " type="checkbox" value="" >'
+                                fullAccessCheckBox = '<input class=" me-1 " type="checkbox" value="" onclick="return false">'
                             }
 
                             $("#kassaInHospitalByUser").append($(`
 
-<div class="list-group-item list-group-item-action kassa-list" id=${this.id} onclick="$('.kassa-list').removeClass('active'); $(this).addClass('active');">
+<div class="list-group-item list-group-item-action kassa-list" id='${this.id}' >
 
                             <div class="row">
                                 <div class="col-5">${this.name}</div>
@@ -1875,7 +1875,7 @@ ${fullAccessCheckBox}
                             </div>
 
 <div class="col-2">
-<a class=' text-danger' onclick = 'removeKassaFromUser();'>Sil</a>
+<a class=' text-danger' onclick = 'removeKassaFromUser(${this.kassaID});'>Sil</a>
                             </div>
 
                         </div>
@@ -2132,11 +2132,12 @@ ${fullAccessCheckBox}
             );
 
         }
-         function addDepartmentToUser() {
+        function addDepartmentToUser() {
+            //alert($("#depReadOnlyCheckBox").is(":checked"))
 var id = $("#depsInHospital").find('option:selected').attr('id');
             $.post(
                 "/Admin/Personal/AddDepToUser",
-                { userID: $("#reqCode").val(), depID: id},
+                { userID: $("#reqCode").val(), depID: id, read_only: $("#depReadOnlyCheckBox").is(":checked"), full_access: $("#depFullControlCheckBox").is(":checked")},
                 function (data) {
                     if (data > 0) {
                           getHospitalsByUser($('#reqCode').val())
@@ -2184,7 +2185,7 @@ var id = $("#depsInHospital").find('option:selected').attr('id');
             var id = $("#kassaInHospital").find('option:selected').attr('id');
             $.post(
                 "/Admin/Personal/AddKassaToUser",
-                { userID: $("#reqCode").val(), kassaId: id },
+                { userID: $("#reqCode").val(), kassaId: id, read_only: $("#kassaReadOnlyCheckBox").is(":checked"), full_access: $("#kassaFullControlCheckBox").is(":checked") },
                 function (data) {
                     if (data > 0) {
                         getUserKassaByHospital()
@@ -2202,12 +2203,12 @@ var id = $("#depsInHospital").find('option:selected').attr('id');
             );
 
         }
-        function removeKassaFromUser(userKassaID) {
+        function removeKassaFromUser(kassaID) {
 
 
             $.post(
                 "/Admin/Personal/RemoveKassaFromUser",
-                { userID: $("#reqCode").val(), depID: userDepID },
+                { userID: $("#reqCode").val(), kassaId: kassaID },
                 function (data) {
                     if (data > 0) {
                         getUserKassaByHospital();

@@ -78,7 +78,7 @@ namespace FlexitHisMVC.Repository
             return userDepRelList;
         }
         
-        public int InsertDepToUser(int userID, int depID, int read_only, int full_access)
+        public int InsertDepToUser(int userID, int depID, bool read_only, bool full_access)
         {
             int lastID = 0;
            

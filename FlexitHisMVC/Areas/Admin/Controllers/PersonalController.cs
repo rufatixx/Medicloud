@@ -200,13 +200,49 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
 
         }
         [HttpPost]
-        public IActionResult AddDepToUser(int userID, int depID, int read_only, int full_access)
+        public IActionResult AddDepToUser(int userID, int depID, bool read_only, bool full_access)
         {
             if (HttpContext.Session.GetInt32("userid") != null)
             {
                 UserDepRelRepo departmentsRepo = new UserDepRelRepo(ConnectionString);
 
                 return Ok(departmentsRepo.InsertDepToUser(userID, depID,read_only,full_access));
+
+            }
+            else
+            {
+                return Unauthorized();
+            }
+
+
+
+        }
+        [HttpPost]
+        public IActionResult AddKassaToUser(int userID, int kassaID, bool read_only, bool full_access)
+        {
+            if (HttpContext.Session.GetInt32("userid") != null)
+            {
+                KassaRepo kassaRepo = new KassaRepo(ConnectionString);
+
+                return Ok(kassaRepo.InsertKassaToUser(userID, kassaID, read_only, full_access));
+
+            }
+            else
+            {
+                return Unauthorized();
+            }
+
+
+
+        }
+        [HttpPost]
+        public IActionResult RemoveKassaFromUser(int userID, int kassaID)
+        {
+            if (HttpContext.Session.GetInt32("userid") != null)
+            {
+                KassaRepo kassaRepo = new KassaRepo(ConnectionString);
+
+                return Ok(kassaRepo.RemoveKassaFromUser(userID, kassaID));
 
             }
             else

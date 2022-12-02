@@ -228,7 +228,7 @@ WHERE NOT EXISTS
 
 
                     connection.Open();
-                    using (MySqlCommand com = new MySqlCommand("update users set name = @name, surname= @surname, father = @father,bDate = @bDate,passportSerialNum = @passportSerialNum,fin=@fin, mobile=@mobile, specialityID=@specialityID, isDr=@isDr,username= @username,isActive=@isActive where id = @userID", connection))
+                    using (MySqlCommand com = new MySqlCommand("update users set name = @name, surname= @surname, father = @father, email = @email, bDate = @bDate,passportSerialNum = @passportSerialNum,fin=@fin, mobile=@mobile, specialityID=@specialityID, isDr=@isDr,username= @username,isActive=@isActive,isUser=@isUser where id = @userID", connection))
                     {
                         com.Parameters.AddWithValue("@userID",userID);
                         com.Parameters.AddWithValue("@name", name ?? "");
@@ -241,6 +241,7 @@ WHERE NOT EXISTS
                         com.Parameters.AddWithValue("@passportSerialNum", passportSerialNum ?? "");
                         com.Parameters.AddWithValue("@fin", fin ?? "");
                    
+                        com.Parameters.AddWithValue("@isUser", isUser);
                         com.Parameters.AddWithValue("@isActive", isActive);
                         com.Parameters.AddWithValue("@specialityID", specialityID);
                         com.Parameters.AddWithValue("@isDr", isDr); 
