@@ -66,7 +66,7 @@ function getPageData() {
     $.ajax({
         type: 'POST',
         url: `/admin/departments/getBuildings`,
-        data: { userToken: localStorage.getItem("userToken"), requestToken: localStorage.getItem("requestToken"), hospitalID: localStorage.selectedHospital },
+        data: { hospitalID: localStorage.selectedHospital },
         dataType: 'json',
         success: function (data, status, xhr) {   // success callback function
             //  var json = JSON.stringify(data)

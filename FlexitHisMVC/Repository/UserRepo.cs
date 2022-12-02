@@ -50,6 +50,7 @@ namespace FlexitHisMVC.Data
                             personal.isActive = reader["isActive"] == DBNull.Value ? false : Convert.ToBoolean(reader["isActive"]);
                             personal.isUser = reader["isUser"] == DBNull.Value ? false : Convert.ToBoolean(reader["isUser"]);
                             personal.isDr = reader["isDr"] == DBNull.Value ? false : Convert.ToBoolean(reader["isDr"]);
+                            personal.isAdmin = reader["isAdmin"] == DBNull.Value ? false : Convert.ToBoolean(reader["isAdmin"]);
 
                             personalList.Add(personal);
 
@@ -149,7 +150,7 @@ namespace FlexitHisMVC.Data
             }
             return personal;
         }
-        public int InsertPersonal(string name, string surname, string father,int specialityID, string passportSerialNum,string fin, string phone, string email, string bDate, string username, string pwd, int isUser,int isDr)
+        public int InsertPersonal(string name, string surname, string father,int specialityID, string passportSerialNum,string fin, string phone, string email, string bDate, string username, string pwd, int isUser,int isDr,int isAdmin)
         {
             int lastID = 0;
             try
@@ -163,15 +164,15 @@ namespace FlexitHisMVC.Data
                     connection.Open();
                     if (isUser == 1 && !string.IsNullOrEmpty(username))
                     {
-                        sql = @"Insert INTO users (name,surname,father,specialityID, mobile,email,bdate,username,pwd,isUser,isDr)
-SELECT @name,@surname,@father,@specialityID,@mobile,@email,@bDate,@username,SHA2(@pwd,256),@isUser,@isDr FROM DUAL
+                        sql = @"Insert INTO users (name,surname,father,specialityID, mobile,email,bdate,username,pwd,isUser,isDr,isAdmin)
+SELECT @name,@surname,@father,@specialityID,@mobile,@email,@bDate,@username,SHA2(@pwd,256),@isUser,@isDr,@isAdmin FROM DUAL
 WHERE NOT EXISTS 
   (SELECT * FROM users WHERE name=@name and surname=@surname and father= @father or username = @username)";
 
                     }
                     else {
-                        sql = @"Insert INTO users (name,surname,father,specialityID, mobile,email,bdate,isUser,isDr)
-SELECT @name,@surname,@father,@specialityID,@mobile,@email,@bDate,@isUser,@isDr FROM DUAL
+                        sql = @"Insert INTO users (name,surname,father,specialityID, mobile,email,bdate,isUser,isDr,isAdmin)
+SELECT @name,@surname,@father,@specialityID,@mobile,@email,@bDate,@isUser,@isDr,@isAdmin FROM DUAL
 WHERE NOT EXISTS 
   (SELECT * FROM users WHERE name=@name and surname=@surname and father= @father)";
                       
@@ -192,6 +193,7 @@ WHERE NOT EXISTS
                         com.Parameters.AddWithValue("@pwd", pwd);
                         com.Parameters.AddWithValue("@isUser", isUser);
                         com.Parameters.AddWithValue("@isDr", isDr);
+                        com.Parameters.AddWithValue("@admin", isAdmin);
 
                         lastID = com.ExecuteNonQuery();
 
@@ -215,7 +217,7 @@ WHERE NOT EXISTS
             return lastID;
         }
 
-        public int UpdateUser(int userID,string name, string surname, string father, int specialityID, string passportSerialNum, string fin, string mobile, string email, string bDate, string username, int isUser, int isDr, int isActive)
+        public int UpdateUser(int userID,string name, string surname, string father, int specialityID, string passportSerialNum, string fin, string mobile, string email, string bDate, string username, int isUser, int isDr, int isActive,int isAdmin)
         {
             int updated = 0;
             List<Personal> personalList = new List<Personal>();
@@ -228,7 +230,7 @@ WHERE NOT EXISTS
 
 
                     connection.Open();
-                    using (MySqlCommand com = new MySqlCommand("update users set name = @name, surname= @surname, father = @father, email = @email, bDate = @bDate,passportSerialNum = @passportSerialNum,fin=@fin, mobile=@mobile, specialityID=@specialityID, isDr=@isDr,username= @username,isActive=@isActive,isUser=@isUser where id = @userID", connection))
+                    using (MySqlCommand com = new MySqlCommand("update users set name = @name, surname= @surname, father = @father, email = @email, bDate = @bDate,passportSerialNum = @passportSerialNum,fin=@fin, mobile=@mobile, specialityID=@specialityID, isDr=@isDr,username= @username,isActive=@isActive,isUser=@isUser,isAdmin=@isAdmin where id = @userID", connection))
                     {
                         com.Parameters.AddWithValue("@userID",userID);
                         com.Parameters.AddWithValue("@name", name ?? "");
@@ -240,11 +242,11 @@ WHERE NOT EXISTS
                         com.Parameters.AddWithValue("@username", username?? "");
                         com.Parameters.AddWithValue("@passportSerialNum", passportSerialNum ?? "");
                         com.Parameters.AddWithValue("@fin", fin ?? "");
-                   
                         com.Parameters.AddWithValue("@isUser", isUser);
                         com.Parameters.AddWithValue("@isActive", isActive);
                         com.Parameters.AddWithValue("@specialityID", specialityID);
                         com.Parameters.AddWithValue("@isDr", isDr); 
+                        com.Parameters.AddWithValue("@isAdmin", isAdmin); 
 
                       updated = com.ExecuteNonQuery();
 

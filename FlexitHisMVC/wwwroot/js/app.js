@@ -32,27 +32,82 @@ function hideLoading() {
     $('#loadingModal').modal('hide');
 }
 
+//if (localStorage.length > 0) {
+
+
+//    if (!localStorage.selectedHospital) {
+//        if (parsedJSON.data[0].hospitals.length > 0) {
+//            $("#fullName").text(`${parsedJSON.data[0].personal.name} ${parsedJSON.data[0].personal.surname}`)
+//            $("#selectHospitalDropdownButton").text(parsedJSON.data[0].hospitals[0].hospitalName)
+//            $('#hospitalLogo').text(parsedJSON.data[0].hospitals[0].hospitalName)
+//            localStorage.selectedHospital = parsedJSON.data[0].hospitals[0].hospitalID;
+//            localStorage.selectedHospitalName = parsedJSON.data[0].hospitals[0].hospitalName;
+//        }
+//        else {
+//            //$('#systemModalTitle').text("Sizin heç bir xəstəxanaya icazəniz yoxdur");
+//            //$('#systemModalText').html(`<p id="systemModalText">Zəhmət olmasa texniki dəstək xidmətimizə müraciət edin</p>`);
+//            //$('#systemModalBtn').show();
+//            //$('#systemModalBtn').text("Çıxış");
+//            //$('#systemModal').modal('show')
+//        }
+//    }
+//    else {
+//        $("#selectHospitalDropdownButton").text(localStorage.selectedHospitalName)
+//        $('#hospitalLogo').text(localStorage.selectedHospitalName)
+//    }
+//    $.each(parsedJSON.data[0].hospitals, function () {
+//        $("#selectHospitalDropdownItems").append(`<a class="dropdown-item" id="${this.id}" onclick="localStorage.selectedHospital='${this.id}';localStorage.selectedHospitalName='${this.hospitalName}'; $('#selectHospitalDropdownButton').text('${this.hospitalName} '); $('#hospitalLogo').text('${this.hospitalName} ');">${this.hospitalName}</a>`)
+
+//    });
+
+
+
+
+//}
+//else {
+//    localStorage.clear();
+//    $('#systemModalTitle').text("Sessiyanız başa çatıb");
+//    $('#systemModalText').html(`<p id="systemModalText">Zəhmət olmasa yenidən giriş edin</p>`);
+//    $('#systemModalBtn').removeAttr("hidden");
+//    //$('#systemModal').modal('show')
+//    //window.location.replace("file:///Users/rufat/Desktop/Dekor%20Stone/login/dekor_stone.html");
+//}
+
+
 if (localStorage.json) {
     var json = localStorage.json;
     var parsedJSON = JSON.parse(json);
-
-
+   
     $("#fullName").text(parsedJSON.data[0].personal.name + " " + parsedJSON.data[0].personal.surname)
 
-    if (!localStorage.selectedHospital) {
-        $("#selectHospitalDropdownButton").text(parsedJSON.data[0].hospitals[0].hospitalName)
-        $('#hospitalLogo').text(parsedJSON.data[0].hospitals[0].hospitalName)
-        localStorage.selectedHospital = parsedJSON.data[0].hospitals[0].id;
-        localStorage.selectedHospitalName = parsedJSON.data[0].hospitals[0].hospitalName;
+    if (localStorage.selectedHospital != null) {
+
+        if (parsedJSON.data[0].hospitals.length > 0) {
+            $("#selectHospitalDropdownButton").text(parsedJSON.data[0].hospitals[0].hospitalName)
+            $('#hospitalLogo').text(parsedJSON.data[0].hospitals[0].hospitalName)
+            localStorage.selectedHospital = parsedJSON.data[0].hospitals[0].id;
+            localStorage.selectedHospitalName = parsedJSON.data[0].hospitals[0].hospitalName;
+            $.each(parsedJSON.data[0].hospitals, function () {
+                $("#selectHospitalDropdownItems").append(`<a class="dropdown-item" id="${this.id}" onclick="localStorage.selectedHospital='${this.id}';localStorage.selectedHospitalName='${this.hospitalName}'; $('#selectHospitalDropdownButton').text('${this.hospitalName} '); $('#hospitalLogo').text('${this.hospitalName} ');">${this.hospitalName}</a>`)
+
+            });
+        }
+        else
+        {
+            $('#systemModalTitle').text("Sizin heç bir xəstəxanaya icazəniz yoxdur");
+            $('#systemModalText').html(`<p id="systemModalText">Zəhmət olmasa texniki dəstək xidmətimizə müraciət edin</p>`);
+            $('#systemModalBtn').removeAttr("hidden");
+            $('#systemModal').modal('show')
+        }
+
+      
     }
     else {
         $("#selectHospitalDropdownButton").text(localStorage.selectedHospitalName)
         $('#hospitalLogo').text(localStorage.selectedHospitalName)
     }
-    $.each(parsedJSON.data[0].hospitals, function () {
-        $("#selectHospitalDropdownItems").append(`<a class="dropdown-item" id="${this.id}" onclick="localStorage.selectedHospital='${this.id}';localStorage.selectedHospitalName='${this.hospitalName}'; $('#selectHospitalDropdownButton').text('${this.hospitalName} '); $('#hospitalLogo').text('${this.hospitalName} ');">${this.hospitalName}</a>`)
 
-    });
+   
     //if (localStorage.lastActivePage) {
 
 
@@ -112,12 +167,16 @@ function logout() {
    
     $('#warningModal').modal('show')
     $('#warningText').text('Çıxış etməyinizdən əminsiniz?');
+    $("#warningModalButton").show();
     $("#warningModalButton").text("Bəli");
     $("#warningModalButton").on("click", function () {
+
         $.post("/login/logout", function (data) {
 
         });
-        localStorage.json = '';
+        $("#warningModalButton").hide();
+        localStorage.clear();
         window.location.replace("/login");
+
     });
 }

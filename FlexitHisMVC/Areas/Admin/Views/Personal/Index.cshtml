@@ -291,21 +291,27 @@
 
                                     <div class="form-group">
                                         <div class="row">
-                                            <div class="col-md-4" style="display:inline">
+                                            <div class="col-md-3" style="display:inline">
                                                 <input class=" me-1 " id="isActiveCheckBox" type="checkbox" value="">
                                                 <label for="exampleFormControlSelect1">Aktiv</label>
 
 
                                             </div>
-                                            <div class="col-md-4" style="display:inline">
+                                            <div class="col-md-3" style="display:inline">
                                                 <input class=" me-1 " id="isDrCheckBox" type="checkbox" value="">
                                                 <label for="exampleFormControlSelect1">Həkim</label>
 
 
                                             </div>
-                                            <div class="col-md-4" style="display:inline">
+                                            <div class="col-md-3" style="display:inline">
                                                 <input class=" me-1 " id="isUserCheckBox" type="checkbox" value="">
                                                 <label for="exampleFormControlSelect1">İstifadəçi</label>
+
+
+                                            </div>
+                                            <div class="col-md-3" style="display:inline">
+                                                <input class=" me-1 " id="isAdminCheckBox" type="checkbox" value="">
+                                                <label for="exampleFormControlSelect1">Admin</label>
 
 
                                             </div>
@@ -1327,7 +1333,12 @@
 
 
                                     </div>
+                                    <div class="col-md-2 ">
+                                        <label for="exampleFormControlSelect1">Admin</label>
+                                        <input class=" me-1 " id="isAdmin" type="checkbox"  value="">
 
+
+                                    </div>
 
 
                                 </div>
@@ -1472,6 +1483,14 @@
             $("#isUserCheckBox").prop('checked', false);
         }
 
+         if (@Model.personalList[0].isAdmin.ToString().ToLower()) {
+             $("#isAdminCheckBox").prop('checked', true);
+
+
+        }
+        else {
+             $("#isAdminCheckBox").prop('checked', false);
+        }
         var newPersonalIsUser = 0;
         function checkIsUserBox(state) {
             if ($(state).is(':checked'))
@@ -1523,9 +1542,13 @@
             if ($("#isUserCheckBox").prop('checked') == true) {
                 isUserCheckBox = 1;
             }
+            var isAdminCheckBox = 0;
+            if ($("#isAdminCheckBox").prop('checked') == true) {
+                isAdminCheckBox = 1;
+            }
 
             $.post("/Admin/Personal/UpdateUser",
-                { userID: userID, mobile: mobile, email: email, username: username, bDate: bDate, passportSerialNum: passportSerialNum, fin: fin, specialityID: userSpecialityID, name: name, surname: surname, father: father, isActive: isActiveCheckBox, isDr: isDrCheckBox, isUser: isUserCheckBox }, function (data) {
+                { userID: userID, mobile: mobile, email: email, username: username, bDate: bDate, passportSerialNum: passportSerialNum, fin: fin, specialityID: userSpecialityID, name: name, surname: surname, father: father, isActive: isActiveCheckBox, isDr: isDrCheckBox, isUser: isUserCheckBox, isAdmin: isAdminCheckBox }, function (data) {
                     if (data > 0) {
 
                         $('#systemModal').modal('hide')
@@ -1719,7 +1742,14 @@
                 $("#isUserCheckBox").prop('checked', false);
             }
 
+             if (obj.isAdmin) {
+             $("#isAdminCheckBox").prop('checked', true);
 
+
+        }
+        else {
+             $("#isAdminCheckBox").prop('checked', false);
+        }
              getHospitalsByUser(selectedPersonalID);
 
 
@@ -1988,11 +2018,13 @@ ${fullAccessCheckBox}
 
             if (forms[0].checkValidity()) {
                 var newUserIsDr = 0;
-
+                var admin = 0
                 if ($("#isDr").is(':checked')) {
                     newUserIsDr = 1;
                 }
-
+                if ($("#admin").is(':checked')) {
+                    admin = 1;
+                }
 
                 var name = $('#newUserName').val();
                 var surname = $('#newUserSurname').val();
@@ -2033,7 +2065,8 @@ ${fullAccessCheckBox}
                         "pwd": password,
                         "isUser": newPersonalIsUser,
                         "bDate": bDate,
-                        "isDr": newUserIsDr
+                        "isDr": newUserIsDr,
+                        "admin":admin
                     },
                     success: function (data, status, xhr) {   // success callback function
                         //  var json = JSON.stringify(data)

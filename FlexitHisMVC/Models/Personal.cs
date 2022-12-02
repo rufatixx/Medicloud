@@ -18,6 +18,7 @@ namespace FlexitHisMVC.Models
         public bool isActive { get; set; }
         public bool isUser { get; set; }
         public bool isDr { get; set; }
+        public bool isAdmin { get; set; }
         public int status { get; set; }
         public int userType { get; set; }
   
