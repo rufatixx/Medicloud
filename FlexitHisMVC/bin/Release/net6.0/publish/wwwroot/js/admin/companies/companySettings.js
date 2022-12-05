@@ -11,6 +11,37 @@ $('#gender').attr('disabled', true);
 $('#depType').attr('disabled', true);
 $("#depBuilding").attr('disabled', true);
 
+
+
+var allHospitalsWithBuildings;
+
+$("#departments").empty();
+$("#buildingsInDep").empty();
+
+$.get(
+    "/Admin/Company/GetAllHospitalsWithBuildings",
+
+    function (data) {
+        allHospitalsWithBuildings = data;
+        if (data.hospitals.length > 0) {
+
+            $.each(data.hospitals, function () {
+
+                $("#departments").append($("<option />").val(this.id).text(this.hospitalName));
+
+
+
+
+            });
+            getPageData();
+        }
+
+
+
+
+    });
+
+
 var groupsInBuilding;
 var companiesInBuilding;
 var docRequired = new Array();
@@ -53,7 +84,7 @@ $.each(gender, function () {
 
 });
 
-getPageData();
+
 
 function getPageData() {
     showLoading();
@@ -66,7 +97,7 @@ function getPageData() {
     $.ajax({
         type: 'POST',
         url: `/admin/companies/getCompanyGroups`,
-        data: { hospitalID: localStorage.selectedHospital },
+        data: { hospitalID: $("#departments").val() },
         dataType: 'json',
         success: function (data, status, xhr) {   // success callback function
             //  var json = JSON.stringify(data)
@@ -97,7 +128,7 @@ groupsInBuilding = data.data;
             $.ajax({
                 type: 'POST',
                 url: `/admin/companies/getCompanies`,
-                data: { hospitalID: localStorage.selectedHospital },
+                data: { hospitalID: $("#departments").val() },
                 dataType: 'json',
                 success: function (data, status, xhr) {   // success callback function
                     //  var json = JSON.stringify(data)
@@ -196,6 +227,20 @@ groupsInBuilding = data.data;
     });
 
 }
+
+function hospitalChanged() {
+   
+
+    $(".companySettings").hide();
+    $(".groupSettings").hide();
+
+   
+    getPageData();
+
+}
+
+
+
 function filterGroups(){
     $("#cGroups").empty()
     if ($("#groupsIsActive").is(':checked')) {
@@ -339,7 +384,7 @@ async function insertCGroup() {
         url: `/admin/companies/insertCompanyGroup`,
         data: {
            
-            hospitalID: localStorage.selectedHospital,
+            hospitalID: $("#departments").val(),
             cGroupName: $("#groupName").val(),
             cGroupType: $("#cGroupType").val(),
         },
@@ -348,38 +393,13 @@ async function insertCGroup() {
             //  var json = JSON.stringify(data)
             $('#addCompanyGroup').modal('hide')
             $('#warningModal').modal('show')
-            switch (data.status) {
-                case 1:
-                    if (typeof (Storage) !== "undefined") {
-
-                        localStorage.requestToken = data.requestToken
-                    } else {
-
-                        // Sorry! No Web Storage support..
-                    }
-                    // getPageData();
-
-                    $('#warningText').text("Əlavə olundu");
-                    getPageData()
-                    break;
-                case 2:
-                    if (typeof (Storage) !== "undefined") {
-
-                        localStorage.requestToken = data.requestToken
-                    } else {
-
-                        // Sorry! No Web Storage support..
-                    }
-                    // getPageData();
-
-                    $('#warningText').text("Xəta baş verdi");
-                    break;
-                default:
-                    $('#warningText').text("Xəta baş verdi");
-                    break
-
+            if (data) {
+                $('#warningText').text("Əlavə olundu");
+                getPageData()
             }
-
+            else {
+                $('#warningText').text("Xəta baş verdi");
+            }
 
             hideLoading();
 
@@ -422,7 +442,7 @@ async function insertCompany() {
         url: `/admin/companies/insertCompany`,
         data: {
          
-            hospitalID: localStorage.selectedHospital,
+            hospitalID: $("#departments").val(),
             companyName: $("#companyName").val(),
             cGroupID: $("#cGroupsInModal").val(),
         },
@@ -431,37 +451,14 @@ async function insertCompany() {
             //  var json = JSON.stringify(data)
             $('#addCompany').modal('hide')
             $('#warningModal').modal('show')
-            switch (data.status) {
-                case 1:
-                    if (typeof (Storage) !== "undefined") {
-
-                        localStorage.requestToken = data.requestToken
-                    } else {
-
-                        // Sorry! No Web Storage support..
-                    }
-                    // getPageData();
-                    
-                    $('#warningText').text("Əlavə olundu");
-                    getPageData()
-                    break;
-                case 2:
-                    if (typeof (Storage) !== "undefined") {
-
-                        localStorage.requestToken = data.requestToken
-                    } else {
-
-                        // Sorry! No Web Storage support..
-                    }
-                    // getPageData();
-
-                    $('#warningText').text("Xəta baş verdi");
-                    break;
-                default:
-                    $('#warningText').text("Xəta baş verdi");
-                    break
-
+            if (data) {
+                $('#warningText').text("Əlavə olundu");
+                getPageData()
             }
+            else {
+                $('#warningText').text("Xəta baş verdi");
+            }
+           
 
 
             hideLoading();
@@ -510,7 +507,7 @@ function updateCompanyGroup() {
         data: {
          
             id: $(".groupSettings").prop('id'),
-            hospitalID: localStorage.selectedHospital,
+            hospitalID: $("#departments").val(),
             name:$("#groupNameInSettings").val(),
             isActive: groupIsActive,
            
@@ -573,7 +570,7 @@ function updateCompany() {
         data: {
            
             id: $(".companySettings").prop('id'),
-            hospitalID: localStorage.selectedHospital,
+            hospitalID: $("#departments").val(),
             name:$("#companyNameInSettings").val(),
             isActive: companyIsActive,
            

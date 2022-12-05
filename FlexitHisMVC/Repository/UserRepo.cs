@@ -133,6 +133,9 @@ namespace FlexitHisMVC.Data
                                 personal.isUser = Convert.ToBoolean(reader["isUser"]);
                                 personal.name = reader["name"].ToString();
                                 personal.surname = reader["surname"].ToString();
+                                personal.isAdmin = reader["isAdmin"] == DBNull.Value ? false : Convert.ToBoolean(reader["isAdmin"]);
+                                personal.isUser = reader["isUser"] == DBNull.Value ? false : Convert.ToBoolean(reader["isUser"]);
+                                personal.isDr = reader["isDr"] == DBNull.Value ? false : Convert.ToBoolean(reader["isDr"]);
                             }
 
                             connection.Close();
