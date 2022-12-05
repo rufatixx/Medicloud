@@ -11,6 +11,50 @@ $('#gender').attr('disabled', true);
 $('#depType').attr('disabled', true);
 $("#depBuilding").attr('disabled', true);
 
+
+var allHospitalsWithBuildings;
+
+$("#departments").empty();
+$("#buildingsInDep").empty();
+
+$.get(
+    "/Admin/Department/GetAllHospitalsWithBuildings",
+
+    function (data) {
+        allHospitalsWithBuildings = data;
+        if (data.hospitals.length > 0) {
+
+            $.each(data.hospitals, function () {
+
+                $("#departments").append($("<option />").val(this.id).text(this.hospitalName));
+
+
+
+
+            });
+        }
+        if (data.buildings.length > 0) {
+
+
+            $.each(data.buildings, function () {
+
+                if (this.hospitalID == data.hospitals[0].id) {
+
+                    $("#buildings").append($("<option />").val(this.id).text(this.name));
+                    $("#depBuilding").append($("<option />").val(this.id).text(this.name));
+
+
+
+
+                }
+            });
+            getPageData();
+        }
+
+
+    });
+
+
 var depsInfoInBuilding;
 var docRequired = new Array();
 docRequired[0] = {
@@ -56,17 +100,20 @@ getPageData();
 
 function getPageData() {
     showLoading();
-    $("#buildings").empty();
-    $("#depBuilding").empty();
+
+   
+   
     $("#depTypesInBuilding").empty();
+    $("#depsInBuilding").empty();
     $("#insertDepType").empty();
     $("#depType").empty();
 
+  
 
     $.ajax({
         type: 'POST',
-        url: `/admin/departments/getBuildings`,
-        data: { hospitalID: localStorage.selectedHospital },
+        url: `/admin/departments/getDepartmentsInfoByBuilding`,
+        data: { userToken: localStorage.getItem("userToken"), requestToken: localStorage.getItem("requestToken"), buildingID: $("#buildings").val() },
         dataType: 'json',
         success: function (data, status, xhr) {   // success callback function
             //  var json = JSON.stringify(data)
@@ -79,20 +126,25 @@ function getPageData() {
                     // Sorry! No Web Storage support..
                 }
             }
+            depsInfoInBuilding = data.data;
+            var depTypesInBuilding = [];
 
 
-            deps = data.data;
-            //alert(data.requestTypes[0].name)
-            $.each(data.data, function () {
-                $("#buildings").append($("<option />").val(this.id).text(this.name));
-                $("#depBuilding").append($("<option />").val(this.id).text(this.name));
 
+            // Department type mapping      
+
+            depTypesInBuilding = [...new Map(depsInfoInBuilding.map(item =>
+                [item['type'], item])).values()]
+            $.each(depTypesInBuilding, function () {
+
+                $("#depTypesInBuilding").append($(`<a class='list-group-item list-group-item-action depTypesInBuildingItem' id='depTypeInBuilding${this.typeID}'  onclick='{$(".depTypesInBuildingItem").removeClass("active");$(this).addClass("active");selectDepTypeInBuilding(${this.typeID})}' />`).text(this.type));
             });
+
 
             $.ajax({
                 type: 'POST',
-                url: `/admin/departments/getDepartmentsInfoByBuilding`,
-                data: { userToken: localStorage.getItem("userToken"), requestToken: localStorage.getItem("requestToken"), buildingID: $("#buildings").val() },
+                url: `/admin/departments/getDepartmentTypes`,
+                data: { userToken: localStorage.getItem("userToken"), requestToken: localStorage.getItem("requestToken") },
                 dataType: 'json',
                 success: function (data, status, xhr) {   // success callback function
                     //  var json = JSON.stringify(data)
@@ -105,94 +157,42 @@ function getPageData() {
                             // Sorry! No Web Storage support..
                         }
                     }
-                    depsInfoInBuilding = data.data;
-                    var depTypesInBuilding = [];
+
+                    deps = data.data;
+                    //alert(data.requestTypes[0].name)
+                    $.each(data.data, function () {
+                        $("#insertDepType").append($("<option />").val(this.id).text(this.name));
+                        $("#depType").append($("<option />").val(this.id).text(this.name));
 
 
-
-                    // Department type mapping      
-
-                    depTypesInBuilding = [...new Map(depsInfoInBuilding.map(item =>
-                        [item['type'], item])).values()]
-                    $.each(depTypesInBuilding, function () {
-
-                        $("#depTypesInBuilding").append($(`<a class='list-group-item list-group-item-action depTypesInBuildingItem' id='depTypeInBuilding${this.typeID}'  onclick='{$(".depTypesInBuildingItem").removeClass("active");$(this).addClass("active");selectDepTypeInBuilding(${this.typeID})}' />`).text(this.type));
                     });
 
+                    // Əgər şöbə seçilibsə səyfə tam sıfırlanmaması üçün
+                    if ($(".selectedDepCard").prop('id') != "") {
+                        $.each(depsInfoInBuilding, function () {
+                            if (this.id == $(".selectedDepCard").prop('id')) {
 
-                    $.ajax({
-                        type: 'POST',
-                        url: `/admin/departments/getDepartmentTypes`,
-                        data: { userToken: localStorage.getItem("userToken"), requestToken: localStorage.getItem("requestToken") },
-                        dataType: 'json',
-                        success: function (data, status, xhr) {   // success callback function
-                            //  var json = JSON.stringify(data)
-                            if (data.status != 4) {
-                                if (typeof (Storage) !== "undefined") {
-
-                                    localStorage.requestToken = data.requestToken
-                                } else {
-
-                                    // Sorry! No Web Storage support..
-                                }
-                            }
-
-                            deps = data.data;
-                            //alert(data.requestTypes[0].name)
-                            $.each(data.data, function () {
-                                $("#insertDepType").append($("<option />").val(this.id).text(this.name));
-                                $("#depType").append($("<option />").val(this.id).text(this.name));
+                                selectDepTypeInBuilding(this.typeID);
+                                selectDepInBuilding(this.id);
 
 
-                            });
+                                $(".depTypesInBuildingItem").removeClass("active");
+                                $(`#depTypeInBuilding${this.typeID}`).addClass("active");
 
-                            // Əgər şöbə seçilibsə səyfə tam sıfırlanmaması üçün
-                            if ($(".selectedDepCard").prop('id') != "") {
-                                $.each(depsInfoInBuilding, function () {
-                                    if (this.id == $(".selectedDepCard").prop('id')) {
-
-                                        selectDepTypeInBuilding(this.typeID);
-                                        selectDepInBuilding(this.id);
-
-
-                                        $(".depTypesInBuildingItem").removeClass("active");
-                                        $(`#depTypeInBuilding${this.typeID}`).addClass("active");
-
-                                        $(".depsInBuildingItems").removeClass("active");
-                                        $(`#depInBuilding${this.id}`).addClass("active");
-                                    }
-
-
-                                });
-
-
+                                $(".depsInBuildingItems").removeClass("active");
+                                $(`#depInBuilding${this.id}`).addClass("active");
                             }
 
 
-
-                            hideLoading();
-
+                        });
 
 
-                        },
-                        error: function (jqXhr, textStatus, errorMessage) { // error callback
+                    }
 
 
-                            if (jqXhr.status == "401") {
-                                localStorage.clear()
-                                $('#systemModalTitle').text("Sessiyanız başa çatıb");
-                                $('#systemModalText').html(`<p id="systemModalText">Zəhmət olmasa yenidən giriş edin</p>`);
-                                $('#systemModalBtn').removeAttr("hidden");
-                                $('#systemModal').modal("show");
-                            }
-                            else {
-                                $('#warningModal').modal('show')
-                                $('#warningText').text(jqXhr.status);
-                            }
-                            //  $('#alert').text('Error: ' + errorMessage);
-                        }
 
-                    });
+                    hideLoading();
+
 
 
                 },
@@ -216,37 +216,86 @@ function getPageData() {
             });
 
 
-
         },
         error: function (jqXhr, textStatus, errorMessage) { // error callback
 
-            hideLoading();
 
-            switch (jqXhr.status) {
-                case 401:
-                    localStorage.clear()
-                    $('#systemModalTitle').text("Sessiyanız başa çatıb");
-                    $('#systemModalText').html(`<p id="systemModalText">Zəhmət olmasa yenidən giriş edin</p>`);
-                    $('#systemModalBtn').removeAttr("hidden");
-                    $('#systemModal').modal("show");
-                    break;
-                case 0:
-                    $('#warningModal').modal('show')
-                    $('#warningTitle').text(`Şəbəkə xətası`);
-                    $('#warningText').text(`Serverlərimizlə əlaqə yoxdur`);
-                    break;
-                default:
-                    $('#warningModal').modal('show')
-                    $('#warningTitle').text(`Server xətası`);
-                    $('#warningText').text(`Status: ${jqXhr.status}`);
-                    break;
-
+            if (jqXhr.status == "401") {
+                localStorage.clear()
+                $('#systemModalTitle').text("Sessiyanız başa çatıb");
+                $('#systemModalText').html(`<p id="systemModalText">Zəhmət olmasa yenidən giriş edin</p>`);
+                $('#systemModalBtn').removeAttr("hidden");
+                $('#systemModal').modal("show");
             }
-
+            else {
+                $('#warningModal').modal('show')
+                $('#warningText').text(jqXhr.status);
+            }
             //  $('#alert').text('Error: ' + errorMessage);
         }
 
     });
+
+    //$.ajax({
+    //    type: 'POST',
+    //    url: `/admin/departments/getBuildings`,
+    //    data: { hospitalID: localStorage.selectedHospital },
+    //    dataType: 'json',
+    //    success: function (data, status, xhr) {   // success callback function
+    //        //  var json = JSON.stringify(data)
+    //        if (data.status != 4) {
+    //            if (typeof (Storage) !== "undefined") {
+
+    //                localStorage.requestToken = data.requestToken
+    //            } else {
+
+    //                // Sorry! No Web Storage support..
+    //            }
+    //        }
+
+
+    //        deps = data.data;
+    //        //alert(data.requestTypes[0].name)
+    //        $.each(data.data, function () {
+    //            $("#buildings").append($("<option />").val(this.id).text(this.name));
+    //            $("#depBuilding").append($("<option />").val(this.id).text(this.name));
+
+    //        });
+
+    
+
+
+
+    //    },
+    //    error: function (jqXhr, textStatus, errorMessage) { // error callback
+
+    //        hideLoading();
+
+    //        switch (jqXhr.status) {
+    //            case 401:
+    //                localStorage.clear()
+    //                $('#systemModalTitle').text("Sessiyanız başa çatıb");
+    //                $('#systemModalText').html(`<p id="systemModalText">Zəhmət olmasa yenidən giriş edin</p>`);
+    //                $('#systemModalBtn').removeAttr("hidden");
+    //                $('#systemModal').modal("show");
+    //                break;
+    //            case 0:
+    //                $('#warningModal').modal('show')
+    //                $('#warningTitle').text(`Şəbəkə xətası`);
+    //                $('#warningText').text(`Serverlərimizlə əlaqə yoxdur`);
+    //                break;
+    //            default:
+    //                $('#warningModal').modal('show')
+    //                $('#warningTitle').text(`Server xətası`);
+    //                $('#warningText').text(`Status: ${jqXhr.status}`);
+    //                break;
+
+    //        }
+
+    //        //  $('#alert').text('Error: ' + errorMessage);
+    //    }
+
+    //});
 
 }
 
@@ -265,6 +314,40 @@ function selectDepTypeInBuilding(typeID) {
 
     });
 }
+
+
+function hospitalChanged() {
+    $("#depIsActive").prop("disabled", true);
+    $("#isRandevuActive").prop("disabled", true);
+    $('#docRequired').attr('disabled', true);
+    $('#gender').attr('disabled', true);
+    $('#depType').attr('disabled', true);
+    $("#depBuilding").attr('disabled', true);
+    $("#buildings").empty();
+    $("#depBuilding").empty();
+   
+    $.each(allHospitalsWithBuildings.buildings, function () {
+        if ($("#departments").val() == this.hospitalID) {
+            $("#buildings").append($("<option />").val(this.id).text(this.name));
+            $("#depBuilding").append($("<option />").val(this.id).text(this.name));
+
+        }
+
+    });
+    getPageData();
+   
+}
+function buildingChanged() {
+    $("#depIsActive").prop("disabled", true);
+    $("#isRandevuActive").prop("disabled", true);
+    $('#docRequired').attr('disabled', true);
+    $('#gender').attr('disabled', true);
+    $('#depType').attr('disabled', true);
+    $("#depBuilding").attr('disabled', true);
+    getPageData();
+
+}
+
 function selectDepInBuilding(depID) {
 
 
@@ -337,8 +420,7 @@ async function insertDep() {
         type: 'POST',
         url: `/admin/departments/insertDepartment`,
         data: {
-            userToken: localStorage.userToken,
-            requestToken: localStorage.requestToken,
+           
             buildingID: $("#buildings").val(),
             depName: $("#depName").val(),
             depTypeID: $("#insertDepType").val()

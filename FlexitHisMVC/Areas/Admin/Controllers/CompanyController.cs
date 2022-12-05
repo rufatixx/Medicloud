@@ -40,7 +40,26 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
             _hostingEnvironment = hostingEnvironment;
             //communications = new Communications(Configuration, _hostingEnvironment);
         }
+        [HttpGet]
+        public IActionResult GetAllHospitalsWithBuildings()
+        {
+            if (HttpContext.Session.GetInt32("userid") != null)
+            {
+                BuildingRepo buildingRepo = new BuildingRepo(ConnectionString);
+                HospitalRepo hospitalRepo = new HospitalRepo(ConnectionString);
+                dynamic obj = new System.Dynamic.ExpandoObject();
+                obj.hospitals = hospitalRepo.GetHospitalList();
+                obj.buildings = buildingRepo.GetAllBuildings();
+                return Ok(obj);
 
+            }
+            else
+            {
+                return Unauthorized();
+            }
+
+
+        }
 
         [HttpPost]
         [Route("admin/companies/getCompanyGroups")]

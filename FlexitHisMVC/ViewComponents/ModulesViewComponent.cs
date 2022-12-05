@@ -75,21 +75,25 @@ namespace FlexitHisMVC.ViewComponents
                     break;
                 default:
                     module.name = "Xəstə qəbulu";
+                    module.id = "newPatientButton";
                     module.img = "/res/new_patient.png";
                     module.url = "/NewPatient";
                     submoduleList.Add(module);
 
                     module.name = "Kassa";
+                    module.id = "kassaButton";
                     module.img = "/res/kassa/kassa.png";
                     module.url = "/";
                     submoduleList.Add(module);
 
                     module.name = "Poliklinika";
+                    module.id = "policlinicButton";
                     module.img = "/res/policlinic.png";
                     module.url = "/";
                     submoduleList.Add(module);
 
                     module.name = "Admin";
+                    module.id = "adminButton";
                     module.img = "/res/admin/admin.png";
 
                     module.url = "/Admin";

@@ -33,9 +33,11 @@
 
                 </div>
                 <div class="col-8">
+
+
                     <div class="form-group float-right">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <label>Status</label>
                                 <select class="form-control" required id="depIsActiveFilter" onchange="{
                                     $('.depTypesInBuildingItem.active').click();}">
@@ -45,14 +47,24 @@
                                 </select>
 
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
+
+
+                                <label for="exampleFormControlSelect1">Müəssisə</label>
+                                <select class="form-control" id="departments" onchange="hospitalChanged(this)">
+                                </select>
+
+
+
+                            </div>
+                            <div class="col-md-4">
                                 <label>Bina</label>
-                                <select class="form-control" required id="buildings" onchange="buildingChanged(this)">
+                                <select class="form-control" required id="buildings" onchange="buildingChanged()">
                                     <!-- <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option> -->
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option> -->
                                 </select>
 
                             </div>
@@ -279,7 +291,7 @@
 
                                 <label for="exampleFormControlSelect1">Şöbə adı</label>
                                 <!-- <select class="form-control" id="departments">
-                                </select> -->
+                </select> -->
 
                                 <input type="text" class="form-control" required id="depName" placeholder="Şöbə">
                                 <div class="valid-feedback">
@@ -309,6 +321,7 @@
 
 
                     </div>
+                  
 
 
 
@@ -323,6 +336,10 @@
 </div>
 @section Scripts
 {
+    <script>
+    
 
+
+        </script>
     <script src="~/js/admin/departments/adminDep.js" asp-append-version="true"></script>
 }

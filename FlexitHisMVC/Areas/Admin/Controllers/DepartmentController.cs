@@ -41,6 +41,27 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
                 return RedirectToAction("Index", "Login", new { area = "" });
             }
         }
+        [HttpGet]
+        
+        public IActionResult GetAllHospitalsWithBuildings()
+        {
+            if (HttpContext.Session.GetInt32("userid") != null)
+            {
+                BuildingRepo buildingRepo = new BuildingRepo(ConnectionString);
+                HospitalRepo hospitalRepo = new HospitalRepo(ConnectionString);
+                dynamic obj = new System.Dynamic.ExpandoObject();
+                obj.hospitals = hospitalRepo.GetHospitalList();
+                obj.buildings = buildingRepo.GetAllBuildings();
+               return Ok(obj);
+
+            }
+            else
+            {
+                return Unauthorized();
+            }
+
+
+        }
 
         [HttpPost]
         [Route("admin/departments/getBuildings")]
@@ -91,7 +112,7 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
 
         [HttpPost]
         [Route("admin/departments/getDepartmentsInfoByBuilding")]
-        public ActionResult<ResponseDTO<Department>> GetDepartmentInfo(int buildingID)
+        public ActionResult<ResponseDTO<Department>> GetDepartmentsInfoByBuilding(int buildingID)
         {
             if (HttpContext.Session.GetInt32("userid") != null)
             {
