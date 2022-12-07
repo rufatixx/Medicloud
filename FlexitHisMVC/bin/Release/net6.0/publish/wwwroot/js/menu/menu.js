@@ -27,36 +27,60 @@ var parsedJSON = JSON.parse(json)
 //  </div></center>`);
 //$('#systemModalBtn').attr("hidden", "");
 
-if (localStorage.length>0) {
 
-    
-    if (!localStorage.selectedHospital) {
-        $("#selectHospitalDropdownButton").text(parsedJSON.hospitals[0].hospitalName)
-        $('#hospitalLogo').text(parsedJSON.hospitals[0].hospitalName)
-        localStorage.selectedHospital = parsedJSON.hospitals[0].id;
-        localStorage.selectedHospitalName = parsedJSON.hospitals[0].hospitalName;
-    }
-    else {
-        $("#selectHospitalDropdownButton").text(localStorage.selectedHospitalName)
-        $('#hospitalLogo').text(localStorage.selectedHospitalName)
-    }
-    $.each(parsedJSON.hospitals, function () {
-        $("#selectHospitalDropdownItems").append(`<a class="dropdown-item" id="${this.id}" onclick="localStorage.selectedHospital='${this.id}';localStorage.selectedHospitalName='${this.hospitalName}'; $('#selectHospitalDropdownButton').text('${this.hospitalName} '); $('#hospitalLogo').text('${this.hospitalName} ');">${this.hospitalName}</a>`)
+ 
+//if (localStorage.json) {
+//    var json = localStorage.json;
+//    var parsedJSON = JSON.parse(json);
 
-    });
-   
+//    $("#fullName").text(parsedJSON.data[0].personal.name + " " + parsedJSON.data[0].personal.surname)
+
+//    if (localStorage.selectedHospital != null) {
+
+//        if (json.data[0].hospitals.length > 0) {
+//            $("#selectHospitalDropdownButton").text(json.data[0].hospitals[0].hospitalName)
+//            $('#hospitalLogo').text(parsedJSON.data[0].hospitals[0].hospitalName)
+//            localStorage.selectedHospital = parsedJSON.data[0].hospitals[0].id;
+//            localStorage.selectedHospitalName = parsedJSON.data[0].hospitals[0].hospitalName;
+//            $.each(parsedJSON.data[0].hospitals, function () {
+//                $("#selectHospitalDropdownItems").append(`<a class="dropdown-item" id="${this.id}" onclick="localStorage.selectedHospital='${this.id}';localStorage.selectedHospitalName='${this.hospitalName}'; $('#selectHospitalDropdownButton').text('${this.hospitalName} '); $('#hospitalLogo').text('${this.hospitalName} ');">${this.hospitalName}</a>`)
+
+//            });
+//        }
+//        else {
+//            $('#systemModalTitle').text("Sizin heç bir xəstəxanaya icazəniz yoxdur");
+//            $('#systemModalText').html(`<p id="systemModalText">Zəhmət olmasa texniki dəstək xidmətimizə müraciət edin</p>`);
+//            $('#systemModalBtn').removeAttr("hidden");
+//            $('#systemModal').modal('show')
+//        }
 
 
+//    }
+//    else {
+//        $("#selectHospitalDropdownButton").text(localStorage.selectedHospitalName)
+//        $('#hospitalLogo').text(localStorage.selectedHospitalName)
+//    }
 
-}
-else {
-    localStorage.clear();
-  $('#systemModalTitle').text("Sessiyanız başa çatıb");
-  $('#systemModalText').html(`<p id="systemModalText">Zəhmət olmasa yenidən giriş edin</p>`);
-  $('#systemModalBtn').removeAttr("hidden");
-  //$('#systemModal').modal('show')
-  //window.location.replace("file:///Users/rufat/Desktop/Dekor%20Stone/login/dekor_stone.html");
-}
+
+//    //if (localStorage.lastActivePage) {
+
+
+//    //    $("#main-content").load(localStorage.lastActivePage)
+
+//    //}
+//    //else {
+//    //    $("#main-content").load("/menu")
+//    //}
+//}
+//else {
+
+//    $('#systemModalTitle').text("Sessiyanız başa çatıb");
+//    $('#systemModalText').html(`<p id="systemModalText">Zəhmət olmasa yenidən giriş edin</p>`);
+//    $('#systemModalBtn').removeAttr("hidden");
+//    $('#systemModal').modal('show')
+//    //window.location.replace("/");
+
+//}
 
 // end date picker settings
 //function newOrderModalClick(){

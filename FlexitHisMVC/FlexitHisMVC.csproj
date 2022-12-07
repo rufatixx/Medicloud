@@ -71,6 +71,8 @@
     <Content Remove="wwwroot\res\kassa\" />
     <Content Remove="wwwroot\res\admin\" />
     <Content Remove="wwwroot\res\brand\" />
+    <Content Remove="wwwroot\res\logo_transparent.png" />
+    <Content Remove="wwwroot\res\logo.png" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Views\NewPatient">

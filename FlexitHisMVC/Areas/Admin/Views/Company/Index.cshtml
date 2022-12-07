@@ -1,54 +1,57 @@
-﻿@page
-    <div class="page-header m-1" style="display:inline">
+﻿
+@{
+    ViewData["Title"] = "Şöbə tərifi";
+}
+<div class="page-header m-1" style="display:inline">
 
-        <div class="row m-1 ">
-            <div class="col-8">
-                <div class="row ">
-                    <h1>
-                        <label class="border-right pr-2 ">Təşkilat tərifi</label>
-                    </h1>
-                    <div class="form-group pl-2 d-flex align-content-center flex-wrap">
-                        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                            <button type="button" class="btn btn-primary "
-                                    onclick=" $('#addCompanyGroup').modal('show');">
-                                + Qrup əlavə et
-                            </button>
-                            <button type="button" class="btn btn-primary border-left"
-                                    onclick=" $('#addCompany').modal('show');">
-                                + Təşkilat əlavə et
-                            </button>
-
-
-                        </div>
-                    </div>
-                    </div>
-                </div>
-                <div class="col-4">
-                    <div class="form-group float-right">
-                        <div class="row">
-                            
-                            <div class="col-md-12">
+    <div class="row m-1 ">
+        <div class="col-8">
+            <div class="row ">
+                <h1>
+                    <label class="border-right pr-2 ">Təşkilat tərifi</label>
+                </h1>
+                <div class="form-group pl-2 d-flex align-content-center flex-wrap">
+                    <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                        <button type="button" class="btn btn-primary "
+                                onclick=" $('#addCompanyGroup').modal('show');">
+                            + Qrup əlavə et
+                        </button>
+                        <button type="button" class="btn btn-primary border-left"
+                                onclick=" $('#addCompany').modal('show');">
+                            + Təşkilat əlavə et
+                        </button>
 
 
-                                <label for="exampleFormControlSelect1">Müəssisə</label>
-                                <select class="form-control" id="departments" onchange="hospitalChanged(this)">
-                                </select>
-
-
-
-                            </div>
-                         
-
-
-                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group float-right">
+                <div class="row">
+
+                    <div class="col-md-12">
 
 
+                        <label for="exampleFormControlSelect1">Müəssisə</label>
+                        <select class="form-control" id="departments" onchange="hospitalChanged(this)">
+                        </select>
+
+
+
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
     </div>
+
+
+</div>
 <form class="needs-validation" novalidate style="margin-top:2%" id="form1">
-   
+
     <div class="row">
         <div class="col-md-4">
             <div class="card">
