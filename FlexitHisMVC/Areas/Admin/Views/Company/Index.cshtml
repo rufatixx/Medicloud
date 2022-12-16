@@ -30,17 +30,17 @@
             <div class="form-group float-right">
                 <div class="row">
 
-                    <div class="col-md-12">
+                    @*<div class="col-md-12">
 
 
-                        <label for="exampleFormControlSelect1">Müəssisə</label>
-                        <select class="form-control" id="departments" onchange="hospitalChanged(this)">
-                        </select>
+            <label for="exampleFormControlSelect1">Müəssisə</label>
+            <select class="form-control" id="departments" onchange="hospitalChanged(this)">
+            </select>
 
 
 
-                    </div>
-
+        </div>*@
+                    @await Component.InvokeAsync("Departments")
 
 
                 </div>

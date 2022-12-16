@@ -28,12 +28,12 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQWRtaW4vVmlld3MvSG9tZS9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/Areas/Admin/Views/Personal/Components/PersonalList/default.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQWRtaW4vVmlld3MvUGVyc29uYWwvQ29tcG9uZW50cy9QZXJzb25hbExpc3QvZGVmYXVsdC5jc2h0bWw=
+[/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/Areas/Admin/Views/Personal/Components/Departments/default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQWRtaW4vVmlld3MvUGVyc29uYWwvQ29tcG9uZW50cy9EZXBhcnRtZW50cy9kZWZhdWx0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/Areas/Admin/Views/Personal/Components/PersonalSettings/default.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQWRtaW4vVmlld3MvUGVyc29uYWwvQ29tcG9uZW50cy9QZXJzb25hbFNldHRpbmdzL2RlZmF1bHQuY3NodG1s
+[/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/Areas/Admin/Views/Personal/Components/PersonalList/default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQWRtaW4vVmlld3MvUGVyc29uYWwvQ29tcG9uZW50cy9QZXJzb25hbExpc3QvZGVmYXVsdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/Areas/Admin/Views/Personal/Index.cshtml]

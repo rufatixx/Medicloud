@@ -5,13 +5,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FlexitHisMVC.Areas.Admin.ViewComponents
 {
-    public class PersonalSettingsViewComponent : ViewComponent
+    public class DepartmentsViewComponent : ViewComponent
     {
         private readonly string ConnectionString;
         private readonly IWebHostEnvironment _hostingEnvironment;
         public IConfiguration Configuration;
         //Communications communications;
-        public PersonalSettingsViewComponent(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
+        public DepartmentsViewComponent(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
         {
             Configuration = configuration;
             ConnectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;

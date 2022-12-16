@@ -1,0 +1,45 @@
+﻿<div class="col-md-12">
+
+
+    <label for="exampleFormControlSelect1">Müəssisə</label>
+    <select class="form-control" id="departments" onchange="hospitalChanged(this)">
+    </select>
+
+
+
+</div>
+
+@section Scripts{
+<script>
+
+
+    var allHospitalsWithBuildings;
+
+    $("#departments").empty();
+    $("#buildingsInDep").empty();
+
+    $.get(
+        "/Admin/Company/GetAllHospitalsWithBuildings",
+
+        function (data) {
+            allHospitalsWithBuildings = data;
+            if (data.hospitals.length > 0) {
+
+                $.each(data.hospitals, function () {
+
+                    $("#departments").append($("<option />").val(this.id).text(this.hospitalName));
+
+
+
+
+                });
+                getPageData();
+            }
+
+
+
+
+        });
+    </script >
+
+}
