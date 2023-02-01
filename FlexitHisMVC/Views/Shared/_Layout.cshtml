@@ -6,7 +6,7 @@
     <title>Medicloud - @ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/lib/font-awesome/css/fontawesome.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @*<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />*@
     <link rel="stylesheet" href="~/FlexitHisRazor.styles.css" asp-append-version="true" />
     <link rel="apple-touch-icon" sizes="180x180" href="~/res/brand/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="~/res/brand/favicon-32x32.png">
@@ -14,7 +14,15 @@
     <link rel="manifest" href="~/res/brand/site.webmanifest">
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <style>
-        .badge-notification {
+/*        .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 60px;
+            line-height: 60px;
+            background-color: #f5f5f5;
+        }*/
+/*        .badge-notification {
             --mdb-badge-font-size: 0.6rem;
             --mdb-badge-padding-x: 0.45em;
             --mdb-badge-padding-y: 0.2em;
@@ -177,19 +185,43 @@
             -webkit-transition: all 0.3s;
             -o-transition: all 0.3s;
             transition: all 0.3s;
-        }
+        }*/
     </style>
 </head>
 <body style="background-color: #F8F8F8 ">
 
     @await Component.InvokeAsync("Navbar")
 
-    <div class="container-fluid">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    <div class="container min-vh-100">
 
+        @RenderBody()
+
+
+    </div>
+    <!--<footer class="page-footer font-small blue">-->
+
+        <!-- Copyright -->
+        <!--<div class="footer-copyright text-center py-3">
+            © 2020 Copyright:
+            <a href="/"> MDBootstrap.com</a>
+        </div>-->
+        <!-- Copyright -->
+
+    <!--</footer>-->
+    <footer class="bg-white footer text-muted d-flex align-items-center">
+        <div class="container-fluid ml-5 mr-5 ">
+            <div class="row">
+                <div class="col-6 text-left mt-2">
+                    &copy;
+                    <script>document.write(new Date().getFullYear())</script> Medicloud. Bütün hüquqlar qorunur
+                </div>
+                <div class="col-6 text-right d-flex justify-content-end">
+                    <label class="mr-2 mt-2">Site by </label>
+                    <img class="img-fluid" src="./res/flexit_logo.svg" />
+                </div>
+            </div>
+        </div>
+    </footer>
 
 
     <!-- loading modal -->
@@ -240,14 +272,9 @@
 
 
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2022 - Flexit His - <a asp-area=""
-                                          asp-action="Index" asp-controller="Home">Əsas səhifə</a>
-        </div>
-    </footer>
 
-    
+
+
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

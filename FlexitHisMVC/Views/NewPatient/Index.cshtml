@@ -2,7 +2,7 @@
 
 }
 
-<form class="needs-validation container" novalidate style="margin-top:2%" id="form1">
+<form class="needs-validation " novalidate style="margin-top:2%" id="form1">
     <div class="row">
         <div class="col-6"> <h2>Xəstə qeydiyyatı 🩺</h2></div>
         <div class="col-6 text-right ">     <button type="button" class="btn btn-dark " onclick=" $('#patientSearch').modal('show');">Axtar</button></div>
@@ -238,16 +238,8 @@
         </div>
 
     </div>
-    <div class="float-right">
-        <div class="row">
-            <div class="col-md-12">
-                <!--<button type="button" class="btn btn-secondary " data-dismiss="modal">Ləğv et</button>-->
-                <button type="button" class="btn btn-primary " onclick="AddPatient()">Qeydə al</button>
-                <!--<button type="button" class="btn btn-primary " onclick="AddPatient()">Müraciyət əlavə et</button>-->
-            </div>
-        </div>
-    </div>
-
+    <button type="button" class="btn btn-primary " onclick="AddPatient()">Qeydə al</button>
+   
 </form>
 
 <div class="modal fade" id="patientSearch" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">

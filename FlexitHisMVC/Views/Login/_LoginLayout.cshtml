@@ -5,15 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Medicloud - @ViewData["Title"] </title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="~/FlexitHisRazor.styles.css" asp-append-version="true" />
+    @*<link rel="stylesheet" href="~/css/site.css" />*@
+    
     <link rel="apple-touch-icon" sizes="180x180" href="~/res/brand/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="~/res/brand/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="~/res/brand/favicon-16x16.png">
     <link rel="manifest" href="~/res/brand/site.webmanifest">
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    @*<style>
-            .badge-notification {
+    <style>
+        .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            white-space: nowrap;
+            line-height: 60px;
+        }
+            /*.badge-notification {
                 --mdb-badge-font-size: 0.6rem;
                 --mdb-badge-padding-x: 0.45em;
                 --mdb-badge-padding-y: 0.2em;
@@ -41,12 +48,12 @@
                 left: 0px;
                 right: 0px;
                 margin-left: 100px;
-                margin-right: 100px;
+                margin-right: 100px;*/
                 /* margin-bottom: 100px; */
-                z-index: -1;
+                /*z-index: -1;
                 display: block;
-            }
-        </style>*@
+            }*/
+        </style>
 </head>
 <body>
 
@@ -54,7 +61,20 @@
     @RenderBody()
 
 
-
+      <footer class="border-top footer text-muted d-flex align-items-center">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-6 text-left">
+                    &copy;
+                    <script>document.write(new Date().getFullYear())</script> Medicloud. Bütün hüquqlar qorunur
+                </div>
+                <div class="col-6 text-right d-flex justify-content-end">
+                    <label class="mr-2 mt-2">Site by </label>
+                    <img class="img-fluid" src="./res/flexit_logo.svg" />
+                </div>
+            </div>
+        </div>
+    </footer>
 
    
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
