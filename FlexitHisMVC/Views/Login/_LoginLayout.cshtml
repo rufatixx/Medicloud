@@ -11,41 +11,42 @@
     <link rel="icon" type="image/png" sizes="32x32" href="~/res/brand/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="~/res/brand/favicon-16x16.png">
     <link rel="manifest" href="~/res/brand/site.webmanifest">
-    <style>
-        .badge-notification {
-            --mdb-badge-font-size: 0.6rem;
-            --mdb-badge-padding-x: 0.45em;
-            --mdb-badge-padding-y: 0.2em;
-            --mdb-badge-margin-top: -0.1rem;
-            --mdb-badge-margin-left: -0.5rem;
-            position: absolute;
-            font-size: var(--mdb-badge-font-size);
-            padding: var(--mdb-badge-padding-y) var(--mdb-badge-padding-x);
-            margin-top: var(--mdb-badge-margin-top);
-            margin-left: var(--mdb-badge-margin-left);
-        }
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    @*<style>
+            .badge-notification {
+                --mdb-badge-font-size: 0.6rem;
+                --mdb-badge-padding-x: 0.45em;
+                --mdb-badge-padding-y: 0.2em;
+                --mdb-badge-margin-top: -0.1rem;
+                --mdb-badge-margin-left: -0.5rem;
+                position: absolute;
+                font-size: var(--mdb-badge-font-size);
+                padding: var(--mdb-badge-padding-y) var(--mdb-badge-padding-x);
+                margin-top: var(--mdb-badge-margin-top);
+                margin-left: var(--mdb-badge-margin-left);
+            }
 
-        .bg-image {
-            background-image: url(/res/login_bg.png);
-            -webkit-filter: blur(50px);
-            -moz-filter: blur(50px);
-            -o-filter: blur(50px);
-            -ms-filter: blur(50px);
-            filter: blur(50px);
-            height: 100%;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-            position: fixed;
-            left: 0px;
-            right: 0px;
-            margin-left: 100px;
-            margin-right: 100px;
-            /* margin-bottom: 100px; */
-            z-index: -1;
-            display: block;
-        }
-    </style>
+            .bg-image {
+                background-image: url(/res/login_bg.png);
+                -webkit-filter: blur(50px);
+                -moz-filter: blur(50px);
+                -o-filter: blur(50px);
+                -ms-filter: blur(50px);
+                filter: blur(50px);
+                height: 100%;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: cover;
+                position: fixed;
+                left: 0px;
+                right: 0px;
+                margin-left: 100px;
+                margin-right: 100px;
+                /* margin-bottom: 100px; */
+                z-index: -1;
+                display: block;
+            }
+        </style>*@
 </head>
 <body>
 
@@ -55,7 +56,7 @@
 
 
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+   
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" ></script>

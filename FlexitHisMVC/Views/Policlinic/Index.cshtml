@@ -1,0 +1,593 @@
+﻿<!--<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3">
+            <h3 class="text-center">Patient List</h3>
+            <hr>
+            <div class="list-group">
+                <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#patientModal">Patient 1</button>
+                <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#patientModal">Patient 2</button>
+                <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#patientModal">Patient 3</button>
+            </div>
+        </div>
+        <div class="col-md-9">-->
+<!-- Patient Information and Diagnosis Section -->
+<!--<div class="modal fade" id="patientModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Patient Information</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">-->
+<!-- Patient Information -->
+<!--<div class="row">
+    <div class="col-md-3">
+        <img src="patient_profile_picture.jpg" class="img-fluid rounded-circle" alt="Patient Profile Picture">
+    </div>
+    <div class="col-md-9">
+        <h5>Patient Name</h5>
+        <p>Patient Information</p>
+    </div>
+</div>-->
+<!-- Diagnosis Section -->
+<!--<hr>
+                            <h5 class="text-center">Diagnosis</h5>
+                            <textarea class="form-control" rows="5"></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>-->
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Left Sidebar for Patients List -->
+        <div class="col-md-3 bg-light p-3">
+            <h5 class="text-center">Patients List</h5>
+            <ul class="list-group">
+                <li class="list-group-item d-flex align-items-center" onclick="showPatientDetails(1)">
+                    <img src="patient1-profile-pic.jpg" class="img-fluid rounded-circle mr-3" width="50" height="50">
+                    <span>Patient 1</span>
+                </li>
+                <li class="list-group-item d-flex align-items-center" onclick="showPatientDetails(2)">
+                    <img src="patient2-profile-pic.jpg" class="img-fluid rounded-circle mr-3" width="50" height="50">
+                    <span>Patient 2</span>
+                </li>
+                <li class="list-group-item d-flex align-items-center" onclick="showPatientDetails(3)">
+                    <img src="patient3-profile-pic.jpg" class="img-fluid rounded-circle mr-3" width="50" height="50">
+                    <span>Patient 3</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Central Part for Detailed Information -->
+        <div class="col-md-9">
+            <!-- Patient Profile Picture -->
+            <div class="text-center mb-3" id="patientProfilePicture">
+                <img src="selected-patient-profile-pic.jpg" class="img-fluid rounded-circle" width="200" height="200">
+            </div>
+
+            <!-- Patient Information -->
+            <div id="patientInformation">
+                <p><strong>Name:</strong> Selected Patient</p>
+                <p><strong>Age:</strong> 30</p>
+                <p><strong>Gender:</strong> Male</p>
+            </div>
+
+            <!-- Diagnosis Option Box -->
+            <h5 class="text-center mt-3">Diagnosis</h5>
+            <form>
+                <div class="form-group">
+                    <textarea class="form-control" rows="5"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Save Diagnosis</button>
+            </form>
+
+            <!-- Video Record Button -->
+            <button class="btn btn-danger btn-block mt-3" onclick="startPreview()">Video Record</button>
+        </div>
+    </div>
+</div>
+<!-- Video Recording Modal -->
+<div class="modal fade" id="videoModal" tabindex="-1" role="dialog" aria-labelledby="videoModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="videoModalLabel">Video Recording</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="stopPreview()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <!-- Video Input Device Dropdown -->
+                <div class="form-group">
+                    <select class="form-control" id="videoInputDevice">
+                        <option value="">Select Input Device</option>
+                    </select>
+                </div>
+                <!-- Video Preview -->
+                <video id="videoPreview" width="400" height="300" autoplay></video>
+            </div>
+            <div class="modal-footer">
+                <!-- Start Recording Button -->
+                <button type="button" class="btn btn-primary" id="startRecording">Start Recording</button>
+                <!-- Stop Recording Button -->
+                <button type="button" class="btn btn-danger" id="stopRecording" style="display: none;">Stop Recording</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>//    $(document).ready(function () {
+    //    const videoPreview = $("#videoPreview")[0];
+    //    const startRecordingBtn = $("#startRecording");
+    //    const stopRecordingBtn = $("#stopRecording");
+
+    //    let mediaRecorder;
+    //    let recordedBlobs = [];
+    //    let stream;
+    //        let counter = 1;
+
+    //    function handleDataAvailable(event) {
+    //        if (event.data && event.data.size > 0) {
+    //        recordedBlobs.push(event.data);
+    //        }
+    //    }
+
+    //    function startVideoRecording() {
+    //        if (mediaRecorder && mediaRecorder.state !== "inactive") {
+    //        mediaRecorder.stop();
+    //        }
+
+    //        if (!stream) {
+    //        navigator.mediaDevices
+    //            .getUserMedia({
+    //                audio: true,
+    //                video: {
+    //                    facingMode: "user"
+    //                }
+    //            })
+    //            .then(function (newStream) {
+    //                stream = newStream;
+    //                videoPreview.srcObject = stream;
+    //                videoPreview.play();
+
+    //                const options = {
+    //                    mimeType: "video/webm;codecs=vp9"
+    //                };
+    //                mediaRecorder = new MediaRecorder(stream, options);
+
+    //                mediaRecorder.ondataavailable = handleDataAvailable;
+    //                mediaRecorder.start();
+
+    //                startRecordingBtn.hide();
+    //                stopRecordingBtn.show();
+    //            })
+    //            .catch(function (err) {
+    //                console.error("Error accessing camera: ", err);
+    //            });
+    //        } else {
+    //        videoPreview.srcObject = stream;
+    //            videoPreview.play();
+
+    //            const options = {
+    //        mimeType: "video/webm;codecs=vp9"
+    //            };
+    //            mediaRecorder = new MediaRecorder(stream, options);
+
+    //            mediaRecorder.ondataavailable = handleDataAvailable;
+    //            mediaRecorder.start();
+
+    //            startRecordingBtn.hide();
+    //            stopRecordingBtn.show();
+    //        }
+    //    }
+
+    //    //function stopVideoRecording() {
+    //    //    mediaRecorder.stop();
+
+
+
+    //    //    const blob = new Blob(recordedBlobs, {
+    //    //    type: "video/webm"
+    //    //    });
+
+    //    //    const url = URL.createObjectURL(blob);
+    //    //    const a = document.createElement("a");
+    //    //    document.body.appendChild(a);
+    //    //    a.style = "display: none";
+    //    //    a.href = url;
+    //    //    a.download = "recorded-video.webm";
+    //    //    a.click();
+    //    //    window.URL.revokeObjectURL(url);
+    //    //    recordedBlobs = [];
+    //    //}
+    //        function stopVideoRecording() {
+    //            alert(recordedBlobs.length)
+    //            mediaRecorder.stop();
+
+    //            startRecordingBtn.show();
+    //            stopRecordingBtn.hide();
+
+    //            const blob = new Blob(recordedBlobs, { type: "video/webm" });
+    //            const url = URL.createObjectURL(blob);
+    //            const a = document.createElement("a");
+    //            document.body.appendChild(a);
+    //            a.style = "display: none";
+    //            a.href = url;
+    //            a.download = `recorded-video-${counter}.webm`;
+    //            a.click();
+    //            window.URL.revokeObjectURL(url);
+    //            recordedBlobs = [];
+    //            counter++;
+    //        }
+
+    //    startRecordingBtn.click(startVideoRecording);
+    //    stopRecordingBtn.click(stopVideoRecording);
+    //});
+
+
+    //// Preview the selected video input device
+    //function startPreview() {
+    //    $('#videoModal').modal('show')
+    //    let videoPreview = document.getElementById("videoPreview");
+
+    //    navigator.mediaDevices.getUserMedia({
+    //        video: {
+    //            facingMode: "user"
+    //        }
+    //    }).then(stream => {
+    //        videoPreview.srcObject = stream;
+    //    });
+    //}
+
+    //// Stop the video preview
+    //function stopPreview() {
+    //    let videoPreview = document.getElementById("videoPreview");
+    //    let tracks = videoPreview.srcObject.getTracks();
+
+    //    tracks.forEach(track => track.stop());
+    //    videoPreview.srcObject = null;
+    //}
+
+
+    $(document).ready(function () {
+
+        const videoPreview = $("#videoPreview")[0];
+        const videoInputDevice = $("#videoInputDevice");
+        const startRecordingBtn = $("#startRecording");
+        const stopRecordingBtn = $("#stopRecording");
+
+        let mediaRecorder;
+        let recordedBlobs = [];
+        let stream;
+        let counter = 1;
+        function handleDataAvailable(event) {
+            if (event.data && event.data.size > 0) {
+                recordedBlobs.push(event.data);
+            }
+        }
+
+        function startVideoRecording() {
+            if (mediaRecorder && mediaRecorder.state !== "inactive") {
+                mediaRecorder.stop();
+            }
+
+            navigator.mediaDevices
+                .getUserMedia({
+                    audio: false,
+                    video: {
+                        facingMode: "user"
+                    }
+                })
+                .then(function (stream) {
+                    recordedBlobs = [];
+                    videoPreview.srcObject = stream;
+                    videoPreview.play();
+
+                    const options = {
+                        mimeType: "video/webm;codecs=vp9"
+                    };
+                    if (!window.MediaRecorder) {
+                        console.error("MediaRecorder not supported in this browser.");
+                        return;
+                    }
+                    mediaRecorder = new MediaRecorder(stream, options);
+
+                    mediaRecorder.ondataavailable = handleDataAvailable;
+                    mediaRecorder.start(1000);
+
+                    startRecordingBtn.hide();
+                    stopRecordingBtn.show();
+                })
+                .catch(function (err) {
+                    console.error("Error accessing camera: ", err);
+                });
+        }
+
+        function stopVideoRecording() {
+            mediaRecorder.stop();
+            startRecordingBtn.show();
+            stopRecordingBtn.hide();
+
+            counter++;
+            
+
+            const blob = new Blob(recordedBlobs, { type: "video/webm" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            document.body.appendChild(a);
+            a.style = "display: none";
+            a.href = url;
+            a.download = `recorded-video-${counter}.webm`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+            
+        }
+
+
+
+        startRecordingBtn.click(startVideoRecording);
+        stopRecordingBtn.click(stopVideoRecording);
+    });
+
+
+
+
+    // Preview the selected video input device
+    function startPreview() {
+        $('#videoModal').modal('show')
+        let videoInputDeviceDropdown = document.getElementById("videoInputDevice");
+        let videoPreview = document.getElementById("videoPreview");
+
+        navigator.mediaDevices.getUserMedia({
+            video: {
+                deviceId: videoInputDeviceDropdown.value
+            }
+        }).then(stream => {
+            videoPreview.srcObject = stream;
+        });
+    }
+
+    // Stop the video preview
+    function stopPreview() {
+        let videoPreview = document.getElementById("videoPreview");
+        let srcObject = videoPreview.srcObject;
+        if (!srcObject) return;
+        let tracks = srcObject.getTracks();
+
+        tracks.forEach(track => track.stop());
+        videoPreview.srcObject = null;
+    }</script>
+
+
+@*<script>let recordVideo = document.getElementById('recordVideo');
+    let startRecording = document.getElementById('startRecording');
+    let stopRecording = document.getElementById('stopRecording');
+    let mediaRecorder;
+
+    startRecording.addEventListener("click", function () {
+        // Request user's camera and microphone
+        navigator.mediaDevices.getUserMedia({
+            video: true,
+            audio: true
+        }).then(function (stream) {
+            // Show the stream in video element
+            recordVideo.srcObject = stream;
+            recordVideo.play();
+
+            // Start recording the stream using MediaRecorder API
+            mediaRecorder = new MediaRecorder(stream);
+            mediaRecorder.start();
+
+            // Save the recorded video on stop button click
+            stopRecording.addEventListener("click", function () {
+                mediaRecorder.stop();
+                recordVideo.srcObject = null;
+            });
+        }).catch(function (error) {
+            console.error("Error accessing user's camera and microphone:", error);
+        });
+    });</script>*@
+@*<script>
+
+        let recordedChunks = [];
+        async function startRecording() {
+            $("#startRecording").hide();
+            $("#stopRecording").show();
+            // Get video device constraints
+            const constraints = {
+                video: { facingMode: "user" },
+                audio: true
+            };
+
+            // Get access to the video and audio devices
+            const stream = await navigator.mediaDevices.getUserMedia(constraints);
+
+            // Initialize the MediaRecorder object with the stream
+            const options = { mimeType: "video/webm; codecs=vp9" };
+            mediaRecorder = new MediaRecorder(stream, options);
+
+            // Start recording
+            mediaRecorder.start();
+        }
+
+        function stopRecording() {
+            $("#stopRecording").hide();
+            $("#startRecording").show();
+            // Stop recording
+            mediaRecorder.stop();
+
+            // Get the recorded data as a Blob
+            const recordedBlob = new Blob(recordedChunks, { type: "video/webm" });
+
+            // Create an URL for the recorded video
+            const videoURL = URL.createObjectURL(recordedBlob);
+
+            // Display the recorded video in the videoPreview element
+            const videoPreview = document.getElementById("videoPreview");
+            videoPreview.src = videoURL;
+
+            //// Download the recorded video
+            //const downloadLink = document.getElementById("downloadLink");
+            //downloadLink.href = videoURL;
+            //downloadLink.download = "recorded-video.webm";
+        }
+
+
+
+        function videoRecordClicked() {
+            $('#videoModal').modal('show')
+            showVideoPreview();
+        }
+
+        function stopPreview() {
+            const videoPreview = document.getElementById("videoPreview");
+            const stream = videoPreview.srcObject;
+
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                videoPreview.srcObject = null;
+            }
+        }
+
+        async function showVideoPreview() {
+            try {
+                // Get access to the default video device
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                // Display the live preview in the video element
+                const videoPreview = document.getElementById("videoPreview");
+                videoPreview.srcObject = stream;
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+
+        //// Get the modal element
+        //var modal = document.getElementById("videoModal");
+
+        //// Get the button that opens the modal
+        //var btn = document.getElementById("videoRecordBtn");
+
+        //// Get the <span> element that closes the modal
+        //var span = document.getElementsByClassName("close")[0];
+
+        //// Get the video element in the modal
+        //var video = document.getElementById("videoInModal");
+
+        //// Get the choose device button
+        //var chooseDeviceBtn = document.getElementById("chooseDeviceBtn");
+
+        //// Get the start recording button
+        //var startRecordingBtn = document.getElementById("startRecordingBtn");
+
+        //// Get the stop recording button
+        //var stopRecordingBtn = document.getElementById("stopRecordingBtn");
+
+        //// Get the video constraints for the webcam
+        //var constraints = {
+        //    video: true,
+        //    audio: true
+        //};
+
+        //// Get the media stream for the webcam
+        //var stream;
+
+        //// Check if browser supports media capture and stream API
+        //if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        //    // Open the modal when the video record button is clicked
+        //    btn.onclick = function () {
+        //        modal.style.display = "block";
+        //    }
+
+        //    // Close the modal when the close button is clicked
+        //    span.onclick = function () {
+        //        modal.style.display = "none";
+        //        stopRecording();
+        //        stream.getTracks().forEach(function (track) {
+        //            track.stop();
+        //        });
+        //    }
+
+        //    // Close the modal when the user clicks outside of it
+        //    window.onclick = function (event) {
+        //        if (event.target == modal) {
+        //            modal.style.display = "none";
+        //            stopRecording();
+        //            stream.getTracks().forEach(function (track) {
+        //                track.stop();
+        //            });
+        //        }
+        //    }
+
+        //    // Show the list of available video input devices
+        //    chooseDeviceBtn.onclick = function () {
+        //        navigator.mediaDevices.enumerateDevices().then(function (devices) {
+        //            devices.forEach(function (device) {
+        //                console.log(device.kind + ": " + device.label + " id = " + device.deviceId);
+        //            });
+        //        });
+        //    }
+
+        //    // Start recording the video
+        //    startRecordingBtn.onclick = function () {
+        //        startRecording();
+        //    }
+
+        //    // Stop recording the video
+        //    stopRecordingBtn.onclick = function () {
+        //        stopRecording();
+        //    }
+        //}
+
+        //// Start recording the video
+        //function startRecording() {
+        //    navigator.mediaDevices.getUserMedia(constraints).then(function (newStream) {
+        //        stream = newStream;
+        //        video.srcObject = stream;
+        //        video.play();
+        //        // Code to start recording the video and audio here
+        //    }).catch(function (error) {
+        //        console.error(error);
+        //    });
+        //}
+
+        //// Stop recording the video
+        //function stopRecording() {
+        //    // Code to stop recording the video and audio here
+        //}
+    </script>*@
+
+
+<!--<script>function showPatientDetails(patient) {
+        // Update the profile picture of the selected patient
+        document.querySelector('#patientProfilePicture').src = patient.profilePicture;
+
+        // Update the information of the selected patient
+        document.querySelector('#patientName').innerText = patient.name;
+        document.querySelector('#patientAge').innerText = patient.age;
+        document.querySelector('#patientGender').innerText = patient.gender;
+    }
+    function startVideoRecording() {
+        // Code to turn device camera on and start recording
+        // ...
+    }</script>-->
+<!-- JavaScript for Patient List Click Event -->
+<!--<script>document.getElementById("patient1").addEventListener("click", function () {
+        document.getElementById("selectedPatientName").innerHTML = "Patient 1";
+        document.getElementById("selectedPatientAge").innerHTML = "25";
+        document.getElementById("selectedPatientGender").innerHTML = "Female";
+    });
+    document.getElementById("patient2").addEventListener("click", function () {
+        document.getElementById("selectedPatientName").innerHTML = "Patient 2";
+        document.getElementById("selectedPatientAge").innerHTML = "12";
+        document.getElementById("selectedPatientGender").innerHTML = "Male";
+    });</script>-->

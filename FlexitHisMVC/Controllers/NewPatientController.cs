@@ -12,6 +12,7 @@ using FlexitHisMVC.Data;
 using FlexitHisMVC.Models;
 using FlexitHisMVC.Repository;
 using FlexitHisMVC.Models.DTO;
+using FlexitHisMVC.Models.Repository;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -46,7 +47,7 @@ namespace FlexitHisMVC.Controllers
                 pageStruct.personal = new List<Personal>();
                 pageStruct.departments = new List<UserDepRel>();
                 pageStruct.referers = new List<Personal>();
-                pageStruct.services = new List<Service>();
+                pageStruct.services = new List<ServiceObj>();
 
                 RequestTypeRepo requestTypeDAO = new RequestTypeRepo(ConnectionString);
 

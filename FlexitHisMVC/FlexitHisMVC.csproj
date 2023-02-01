@@ -35,6 +35,10 @@
     <None Remove="Areas\Admin\Views\Services\" />
     <None Remove="Areas\Admin\Views\Shared\" />
     <None Remove="Areas\Admin\Views\Shared\Components\" />
+    <None Remove="Models\Domain\" />
+    <None Remove="Models\Repository\" />
+    <None Remove="Models\Service\" />
+    <None Remove="Views\Policlinic\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\js\menu\" />
@@ -55,7 +59,6 @@
     <Folder Include="Views\Shared\Components\Navbar\" />
     <Folder Include="Areas\Admin\Views\Department\" />
     <Folder Include="Areas\Admin\Views\Home\" />
-    <Folder Include="Repository\" />
     <Folder Include="Models\DTO\" />
     <Folder Include="wwwroot\res\kassa\" />
     <Folder Include="wwwroot\res\admin\" />
@@ -63,6 +66,12 @@
     <Folder Include="Areas\Admin\Views\Services\" />
     <Folder Include="Areas\Admin\Views\Shared\" />
     <Folder Include="Areas\Admin\Views\Shared\Components\" />
+    <Folder Include="Models\Domain\" />
+    <Folder Include="Models\Repository\" />
+    <Folder Include="Models\Service\" />
+    <Folder Include="wwwroot\js\kassa\" />
+    <Folder Include="wwwroot\res\login\" />
+    <Folder Include="Views\Policlinic\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MySql.Data" Version="8.0.31" />
@@ -78,7 +87,8 @@
     <Content Remove="wwwroot\res\admin\" />
     <Content Remove="wwwroot\res\brand\" />
     <Content Remove="wwwroot\res\logo_transparent.png" />
-    <Content Remove="wwwroot\res\logo.png" />
+    <Content Remove="wwwroot\js\kassa\" />
+    <Content Remove="wwwroot\res\login\" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Views\NewPatient">

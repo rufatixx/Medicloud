@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "kSxEjhnlSYvkAXzmiLI0Rjk2poNzujsEhZGJahl0PT8=",
+  "Hash": "2/dkkj/tfXBLy8ouSdbpYlP4MYo8SHJ/1YDnUSAlr2c=",
   "Source": "FlexitHisMVC",
   "BasePath": "_content/FlexitHisMVC",
   "Mode": "Default",
@@ -10,17 +10,17 @@
     {
       "Name": "FlexitHisMVC/wwwroot",
       "Source": "FlexitHisMVC",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/obj/Release/net6.0/scopedcss/bundle/FlexitHisMVC.styles.css",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/obj/Release/net6.0/scopedcss/bundle/FlexitHisMVC.styles.css",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Computed",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/obj/Release/net6.0/scopedcss/bundle/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/obj/Release/net6.0/scopedcss/bundle/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "FlexitHisMVC.styles.css",
       "AssetKind": "All",
@@ -31,13 +31,13 @@
       "AssetTraitValue": "ApplicationBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/obj/Release/net6.0/scopedcss/bundle/FlexitHisMVC.styles.css"
+      "OriginalItemSpec": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/obj/Release/net6.0/scopedcss/bundle/FlexitHisMVC.styles.css"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/obj/Release/net6.0/scopedcss/projectbundle/FlexitHisMVC.bundle.scp.css",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/obj/Release/net6.0/scopedcss/projectbundle/FlexitHisMVC.bundle.scp.css",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Computed",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/obj/Release/net6.0/scopedcss/projectbundle/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/obj/Release/net6.0/scopedcss/projectbundle/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "FlexitHisMVC.bundle.scp.css",
       "AssetKind": "All",
@@ -48,13 +48,13 @@
       "AssetTraitValue": "ProjectBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/obj/Release/net6.0/scopedcss/projectbundle/FlexitHisMVC.bundle.scp.css"
+      "OriginalItemSpec": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/obj/Release/net6.0/scopedcss/projectbundle/FlexitHisMVC.bundle.scp.css"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/.DS_Store",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/.DS_Store",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": ".DS_Store",
       "AssetKind": "All",
@@ -68,10 +68,10 @@
       "OriginalItemSpec": "wwwroot/.DS_Store"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/css/site.css",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/css/site.css",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "css/site.css",
       "AssetKind": "All",
@@ -85,10 +85,10 @@
       "OriginalItemSpec": "wwwroot/css/site.css"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/favicon.ico",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/favicon.ico",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "favicon.ico",
       "AssetKind": "All",
@@ -102,10 +102,10 @@
       "OriginalItemSpec": "wwwroot/favicon.ico"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/js/.DS_Store",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/js/.DS_Store",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "js/.DS_Store",
       "AssetKind": "All",
@@ -119,10 +119,10 @@
       "OriginalItemSpec": "wwwroot/js/.DS_Store"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/js/admin/.DS_Store",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/js/admin/.DS_Store",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "js/admin/.DS_Store",
       "AssetKind": "All",
@@ -136,10 +136,10 @@
       "OriginalItemSpec": "wwwroot/js/admin/.DS_Store"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/js/admin/companies/companySettings.js",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/js/admin/companies/companySettings.js",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "js/admin/companies/companySettings.js",
       "AssetKind": "All",
@@ -153,10 +153,10 @@
       "OriginalItemSpec": "wwwroot/js/admin/companies/companySettings.js"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/js/admin/departments/adminDep.js",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/js/admin/departments/adminDep.js",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "js/admin/departments/adminDep.js",
       "AssetKind": "All",
@@ -170,10 +170,10 @@
       "OriginalItemSpec": "wwwroot/js/admin/departments/adminDep.js"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/js/app.js",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/js/app.js",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "js/app.js",
       "AssetKind": "All",
@@ -187,10 +187,44 @@
       "OriginalItemSpec": "wwwroot/js/app.js"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/js/login/index.js",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/js/kassa/home.js",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "BasePath": "_content/FlexitHisMVC",
+      "RelativePath": "js/kassa/home.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/js/kassa/home.js"
+    },
+    {
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/js/kassa/recipes.js",
+      "SourceId": "FlexitHisMVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "BasePath": "_content/FlexitHisMVC",
+      "RelativePath": "js/kassa/recipes.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/js/kassa/recipes.js"
+    },
+    {
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/js/login/index.js",
+      "SourceId": "FlexitHisMVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "js/login/index.js",
       "AssetKind": "All",
@@ -204,10 +238,10 @@
       "OriginalItemSpec": "wwwroot/js/login/index.js"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/js/menu/menu.js",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/js/menu/menu.js",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "js/menu/menu.js",
       "AssetKind": "All",
@@ -221,10 +255,10 @@
       "OriginalItemSpec": "wwwroot/js/menu/menu.js"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/js/new_patient/new_patient.js",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/js/new_patient/new_patient.js",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "js/new_patient/new_patient.js",
       "AssetKind": "All",
@@ -238,10 +272,10 @@
       "OriginalItemSpec": "wwwroot/js/new_patient/new_patient.js"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/js/router.js",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/js/router.js",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "js/router.js",
       "AssetKind": "All",
@@ -255,10 +289,10 @@
       "OriginalItemSpec": "wwwroot/js/router.js"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/js/site.js",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/js/site.js",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "js/site.js",
       "AssetKind": "All",
@@ -272,10 +306,10 @@
       "OriginalItemSpec": "wwwroot/js/site.js"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/.DS_Store",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/.DS_Store",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/.DS_Store",
       "AssetKind": "All",
@@ -289,10 +323,10 @@
       "OriginalItemSpec": "wwwroot/lib/.DS_Store"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.css",
       "AssetKind": "All",
@@ -306,10 +340,10 @@
       "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css.map",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css.map",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.css.map",
       "AssetKind": "All",
@@ -323,10 +357,10 @@
       "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css.map"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.min.css",
       "AssetKind": "All",
@@ -340,10 +374,10 @@
       "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css.map",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css.map",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.min.css.map",
       "AssetKind": "All",
@@ -357,10 +391,10 @@
       "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css.map"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.css",
       "AssetKind": "All",
@@ -374,10 +408,10 @@
       "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css.map",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css.map",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.css.map",
       "AssetKind": "All",
@@ -391,10 +425,10 @@
       "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css.map"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.min.css",
       "AssetKind": "All",
@@ -408,10 +442,10 @@
       "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css.map",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css.map",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.min.css.map",
       "AssetKind": "All",
@@ -425,10 +459,10 @@
       "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css.map"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap.css",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap.css",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.css",
       "AssetKind": "All",
@@ -442,10 +476,10 @@
       "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap.css"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap.css.map",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap.css.map",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.css.map",
       "AssetKind": "All",
@@ -459,10 +493,10 @@
       "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap.css.map"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.min.css",
       "AssetKind": "All",
@@ -476,10 +510,10 @@
       "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap.min.css"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css.map",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css.map",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.min.css.map",
       "AssetKind": "All",
@@ -493,10 +527,10 @@
       "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/css/bootstrap.min.css.map"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.bundle.js",
       "AssetKind": "All",
@@ -510,10 +544,10 @@
       "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js.map",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js.map",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.bundle.js.map",
       "AssetKind": "All",
@@ -527,10 +561,10 @@
       "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js.map"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.bundle.min.js",
       "AssetKind": "All",
@@ -544,10 +578,10 @@
       "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.bundle.min.js.map",
       "AssetKind": "All",
@@ -561,10 +595,10 @@
       "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/js/bootstrap.js",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/js/bootstrap.js",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.js",
       "AssetKind": "All",
@@ -578,10 +612,10 @@
       "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/js/bootstrap.js"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/js/bootstrap.js.map",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/js/bootstrap.js.map",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.js.map",
       "AssetKind": "All",
@@ -595,10 +629,10 @@
       "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/js/bootstrap.js.map"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/js/bootstrap.min.js",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/js/bootstrap.min.js",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.min.js",
       "AssetKind": "All",
@@ -612,10 +646,10 @@
       "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/js/bootstrap.min.js"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/js/bootstrap.min.js.map",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/js/bootstrap.min.js.map",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.min.js.map",
       "AssetKind": "All",
@@ -629,10 +663,10 @@
       "OriginalItemSpec": "wwwroot/lib/bootstrap/dist/js/bootstrap.min.js.map"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/LICENSE",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/LICENSE",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/bootstrap/LICENSE",
       "AssetKind": "All",
@@ -646,10 +680,10 @@
       "OriginalItemSpec": "wwwroot/lib/bootstrap/LICENSE"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/all.css",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/all.css",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/font-awesome/css/all.css",
       "AssetKind": "All",
@@ -663,10 +697,10 @@
       "OriginalItemSpec": "wwwroot/lib/font-awesome/css/all.css"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/all.min.css",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/all.min.css",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/font-awesome/css/all.min.css",
       "AssetKind": "All",
@@ -680,10 +714,10 @@
       "OriginalItemSpec": "wwwroot/lib/font-awesome/css/all.min.css"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/brands.css",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/brands.css",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/font-awesome/css/brands.css",
       "AssetKind": "All",
@@ -697,10 +731,10 @@
       "OriginalItemSpec": "wwwroot/lib/font-awesome/css/brands.css"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/brands.min.css",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/brands.min.css",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/font-awesome/css/brands.min.css",
       "AssetKind": "All",
@@ -714,10 +748,10 @@
       "OriginalItemSpec": "wwwroot/lib/font-awesome/css/brands.min.css"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/fontawesome.css",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/fontawesome.css",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/font-awesome/css/fontawesome.css",
       "AssetKind": "All",
@@ -731,10 +765,10 @@
       "OriginalItemSpec": "wwwroot/lib/font-awesome/css/fontawesome.css"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/fontawesome.min.css",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/fontawesome.min.css",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/font-awesome/css/fontawesome.min.css",
       "AssetKind": "All",
@@ -748,10 +782,10 @@
       "OriginalItemSpec": "wwwroot/lib/font-awesome/css/fontawesome.min.css"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/regular.css",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/regular.css",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/font-awesome/css/regular.css",
       "AssetKind": "All",
@@ -765,10 +799,10 @@
       "OriginalItemSpec": "wwwroot/lib/font-awesome/css/regular.css"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/regular.min.css",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/regular.min.css",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/font-awesome/css/regular.min.css",
       "AssetKind": "All",
@@ -782,10 +816,10 @@
       "OriginalItemSpec": "wwwroot/lib/font-awesome/css/regular.min.css"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/solid.css",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/solid.css",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/font-awesome/css/solid.css",
       "AssetKind": "All",
@@ -799,10 +833,10 @@
       "OriginalItemSpec": "wwwroot/lib/font-awesome/css/solid.css"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/solid.min.css",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/solid.min.css",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/font-awesome/css/solid.min.css",
       "AssetKind": "All",
@@ -816,10 +850,10 @@
       "OriginalItemSpec": "wwwroot/lib/font-awesome/css/solid.min.css"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/svg-with-js.css",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/svg-with-js.css",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/font-awesome/css/svg-with-js.css",
       "AssetKind": "All",
@@ -833,10 +867,10 @@
       "OriginalItemSpec": "wwwroot/lib/font-awesome/css/svg-with-js.css"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/svg-with-js.min.css",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/svg-with-js.min.css",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/font-awesome/css/svg-with-js.min.css",
       "AssetKind": "All",
@@ -850,10 +884,10 @@
       "OriginalItemSpec": "wwwroot/lib/font-awesome/css/svg-with-js.min.css"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/v4-font-face.css",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/v4-font-face.css",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/font-awesome/css/v4-font-face.css",
       "AssetKind": "All",
@@ -867,10 +901,10 @@
       "OriginalItemSpec": "wwwroot/lib/font-awesome/css/v4-font-face.css"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/v4-font-face.min.css",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/v4-font-face.min.css",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/font-awesome/css/v4-font-face.min.css",
       "AssetKind": "All",
@@ -884,10 +918,10 @@
       "OriginalItemSpec": "wwwroot/lib/font-awesome/css/v4-font-face.min.css"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/v4-shims.css",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/v4-shims.css",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/font-awesome/css/v4-shims.css",
       "AssetKind": "All",
@@ -901,10 +935,10 @@
       "OriginalItemSpec": "wwwroot/lib/font-awesome/css/v4-shims.css"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/v4-shims.min.css",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/v4-shims.min.css",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/font-awesome/css/v4-shims.min.css",
       "AssetKind": "All",
@@ -918,10 +952,10 @@
       "OriginalItemSpec": "wwwroot/lib/font-awesome/css/v4-shims.min.css"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/v5-font-face.css",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/v5-font-face.css",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/font-awesome/css/v5-font-face.css",
       "AssetKind": "All",
@@ -935,10 +969,10 @@
       "OriginalItemSpec": "wwwroot/lib/font-awesome/css/v5-font-face.css"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/v5-font-face.min.css",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/v5-font-face.min.css",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/font-awesome/css/v5-font-face.min.css",
       "AssetKind": "All",
@@ -952,10 +986,10 @@
       "OriginalItemSpec": "wwwroot/lib/font-awesome/css/v5-font-face.min.css"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/LICENSE.txt",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/LICENSE.txt",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/font-awesome/LICENSE.txt",
       "AssetKind": "All",
@@ -969,10 +1003,10 @@
       "OriginalItemSpec": "wwwroot/lib/font-awesome/LICENSE.txt"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js",
       "AssetKind": "All",
@@ -986,10 +1020,10 @@
       "OriginalItemSpec": "wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js",
       "AssetKind": "All",
@@ -1003,10 +1037,10 @@
       "OriginalItemSpec": "wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery-validation-unobtrusive/LICENSE.txt",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery-validation-unobtrusive/LICENSE.txt",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/jquery-validation-unobtrusive/LICENSE.txt",
       "AssetKind": "All",
@@ -1020,10 +1054,10 @@
       "OriginalItemSpec": "wwwroot/lib/jquery-validation-unobtrusive/LICENSE.txt"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery-validation/dist/additional-methods.js",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery-validation/dist/additional-methods.js",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/jquery-validation/dist/additional-methods.js",
       "AssetKind": "All",
@@ -1037,10 +1071,10 @@
       "OriginalItemSpec": "wwwroot/lib/jquery-validation/dist/additional-methods.js"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery-validation/dist/additional-methods.min.js",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery-validation/dist/additional-methods.min.js",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/jquery-validation/dist/additional-methods.min.js",
       "AssetKind": "All",
@@ -1054,10 +1088,10 @@
       "OriginalItemSpec": "wwwroot/lib/jquery-validation/dist/additional-methods.min.js"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery-validation/dist/jquery.validate.js",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery-validation/dist/jquery.validate.js",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/jquery-validation/dist/jquery.validate.js",
       "AssetKind": "All",
@@ -1071,10 +1105,10 @@
       "OriginalItemSpec": "wwwroot/lib/jquery-validation/dist/jquery.validate.js"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery-validation/dist/jquery.validate.min.js",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery-validation/dist/jquery.validate.min.js",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/jquery-validation/dist/jquery.validate.min.js",
       "AssetKind": "All",
@@ -1088,10 +1122,10 @@
       "OriginalItemSpec": "wwwroot/lib/jquery-validation/dist/jquery.validate.min.js"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery-validation/LICENSE.md",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery-validation/LICENSE.md",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/jquery-validation/LICENSE.md",
       "AssetKind": "All",
@@ -1105,10 +1139,10 @@
       "OriginalItemSpec": "wwwroot/lib/jquery-validation/LICENSE.md"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery/dist/jquery.js",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery/dist/jquery.js",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/jquery/dist/jquery.js",
       "AssetKind": "All",
@@ -1122,10 +1156,10 @@
       "OriginalItemSpec": "wwwroot/lib/jquery/dist/jquery.js"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery/dist/jquery.min.js",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery/dist/jquery.min.js",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/jquery/dist/jquery.min.js",
       "AssetKind": "All",
@@ -1139,10 +1173,10 @@
       "OriginalItemSpec": "wwwroot/lib/jquery/dist/jquery.min.js"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery/dist/jquery.min.map",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery/dist/jquery.min.map",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/jquery/dist/jquery.min.map",
       "AssetKind": "All",
@@ -1156,10 +1190,10 @@
       "OriginalItemSpec": "wwwroot/lib/jquery/dist/jquery.min.map"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery/LICENSE.txt",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery/LICENSE.txt",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "lib/jquery/LICENSE.txt",
       "AssetKind": "All",
@@ -1173,10 +1207,27 @@
       "OriginalItemSpec": "wwwroot/lib/jquery/LICENSE.txt"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/admin/admin.png",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/.DS_Store",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "BasePath": "_content/FlexitHisMVC",
+      "RelativePath": "res/.DS_Store",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/res/.DS_Store"
+    },
+    {
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/admin/admin.png",
+      "SourceId": "FlexitHisMVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "res/admin/admin.png",
       "AssetKind": "All",
@@ -1190,10 +1241,10 @@
       "OriginalItemSpec": "wwwroot/res/admin/admin.png"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/admin/company.png",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/admin/company.png",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "res/admin/company.png",
       "AssetKind": "All",
@@ -1207,10 +1258,10 @@
       "OriginalItemSpec": "wwwroot/res/admin/company.png"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/admin/department.png",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/admin/department.png",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "res/admin/department.png",
       "AssetKind": "All",
@@ -1224,10 +1275,10 @@
       "OriginalItemSpec": "wwwroot/res/admin/department.png"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/admin/diagnose.png",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/admin/diagnose.png",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "res/admin/diagnose.png",
       "AssetKind": "All",
@@ -1241,10 +1292,10 @@
       "OriginalItemSpec": "wwwroot/res/admin/diagnose.png"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/admin/personal.png",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/admin/personal.png",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "res/admin/personal.png",
       "AssetKind": "All",
@@ -1258,12 +1309,12 @@
       "OriginalItemSpec": "wwwroot/res/admin/personal.png"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/android-chrome-192x192.png",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/.DS_Store",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
-      "RelativePath": "res/brand/android-chrome-192x192.png",
+      "RelativePath": "res/brand/.DS_Store",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -1272,15 +1323,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/res/brand/android-chrome-192x192.png"
+      "OriginalItemSpec": "wwwroot/res/brand/.DS_Store"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/android-chrome-512x512.png",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/android-icon-144x144.png",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
-      "RelativePath": "res/brand/android-chrome-512x512.png",
+      "RelativePath": "res/brand/android-icon-144x144.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -1289,15 +1340,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/res/brand/android-chrome-512x512.png"
+      "OriginalItemSpec": "wwwroot/res/brand/android-icon-144x144.png"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/apple-touch-icon.png",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/android-icon-192x192.png",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
-      "RelativePath": "res/brand/apple-touch-icon.png",
+      "RelativePath": "res/brand/android-icon-192x192.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -1306,13 +1357,285 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/res/brand/apple-touch-icon.png"
+      "OriginalItemSpec": "wwwroot/res/brand/android-icon-192x192.png"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/favicon-16x16.png",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/android-icon-36x36.png",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "BasePath": "_content/FlexitHisMVC",
+      "RelativePath": "res/brand/android-icon-36x36.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/res/brand/android-icon-36x36.png"
+    },
+    {
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/android-icon-48x48.png",
+      "SourceId": "FlexitHisMVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "BasePath": "_content/FlexitHisMVC",
+      "RelativePath": "res/brand/android-icon-48x48.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/res/brand/android-icon-48x48.png"
+    },
+    {
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/android-icon-72x72.png",
+      "SourceId": "FlexitHisMVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "BasePath": "_content/FlexitHisMVC",
+      "RelativePath": "res/brand/android-icon-72x72.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/res/brand/android-icon-72x72.png"
+    },
+    {
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/android-icon-96x96.png",
+      "SourceId": "FlexitHisMVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "BasePath": "_content/FlexitHisMVC",
+      "RelativePath": "res/brand/android-icon-96x96.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/res/brand/android-icon-96x96.png"
+    },
+    {
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/apple-icon-114x114.png",
+      "SourceId": "FlexitHisMVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "BasePath": "_content/FlexitHisMVC",
+      "RelativePath": "res/brand/apple-icon-114x114.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/res/brand/apple-icon-114x114.png"
+    },
+    {
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/apple-icon-120x120.png",
+      "SourceId": "FlexitHisMVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "BasePath": "_content/FlexitHisMVC",
+      "RelativePath": "res/brand/apple-icon-120x120.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/res/brand/apple-icon-120x120.png"
+    },
+    {
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/apple-icon-144x144.png",
+      "SourceId": "FlexitHisMVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "BasePath": "_content/FlexitHisMVC",
+      "RelativePath": "res/brand/apple-icon-144x144.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/res/brand/apple-icon-144x144.png"
+    },
+    {
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/apple-icon-152x152.png",
+      "SourceId": "FlexitHisMVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "BasePath": "_content/FlexitHisMVC",
+      "RelativePath": "res/brand/apple-icon-152x152.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/res/brand/apple-icon-152x152.png"
+    },
+    {
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/apple-icon-180x180.png",
+      "SourceId": "FlexitHisMVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "BasePath": "_content/FlexitHisMVC",
+      "RelativePath": "res/brand/apple-icon-180x180.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/res/brand/apple-icon-180x180.png"
+    },
+    {
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/apple-icon-57x57.png",
+      "SourceId": "FlexitHisMVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "BasePath": "_content/FlexitHisMVC",
+      "RelativePath": "res/brand/apple-icon-57x57.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/res/brand/apple-icon-57x57.png"
+    },
+    {
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/apple-icon-60x60.png",
+      "SourceId": "FlexitHisMVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "BasePath": "_content/FlexitHisMVC",
+      "RelativePath": "res/brand/apple-icon-60x60.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/res/brand/apple-icon-60x60.png"
+    },
+    {
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/apple-icon-72x72.png",
+      "SourceId": "FlexitHisMVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "BasePath": "_content/FlexitHisMVC",
+      "RelativePath": "res/brand/apple-icon-72x72.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/res/brand/apple-icon-72x72.png"
+    },
+    {
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/apple-icon-76x76.png",
+      "SourceId": "FlexitHisMVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "BasePath": "_content/FlexitHisMVC",
+      "RelativePath": "res/brand/apple-icon-76x76.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/res/brand/apple-icon-76x76.png"
+    },
+    {
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/apple-icon-precomposed.png",
+      "SourceId": "FlexitHisMVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "BasePath": "_content/FlexitHisMVC",
+      "RelativePath": "res/brand/apple-icon-precomposed.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/res/brand/apple-icon-precomposed.png"
+    },
+    {
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/apple-icon.png",
+      "SourceId": "FlexitHisMVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "BasePath": "_content/FlexitHisMVC",
+      "RelativePath": "res/brand/apple-icon.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/res/brand/apple-icon.png"
+    },
+    {
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/browserconfig.xml",
+      "SourceId": "FlexitHisMVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "BasePath": "_content/FlexitHisMVC",
+      "RelativePath": "res/brand/browserconfig.xml",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/res/brand/browserconfig.xml"
+    },
+    {
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/favicon-16x16.png",
+      "SourceId": "FlexitHisMVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "res/brand/favicon-16x16.png",
       "AssetKind": "All",
@@ -1326,10 +1649,10 @@
       "OriginalItemSpec": "wwwroot/res/brand/favicon-16x16.png"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/favicon-32x32.png",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/favicon-32x32.png",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "res/brand/favicon-32x32.png",
       "AssetKind": "All",
@@ -1343,10 +1666,27 @@
       "OriginalItemSpec": "wwwroot/res/brand/favicon-32x32.png"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/favicon.ico",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/favicon-96x96.png",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "BasePath": "_content/FlexitHisMVC",
+      "RelativePath": "res/brand/favicon-96x96.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/res/brand/favicon-96x96.png"
+    },
+    {
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/favicon.ico",
+      "SourceId": "FlexitHisMVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "res/brand/favicon.ico",
       "AssetKind": "All",
@@ -1360,12 +1700,12 @@
       "OriginalItemSpec": "wwwroot/res/brand/favicon.ico"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/site.webmanifest",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/manifest.json",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
-      "RelativePath": "res/brand/site.webmanifest",
+      "RelativePath": "res/brand/manifest.json",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -1374,13 +1714,81 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/res/brand/site.webmanifest"
+      "OriginalItemSpec": "wwwroot/res/brand/manifest.json"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/empty.png",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/ms-icon-144x144.png",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "BasePath": "_content/FlexitHisMVC",
+      "RelativePath": "res/brand/ms-icon-144x144.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/res/brand/ms-icon-144x144.png"
+    },
+    {
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/ms-icon-150x150.png",
+      "SourceId": "FlexitHisMVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "BasePath": "_content/FlexitHisMVC",
+      "RelativePath": "res/brand/ms-icon-150x150.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/res/brand/ms-icon-150x150.png"
+    },
+    {
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/ms-icon-310x310.png",
+      "SourceId": "FlexitHisMVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "BasePath": "_content/FlexitHisMVC",
+      "RelativePath": "res/brand/ms-icon-310x310.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/res/brand/ms-icon-310x310.png"
+    },
+    {
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/ms-icon-70x70.png",
+      "SourceId": "FlexitHisMVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "BasePath": "_content/FlexitHisMVC",
+      "RelativePath": "res/brand/ms-icon-70x70.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/res/brand/ms-icon-70x70.png"
+    },
+    {
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/empty.png",
+      "SourceId": "FlexitHisMVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "res/empty.png",
       "AssetKind": "All",
@@ -1394,10 +1802,10 @@
       "OriginalItemSpec": "wwwroot/res/empty.png"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/kassa/income.png",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/kassa/income.png",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "res/kassa/income.png",
       "AssetKind": "All",
@@ -1411,10 +1819,10 @@
       "OriginalItemSpec": "wwwroot/res/kassa/income.png"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/kassa/kassa.png",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/kassa/kassa.png",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "res/kassa/kassa.png",
       "AssetKind": "All",
@@ -1428,10 +1836,10 @@
       "OriginalItemSpec": "wwwroot/res/kassa/kassa.png"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/kassa/outcome.png",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/kassa/outcome.png",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "res/kassa/outcome.png",
       "AssetKind": "All",
@@ -1445,10 +1853,10 @@
       "OriginalItemSpec": "wwwroot/res/kassa/outcome.png"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/kassa/recipes.png",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/kassa/recipes.png",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "res/kassa/recipes.png",
       "AssetKind": "All",
@@ -1462,10 +1870,10 @@
       "OriginalItemSpec": "wwwroot/res/kassa/recipes.png"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/login_bg.png",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/login_bg.png",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "res/login_bg.png",
       "AssetKind": "All",
@@ -1479,12 +1887,12 @@
       "OriginalItemSpec": "wwwroot/res/login_bg.png"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/logo_transparent.png",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/login/dm04.svg",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
-      "RelativePath": "res/logo_transparent.png",
+      "RelativePath": "res/login/dm04.svg",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -1493,13 +1901,30 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/res/logo_transparent.png"
+      "OriginalItemSpec": "wwwroot/res/login/dm04.svg"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/logo.png",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/logo_full.svg",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "BasePath": "_content/FlexitHisMVC",
+      "RelativePath": "res/logo_full.svg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/res/logo_full.svg"
+    },
+    {
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/logo.png",
+      "SourceId": "FlexitHisMVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "res/logo.png",
       "AssetKind": "All",
@@ -1513,10 +1938,10 @@
       "OriginalItemSpec": "wwwroot/res/logo.png"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/module.png",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/module.png",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "res/module.png",
       "AssetKind": "All",
@@ -1530,10 +1955,10 @@
       "OriginalItemSpec": "wwwroot/res/module.png"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/new_patient.png",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/new_patient.png",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "res/new_patient.png",
       "AssetKind": "All",
@@ -1547,10 +1972,10 @@
       "OriginalItemSpec": "wwwroot/res/new_patient.png"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/pencil.svg",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/pencil.svg",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "res/pencil.svg",
       "AssetKind": "All",
@@ -1564,10 +1989,10 @@
       "OriginalItemSpec": "wwwroot/res/pencil.svg"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/policlinic.png",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/policlinic.png",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "res/policlinic.png",
       "AssetKind": "All",
@@ -1581,10 +2006,10 @@
       "OriginalItemSpec": "wwwroot/res/policlinic.png"
     },
     {
-      "Identity": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/user.svg",
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/user.svg",
       "SourceId": "FlexitHisMVC",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
       "BasePath": "_content/FlexitHisMVC",
       "RelativePath": "res/user.svg",
       "AssetKind": "All",

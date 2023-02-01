@@ -9,93 +9,105 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = FlexitHisMVC
 build_property.RootNamespace = FlexitHisMVC
-build_property.ProjectDir = /Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/
+build_property.ProjectDir = /Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = true
-build_property.MSBuildProjectDirectory = /Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC
+build_property.MSBuildProjectDirectory = /Users/admin/Projects/FlexitHisMVC/FlexitHisMVC
 build_property._RazorSourceGeneratorDebug = 
 
-[/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/Areas/Admin/Views/Company/Index.cshtml]
+[/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Areas/Admin/Views/Company/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQWRtaW4vVmlld3MvQ29tcGFueS9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/Areas/Admin/Views/Department/Index.cshtml]
+[/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Areas/Admin/Views/Department/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQWRtaW4vVmlld3MvRGVwYXJ0bWVudC9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/Areas/Admin/Views/Home/Index.cshtml]
+[/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Areas/Admin/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQWRtaW4vVmlld3MvSG9tZS9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/Areas/Admin/Views/Personal/Components/Departments/default.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQWRtaW4vVmlld3MvUGVyc29uYWwvQ29tcG9uZW50cy9EZXBhcnRtZW50cy9kZWZhdWx0LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/Areas/Admin/Views/Personal/Components/PersonalList/default.cshtml]
+[/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Areas/Admin/Views/Personal/Components/PersonalList/default.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQWRtaW4vVmlld3MvUGVyc29uYWwvQ29tcG9uZW50cy9QZXJzb25hbExpc3QvZGVmYXVsdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/Areas/Admin/Views/Personal/Index.cshtml]
+[/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Areas/Admin/Views/Personal/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQWRtaW4vVmlld3MvUGVyc29uYWwvSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/Areas/Admin/Views/Services/Index.cshtml]
+[/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Areas/Admin/Views/Services/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQWRtaW4vVmlld3MvU2VydmljZXMvSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/Areas/Admin/Views/_ViewImports.cshtml]
+[/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Areas/Admin/Views/Shared/Components/Departments/default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQWRtaW4vVmlld3MvU2hhcmVkL0NvbXBvbmVudHMvRGVwYXJ0bWVudHMvZGVmYXVsdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Areas/Admin/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQWRtaW4vVmlld3MvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/Areas/Admin/Views/_ViewStart.cshtml]
+[/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Areas/Admin/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQWRtaW4vVmlld3MvX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/Views/Home/Index.cshtml]
+[/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/Views/Login/Index.cshtml]
+[/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Views/Kassa/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvS2Fzc2EvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Views/KassaRecipes/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvS2Fzc2FSZWNpcGVzL0luZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Views/Login/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTG9naW4vSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/Views/Login/_ViewStart.cshtml]
+[/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Views/Login/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTG9naW4vX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/Views/NewPatient/Index.cshtml]
+[/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Views/NewPatient/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTmV3UGF0aWVudC9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/Views/Shared/Components/Modules/default.cshtml]
+[/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Views/Policlinic/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUG9saWNsaW5pYy9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Views/Shared/Components/Modules/default.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvTW9kdWxlcy9kZWZhdWx0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/Views/Shared/Components/Navbar/default.cshtml]
+[/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Views/Shared/Components/Navbar/default.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvTmF2YmFyL2RlZmF1bHQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/Views/Shared/Error.cshtml]
+[/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0Vycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/Views/Shared/_ValidationScriptsPartial.cshtml]
+[/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/Views/_ViewImports.cshtml]
+[/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/Views/_ViewStart.cshtml]
+[/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/Views/Login/_LoginLayout.cshtml]
+[/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Views/Login/_LoginLayout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTG9naW4vX0xvZ2luTGF5b3V0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = b-gdubaj1td5
 
-[/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/Views/Shared/_Layout.cshtml]
+[/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-ihhgavb77o

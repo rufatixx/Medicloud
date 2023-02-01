@@ -83,7 +83,7 @@ namespace FlexitHisMVC.ViewComponents
                     module.name = "Kassa";
                     module.id = "kassaButton";
                     module.img = "/res/kassa/kassa.png";
-                    module.url = "/";
+                    module.url = "/Kassa";
                     submoduleList.Add(module);
 
                     module.name = "Poliklinika";

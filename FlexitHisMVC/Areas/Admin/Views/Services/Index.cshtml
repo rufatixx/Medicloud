@@ -35,7 +35,7 @@
                 </div>
                 <div class="form-group pl-4 d-flex align-content-center flex-wrap">
                     <button type="button" class="btn btn-outline-info"
-                            onclick=" $('#addCompany').modal('show');">
+                            onclick=" $('#addCompanyGroup').modal('show');">
                         Qruplar
                     </button>
                 </div>
@@ -262,131 +262,213 @@
 
 <div class="modal fade" id="addCompanyGroup" data-backdrop="static" data-keyboard="false" tabindex="-1"
      aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
-            <div class="modal-header">
-
+            <div class="modal-header border-0">
+                <h5 class="modal-title" id="warningTitle">Qruplar</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <form>
+            <div class="modal-body pb-0 pt-0">
+             
 
 
-                    <div class="row">
+                <div class="row">
 
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <!-- <h3 style="text-align:right; margin-right:2%"><span class="badge badge-secondary">Cəmi: ---</span></h1> -->
-                                <div class="row">
-
-                                    <div class="col-md-12 text-center">
-                                        <img src="/res/pencil.svg" />
-
-                                    </div>
-
-
-
-
-                                </div>
-
-
-
-
-                            </div>
-
-                            <div class="form-group">
-                                <div class="row">
-
-                                    <div class="col-md-12 text-center">
-                                        <h6>Qrupun əlavə edilməsi</h6>
-
-                                    </div>
-
-
-
-
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <!-- <h3 style="text-align:right; margin-right:2%"><span class="badge badge-secondary">Cəmi: ---</span></h1> -->
-                                <div class="row">
-
-                                    <div class="col-md-6">
-
-
-                                        <label for="exampleFormControlSelect1">Qrup adı</label>
-                                        <!-- <select class="form-control" id="departments">
-                                        </select> -->
-
-                                        <input type="text" class="form-control" required id="groupName"
-                                               placeholder="Qrup">
-                                        <div class="valid-feedback">
-                                            Əla!
-                                        </div>
-                                        <div class="invalid-feedback">
-                                            Boşluğu doldurun.
-                                        </div>
-
-
-                                    </div>
-                                    <div class="col-md-6">
-
-
-                                        <label>Tipi</label>
-                                        <select class="form-control" required id="cGroupType">
-                                            <option value="1">Ödənişli</option>
-                                            <option value="2">Rəsmi</option>
-
-                                        </select>
-
-
-                                    </div>
-
-
-
-
-                                </div>
-
-
-
-                            </div>
-                            <div class="form-group">
-                                <!-- <h3 style="text-align:right; margin-right:2%"><span class="badge badge-secondary">Cəmi: ---</span></h1> -->
-                                <div class="row">
-
-                                    <div class="col-md-12 text-center">
-
-
-                                        <button type="button" class="btn btn-primary justify-content-center"
-                                                onclick="insertCGroup()">
-                                            Əlavə et
+                    <div class="col-md-4 border-right">
+                        <div class="row ">
+                            <div class="col-12">
+                                <div class="row align-items-end">
+                                    <div class="col-md-6"><label>Başlıq</label></div>
+                                    <div class="col-md-6 text-right">
+                                        <button type="button" class="btn" onclick="{$('#addHospital').modal('show');}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M15 13H13V15C13 15.55 12.55 16 12 16C11.45 16 11 15.55 11 15V13H9C8.45 13 8 12.55 8 12C8 11.45 8.45 11 9 11H11V9C11 8.45 11.45 8 12 8C12.55 8 13 8.45 13 9V11H15C15.55 11 16 11.45 16 12C16 12.55 15.55 13 15 13ZM12 2C6.486 2 2 6.486 2 12C2 17.514 6.486 22 12 22C17.514 22 22 17.514 22 12C22 6.486 17.514 2 12 2Z" fill="#2AAEAD"></path>
+                                            </svg>
                                         </button>
-
-
                                     </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="card border-0">
+                                    <div class="card-header bg-white ">
+                                        <div class="row">
+                                            <div class="col-md-6"><label>Adı</label></div>
 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-group" id="cGroups">
 
 
 
                                 </div>
-
-
-
                             </div>
-
                         </div>
 
 
 
 
 
+
+                        <div class="form-group">
+                            <!-- <h3 style="text-align:right; margin-right:2%"><span class="badge badge-secondary">Cəmi: ---</span></h1> -->
+                            <div class="row">
+
+                                <div class="col-md-12 text-center">
+
+
+                                    <button type="button" style="color: #2AAEAD " class="btn btn-link justify-content-center w-100"
+                                            onclick="insertCGroup()">
+                                        Daha çox
+                                    </button>
+
+
+
+                                </div>
+
+
+
+
+                            </div>
+
+
+
+                        </div>
+
                     </div>
 
 
+                    <div class="col-md-4 border-right">
+                        <div class="row ">
+                            <div class="col-12">
+                                <div class="row align-items-end">
+                                    <div class="col-md-6"><label>Üst grup</label></div>
+                                    <div class="col-md-6 text-right">
+                                        <button type="button" class="btn" onclick="{$('#addHospital').modal('show');}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M15 13H13V15C13 15.55 12.55 16 12 16C11.45 16 11 15.55 11 15V13H9C8.45 13 8 12.55 8 12C8 11.45 8.45 11 9 11H11V9C11 8.45 11.45 8 12 8C12.55 8 13 8.45 13 9V11H15C15.55 11 16 11.45 16 12C16 12.55 15.55 13 15 13ZM12 2C6.486 2 2 6.486 2 12C2 17.514 6.486 22 12 22C17.514 22 22 17.514 22 12C22 6.486 17.514 2 12 2Z" fill="#2AAEAD"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="card border-0">
+                                    <div class="card-header bg-white">
+                                        <div class="row">
+                                            <div class="col-md-6"><label>Adı</label></div>
 
-                </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-group" id="cGroups">
+
+
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+
+                        <div class="form-group">
+                            <!-- <h3 style="text-align:right; margin-right:2%"><span class="badge badge-secondary">Cəmi: ---</span></h1> -->
+                            <div class="row">
+
+                                <div class="col-md-12 text-center">
+
+
+                                    <button type="button" style="color: #2AAEAD " class="btn btn-link justify-content-center w-100"
+                                            onclick="insertCGroup()">
+                                        Daha çox
+                                    </button>
+
+
+                                </div>
+
+
+
+
+                            </div>
+
+
+
+                        </div>
+
+                    </div>
+                    <div class="col-md-4">
+                        <div class="row ">
+                            <div class="col-12">
+                                <div class="row align-items-end">
+                                    <div class="col-md-6"><label>Alt grup</label></div>
+                                    <div class="col-md-6 text-right">
+                                        <button type="button" class="btn" onclick="{$('#addHospital').modal('show');}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M15 13H13V15C13 15.55 12.55 16 12 16C11.45 16 11 15.55 11 15V13H9C8.45 13 8 12.55 8 12C8 11.45 8.45 11 9 11H11V9C11 8.45 11.45 8 12 8C12.55 8 13 8.45 13 9V11H15C15.55 11 16 11.45 16 12C16 12.55 15.55 13 15 13ZM12 2C6.486 2 2 6.486 2 12C2 17.514 6.486 22 12 22C17.514 22 22 17.514 22 12C22 6.486 17.514 2 12 2Z" fill="#2AAEAD"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="card border-0">
+                                    <div class="card-header bg-white">
+                                        <div class="row">
+                                            <div class="col-md-6"><label>Adı</label></div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-group" id="cGroups">
+
+
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+
+                        <div class="form-group">
+                            <!-- <h3 style="text-align:right; margin-right:2%"><span class="badge badge-secondary">Cəmi: ---</span></h1> -->
+                            <div class="row">
+
+                                <div class="col-md-12 text-center">
+
+
+                                    <button type="button" style="color: #2AAEAD " class="btn btn-link justify-content-center w-100"
+                                            onclick="insertCGroup()">
+                                        Daha çox
+                                    </button>
+
+
+
+                                </div>
+
+
+
+
+                            </div>
+
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+              
             </div>
 
         </div>

@@ -1,0 +1,193 @@
+﻿
+
+﻿<div class="container" style="margin-top:74px">
+    <center>
+        <h1>Kassaya mədaxil və məxaric</h1>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="selectedKassaButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="selectedKassaDropdown">
+
+            </div>
+        </div>
+    </center>
+
+    <div class="row justify-content-md-center" role="group" aria-label="Basic example" style="margin-top:64px">
+        <button type="button" class="btn col-md-2 btn-outline-secondary m-3" onclick="incomeClicked()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96" fill="none">
+                <rect width="96" height="96" rx="16" fill="url(#paint0_linear_506_1962)" />
+                <defs>
+                    <linearGradient id="paint0_linear_506_1962" x1="0" y1="0" x2="96" y2="96" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#DA90BB" />
+                        <stop offset="1" stop-color="#93C1FF" />
+                    </linearGradient>
+                </defs>
+            </svg>
+            <br>
+            <br>
+            Mədaxil
+
+
+        </button>
+        @*<button type="button" class="btn btn-outline-secondary  col-md-2 m-3" data-toggle="modal" data-target="#newOutcome">
+            <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96" fill="none">
+                <rect width="96" height="96" rx="16" fill="url(#paint0_linear_506_1966)" />
+                <defs>
+                    <linearGradient id="paint0_linear_506_1966" x1="0" y1="0" x2="96" y2="96" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#4BAFAF" />
+                        <stop offset="1" stop-color="#76E170" />
+                    </linearGradient>
+                </defs>
+            </svg>
+            <br>
+            <br>
+            Məxaric
+
+        </button>*@
+        <a href="/KassaRecipes" class="btn col-md-2 btn-outline-secondary m-3" onclick="route()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96" fill="none">
+                <g clip-path="url(#clip0_506_1952)">
+                    <rect width="96" height="96" rx="16" fill="url(#paint0_linear_506_1952)" />
+                    <g filter="url(#filter0_b_506_1952)">
+                        <circle cx="92" cy="11" r="18" fill="white" fill-opacity="0.6" />
+                    </g>
+                    <g filter="url(#filter1_b_506_1952)">
+                        <circle cx="9" cy="84" r="18" fill="white" fill-opacity="0.45" />
+                    </g>
+                    <g filter="url(#filter2_b_506_1952)">
+                        <path d="M84.558 103.175C82.3836 102.248 80.413 100.902 78.7589 99.2133C77.1048 97.5247 75.7995 95.5268 74.9175 93.3337C74.0355 91.1407 73.594 88.7953 73.6184 86.4317C73.6428 84.068 74.1325 81.7323 75.0596 79.5579C75.9867 77.3835 77.3329 75.4129 79.0216 73.7588C80.7102 72.1047 82.708 70.7994 84.9011 69.9174C87.0942 69.0354 89.4395 68.594 91.8032 68.6183C94.1669 68.6427 96.5026 69.1324 98.677 70.0595L96.2485 75.7554C94.8221 75.1472 93.2899 74.826 91.7393 74.81C90.1887 74.794 88.6502 75.0835 87.2115 75.6621C85.7729 76.2407 84.4622 77.097 83.3545 78.1821C82.2468 79.2672 81.3636 80.5599 80.7555 81.9863C80.1473 83.4127 79.8261 84.945 79.8101 86.4956C79.7941 88.0461 80.0836 89.5847 80.6622 91.0233C81.2408 92.462 82.0971 93.7726 83.1822 94.8803C84.2673 95.9881 85.56 96.8712 86.9864 97.4794L84.558 103.175Z" fill="white" fill-opacity="0.6" />
+                    </g>
+                </g>
+                <defs>
+                    <filter id="filter0_b_506_1952" x="58.5714" y="-22.4286" width="66.8571" height="66.8571" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                        <feGaussianBlur in="BackgroundImage" stdDeviation="7.71429" />
+                        <feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_506_1952" />
+                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_backgroundBlur_506_1952" result="shape" />
+                    </filter>
+                    <filter id="filter1_b_506_1952" x="-24.4286" y="50.5714" width="66.8571" height="66.8571" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                        <feGaussianBlur in="BackgroundImage" stdDeviation="7.71429" />
+                        <feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_506_1952" />
+                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_backgroundBlur_506_1952" result="shape" />
+                    </filter>
+                    <filter id="filter2_b_506_1952" x="58.1891" y="53.1889" width="55.9162" height="65.415" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                        <feGaussianBlur in="BackgroundImage" stdDeviation="7.71429" />
+                        <feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_506_1952" />
+                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_backgroundBlur_506_1952" result="shape" />
+                    </filter>
+                    <linearGradient id="paint0_linear_506_1952" x1="0" y1="0" x2="96" y2="96" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#7EEFEE" />
+                        <stop offset="0.0001" stop-color="#68E6E7" />
+                        <stop offset="1" stop-color="#4D97FD" />
+                    </linearGradient>
+                    <clipPath id="clip0_506_1952">
+                        <rect width="96" height="96" rx="16" fill="white" />
+                    </clipPath>
+                </defs>
+            </svg>
+            <br>
+            <br>
+            Ödənilmiş qəbzlərin siyahısı
+
+        </a>
+
+
+
+    </div>
+</div>
+
+<!-- new payment Modal -->
+<div class="modal fade" id="newPayment" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Mədaxil</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Xəstəni seçin</label>
+                        <select class="form-control" id="debtorPatients" onchange="debtorPatientChanged(this)">
+                            <!-- <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option> -->
+                        </select>
+                        <label for="exampleFormControlSelect1">Ödəniş tipi</label>
+                        <select class="form-control" id="pType">
+                            <!--<option>Nəğd</option>
+                            <option>Kredit kartı</option>
+                            <option>Terminal</option>-->
+
+                        </select>
+                        <label for="exampleFormControlInput1">Məbləğ</label>
+                        <input type="number" class="form-control" disabled id="debtorPrice">
+                    </div>
+
+
+
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Ləğv et</button>
+                <button type="button" class="btn btn-primary" id="pay" onclick="insertPayment()">Ödəniş et</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- new outcome Modal -->
+<div class="modal fade" id="newOutcome" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Xərc</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Xəstəni seçin</label>
+                        <select class="form-control" id="productModels">
+                            <!-- <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option> -->
+                        </select>
+                        <label for="exampleFormControlSelect1">Ödəniş tipi</label>
+                        <select class="form-control">
+                            <option>Nəğd</option>
+                            <option>Kredit kartı</option>
+                            <option>Terminal</option>
+
+                        </select>
+                        <label for="exampleFormControlInput1">Səbəb</label>
+                        <input type="tel" class="form-control" placeholder="100">
+                        <label for="exampleFormControlInput1">Məbləğ</label>
+                        <input type="tel" class="form-control" placeholder="100">
+                    </div>
+
+
+
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Ləğv et</button>
+                <button type="button" class="btn btn-primary">Ödəniş et</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="/js/kassa/home.js" asp-append-version="true"></script>

@@ -1,451 +1,471 @@
 {
   "Files": [
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/obj/Debug/net6.0/scopedcss/projectbundle/FlexitHisMVC.bundle.scp.css",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/obj/Debug/net6.0/scopedcss/projectbundle/FlexitHisMVC.bundle.scp.css",
       "PackagePath": "staticwebassets/FlexitHisMVC.bundle.scp.css"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/.DS_Store",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/.DS_Store",
       "PackagePath": "staticwebassets/.DS_Store"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/css/site.css",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/css/site.css",
       "PackagePath": "staticwebassets/css/site.css"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/favicon.ico",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/favicon.ico",
       "PackagePath": "staticwebassets/favicon.ico"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/js/.DS_Store",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/js/.DS_Store",
       "PackagePath": "staticwebassets/js/.DS_Store"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/js/admin/.DS_Store",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/js/admin/.DS_Store",
       "PackagePath": "staticwebassets/js/admin/.DS_Store"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/js/admin/companies/companySettings.js",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/js/admin/companies/companySettings.js",
       "PackagePath": "staticwebassets/js/admin/companies/companySettings.js"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/js/admin/departments/adminDep.js",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/js/admin/departments/adminDep.js",
       "PackagePath": "staticwebassets/js/admin/departments/adminDep.js"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/js/app.js",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/js/app.js",
       "PackagePath": "staticwebassets/js/app.js"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/js/login/index.js",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/js/kassa/home.js",
+      "PackagePath": "staticwebassets/js/kassa/home.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/js/kassa/recipes.js",
+      "PackagePath": "staticwebassets/js/kassa/recipes.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/js/login/index.js",
       "PackagePath": "staticwebassets/js/login/index.js"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/js/menu/menu.js",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/js/menu/menu.js",
       "PackagePath": "staticwebassets/js/menu/menu.js"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/js/new_patient/new_patient.js",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/js/new_patient/new_patient.js",
       "PackagePath": "staticwebassets/js/new_patient/new_patient.js"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/js/router.js",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/js/router.js",
       "PackagePath": "staticwebassets/js/router.js"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/js/site.js",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/js/site.js",
       "PackagePath": "staticwebassets/js/site.js"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/.DS_Store",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/.DS_Store",
       "PackagePath": "staticwebassets/lib/.DS_Store"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/LICENSE",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/LICENSE",
       "PackagePath": "staticwebassets/lib/bootstrap"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.css"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css.map",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css.map",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.css.map"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.min.css"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css.map",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css.map",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.min.css.map"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.css"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css.map",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css.map",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.css.map"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.min.css"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css.map",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css.map",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.min.css.map"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap.css",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap.css",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.css"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap.css.map",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap.css.map",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.css.map"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.min.css"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css.map",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css.map",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.min.css.map"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.bundle.js"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js.map",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js.map",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.bundle.js.map"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/js/bootstrap.js",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/js/bootstrap.js",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.js"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/js/bootstrap.js.map",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/js/bootstrap.js.map",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.js.map"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/js/bootstrap.min.js",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/js/bootstrap.min.js",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.min.js"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/js/bootstrap.min.js.map",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/dist/js/bootstrap.min.js.map",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.min.js.map"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/LICENSE.txt",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/LICENSE.txt",
       "PackagePath": "staticwebassets/lib/font-awesome/LICENSE.txt"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/all.css",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/all.css",
       "PackagePath": "staticwebassets/lib/font-awesome/css/all.css"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/all.min.css",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/all.min.css",
       "PackagePath": "staticwebassets/lib/font-awesome/css/all.min.css"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/brands.css",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/brands.css",
       "PackagePath": "staticwebassets/lib/font-awesome/css/brands.css"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/brands.min.css",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/brands.min.css",
       "PackagePath": "staticwebassets/lib/font-awesome/css/brands.min.css"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/fontawesome.css",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/fontawesome.css",
       "PackagePath": "staticwebassets/lib/font-awesome/css/fontawesome.css"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/fontawesome.min.css",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/fontawesome.min.css",
       "PackagePath": "staticwebassets/lib/font-awesome/css/fontawesome.min.css"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/regular.css",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/regular.css",
       "PackagePath": "staticwebassets/lib/font-awesome/css/regular.css"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/regular.min.css",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/regular.min.css",
       "PackagePath": "staticwebassets/lib/font-awesome/css/regular.min.css"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/solid.css",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/solid.css",
       "PackagePath": "staticwebassets/lib/font-awesome/css/solid.css"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/solid.min.css",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/solid.min.css",
       "PackagePath": "staticwebassets/lib/font-awesome/css/solid.min.css"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/svg-with-js.css",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/svg-with-js.css",
       "PackagePath": "staticwebassets/lib/font-awesome/css/svg-with-js.css"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/svg-with-js.min.css",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/svg-with-js.min.css",
       "PackagePath": "staticwebassets/lib/font-awesome/css/svg-with-js.min.css"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/v4-font-face.css",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/v4-font-face.css",
       "PackagePath": "staticwebassets/lib/font-awesome/css/v4-font-face.css"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/v4-font-face.min.css",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/v4-font-face.min.css",
       "PackagePath": "staticwebassets/lib/font-awesome/css/v4-font-face.min.css"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/v4-shims.css",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/v4-shims.css",
       "PackagePath": "staticwebassets/lib/font-awesome/css/v4-shims.css"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/v4-shims.min.css",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/v4-shims.min.css",
       "PackagePath": "staticwebassets/lib/font-awesome/css/v4-shims.min.css"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/v5-font-face.css",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/v5-font-face.css",
       "PackagePath": "staticwebassets/lib/font-awesome/css/v5-font-face.css"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/v5-font-face.min.css",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/font-awesome/css/v5-font-face.min.css",
       "PackagePath": "staticwebassets/lib/font-awesome/css/v5-font-face.min.css"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery-validation-unobtrusive/LICENSE.txt",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery-validation-unobtrusive/LICENSE.txt",
       "PackagePath": "staticwebassets/lib/jquery-validation-unobtrusive/LICENSE.txt"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js",
       "PackagePath": "staticwebassets/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js",
       "PackagePath": "staticwebassets/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery-validation/LICENSE.md",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery-validation/LICENSE.md",
       "PackagePath": "staticwebassets/lib/jquery-validation/LICENSE.md"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery-validation/dist/additional-methods.js",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery-validation/dist/additional-methods.js",
       "PackagePath": "staticwebassets/lib/jquery-validation/dist/additional-methods.js"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery-validation/dist/additional-methods.min.js",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery-validation/dist/additional-methods.min.js",
       "PackagePath": "staticwebassets/lib/jquery-validation/dist/additional-methods.min.js"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery-validation/dist/jquery.validate.js",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery-validation/dist/jquery.validate.js",
       "PackagePath": "staticwebassets/lib/jquery-validation/dist/jquery.validate.js"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery-validation/dist/jquery.validate.min.js",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery-validation/dist/jquery.validate.min.js",
       "PackagePath": "staticwebassets/lib/jquery-validation/dist/jquery.validate.min.js"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery/LICENSE.txt",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery/LICENSE.txt",
       "PackagePath": "staticwebassets/lib/jquery/LICENSE.txt"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery/dist/jquery.js",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery/dist/jquery.js",
       "PackagePath": "staticwebassets/lib/jquery/dist/jquery.js"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery/dist/jquery.min.js",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery/dist/jquery.min.js",
       "PackagePath": "staticwebassets/lib/jquery/dist/jquery.min.js"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery/dist/jquery.min.map",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/jquery/dist/jquery.min.map",
       "PackagePath": "staticwebassets/lib/jquery/dist/jquery.min.map"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/.DS_Store",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/.DS_Store",
       "PackagePath": "staticwebassets/res/.DS_Store"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/admin/admin.png",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/admin/admin.png",
       "PackagePath": "staticwebassets/res/admin/admin.png"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/admin/company.png",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/admin/company.png",
       "PackagePath": "staticwebassets/res/admin/company.png"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/admin/department.png",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/admin/department.png",
       "PackagePath": "staticwebassets/res/admin/department.png"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/admin/diagnose.png",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/admin/diagnose.png",
       "PackagePath": "staticwebassets/res/admin/diagnose.png"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/admin/personal.png",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/admin/personal.png",
       "PackagePath": "staticwebassets/res/admin/personal.png"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/.DS_Store",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/.DS_Store",
       "PackagePath": "staticwebassets/res/brand/.DS_Store"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/android-icon-144x144.png",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/android-icon-144x144.png",
       "PackagePath": "staticwebassets/res/brand/android-icon-144x144.png"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/android-icon-192x192.png",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/android-icon-192x192.png",
       "PackagePath": "staticwebassets/res/brand/android-icon-192x192.png"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/android-icon-36x36.png",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/android-icon-36x36.png",
       "PackagePath": "staticwebassets/res/brand/android-icon-36x36.png"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/android-icon-48x48.png",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/android-icon-48x48.png",
       "PackagePath": "staticwebassets/res/brand/android-icon-48x48.png"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/android-icon-72x72.png",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/android-icon-72x72.png",
       "PackagePath": "staticwebassets/res/brand/android-icon-72x72.png"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/android-icon-96x96.png",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/android-icon-96x96.png",
       "PackagePath": "staticwebassets/res/brand/android-icon-96x96.png"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/apple-icon-114x114.png",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/apple-icon-114x114.png",
       "PackagePath": "staticwebassets/res/brand/apple-icon-114x114.png"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/apple-icon-120x120.png",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/apple-icon-120x120.png",
       "PackagePath": "staticwebassets/res/brand/apple-icon-120x120.png"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/apple-icon-144x144.png",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/apple-icon-144x144.png",
       "PackagePath": "staticwebassets/res/brand/apple-icon-144x144.png"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/apple-icon-152x152.png",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/apple-icon-152x152.png",
       "PackagePath": "staticwebassets/res/brand/apple-icon-152x152.png"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/apple-icon-180x180.png",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/apple-icon-180x180.png",
       "PackagePath": "staticwebassets/res/brand/apple-icon-180x180.png"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/apple-icon-57x57.png",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/apple-icon-57x57.png",
       "PackagePath": "staticwebassets/res/brand/apple-icon-57x57.png"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/apple-icon-60x60.png",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/apple-icon-60x60.png",
       "PackagePath": "staticwebassets/res/brand/apple-icon-60x60.png"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/apple-icon-72x72.png",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/apple-icon-72x72.png",
       "PackagePath": "staticwebassets/res/brand/apple-icon-72x72.png"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/apple-icon-76x76.png",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/apple-icon-76x76.png",
       "PackagePath": "staticwebassets/res/brand/apple-icon-76x76.png"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/apple-icon-precomposed.png",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/apple-icon-precomposed.png",
       "PackagePath": "staticwebassets/res/brand/apple-icon-precomposed.png"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/apple-icon.png",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/apple-icon.png",
       "PackagePath": "staticwebassets/res/brand/apple-icon.png"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/browserconfig.xml",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/browserconfig.xml",
       "PackagePath": "staticwebassets/res/brand/browserconfig.xml"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/favicon-16x16.png",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/favicon-16x16.png",
       "PackagePath": "staticwebassets/res/brand/favicon-16x16.png"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/favicon-32x32.png",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/favicon-32x32.png",
       "PackagePath": "staticwebassets/res/brand/favicon-32x32.png"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/favicon-96x96.png",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/favicon-96x96.png",
       "PackagePath": "staticwebassets/res/brand/favicon-96x96.png"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/favicon.ico",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/favicon.ico",
       "PackagePath": "staticwebassets/res/brand/favicon.ico"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/manifest.json",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/manifest.json",
       "PackagePath": "staticwebassets/res/brand/manifest.json"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/ms-icon-144x144.png",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/ms-icon-144x144.png",
       "PackagePath": "staticwebassets/res/brand/ms-icon-144x144.png"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/ms-icon-150x150.png",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/ms-icon-150x150.png",
       "PackagePath": "staticwebassets/res/brand/ms-icon-150x150.png"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/ms-icon-310x310.png",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/ms-icon-310x310.png",
       "PackagePath": "staticwebassets/res/brand/ms-icon-310x310.png"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/ms-icon-70x70.png",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/ms-icon-70x70.png",
       "PackagePath": "staticwebassets/res/brand/ms-icon-70x70.png"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/empty.png",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/empty.png",
       "PackagePath": "staticwebassets/res/empty.png"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/kassa/income.png",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/kassa/income.png",
       "PackagePath": "staticwebassets/res/kassa/income.png"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/kassa/kassa.png",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/kassa/kassa.png",
       "PackagePath": "staticwebassets/res/kassa/kassa.png"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/kassa/outcome.png",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/kassa/outcome.png",
       "PackagePath": "staticwebassets/res/kassa/outcome.png"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/kassa/recipes.png",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/kassa/recipes.png",
       "PackagePath": "staticwebassets/res/kassa/recipes.png"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/login_bg.png",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/login/dm04.svg",
+      "PackagePath": "staticwebassets/res/login/dm04.svg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/login_bg.png",
       "PackagePath": "staticwebassets/res/login_bg.png"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/module.png",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/logo.png",
+      "PackagePath": "staticwebassets/res/logo.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/logo_full.svg",
+      "PackagePath": "staticwebassets/res/logo_full.svg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/module.png",
       "PackagePath": "staticwebassets/res/module.png"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/new_patient.png",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/new_patient.png",
       "PackagePath": "staticwebassets/res/new_patient.png"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/pencil.svg",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/pencil.svg",
       "PackagePath": "staticwebassets/res/pencil.svg"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/policlinic.png",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/policlinic.png",
       "PackagePath": "staticwebassets/res/policlinic.png"
     },
     {
-      "Id": "/Users/rufat/Documents/GitHub/FlexitHisMVC/FlexitHisMVC/wwwroot/res/user.svg",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/user.svg",
       "PackagePath": "staticwebassets/res/user.svg"
     },
     {
