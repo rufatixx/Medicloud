@@ -38,15 +38,15 @@ namespace FlexitHisMVC.Controllers
         }
         [HttpPost]
         [Route("newPatient/getPageModel")]
-        public ActionResult<NewPatientViewDTO> getPageModel()
+        public ActionResult<NewPatientViewDTO> getPageModel(int hospitalID)
         {
             if (HttpContext.Session.GetInt32("userid") != null)
             {
                 NewPatientViewDTO pageStruct = new NewPatientViewDTO();
                 pageStruct.requestTypes = new List<RequestType>();
-                pageStruct.personal = new List<Personal>();
+                pageStruct.personal = new List<User>();
                 pageStruct.departments = new List<UserDepRel>();
-                pageStruct.referers = new List<Personal>();
+                pageStruct.referers = new List<User>();
                 pageStruct.services = new List<ServiceObj>();
 
                 RequestTypeRepo requestTypeDAO = new RequestTypeRepo(ConnectionString);
@@ -55,17 +55,20 @@ namespace FlexitHisMVC.Controllers
 
                 ServicesRepo servicesDAO = new ServicesRepo(ConnectionString);
 
-                pageStruct.services.AddRange(servicesDAO.GetServices());
+                pageStruct.services.AddRange(servicesDAO.GetServicesByHospital(hospitalID));
 
 
                 UserDepRelRepo departmentsDAO = new UserDepRelRepo(ConnectionString);
 
                 pageStruct.departments = departmentsDAO.GetUserDepartments(1);
 
+                UserHospitalRel userHospitalRel = new UserHospitalRel(ConnectionString);
+                
+
+                pageStruct.personal.AddRange(userHospitalRel.GetUsersByHospital(hospitalID));
+
+
                 UserRepo personalDAO = new UserRepo(ConnectionString);
-
-                pageStruct.personal.AddRange(personalDAO.GetPersonalList());
-
 
                 pageStruct.referers.AddRange(personalDAO.GetRefererList());
 
@@ -84,33 +87,52 @@ namespace FlexitHisMVC.Controllers
 
         }
         [HttpPost]
-        [Route("newPatient/add")]
+    
         public IActionResult AddPatient([FromBody] AddPatientDTO newPatient)
         {
-            ResponseDTO<int> response = new ResponseDTO<int>();
+           
             if (HttpContext.Session.GetInt32("userid") != null)
             {
-                PatientRepo insert = new PatientRepo(ConnectionString);
-
-                long lastID = insert.InsertPatient(Convert.ToInt32(HttpContext.Session.GetInt32("userid")), newPatient);
-
-
-                if (lastID > 0)
+                ResponseDTO<int> response = new ResponseDTO<int>();
+                try
                 {
-                    PatientRequestRepo patientRequestDAO = new PatientRequestRepo(ConnectionString);
-                    bool inserted = patientRequestDAO.InsertPatientRequest(newPatient, Convert.ToInt32(HttpContext.Session.GetInt32("userid")), lastID);
+                    PatientRepo insert = new PatientRepo(ConnectionString);
+                    long ID;
+                    if (newPatient.foundPatientID > 0)
+                    {
+                        ID = newPatient.foundPatientID;
+                       
+                    }
+                    else
+                    {
+                        ID = insert.InsertPatient(Convert.ToInt32(HttpContext.Session.GetInt32("userid")), newPatient);
+                    }
 
 
-                    response.status = 1; //inserted
 
+                    if (ID>0)
+                    {
+                        PatientRequestRepo patientRequestDAO = new PatientRequestRepo(ConnectionString);
+                        bool inserted = patientRequestDAO.InsertPatientRequest(newPatient, Convert.ToInt32(HttpContext.Session.GetInt32("userid")), ID);
+
+
+                        response.status = 1; //inserted
+
+
+                    }
+                    else
+                    {
+                        response.status = 2; // not inserted (Duplicate)
+                    }
+
+
+                    
 
                 }
-                else
+                catch (Exception ex)
                 {
-                    response.status = 2; // not inserted (Duplicate)
+                    response.status = 3; // not inserted (Duplicate)
                 }
-
-
                 return Ok(response);
 
             }
@@ -121,7 +143,7 @@ namespace FlexitHisMVC.Controllers
 
         }
         [HttpPost]
-        [Route("newPatient/search")]
+      
         public IActionResult SearchForPatient(string fullNamePattern, long hospitalID)
         {
             if (HttpContext.Session.GetInt32("userid") != null)

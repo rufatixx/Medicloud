@@ -30,8 +30,8 @@ namespace FlexitHisMVC.Models.Repository
 
 
 
-                    using (MySqlCommand com = new MySqlCommand(@"INSERT INTO patient_request (requestTypeID,userID,patientID,hospitalID,departmentID,serviceID,docID,priceGroupID,note,referDocID)
-                      Values (@requestTypeID, @userID,@patientID,@hospitalID,@depID,@serviceID,@docID,@priceGroupID,@note,@referDocID)"
+                    using (MySqlCommand com = new MySqlCommand(@"INSERT INTO patient_request (requestTypeID,userID,patientID,hospitalID,serviceID,docID,priceGroupID,note,referDocID)
+                      Values (@requestTypeID, @userID,@patientID,@hospitalID,@serviceID,@docID,@priceGroupID,@note,@referDocID)"
                     , connection))
 
                     {
@@ -39,7 +39,7 @@ namespace FlexitHisMVC.Models.Repository
                         com.Parameters.AddWithValue("@userID", userID);
                         com.Parameters.AddWithValue("@patientID", lastID);
                         com.Parameters.AddWithValue("@hospitalID", newPatient.hospitalID);
-                        com.Parameters.AddWithValue("@depID", newPatient.depID);
+                        //com.Parameters.AddWithValue("@depID", newPatient.depID);
                         com.Parameters.AddWithValue("@serviceID", newPatient.serviceID);
                         com.Parameters.AddWithValue("@docID", newPatient.docID);
                         com.Parameters.AddWithValue("@priceGroupID", newPatient.priceGroupID);
@@ -63,11 +63,11 @@ namespace FlexitHisMVC.Models.Repository
                 return false;
             }
         }
-        public List<Patient> GetDebtorPatients(long hospitalID)
+        public List<PatientKassaDTO> GetDebtorPatients(long hospitalID)
 
         {
 
-            List<Patient> patientList = new List<Patient>();
+            List<PatientKassaDTO> patientList = new List<PatientKassaDTO>();
             try
             {
 
@@ -92,7 +92,7 @@ FROM patient_request a where hospitalID =@hospitalID and finished=0 group by pat
                             while (reader.Read())
                             {
 
-                                Patient dSumStruct = new Patient();
+                                PatientKassaDTO dSumStruct = new PatientKassaDTO();
                                 dSumStruct.ID = Convert.ToInt64(reader["patientID"]);
                                 dSumStruct.name = reader["name"].ToString();
                                 dSumStruct.surname = reader["surname"].ToString();
@@ -127,7 +127,71 @@ FROM patient_request a where hospitalID =@hospitalID and finished=0 group by pat
 
             return patientList;
         }
+        public List<PatientKassaDTO> GetPatientsByDr(int docID)
 
+        {
+
+            List<PatientKassaDTO> patientList = new List<PatientKassaDTO>();
+            try
+            {
+
+                using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+                {
+
+
+                    connection.Open();
+
+                    using (MySqlCommand com = new MySqlCommand($@"SELECT a.id, a.patientID, a.serviceID, p.name, p.surname, p.father
+FROM patient_request a
+INNER JOIN patients p ON a.patientID = p.id
+WHERE a.docID = @docID
+GROUP BY a.patientID
+ ;", connection))
+                    {
+                        com.Parameters.AddWithValue("@docID", docID);
+                        MySqlDataReader reader = com.ExecuteReader();
+                        if (reader.HasRows)
+                        {
+
+
+                            while (reader.Read())
+                            {
+
+                                PatientKassaDTO dSumStruct = new PatientKassaDTO();
+                                dSumStruct.ID = Convert.ToInt64(reader["patientID"]);
+                                dSumStruct.name = reader["name"].ToString();
+                                dSumStruct.surname = reader["surname"].ToString();
+                                dSumStruct.father = reader["father"].ToString();
+                               
+
+                                patientList.Add(dSumStruct);
+
+
+                            }
+                            patientList.Reverse();
+
+
+                        }
+
+                    }
+
+
+                    connection.Close();
+
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                StandardMessages.CallSerilog(ex);
+                Console.WriteLine(ex.Message);
+
+            }
+
+
+            return patientList;
+        }
         public bool UpdatePatientRequest(long patientID)
         {
             bool response = new bool();

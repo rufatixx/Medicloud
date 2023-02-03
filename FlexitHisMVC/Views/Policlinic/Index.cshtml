@@ -48,31 +48,31 @@
 </div>-->
 
 <div class="container-fluid">
-    <div class="row">
+    <div class="row justify-content-center">
         <!-- Left Sidebar for Patients List -->
-        <div class="col-md-3 bg-light p-3">
-            <h5 class="text-center">Patients List</h5>
-            <ul class="list-group">
-                <li class="list-group-item d-flex align-items-center" onclick="showPatientDetails(1)">
-                    <img src="patient1-profile-pic.jpg" class="img-fluid rounded-circle mr-3" width="50" height="50">
+        <div class="col-md-2 mr-3 bg-white p-3">
+            <h5 class="text-left text-muted">Xəstələrin siyahısı</h5>
+            <ul class="list-group ">
+                <li class="list-group-item d-flex align-items-center border-0" onclick="showPatientDetails(1)">
+                    <img src="./res/user.svg" class="img-fluid rounded-circle mr-3" width="50" height="50">
                     <span>Patient 1</span>
                 </li>
-                <li class="list-group-item d-flex align-items-center" onclick="showPatientDetails(2)">
-                    <img src="patient2-profile-pic.jpg" class="img-fluid rounded-circle mr-3" width="50" height="50">
+                <li class="list-group-item d-flex align-items-center border-0" onclick="showPatientDetails(2)">
+                    <img src="./res/user.svg" class="img-fluid rounded-circle mr-3" width="50" height="50">
                     <span>Patient 2</span>
                 </li>
-                <li class="list-group-item d-flex align-items-center" onclick="showPatientDetails(3)">
-                    <img src="patient3-profile-pic.jpg" class="img-fluid rounded-circle mr-3" width="50" height="50">
+                <li class="list-group-item d-flex align-items-center border-0" onclick="showPatientDetails(3)">
+                    <img src="./res/user.svg" class="img-fluid rounded-circle mr-3" width="50" height="50">
                     <span>Patient 3</span>
                 </li>
             </ul>
         </div>
 
         <!-- Central Part for Detailed Information -->
-        <div class="col-md-9">
+        <div class="col-md-9  bg-white rounded-lg py-5">
             <!-- Patient Profile Picture -->
             <div class="text-center mb-3" id="patientProfilePicture">
-                <img src="selected-patient-profile-pic.jpg" class="img-fluid rounded-circle" width="200" height="200">
+                <img src="./res/user.svg" class="img-fluid rounded-circle" width="200" height="200">
             </div>
 
             <!-- Patient Information -->
@@ -83,21 +83,21 @@
             </div>
 
             <!-- Diagnosis Option Box -->
-            <h5 class="text-center mt-3">Diagnosis</h5>
+            <h5 class="text-left mt-3">Qeyd</h5>
             <form>
                 <div class="form-group">
                     <textarea class="form-control" rows="5"></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary btn-block">Save Diagnosis</button>
+                <button type="submit" class="btn btn-primary btn-block">Yadda saxla</button>
             </form>
 
             <!-- Video Record Button -->
-            <button class="btn btn-danger btn-block mt-3" onclick="startPreview()">Video Record</button>
+            <button class="btn btn-danger btn-block mt-3" onclick="startPreview()">Video qeydiyyat</button>
         </div>
     </div>
 </div>
 <!-- Video Recording Modal -->
-<div class="modal fade" id="videoModal" tabindex="-1" role="dialog" aria-labelledby="videoModalLabel" aria-hidden="true">
+<div class="modal fade" id="videoModal" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="videoModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -312,15 +312,104 @@
                 });
         }
 
+        //function stopVideoRecording() {
+        //    mediaRecorder.stop();
+        //    startRecordingBtn.show();
+        //    stopRecordingBtn.hide();
+
+        //    counter++;
+
+
+        //    const blob = new Blob(recordedBlobs, { type: "video/webm" });
+        //    const url = URL.createObjectURL(blob);
+        //    const a = document.createElement("a");
+        //    document.body.appendChild(a);
+        //    a.style = "display: none";
+        //    a.href = url;
+        //    a.download = `recorded-video-${counter}.webm`;
+        //    a.click();
+        //    window.URL.revokeObjectURL(url);
+
+        //}
         function stopVideoRecording() {
+
+            //          mediaRecorder.stop();
+            //          startRecordingBtn.show();
+            //          stopRecordingBtn.hide();
+
+            //          counter++;
+            //          const blob = new Blob(recordedBlobs, { type: "video/webm" });
+
+            //          const formData = new FormData();
+            //          formData.append("videoFile", blob, `recorded-video-${counter}.webm`);
+            //          formData.append("patientID", 1);
+
+            //          // Create a Bootstrap modal and append it to the body
+            //          const modal = document.createElement("div");
+            //          modal.className = "modal fade";
+            //          modal.innerHTML = `
+            //  <div class="modal-dialog modal-dialog-centered">
+            //    <div class="modal-content">
+            //      <div class="modal-header">
+            //        <h5 class="modal-title">Yüklənir</h5>
+            //      </div>
+            //      <div class="modal-body">
+            //        <div class="progress">
+            //          <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
+            //        </div>
+            //      </div>
+            //      <div class="modal-footer">
+            //        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            //      </div>
+            //    </div>
+            //  </div>
+            //`;
+            //          document.body.appendChild(modal);
+
+            //          // Show the modal
+            //          $(modal).modal("show");
+
+            //          // Get the progress bar
+            //          const progressBar = $(modal).find(".progress-bar")[0];
+
+            //          $.ajax({
+            //              type: "POST",
+            //              url: "/Policlinic/UploadVideo",
+            //              data: formData,
+            //              processData: false,
+            //              contentType: false,
+            //              xhr: function () {
+            //                  const xhr = $.ajaxSettings.xhr();
+            //                  xhr.upload.addEventListener("progress", function (e) {
+            //                      if (e.lengthComputable) {
+            //                          const percentage = (e.loaded / e.total) * 100;
+            //                          progressBar.style.width = `${percentage}%`;
+            //                      }
+            //                  }, false);
+            //                  xhr.addEventListener("load", function () {
+            //                      progressBar.style.width = "100%";
+            //                  });
+            //                  return xhr;
+            //              },
+            //              success: function () {
+            //                  // Hide the modal and remove it from the body
+            //                  $(modal).modal("hide");
+            //                  modal.remove();
+
+            //                  // Show a success message
+            //                  //$('#warningModal').modal('show')
+
+            //                  //$('#hospitalSelector').text('Heç bir xəstəxanaya icazəniz yoxdur, zəhmət olmasa çağrı mərkəzimizə müraciət edin');
+            //                  //$("#warningModalButton").show();
+            //                  //$("#warningModalButton").text("Çıxış");
+            //              },
             mediaRecorder.stop();
             startRecordingBtn.show();
             stopRecordingBtn.hide();
 
             counter++;
-            
-
             const blob = new Blob(recordedBlobs, { type: "video/webm" });
+
             const url = URL.createObjectURL(blob);
             const a = document.createElement("a");
             document.body.appendChild(a);
@@ -329,7 +418,90 @@
             a.download = `recorded-video-${counter}.webm`;
             a.click();
             window.URL.revokeObjectURL(url);
-            
+
+
+            const formData = new FormData();
+            formData.append("videoFile", blob, `recorded-video-${counter}.webm`);
+            formData.append("patientID", 1);
+
+            // Create a Bootstrap modal backdrop and loader
+            const modalBackdrop = document.createElement("div");
+            modalBackdrop.className = "modal-backdrop fade show";
+            document.body.appendChild(modalBackdrop);
+
+            const modalLoader = document.createElement("div");
+            modalLoader.className = "d-flex justify-content-center align-items-center";
+            modalLoader.innerHTML = `
+    <div class="spinner-border text-primary" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  `;
+            document.body.appendChild(modalLoader);
+
+            $.ajax({
+                type: "POST",
+                url: "/Policlinic/UploadVideo",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function () {
+                    // Remove the modal backdrop and loader
+                    modalBackdrop.remove();
+                    modalLoader.remove();
+
+                    // Show a success message modal
+                    const modal = document.createElement("div");
+                    modal.className = "modal fade";
+                    modal.innerHTML = `
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+              <h5 class="modal-title">Uğurlu</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              Video uğurla yükləndi
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Bağla</button>
+            </div>
+          </div>
+        </div>
+      `;
+                    document.body.appendChild(modal);
+                    $(modal).modal("show");
+                },
+                error: function () {
+                    // Remove the modal backdrop and loader
+                    modalBackdrop.remove();
+                    modalLoader.remove();
+
+                    // Show a failure message modal
+                    const modal = document.createElement("div");
+                    modal.className = "modal fade";
+                    modal.innerHTML = `
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+              <h5 class="modal-title
+
+">Xəta</h5>
+</div>
+<div class="modal-body">
+Yükləmək mümkün olmadı. Zəhmət olmasa biraz sonra yenidən cəhd edin
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Bağla</button>
+</div>
+</div>
+</div>
+`;
+                    document.body.appendChild(modal);
+                    $(modal).modal("show");
+                }
+            });
         }
 
 
@@ -361,8 +533,8 @@
         let videoPreview = document.getElementById("videoPreview");
         let srcObject = videoPreview.srcObject;
         if (!srcObject) return;
-        let tracks = srcObject.getTracks();
 
+        let tracks = srcObject.getTracks();
         tracks.forEach(track => track.stop());
         videoPreview.srcObject = null;
     }</script>

@@ -192,36 +192,69 @@
 
     @await Component.InvokeAsync("Navbar")
 
-    <div class="container min-vh-100">
+    <div class="container-fluid my-5 min-vh-100">
 
         @RenderBody()
 
 
     </div>
     <!--<footer class="page-footer font-small blue">-->
-
-        <!-- Copyright -->
-        <!--<div class="footer-copyright text-center py-3">
-            © 2020 Copyright:
-            <a href="/"> MDBootstrap.com</a>
-        </div>-->
-        <!-- Copyright -->
-
+    <!-- Copyright -->
+    <!--<div class="footer-copyright text-center py-3">
+        © 2020 Copyright:
+        <a href="/"> MDBootstrap.com</a>
+    </div>-->
+    <!-- Copyright -->
     <!--</footer>-->
-    <footer class="bg-white footer text-muted d-flex align-items-center">
-        <div class="container-fluid ml-5 mr-5 ">
+    <footer class="bg-white mt-auto border-top">
+        <div class="container-fluid  ">
             <div class="row">
-                <div class="col-6 text-left mt-2">
+                <div class="col-6 text-left mt-2 d-none d-md-block">
                     &copy;
                     <script>document.write(new Date().getFullYear())</script> Medicloud. Bütün hüquqlar qorunur
                 </div>
-                <div class="col-6 text-right d-flex justify-content-end">
+                <div class="col-6 text-right d-flex  d-none d-md-block">
                     <label class="mr-2 mt-2">Site by </label>
                     <img class="img-fluid" src="./res/flexit_logo.svg" />
                 </div>
+                <div class="col-12  d-block d-md-none mb-3">
+                    &copy;
+                    <script>document.write(new Date().getFullYear())</script> Medicloud. Bütün hüquqlar qorunur
+                </div>
+               
             </div>
         </div>
     </footer>
+
+    @*<footer class="bg-light mt-auto">
+            <div class="container-fluid pt-5 border-bottom">
+                <div class="row">
+                   <div class="col-6 text-left mt-2">
+                        &copy;
+                        <script>document.write(new Date().getFullYear())</script> Medicloud. Bütün hüquqlar qorunur
+                    </div>
+                    <div class="col-6 text-right d-flex justify-content-end">
+                        <label class="mr-2 mt-2">Site by </label>
+                        <img class="img-fluid" src="./res/flexit_logo.svg" />
+                    </div>
+                </div>
+            </div>
+        </footer>*@
+
+    @*<footer class="bg-white footer text-muted d-flex align-items-center">
+            <div class="container-fluid ml-5 mr-5 ">
+                <div class="row">
+                    <div class="col-6 text-left mt-2">
+                        &copy;
+                        <script>document.write(new Date().getFullYear())</script> Medicloud. Bütün hüquqlar qorunur
+                    </div>
+                    <div class="col-6 text-right d-flex justify-content-end">
+                        <label class="mr-2 mt-2">Site by </label>
+                        <img class="img-fluid" src="./res/flexit_logo.svg" />
+                    </div>
+                </div>
+            </div>
+        </footer>*@
 
 
     <!-- loading modal -->

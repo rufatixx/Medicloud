@@ -291,6 +291,7 @@
 
 @section Scripts{
     <script>
+        
         if (localStorage.json) {
             var json = localStorage.json;
             var parsedJSON = JSON.parse(json);
@@ -302,7 +303,10 @@
             }
 
 
+            $.each(parsedJSON.data[0].hospitals, function () {
+                $("#selectHospitalDropdownItems").append(`<a class="dropdown-item" id="${this.id}" onclick="localStorage.selectedHospital='${this.hospitalID}';localStorage.selectedHospitalName='${this.hospitalName}'; $('#selectHospitalDropdownButton').text('${this.hospitalName} '); $('#hospitalLogo').text('${this.hospitalName} ');">${this.hospitalName}</a>`)
 
+            });
             if (localStorage.selectedHospital != null) {
 
                 $("#selectHospitalDropdownButton").text(localStorage.selectedHospitalName)
@@ -312,16 +316,15 @@
 
             }
             else {
+               
+              
                 if (parsedJSON.data[0].hospitals.length > 0) {
 
                     $("#selectHospitalDropdownButton").text(parsedJSON.data[0].hospitals[0].hospitalName)
                     $('#hospitalLogo').text(parsedJSON.data[0].hospitals[0].hospitalName)
                     localStorage.selectedHospital = parsedJSON.data[0].hospitals[0].hospitalID;
                     localStorage.selectedHospitalName = parsedJSON.data[0].hospitals[0].hospitalName;
-                    $.each(parsedJSON.data[0].hospitals, function () {
-                        $("#selectHospitalDropdownItems").append(`<a class="dropdown-item" id="${this.id}" onclick="localStorage.selectedHospital='${this.id}';localStorage.selectedHospitalName='${this.hospitalName}'; $('#selectHospitalDropdownButton').text('${this.hospitalName} '); $('#hospitalLogo').text('${this.hospitalName} ');">${this.hospitalName}</a>`)
 
-                    });
                 }
                 else {
 
@@ -373,6 +376,10 @@
             $('#systemModal').modal('show')
             //window.location.replace("/");
 
+        }
+        function servicesChanged(a) {
+            //alert($(a).val())
+            $("#price").val($(a).val());
         }
     </script>
 

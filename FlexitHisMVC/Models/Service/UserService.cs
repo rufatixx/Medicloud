@@ -18,7 +18,7 @@ namespace FlexitHisMVC.Models.Login
 
             //long formattedPhone = regexPhone(phone);
             LogInDTO status = new LogInDTO();
-            status.personal = new Personal();
+            status.personal = new User();
             status.hospitals = new List<Hospital>();
             status.kassaList = new List<Kassa>();
           

@@ -1,7 +1,8 @@
 ﻿using System;
 namespace FlexitHisMVC.Models
 {
-    public class Personal
+    public class User
+
     {
         public int ID { get; set; }
         public int depID { get; set; }

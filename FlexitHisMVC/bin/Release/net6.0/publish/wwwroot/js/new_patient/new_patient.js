@@ -33,6 +33,7 @@ $('#systemModalBtn').attr("hidden", "");
 $.ajax({
     type: 'POST',
     url: `/newPatient/getPageModel`,
+    data: { hospitalID: parseInt(localStorage.selectedHospital) },
     dataType: 'json',
     success: function (data, status, xhr) {   // success callback function
         //  var json = JSON.stringify(data)
@@ -51,19 +52,19 @@ $.ajax({
             $dropdown.append($("<option />").val(this.id).text(this.name));
         });
         $.each(data.services, function () {
-            if (this.depID == data.departments[0].id) {
-                $servicesDropdown.append($(`<option id=${this.id} />`).val(this.price).text(this.name));
-            }
-
+            //if (this.depID == data.departments[0].id) {
+            //    $servicesDropdown.append($(`<option id=${this.id} />`).val(this.price).text(this.name));
+            //}
+            $servicesDropdown.append($(`<option id=${this.id} />`).val(this.price).text(this.name));
         });
-        $.each(data.departments, function () {
-            $policlinicDropdown.append($("<option />").val(this.id).text(this.name));
-        });
+        //$.each(data.departments, function () {
+        //    $policlinicDropdown.append($("<option />").val(this.id).text(this.name));
+        //});
         $.each(data.personal, function () {
-            if (this.depID == data.departments[0].id) {
-                $doctorDropdown.append($("<option />").val(this.id).text(`${this.name} ${this.surname} ${this.father}`));
-            }
-           
+            //if (this.depID == data.departments[0].id) {
+            //    $doctorDropdown.append($("<option />").val(this.id).text(`${this.name} ${this.surname} ${this.father}`));
+            //}
+            $doctorDropdown.append($("<option />").val(this.id).text(`${this.name} ${this.surname} (${this.speciality})`));
         });
         $.each(data.referers, function () {
             $refererDropdown.append($("<option />").val(this.id).text(`${this.name} ${this.surname} ${this.father}`));
@@ -104,7 +105,7 @@ function serachForPatient() {
     $('#systemModalBtn').attr("hidden", "");
     $.ajax({
         type: 'POST',
-        url: `/newPatient/search`,
+        url: `/NewPatient/SearchForPatient`,
         data: {fullNamePattern: $("#fullNamePattern").val() ,hospitalID:parseInt(localStorage.selectedHospital) },
         dataType: 'json',
         success: function (data, status, xhr) {   // success callback function
@@ -121,7 +122,7 @@ function serachForPatient() {
             $("#foundPatients").empty();
             foundPatients = data;
             //alert(data.requestTypes[0].name)
-            $.each(data.data, function () {
+            $.each(data, function () {
                 var bDate = this.bDate.split('T')[0];
                 $("#foundPatients").append($("<option />").val(this.id).text(`${this.name} ${this.surname} ${this.father} (${bDate})`));
             });
@@ -152,11 +153,44 @@ function serachForPatient() {
     });
 
 }
+function DeleteSelectedPatient() {
 
+    $("#name").prop("disabled", false);
+    $("#surname").prop("disabled", false);
+    $("#father").prop("disabled", false);
+    $("#clientPhone").prop("disabled", false);
+    $("#fin").prop("disabled", false);
+    $("#bDate").prop("disabled", false);
+    $(`#gender`).prop("disabled", false);
+
+    $("#name").val("");
+    $("#surname").val("");
+    $("#father").val("");
+  
+    $("#clientPhone").val("");
+    $("#fin").val("");
+    $("#bDate").val("");
+
+    var foundPatientID = 0;
+    $("#selectedPatientForm").hide();
+}
 function foundPatientClicked(item) {
-    
-   
-    $.each(foundPatients.data, function () {
+
+    $("#selectedPatientForm").show()
+    $("#name").prop("disabled", true);
+    $("#surname").prop("disabled", true);
+    $("#father").prop("disabled", true);
+
+    $("#clientPhone").prop("disabled", true);
+    $("#fin").prop("disabled", true);
+
+
+
+    $("#bDate").prop("disabled", true);
+    $(`#gender`).prop("disabled", true);
+
+  
+    $.each(foundPatients, function () {
         if (this.id == $(item).val()) {
            
             $("#name").val(this.name);
@@ -202,7 +236,7 @@ function AddPatient() {
    
     if (forms[0].checkValidity()) {
 
-
+        var foundPatientID = $("#foundPatients").val() || 0
         var name = $('#name').val()
         var surname = $('#surname').val()
         var father = $('#father').val()
@@ -234,7 +268,7 @@ function AddPatient() {
                 "Content-Type": "application/json"
             },
                 type: 'POST',
-            url: `/newPatient/add"`,
+            url: `/NewPatient/AddPatient`,
                 data: 
 
                     JSON.stringify({
@@ -249,7 +283,8 @@ function AddPatient() {
                         "priceGroupID": parseInt(priceGroupID),
                         "hospitalID": parseInt(localStorage.selectedHospital),
                         "serviceID": parseInt(serviceID),
-                        "depID": parseInt(depID),
+                        "foundPatientID": parseInt(foundPatientID),
+                        //"depID": parseInt(depID),
                         "docID": parseInt(depDocID),
                         "referDocID": parseInt(referDocID),
                         "birthDate": bDate,
@@ -298,14 +333,9 @@ function AddPatient() {
                             }
                             $('#systemModal').modal('hide');
                             $('#warningModal').modal('show')
-                            $('#warningText').text('Xəstə artıq mövcuddur!');
+                            $('#warningText').text('Xəstə artıq mövcuddur, zəhmət olmasa axtarış bölməsindən istifadə edin');
                             break;
-                        case 3:
-                            localStorage.clear()
-                            $('#systemModalTitle').text("Sessiyanız başa çatıb");
-                            $('#systemModalText').html(`<p id="systemModalText">Zəhmət olmasa yenidən giriş edin</p>`);
-                            $('#systemModalBtn').removeAttr("hidden");
-                            break;
+                      
                         default:
                             $('#systemModal').modal('hide');
                             $('#warningModal').modal('show')

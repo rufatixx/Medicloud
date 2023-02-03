@@ -12,7 +12,7 @@ namespace FlexitHisMVC.Data
         {
             ConnectionString = conString;
         }
-        public List<ServiceObj> GetServices()
+        public List<ServiceObj> GetServicesByHospital(int hospitalID)
         {
             List<ServiceObj> serviceList = new List<ServiceObj>();
 
@@ -20,8 +20,9 @@ namespace FlexitHisMVC.Data
             {
 
                 connection.Open();
-                using (MySqlCommand com = new MySqlCommand("SELECT * FROM services;", connection))
+                using (MySqlCommand com = new MySqlCommand("SELECT * FROM services where hospitalID=@hospitalID;", connection))
                 {
+                    com.Parameters.AddWithValue("hospitalID", hospitalID);
 
                     MySqlDataReader reader = com.ExecuteReader();
                     if (reader.HasRows)
@@ -33,6 +34,7 @@ namespace FlexitHisMVC.Data
                             ServiceObj service = new ServiceObj();
 
                             service.ID = Convert.ToInt32(reader["id"]);
+                            service.hospitalID = Convert.ToInt32(reader["hospitalID"]);
                             service.depID = Convert.ToInt32(reader["departmentID"]);
                             service.name = reader["name"].ToString();
                             service.price = Convert.ToDouble(reader["price"]);

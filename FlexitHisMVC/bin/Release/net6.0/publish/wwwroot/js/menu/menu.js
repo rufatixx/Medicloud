@@ -152,10 +152,7 @@ var parsedJSON = JSON.parse(json)
 //  });
 //}
 
-function servicesChanged(a) {
-    //alert($(a).val())
-    $("#price").val($(a).val());
-}
+
 function getCookie(cname) {
   var name = cname + "=";
   var decodedCookie = decodeURIComponent(document.cookie);

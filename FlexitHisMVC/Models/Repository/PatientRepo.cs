@@ -75,11 +75,11 @@ WHERE NOT EXISTS
             return lastID ;
         }
 
-        public List<Patient> SearchForPatients(string fullNamePattern, long hospitalID)
+        public List<PatientKassaDTO> SearchForPatients(string fullNamePattern, long hospitalID)
 
         {
            
-             List<Patient> patientList = new List<Patient>();
+             List<PatientKassaDTO> patientList = new List<PatientKassaDTO>();
             try
             {
                 using (MySqlConnection connection = new MySqlConnection(ConnectionString))
@@ -103,7 +103,7 @@ WHERE CONCAT( name,  ' ', surname ) LIKE  @fullNamePattern and hospitalID = @hos
                             while (reader.Read())
                             {
 
-                                Patient patient = new Patient();
+                                PatientKassaDTO patient = new PatientKassaDTO();
                                 patient.ID = Convert.ToInt64(reader["id"]);
                                 patient.name = reader["name"] == DBNull.Value ? "" : reader["name"].ToString();
                                 patient.surname = reader["surname"] == DBNull.Value ? "" : reader["surname"].ToString();

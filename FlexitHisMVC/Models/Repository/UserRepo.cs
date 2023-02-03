@@ -13,9 +13,9 @@ namespace FlexitHisMVC.Data
         {
             ConnectionString = conString;
         }
-        public List<Personal> GetPersonalList()
+        public List<User> GetPersonalList()
         {
-            List<Personal> personalList = new List<Personal>();
+            List<User> personalList = new List<User>();
 
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
             {
@@ -33,7 +33,7 @@ namespace FlexitHisMVC.Data
                         while (reader.Read())
                         {
 
-                            Personal personal = new Personal();
+                            User personal = new User();
                             personal.ID = Convert.ToInt32(reader["id"]);
                             personal.depID = reader["departmentID"] == DBNull.Value ? 0 : Convert.ToInt32(reader["departmentID"]);  
                             personal.name = reader["name"] == DBNull.Value ? "" : reader["name"].ToString();
@@ -67,9 +67,9 @@ namespace FlexitHisMVC.Data
             return personalList;
         }
 
-        public List<Personal> GetRefererList()
+        public List<User> GetRefererList()
         {
-            List<Personal> refererList = new List<Personal>();
+            List<User> refererList = new List<User>();
 
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
             {
@@ -86,7 +86,7 @@ namespace FlexitHisMVC.Data
                         while (reader.Read())
                         {
 
-                            Personal referralPersonal = new Personal();
+                            User referralPersonal = new User();
                             referralPersonal.ID = Convert.ToInt32(reader["id"]);
                             referralPersonal.name = reader["name"].ToString();
                             referralPersonal.surname = reader["surname"].ToString();
@@ -107,9 +107,9 @@ namespace FlexitHisMVC.Data
             return refererList;
         }
 
-        public Personal GetUser(string username, string pass)
+        public User GetUser(string username, string pass)
         {
-            Personal personal = new Personal();
+            User personal = new User();
 
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
             {
@@ -223,7 +223,7 @@ WHERE NOT EXISTS
         public int UpdateUser(int userID,string name, string surname, string father, int specialityID, string passportSerialNum, string fin, string mobile, string email, string bDate, string username, int isUser, int isDr, int isActive,int isAdmin)
         {
             int updated = 0;
-            List<Personal> personalList = new List<Personal>();
+            List<User> personalList = new List<User>();
             try
             {
                 using (MySqlConnection connection = new MySqlConnection(ConnectionString))
@@ -274,7 +274,7 @@ WHERE NOT EXISTS
         public int UpdateUserPwd(int userID, string pwd)
         {
             int updated = 0;
-            List<Personal> personalList = new List<Personal>();
+            List<User> personalList = new List<User>();
             try
             {
                 using (MySqlConnection connection = new MySqlConnection(ConnectionString))

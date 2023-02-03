@@ -417,6 +417,10 @@
       "PackagePath": "staticwebassets/res/empty.png"
     },
     {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/flexit_logo.svg",
+      "PackagePath": "staticwebassets/res/flexit_logo.svg"
+    },
+    {
       "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/kassa/income.png",
       "PackagePath": "staticwebassets/res/kassa/income.png"
     },

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "2/dkkj/tfXBLy8ouSdbpYlP4MYo8SHJ/1YDnUSAlr2c=",
+  "Hash": "zVZ2hd69P0kw4nxUR8Ev1Goj7x/WvgjWORsYHZbU6HU=",
   "Source": "FlexitHisMVC",
   "BasePath": "_content/FlexitHisMVC",
   "Mode": "Default",
@@ -1800,6 +1800,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/res/empty.png"
+    },
+    {
+      "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/flexit_logo.svg",
+      "SourceId": "FlexitHisMVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/",
+      "BasePath": "_content/FlexitHisMVC",
+      "RelativePath": "res/flexit_logo.svg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/res/flexit_logo.svg"
     },
     {
       "Identity": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/kassa/income.png",

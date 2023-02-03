@@ -5,6 +5,7 @@ namespace FlexitHisMVC.Models
     {
        //public string userToken { get; set; }
        // public string requestToken { get; set; }
+        public int foundPatientID { get; set; }
         public string name { get; set; }
         public string surname { get; set; }
         public string father { get; set; }

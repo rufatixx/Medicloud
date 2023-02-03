@@ -34,7 +34,7 @@ namespace FlexitHisMVC.Controllers
         }
 
         [HttpPost]
-        public ActionResult<List<Patient>> GetDebtorPatients(long hospitalID)
+        public ActionResult<List<PatientKassaDTO>> GetDebtorPatients(long hospitalID)
         {
             if (HttpContext.Session.GetInt32("userid") != null)
             {
