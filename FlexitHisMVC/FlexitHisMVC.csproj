@@ -72,6 +72,7 @@
     <Folder Include="wwwroot\js\kassa\" />
     <Folder Include="wwwroot\res\login\" />
     <Folder Include="Views\Policlinic\" />
+    <Folder Include="wwwroot\res\fonts\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MySql.Data" Version="8.0.31" />
@@ -89,6 +90,7 @@
     <Content Remove="wwwroot\res\logo_transparent.png" />
     <Content Remove="wwwroot\js\kassa\" />
     <Content Remove="wwwroot\res\login\" />
+    <Content Remove="wwwroot\res\fonts\" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Views\NewPatient">

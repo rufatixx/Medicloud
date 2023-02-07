@@ -44,7 +44,7 @@ WHERE a.hospitalID = @hospitalID;", connection))
                             {
 
                                 User user = new User();
-                                user.ID = Convert.ToInt32(reader["id"]);
+                                user.ID = Convert.ToInt32(reader["userID"]);
                                 user.speciality = reader["speciality"].ToString();
                                 user.name = reader["name"].ToString();
                                 user.surname = reader["surname"].ToString();

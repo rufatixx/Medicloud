@@ -293,6 +293,10 @@
       "PackagePath": "staticwebassets/patients/1/11d9914f-930b-405e-8295-972e87c1b448.webm"
     },
     {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/patients/1/181c93fe-2e6c-4d51-a762-9d081ffa075c.webm",
+      "PackagePath": "staticwebassets/patients/1/181c93fe-2e6c-4d51-a762-9d081ffa075c.webm"
+    },
+    {
       "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/patients/1/41825679-593d-4d66-8100-529b86b3cafc.webm",
       "PackagePath": "staticwebassets/patients/1/41825679-593d-4d66-8100-529b86b3cafc.webm"
     },
@@ -307,6 +311,10 @@
     {
       "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/patients/1/4e91d7ff-a58a-4778-9d96-3523e92867f9.webm",
       "PackagePath": "staticwebassets/patients/1/4e91d7ff-a58a-4778-9d96-3523e92867f9.webm"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/patients/1/816cea6d-5178-423f-b63d-4589bcd8b4d0.webm",
+      "PackagePath": "staticwebassets/patients/1/816cea6d-5178-423f-b63d-4589bcd8b4d0.webm"
     },
     {
       "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/patients/1/a5e36c33-90f8-4e17-8849-35a18f6cc26e.webm",
@@ -479,6 +487,18 @@
     {
       "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/flexit_logo.svg",
       "PackagePath": "staticwebassets/res/flexit_logo.svg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/fonts/AZERLAT.TTF",
+      "PackagePath": "staticwebassets/res/fonts/AZERLAT.TTF"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/fonts/FreeSans.ttf",
+      "PackagePath": "staticwebassets/res/fonts/FreeSans.ttf"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/fonts/PTSans-Regular.ttf",
+      "PackagePath": "staticwebassets/res/fonts/PTSans-Regular.ttf"
     },
     {
       "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/kassa/income.png",

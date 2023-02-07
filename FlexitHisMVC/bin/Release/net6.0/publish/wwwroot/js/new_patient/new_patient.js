@@ -307,7 +307,7 @@ function AddPatient() {
                         case 1:
                             $('#systemModal').modal('hide')
                             $('#warningModal').modal('show')
-                            $('#warningText').text('Xəstə əlavə olundu!');
+                            $('#warningText').text('Məlumatlar qeydə alındı');
                             //var newKassaSum = parseFloat(kassaSum) + parseFloat(payment)
                             //kassaSum = newKassaSum
                             //$("#kassaSumText").text("Cəmi: " + kassaSum + " AZN");

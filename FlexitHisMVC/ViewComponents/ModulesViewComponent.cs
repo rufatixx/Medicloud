@@ -89,7 +89,7 @@ namespace FlexitHisMVC.ViewComponents
                     module.name = "Poliklinika";
                     module.id = "policlinicButton";
                     module.img = "/res/policlinic.png";
-                    module.url = "/";
+                    module.url = "/policlinic";
                     submoduleList.Add(module);
 
                     module.name = "Admin";

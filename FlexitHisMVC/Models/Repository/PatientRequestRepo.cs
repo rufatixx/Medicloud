@@ -5,6 +5,7 @@ using FlexitHisMVC.Models;
 using FlexitHisMVC.Models.NewPatient;
 using MySql.Data.MySqlClient;
 using System.Collections.Generic;
+using FlexitHisMVC.Models.Domain;
 
 namespace FlexitHisMVC.Models.Repository
 {
@@ -127,11 +128,11 @@ FROM patient_request a where hospitalID =@hospitalID and finished=0 group by pat
 
             return patientList;
         }
-        public List<PatientKassaDTO> GetPatientsByDr(int docID)
+        public List<PatientDocDTO> GetPatientsByDr(int docID)
 
         {
 
-            List<PatientKassaDTO> patientList = new List<PatientKassaDTO>();
+            List<PatientDocDTO> patientList = new List<PatientDocDTO>();
             try
             {
 
@@ -141,7 +142,7 @@ FROM patient_request a where hospitalID =@hospitalID and finished=0 group by pat
 
                     connection.Open();
 
-                    using (MySqlCommand com = new MySqlCommand($@"SELECT a.id, a.patientID, a.serviceID, p.name, p.surname, p.father
+                    using (MySqlCommand com = new MySqlCommand($@"SELECT a.id, a.patientID, a.serviceID,a.note, p.name, p.surname, p.father,p.clientPhone,p.bDate,p.genderID,p.fin
 FROM patient_request a
 INNER JOIN patients p ON a.patientID = p.id
 WHERE a.docID = @docID
@@ -157,14 +158,19 @@ GROUP BY a.patientID
                             while (reader.Read())
                             {
 
-                                PatientKassaDTO dSumStruct = new PatientKassaDTO();
-                                dSumStruct.ID = Convert.ToInt64(reader["patientID"]);
-                                dSumStruct.name = reader["name"].ToString();
-                                dSumStruct.surname = reader["surname"].ToString();
-                                dSumStruct.father = reader["father"].ToString();
+                                PatientDocDTO patient = new PatientDocDTO();
+                                patient.ID = Convert.ToInt64(reader["patientID"]);
+                                patient.name = reader["name"].ToString();
+                                patient.surname = reader["surname"].ToString();
+                                patient.father = reader["father"].ToString();
+                                patient.phone = Convert.ToInt64(reader["clientPhone"]);
+                                patient.bDate = Convert.ToDateTime(reader["bDate"]);
+                                patient.genderID = Convert.ToInt32(reader["genderID"]);
+                                patient.fin = reader["fin"].ToString();
+                                patient.note = reader["note"].ToString();
                                
 
-                                patientList.Add(dSumStruct);
+                                patientList.Add(patient);
 
 
                             }

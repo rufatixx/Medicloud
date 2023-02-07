@@ -27,17 +27,77 @@ namespace FlexitHisMVC.Controllers
         // GET: /<controller>/
         public IActionResult Index()
         {
-            //if (HttpContext.Session.GetInt32("userid") != null)
-            //{
-            //    PatientRequestRepo patientRequestDAO = new PatientRequestRepo(ConnectionString);
-            //    patientRequestDAO.GetDebtorPatients
-            //    return pageStruct;
-            //}
-            //else
-            //{
-            //    return Unauthorized();
-            //}
-            return View();
+            if (HttpContext.Session.GetInt32("userid") != null)
+            {
+                PatientRequestRepo patientRequestDAO = new PatientRequestRepo(ConnectionString);
+                var response = patientRequestDAO.GetPatientsByDr(Convert.ToInt32(HttpContext.Session.GetInt32("userid")));
+                return View(response);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            //return View();
+        }
+        [HttpGet]
+        public IActionResult SearchDiagnose(string icdID,string name)
+        {
+            if (HttpContext.Session.GetInt32("userid") != null)
+            {
+                DiagnoseRepo diagnoseRepo = new DiagnoseRepo(ConnectionString);
+                var response = diagnoseRepo.SearchDiagnose(icdID,name);
+                return Ok(response);
+            }
+            else
+            {
+                return Unauthorized();
+            }
+            //return View();
+        }
+        [HttpGet]
+        public IActionResult AddDiagnose(int patientID,long diagnoseID)
+        {
+            if (HttpContext.Session.GetInt32("userid") != null)
+            {
+                PatientDiagnoseRel patientDiagnoseRel = new PatientDiagnoseRel(ConnectionString);
+                var response = patientDiagnoseRel.InsertPatientToDiagnose(patientID,diagnoseID);
+                return Ok(response);
+            }
+            else
+            {
+                return Unauthorized();
+            }
+            //return View();
+        }
+        [HttpGet]
+        public IActionResult GetDiagnoses(int patientID)
+        {
+            if (HttpContext.Session.GetInt32("userid") != null)
+            {
+                PatientDiagnoseRel patientDiagnoseRel = new PatientDiagnoseRel(ConnectionString);
+                var response = patientDiagnoseRel.GetPatientToDiagnose(patientID);
+                return Ok(response);
+            }
+            else
+            {
+                return Unauthorized();
+            }
+            //return View();
+        }
+        [HttpGet]
+        public IActionResult DeleteDiagnose(int patientDiagnoseRelID)
+        {
+            if (HttpContext.Session.GetInt32("userid") != null)
+            {
+                PatientDiagnoseRel patientDiagnoseRel = new PatientDiagnoseRel(ConnectionString);
+                var response = patientDiagnoseRel.RemovePatientToDiagnose(patientDiagnoseRelID);
+                return Ok(response);
+            }
+            else
+            {
+                return Unauthorized();
+            }
+            //return View();
         }
         [HttpPost]
         public IActionResult UploadVideo(int patientID, [FromForm] IFormFile videoFile)

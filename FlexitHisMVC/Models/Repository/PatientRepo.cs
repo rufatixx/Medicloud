@@ -90,7 +90,7 @@ WHERE NOT EXISTS
 
                     using (MySqlCommand com = new MySqlCommand($@"SELECT * 
 FROM patients
-WHERE CONCAT( name,  ' ', surname ) LIKE  @fullNamePattern and hospitalID = @hospitalID ", connection))
+WHERE LOWER(CONCAT( name,  ' ', surname )) LIKE  LOWER(@fullNamePattern) and hospitalID = @hospitalID ", connection))
                     {
                         com.Parameters.AddWithValue("@fullNamePattern", $"%{fullNamePattern}%");
                         com.Parameters.AddWithValue("@hospitalID", hospitalID);
