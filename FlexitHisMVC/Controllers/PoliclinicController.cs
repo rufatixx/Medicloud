@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FlexitHisMVC.Data;
 using FlexitHisMVC.Models;
+using FlexitHisMVC.Models.Domain;
 using FlexitHisMVC.Models.Repository;
 using FlexitHisMVC.Repository;
 using Microsoft.AspNetCore.Mvc;
@@ -40,12 +41,12 @@ namespace FlexitHisMVC.Controllers
             //return View();
         }
         [HttpGet]
-        public IActionResult SearchDiagnose(string icdID,string name)
+        public IActionResult SearchDiagnose(string icdID, string name)
         {
             if (HttpContext.Session.GetInt32("userid") != null)
             {
                 DiagnoseRepo diagnoseRepo = new DiagnoseRepo(ConnectionString);
-                var response = diagnoseRepo.SearchDiagnose(icdID,name);
+                var response = diagnoseRepo.SearchDiagnose(icdID, name);
                 return Ok(response);
             }
             else
@@ -55,12 +56,12 @@ namespace FlexitHisMVC.Controllers
             //return View();
         }
         [HttpGet]
-        public IActionResult AddDiagnose(int patientID,long diagnoseID)
+        public IActionResult AddDiagnose(int patientID, long diagnoseID)
         {
             if (HttpContext.Session.GetInt32("userid") != null)
             {
                 PatientDiagnoseRel patientDiagnoseRel = new PatientDiagnoseRel(ConnectionString);
-                var response = patientDiagnoseRel.InsertPatientToDiagnose(patientID,diagnoseID);
+                var response = patientDiagnoseRel.InsertPatientToDiagnose(patientID, diagnoseID);
                 return Ok(response);
             }
             else
@@ -99,6 +100,36 @@ namespace FlexitHisMVC.Controllers
             }
             //return View();
         }
+        [HttpGet]
+        public IActionResult GetRecords(int patientID)
+        {
+            if (HttpContext.Session.GetInt32("userid") != null)
+            {
+                PatientRecordRelRepo patientRecordRelRepo = new PatientRecordRelRepo(ConnectionString);
+                var response = patientRecordRelRepo.GetRecords(patientID);
+                return Ok(response);
+            }
+            else
+            {
+                return Unauthorized();
+            }
+            //return View();
+        }
+        [HttpGet]
+        public IActionResult DeleteRec(int patientRecRelID)
+        {
+            if (HttpContext.Session.GetInt32("userid") != null)
+            {
+                PatientRecordRelRepo patientRecordRelRepo = new PatientRecordRelRepo(ConnectionString);
+                var response = patientRecordRelRepo.RemovePatientToRec(patientRecRelID);
+                return Ok(response);
+            }
+            else
+            {
+                return Unauthorized();
+            }
+            //return View();
+        }
         [HttpPost]
         public IActionResult UploadVideo(int patientID, [FromForm] IFormFile videoFile)
         {
@@ -123,8 +154,19 @@ namespace FlexitHisMVC.Controllers
                 {
                     videoFile.CopyTo(stream);
                 }
+                RecordingsRepo recordingsRepo = new RecordingsRepo(ConnectionString);
+                var recordingID = recordingsRepo.InsertIntoRecordings(fileName, Path.Combine(folderName, patientID.ToString(),fileName));
+                if (recordingID > 0)
+                {
+                    PatientRecordRelRepo patientRecordRelRepo = new PatientRecordRelRepo(ConnectionString);
+                    var patientRecRel = patientRecordRelRepo.InsertIntoPatientRecordRel(patientID, recordingID);
+                    if (patientRecRel > 0)
+                    {
+                        return Ok($"Video file uploaded successfully: {fileName}");
+                    }
+                }
 
-                return Ok($"Video file uploaded successfully: {fileName}");
+                return BadRequest($"Video file not uploaded successfully: {fileName}");
             }
             else
             {

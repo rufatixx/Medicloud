@@ -186,19 +186,8 @@
 
                                 </div>*@
                         </div>
-                        <div class="list-group-flush" style="max-height: 30vh; overflow-y: auto" id="depsInHospitalByUser">
-                            <div class="list-group-item list-group-item-action dep-list" id="1">
-
-                                <div class="row">
-                                    <div class="col-3">4</div>
-                                    <div class="col-6">Texniki</div>
-
-                                    <div class="col-3">
-                                        <a class=" text-danger" onclick="removeDepFromUser(1);">Sil</a>
-                                    </div>
-
-                                </div>
-                            </div>
+                        <div class="list-group-flush" style="max-height: 30vh; overflow-y: auto" id="patientRecs">
+                            
                         </div>
                     </div>
 
@@ -357,7 +346,7 @@
     $(document).ready(function () {
         patientIDglobal = @Model[0].ID;
      getDiagnoses(@Model[0].ID);
-
+        getRecords();
 
 
 
@@ -435,76 +424,6 @@
                 //}
                 function stopVideoRecording() {
 
-                    //          mediaRecorder.stop();
-                    //          startRecordingBtn.show();
-                    //          stopRecordingBtn.hide();
-
-                    //          counter++;
-                    //          const blob = new Blob(recordedBlobs, { type: "video/webm" });
-
-                    //          const formData = new FormData();
-                    //          formData.append("videoFile", blob, `recorded-video-${counter}.webm`);
-                    //          formData.append("patientID", 1);
-
-                    //          // Create a Bootstrap modal and append it to the body
-                    //          const modal = document.createElement("div");
-                    //          modal.className = "modal fade";
-                    //          modal.innerHTML = `
-                    //  <div class="modal-dialog modal-dialog-centered">
-                    //    <div class="modal-content">
-                    //      <div class="modal-header">
-                    //        <h5 class="modal-title">Yüklənir</h5>
-                    //      </div>
-                    //      <div class="modal-body">
-                    //        <div class="progress">
-                    //          <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
-                    //        </div>
-                    //      </div>
-                    //      <div class="modal-footer">
-                    //        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    //      </div>
-                    //    </div>
-                    //  </div>
-                    //`;
-                    //          document.body.appendChild(modal);
-
-                    //          // Show the modal
-                    //          $(modal).modal("show");
-
-                    //          // Get the progress bar
-                    //          const progressBar = $(modal).find(".progress-bar")[0];
-
-                    //          $.ajax({
-                    //              type: "POST",
-                    //              url: "/Policlinic/UploadVideo",
-                    //              data: formData,
-                    //              processData: false,
-                    //              contentType: false,
-                    //              xhr: function () {
-                    //                  const xhr = $.ajaxSettings.xhr();
-                    //                  xhr.upload.addEventListener("progress", function (e) {
-                    //                      if (e.lengthComputable) {
-                    //                          const percentage = (e.loaded / e.total) * 100;
-                    //                          progressBar.style.width = `${percentage}%`;
-                    //                      }
-                    //                  }, false);
-                    //                  xhr.addEventListener("load", function () {
-                    //                      progressBar.style.width = "100%";
-                    //                  });
-                    //                  return xhr;
-                    //              },
-                    //              success: function () {
-                    //                  // Hide the modal and remove it from the body
-                    //                  $(modal).modal("hide");
-                    //                  modal.remove();
-
-                    //                  // Show a success message
-                    //                  //$('#warningModal').modal('show')
-
-                    //                  //$('#hospitalSelector').text('Heç bir xəstəxanaya icazəniz yoxdur, zəhmət olmasa çağrı mərkəzimizə müraciət edin');
-                    //                  //$("#warningModalButton").show();
-                    //                  //$("#warningModalButton").text("Çıxış");
-                    //              },
                     mediaRecorder.stop();
                     startRecordingBtn.show();
                     stopRecordingBtn.hide();
@@ -524,7 +443,7 @@
 
                     const formData = new FormData();
                     formData.append("videoFile", blob, `recorded-video-${counter}.webm`);
-                    formData.append("patientID", 1);
+                    formData.append("patientID", patientIDglobal);
 
                     // Create a Bootstrap modal backdrop and loader
                     const modalBackdrop = document.createElement("div");
@@ -574,6 +493,7 @@
               `;
                             document.body.appendChild(modal);
                             $(modal).modal("show");
+                            getRecords()
                         },
                         error: function () {
                             // Remove the modal backdrop and loader
@@ -747,10 +667,68 @@ Yükləmək mümkün olmadı. Zəhmət olmasa biraz sonra yenidən cəhd edin
     //    tracks.forEach(track => track.stop());
     //    videoPreview.srcObject = null;
     //}
+    function deleteRecord(patientRecID) {
 
+        $.ajax({
+            type: "GET",
+            url: "/policlinic/DeleteRec",
+            data: { patientRecRelID: patientRecID },
+            success: function (data) {
+                $("#patientRecs").empty();
+                getRecords(patientIDglobal);
+                // Handle the response data here
+            },
+            error: function (xhr, status, error) {
+
+                console.error(error);
+                $('#systemModal').modal('hide')
+                $('#warningModal').modal('show')
+                $('#warningText').text('Diagnoz silinmədi');
+            }
+        });
+
+    }
+    function getRecords() {
+
+        $("#patientRecs").empty();
+        $.ajax({
+            type: "GET",
+            url: "/policlinic/GetRecords",
+            data: { patientID: patientIDglobal },
+            success: function (data) {
+
+                $.each(data, function () {
+
+                    $("#patientRecs").append($(`
+
+
+<div class="list-group-item list-group-item-action dep-list" id=${this.id} >
+
+                            <div class="row">
+
+
+                                <div class="col-10"><a href='${this.path}' target="_blank" rel="noopener noreferrer">${this.name}</a></div>
+
+<div class="col-2 text-right">
+<a class=' text-danger' onclick = 'deleteRecord(${this.patientRecRellID});'>Sil</a>
+                            </div>
+
+                        </div>
+
+
+`));
+
+
+
+                });
+                // Handle the response data here
+                hideLoading();
+            }
+        });
+    }
 
     function showPatientDetails(patient) {
-         getDiagnoses(patient);
+        showLoading();
          $.each(@Html.Raw(Json.Serialize(@Model)), function () {
 
              if (this.id == patient) {
@@ -775,7 +753,10 @@ Yükləmək mümkün olmadı. Zəhmət olmasa biraz sonra yenidən cəhd edin
 
                  $("#bDate").text(`${day}.${month}.${year}`);
 
-                $("#note").text(this.note)
+                 $("#note").text(this.note)
+                 getDiagnoses(patient);
+                 getRecords();
+                 
 
             }
 
@@ -811,7 +792,7 @@ Yükləmək mümkün olmadı. Zəhmət olmasa biraz sonra yenidən cəhd edin
                 console.error(error);
                 $('#systemModal').modal('hide')
                 $('#warningModal').modal('show')
-                $('#warningText').text('Diagnoz silinmədi');
+                $('#warningText').text('Xəta');
             }
         });
 
@@ -838,7 +819,7 @@ Yükləmək mümkün olmadı. Zəhmət olmasa biraz sonra yenidən cəhd edin
         });
 
     }
-    function deleteDiagnose(patientDiagnoseRelID,patientID) {
+    function deleteDiagnose(patientDiagnoseRelID) {
 
         $.ajax({
             type: "GET",
@@ -846,7 +827,7 @@ Yükləmək mümkün olmadı. Zəhmət olmasa biraz sonra yenidən cəhd edin
             data: { patientDiagnoseRelID: patientDiagnoseRelID },
             success: function (data) {
                 $("#patientDiagnoses").empty();
-                getDiagnoses(patientID);
+                getDiagnoses(patientIDglobal);
                 // Handle the response data here
             },
             error: function (xhr, status, error) {
@@ -892,6 +873,7 @@ Yükləmək mümkün olmadı. Zəhmət olmasa biraz sonra yenidən cəhd edin
 
                 });
                 // Handle the response data here
+                hideLoading();
             }
         });
 

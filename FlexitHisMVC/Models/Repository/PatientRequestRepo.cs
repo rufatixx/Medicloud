@@ -78,11 +78,12 @@ namespace FlexitHisMVC.Models.Repository
 
                     connection.Open();
 
-                    using (MySqlCommand com = new MySqlCommand($@"SELECT id,patientID,serviceID,(select name from patients where id = a.patientID )as name,
-(select surname from patients where id = a.patientID )as surname,
-(select father from patients where id = a.patientID )as father,
-sum((select price from services where id = a.serviceID ))as serviceSum
-FROM patient_request a where hospitalID =@hospitalID and finished=0 group by patientID order by serviceSum ;", connection))
+                    using (MySqlCommand com = new MySqlCommand($@"SELECT a.id, a.patientID, a.serviceID, p.name, p.surname, p.father, s.price as servicePrice, s.name as serviceName
+FROM patient_request a
+JOIN patients p ON a.patientID = p.id
+JOIN services s ON a.serviceID = s.id
+WHERE a.hospitalID = @hospitalID AND a.finished = 0;
+", connection))
                     {
                         com.Parameters.AddWithValue("@hospitalID", hospitalID);
                         MySqlDataReader reader = com.ExecuteReader();
@@ -98,7 +99,9 @@ FROM patient_request a where hospitalID =@hospitalID and finished=0 group by pat
                                 dSumStruct.name = reader["name"].ToString();
                                 dSumStruct.surname = reader["surname"].ToString();
                                 dSumStruct.father = reader["father"].ToString();
-                                dSumStruct.price = Convert.ToDouble(reader["serviceSum"]);
+                                dSumStruct.serviceName = reader["serviceName"].ToString();
+                                dSumStruct.servicePrice = Convert.ToDouble(reader["servicePrice"]);
+                       
 
                                 patientList.Add(dSumStruct);
 

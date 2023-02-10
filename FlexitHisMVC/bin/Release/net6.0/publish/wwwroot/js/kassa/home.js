@@ -1,6 +1,7 @@
-﻿
+﻿var globalPatientRequest;
+var serviceContentForRecipe = [];
 document.addEventListener('DOMContentLoaded', function () {
-
+   
     window.jsPDF = window.jspdf.jsPDF;
     //applyPlugin(window.jsPDF);
 
@@ -46,8 +47,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
 }, false);
 function debtorPatientChanged(a) {
-    //alert($(a).val())
-    $("#debtorPrice").val($(a).val());
+   
+    //$("#debtorPrice").val($(a).val());
+    updateDebtorPrice($(a).val())
     //localStorage.selectedDebtorPatientID = data.data[0].id
 
 
@@ -97,7 +99,42 @@ function getPaymentTypes() {
     });
 }
 
+function updateDebtorPrice(debtorID) {
+    serviceContentForRecipe = [];
+    var serviceSum = 0;
+    var filteredPatients = globalPatientRequest.filter(function (patient) {
+        return patient.id === parseInt(debtorID);
+    });
+    serviceContentForRecipe.push({
+        text: '-------------------',
+        style: 'subheader'
+    });
+    if (filteredPatients.length > 0) {
+        $("#debtorPrice").empty(); // clear the content of the div before updating
+        $.each(filteredPatients, function () {
+            serviceSum += this.servicePrice;
+            $("#debtorPrice").append(`<div class="row"><div class="col-6">${this.serviceName}</div> <div class="col-6 text-right"> ${this.servicePrice} </div></div>`);
+            serviceContentForRecipe.push({
+                text: `${this.serviceName} ----- ${this.servicePrice}AZN`,
+                style: 'subheader'
+            });
+
+        });
+        serviceContentForRecipe.push({
+            text: `Yekun: ${serviceSum} AZN`,
+            style: 'subheader'
+        });
+       
+      
+        $("#debtorPrice").append(`<div class="row"><div class="col-6">Yekun: </div> <div class="col-6 text-right"> ${serviceSum} </div></div>`);
+    } else {
+        console.log("Patient with ID " + debtorID + " not found.");
+    }
+}
+
+
 function incomeClicked() {
+    serviceContentForRecipe = [];
     $('#systemModal').modal('show');
     $('#systemModalTitle').text("Yüklənir...");
     $('#systemModalText').html(`<center><div class="spinner-border text-dark mx-auto" role="status">
@@ -129,18 +166,74 @@ function incomeClicked() {
 
                     // Sorry! No Web Storage support..
                 }
+                globalPatientRequest = data;
+         
+                
 
-                //alert(JSON.parse(json).name)
-                //document.cookie = "jsonData="+data;
+
+
                 $("#debtorPatients").empty();
-                $.each(data, function () {
+                var addedPatients = [];
+                var filteredPatients = [];
+                var serviceSum = 0;
 
-                    $("#debtorPatients").append($(`<option id='${this.id}'/>`).val(this.price).text(`${this.name} ${this.surname} ${this.father} `));
-
-
+                serviceContentForRecipe.push({
+                    text: '-------------------',
+                    style: 'subheader'
                 });
+                $.each(data, function () {
+                    if (!addedPatients.includes(this.id)) {
+                        addedPatients.push(this.id);
+                        $("#debtorPatients").append($(`<option id='${this.id}' />`).val(this.id).text(`${this.name} ${this.surname} ${this.father}`));
+                    }
+                    if (addedPatients[0] === this.id) {
+                        filteredPatients.push(this);
+                        serviceSum += this.servicePrice;
+                        $("#debtorPrice").append(`<div class="row"><div class="col-6">${this.serviceName}</div> <div class="col-6 text-right"> ${this.servicePrice} </div></div>`);
+                        serviceContentForRecipe.push({
+                            text: `${this.serviceName} ----- ${this.servicePrice}AZN`,
+                            style: 'subheader'
+                        });
+                    }
+                });
+                serviceContentForRecipe.push({
+                    text: `Yekun: ${serviceSum} AZN`,
+                    style: 'subheader'
+                });
+               
+              
+
+                $("#debtorPrice").append(`<div class="row"><div class="col-6">Yekun: </div> <div class="col-6 text-right"> ${serviceSum} </div></div>`);
+                //var addedPatients = [];
+                //$.each(data, function () {
+                //    if (!addedPatients.includes(this.id)) {
+                //        addedPatients.push(this.id);
+                //        $("#debtorPatients").append($(`<option id='${this.id}'/>`).val(this.price).text(`${this.name} ${this.surname} ${this.father} `));
+                //    }
+                //});
+                //var idToFind = addedPatients[0];
+                //var filteredPatients = data.filter(function (patient) {
+                //    return patient.id === idToFind;
+                //});
+
+                //if (filteredPatients.length > 0) {
+                //    var serviceSum=0;
+                //    $.each(filteredPatients, function () {
+                       
+
+                //        $("#debtorPrice").append(`<div class="row"><div class="col-6">${this.serviceName}</div> <div class="col-6 text-right"> ${this.servicePrice} </div></div>`);
+                //        serviceSum += this.servicePrice;
+
+                //    });
+
+                //    $("#debtorPrice").append(`<div class="row"><div class="col-6">Yekun: </div> <div class="col-6 text-right"> ${serviceSum} </div></div>`);
+                  
+                //} else {
+                //    console.log("Patient with ID " + idToFind + " not found.");
+                //}
+               
                 localStorage.selectedDebtorPatientID = data[0].id
-                $("#debtorPrice").val(data[0].price);
+
                 getPaymentTypes();
                 //alert(getCookie("jsonData"))
             }
@@ -239,17 +332,20 @@ function insertPayment() {
                 var today = new Date();
                 var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
                 var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-
                 // create the content of the e-recipe
-                var content = [
+                content = [
+                    { text: '------------------- ', style: 'subheader' },
                     { text: 'Satus: UĞURLU', style: 'header' },
-                    { text: 'Pasientin adı: ' + $('#debtorPatients').text(), style: 'subheader' },
+                    { text: 'Pasientin adı: ' + $('#debtorPatients option:selected').text(), style: 'subheader' },
                     { text: 'Ödəniş tipi: ' + $("#pType option:selected").text(), style: 'subheader' },
-                    { text: 'Məbləğ: ' + $("#debtorPrice").val(), style: 'subheader' },
                     { text: 'Kassir: ' + $("#fullName").text(), style: 'subheader' },
-                    { text: 'Tarix: ' + date +' / '+ time, style: 'subheader' },
-                ];
+                    
+                    { text: `Tarix: ${date} / ${time}`, style: 'subheader' },
 
+                ];
+                content.push.apply(content, serviceContentForRecipe);
+
+                
                 // center the header at the top of the page
                 doc.setFontSize(20);
                 //doc.setFont("bold");

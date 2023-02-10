@@ -6,6 +6,7 @@ namespace FlexitHisMVC.Models
     public class PatientKassaDTO:Patient
     {
        
-        public double price { get; set; }
+        public string serviceName { get; set; }
+        public double servicePrice { get; set; }
     }
 }

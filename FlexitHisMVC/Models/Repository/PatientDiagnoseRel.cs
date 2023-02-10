@@ -87,9 +87,9 @@ WHERE a.patientID = @patientID";
             }
             return diagnoseList;
         }
-        public int InsertPatientToDiagnose(int patientID, long diagnoseID)
+        public long InsertPatientToDiagnose(int patientID, long diagnoseID)
         {
-            int lastID = 0;
+            long lastID = 0;
 
             try
             {
@@ -117,9 +117,9 @@ LIMIT 1;
                             com.Parameters.AddWithValue("@patientID", patientID);
                             com.Parameters.AddWithValue("@diagnoseID", diagnoseID);
 
+                            com.ExecuteNonQuery();
 
-
-                            lastID = com.ExecuteNonQuery();
+                            lastID = com.LastInsertedId;
 
 
                         }
@@ -142,9 +142,9 @@ LIMIT 1;
             }
             return lastID;
         }
-        public int RemovePatientToDiagnose(int relID)
+        public long RemovePatientToDiagnose(int relID)
         {
-            int lastID = 0;
+            long lastID = 0;
             try
             {
                 using (MySqlConnection connection = new MySqlConnection(ConnectionString))
@@ -165,7 +165,8 @@ LIMIT 1;
 
 
 
-                        lastID = com.ExecuteNonQuery();
+                       com.ExecuteNonQuery();
+                        lastID = com.LastInsertedId;
 
 
                     }

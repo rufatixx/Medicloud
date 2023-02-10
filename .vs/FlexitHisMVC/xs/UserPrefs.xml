@@ -4,28 +4,52 @@
     <BreakpointStore>
       <Breakpoint enabled="false" file="/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Models/Repository/HospitalRepo.cs" relfile="FlexitHisMVC/Models/Repository/HospitalRepo.cs" line="53" column="1" />
       <Breakpoint file="/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Models/Repository/UserRepo.cs" relfile="FlexitHisMVC/Models/Repository/UserRepo.cs" line="268" column="1" />
+      <Breakpoint file="/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Models/Repository/PatientRecordRelRepo.cs" relfile="FlexitHisMVC/Models/Repository/PatientRecordRelRepo.cs" line="160" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.ItemProperties.FlexitHisMVC PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.Workbench ActiveDocument="FlexitHisMVC/Models/Repository/PatientDiagnoseRel.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="FlexitHisMVC/wwwroot/js/kassa/home.js">
     <Files>
-      <File FileName="FlexitHisMVC/Controllers/PoliclinicController.cs" />
-      <File FileName="FlexitHisMVC/Views/Policlinic/Index.cshtml" />
-      <File FileName="FlexitHisMVC/Models/Repository/PatientDiagnoseRel.cs" Line="91" Column="1" />
+      <File FileName="FlexitHisMVC/Controllers/PoliclinicController.cs" Line="120" Column="1" />
+      <File FileName="FlexitHisMVC/Views/Policlinic/Index.cshtml" Line="830" Column="45" />
+      <File FileName="FlexitHisMVC/Models/Repository/PatientDiagnoseRel.cs" Line="147" Column="1" />
       <File FileName="FlexitHisMVC/Views/NewPatient/Index.cshtml" />
       <File FileName="FlexitHisMVC/Models/Repository/DiagnoseRepo.cs" />
       <File FileName="FlexitHisMVC/wwwroot/js/new_patient/new_patient.js" />
+      <File FileName="FlexitHisMVC/Models/Repository/RecordingsRepo.cs" Line="28" Column="1" />
+      <File FileName="FlexitHisMVC/Models/Repository/PatientRecordRelRepo.cs" Line="112" Column="1" />
+      <File FileName="FlexitHisMVC/Models/Repository/PatientRepo.cs" />
+      <File FileName="FlexitHisMVC/Models/DTO/RecordDTO.cs" />
+      <File FileName="FlexitHisMVC/Models/DTO/UserDepRelDTO.cs" />
+      <File FileName="FlexitHisMVC/Models/DTO/ResponseDTO.cs" />
+      <File FileName="FlexitHisMVC/Models/DTO/AddIncomeDTO.cs" />
+      <File FileName="FlexitHisMVC/Models/DTO/KassaDTO.cs" />
+      <File FileName="FlexitHisMVC/Models/DTO/NewPatientViewDTO.cs" />
+      <File FileName="FlexitHisMVC/Models/DTO/PatientDocDTO.cs" />
+      <File FileName="FlexitHisMVC/Models/DTO/PatientKassaDTO.cs" Line="9" Column="22" />
+      <File FileName="FlexitHisMVC/Models/DTO/PaymentTypeDTO.cs" Line="7" Column="41" />
+      <File FileName="FlexitHisMVC/Controllers/KassaController.cs" Line="39" Column="1" />
+      <File FileName="FlexitHisMVC/Models/Repository/PatientRequestRepo.cs" Line="67" Column="38" />
+      <File FileName="FlexitHisMVC/wwwroot/js/kassa/home.js" Line="339" Column="83" />
+      <File FileName="FlexitHisMVC/Views/Kassa/Index.cshtml" Line="130" Column="29" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="FlexitHisMVC" expanded="True">
-            <Node name="FlexitHisMVC" expanded="True" selected="True">
+            <Node name="FlexitHisMVC" expanded="True">
               <Node name="Areas" expanded="True">
                 <Node name="Admin" expanded="True">
+                  <Node name="Controllers" expanded="True" />
                   <Node name="ViewComponents" expanded="True" />
+                  <Node name="Views" expanded="True">
+                    <Node name="Company" expanded="True" />
+                    <Node name="Shared" expanded="True">
+                      <Node name="Components" expanded="True" />
+                    </Node>
+                  </Node>
                 </Node>
               </Node>
               <Node name="Controllers" expanded="True" />
@@ -37,6 +61,9 @@
               <Node name="ViewComponents" expanded="True" />
               <Node name="Views" expanded="True">
                 <Node name="Home" expanded="True" />
+                <Node name="Kassa" expanded="True">
+                  <Node name="Index.cshtml" selected="True" />
+                </Node>
                 <Node name="NewPatient" expanded="True" />
                 <Node name="Policlinic" expanded="True" />
                 <Node name="Shared" expanded="True" />
