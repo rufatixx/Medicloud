@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (parsedJSON !== null && parsedJSON !== "") {
 
-        $("#fullName").text(parsedJSON.name + " " + parsedJSON.surname)
+        $("#fullName").text(parsedJSON.data[0].personal.name + " " + parsedJSON.data[0].personal.surname)
 
 
         //-----
