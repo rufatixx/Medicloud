@@ -1,0 +1,166 @@
+﻿
+@{
+    ViewBag.Title = "Qiymət qrupuna xidmətin əlavə edilməsi";
+}
+
+<h2>@ViewBag.Title</h2>
+<h3>Seçilmiş qrup: [ @((ViewBag.PriceGroup as PriceGroup)?.Name)]</h3>
+<div>
+    @Html.ActionLink("Qiymət qruplarına dön", "Index")
+</div>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <!-- Filter button -->
+        <div class=" mb-3">
+            <button type="button" class="btn btn-primary filter-btn" data-show-all="false">Əlavə olunmuşları göstər</button>
+        </div>
+
+        <div class="form-group ">
+            <div class="row ">
+                <div class="col-9 border-end">
+                    <input type="text" id="serviceSearch" class="form-control" placeholder="Xidmət axtar..." />
+                </div>
+                <div class="col-auto ">
+
+                    <div class="input-group">
+                        <input type="number" class="form-control" id="percent" placeholder="Faiz %">
+                        
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-primary" onclick="addAllServicesToPriceGroupWithPrice()">Əlavə et</button>
+                        </div>
+
+                    </div>
+                    <div class="form-check ">
+                        <input class="form-check-input" type="checkbox" value="" id="isDiscount">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Endirim
+                        </label>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Service table -->
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (dynamic service in ViewBag.Services)
+                {
+                    <tr class="service-row">
+                        <td>@service.name</td>
+                        <td>
+                            ₼
+
+                            @if (service.servicePriceID == 0)
+                            {
+                                @service.price
+                            }
+                            else
+                            {
+                                @service.newPrice
+                            }
+                        </td>
+                        <td>
+                            @if (service.servicePriceID == 0)
+                            {
+                                @using (Html.BeginForm("AddService", "PriceGroup", new { id = ViewBag.PriceGroup.ID }, FormMethod.Post))
+                                {
+                                    <input type="hidden" name="serviceID" value="@service.ID" />
+                                    <div class="input-group">
+                                        <input type="text" name="price" class="form-control" value="@service.price" />
+                                        <div class="input-group-append">
+                                            <button type="submit" class="btn btn-primary">Əlavə et</button>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <a href="#" class="btn btn-success">Əlavə olunub</a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+
+    </div>
+}
+@section scripts {
+    <script>
+
+    $(document).ready(function () {
+
+
+            // Initial state of the filter button
+            var showAll = true;
+
+            // Filter button click event
+            $('.filter-btn').on('click', function () {
+                // Toggle showAll flag
+                showAll = !showAll;
+
+                // Update button text
+                if (showAll) {
+                    $(this).text('Əlavə olunmuşları göstər');
+                } else {
+                    $(this).text('Hamısı');
+                }
+
+                // Toggle visibility of service rows based on showAll flag
+                $('.service-row').each(function () {
+                    if (showAll || $(this).find('.btn-success').length > 0) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            });
+});
+        $(document).ready(function () {
+            $('#serviceSearch').on('input', function () {
+                var searchText = $(this).val().toLowerCase();
+                $('.service-row').each(function () {
+                    var serviceName = $(this).find('td:first-child').text().toLowerCase();
+                    if (serviceName.includes(searchText)) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            });
+        });
+        function addAllServicesToPriceGroupWithPrice() {
+            var priceGroupID= '@(ViewBag.PriceGroup?.ID)';
+            let percent = $('#percent').val();
+            let isDiscount = $('#isDiscount').prop('checked');
+            $.ajax({
+                url: '/Admin/PriceGroup/AddServicesToPriceGroup',
+                method: 'POST',
+                data: { percent: percent, priceGroupID: priceGroupID, isDiscount: isDiscount },
+                success: function (data) {
+                    alert(data);
+                },
+                error: function (xhr, status, error) {
+                    alert(xhr.responseText);
+                }
+            });
+        }
+
+
+    </script>
+}

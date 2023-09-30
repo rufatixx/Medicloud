@@ -1,0 +1,28 @@
+﻿@model PriceGroup
+
+<h2>Qiymət qrupunun redaktəsi</h2>
+<div class="mb-3">
+    @Html.ActionLink("Qiymət qruplarına dön", "Index")
+</div>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="mb-3">
+    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "form-label col-md-2" })
+    @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.Name)
+</div>
+
+    <div class="form-group" style="display:none">
+        @Html.LabelFor(model => model.ParentID)
+        @Html.TextBoxFor(model => model.ParentID, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.ParentID)
+    </div>
+
+    <div class="mb-3">
+        <input type="submit" value="Yenilə" class="btn btn-primary" />
+    </div>
+}
+
+

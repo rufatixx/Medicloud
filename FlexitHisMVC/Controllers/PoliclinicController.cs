@@ -30,7 +30,7 @@ namespace FlexitHisMVC.Controllers
         {
             if (HttpContext.Session.GetInt32("userid") != null)
             {
-                PatientRequestRepo patientRequestDAO = new PatientRequestRepo(ConnectionString);
+                PatientCardRepo patientRequestDAO = new PatientCardRepo(ConnectionString);
                 var response = patientRequestDAO.GetPatientsByDr(Convert.ToInt32(HttpContext.Session.GetInt32("userid")));
                 return View(response);
             }

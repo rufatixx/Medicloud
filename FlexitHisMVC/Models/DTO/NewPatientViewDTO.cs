@@ -14,6 +14,7 @@ namespace FlexitHisMVC.Models
         public List<UserDepRel> departments { get; set; }
         public List<User> personal { get; set; }
         public List<User> referers { get; set; }
+        public List<Company> companies { get; set; }
         public int status { get; set; }
         public string requestToken { get; set; }
        

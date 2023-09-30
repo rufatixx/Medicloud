@@ -38,7 +38,7 @@ namespace FlexitHisMVC.Controllers
         {
             if (HttpContext.Session.GetInt32("userid") != null)
             {
-                PatientRequestRepo patientRequestRepo = new PatientRequestRepo(ConnectionString);
+                PatientCardRepo patientRequestRepo = new PatientCardRepo(ConnectionString);
 
                 return patientRequestRepo.GetDebtorPatients(hospitalID);
             }
@@ -83,7 +83,7 @@ namespace FlexitHisMVC.Controllers
 
                 if (response)
                 {
-                    PatientRequestRepo patientRequestRepo = new PatientRequestRepo(ConnectionString);
+                    PatientCardRepo patientRequestRepo = new PatientCardRepo(ConnectionString);
                     patientRequestRepo.UpdatePatientRequest(patientID);
 
                 }

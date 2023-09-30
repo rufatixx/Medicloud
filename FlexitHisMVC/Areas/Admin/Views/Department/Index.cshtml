@@ -1,87 +1,55 @@
 ﻿
 @{
-    ViewData["Title"] = "Şöbə tərifi";
+    ViewData["Title"] = "- Şöbələr";
 }
-<form class="needs-validation " novalidate style="margin-top:2%" id="form1">
-    <div class="row">
-        <div class="col-12 ">
-            <div class="row">
-                <div class="col-md-2">
-                    <div class="form-group border-right">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <h2>Şöbə tərifi</h2>
 
-                            </div>
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <form class="d-flex">
 
 
 
-                        </div>
+                    <div class="input-group ms-2">
+                        <span class="input-group-text bg-primary border-primary text-white">
+                            Bina
+                        </span>
+                        <select class="form-control form-control-light" required id="buildings" onchange="buildingChanged()">
+                            <!-- <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option> -->
+                        </select>
+
                     </div>
 
-                </div>
 
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <button type="button" class="btn btn-primary " onclick=" $('#addDep').modal('show');">+ Əlavə et</button>
-
-                            </div>
-
-
-
-                        </div>
-                    </div>
-
-                </div>
-                <div class="col-8">
-
-
-                    <div class="form-group float-right">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label>Status</label>
-                                <select class="form-control" required id="depIsActiveFilter" onchange="{
+                    <div class="input-group ms-2">
+                        <span class="input-group-text bg-primary border-primary text-white">
+                            Status
+                        </span>
+                        <select class="form-control form-control-light" required id="depIsActiveFilter" onchange="{
                                     $('.depTypesInBuildingItem.active').click();}">
-                                    <option value="1">Aktiv</option>
-                                    <option value="0">Deaktiv</option>
+                            <option value="1">Aktiv</option>
+                            <option value="0">Deaktiv</option>
 
-                                </select>
+                        </select>
 
-                            </div>
-                            <div class="col-md-4">
-
-
-                                <label for="exampleFormControlSelect1">Müəssisə</label>
-                                <select class="form-control" id="departments" onchange="hospitalChanged(this)">
-                                </select>
-
-
-
-                            </div>
-                            <div class="col-md-4">
-                                <label>Bina</label>
-                                <select class="form-control" required id="buildings" onchange="buildingChanged()">
-                                    <!-- <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option> -->
-                                </select>
-
-                            </div>
-
-
-
-                        </div>
                     </div>
+                    <a class="btn btn-primary ms-2" onclick=" $('#addDep').modal('show');"><i class="mdi mdi-plus-circle"></i></a>
 
-                </div>
+
+                </form>
             </div>
+            <h4 class="page-title">Şöbə</h4>
         </div>
-        <!-- <div class="col-6 text-right ">     <button type="button" class="btn btn-dark " onclick=" $('#patientSearch').modal('show');">Axtar</button></div> -->
     </div>
+</div>
+
+<form class="needs-validation " novalidate style="margin-top:2%" id="form1">
+   
 
     <div class="row">
         <div class="col-md-4">
@@ -296,7 +264,7 @@
                                 <!-- <select class="form-control" id="departments">
                                 </select> -->
 
-                                <input type="text" class="form-control" required id="depName" placeholder="Şöbə">
+                                <input type="text" class="form-control" required id="name" placeholder="Şöbə">
                                 <div class="valid-feedback">
                                     Əla!
                                 </div>

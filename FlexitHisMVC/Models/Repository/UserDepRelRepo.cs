@@ -77,7 +77,53 @@ namespace FlexitHisMVC.Repository
 
             return userDepRelList;
         }
-        
+        public List<User> GetUsersByDepartment(int depID)
+        {
+            List<User> userList = new List<User>();
+
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+                {
+                    connection.Open();
+
+                    string query = @"
+                SELECT b.id, b.name, b.surname, c.name as speciality
+                FROM user_dep_rel a
+                INNER JOIN users b ON a.userID = b.id
+                INNER JOIN speciality c ON b.specialityID = c.id
+                WHERE a.depID = @depID";
+
+                    using (MySqlCommand com = new MySqlCommand(query, connection))
+                    {
+                        com.Parameters.AddWithValue("@depID", depID);
+
+                        MySqlDataReader reader = com.ExecuteReader();
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                User user = new User();
+                                user.ID = Convert.ToInt32(reader["id"]);
+                                user.name = reader["name"].ToString();
+                                user.surname = reader["surname"].ToString();
+                                user.speciality = reader["speciality"].ToString();
+
+                                userList.Add(user);
+                            }
+                        }
+                    }
+
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return userList;
+        }
         public int InsertDepToUser(int userID, int depID, bool read_only, bool full_access)
         {
             int lastID = 0;

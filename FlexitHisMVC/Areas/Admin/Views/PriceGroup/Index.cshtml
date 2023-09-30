@@ -1,0 +1,188 @@
+﻿@model List<PriceGroup>
+
+@{
+    ViewBag.Title = "Qiymət Qrupları";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+    @Html.ActionLink("Yeni qrup yarat", "Create")
+</p>
+
+<div id="tree">
+    @foreach (var root in Model.Where(x => x.ParentID == 0))
+    {
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2>
+                        <button class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#collapse@(root.ID)" aria-expanded="true" aria-controls="collapse@(root.ID)">
+                            @root.Name
+                        </button>
+                    </h2>
+                    <div>
+                        <a class="btn btn-sm btn-primary ml-2" href="/Admin/PriceGroup/Edit/@(root.ID)">Redaktə et</a>
+                        @if (root.ParentID != 0)
+                        {
+                            <a class="btn btn-sm btn-danger ml-5" href="/Admin/PriceGroup/AddService/@(root.ID)">Xidmət əlavə et</a>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div id="collapse@(root.ID)" class="collapse" aria-labelledby="heading@(root.ID)" data-bs-parent="#tree">
+                <div class="card-body">
+                    @foreach (var child in Model.Where(x => x.ParentID == root.ID))
+                    {
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h3>
+                                        <button class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#collapse@(child.ID)" aria-expanded="true" aria-controls="collapse@(child.ID)">
+                                            @child.Name
+                                        </button>
+                                    </h3>
+                                    <div>
+                                        <a class="btn btn-sm btn-primary ml-2" onclick="openCompanyModal(@child.ID)">Təşkilat əlavə et</a>
+                                        <a class="btn btn-sm btn-primary ml-2" href="/Admin/PriceGroup/Edit/@(child.ID)">Redaktə et</a>
+                                        @if (child.ParentID != 0)
+                                        {
+                                            <a class="btn btn-sm btn-danger ml-5" href="/Admin/PriceGroup/AddService/@(child.ID)">Xidmət əlavə et</a>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="collapse@(child.ID)" class="collapse" aria-labelledby="heading@(child.ID)" data-bs-parent="#collapse@(root.ID)">
+                                <div class="card-body">
+                                    @foreach (var subChild in Model.Where(x => x.ParentID == child.ID))
+                                    {
+                                        <h4>@subChild.Name</h4>
+                                        <a class="btn btn-sm btn-primary ml-2" href="/Admin/PriceGroup/Edit/@(subChild.ID)">Redaktə et</a>
+                                        @if (subChild.ParentID != 0)
+                                        {
+                                            <a class="btn btn-sm btn-danger ml-5" href="/Admin/PriceGroup/AddService/@(subChild.ID)">Xidmət əlavə et</a>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<!-- Modal -->
+<div class="modal fade" id="companyModal" tabindex="-1" role="dialog" aria-labelledby="companyModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="companyModalLabel">Təşkilatlar</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <div class="modal-body">
+                <form id="companyListContainer">
+
+
+                    <!-- Add more companies here with their checkboxes -->
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>// Function to fetch companies from the API and populate the modal
+var selectedPriceGroupID
+        function fillModalWithCompanies(priceGroupID) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("getActiveCompanies", "PriceGroup", new { area = "Admin" })', // Replace 'ControllerName' with the actual controller name containing the API action
+                data: { hospitalID: localStorage.selectedHospital }, // Replace '1' with the actual hospitalID or pass it dynamically from your application
+                success: function (response) {
+                    console.log('API response:', response);
+                    // Handle the API response to populate the modal with companies
+                    var companyListContainer = $('#companyListContainer');
+                    companyListContainer.empty(); // Clear any existing content
+                    response.data.forEach(function (company) {
+                        // Create a checkbox for each company and add it to the container
+                        var checkbox = $('<input type="checkbox" id="company' + company.id + '" name="companies" value="' + company.id + '">');
+                        var label = $('<label for="company' + company.id + '">').append(checkbox).append(' ' + company.name);
+                        var formGroup = $('<div class="form-group">').append(label);
+                        companyListContainer.append(formGroup);
+                    });
+
+                    submitCompanies(priceGroupID)
+                },
+                error: function (error) {
+                    console.error('API error:', error);
+                    // Handle API errors here, e.g., show an error message
+                }
+            });
+        }
+
+        // Function to open the modal and fill it with companies
+        function openCompanyModal(priceGroupID) {
+            selectedPriceGroupID = priceGroupID;
+            $('#companyModal').modal('show');
+            fillModalWithCompanies(priceGroupID); // Call the function to fetch companies and populate the modal
+        }
+
+
+
+        // Function to get checked companies from the modal using the new API
+        // Function to get checked companies from the modal using the new API
+  function submitCompanies(priceGroupID) {
+    $.ajax({
+      type: 'GET',
+      url: '@Url.Action("getCompaniesByPriceGroupID", "PriceGroup", new { area = "Admin" })',
+      data: { priceGroupID: priceGroupID },
+      success: function (response) {
+        console.log('API response:', response);
+
+        // Update the checkboxes based on the response
+        $('input[type="checkbox"][name="companies"]').prop('checked', false); // Clear all checkboxes
+          response.forEach(function (company) {
+              $('input[type="checkbox"][name="companies"][value="' + company.companyID + '"]').prop('checked', true);
+        });
+      },
+      error: function (error) {
+        console.error('API error:', error);
+        // Handle API errors here, e.g., show an error message
+      }
+    });
+  }
+
+        // Function to handle API call when checkboxes are checked or unchecked
+        function handleCheckboxChange(companyID, isChecked) {
+            // Replace '1' with the actual priceGroupID or pass it dynamically from your application
+
+            // Make an API call to update the selected companies
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("updateSelectedCompanies", "PriceGroup", new { area = "Admin" })', // Replace 'ControllerName' with the actual controller name containing the API action
+                data: {
+                    priceGroupID: selectedPriceGroupID,
+                    selectedCompanyID: companyID,
+                    delete: !isChecked // 'delete' flag should be true if checkbox is unchecked (delete the company), false if checkbox is checked (insert the company)
+                },
+                success: function (response) {
+                    console.log('API response:', response);
+                    // Handle the API response as needed
+                },
+                error: function (error) {
+                    console.error('API error:', error);
+                    // Handle API errors here, e.g., show an error message
+                }
+            });
+        }
+
+        $(document).on('change', 'input[type="checkbox"][name="companies"]', function () {
+
+            var isChecked = $(this).prop('checked');
+            var companyID = parseInt($(this).val());
+
+            handleCheckboxChange(companyID, isChecked); // Call the function to handle API call based on checkbox state
+        });
+    </script>
+}

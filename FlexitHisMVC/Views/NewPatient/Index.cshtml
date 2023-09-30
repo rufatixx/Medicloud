@@ -1,19 +1,58 @@
 ﻿@{
-
+    ViewData["Title"] = "- Xəstə qəbulu";
 }
+
+<style>
+    .dropdown-menu-scrollable {
+        max-height: 200px; /* Adjust the maximum height as needed */
+        overflow-y: auto;
+    }
+</style>
+
 <div class="row">
-    <div class="col-6"> <h2>Xəstə qeydiyyatı 🩺</h2></div>
-    <div class="col-6 text-right ">     <button type="button" class="btn btn-dark " onclick=" $('#patientSearch').modal('show');">Axtar</button></div>
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <form class="d-flex">
+
+                    <a class="btn  input-group-text me-1" onclick=" $('#patientSearch').modal('show');"><i class="mdi mdi-account-search "></i> <span>Axtar düzəliş</span></a>
+
+
+
+              
+
+                    @*<a class="btn" onclick=" $('#patientSearch').modal('show');">
+                            <span class="input-group-text bg-primary border-primary text-white mdi mdi-account-search-outline">
+                                Xəstə axtar
+                            </span>
+                        </a>
+
+                        <a class="btn">
+
+                            <span class="input-group-text bg-primary border-primary text-white">
+                                Kart axtar
+                            </span>
+                        </a>*@
+
+
+                </form>
+            </div>
+            <h4 class="page-title">Xəstə qəbulu</h4>
+        </div>
+    </div>
 </div>
-<form class="needs-validation bg-white p-3 rounded-lg" novalidate style="margin-top:2%" id="form1">
+
+<form class="needs-validation  " novalidate id="form1">
+    <h2 class="text-muted border-top">Sənəd</h2>
 
 
-    <div class="form-group">
+    <div class="form-group mb-3">
+
         <!-- <h3 style="text-align:right; margin-right:2%"><span class="badge badge-secondary">Cəmi: ---</span></h1> -->
         <div class="row">
 
             <div class="col-md-4">
-                <label for="exampleFormControlInput1">*Xəstənin adi</label>
+                <label class="form-label">*Xəstənin adi</label>
                 <input type="text" class="form-control" required id="name" placeholder="Ad">
                 <div class="valid-feedback">
                     Əla!
@@ -23,7 +62,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <label for="exampleFormControlInput1">*Xəstənin soyadı</label>
+                <label class="form-label">*Xəstənin soyadı</label>
                 <input type="text" class="form-control" required id="surname" placeholder="Soyad">
                 <div class="valid-feedback">
                     Əla!
@@ -33,7 +72,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <label for="exampleFormControlInput1">*Xəstənin ata adı</label>
+                <label class="form-label">*Xəstənin ata adı</label>
                 <input type="text" class="form-control" required id="father" placeholder="Ata adı">
                 <div class="valid-feedback">
                     Əla!
@@ -46,11 +85,12 @@
 
         </div>
     </div>
-    <div class="form-group ">
+    <div class="form-group mb-3 ">
         <div class="row">
             <div class="col-md-4">
-                <label for="exampleFormControlSelect1">Cins</label>
+                <label class="form-label">Cins</label>
                 <select class="form-control dropdown" required id="gender">
+                    <option value="" disabled selected>Seçin...</option>
                     <option value="1">Kişi</option>
                     <option value="2">Qadın</option>
 
@@ -65,7 +105,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <label for="exampleFormControlInput1">*Xəstənin əlaqə nömrəsi</label>
+                <label class="form-label">*Xəstənin əlaqə nömrəsi</label>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-addon1">+994</span>
@@ -80,7 +120,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <label for="exampleFormControlInput1">*ŞV Fin</label>
+                <label class="form-label">*ŞV Fin</label>
                 <input type="text" class="form-control" required id="fin" placeholder="Şəxsiyyət vəsiqəsinin fin kodu">
                 <div class="valid-feedback">
                     Əla!
@@ -91,8 +131,8 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12">
-                <label>Xəstənin döğum tarixi:</label>
+            <div class="col-md-3">
+                <label class="form-label">Xəstənin döğum tarixi:</label>
                 <input class="form-control" type="date" id="bDate"
                        name="meeting-time" value="2018-06-12T19:30" max=""
                        required>
@@ -103,23 +143,46 @@
                     Boşluğu doldurun.
                 </div>
             </div>
+
         </div>
 
     </div>
-    <div class="form-group " style="display:none" id="selectedPatientForm">
+    <div class="form-group mb-3" style="display:none" id="selectedPatientForm">
 
         <div class="row">
             <div class="col-md-12 text-right">
-                <button type="button" class="btn btn-danger " onclick="DeleteSelectedPatient()">Sil</button>
+                <button type="button" class="btn btn-danger " onclick="DeleteSelectedPatient()">temizle</button>
+                <button type="button" class="btn btn-success " onclick="DeleteSelectedPatient()">yenile</button>
             </div>
         </div>
 
     </div>
-    <p class="text-muted">Müraciət forması</p>
-    <div class="form-group ">
+    <h2 class="text-muted border-top">Xəstə Kartı</h2>
+    <div class="form-group mb-3">
+
+        <!-- <h3 style="text-align:right; margin-right:2%"><span class="badge badge-secondary">Cəmi: ---</span></h1> -->
+        <div class="row">
+
+            <div class="col-md-3">
+                <label class="form-label">Təşkilat</label>
+                <select class="form-control dropdown" required id="companies">
+                </select>
+
+
+                <div class="valid-feedback">
+                    Əla!
+                </div>
+                <div class="invalid-feedback">
+                    Boşluğu doldurun.
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="form-group mb-3">
         <div class="row">
             <div class="col-md-4">
-                <label for="exampleFormControlSelect1">Müraciyət növü</label>
+                <label class="form-label">Müraciyət növü</label>
                 <select class="form-control" required id="requestType">
                     <!-- <option>1</option>
                     <option>2</option>
@@ -135,10 +198,8 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <label for="exampleFormControlSelect1">Qiymət qrupu</label>
+                <label class="form-label">Qiymət qrupu</label>
                 <select class="form-control" id="priceGroup" required disabled>
-                    <option value="1">Ödənişli</option>
-
                 </select>
                 <div class="valid-feedback">
                     Əla!
@@ -148,7 +209,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <label for="exampleFormControlSelect1">Xidmət</label>
+                <label class="form-label">Xidmət</label>
                 <select class="form-control" required id="services" onchange="servicesChanged(this)">
                     <!-- <option>1</option>
                     <option>2</option>
@@ -182,11 +243,11 @@
             </div>-->
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-group mb-3">
         <div class="row">
 
             <div class="col-md-4">
-                <label for="exampleFormControlSelect1">Poliklinikada xidmət edən həkim</label>
+                <label class="form-label">Poliklinikada xidmət edən həkim</label>
                 <select class="form-control" required id="doctors">
                     <!-- <option>1</option>
                     <option>2</option>
@@ -203,7 +264,7 @@
             </div>
             <div class="col-md-4">
 
-                <label for="exampleFormControlSelect1">Gödərən həkim</label>
+                <label class="form-label">Gödərən həkim</label>
                 <select class="form-control" id="referer">
                     <!-- <option>1</option>
                     <option>2</option>
@@ -219,7 +280,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <label for="exampleFormControlInput1">Qiymət (AZN)</label>
+                <label class="form-label">Qiymət (AZN)</label>
                 <input type="tel" class="form-control" required id="price" placeholder="Məbləğ" disabled>
                 <div class="valid-feedback">
                     Əla!
@@ -238,9 +299,9 @@
 
             </div>
         </div>*@
-    <div class="form-group">
+    <div class="form-group mb-3">
 
-        <label>Qeyd</label>
+        <label class="form-label">Qeyd</label>
         <textarea class="form-control" id="note" rows="3" placeholder="Qeydlərinizi daxil edin"></textarea>
         <div class="valid-feedback">
             Əla!
@@ -252,36 +313,206 @@
     </div>
 
 
-    <div class="form-group ">
+    <div class="form-group mb-3">
 
-        <div class="row">
-            <div class="col-md-12 text-right">
-                <button type="button" class="btn btn-primary " onclick="AddPatient()">Qeydə al</button>
-            </div>
-        </div>
+
+
+        <button type="button" class="btn btn-primary " onclick="AddPatient()">Qeydə al</button>
+
+        <button type="button" class="btn btn-info " onclick="loadAddServiceIntoPatientCardModal()">Xidmətlər</button>
+
+
 
     </div>
-   
+
 
 </form>
+<div class="modal fade" id="addServiceToPatient" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="staticBackdropLabel">
+                    <img src="/res/pencil.svg" style="width: 30px; height: 30px;" />
+                    Xidmətin karta əlavə edilməsi
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="card" style="max-height:60vh;">
+                            <ul class="nav nav-tabs nav-bordered" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <a data-bs-toggle="tab" class="nav-link active py-2" aria-selected="true" role="tab">
+                                        Qruplar
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="list-group overflow-auto" id="cGroups">
+                                <!-- Группы здесь -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="card " style="max-height:60vh;">
+                            <ul class="nav nav-tabs nav-bordered" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <a data-bs-toggle="tab" class="nav-link active py-2" aria-selected="true" role="tab" onclick="settingsBoxClicked(1)">
+                                        Xidmətlər
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="card-header border-bottom">
+                                <div class="row align-items-center">
+                                    <div class="col-md-10">
+                                        <!-- Начало блока поиска -->
+                                        <div class="app-search">
+                                            <form>
+                                                <div class="mb-2 w-100 position-relative">
+                                                    <input type="search" class="form-control" id="serviceSearch" placeholder="Axtar...">
+                                                    <span class="mdi mdi-magnify search-icon"></span>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <!-- Конец блока поиска -->
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-check text-md-end">
+                                            <input class="form-check-input" type="checkbox" id="showAllServices" checked>
+                                            <label class="form-check-label" for="showAllServices">Hamısı</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row p-2 ">
+                                <div class="col-md-6 text-left">
+                                    <strong class="text-primary">ADI</strong>
+                                </div>
+                                <div class="col-md-6 d-flex justify-content-end">
+                                    <strong class="text-primary">KODU</strong>
+                                </div>
+                            </div>
+                            <div class="card-body border-top overflow-auto p-0">
+
+                                <div class="list-group rounded-0" id="servicesInGroup">
+                                    <!-- Сервисы здесь -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card " style="max-height:30vh;">
+                            <ul class="nav nav-tabs nav-bordered" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <a data-bs-toggle="tab" class="nav-link active py-2" aria-selected="true" role="tab" onclick="settingsBoxClicked(1)">
+                                        Şöbələr
+                                    </a>
+                                </li>
+                            </ul>
+
+                            <div class="row p-2">
+                                <div class="col-md-6 text-left">
+                                    <strong class="text-primary">ADI</strong>
+                                </div>
+                            </div>
+                            <div class="card-body border-top overflow-auto p-0">
+
+                                <div class="list-group rounded-0" id="depsInService">
+                                    <!-- Отделы здесь -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card " style="max-height:30vh;">
+                            <ul class="nav nav-tabs nav-bordered" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <a data-bs-toggle="tab" class="nav-link active py-2" aria-selected="true" role="tab" onclick="settingsBoxClicked(1)">
+                                        Yönəldən Həkimlər
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="row p-2">
+                                <div class="col-md-6 text-left">
+                                    <strong class="text-primary">ADI</strong>
+                                </div>
+                            </div>
+                            <div class="card-body border-top overflow-auto  p-0">
+
+                                <div class="list-group rounded-0" id="refererDocsInCard">
+                                    <!-- Докторы здесь -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card " style="max-height:30vh;">
+                            <ul class="nav nav-tabs nav-bordered" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <a data-bs-toggle="tab" class="nav-link active py-2" aria-selected="true" role="tab" onclick="settingsBoxClicked(1)">
+                                        Həkimlər
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="row p-2">
+                                <div class="col-md-6 text-left">
+                                    <strong class="text-primary">ADI</strong>
+                                </div>
+                            </div>
+                            <div class="card-body border-top overflow-auto  p-0">
+
+                                <div class="list-group rounded-0" id="docsInService">
+                                    <!-- Докторы здесь -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h5 class="mt-4">Əlavə olunmuş xidmətlər</h5>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>#</th>
+                                <th>Kodu</th>
+                                <th>Xidmət</th>
+                                <th>Qiymət</th>
+                                <th>Yönəldən həkim</th>
+                                <th>Xidmət edən həkim</th>
+
+                            </tr>
+                        </thead>
+                        <tbody id="servicesList">
+                            <!-- Динамические данные будут заполняться здесь -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer  sticky-bottom">
+                <button type="button" class="btn btn-success" onclick="insertServiceToPatientCard()">
+                    Əlavə et
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 
 <div class="modal fade" id="patientSearch" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-dialog modal-fullscreen modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="staticBackdropLabel">Xəstə axtarışı</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             </div>
             <div class="modal-body">
                 <form>
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <!-- <h3 style="text-align:right; margin-right:2%"><span class="badge badge-secondary">Cəmi: ---</span></h1> -->
                         <div class="row">
 
                             <div class="col-md-12">
-                                <label for="exampleFormControlInput1">Xəstənin tam adı </label>
+                                <label class="form-label">Xəstənin tam adı </label>
                                 <input type="text" class="form-control" required id="fullNamePattern" placeholder="">
 
                             </div>
@@ -293,18 +524,35 @@
 
 
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <!-- <h3 style="text-align:right; margin-right:2%"><span class="badge badge-secondary">Cəmi: ---</span></h1> -->
                         <div class="row">
 
                             <div class="col-md-12">
 
 
-                                <label for="exampleFormControlSelect1">Xəstələr</label>
-                                <select class="form-control form-select" size="3" onchange="foundPatientClicked(this)" id="foundPatients">
-                                </select>
+                                <label class="form-label">Xəstələr</label>
+                             
 
+                                <table class="table" id="foundPatientsTable">
+                                    <thead>
+                                        <tr>
+                                         
+                                            <th scope="col">Ad</th>
+                                            <th scope="col">Soyad</th>
+                                            <th scope="col">Ata adı</th>
+                                           
+                                            <th scope="col">fin</th>
+                                           
+                                           
 
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                      
+                                   
+                                    </tbody>
+                                </table>
 
                             </div>
 
@@ -321,13 +569,901 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Ləğv et</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ləğv et</button>
                 <button type="button" class="btn btn-primary" onclick="serachForPatient()">Axtar</button>
             </div>
         </div>
     </div>
 </div>
 @section Scripts{
-    <script src="~/js/new_patient/new_patient.js" asp-append-version="true"></script>
+
+    @*<script src="~/js/new_patient/new_patient.js" asp-append-version="true"></script>*@
+<script>var json = localStorage.getItem("json")
+        var pageData;
+        var parsedJSON = JSON.parse(json)
+        var selectedCardID = 0;
+        var foundPatients;
+    var $requestTypeDropdown = $("#requestType");
+        var $servicesDropdown = $("#services");
+        var $policlinicDropdown = $("#departments");
+        var $doctorDropdown = $("#doctors");
+        var $refererDropdown = $("#referer");
+        var $companiesDropdown = $("#companies");
+
+
+        var servicesBeforeAllShown;
+
+
+        $('#showAllServices').on('change', function () {
+            handleCheckboxState()
+
+        });
+
+
+        showLoading();
+
+        $.ajax({
+            type: 'POST',
+            url: `/newPatient/getPageModel`,
+            data: { hospitalID: parseInt(localStorage.selectedHospital) },
+            dataType: 'json',
+            success: function (data, status, xhr) {
+                if (typeof (Storage) !== "undefined") {
+                    localStorage.requestToken = data.requestToken;
+                } else {
+                    // Sorry! No Web Storage support..
+                }
+
+                pageData = data;
+                $requestTypeDropdown.empty(); // Clear existing options
+                $requestTypeDropdown.empty();
+                $requestTypeDropdown.append($("<option  disabled selected />").val('').text(`Seçin..`));
+             
+                $.each(data.requestTypes, function () {
+                    $requestTypeDropdown.append($("<option />").val(this.id).text(this.name));
+                });
+
+                $requestTypeDropdown.on("change", function () {
+                    var selectedValue = $(this).val();
+                   
+
+                    if (selectedValue === "3") {
+                       
+                        // If requestTypeDropdown is selected with value 3
+                        // Disable the otherDropdown, make it not required, and select the first item
+                        $doctorDropdown.prop("disabled", true).prop("required", false).val("");
+                    } else {
+                        // If requestTypeDropdown is not selected with value 3
+                        // Enable the otherDropdown and make it required
+                        $doctorDropdown.prop("disabled", false).prop("required", true);
+                    }
+                });
+
+
+                $doctorDropdown.empty(); // Clear existing options
+                $doctorDropdown.empty();
+                $doctorDropdown.append($("<option  disabled selected />").val('').text(`Seçin..`));
+             
+                $.each(data.personal, function () {
+                    $doctorDropdown.append($("<option />").val(this.id).text(`${this.name} ${this.surname} (${this.speciality})`));
+                });
+
+                $refererDropdown.empty(); // Clear existing options
+                $refererDropdown.empty();
+                $refererDropdown.append($("<option  disabled selected />").val('').text(`Seçin..`));
+             
+                $.each(data.referers, function () {
+                    $refererDropdown.append($("<option />").val(this.id).text(`${this.name} ${this.surname} ${this.father}`));
+                });
+                $companiesDropdown.empty();
+                $companiesDropdown.append($("<option  disabled selected />").val('').text(`Seçin..`));
+                $.each(data.companies, function () {
+                    $companiesDropdown.append($("<option />").val(this.id).text(`${this.name}`));
+                });
+                $("#price").val($("#services").val());
+                hideLoading();
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                if (jqXhr.status == "401") {
+                    localStorage.clear();
+                    $('#systemModalTitle').text("Sessiyanız başa çatıb");
+                    $('#systemModalText').html(`<p id="systemModalText">Zəhmət olmasa yenidən giriş edin</p>`);
+                    $('#systemModalBtn').removeAttr("hidden");
+                } else {
+                    $('#warningModal').show();
+                    $('#warningText').text(jqXhr.status);
+                }
+            }
+        });
+        $("#companies").on('change', function () {
+
+            var selectedCompanyID = $(this).val();
+            populatePriceGroupDropdown(selectedCompanyID);
+        });
+        // Function to populate the "otherDropdown" based on the selected company
+        function populatePriceGroupDropdown(selectedCompanyID) {
+            // Make an API call to fetch data for the "otherDropdown"
+            $.ajax({
+                type: 'GET',
+                url: "@Url.Action("GetPriceGroupDataForCompany", "NewPatient")" , // Replace with your API endpoint
+                data: { companyID: selectedCompanyID },
+                success: function (response) {
+                    // Clear previous options and populate the "otherDropdown"
+                    var $otherDropdown = $("#priceGroup");
+                    $otherDropdown.empty();
+
+                    // Populate options based on the response
+                    response.forEach(function (item) {
+                        $otherDropdown.append($("<option />").val(item.priceGroupID).text(`${item.priceGroupName}`));
+
+                    });
+
+                    if (response.length > 0) {
+                        var firstPriceGroupID = response[0].priceGroupID;
+                        // Call another API to fill the second dropdown using the firstPriceGroupID
+                        getServicesInPriceGroup(firstPriceGroupID);
+                    }
+                },
+                error: function (error) {
+                    console.error('API error:', error);
+                    // Handle API errors here, e.g., show an error message
+                }
+            });
+        }
+    function getServicesInPriceGroup(selectedPriceGroupID) {
+           
+    $.ajax({
+        type: 'GET',
+        url: "@Url.Action("GetActiveServicesByPriceGroupID", "NewPatient")", // Replace with your second API endpoint
+        data: { priceGroupID: selectedPriceGroupID },
+        success: function (response) {
+            // Clear previous options and populate the second dropdown
+            
+            $servicesDropdown.empty(); // Clear existing options
+            $servicesDropdown.append($("<option  disabled selected />").val("").text(`Seçin..`));
+            // Populate options based on the response
+            response.forEach(function (item) {
+                $servicesDropdown.append($(`<option id=${item.serviceID} />`).val(item.servicePrice).text(`${item.serviceName}`));
+            });
+        },
+        error: function (error) {
+            console.error('API error:', error);
+            // Handle API errors here, e.g., show an error message
+        }
+    });
+           
+           
+        }
+        function serachForPatient() {
+
+            showLoading();
+            $('#systemModalTitle').text("Yüklənir...");
+            $('#systemModalText').html(`<center><div class="spinner-border text-dark mx-auto" role="status">
+                    <span class="sr-only">Loading...</span>
+                  </div></center>`);
+            $('#systemModalBtn').attr("hidden", "");
+            $.ajax({
+                type: 'POST',
+                url: `/NewPatient/SearchForPatient`,
+                data: { fullNamePattern: $("#fullNamePattern").val(), hospitalID: parseInt(localStorage.selectedHospital) },
+                dataType: 'json',
+                success: function (data, status, xhr) {   // success callback function
+                    //  var json = JSON.stringify(data)
+
+                    if (typeof (Storage) !== "undefined") {
+
+                        localStorage.requestToken = data.requestToken
+                    } else {
+
+                        // Sorry! No Web Storage support..
+                    }
+
+                    const tableBody = $('#foundPatientsTable tbody');
+                    tableBody.empty();
+                    //$("#foundPatients").empty();
+                    foundPatients = data;
+                    //alert(data.requestTypes[0].name)
+                    //$.each(data, function () {
+                    //    var bDate = this.bDate.split('T')[0];
+                    //    $("#foundPatients").append($("<option />").val(this.id).text(`${this.name} ${this.surname} ${this.father} (${bDate})`));
+                    //});
+
+                   
+                    data.forEach(function (item) {
+                        const row = $('<tr></tr>');
+                        // Add an event listener for row click
+                        row.on('click', function () {
+                          
+                            foundPatientClicked(item);
+                        });
+                        //const checkbox = $('<input type="checkbox" class="select-item" data-id="' + item.id + '">');
+                        //row.append('<td></td>').append(checkbox);
+                     
+                        row.append('<td>' + item.name + '</td>');
+                        row.append('<td>' + item.surname + '</td>');
+                        row.append('<td>' + item.father + '</td>');
+                        row.append('<td>' + item.fin + '</td>');
+                       
+                        // Add more columns as needed
+
+                        tableBody.append(row);
+                    });
+
+                    // Add event listener for checkbox changes
+                    $('.select-item-ingredient').on('change', function () {
+                        const selectedId = $(this).data('id');
+                        if ($(this).prop('checked')) {
+                            // Checkbox is checked
+                            $('.select-item-ingredient').not(this).prop('checked', false);
+
+                            $('#insertActiveIngredientBtn').hide()
+                            $('#updateActiveIngredientBtn').show()
+                        } else {
+                            $('#insertActiveIngredientBtn').show()
+                            $('#updateActiveIngredientBtn').hide()
+                        }
+                    });
+                    hideLoading()
+
+
+
+                    //$('p').append(data.name + ' ' + data.surname);
+                },
+                error: function (jqXhr, textStatus, errorMessage) { // error callback
+                    hideLoading()
+
+                    if (jqXhr.status == "401") {
+                        localStorage.clear()
+                        $('#systemModalTitle').text("Sessiyanız başa çatıb");
+                        $('#systemModalText').html(`<p id="systemModalText">Zəhmət olmasa yenidən giriş edin</p>`);
+                        $('#systemModalBtn').removeAttr("hidden");
+                    }
+                    else {
+                        $('#warningModal').show()
+                        $('#warningText').text(jqXhr.status);
+                    }
+                    //  $('#alert').text('Error: ' + errorMessage);
+                }
+
+            });
+
+        }
+        function DeleteSelectedPatient() {
+
+            $("#name").prop("disabled", false);
+            $("#surname").prop("disabled", false);
+            $("#father").prop("disabled", false);
+            $("#clientPhone").prop("disabled", false);
+            $("#fin").prop("disabled", false);
+            $("#bDate").prop("disabled", false);
+            $(`#gender`).prop("disabled", false);
+
+            $("#name").val("");
+            $("#surname").val("");
+            $("#father").val("");
+
+            $("#clientPhone").val("");
+            $("#fin").val("");
+            $("#bDate").val("");
+
+            var foundPatientID = 0;
+            $("#selectedPatientForm").hide();
+        }
+        function foundPatientClicked(item) {
+
+            $("#selectedPatientForm").show()
+            $("#name").prop("disabled", true);
+            $("#surname").prop("disabled", true);
+            $("#father").prop("disabled", true);
+
+            $("#clientPhone").prop("disabled", true);
+            $("#fin").prop("disabled", true);
+
+
+
+            $("#bDate").prop("disabled", true);
+            $(`#gender`).prop("disabled", true);
+
+
+
+                    $("#name").val(item.name);
+                    $("#surname").val(item.surname);
+                    $("#father").val(item.father);
+                    var lastNine = item.phone.toString().slice(-9);
+                    $("#clientPhone").val(lastNine);
+                    $("#fin").val(item.fin);
+
+                    var today = new Date(item.bDate).toISOString().split('T')[0];
+
+                    $("#bDate").val(today);
+                    $(`#gender option[value="${item.genderID}"]`).attr("selected", "selected");
+                    //$("#gender").prop("selectedIndex", this.genderID);
+
+              
+            $('#patientSearch').modal('hide');
+
+        }
+        function AddPatient() {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function (form) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            });
+
+            if (forms[0].checkValidity()) {
+                var foundPatientID = $("#foundPatients").val() || 0;
+                var name = $('#name').val();
+                var surname = $('#surname').val();
+                var father = $('#father').val();
+                var phone = $('#clientPhone').val();
+                var genderID = $('#gender').val();
+                var bDate = $('#bDate').val();
+                var fin = $("#fin").val();
+                var requestTypeID = $("#requestType").val();
+                var priceGroupID = $("#priceGroup").val();
+                var serviceID = $("#services").children(":selected").attr("id");
+                var depDocID = $("#doctors").val() ?? 0;
+                var referDocID = $("#referer").val() ?? 0;
+                var note = $("#note").val();
+                var date = new Date(bDate);
+                var isoBdate = date.toISOString();
+
+                showLoading();
+
+                $.ajax({
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    type: 'POST',
+                    url: `/NewPatient/AddPatient`,
+                    data: JSON.stringify({
+                        "name": name,
+                        "surname": surname,
+                        "father": father,
+                        "clientPhone": parseInt("00994" + phone),
+                        "genderID": parseInt(genderID),
+                        "fin": fin,
+                        "requestTypeID": parseInt(requestTypeID),
+                        "priceGroupID": parseInt(priceGroupID),
+                        "hospitalID": parseInt(localStorage.selectedHospital),
+                        "serviceID": parseInt(serviceID),
+                        "foundPatientID": parseInt(foundPatientID),
+                        "docID": parseInt(depDocID),
+                        "referDocID": parseInt(referDocID),
+                        "birthDate": bDate,
+                        "note": note
+                    }),
+                    success: function (data, status, xhr) {
+                        if (data > 0) {
+                            hideLoading();
+                            $('#warningModal').modal("show");
+                            $('#warningText').text('Məlumatlar qeydə alındı');
+                            selectedCardID = data
+                        }
+
+
+                    },
+                    error: function (jqXhr, textStatus, errorMessage) {
+                        if (jqXhr.status == 401) {
+                            localStorage.clear();
+                            $('#systemModalTitle').text("Sessiyanız başa çatıb");
+                            $('#systemModalText').html(`<p id="systemModalText">Zəhmət olmasa yenidən giriş edin</p>`);
+                            $('#systemModalBtn').removeAttr("hidden");
+                        }
+                        else {
+                            hideLoading();
+                            $('#warningModal').modal("show");
+                            $('#warningText').text(jqXhr.responseText);
+                        }
+                    }
+                });
+            }
+        }
+
+        function fetchGroups() {
+            $('#servicesInGroup').empty();
+            $('#selectedServiceGroupInSettings').empty();
+
+            $.ajax({
+                url: '/Admin/services/GetServiceGroups',
+                type: 'GET',
+                data: { hospitalID: localStorage.selectedHospital },
+                success: function (response) {
+                    $('#cGroups').empty();
+                    $('#cGroupsInModal').empty();
+
+                    var accordionElement = $('<div>')
+                        .addClass('accordion')
+                        .attr('id', 'accordionExample');
+
+                    var headingGroups = response.filter(function (group) {
+                        return group.isHeading === true;
+                    });
+
+                    // Fill headings into modal select dropdown
+                    $.each(headingGroups, function (index, headingGroup) {
+                        var optionElement = $('<option>')
+                            .attr('value', headingGroup.id)
+                            .text(headingGroup.name)
+                            .appendTo('#cGroupsInModal');
+
+                        var childGroups = response.filter(function (childGroup) {
+                            return (
+                                childGroup.isHeading === false && childGroup.parent === headingGroup.id
+                            );
+                        });
+
+                        if (childGroups.length > 0) {
+                            var groupElement = $('<div>')
+                                .addClass('accordion-item')
+                                .appendTo(accordionElement);
+
+                            var headerElement = $('<h2>')
+                                .addClass('accordion-header')
+                                .attr('id', 'heading' + headingGroup.id)
+                                .appendTo(groupElement);
+
+                            var buttonElement = $('<button>')
+                                .addClass('accordion-button')
+                                .attr('type', 'button')
+                                .attr('data-bs-toggle', 'collapse')
+                                .attr('data-bs-target', '#collapse' + headingGroup.id)
+                                .attr('aria-expanded', 'false')
+                                .attr('aria-controls', 'collapse' + headingGroup.id)
+                                .text(headingGroup.name)
+                                .appendTo(headerElement);
+
+                            var collapseElement = $('<div>')
+                                .addClass('accordion-collapse collapse')
+                                .attr('id', 'collapse' + headingGroup.id)
+                                .attr('aria-labelledby', 'heading' + headingGroup.id)
+                                .attr('data-bs-parent', '#accordionExample')
+                                .appendTo(groupElement);
+
+                            var bodyElement = $('<div>')
+                                .addClass('accordion-body')
+                                .appendTo(collapseElement);
+
+                            $.each(childGroups, function (index, childGroup) {
+                                var childElement = $('<div>')
+                                    .addClass('accordion-item')
+                                    .appendTo(bodyElement);
+
+                                var childButtonElement = $('<a>')
+                                    .addClass('list-group-item list-group-item-action')
+                                    .text(childGroup.name)
+                                    .appendTo(childElement);
+
+                                var childCollapseElement = $('<div>')
+                                    .addClass('accordion-collapse collapse')
+                                    .attr('id', 'collapse' + childGroup.id)
+                                    .attr('aria-labelledby', 'heading' + childGroup.id)
+                                    .attr('data-bs-parent', '#collapse' + headingGroup.id)
+                                    .appendTo(childElement);
+
+                                var childBodyElement = $('<div>')
+                                    .addClass('accordion-body')
+                                    .appendTo(childCollapseElement);
+
+                                var optionElement = $('<option>')
+                                    .attr('value', childGroup.id)
+                                    .text(childGroup.name)
+                                    .appendTo('#selectedServiceGroupInSettings');
+
+                                var groupsInModal = $('<option>')
+                                    .attr('value', childGroup.id)
+                                    .text(childGroup.name)
+                                    .appendTo('#groupsInModal');
+
+                                // Update the click handler for childButtonElement
+                                childButtonElement.on('click', function () {
+                                    var listItem = $(this);
+
+                                    // Remember the clicked child group
+                                    activeChildGroup = listItem;
+
+                                    // Uncheck the "Show All" checkbox
+                                    $('#showAllServices').prop('checked', false);
+
+                                    // Remove "active" class from all list items within all accordion items
+                                    $('.accordion .list-group-item').removeClass('active');
+
+                                    // Add "active" class to the clicked list item
+                                    listItem.addClass('active');
+
+                                    // Update selectedServiceGroupInSettings dropdown with the selected subgroup
+                                    $('#selectedServiceGroupInSettings').val(childGroup.id);
+
+                                    // Fetch services with group names
+                                    fetchServicesWithGroupNames(childGroup.id);
+                                });
+                            });
+                        }
+                    });
+
+                    $('#cGroups').append(accordionElement);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        function fetchServicesWithGroupNames(groupId) {
+
+
+            $.ajax({
+                url: '/Admin/services/GetServicesWithServiceGroupName',
+                type: 'GET',
+                data: { hospitalID: localStorage.selectedHospital, serviceGroupID: groupId },
+                success: function (response) {
+                    $('#servicesInGroup').empty();
+
+                    if (response.length > 0) {
+                        $.each(response, function (index, service) {
+
+                            var serviceElement = $('<li>')
+                                .addClass('list-group-item list-group-item-action d-flex justify-content-between')
+                                .click(function () {
+                                    // Unselect previously selected service
+                                    $('#servicesInGroup .active').removeClass('active');
+                                    // Select the current service
+                                    $(this).addClass('active');
+
+                                    var doctorsSelect = $('#docsInService');
+                                    doctorsSelect.empty();
+
+                                    var departmentsSelect = $('#depsInService');
+                                    departmentsSelect.empty();
+
+                                    // Fill the service settings card with the information of the selected service
+                                    fetchDepartmentsInService(service.id);
+                                })
+                                .val(service.id);
+        //                        .on('dblclick', function () {
+        //                            // On double click, call the InsertServiceToPatientCard function
+        //                            // Replace the parameters with the actual values
+        //                            var patientCardID = ;
+        //                    var serviceID = service.id;
+        //                var depID = department.id;
+        //                var senderDocID = 0;
+        //        var docID = ...;
+
+        //                if ($(this).data('docIsRequired') == 1 && !docID) {
+        //                    $('#warningModal').show();
+        //                    $('#warningText').text('Bu şöbə üçün həkim seçmək lazımdır.');
+
+        //    } else {
+        //        InsertServiceToPatientCard(patientCardID, serviceID, depID, senderDocID, docID);
+        //    }
+        //});
+
+        serviceElement.append('<div>' + service.name + '</div>');
+        serviceElement.append('<div>' + service.code + '</div>');
+
+        $('#servicesInGroup').append(serviceElement);
+                                });
+
+        // Select the first service button
+        var firstServiceButton = $('#servicesInGroup li:first');
+        if (firstServiceButton.length > 0) {
+            firstServiceButton.addClass('active');
+            // Fill the service settings card with the information of the selected service
+
+
+            fetchDepartmentsInService(response[0].id);
+        }
+                            } else {
+            // No services in the subgroup
+            // Clear and disable the service settings card
+            $('#servicesInGroup').empty();
+            fillServiceSettings(null);
+        }
+                        },
+        error: function (error) {
+            console.log(error);
+        }
+                    });
+                }
+        function fetchDepartmentsInService(serviceID) {
+            $.ajax({
+                url: '/Admin/services/GetDepartmentsInService',
+                type: 'GET',
+                data: { serviceID: serviceID },
+                success: function (response) {
+                    var departmentsSelect = $('#depsInService');
+                    //departmentsSelect.empty();
+
+                    $.each(response, function (index, department) {
+                        var listItem = $('<li>')
+                            .attr('class', 'list-group-item clickable')
+                            .attr('data-docIsRequired', department.docIsRequired) // Store docIsRequired as a data-* attribute
+                            .attr('value', department.id)
+                            .text(department.name)
+                            .on('click', function () {
+                                // Unselect previously selected service
+                                $('#depsInService .active').removeClass('active');
+                                // Select the current service
+                                $(this).addClass('active');
+                                fetchDoctorsInDepartment(department.id);
+                            })
+                            .val(department.id);
+
+                        departmentsSelect.append(listItem);
+
+                        // Select the first service button
+                        var firstDepButton = $('#depsInService li:first');
+                        // If it's the first item in the list, fetch the doctors for this department
+                        if (index === 0) {
+                            firstDepButton.addClass('active');
+                            fetchDoctorsInDepartment(department.id);
+                        }
+                    });
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+        function fetchDoctorsInDepartment(depID) {
+            $.ajax({
+                url: '/NewPatient/GetDoctorsInDepartment',
+                type: 'GET',
+                data: { depID: depID },
+                success: function (response) {
+                    var doctorsSelect = $('#docsInService');
+                    //doctorsSelect.empty();
+
+                    $.each(response, function (index, doctor) {
+                        var listItem = $('<li>')
+                            .attr('class', 'list-group-item')
+                            .attr('value', doctor.id)
+                            .text(doctor.name)
+                            .on('click', function () {
+                                // Unselect previously selected service
+                                $('#docsInService .active').removeClass('active');
+                                // Select the current service
+                                $(this).addClass('active');
+
+                            });
+                        doctorsSelect.append(listItem);
+                    });
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        function fetchDoctorsInCard() {
+            $.ajax({
+                url: '/NewPatient/GetDoctorsInCard',
+                type: 'GET',
+                data: { patientCardID: selectedCardID },
+                success: function (response) {
+                    var refDoctorsSelect = $('#refererDocsInCard');
+                    //doctorsSelect.empty();
+
+                    $.each(response, function (index, doctor) {
+                        var listItem = $('<li>')
+                            .attr('class', 'list-group-item')
+                            .attr('value', doctor.RefDocID)
+                            .text(doctor.RefDocName + " " + doctor.RefDocSurname)
+                            .on('click', function () {
+                                // Unselect previously selected service
+                                $('#refererDocsInCard .active').removeClass('active');
+                                // Select the current service
+                                $(this).addClass('active');
+
+                            });
+                        refDoctorsSelect.append(listItem);
+                    });
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+        function handleCheckboxState() {
+            if ($('#showAllServices').is(":checked")) {
+                // If checked, perform the same operations as in the change event handler
+                $('.accordion .list-group-item').removeClass('active');
+                servicesBeforeAllShown = $('#servicesInGroup').children().clone();
+                fetchServicesWithGroupNames(0);
+            } else {
+                // If not checked, perform the operations for the unchecked case
+                $('#servicesInGroup').empty().append(servicesBeforeAllShown);
+                if (activeChildGroup) {
+                    activeChildGroup.click();
+                }
+            }
+        }
+        function loadAddServiceIntoPatientCardModal() {
+            if (selectedCardID>0) {
+
+                $('#cardNumber').val(selectedCardID);
+                $('#addServiceToPatient').modal('show');
+
+
+
+
+                showLoading();
+
+
+
+                // Once all data loading is complete
+                // Fill service settings and hide loading indicator
+                Promise.all([
+                    fetchGroups(),
+                    fetchDoctorsInCard(),
+                    getServicesInTheCard(),
+                    handleCheckboxState()
+
+                ]).then(function () {
+
+                    hideLoading();
+                }).catch(function (error) {
+                    console.log(error);
+                    hideLoading();
+                });
+            }
+            else {
+
+                $('#warningModal').modal("show");
+                $('#warningText').text('Zəhmət olmasa xəstəyə kart yaradın');
+
+
+
+            }
+
+        }
+
+        function getServicesInTheCard() {
+
+            $.ajax({
+                type: 'GET',
+                url: `/NewPatient/GetServices?patientCardID=${selectedCardID}`,
+                success: function (data, status, xhr) {
+                    var servicesTable = $('#servicesList');
+                    servicesTable.empty();
+
+                    if (data && data.length > 0) {
+                        data.forEach(function (service, index) {
+                            var tableRow = $('<tr>');
+                            tableRow.append('<th scope="row">' + (index + 1) + '</th>');
+                            tableRow.append('<td>' + service.ServiceCode + '</td>');
+                            tableRow.append('<td>' + service.ServiceName + '</td>');
+                            tableRow.append('<td>' + service.ServicePrice + '</td>');
+
+                            tableRow.append('<td>' + service.SenderDocName + service.SenderDocSurname + '</td>');
+                            tableRow.append('<td>' + service.DocName + service.DocSurname + '</td>');
+                            servicesTable.append(tableRow);
+                        });
+                    } else {
+                        var noServicesRow = $('<tr><td colspan="4">No services found.</td></tr>');
+                        servicesTable.append(noServicesRow);
+                    }
+
+                    // Show the modal
+                    $('#addServiceToPatient').modal('show');
+                },
+                error: function (jqXhr, textStatus, errorMessage) {
+                    console.log(errorMessage);
+                }
+            });
+        }
+
+        function insertServiceToPatientCard() {
+
+
+
+            // Get the selected service details
+            var selectedService = $('#servicesInGroup .active').val();
+
+            // Get the values for the parameters
+            var patientCardID = selectedCardID;/* Replace with your logic to get the patient card ID */;
+            var serviceID = selectedService;
+            var depID = $('#depsInService .active').val();/* Replace with your logic to get the department ID */;
+            var senderDocID = $('#refererDocsInCard .active').val()  /* Replace with your logic to get the sender doctor ID */;
+            var docID = $('#docsInService .active').val()/* Replace with your logic to get the doctor ID */;
+
+            //if (selectedService.data('docIsRequired') === 1 && !docID) {
+            //    $('#warningModal').show();
+            //    $('#warningText').text('Bu şöbə üçün həkim seçmək lazımdır.');
+            //    return;
+            //}
+
+            // Make an HTTP GET request to the API endpoint
+            $.ajax({
+                url: '/NewPatient/InsertServiceToPatientCard',
+                type: 'GET',
+                data: {
+                    patientCardID: patientCardID,
+                    serviceID: serviceID,
+                    depID: depID,
+                    senderDocID: senderDocID,
+                    docID: docID
+                },
+                success: function (response) {
+                    // Handle the successful response here
+                    getServicesInTheCard()
+                    console.log(response);
+                },
+                error: function (error) {
+                    // Handle any errors here
+                    console.log(error);
+                }
+            });
+        }
+
+
+
+        function servicesChanged(a) {
+            //alert($(a).val())
+            $("#price").val($(a).val());
+        }
+
+        function depChanged(dep) {
+
+            $servicesDropdown.empty();
+            $doctorDropdown.empty();
+            $.each(pageData.services, function () {
+
+                if (this.depID == $(dep).val()) {
+                    $servicesDropdown.append($(`<option id=${this.id} />`).val(this.price).text(this.name));
+                }
+
+            });
+
+            $.each(pageData.personal, function () {
+                if (this.depID == $(dep).val()) {
+                    $doctorDropdown.append($("<option />").val(this.id).text(`${this.name} ${this.surname} ${this.father}`));
+                }
+
+            });
+            $("#price").val($("#services").val());
+        }
+        function getCookie(cname) {
+            var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }</script>
+    <script>
+        $(document).ready(function () {
+            $('#serviceSearch').on('keyup input', function () {
+                var value = $(this).val().toLowerCase();
+
+                $("#servicesInGroup .list-group-item").each(function () {
+                    var serviceName = $(this).find('div').first().text().toLowerCase();
+
+                    if (serviceName.includes(value)) {
+                        $(this).removeClass('d-none');
+                    }
+                    else {
+                        $(this).addClass('d-none');
+                    }
+                });
+            });
+
+        });
+    </script>
+
+
+
 }
 

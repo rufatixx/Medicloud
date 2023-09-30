@@ -81,6 +81,75 @@ namespace FlexitHisMVC.Data
 
             return companyList;
         }
+        public List<Company> GetActiveCompanies(int hospitalID)
+
+        {
+
+
+            List<Company> companyList = new List<Company>();
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+                {
+
+
+                    connection.Open();
+
+                    using (MySqlCommand com = new MySqlCommand($@"SELECT * FROM company where hospitalID = @hospitalID and isActive = 1", connection))
+                    {
+
+                        com.Parameters.AddWithValue("@hospitalID", hospitalID);
+
+                        MySqlDataReader reader = com.ExecuteReader();
+                        if (reader.HasRows)
+                        {
+
+
+                            while (reader.Read())
+                            {
+
+                                Company cGroup = new Company();
+                                cGroup.id = Convert.ToInt64(reader["id"]);
+                                cGroup.groupID = Convert.ToInt32(reader["groupID"]);
+                                cGroup.name = reader["name"] == DBNull.Value ? "" : reader["name"].ToString();
+                                cGroup.isActive = Convert.ToInt32(reader["isActive"]);
+                                cGroup.cdate = Convert.ToDateTime(reader["cdate"]);
+                                cGroup.cUserID = Convert.ToInt32(reader["userID"]);
+                                //department.typeID = Convert.ToInt64(reader["depTypeID"]);
+                                //department.type = reader["typeName"] == DBNull.Value ? "" : reader["typeName"].ToString();
+
+
+
+                                companyList.Add(cGroup);
+
+
+                            }
+
+                            //response.data.Reverse();
+
+                            //response.status = 1;
+                        }
+
+                    }
+
+
+                    connection.Close();
+
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                FlexitHisMVC.StandardMessages.CallSerilog(ex);
+                Console.WriteLine(ex.Message);
+
+            }
+
+
+            return companyList;
+        }
+
         public bool InsertCompany(int userID, int hospitalID, string companyName, int cGroupID)
         {
 

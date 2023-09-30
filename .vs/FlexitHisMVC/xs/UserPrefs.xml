@@ -1,84 +1,59 @@
 ﻿<Properties StartupConfiguration="{94E91CB4-7BC1-46BE-971E-169B5A29C9BE}|Default">
+  <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="FlexitHisMVC/Views/Shared/Components/Navbar/default.cshtml">
+  <MonoDevelop.Ide.Workbench ActiveDocument="FlexitHisMVC/appsettings.json">
     <Files>
-      <File FileName="FlexitHisMVC/Controllers/PoliclinicController.cs" />
-      <File FileName="FlexitHisMVC/Views/Policlinic/Index.cshtml" />
-      <File FileName="FlexitHisMVC/Models/Repository/PatientDiagnoseRel.cs" />
       <File FileName="FlexitHisMVC/Views/NewPatient/Index.cshtml" />
-      <File FileName="FlexitHisMVC/Models/Repository/DiagnoseRepo.cs" />
-      <File FileName="FlexitHisMVC/wwwroot/js/new_patient/new_patient.js" />
-      <File FileName="FlexitHisMVC/Models/Repository/RecordingsRepo.cs" />
-      <File FileName="FlexitHisMVC/Models/Repository/PatientRecordRelRepo.cs" />
-      <File FileName="FlexitHisMVC/Models/Repository/PatientRepo.cs" />
-      <File FileName="FlexitHisMVC/Models/DTO/RecordDTO.cs" />
-      <File FileName="FlexitHisMVC/Models/DTO/UserDepRelDTO.cs" />
-      <File FileName="FlexitHisMVC/Models/DTO/ResponseDTO.cs" />
-      <File FileName="FlexitHisMVC/Models/DTO/AddIncomeDTO.cs" />
-      <File FileName="FlexitHisMVC/Models/DTO/KassaDTO.cs" />
+      <File FileName="FlexitHisMVC/Controllers/NewPatientController.cs" Line="8" Column="26" />
       <File FileName="FlexitHisMVC/Models/DTO/NewPatientViewDTO.cs" />
-      <File FileName="FlexitHisMVC/Models/DTO/PatientDocDTO.cs" />
-      <File FileName="FlexitHisMVC/Models/DTO/PatientKassaDTO.cs" />
-      <File FileName="FlexitHisMVC/Models/DTO/PaymentTypeDTO.cs" />
-      <File FileName="FlexitHisMVC/Controllers/KassaController.cs" />
-      <File FileName="FlexitHisMVC/Models/Repository/PatientRequestRepo.cs" />
-      <File FileName="FlexitHisMVC/wwwroot/js/kassa/home.js" />
-      <File FileName="FlexitHisMVC/Views/Kassa/Index.cshtml" />
-      <File FileName="FlexitHisMVC/appsettings.json" />
-      <File FileName="FlexitHisMVC/Models/Repository/PaymentOperationsRepo.cs" />
-      <File FileName="FlexitHisMVC/Views/KassaRecipes/Index.cshtml" />
-      <File FileName="FlexitHisMVC/wwwroot/js/kassa/recipes.js" />
-      <File FileName="FlexitHisMVC/wwwroot/js/menu/menu.js" />
-      <File FileName="FlexitHisMVC/wwwroot/js/app.js" />
-      <File FileName="FlexitHisMVC/ViewComponents/NavbarViewComponent.cs" />
-      <File FileName="FlexitHisMVC/Views/Shared/Components/Navbar/default.cshtml" Line="3" Column="66" />
+      <File FileName="FlexitHisMVC/Models/Domain/Company.cs" />
+      <File FileName="FlexitHisMVC/Models/Repository/CompanyRepo.cs" />
+      <File FileName="FlexitHisMVC/Views/Shared/_Layout.cshtml" />
+      <File FileName="FlexitHisMVC/Areas/Admin/Controllers/PriceGroupController.cs" />
+      <File FileName="FlexitHisMVC/Areas/Admin/Views/PriceGroup/Index.cshtml" />
+      <File FileName="FlexitHisMVC/Areas/Admin/Controllers/CompanyController.cs" />
+      <File FileName="FlexitHisMVC/appsettings.json" Line="11" Column="4" />
+      <File FileName="FlexitHisMVC/Areas/Admin/Controllers/ServicesController.cs" />
+      <File FileName="FlexitHisMVC/Areas/Admin/Views/Home/Index.cshtml" />
+      <File FileName="FlexitHisMVC/Areas/Admin/Controllers/HomeController.cs" />
+      <File FileName="FlexitHisMVC/Areas/Admin/Controllers/PersonalController.cs" />
+      <File FileName="FlexitHisMVC/Areas/Admin/Views/Personal/Index.cshtml" />
+      <File FileName="FlexitHisMVC/Controllers/HomeController.cs" />
+      <File FileName="FlexitHisMVC/Models/Repository/ServicesRepo.cs" />
+      <File FileName="FlexitHisMVC/Models/Repository/PriceGroupCompanyRepository.cs" />
+      <File FileName="FlexitHisMVC/Models/Repository/ServicePriceGroupRepository.cs" />
+      <File FileName="FlexitHisMVC/Models/DTO/AddPatientDTO.cs" />
+      <File FileName="FlexitHisMVC/Models/Repository/PatientRepo.cs" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="FlexitHisMVC" expanded="True">
-            <Node name="FlexitHisMVC" expanded="True" selected="True">
+            <Node name="FlexitHisMVC">
               <Node name="Controllers" expanded="True" />
+              <Node name="Models" expanded="True">
+                <Node name="DTO" expanded="True" />
+                <Node name="Repository" expanded="True" />
+              </Node>
               <Node name="Views" expanded="True">
-                <Node name="Home" expanded="True" />
-                <Node name="Kassa" expanded="True" />
-                <Node name="KassaRecipes" expanded="True" />
                 <Node name="NewPatient" expanded="True" />
-                <Node name="Policlinic" expanded="True" />
-                <Node name="Shared" expanded="True">
-                  <Node name="Components" expanded="True">
-                    <Node name="Navbar" expanded="True" />
-                  </Node>
-                </Node>
+                <Node name="Shared" expanded="True" />
               </Node>
-              <Node name="wwwroot" expanded="True">
-                <Node name="js" expanded="True">
-                  <Node name="admin" expanded="True">
-                    <Node name="companies" expanded="True" />
-                  </Node>
-                  <Node name="kassa" expanded="True" />
-                  <Node name="menu" expanded="True" />
-                  <Node name="new_patient" expanded="True" />
-                </Node>
-                <Node name="res" expanded="True">
-                  <Node name="fonts" expanded="True" />
-                  <Node name="kassa" expanded="True" />
-                </Node>
-              </Node>
+              <Node name="appsettings.json" selected="True" />
             </Node>
           </Node>
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.FlexitHisMVC PreferredExecutionTarget="/Applications/Google Chrome.app" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint enabled="false" file="/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Models/Repository/HospitalRepo.cs" relfile="FlexitHisMVC/Models/Repository/HospitalRepo.cs" line="53" column="1" />
       <Breakpoint file="/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Models/Repository/UserRepo.cs" relfile="FlexitHisMVC/Models/Repository/UserRepo.cs" line="268" column="1" />
       <Breakpoint file="/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Models/Repository/PatientRecordRelRepo.cs" relfile="FlexitHisMVC/Models/Repository/PatientRecordRelRepo.cs" line="160" column="1" />
+      <Breakpoint file="/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Models/Repository/ServiceTypeRepo.cs" relfile="FlexitHisMVC/Models/Repository/ServiceTypeRepo.cs" line="60" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.ItemProperties.FlexitHisMVC PreferredExecutionTarget="/Applications/Google Chrome.app" />
-  <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

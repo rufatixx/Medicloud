@@ -1,4 +1,17 @@
 ﻿@model List<FlexitHisMVC.Models.PatientDocDTO>
+@{
+    ViewData["Title"] = "- Poliklinika";
+}
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+               
+            </div>
+            <h4 class="page-title">Poliklinika</h4>
+        </div>
+    </div>
+</div>
 <!--<div class="container-fluid">
     <div class="row">
         <div class="col-md-3">
@@ -52,71 +65,50 @@
 <div class="container-fluid">
     <div class="row justify-content-center">
         <!-- Left Sidebar for Patients List -->
-        <div class="col-md-3 mr-3 bg-white py-3 rounded-lg">
-            <h6 class="text-left text-muted">Xəstələrin siyahısı</h6>
-            <ul class="list-group ">
-                @{
-                    if (Model.Count > 0)
-                    {
-
-
-                        foreach (var item in Model)
-                        {
-                            <li class="list-group-item d-flex align-items-center border-0" onclick="showPatientDetails(@item.ID)">
-                                <img src="./res/user.svg" class="img-fluid rounded mr-3" width="50" height="50">
-                                <span>@item.name @item.surname </span>
-                            </li>
-
+        <div class="col-md-3 mr-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6 class="font-weight-bold">Xəstələrin siyahısı</h6>
+                    <ul class="list-group ">
+                        @{
+                            if (Model.Count > 0)
+                            {
+                                foreach (var item in Model)
+                                {
+                                    <li class="list-group-item d-flex align-items-center" onclick="showPatientDetails(@item.ID)">
+                                        <img src="./res/user.svg" class="img-fluid rounded-circle mr-3" width="50" height="50">
+                                        <span>@item.name @item.surname </span>
+                                    </li>
+                                }
+                            }
                         }
-                    }
-                }
-
-
-            </ul>
+                    </ul>
+                </div>
+            </div>
         </div>
 
         <!-- Central Part for Detailed Information -->
-        <div class="col-md-4  bg-white rounded-lg py-3 mr-3">
-            <h6 class="text-left text-muted">Xəstənin şəxsi məlumatları</h6>
-            <!-- Patient Profile Picture -->
-
-
-            @if (Model.Count > 0)
-            {
-                <div class="text-left mb-3" id="patientProfilePicture">
-                    <img src="./res/user.svg" class="img-fluid rounded" width="80" height="200">
+        <div class="col-md-4 mr-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6 class="font-weight-bold">Xəstənin şəxsi məlumatları</h6>
+                    <!-- Patient Profile Picture -->
+                    @if (Model.Count > 0)
+                    {
+                        <div class="text-left mb-3" id="patientProfilePicture">
+                            <img src="./res/user.svg" class="img-fluid rounded-circle" width="80" height="80">
+                        </div>
+                        <!-- Patient Information -->
+                        <div id="patientInformation">
+                            <p><strong>Adı:</strong> <label id="name"> @Model[0].name</label></p>
+                            <p><strong>Soyadı:</strong><label id="surname"> @Model[0].surname</label></p>
+                            <!-- Rest of the patient details continue here -->
+                        </div>
+                    }
                 </div>
-                <!-- Patient Information -->
-                <div id="patientInformation">
-                    <p><strong>Adı:</strong> <label id="name"> @Model[0].name</label></p>
-                    <p><strong>Soyadı:</strong><label id="surname"> @Model[0].surname</label></p>
-                    <p><strong>Ata adı:</strong> <label id="father"> @Model[0].father</label></p>
-                    <p><strong>Fin nömrə:</strong> <label id="fin"> @Model[0].fin</label></p>
-
-                    <p>
-                        <strong>Cinsi:</strong>
-                        @if (Model[0].genderID == 1)
-                        {
-                            <label id="gender">
-                                Kişi
-                            </label>
-
-                        }
-                        else
-                        { <label id="gender">
-                                Qadin
-                            </label>}
-
-                    </p>
-                    <p><strong>Doğum tarixi:</strong> <label id="bDate"> @Model[0].bDate.ToShortDateString()</label></p>
-
-                    <p><strong>Əlaqə nömrəsi:</strong> @Model[0].phone</p>
-                    <p><strong>Qeyd:</strong> <label id="note">@Model[0].note</label></p>
-                </div>
-
-            }
-
+            </div>
         </div>
+
 
         <div class="col-md-4  bg-white rounded-lg vh-100">
 
@@ -145,19 +137,19 @@
 
                             </div>
                         </div>
-                        <div class="list-group-flush" style="max-height: 30vh; overflow-y: auto" id="patientDiagnoses">
+                        <div class="list-group list-group-flush" style="max-height: 30vh; overflow-y: auto" id="patientDiagnoses">
                             @*<div class="list-group-item list-group-item-action dep-list" id="1">
 
-                                    <div class="row">
-                                        <div class="col-3">4</div>
-                                        <div class="col-6">Texniki</div>
+                                <div class="row">
+                                    <div class="col-3">4</div>
+                                    <div class="col-6">Texniki</div>
 
-                                        <div class="col-3">
-                                            <a class=" text-danger" onclick="removeDepFromUser(1);">Sil</a>
-                                        </div>
-
+                                    <div class="col-3">
+                                        <a class=" text-danger" onclick="removeDepFromUser(1);">Sil</a>
                                     </div>
-                                </div>*@
+
+                                </div>
+                            </div>*@
                         </div>
                     </div>
 
@@ -181,13 +173,13 @@
                                 </div>
                             </div>
                             @*<div class="row">
-                                    <div class="col-3">İCD Kodu</div>
-                                    <div class="col-6">Adı</div>
+                                <div class="col-3">İCD Kodu</div>
+                                <div class="col-6">Adı</div>
 
-                                </div>*@
+                            </div>*@
                         </div>
-                        <div class="list-group-flush" style="max-height: 30vh; overflow-y: auto" id="patientRecs">
-                            
+                        <div class="list-group list-group-flush" style="max-height: 30vh; overflow-y: auto" id="patientRecs">
+
                         </div>
                     </div>
 
@@ -340,7 +332,7 @@
     else
     {
 
-<script>
+        <script>
     var patientIDglobal;
 
     $(document).ready(function () {
@@ -756,7 +748,7 @@ Yükləmək mümkün olmadı. Zəhmət olmasa biraz sonra yenidən cəhd edin
                  $("#note").text(this.note)
                  getDiagnoses(patient);
                  getRecords();
-                 
+
 
             }
 
@@ -780,7 +772,7 @@ Yükləmək mümkün olmadı. Zəhmət olmasa biraz sonra yenidən cəhd edin
                 foundPatients = data;
                 //alert(data.requestTypes[0].name)
                 $.each(data, function () {
-                    
+
                     $("#foundDiagnoseList").append($("<option />").val(this.id).text(`(${this.icdID}) ${this.name}`));
                 });
 
@@ -840,7 +832,7 @@ Yükləmək mümkün olmadı. Zəhmət olmasa biraz sonra yenidən cəhd edin
         });
 
     }
- 
+
     function getDiagnoses(patientID) {
         $("#patientDiagnoses").empty();
         $.ajax({

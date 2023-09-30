@@ -12,92 +12,83 @@ var foundPatients;
 
 //});
 
-var $dropdown = $("#requestType");
-var $servicesDropdown = $("#services");
-var $policlinicDropdown = $("#departments");
-var $doctorDropdown = $("#doctors");
-var $refererDropdown = $("#referer");
+
 // $('#systemModal').modal('show');
 // $('#systemModalTitle').text("Yüklənir...");
 // $('#systemModalText').html(`<center><div class="spinner-border text-dark mx-auto" role="status">
 //   <span class="sr-only">Loading...</span>
 // </div></center>`);
-// $('#systemModalBtn').attr("hidden","");
-$('#systemModal').modal('show');
-$('#systemModalTitle').text("Yüklənir...");
-$('#systemModalText').html(`<center><div class="spinner-border text-dark mx-auto" role="status">
-    <span class="sr-only">Loading...</span>
-  </div></center>`);
-$('#systemModalBtn').attr("hidden", "");
+
+//$('#systemModalTitle').text("Yüklənir...");
+//$('#systemModalText').html(`<center><div class="spinner-border text-dark mx-auto" role="status">
+//    <span class="sr-only">Loading...</span>
+//  </div></center>`);
+//$('#systemModalBtn').attr("hidden", "");
+var $dropdown = $("#requestType");
+var $servicesDropdown = $("#services");
+var $policlinicDropdown = $("#departments");
+var $doctorDropdown = $("#doctors");
+var $refererDropdown = $("#referer");
+showLoading();
 
 $.ajax({
     type: 'POST',
     url: `/newPatient/getPageModel`,
     data: { hospitalID: parseInt(localStorage.selectedHospital) },
     dataType: 'json',
-    success: function (data, status, xhr) {   // success callback function
-        //  var json = JSON.stringify(data)
-
+    success: function (data, status, xhr) {
         if (typeof (Storage) !== "undefined") {
-
-            localStorage.requestToken = data.requestToken
+            localStorage.requestToken = data.requestToken;
         } else {
-
             // Sorry! No Web Storage support..
         }
-       
+
         pageData = data;
-        //alert(data.requestTypes[0].name)
+
+        $dropdown.empty(); // Clear existing options
         $.each(data.requestTypes, function () {
             $dropdown.append($("<option />").val(this.id).text(this.name));
         });
-        $.each(data.services, function () {
-            //if (this.depID == data.departments[0].id) {
-            //    $servicesDropdown.append($(`<option id=${this.id} />`).val(this.price).text(this.name));
-            //}
-            $servicesDropdown.append($(`<option id=${this.id} />`).val(this.price).text(this.name));
-        });
-        //$.each(data.departments, function () {
-        //    $policlinicDropdown.append($("<option />").val(this.id).text(this.name));
-        //});
+
+        $servicesDropdown.empty(); // Clear existing options
+        if ($dropdown.val() == 1) {
+            $.each(data.services, function () {
+                if (this.serviceTypeID === 1) {
+                    $servicesDropdown.append($(`<option id=${this.id}/>`).val(this.price).text(this.name));
+                }
+            });
+        }
+
+        $doctorDropdown.empty(); // Clear existing options
         $.each(data.personal, function () {
-            //if (this.depID == data.departments[0].id) {
-            //    $doctorDropdown.append($("<option />").val(this.id).text(`${this.name} ${this.surname} ${this.father}`));
-            //}
             $doctorDropdown.append($("<option />").val(this.id).text(`${this.name} ${this.surname} (${this.speciality})`));
         });
+
+        $refererDropdown.empty(); // Clear existing options
         $.each(data.referers, function () {
             $refererDropdown.append($("<option />").val(this.id).text(`${this.name} ${this.surname} ${this.father}`));
         });
+
         $("#price").val($("#services").val());
-        $('#systemModal').modal('hide');
-
-       
-
-        //$('p').append(data.name + ' ' + data.surname);
+        hideLoading();
     },
-    error: function (jqXhr, textStatus, errorMessage) { // error callback
-
-
+    error: function (jqXhr, textStatus, errorMessage) {
         if (jqXhr.status == "401") {
-            localStorage.clear()
+            localStorage.clear();
             $('#systemModalTitle').text("Sessiyanız başa çatıb");
             $('#systemModalText').html(`<p id="systemModalText">Zəhmət olmasa yenidən giriş edin</p>`);
             $('#systemModalBtn').removeAttr("hidden");
-        }
-        else {
-            $('#warningModal').modal('show')
+        } else {
+            $('#warningModal').show();
             $('#warningText').text(jqXhr.status);
         }
-        //  $('#alert').text('Error: ' + errorMessage);
     }
-
 });
 
 
 function serachForPatient() {
 
-    $('#systemModal').modal('show');
+    showLoading();
     $('#systemModalTitle').text("Yüklənir...");
     $('#systemModalText').html(`<center><div class="spinner-border text-dark mx-auto" role="status">
     <span class="sr-only">Loading...</span>
@@ -127,15 +118,15 @@ function serachForPatient() {
                 $("#foundPatients").append($("<option />").val(this.id).text(`${this.name} ${this.surname} ${this.father} (${bDate})`));
             });
            
-            
-            $('#systemModal').modal('hide');
+
+            hideLoading()
 
 
 
             //$('p').append(data.name + ' ' + data.surname);
         },
         error: function (jqXhr, textStatus, errorMessage) { // error callback
-
+            hideLoading()
 
             if (jqXhr.status == "401") {
                 localStorage.clear()
@@ -144,7 +135,7 @@ function serachForPatient() {
                 $('#systemModalBtn').removeAttr("hidden");
             }
             else {
-                $('#warningModal').modal('show')
+                $('#warningModal').show()
                 $('#warningText').text(jqXhr.status);
             }
             //  $('#alert').text('Error: ' + errorMessage);
@@ -255,13 +246,8 @@ function AddPatient() {
 
         var date = new Date(bDate);
             var isoBdate = date.toISOString()
-           
-            $('#systemModal').modal('show');
-            $('#systemModalTitle').text("Yüklənir...");
-            $('#systemModalText').html(`<center><div class="spinner-border text-dark mx-auto" role="status">
-    <span class="sr-only">Loading...</span>
-  </div></center>`);
-        $('#systemModalBtn').attr("hidden", "");
+
+        showLoading()
 
         $.ajax({
             headers: {
@@ -305,8 +291,8 @@ function AddPatient() {
 
                     switch (data.status) {
                         case 1:
-                            $('#systemModal').modal('hide')
-                            $('#warningModal').modal('show')
+                            hideLoading()
+                            $('#warningModal').modal("show")
                             $('#warningText').text('Məlumatlar qeydə alındı');
                             //var newKassaSum = parseFloat(kassaSum) + parseFloat(payment)
                             //kassaSum = newKassaSum
@@ -331,14 +317,14 @@ function AddPatient() {
 
                                 // Sorry! No Web Storage support..
                             }
-                            $('#systemModal').modal('hide');
-                            $('#warningModal').modal('show')
+                            hideLoading
+                            $('#warningModal').modal("show")
                             $('#warningText').text('Xəstə artıq mövcuddur, zəhmət olmasa axtarış bölməsindən istifadə edin');
                             break;
                       
                         default:
-                            $('#systemModal').modal('hide');
-                            $('#warningModal').modal('show')
+                            hideLoading()
+                            $('#warningModal').modal("show")
                             $('#warningText').text('Xəta, biraz sonra yenidən cəhd edin');
                             break;
 
@@ -357,8 +343,8 @@ function AddPatient() {
                     $('#systemModalBtn').removeAttr("hidden");
                 }
                 else {
-                    $('#systemModal').modal('hide');
-                    $('#warningModal').modal('show')
+                    hideLoading()
+                    $('#warningModal').show()
                     $('#warningText').text('Xəta, biraz sonra yenidən cəhd edin');
                     //  $('#alert').text('Error: ' + errorMessage);
                 }

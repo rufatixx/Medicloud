@@ -1,388 +1,533 @@
-﻿
-@{
-    ViewData["Title"] = "Menu";
-}
-
-
-
-
-
-    <div class="m-5">
-        <div class="row " id="hospitalSelector">
-            <div class="col-md-3 mx-auto">
-                <h1 class="text-center"><span class="badge bg-dark mx-auto" id="hospitalLogo" style="text-align:center;border-radius: 50%; color: white;padding-top:60px;   display: block; width: 160px;height:160px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; "></span></h1>
-
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle w-100" type="button" id="selectHospitalDropdownButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    </button>
-                    <div class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton" id="selectHospitalDropdownItems">
-
+﻿<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <form class="d-flex">
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-light" id="dash-daterange">
+                        <span class="input-group-text bg-primary border-primary text-white">
+                            <i class="mdi mdi-calendar-range font-13"></i>
+                        </span>
                     </div>
-                </div>
-            </div>
-        </div>
-        @await Component.InvokeAsync("Modules")
-    </div>
-
-
-<!-- Button trigger modal -->
-<!-- new order Modal -->
-<div class="modal fade" id="newOrderModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Yeni xəstə qəbulu</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form class="needs-validation " novalidate>
-
-                    <div class="form-group">
-                        <!-- <h3 style="text-align:right; margin-right:2%"><span class="badge badge-secondary">Cəmi: ---</span></h1> -->
-                        <div class="row">
-
-                            <div class="col-md-4">
-                                <label for="exampleFormControlInput1">*Xəstənin adi</label>
-                                <input type="text" class="form-control" required id="clientFullName" placeholder="Ad">
-                                <div class="valid-feedback">
-                                    Əla!
-                                </div>
-                                <div class="invalid-feedback">
-                                    Boşluğu doldurun.
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="exampleFormControlInput1">*Xəstənin soyadı</label>
-                                <input type="text" class="form-control" required id="clientFullName" placeholder="Soyad">
-                                <div class="valid-feedback">
-                                    Əla!
-                                </div>
-                                <div class="invalid-feedback">
-                                    Boşluğu doldurun.
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="exampleFormControlInput1">*Xəstənin ata adı</label>
-                                <input type="text" class="form-control" required id="clientFather" placeholder="Ata adı">
-                                <div class="valid-feedback">
-                                    Əla!
-                                </div>
-                                <div class="invalid-feedback">
-                                    Boşluğu doldurun.
-                                </div>
-                            </div>
-
-
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label for="exampleFormControlSelect1">Cins</label>
-                                <select class="form-control dropdown" required id="gender">
-                                    <option value="1">Kişi</option>
-                                    <option value="2">Qadın</option>
-
-                                </select>
-
-
-                                <div class="valid-feedback">
-                                    Əla!
-                                </div>
-                                <div class="invalid-feedback">
-                                    Boşluğu doldurun.
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="exampleFormControlInput1">*Xəstənin əlaqə nömrəsi</label>
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="basic-addon1">+994</span>
-                                    </div>
-                                    <input type="tel" class="form-control" placeholder="51XXXXXXX" id="clientPhone" maxlength="9" aria-describedby="emailHelp" required>
-                                    <div class="valid-feedback">
-                                        Əla!
-                                    </div>
-                                    <div class="invalid-feedback">
-                                        Boşluğu doldurun.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="exampleFormControlInput1">*ŞV Fin</label>
-                                <input type="text" class="form-control" required id="fin" placeholder="Şəxsiyyət vəsiqəsinin fin kodu">
-                                <div class="valid-feedback">
-                                    Əla!
-                                </div>
-                                <div class="invalid-feedback">
-                                    Boşluğu doldurun.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label for="exampleFormControlSelect1">Müraciyət növü</label>
-                                <select class="form-control" required id="requestType">
-                                    <!-- <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option> -->
-                                </select>
-                                <div class="valid-feedback">
-                                    Əla!
-                                </div>
-                                <div class="invalid-feedback">
-                                    Boşluğu doldurun.
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="exampleFormControlSelect1">Qiymət qrupu</label>
-                                <select class="form-control" required disabled>
-                                    <option>Ödənişli</option>
-
-                                </select>
-                                <div class="valid-feedback">
-                                    Əla!
-                                </div>
-                                <div class="invalid-feedback">
-                                    Boşluğu doldurun.
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="exampleFormControlSelect1">Xidmət</label>
-                                <select class="form-control" required id="services" onchange="servicesChanged(this)">
-                                    <!-- <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option> -->
-                                </select>
-                                <div class="valid-feedback">
-                                    Əla!
-                                </div>
-                                <div class="invalid-feedback">
-                                    Boşluğu doldurun.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label for="exampleFormControlSelect1">Poliklinika</label>
-                                <select class="form-control" required id="policlinic">
-                                    <!-- <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option> -->
-                                </select>
-                                <div class="valid-feedback">
-                                    Əla!
-                                </div>
-                                <div class="invalid-feedback">
-                                    Boşluğu doldurun.
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="exampleFormControlSelect1">Poliklinikada xidmət edən həkim</label>
-                                <select class="form-control" required id="doctor">
-                                    <!-- <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option> -->
-                                </select>
-                                <div class="valid-feedback">
-                                    Əla!
-                                </div>
-                                <div class="invalid-feedback">
-                                    Boşluğu doldurun.
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-
-                                <label for="exampleFormControlSelect1">Gödərən həkim</label>
-                                <select class="form-control" id="referer">
-                                    <!-- <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option> -->
-                                </select>
-                                <div class="valid-feedback">
-                                    Əla!
-                                </div>
-                                <div class="invalid-feedback">
-                                    Boşluğu doldurun.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label for="exampleFormControlInput1">Qiymət (AZN)</label>
-                                <input type="tel" class="form-control" required id="price" placeholder="Məbləğ" disabled>
-                                <div class="valid-feedback">
-                                    Əla!
-                                </div>
-                                <div class="invalid-feedback">
-                                    Boşluğu doldurun.
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-
-                                <label for="exampleFormControlInput1">Alınan pul (AZN)</label>
-                                <input type="tel" class="form-control" required id="payment" placeholder="100">
-                                <div class="valid-feedback">
-                                    Əla!
-                                </div>
-                                <div class="invalid-feedback">
-                                    Boşluğu doldurun.
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Xəstənin döğum tarixi:</label>
-                                <input class="form-control" type="date" id="product-end-date"
-                                       name="meeting-time" value="2018-06-12T19:30"
-                                       required>
-                                <div class="valid-feedback">
-                                    Əla!
-                                </div>
-                                <div class="invalid-feedback">
-                                    Boşluğu doldurun.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-
-                        <label>Qeyd</label>
-                        <textarea class="form-control" id="note" rows="3"></textarea>
-                        <div class="valid-feedback">
-                            Əla!
-                        </div>
-                        <div class="invalid-feedback">
-                            Boşluğu doldurun.
-                        </div>
-
-                    </div>
-
-
-
+                    <a href="javascript: void(0);" class="btn btn-primary ms-2">
+                        <i class="mdi mdi-autorenew"></i>
+                    </a>
+                    <a href="javascript: void(0);" class="btn btn-primary ms-1">
+                        <i class="mdi mdi-filter-variant"></i>
+                    </a>
                 </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Ləğv et</button>
-                <button type="button" class="btn btn-primary" onclick="AddOrder()">Qeydə al</button>
-            </div>
+            <h4 class="page-title">Dashboard</h4>
         </div>
     </div>
 </div>
 
+<div class="row">
+    <div class="col-xl-5 col-lg-6">
 
-@section Scripts{
-    <script>
-        
-        if (localStorage.json) {
-            var json = localStorage.json;
-            var parsedJSON = JSON.parse(json);
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card widget-flat">
+                    <div class="card-body">
+                        <div class="float-end">
+                            <i class="mdi mdi-account-multiple widget-icon"></i>
+                        </div>
+                        <h5 class="text-muted fw-normal mt-0" title="Number of Customers">Customers</h5>
+                        <h3 class="mt-3 mb-3">36,254</h3>
+                        <p class="mb-0 text-muted">
+                            <span class="text-success me-2"><i class="mdi mdi-arrow-up-bold"></i> 5.27%</span>
+                            <span class="text-nowrap">Since last month</span>
+                        </p>
+                    </div> <!-- end card-body-->
+                </div> <!-- end card-->
+            </div> <!-- end col-->
 
-            if (parsedJSON.data[0].personal.isAdmin) {
-                $("#adminButton").show();
-            } else {
-                $("#adminButton").hide();
-            }
+            <div class="col-sm-6">
+                <div class="card widget-flat">
+                    <div class="card-body">
+                        <div class="float-end">
+                            <i class="mdi mdi-cart-plus widget-icon"></i>
+                        </div>
+                        <h5 class="text-muted fw-normal mt-0" title="Number of Orders">Orders</h5>
+                        <h3 class="mt-3 mb-3">5,543</h3>
+                        <p class="mb-0 text-muted">
+                            <span class="text-danger me-2"><i class="mdi mdi-arrow-down-bold"></i> 1.08%</span>
+                            <span class="text-nowrap">Since last month</span>
+                        </p>
+                    </div> <!-- end card-body-->
+                </div> <!-- end card-->
+            </div> <!-- end col-->
+        </div> <!-- end row -->
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card widget-flat">
+                    <div class="card-body">
+                        <div class="float-end">
+                            <i class="mdi mdi-currency-usd widget-icon"></i>
+                        </div>
+                        <h5 class="text-muted fw-normal mt-0" title="Average Revenue">Revenue</h5>
+                        <h3 class="mt-3 mb-3">$6,254</h3>
+                        <p class="mb-0 text-muted">
+                            <span class="text-danger me-2"><i class="mdi mdi-arrow-down-bold"></i> 7.00%</span>
+                            <span class="text-nowrap">Since last month</span>
+                        </p>
+                    </div> <!-- end card-body-->
+                </div> <!-- end card-->
+            </div> <!-- end col-->
+
+            <div class="col-sm-6">
+                <div class="card widget-flat">
+                    <div class="card-body">
+                        <div class="float-end">
+                            <i class="mdi mdi-pulse widget-icon"></i>
+                        </div>
+                        <h5 class="text-muted fw-normal mt-0" title="Growth">Growth</h5>
+                        <h3 class="mt-3 mb-3">+ 30.56%</h3>
+                        <p class="mb-0 text-muted">
+                            <span class="text-success me-2"><i class="mdi mdi-arrow-up-bold"></i> 4.87%</span>
+                            <span class="text-nowrap">Since last month</span>
+                        </p>
+                    </div> <!-- end card-body-->
+                </div> <!-- end card-->
+            </div> <!-- end col-->
+        </div> <!-- end row -->
+
+    </div> <!-- end col -->
+
+    <div class="col-xl-7 col-lg-6">
+        <div class="card card-h-100">
+            <div class="d-flex card-header justify-content-between align-items-center">
+                <h4 class="header-title">Projections Vs Actuals</h4>
+                <div class="dropdown">
+                    <a href="index.html#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="mdi mdi-dots-vertical"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end">
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item">Sales Report</a>
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item">Export Report</a>
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item">Profit</a>
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item">Action</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body pt-0">
+                <div dir="ltr">
+                    <div id="high-performing-product" class="apex-charts" data-colors="#727cf5,#e3eaef"></div>
+                </div>
+
+            </div> <!-- end card-body-->
+        </div> <!-- end card-->
+
+    </div> <!-- end col -->
+</div>
+<!-- end row -->
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="d-flex card-header justify-content-between align-items-center">
+                <h4 class="header-title">Revenue</h4>
+                <div class="dropdown">
+                    <a href="index.html#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="mdi mdi-dots-vertical"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end">
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item">Sales Report</a>
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item">Export Report</a>
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item">Profit</a>
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item">Action</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body pt-0">
+                <div class="chart-content-bg">
+                    <div class="row text-center">
+                        <div class="col-sm-6">
+                            <p class="text-muted mb-0 mt-3">Current Week</p>
+                            <h2 class="fw-normal mb-3">
+                                <small class="mdi mdi-checkbox-blank-circle text-primary align-middle me-1"></small>
+                                <span>$58,254</span>
+                            </h2>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="text-muted mb-0 mt-3">Previous Week</p>
+                            <h2 class="fw-normal mb-3">
+                                <small class="mdi mdi-checkbox-blank-circle text-success align-middle me-1"></small>
+                                <span>$69,524</span>
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dash-item-overlay d-none d-md-block" dir="ltr">
+                    <h5>Today's Earning: $2,562.30</h5>
+                    <p class="text-muted font-13 mb-3 mt-2">
+                        Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui.
+                        Etiam rhoncus...
+                    </p>
+                    <a href="javascript: void(0);" class="btn btn-outline-primary">
+                        View Statements
+                        <i class="mdi mdi-arrow-right ms-2"></i>
+                    </a>
+                </div>
+                <div dir="ltr">
+                    <div id="revenue-chart" class="apex-charts mt-3" data-colors="#727cf5,#0acf97"></div>
+                </div>
+            </div> <!-- end card-body-->
+        </div> <!-- end card-->
+    </div> <!-- end col-->
+
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="d-flex card-header justify-content-between align-items-center">
+                <h4 class="header-title">Revenue By Location</h4>
+                <div class="dropdown">
+                    <a href="index.html#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="mdi mdi-dots-vertical"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end">
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item">Sales Report</a>
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item">Export Report</a>
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item">Profit</a>
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item">Action</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body pt-0">
+                <div class="mb-4 mt-3">
+                    <div id="world-map-markers" style="height: 217px"></div>
+                </div>
+
+                <h5 class="mb-1 mt-0 fw-normal">New York</h5>
+                <div class="progress-w-percent">
+                    <span class="progress-value fw-bold">72k </span>
+                    <div class="progress progress-sm">
+                        <div class="progress-bar" role="progressbar" style="width: 72%;" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+
+                <h5 class="mb-1 mt-0 fw-normal">San Francisco</h5>
+                <div class="progress-w-percent">
+                    <span class="progress-value fw-bold">39k </span>
+                    <div class="progress progress-sm">
+                        <div class="progress-bar" role="progressbar" style="width: 39%;" aria-valuenow="39" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+
+                <h5 class="mb-1 mt-0 fw-normal">Sydney</h5>
+                <div class="progress-w-percent">
+                    <span class="progress-value fw-bold">25k </span>
+                    <div class="progress progress-sm">
+                        <div class="progress-bar" role="progressbar" style="width: 39%;" aria-valuenow="39" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+
+                <h5 class="mb-1 mt-0 fw-normal">Singapore</h5>
+                <div class="progress-w-percent mb-0">
+                    <span class="progress-value fw-bold">61k </span>
+                    <div class="progress progress-sm">
+                        <div class="progress-bar" role="progressbar" style="width: 61%;" aria-valuenow="61" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+            </div> <!-- end card-body-->
+        </div> <!-- end card-->
+    </div> <!-- end col-->
+</div>
+<!-- end row -->
+
+<div class="row">
+    <div class="col-xl-6 col-lg-12 order-lg-2 order-xl-1">
+        <div class="card">
+            <div class="d-flex card-header justify-content-between align-items-center">
+                <h4 class="header-title">Top Selling Products</h4>
+                <a href="javascript:void(0);" class="btn btn-sm btn-light">Export <i class="mdi mdi-download ms-1"></i></a>
+            </div>
+
+            <div class="card-body pt-0">
+                <div class="table-responsive">
+                    <table class="table table-centered table-nowrap table-hover mb-0">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <h5 class="font-14 my-1 fw-normal">ASOS Ridley High Waist</h5>
+                                    <span class="text-muted font-13">07 April 2018</span>
+                                </td>
+                                <td>
+                                    <h5 class="font-14 my-1 fw-normal">$79.49</h5>
+                                    <span class="text-muted font-13">Price</span>
+                                </td>
+                                <td>
+                                    <h5 class="font-14 my-1 fw-normal">82</h5>
+                                    <span class="text-muted font-13">Quantity</span>
+                                </td>
+                                <td>
+                                    <h5 class="font-14 my-1 fw-normal">$6,518.18</h5>
+                                    <span class="text-muted font-13">Amount</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h5 class="font-14 my-1 fw-normal">Marco Lightweight Shirt</h5>
+                                    <span class="text-muted font-13">25 March 2018</span>
+                                </td>
+                                <td>
+                                    <h5 class="font-14 my-1 fw-normal">$128.50</h5>
+                                    <span class="text-muted font-13">Price</span>
+                                </td>
+                                <td>
+                                    <h5 class="font-14 my-1 fw-normal">37</h5>
+                                    <span class="text-muted font-13">Quantity</span>
+                                </td>
+                                <td>
+                                    <h5 class="font-14 my-1 fw-normal">$4,754.50</h5>
+                                    <span class="text-muted font-13">Amount</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h5 class="font-14 my-1 fw-normal">Half Sleeve Shirt</h5>
+                                    <span class="text-muted font-13">17 March 2018</span>
+                                </td>
+                                <td>
+                                    <h5 class="font-14 my-1 fw-normal">$39.99</h5>
+                                    <span class="text-muted font-13">Price</span>
+                                </td>
+                                <td>
+                                    <h5 class="font-14 my-1 fw-normal">64</h5>
+                                    <span class="text-muted font-13">Quantity</span>
+                                </td>
+                                <td>
+                                    <h5 class="font-14 my-1 fw-normal">$2,559.36</h5>
+                                    <span class="text-muted font-13">Amount</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h5 class="font-14 my-1 fw-normal">Lightweight Jacket</h5>
+                                    <span class="text-muted font-13">12 March 2018</span>
+                                </td>
+                                <td>
+                                    <h5 class="font-14 my-1 fw-normal">$20.00</h5>
+                                    <span class="text-muted font-13">Price</span>
+                                </td>
+                                <td>
+                                    <h5 class="font-14 my-1 fw-normal">184</h5>
+                                    <span class="text-muted font-13">Quantity</span>
+                                </td>
+                                <td>
+                                    <h5 class="font-14 my-1 fw-normal">$3,680.00</h5>
+                                    <span class="text-muted font-13">Amount</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h5 class="font-14 my-1 fw-normal">Marco Shoes</h5>
+                                    <span class="text-muted font-13">05 March 2018</span>
+                                </td>
+                                <td>
+                                    <h5 class="font-14 my-1 fw-normal">$28.49</h5>
+                                    <span class="text-muted font-13">Price</span>
+                                </td>
+                                <td>
+                                    <h5 class="font-14 my-1 fw-normal">69</h5>
+                                    <span class="text-muted font-13">Quantity</span>
+                                </td>
+                                <td>
+                                    <h5 class="font-14 my-1 fw-normal">$1,965.81</h5>
+                                    <span class="text-muted font-13">Amount</span>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div> <!-- end table-responsive-->
+            </div> <!-- end card-body-->
+        </div> <!-- end card-->
+    </div> <!-- end col-->
+
+    <div class="col-xl-3 col-lg-6 order-lg-1">
+        <div class="card">
+            <div class="d-flex card-header justify-content-between align-items-center">
+                <h4 class="header-title">Total Sales</h4>
+                <div class="dropdown">
+                    <a href="index.html#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="mdi mdi-dots-vertical"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end">
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item">Sales Report</a>
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item">Export Report</a>
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item">Profit</a>
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item">Action</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body pt-0">
+                <div id="average-sales" class="apex-charts mb-4 mt-2"
+                     data-colors="#727cf5,#0acf97,#fa5c7c,#ffbc00"></div>
 
 
-            $.each(parsedJSON.data[0].hospitals, function () {
-                $("#selectHospitalDropdownItems").append(`<a class="dropdown-item" id="${this.id}" onclick="localStorage.selectedHospital='${this.hospitalID}';localStorage.selectedHospitalName='${this.hospitalName}'; $('#selectHospitalDropdownButton').text('${this.hospitalName} '); $('#hospitalLogo').text('${this.hospitalName} ');">${this.hospitalName}</a>`)
+                <div class="chart-widget-list">
+                    <p>
+                        <i class="mdi mdi-square text-primary"></i> Direct
+                        <span class="float-end">$300.56</span>
+                    </p>
+                    <p>
+                        <i class="mdi mdi-square text-danger"></i> Affilliate
+                        <span class="float-end">$135.18</span>
+                    </p>
+                    <p>
+                        <i class="mdi mdi-square text-success"></i> Sponsored
+                        <span class="float-end">$48.96</span>
+                    </p>
+                    <p class="mb-0">
+                        <i class="mdi mdi-square text-warning"></i> E-mail
+                        <span class="float-end">$154.02</span>
+                    </p>
+                </div>
+            </div> <!-- end card-body-->
+        </div> <!-- end card-->
+    </div> <!-- end col-->
 
-            });
-            if (localStorage.selectedHospital != null) {
+    <div class="col-xl-3 col-lg-6 order-lg-1">
+        <div class="card">
+            <div class="d-flex card-header justify-content-between align-items-center">
+                <h4 class="header-title">Recent Activity</h4>
+                <div class="dropdown">
+                    <a href="index.html#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="mdi mdi-dots-vertical"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end">
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item">Sales Report</a>
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item">Export Report</a>
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item">Profit</a>
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item">Action</a>
+                    </div>
+                </div>
+            </div>
 
-                $("#selectHospitalDropdownButton").text(localStorage.selectedHospitalName)
-                $('#hospitalLogo').text(localStorage.selectedHospitalName)
+            <div class="card-body py-0 mb-3" data-simplebar style="max-height: 403px;">
+                <div class="timeline-alt py-0">
+                    <div class="timeline-item">
+                        <i class="mdi mdi-upload bg-info-lighten text-info timeline-icon"></i>
+                        <div class="timeline-item-info">
+                            <a href="javascript:void(0);" class="text-info fw-bold mb-1 d-block">You sold an item</a>
+                            <small>Paul Burgess just purchased “Hyper - Admin Dashboard”!</small>
+                            <p class="mb-0 pb-2">
+                                <small class="text-muted">5 minutes ago</small>
+                            </p>
+                        </div>
+                    </div>
 
+                    <div class="timeline-item">
+                        <i class="mdi mdi-airplane bg-primary-lighten text-primary timeline-icon"></i>
+                        <div class="timeline-item-info">
+                            <a href="javascript:void(0);" class="text-primary fw-bold mb-1 d-block">Product on the Bootstrap Market</a>
+                            <small>
+                                Dave Gamache added
+                                <span class="fw-bold">Admin Dashboard</span>
+                            </small>
+                            <p class="mb-0 pb-2">
+                                <small class="text-muted">30 minutes ago</small>
+                            </p>
+                        </div>
+                    </div>
 
+                    <div class="timeline-item">
+                        <i class="mdi mdi-microphone bg-info-lighten text-info timeline-icon"></i>
+                        <div class="timeline-item-info">
+                            <a href="javascript:void(0);" class="text-info fw-bold mb-1 d-block">Robert Delaney</a>
+                            <small>
+                                Send you message
+                                <span class="fw-bold">"Are you there?"</span>
+                            </small>
+                            <p class="mb-0 pb-2">
+                                <small class="text-muted">2 hours ago</small>
+                            </p>
+                        </div>
+                    </div>
 
-            }
-            else {
-               
-              
-                if (parsedJSON.data[0].hospitals.length > 0) {
+                    <div class="timeline-item">
+                        <i class="mdi mdi-upload bg-primary-lighten text-primary timeline-icon"></i>
+                        <div class="timeline-item-info">
+                            <a href="javascript:void(0);" class="text-primary fw-bold mb-1 d-block">Audrey Tobey</a>
+                            <small>
+                                Uploaded a photo
+                                <span class="fw-bold">"Error.jpg"</span>
+                            </small>
+                            <p class="mb-0 pb-2">
+                                <small class="text-muted">14 hours ago</small>
+                            </p>
+                        </div>
+                    </div>
 
-                    $("#selectHospitalDropdownButton").text(parsedJSON.data[0].hospitals[0].hospitalName)
-                    $('#hospitalLogo').text(parsedJSON.data[0].hospitals[0].hospitalName)
-                    localStorage.selectedHospital = parsedJSON.data[0].hospitals[0].hospitalID;
-                    localStorage.selectedHospitalName = parsedJSON.data[0].hospitals[0].hospitalName;
+                    <div class="timeline-item">
+                        <i class="mdi mdi-upload bg-info-lighten text-info timeline-icon"></i>
+                        <div class="timeline-item-info">
+                            <a href="javascript:void(0);" class="text-info fw-bold mb-1 d-block">You sold an item</a>
+                            <small>Paul Burgess just purchased “Hyper - Admin Dashboard”!</small>
+                            <p class="mb-0 pb-2">
+                                <small class="text-muted">16 hours ago</small>
+                            </p>
+                        </div>
+                    </div>
 
-                }
-                else {
+                    <div class="timeline-item">
+                        <i class="mdi mdi-airplane bg-primary-lighten text-primary timeline-icon"></i>
+                        <div class="timeline-item-info">
+                            <a href="javascript:void(0);" class="text-primary fw-bold mb-1 d-block">Product on the Bootstrap Market</a>
+                            <small>
+                                Dave Gamache added
+                                <span class="fw-bold">Admin Dashboard</span>
+                            </small>
+                            <p class="mb-0 pb-2">
+                                <small class="text-muted">22 hours ago</small>
+                            </p>
+                        </div>
+                    </div>
 
-                    $("#newPatientButton").hide();
-                    $("#selectHospitalDropdownButton").hide();
-                    $('#hospitalLogo').hide()
-                    $("#kassaButton").hide();
-                    $("#policlinicButton").hide();
+                    <div class="timeline-item">
+                        <i class="mdi mdi-microphone bg-info-lighten text-info timeline-icon"></i>
+                        <div class="timeline-item-info">
+                            <a href="javascript:void(0);" class="text-info fw-bold mb-1 d-block">Robert Delaney</a>
+                            <small>
+                                Send you message
+                                <span class="fw-bold">"Are you there?"</span>
+                            </small>
+                            <p class="mb-0 pb-2">
+                                <small class="text-muted">2 days ago</small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- end timeline -->
+            </div> <!-- end slimscroll -->
+        </div>
+        <!-- end card-->
+    </div>
+    <!-- end col -->
 
-                    if (!parsedJSON.data[0].personal.isAdmin) {
-                        $("#hospitalSelector").text("Heç bir xəstəxanaya icazəniz yoxdur, zəhmət olmasa çağrı mərkəzimizə müraciət edin");
-                    } 
-                    //$('#warningModal').modal('show')
-
-                    //$('#hospitalSelector').text('Heç bir xəstəxanaya icazəniz yoxdur, zəhmət olmasa çağrı mərkəzimizə müraciət edin');
-                    //$("#warningModalButton").show();
-                    //$("#warningModalButton").text("Çıxış");
-                    //$("#warningModalButton").on("click", function () {
-
-                    //    $.post("/login/logout", function (data) {
-
-                    //    });
-                    //    $("#warningModalButton").hide();
-                    //    localStorage.clear();
-                    //    window.location.replace("/login");
-
-                    //});
-                }
-
-            }
-
-
-            //if (localStorage.lastActivePage) {
-
-
-            //    $("#main-content").load(localStorage.lastActivePage)
-
-            //}
-            //else {
-            //    $("#main-content").load("/menu")
-            //}
-        }
-        else {
-
-
-            $('#systemModalTitle').text("Sessiyanız başa çatıb");
-            $('#systemModalText').html(`<p id="systemModalText">Zəhmət olmasa yenidən giriş edin</p>`);
-            $('#systemModalBtn').removeAttr("hidden");
-            $('#systemModal').modal('show')
-            //window.location.replace("/");
-
-        }
-        function servicesChanged(a) {
-            //alert($(a).val())
-            $("#price").val($(a).val());
-        }
-    </script>
-
-
-<script src="~/js/menu/menu.js" asp-append-version="true"></script>
-}
+</div>
+<!-- end row -->

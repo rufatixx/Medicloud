@@ -1,0 +1,44 @@
+﻿@model PriceGroup
+
+@{
+    ViewBag.Title = "Qiymət qrupu yarat";
+}
+
+<h2>@ViewBag.Title</h2>
+<div>
+    @Html.ActionLink("Qiymət qruplarına dön", "Index")
+</div>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div>
+        @*<h4>Price Group</h4>*@
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="mb-3">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "form-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="mb-3">
+            @Html.LabelFor(model => model.ParentID, htmlAttributes: new { @class = "form-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.ParentID, ViewBag.ParentGroups as SelectList, "-- Baş qrupu seçin --", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ParentID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Yarat" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+
+

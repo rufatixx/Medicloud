@@ -18,29 +18,29 @@ var allHospitalsWithBuildings;
 $("#departments").empty();
 $("#buildingsInDep").empty();
 
-$.get(
-    "/Admin/Company/GetAllHospitalsWithBuildings",
+//$.get(
+//    "/Admin/Company/GetAllHospitalsWithBuildings",
 
-    function (data) {
-        allHospitalsWithBuildings = data;
-        if (data.hospitals.length > 0) {
+//    function (data) {
+//        allHospitalsWithBuildings = data;
+//        if (data.hospitals.length > 0) {
 
-            $.each(data.hospitals, function () {
+//            $.each(data.hospitals, function () {
 
-                $("#departments").append($("<option />").val(this.id).text(this.hospitalName));
-
-
-
-
-            });
-            getPageData();
-        }
+//                $("#departments").append($("<option />").val(this.id).text(this.hospitalName));
 
 
 
 
-    });
+//            });
+//            getPageData();
+//        }
 
+
+
+
+//    });
+getPageData();
 
 var groupsInBuilding;
 var companiesInBuilding;
@@ -87,6 +87,7 @@ $.each(gender, function () {
 
 
 function getPageData() {
+  
     showLoading();
     $("#companiesInBuilding").empty();
     $("#cGroups").empty();
@@ -97,7 +98,7 @@ function getPageData() {
     $.ajax({
         type: 'POST',
         url: `/admin/companies/getCompanyGroups`,
-        data: { hospitalID: $("#departments").val() },
+        data: { hospitalID: localStorage.selectedHospital },
         dataType: 'json',
         success: function (data, status, xhr) {   // success callback function
             //  var json = JSON.stringify(data)
@@ -128,7 +129,7 @@ groupsInBuilding = data.data;
             $.ajax({
                 type: 'POST',
                 url: `/admin/companies/getCompanies`,
-                data: { hospitalID: $("#departments").val() },
+                data: { hospitalID: localStorage.selectedHospital },
                 dataType: 'json',
                 success: function (data, status, xhr) {   // success callback function
                     //  var json = JSON.stringify(data)
@@ -384,7 +385,7 @@ async function insertCGroup() {
         url: `/admin/companies/insertCompanyGroup`,
         data: {
            
-            hospitalID: $("#departments").val(),
+            hospitalID: localStorage.selectedHospital,
             cGroupName: $("#groupName").val(),
             cGroupType: $("#cGroupType").val(),
         },
@@ -442,7 +443,7 @@ async function insertCompany() {
         url: `/admin/companies/insertCompany`,
         data: {
          
-            hospitalID: $("#departments").val(),
+            hospitalID: localStorage.selectedHospital,
             companyName: $("#companyName").val(),
             cGroupID: $("#cGroupsInModal").val(),
         },
@@ -507,7 +508,7 @@ function updateCompanyGroup() {
         data: {
          
             id: $(".groupSettings").prop('id'),
-            hospitalID: $("#departments").val(),
+            hospitalID: localStorage.selectedHospital,
             name:$("#groupNameInSettings").val(),
             isActive: groupIsActive,
            
@@ -570,7 +571,7 @@ function updateCompany() {
         data: {
            
             id: $(".companySettings").prop('id'),
-            hospitalID: $("#departments").val(),
+            hospitalID: localStorage.selectedHospital,
             name:$("#companyNameInSettings").val(),
             isActive: companyIsActive,
            

@@ -9,16 +9,17 @@ using FlexitHisMVC.Models.Domain;
 
 namespace FlexitHisMVC.Models.Repository
 {
-    public class PatientRequestRepo
+    public class PatientCardRepo
     {
         private readonly string ConnectionString;
 
-        public PatientRequestRepo(string conString)
+        public PatientCardRepo(string conString)
         {
             ConnectionString = conString;
         }
-        public bool InsertPatientRequest(AddPatientDTO newPatient, int userID, long lastID)
+        public long InsertPatientCard(AddPatientDTO newPatient, int userID, long lastID)
         {
+            long cardID = 0;
             try
             {
 
@@ -31,7 +32,7 @@ namespace FlexitHisMVC.Models.Repository
 
 
 
-                    using (MySqlCommand com = new MySqlCommand(@"INSERT INTO patient_request (requestTypeID,userID,patientID,hospitalID,serviceID,docID,priceGroupID,note,referDocID)
+                    using (MySqlCommand com = new MySqlCommand(@"INSERT INTO patient_card (requestTypeID,userID,patientID,hospitalID,serviceID,docID,priceGroupID,note,referDocID)
                       Values (@requestTypeID, @userID,@patientID,@hospitalID,@serviceID,@docID,@priceGroupID,@note,@referDocID)"
                     , connection))
 
@@ -49,19 +50,19 @@ namespace FlexitHisMVC.Models.Repository
 
 
                         com.ExecuteNonQuery();
-
+                        cardID = com.LastInsertedId;
                     }
 
 
                     connection.Close();
                 }
-                return true;
+                return cardID;
             }
             catch (Exception ex)
             {
                 FlexitHisMVC.StandardMessages.CallSerilog(ex);
                 Console.WriteLine(ex.Message);
-                return false;
+                return cardID;
             }
         }
         public List<PatientKassaDTO> GetDebtorPatients(long hospitalID)
@@ -79,7 +80,7 @@ namespace FlexitHisMVC.Models.Repository
                     connection.Open();
 
                     using (MySqlCommand com = new MySqlCommand($@"SELECT a.id, a.patientID, a.serviceID, p.name, p.surname, p.father, s.price as servicePrice, s.name as serviceName
-FROM patient_request a
+FROM patient_card a
 JOIN patients p ON a.patientID = p.id
 JOIN services s ON a.serviceID = s.id
 WHERE a.hospitalID = @hospitalID AND a.finished = 0;
@@ -146,7 +147,7 @@ WHERE a.hospitalID = @hospitalID AND a.finished = 0;
                     connection.Open();
 
                     using (MySqlCommand com = new MySqlCommand($@"SELECT a.id, a.patientID, a.serviceID,a.note, p.name, p.surname, p.father,p.clientPhone,p.bDate,p.genderID,p.fin
-FROM patient_request a
+FROM patient_card a
 INNER JOIN patients p ON a.patientID = p.id
 WHERE a.docID = @docID
 GROUP BY a.patientID
@@ -221,7 +222,7 @@ GROUP BY a.patientID
 
 
 
-                    using (MySqlCommand com = new MySqlCommand(@"UPDATE patient_request SET finished=1 WHERE patientID=@patientID", connection))
+                    using (MySqlCommand com = new MySqlCommand(@"UPDATE patient_card SET finished=1 WHERE patientID=@patientID", connection))
 
                     {
 

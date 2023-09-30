@@ -17,42 +17,11 @@ var allHospitalsWithBuildings;
 $("#departments").empty();
 $("#buildingsInDep").empty();
 
-$.get(
-    "/Admin/Department/GetAllHospitalsWithBuildings",
-
-    function (data) {
-        allHospitalsWithBuildings = data;
-        if (data.hospitals.length > 0) {
-
-            $.each(data.hospitals, function () {
-
-                $("#departments").append($("<option />").val(this.id).text(this.hospitalName));
 
 
 
 
-            });
-        }
-        if (data.buildings.length > 0) {
 
-
-            $.each(data.buildings, function () {
-
-                if (this.hospitalID == data.hospitals[0].id) {
-
-                    $("#buildings").append($("<option />").val(this.id).text(this.name));
-                    $("#depBuilding").append($("<option />").val(this.id).text(this.name));
-
-
-
-
-                }
-            });
-            getPageData();
-        }
-
-
-    });
 
 
 var depsInfoInBuilding;
@@ -101,16 +70,41 @@ getPageData();
 function getPageData() {
     showLoading();
 
-   
-   
     $("#depTypesInBuilding").empty();
     $("#depsInBuilding").empty();
     $("#insertDepType").empty();
     $("#depType").empty();
-
-  
-
+    var selectedBuildingID = $("#buildings").val();
+    $("#buildings").empty();
     $.ajax({
+        type: 'POST',
+        url: `/admin/departments/getBuildings`,
+        data: { hospitalID: localStorage.selectedHospital },
+        dataType: 'json',
+        success: function (data, status, xhr) {   // success callback function
+            if (data.status != 4) {
+                if (typeof (Storage) !== "undefined") {
+                    localStorage.requestToken = data.requestToken;
+                } else {
+                    // Sorry! No Web Storage support..
+                }
+            }
+            
+            deps = data.data;
+            deps.reverse();
+            $.each(data.data, function () {
+                $("#buildings").append($("<option />").val(this.id).text(this.name));
+                $("#depBuilding").append($("<option />").val(this.id).text(this.name));
+            });
+
+            // Set the selected building option if it exists
+            if (selectedBuildingID && $("#buildings option[value='" + selectedBuildingID + "']").length > 0) {
+                $("#buildings").val(selectedBuildingID);
+                $("#depBuilding").val(selectedBuildingID);
+            }
+
+
+             $.ajax({
         type: 'POST',
         url: `/admin/departments/getDepartmentsInfoByBuilding`,
         data: { userToken: localStorage.getItem("userToken"), requestToken: localStorage.getItem("requestToken"), buildingID: $("#buildings").val() },
@@ -236,67 +230,41 @@ function getPageData() {
 
     });
 
-    //$.ajax({
-    //    type: 'POST',
-    //    url: `/admin/departments/getBuildings`,
-    //    data: { hospitalID: localStorage.selectedHospital },
-    //    dataType: 'json',
-    //    success: function (data, status, xhr) {   // success callback function
-    //        //  var json = JSON.stringify(data)
-    //        if (data.status != 4) {
-    //            if (typeof (Storage) !== "undefined") {
 
-    //                localStorage.requestToken = data.requestToken
-    //            } else {
+        },
+        error: function (jqXhr, textStatus, errorMessage) { // error callback
 
-    //                // Sorry! No Web Storage support..
-    //            }
-    //        }
+            hideLoading();
 
+            switch (jqXhr.status) {
+                case 401:
+                    localStorage.clear()
+                    $('#systemModalTitle').text("Sessiyanız başa çatıb");
+                    $('#systemModalText').html(`<p id="systemModalText">Zəhmət olmasa yenidən giriş edin</p>`);
+                    $('#systemModalBtn').removeAttr("hidden");
+                    $('#systemModal').modal("show");
+                    break;
+                case 0:
+                    $('#warningModal').modal('show')
+                    $('#warningTitle').text(`Şəbəkə xətası`);
+                    $('#warningText').text(`Serverlərimizlə əlaqə yoxdur`);
+                    break;
+                default:
+                    $('#warningModal').modal('show')
+                    $('#warningTitle').text(`Server xətası`);
+                    $('#warningText').text(`Status: ${jqXhr.status}`);
+                    break;
 
-    //        deps = data.data;
-    //        //alert(data.requestTypes[0].name)
-    //        $.each(data.data, function () {
-    //            $("#buildings").append($("<option />").val(this.id).text(this.name));
-    //            $("#depBuilding").append($("<option />").val(this.id).text(this.name));
+            }
 
-    //        });
+            //  $('#alert').text('Error: ' + errorMessage);
+        }
+
+    });
+
+   
 
     
-
-
-
-    //    },
-    //    error: function (jqXhr, textStatus, errorMessage) { // error callback
-
-    //        hideLoading();
-
-    //        switch (jqXhr.status) {
-    //            case 401:
-    //                localStorage.clear()
-    //                $('#systemModalTitle').text("Sessiyanız başa çatıb");
-    //                $('#systemModalText').html(`<p id="systemModalText">Zəhmət olmasa yenidən giriş edin</p>`);
-    //                $('#systemModalBtn').removeAttr("hidden");
-    //                $('#systemModal').modal("show");
-    //                break;
-    //            case 0:
-    //                $('#warningModal').modal('show')
-    //                $('#warningTitle').text(`Şəbəkə xətası`);
-    //                $('#warningText').text(`Serverlərimizlə əlaqə yoxdur`);
-    //                break;
-    //            default:
-    //                $('#warningModal').modal('show')
-    //                $('#warningTitle').text(`Server xətası`);
-    //                $('#warningText').text(`Status: ${jqXhr.status}`);
-    //                break;
-
-    //        }
-
-    //        //  $('#alert').text('Error: ' + errorMessage);
-    //    }
-
-    //});
-
 }
 
 function selectDepTypeInBuilding(typeID) {
@@ -317,23 +285,23 @@ function selectDepTypeInBuilding(typeID) {
 
 
 function hospitalChanged() {
-    $("#depIsActive").prop("disabled", true);
-    $("#isRandevuActive").prop("disabled", true);
-    $('#docRequired').attr('disabled', true);
-    $('#gender').attr('disabled', true);
-    $('#depType').attr('disabled', true);
-    $("#depBuilding").attr('disabled', true);
-    $("#buildings").empty();
-    $("#depBuilding").empty();
+    //$("#depIsActive").prop("disabled", true);
+    //$("#isRandevuActive").prop("disabled", true);
+    //$('#docRequired').attr('disabled', true);
+    //$('#gender').attr('disabled', true);
+    //$('#depType').attr('disabled', true);
+    //$("#depBuilding").attr('disabled', true);
+    //$("#buildings").empty();
+    //$("#depBuilding").empty();
    
-    $.each(allHospitalsWithBuildings.buildings, function () {
-        if ($("#departments").val() == this.hospitalID) {
-            $("#buildings").append($("<option />").val(this.id).text(this.name));
-            $("#depBuilding").append($("<option />").val(this.id).text(this.name));
+    //$.each(allHospitalsWithBuildings.buildings, function () {
+    //    if ($("#departments").val() == this.hospitalID) {
+    //        $("#buildings").append($("<option />").val(this.id).text(this.name));
+    //        $("#depBuilding").append($("<option />").val(this.id).text(this.name));
 
-        }
+    //    }
 
-    });
+    //});
     getPageData();
    
 }
@@ -422,7 +390,7 @@ async function insertDep() {
         data: {
            
             buildingID: $("#buildings").val(),
-            depName: $("#depName").val(),
+            name: $("#name").val(),
             depTypeID: $("#insertDepType").val()
         },
         dataType: 'json',

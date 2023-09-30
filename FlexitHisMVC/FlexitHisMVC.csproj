@@ -25,9 +25,7 @@
     <None Remove="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" />
     <None Remove="Areas\Admin\Views\Personal\Components\PersonalView\" />
     <None Remove="Areas\Admin\ViewComponents\" />
-    <None Remove="Views\Shared\Components\" />
     <None Remove="ViewComponents\" />
-    <None Remove="Views\Shared\Components\Navbar\" />
     <None Remove="Areas\Admin\Views\Department\" />
     <None Remove="Areas\Admin\Views\Home\" />
     <None Remove="Data\" />
@@ -39,6 +37,7 @@
     <None Remove="Models\Repository\" />
     <None Remove="Models\Service\" />
     <None Remove="Views\Policlinic\" />
+    <None Remove="Areas\Admin\Views\PriceGroup\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\js\menu\" />
@@ -54,9 +53,7 @@
     <Folder Include="wwwroot\js\admin\departments\" />
     <Folder Include="Areas\Admin\Views\Personal\" />
     <Folder Include="Areas\Admin\ViewComponents\" />
-    <Folder Include="Views\Shared\Components\" />
     <Folder Include="ViewComponents\" />
-    <Folder Include="Views\Shared\Components\Navbar\" />
     <Folder Include="Areas\Admin\Views\Department\" />
     <Folder Include="Areas\Admin\Views\Home\" />
     <Folder Include="Models\DTO\" />
@@ -73,6 +70,7 @@
     <Folder Include="wwwroot\res\login\" />
     <Folder Include="Views\Policlinic\" />
     <Folder Include="wwwroot\res\fonts\" />
+    <Folder Include="Areas\Admin\Views\PriceGroup\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MySql.Data" Version="8.0.31" />
@@ -94,6 +92,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Update="Views\NewPatient">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
+    <None Update="Views\Shared\OLDLayout.html">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
+    <None Update="Areas\Admin\Views\PriceGroup\AddService.cshtml:">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>

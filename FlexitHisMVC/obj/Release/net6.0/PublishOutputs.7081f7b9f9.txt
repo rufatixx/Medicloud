@@ -1,6 +1,7 @@
 /Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/bin/Release/net6.0/publish/FlexitHisMVC
 /Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/bin/Release/net6.0/publish/appsettings.Development.json
 /Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/bin/Release/net6.0/publish/appsettings.json
+/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/bin/Release/net6.0/publish/Views/Shared/OLDLayout.html
 /Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/bin/Release/net6.0/publish/refs/Microsoft.AspNetCore.Antiforgery.dll
 /Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/bin/Release/net6.0/publish/refs/Microsoft.AspNetCore.Authentication.Abstractions.dll
 /Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/bin/Release/net6.0/publish/refs/Microsoft.AspNetCore.Authentication.Cookies.dll

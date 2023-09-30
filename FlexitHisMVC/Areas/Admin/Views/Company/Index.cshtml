@@ -1,55 +1,39 @@
 ﻿
 @{
-    ViewData["Title"] = "Şöbə tərifi";
+    ViewData["Title"] = "- Təşkilatlar";
 }
-<div class="page-header m-1" style="display:inline">
 
-    <div class="row m-1 ">
-        <div class="col-8">
-            <div class="row ">
-                <h1>
-                    <label class="border-right pr-2 ">Təşkilat tərifi</label>
-                </h1>
-                <div class="form-group pl-2 d-flex align-content-center flex-wrap">
-                    <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                        <button type="button" class="btn btn-primary "
-                                onclick=" $('#addCompanyGroup').modal('show');">
-                            + Qrup əlavə et
-                        </button>
-                        <button type="button" class="btn btn-primary border-left"
-                                onclick=" $('#addCompany').modal('show');">
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <form class="d-flex">
+
+
+
+                   
+                    <a class="btn border-left ms-2"
+                       onclick=" $('#addCompany').modal('show');">
+                        <span class="input-group-text bg-primary border-primary text-white">
                             + Təşkilat əlavə et
-                        </button>
+                        </span>
+                    </a>
 
+                    <a class="btn ms-2"
+                       onclick=" $('#addCompanyGroup').modal('show');">
+                        <span class="input-group-text bg-primary border-primary text-white">
+                            + Qrup əlavə et
+                        </span>
 
-                    </div>
-                </div>
+                    </a>
+
+                </form>
             </div>
-        </div>
-        <div class="col-4">
-            <div class="form-group float-right">
-                <div class="row">
-
-                    @*<div class="col-md-12">
-
-
-            <label for="exampleFormControlSelect1">Müəssisə</label>
-            <select class="form-control" id="departments" onchange="hospitalChanged(this)">
-            </select>
-
-
-
-        </div>*@
-                    @await Component.InvokeAsync("Departments")
-
-
-                </div>
-            </div>
+            <h4 class="page-title">Təşkilatlar</h4>
         </div>
     </div>
-
-
 </div>
+
 <form class="needs-validation" novalidate style="margin-top:2%" id="form1">
 
     <div class="row">
@@ -251,9 +235,7 @@
         <div class="modal-content">
             <div class="modal-header">
 
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             </div>
             <div class="modal-body">
                 <form>
@@ -383,9 +365,7 @@
         <div class="modal-content">
             <div class="modal-header">
 
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             </div>
             <div class="modal-body">
                 <form>

@@ -155,12 +155,12 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
 
         [HttpPost]
         [Route("admin/departments/insertDepartment")]
-        public IActionResult InsertDepartment(long buildingID, string depName, int depTypeID)
+        public IActionResult InsertDepartment(long buildingID, string name, int depTypeID)
         {
             if (HttpContext.Session.GetInt32("userid") != null)
             {
                 DepartmentsRepo insert = new DepartmentsRepo(ConnectionString);
-                var response = insert.InsertDepartments(buildingID, depName, depTypeID);
+                var response = insert.InsertDepartments(buildingID, name, depTypeID);
 
                
                     return Ok(response);

@@ -9,6 +9,1026 @@
       "PackagePath": "staticwebassets/.DS_Store"
     },
     {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/css/app-saas.min.css",
+      "PackagePath": "staticwebassets/assets/css/app-saas.min.css"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/css/icons.min.css",
+      "PackagePath": "staticwebassets/assets/css/icons.min.css"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/fonts/Nunito-Bold-.eot",
+      "PackagePath": "staticwebassets/assets/fonts/Nunito-Bold-.eot"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/fonts/Nunito-Bold.eot",
+      "PackagePath": "staticwebassets/assets/fonts/Nunito-Bold.eot"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/fonts/Nunito-Bold.svg",
+      "PackagePath": "staticwebassets/assets/fonts/Nunito-Bold.svg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/fonts/Nunito-Bold.ttf",
+      "PackagePath": "staticwebassets/assets/fonts/Nunito-Bold.ttf"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/fonts/Nunito-Bold.woff",
+      "PackagePath": "staticwebassets/assets/fonts/Nunito-Bold.woff"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/fonts/Nunito-Light-.eot",
+      "PackagePath": "staticwebassets/assets/fonts/Nunito-Light-.eot"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/fonts/Nunito-Light.eot",
+      "PackagePath": "staticwebassets/assets/fonts/Nunito-Light.eot"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/fonts/Nunito-Light.svg",
+      "PackagePath": "staticwebassets/assets/fonts/Nunito-Light.svg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/fonts/Nunito-Light.ttf",
+      "PackagePath": "staticwebassets/assets/fonts/Nunito-Light.ttf"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/fonts/Nunito-Light.woff",
+      "PackagePath": "staticwebassets/assets/fonts/Nunito-Light.woff"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/fonts/Nunito-Medium-.eot",
+      "PackagePath": "staticwebassets/assets/fonts/Nunito-Medium-.eot"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/fonts/Nunito-Medium.eot",
+      "PackagePath": "staticwebassets/assets/fonts/Nunito-Medium.eot"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/fonts/Nunito-Medium.svg",
+      "PackagePath": "staticwebassets/assets/fonts/Nunito-Medium.svg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/fonts/Nunito-Medium.ttf",
+      "PackagePath": "staticwebassets/assets/fonts/Nunito-Medium.ttf"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/fonts/Nunito-Medium.woff",
+      "PackagePath": "staticwebassets/assets/fonts/Nunito-Medium.woff"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/fonts/Nunito-Regular-.eot",
+      "PackagePath": "staticwebassets/assets/fonts/Nunito-Regular-.eot"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/fonts/Nunito-Regular.eot",
+      "PackagePath": "staticwebassets/assets/fonts/Nunito-Regular.eot"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/fonts/Nunito-Regular.svg",
+      "PackagePath": "staticwebassets/assets/fonts/Nunito-Regular.svg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/fonts/Nunito-Regular.ttf",
+      "PackagePath": "staticwebassets/assets/fonts/Nunito-Regular.ttf"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/fonts/Nunito-Regular.woff",
+      "PackagePath": "staticwebassets/assets/fonts/Nunito-Regular.woff"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/fonts/Nunito-SemiBold-.eot",
+      "PackagePath": "staticwebassets/assets/fonts/Nunito-SemiBold-.eot"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/fonts/Nunito-SemiBold.eot",
+      "PackagePath": "staticwebassets/assets/fonts/Nunito-SemiBold.eot"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/fonts/Nunito-SemiBold.svg",
+      "PackagePath": "staticwebassets/assets/fonts/Nunito-SemiBold.svg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/fonts/Nunito-SemiBold.ttf",
+      "PackagePath": "staticwebassets/assets/fonts/Nunito-SemiBold.ttf"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/fonts/Nunito-SemiBold.woff",
+      "PackagePath": "staticwebassets/assets/fonts/Nunito-SemiBold.woff"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/fonts/materialdesignicons-webfont-.eot",
+      "PackagePath": "staticwebassets/assets/fonts/materialdesignicons-webfont-.eot"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/fonts/materialdesignicons-webfont-v=6.5.95.eot",
+      "PackagePath": "staticwebassets/assets/fonts/materialdesignicons-webfont-v=6.5.95.eot"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/fonts/materialdesignicons-webfont-v=6.5.95.ttf",
+      "PackagePath": "staticwebassets/assets/fonts/materialdesignicons-webfont-v=6.5.95.ttf"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/fonts/materialdesignicons-webfont-v=6.5.95.woff",
+      "PackagePath": "staticwebassets/assets/fonts/materialdesignicons-webfont-v=6.5.95.woff"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/fonts/materialdesignicons-webfont-v=6.5.95.woff2",
+      "PackagePath": "staticwebassets/assets/fonts/materialdesignicons-webfont-v=6.5.95.woff2"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/fonts/remixicon-t=1590207869815.eot",
+      "PackagePath": "staticwebassets/assets/fonts/remixicon-t=1590207869815.eot"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/fonts/remixicon-t=1590207869815.svg",
+      "PackagePath": "staticwebassets/assets/fonts/remixicon-t=1590207869815.svg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/fonts/remixicon-t=1590207869815.ttf",
+      "PackagePath": "staticwebassets/assets/fonts/remixicon-t=1590207869815.ttf"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/fonts/remixicon-t=1590207869815.woff",
+      "PackagePath": "staticwebassets/assets/fonts/remixicon-t=1590207869815.woff"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/fonts/remixicon-t=1590207869815.woff2",
+      "PackagePath": "staticwebassets/assets/fonts/remixicon-t=1590207869815.woff2"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/fonts/unicons-34404611.eot",
+      "PackagePath": "staticwebassets/assets/fonts/unicons-34404611.eot"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/fonts/unicons-34404611.svg",
+      "PackagePath": "staticwebassets/assets/fonts/unicons-34404611.svg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/fonts/unicons-34404611.ttf",
+      "PackagePath": "staticwebassets/assets/fonts/unicons-34404611.ttf"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/fonts/unicons-34404611.woff",
+      "PackagePath": "staticwebassets/assets/fonts/unicons-34404611.woff"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/fonts/unicons-34404611.woff2",
+      "PackagePath": "staticwebassets/assets/fonts/unicons-34404611.woff2"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/barcode.png",
+      "PackagePath": "staticwebassets/assets/images/barcode.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/bg-auth.jpg",
+      "PackagePath": "staticwebassets/assets/images/bg-auth.jpg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/bg-pattern.png",
+      "PackagePath": "staticwebassets/assets/images/bg-pattern.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/brands/bitbucket.png",
+      "PackagePath": "staticwebassets/assets/images/brands/bitbucket.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/brands/dribbble.png",
+      "PackagePath": "staticwebassets/assets/images/brands/dribbble.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/brands/dropbox.png",
+      "PackagePath": "staticwebassets/assets/images/brands/dropbox.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/brands/g-suite.png",
+      "PackagePath": "staticwebassets/assets/images/brands/g-suite.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/brands/github.png",
+      "PackagePath": "staticwebassets/assets/images/brands/github.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/brands/slack.png",
+      "PackagePath": "staticwebassets/assets/images/brands/slack.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/favicon.ico",
+      "PackagePath": "staticwebassets/assets/images/favicon.ico"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/flags/germany.jpg",
+      "PackagePath": "staticwebassets/assets/images/flags/germany.jpg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/flags/italy.jpg",
+      "PackagePath": "staticwebassets/assets/images/flags/italy.jpg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/flags/russia.jpg",
+      "PackagePath": "staticwebassets/assets/images/flags/russia.jpg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/flags/spain.jpg",
+      "PackagePath": "staticwebassets/assets/images/flags/spain.jpg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/flags/us.jpg",
+      "PackagePath": "staticwebassets/assets/images/flags/us.jpg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/layouts/layout-1.png",
+      "PackagePath": "staticwebassets/assets/images/layouts/layout-1.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/layouts/layout-2.png",
+      "PackagePath": "staticwebassets/assets/images/layouts/layout-2.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/layouts/layout-3.png",
+      "PackagePath": "staticwebassets/assets/images/layouts/layout-3.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/layouts/layout-4.png",
+      "PackagePath": "staticwebassets/assets/images/layouts/layout-4.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/layouts/layout-5.png",
+      "PackagePath": "staticwebassets/assets/images/layouts/layout-5.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/layouts/layout-6.png",
+      "PackagePath": "staticwebassets/assets/images/layouts/layout-6.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/logo-dark-sm.png",
+      "PackagePath": "staticwebassets/assets/images/logo-dark-sm.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/logo-dark.png",
+      "PackagePath": "staticwebassets/assets/images/logo-dark.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/logo-sm.png",
+      "PackagePath": "staticwebassets/assets/images/logo-sm.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/logo.png",
+      "PackagePath": "staticwebassets/assets/images/logo.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/payments/cod.png",
+      "PackagePath": "staticwebassets/assets/images/payments/cod.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/payments/discover.png",
+      "PackagePath": "staticwebassets/assets/images/payments/discover.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/payments/master.png",
+      "PackagePath": "staticwebassets/assets/images/payments/master.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/payments/payoneer.png",
+      "PackagePath": "staticwebassets/assets/images/payments/payoneer.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/payments/paypal.png",
+      "PackagePath": "staticwebassets/assets/images/payments/paypal.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/payments/stripe.png",
+      "PackagePath": "staticwebassets/assets/images/payments/stripe.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/payments/visa.png",
+      "PackagePath": "staticwebassets/assets/images/payments/visa.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/products/product-1.jpg",
+      "PackagePath": "staticwebassets/assets/images/products/product-1.jpg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/products/product-2.jpg",
+      "PackagePath": "staticwebassets/assets/images/products/product-2.jpg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/products/product-3.jpg",
+      "PackagePath": "staticwebassets/assets/images/products/product-3.jpg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/products/product-4.jpg",
+      "PackagePath": "staticwebassets/assets/images/products/product-4.jpg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/products/product-5.jpg",
+      "PackagePath": "staticwebassets/assets/images/products/product-5.jpg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/products/product-6.jpg",
+      "PackagePath": "staticwebassets/assets/images/products/product-6.jpg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/projects/project-1.jpg",
+      "PackagePath": "staticwebassets/assets/images/projects/project-1.jpg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/projects/project-2.jpg",
+      "PackagePath": "staticwebassets/assets/images/projects/project-2.jpg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/projects/project-3.jpg",
+      "PackagePath": "staticwebassets/assets/images/projects/project-3.jpg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/projects/project-4.jpg",
+      "PackagePath": "staticwebassets/assets/images/projects/project-4.jpg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/small/small-1.jpg",
+      "PackagePath": "staticwebassets/assets/images/small/small-1.jpg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/small/small-2.jpg",
+      "PackagePath": "staticwebassets/assets/images/small/small-2.jpg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/small/small-3.jpg",
+      "PackagePath": "staticwebassets/assets/images/small/small-3.jpg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/small/small-4.jpg",
+      "PackagePath": "staticwebassets/assets/images/small/small-4.jpg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/small/small-5.jpg",
+      "PackagePath": "staticwebassets/assets/images/small/small-5.jpg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/small/small-6.jpg",
+      "PackagePath": "staticwebassets/assets/images/small/small-6.jpg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/small/small-7.jpg",
+      "PackagePath": "staticwebassets/assets/images/small/small-7.jpg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/svg/email-campaign.svg",
+      "PackagePath": "staticwebassets/assets/images/svg/email-campaign.svg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/svg/features-1.svg",
+      "PackagePath": "staticwebassets/assets/images/svg/features-1.svg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/svg/features-2.svg",
+      "PackagePath": "staticwebassets/assets/images/svg/features-2.svg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/svg/file-searching.svg",
+      "PackagePath": "staticwebassets/assets/images/svg/file-searching.svg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/svg/help-icon.svg",
+      "PackagePath": "staticwebassets/assets/images/svg/help-icon.svg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/svg/mail_sent.svg",
+      "PackagePath": "staticwebassets/assets/images/svg/mail_sent.svg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/svg/maintenance.svg",
+      "PackagePath": "staticwebassets/assets/images/svg/maintenance.svg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/svg/report.svg",
+      "PackagePath": "staticwebassets/assets/images/svg/report.svg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/svg/startman.svg",
+      "PackagePath": "staticwebassets/assets/images/svg/startman.svg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/svg/startup.svg",
+      "PackagePath": "staticwebassets/assets/images/svg/startup.svg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/users/avatar-1.jpg",
+      "PackagePath": "staticwebassets/assets/images/users/avatar-1.jpg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/users/avatar-10.jpg",
+      "PackagePath": "staticwebassets/assets/images/users/avatar-10.jpg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/users/avatar-2.jpg",
+      "PackagePath": "staticwebassets/assets/images/users/avatar-2.jpg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/users/avatar-3.jpg",
+      "PackagePath": "staticwebassets/assets/images/users/avatar-3.jpg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/users/avatar-4.jpg",
+      "PackagePath": "staticwebassets/assets/images/users/avatar-4.jpg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/users/avatar-5.jpg",
+      "PackagePath": "staticwebassets/assets/images/users/avatar-5.jpg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/users/avatar-6.jpg",
+      "PackagePath": "staticwebassets/assets/images/users/avatar-6.jpg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/users/avatar-7.jpg",
+      "PackagePath": "staticwebassets/assets/images/users/avatar-7.jpg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/users/avatar-8.jpg",
+      "PackagePath": "staticwebassets/assets/images/users/avatar-8.jpg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/users/avatar-9.jpg",
+      "PackagePath": "staticwebassets/assets/images/users/avatar-9.jpg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/waves.png",
+      "PackagePath": "staticwebassets/assets/images/waves.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/app.min.js",
+      "PackagePath": "staticwebassets/assets/js/app.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/hyper-config.js",
+      "PackagePath": "staticwebassets/assets/js/hyper-config.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/hyper-syntax.js",
+      "PackagePath": "staticwebassets/assets/js/hyper-syntax.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.apex-area.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.apex-area.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.apex-bar.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.apex-bar.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.apex-boxplot.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.apex-boxplot.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.apex-bubble.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.apex-bubble.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.apex-candlestick.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.apex-candlestick.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.apex-column.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.apex-column.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.apex-heatmap.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.apex-heatmap.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.apex-line.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.apex-line.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.apex-mixed.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.apex-mixed.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.apex-pie.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.apex-pie.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.apex-polar-area.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.apex-polar-area.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.apex-radar.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.apex-radar.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.apex-radialbar.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.apex-radialbar.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.apex-scatter.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.apex-scatter.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.apex-sparklines.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.apex-sparklines.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.apex-timeline.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.apex-timeline.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.apex-treemap.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.apex-treemap.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.britechart.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.britechart.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.calendar.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.calendar.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.chartjs-area.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.chartjs-area.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.chartjs-bar.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.chartjs-bar.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.chartjs-line.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.chartjs-line.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.chartjs-other.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.chartjs-other.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.crm-dashboard.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.crm-dashboard.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.crm-management.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.crm-management.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.crm-project.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.crm-project.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.customers.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.customers.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.dashboard-analytics.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.dashboard-analytics.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.dashboard-projects.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.dashboard-projects.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.dashboard-wallet.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.dashboard-wallet.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.dashboard.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.dashboard.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.datatable-init.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.datatable-init.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.form-wizard.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.form-wizard.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.google-maps.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.google-maps.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.inbox.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.inbox.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.jstree.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.jstree.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.materialdesignicons.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.materialdesignicons.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.products.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.products.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.profile.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.profile.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.project-detail.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.project-detail.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.project-gantt.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.project-gantt.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.quilljs.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.quilljs.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.remixicons.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.remixicons.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.sellers.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.sellers.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.simplemde.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.simplemde.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.sparkline.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.sparkline.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.tasks.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.tasks.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.timepicker.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.timepicker.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.toastr.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.toastr.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.typehead.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.typehead.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.vector-maps.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.vector-maps.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/pages/demo.widgets.js",
+      "PackagePath": "staticwebassets/assets/js/pages/demo.widgets.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/ui/component.dragula.js",
+      "PackagePath": "staticwebassets/assets/js/ui/component.dragula.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/ui/component.fileupload.js",
+      "PackagePath": "staticwebassets/assets/js/ui/component.fileupload.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/ui/component.range-slider.js",
+      "PackagePath": "staticwebassets/assets/js/ui/component.range-slider.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/ui/component.rating.js",
+      "PackagePath": "staticwebassets/assets/js/ui/component.rating.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/ui/component.todo.js",
+      "PackagePath": "staticwebassets/assets/js/ui/component.todo.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/js/vendor.min.js",
+      "PackagePath": "staticwebassets/assets/js/vendor.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css",
+      "PackagePath": "staticwebassets/assets/vendor/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/admin-resources/jquery.vectormap/maps/jquery-jvectormap-au-mill-en.js",
+      "PackagePath": "staticwebassets/assets/vendor/admin-resources/jquery.vectormap/maps/jquery-jvectormap-au-mill-en.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/admin-resources/jquery.vectormap/maps/jquery-jvectormap-ca-lcc-en.js",
+      "PackagePath": "staticwebassets/assets/vendor/admin-resources/jquery.vectormap/maps/jquery-jvectormap-ca-lcc-en.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/admin-resources/jquery.vectormap/maps/jquery-jvectormap-es-merc.js",
+      "PackagePath": "staticwebassets/assets/vendor/admin-resources/jquery.vectormap/maps/jquery-jvectormap-es-merc.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/admin-resources/jquery.vectormap/maps/jquery-jvectormap-es-mill.js",
+      "PackagePath": "staticwebassets/assets/vendor/admin-resources/jquery.vectormap/maps/jquery-jvectormap-es-mill.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/admin-resources/jquery.vectormap/maps/jquery-jvectormap-europe-mill-en.js",
+      "PackagePath": "staticwebassets/assets/vendor/admin-resources/jquery.vectormap/maps/jquery-jvectormap-europe-mill-en.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/admin-resources/jquery.vectormap/maps/jquery-jvectormap-fr-merc-en.js",
+      "PackagePath": "staticwebassets/assets/vendor/admin-resources/jquery.vectormap/maps/jquery-jvectormap-fr-merc-en.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/admin-resources/jquery.vectormap/maps/jquery-jvectormap-in-mill-en.js",
+      "PackagePath": "staticwebassets/assets/vendor/admin-resources/jquery.vectormap/maps/jquery-jvectormap-in-mill-en.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/admin-resources/jquery.vectormap/maps/jquery-jvectormap-uk-mill-en.js",
+      "PackagePath": "staticwebassets/assets/vendor/admin-resources/jquery.vectormap/maps/jquery-jvectormap-uk-mill-en.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/admin-resources/jquery.vectormap/maps/jquery-jvectormap-us-il-chicago-mill-en.js",
+      "PackagePath": "staticwebassets/assets/vendor/admin-resources/jquery.vectormap/maps/jquery-jvectormap-us-il-chicago-mill-en.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/admin-resources/jquery.vectormap/maps/jquery-jvectormap-us-merc-en.js",
+      "PackagePath": "staticwebassets/assets/vendor/admin-resources/jquery.vectormap/maps/jquery-jvectormap-us-merc-en.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js",
+      "PackagePath": "staticwebassets/assets/vendor/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/apexcharts/apexcharts.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/apexcharts/apexcharts.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker.min.css",
+      "PackagePath": "staticwebassets/assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker.min.css"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/bootstrap-maxlength/bootstrap-maxlength.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/bootstrap-maxlength/bootstrap-maxlength.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/bootstrap-timepicker/css/bootstrap-timepicker.min.css",
+      "PackagePath": "staticwebassets/assets/vendor/bootstrap-timepicker/css/bootstrap-timepicker.min.css"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/bootstrap-timepicker/js/bootstrap-timepicker.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/bootstrap-timepicker/js/bootstrap-timepicker.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css",
+      "PackagePath": "staticwebassets/assets/vendor/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/britecharts/bundled/britecharts.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/britecharts/bundled/britecharts.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/britecharts/css/britecharts.min.css",
+      "PackagePath": "staticwebassets/assets/vendor/britecharts/css/britecharts.min.css"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/chart.js/chart.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/chart.js/chart.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/clipboard/clipboard.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/clipboard/clipboard.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/d3/d3.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/d3/d3.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/datatables.net-bs5/css/dataTables.bootstrap5.min.css",
+      "PackagePath": "staticwebassets/assets/vendor/datatables.net-bs5/css/dataTables.bootstrap5.min.css"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/datatables.net-bs5/js/dataTables.bootstrap5.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/datatables.net-bs5/js/dataTables.bootstrap5.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css",
+      "PackagePath": "staticwebassets/assets/vendor/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/datatables.net-buttons/js/buttons.flash.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/datatables.net-buttons/js/buttons.flash.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/datatables.net-buttons/js/buttons.html5.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/datatables.net-buttons/js/buttons.html5.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/datatables.net-buttons/js/buttons.print.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/datatables.net-buttons/js/buttons.print.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/datatables.net-buttons/js/dataTables.buttons.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/datatables.net-buttons/js/dataTables.buttons.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/datatables.net-fixedcolumns-bs5/css/fixedColumns.bootstrap5.min.css",
+      "PackagePath": "staticwebassets/assets/vendor/datatables.net-fixedcolumns-bs5/css/fixedColumns.bootstrap5.min.css"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/datatables.net-fixedcolumns-bs5/js/fixedColumns.bootstrap5.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/datatables.net-fixedcolumns-bs5/js/fixedColumns.bootstrap5.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/datatables.net-fixedheader-bs5/css/fixedHeader.bootstrap5.min.css",
+      "PackagePath": "staticwebassets/assets/vendor/datatables.net-fixedheader-bs5/css/fixedHeader.bootstrap5.min.css"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/datatables.net-keytable/js/dataTables.keyTable.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/datatables.net-keytable/js/dataTables.keyTable.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css",
+      "PackagePath": "staticwebassets/assets/vendor/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/datatables.net-responsive/js/dataTables.responsive.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/datatables.net-responsive/js/dataTables.responsive.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/datatables.net-select-bs5/css/select.bootstrap5.min.css",
+      "PackagePath": "staticwebassets/assets/vendor/datatables.net-select-bs5/css/select.bootstrap5.min.css"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/datatables.net-select/js/dataTables.select.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/datatables.net-select/js/dataTables.select.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/datatables.net/js/jquery.dataTables.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/datatables.net/js/jquery.dataTables.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/daterangepicker/daterangepicker.css",
+      "PackagePath": "staticwebassets/assets/vendor/daterangepicker/daterangepicker.css"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/daterangepicker/daterangepicker.js",
+      "PackagePath": "staticwebassets/assets/vendor/daterangepicker/daterangepicker.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/daterangepicker/moment.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/daterangepicker/moment.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/dragula/dragula.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/dragula/dragula.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/dropzone/min/dropzone.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/dropzone/min/dropzone.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/flatpickr/flatpickr.min.css",
+      "PackagePath": "staticwebassets/assets/vendor/flatpickr/flatpickr.min.css"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/flatpickr/flatpickr.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/flatpickr/flatpickr.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/frappe-gantt/frappe-gantt.min.css",
+      "PackagePath": "staticwebassets/assets/vendor/frappe-gantt/frappe-gantt.min.css"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/frappe-gantt/frappe-gantt.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/frappe-gantt/frappe-gantt.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/fullcalendar/main.min.css",
+      "PackagePath": "staticwebassets/assets/vendor/fullcalendar/main.min.css"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/fullcalendar/main.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/fullcalendar/main.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/gmaps/gmaps.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/gmaps/gmaps.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/handlebars/handlebars.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/handlebars/handlebars.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/highlightjs/highlight.pack.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/highlightjs/highlight.pack.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/ion-rangeslider/js/ion.rangeSlider.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/ion-rangeslider/js/ion.rangeSlider.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/jquery-datatables-checkboxes/js/dataTables.checkboxes.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/jquery-datatables-checkboxes/js/dataTables.checkboxes.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/jquery-mask-plugin/jquery.mask.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/jquery-mask-plugin/jquery.mask.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/jquery-sparkline/jquery.sparkline.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/jquery-sparkline/jquery.sparkline.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/jquery-toast-plugin/jquery.toast.min.css",
+      "PackagePath": "staticwebassets/assets/vendor/jquery-toast-plugin/jquery.toast.min.css"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/jquery-toast-plugin/jquery.toast.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/jquery-toast-plugin/jquery.toast.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/jquery.rateit/scripts/jquery.rateit.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/jquery.rateit/scripts/jquery.rateit.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/jstree/jstree.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/jstree/jstree.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/jstree/themes/default/32px.png",
+      "PackagePath": "staticwebassets/assets/vendor/jstree/themes/default/32px.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/jstree/themes/default/40px.png",
+      "PackagePath": "staticwebassets/assets/vendor/jstree/themes/default/40px.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/jstree/themes/default/style.min.css",
+      "PackagePath": "staticwebassets/assets/vendor/jstree/themes/default/style.min.css"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/jstree/themes/default/throbber.gif",
+      "PackagePath": "staticwebassets/assets/vendor/jstree/themes/default/throbber.gif"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/moment/min/moment.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/moment/min/moment.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/quill/quill.bubble.css",
+      "PackagePath": "staticwebassets/assets/vendor/quill/quill.bubble.css"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/quill/quill.core.css",
+      "PackagePath": "staticwebassets/assets/vendor/quill/quill.core.css"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/quill/quill.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/quill/quill.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/quill/quill.snow.css",
+      "PackagePath": "staticwebassets/assets/vendor/quill/quill.snow.css"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/select2/css/select2.min.css",
+      "PackagePath": "staticwebassets/assets/vendor/select2/css/select2.min.css"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/select2/js/select2.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/select2/js/select2.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/simplemde/simplemde.min.css",
+      "PackagePath": "staticwebassets/assets/vendor/simplemde/simplemde.min.css"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/simplemde/simplemde.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/simplemde/simplemde.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/vendor/typeahead.js/typeahead.bundle.min.js",
+      "PackagePath": "staticwebassets/assets/vendor/typeahead.js/typeahead.bundle.min.js"
+    },
+    {
       "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/css/site.css",
       "PackagePath": "staticwebassets/css/site.css"
     },
