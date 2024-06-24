@@ -1,74 +1,71 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Threading.Tasks;
-using FlexitHisCore.Models;
-using FlexitHisCore.Repositories;
+﻿using Medicloud.BLL.Service;
+using Medicloud.DAL.Repository;
+using Medicloud.Data;
+using Medicloud.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using FlexitHisMVC.Models;
-
-using FlexitHisMVC.Data;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace FlexitHisMVC.Areas.Admin.Controllers
+namespace Medicloud.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class CompanyController : Controller
     {
-        // GET: /<controller>/
-        public IActionResult Index()
-        {
-            if (HttpContext.Session.GetInt32("userid") != null)
-            {
-                return View();
-            }
-            else
-            {
-                return RedirectToAction("Index", "Login", new { Area = "" });
-            }
-        }
-        private readonly string ConnectionString;
+
+        private readonly string _connectionString;
         private readonly IWebHostEnvironment _hostingEnvironment;
         public IConfiguration Configuration;
+        BuildingRepo buildingRepo;
+        OrganizationService organizationService;
         //Communications communications;
         public CompanyController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
         {
             Configuration = configuration;
-            ConnectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
+            _connectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
             _hostingEnvironment = hostingEnvironment;
+            buildingRepo = new BuildingRepo(_connectionString);
+            organizationService = new OrganizationService(_connectionString);
             //communications = new Communications(Configuration, _hostingEnvironment);
         }
-        [HttpGet]
-        public IActionResult GetAllHospitalsWithBuildings()
+
+        [Authorize]
+        // GET: /<controller>/
+        public IActionResult Index()
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+
+            return View();
+
+        }
+
+
+        [HttpGet]
+        public IActionResult GetAllOrganizationsWithBuildings()
+        {
+            if (User.Identity.IsAuthenticated)
             {
-                BuildingRepo buildingRepo = new BuildingRepo(ConnectionString);
-                HospitalRepo hospitalRepo = new HospitalRepo(ConnectionString);
+
                 dynamic obj = new System.Dynamic.ExpandoObject();
-                obj.hospitals = hospitalRepo.GetHospitalList();
+                obj.organizations = organizationService.GetAllOrganizations();
                 obj.buildings = buildingRepo.GetAllBuildings();
                 return Ok(obj);
 
             }
-            else
-            {
-                return Unauthorized();
-            }
+
+            return Unauthorized();
+
 
 
         }
 
         [HttpPost]
         [Route("admin/companies/getCompanyGroups")]
-        public IActionResult getCompanyGroups(int hospitalID)
+        public IActionResult getCompanyGroups(int organizationID)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
-                CompanyGroupRepo select = new CompanyGroupRepo(ConnectionString);
-                List<CompanyGroup> list = select.GetCompanyGroups(hospitalID);
+                CompanyGroupRepo select = new CompanyGroupRepo(_connectionString);
+                List<CompanyGroup> list = select.GetCompanyGroups(organizationID);
                 ResponseDTO<CompanyGroup> response = new ResponseDTO<CompanyGroup>();
                 response.data = new List<CompanyGroup>();
                 response.data = list;
@@ -77,105 +74,99 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
 
 
             }
-            else
-            {
-                return Unauthorized();
-            }
+
+            return Unauthorized();
+
 
         }
         [HttpPost]
         [Route("admin/companies/insertCompanyGroup")]
-        public IActionResult insertCompanyGroup(int hospitalID, string cGroupName, int cGroupType)
+        public IActionResult insertCompanyGroup(int organizationID, string cGroupName, int cGroupType)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
-                CompanyGroupRepo insert = new CompanyGroupRepo(ConnectionString);
-                var response = insert.InsertCompanyGroup(Convert.ToInt32(HttpContext.Session.GetInt32("userid")), hospitalID, cGroupName, cGroupType);
+                CompanyGroupRepo insert = new CompanyGroupRepo(_connectionString);
+                var response = insert.InsertCompanyGroup(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID")), organizationID, cGroupName, cGroupType);
 
 
                 return Ok(response);
 
 
             }
-            else
-            {
-                return Unauthorized();
-            }
+
+            return Unauthorized();
+
 
         }
         [HttpPost]
         [Route("admin/companies/insertCompany")]
-        public IActionResult insertCompany(int hospitalID, string companyName, int cGroupID)
+        public IActionResult insertCompany(int organizationID, string companyName, int cGroupID)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
-                CompanyRepo insert = new CompanyRepo(ConnectionString);
-                var response = insert.InsertCompany(Convert.ToInt32(HttpContext.Session.GetInt32("userid")), hospitalID, companyName, cGroupID);
+                CompanyRepo insert = new CompanyRepo(_connectionString);
+                var response = insert.InsertCompany(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID")), organizationID, companyName, cGroupID);
 
 
                 return Ok(response);
 
             }
-            else
-            {
-                return Unauthorized();
-            }
+
+            return Unauthorized();
+
 
         }
         [HttpPost]
         [Route("admin/companies/getCompanies")]
-        public IActionResult getCompanies(int hospitalID)
+        public IActionResult getCompanies(int organizationID)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
-                CompanyRepo select = new CompanyRepo(ConnectionString);
-                var list = select.GetCompanies(hospitalID);
+                CompanyRepo select = new CompanyRepo(_connectionString);
+                var list = select.GetCompanies(organizationID);
                 ResponseDTO<Company> response = new ResponseDTO<Company>();
                 response.data = new List<Company>();
                 response.data = list;
                 return Ok(response);
 
             }
-            else
-            {
-                return Unauthorized();
-            }
+
+            return Unauthorized();
+
 
         }
         [HttpPost]
         [Route("admin/companies/updateCompanyGroup")]
-        public IActionResult UpdateCompanyGroup(int hospitalID, int id, string name, int isActive)
+        public IActionResult UpdateCompanyGroup(int organizationID, int id, string name, int isActive)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
-                CompanyGroupRepo insert = new CompanyGroupRepo(ConnectionString);
-                var response = insert.UpdateCompanyGroup(Convert.ToInt32(HttpContext.Session.GetInt32("userid")), hospitalID, id, name, isActive);
-               
+                CompanyGroupRepo insert = new CompanyGroupRepo(_connectionString);
+                var response = insert.UpdateCompanyGroup(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID")), organizationID, id, name, isActive);
+
 
                 return Ok(response);
 
             }
-            else
-            {
-                return Unauthorized();
-            }
+
+            return Unauthorized();
+
 
         }
         [HttpPost]
         [Route("admin/companies/updateCompany")]
-        public IActionResult UpdateCompany(int hospitalID, int id, string name, int isActive)
+        public IActionResult UpdateCompany(int organizationID, int id, string name, int isActive)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
-                CompanyRepo insert = new CompanyRepo(ConnectionString);
-                var response = insert.UpdateCompany(Convert.ToInt32(HttpContext.Session.GetInt32("userid")), hospitalID, id, name, isActive);
+                CompanyRepo insert = new CompanyRepo(_connectionString);
+                var response = insert.UpdateCompany(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID")), organizationID, id, name, isActive);
                 return Ok(response);
 
             }
-            else
-            {
-                return Unauthorized();
-            }
+
+            return Unauthorized();
+
 
         }
 

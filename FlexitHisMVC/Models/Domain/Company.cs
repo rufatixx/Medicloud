@@ -1,5 +1,5 @@
 ﻿using System;
-namespace FlexitHisMVC.Models
+namespace Medicloud.Models
 {
     public class Company
     {

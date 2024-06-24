@@ -1,29 +1,51 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using FlexitHisMVC.Models;
+using Medicloud.Models;
+using Microsoft.AspNetCore.Authorization;
+using Medicloud.Models.Repository;
+using System.Configuration;
+using Medicloud.Models.ViewModels;
+using Medicloud.Data;
 
-namespace FlexitHisMVC.Controllers
+namespace Medicloud.Controllers
 {
-
+    [Authorize]
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        string _connectionString;
+        PatientRepo patientRepo;
+        PatientCardRepo patientCardRepo;
+        PaymentOperationsRepo paymentOperationsRepo;
+        ServicesRepo servicesRepo;
+       
+        public HomeController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
         {
-            _logger = logger;
+            _connectionString = configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
+            
+            patientRepo = new PatientRepo(_connectionString);
+            patientCardRepo = new PatientCardRepo(_connectionString);
+            paymentOperationsRepo = new PaymentOperationsRepo(_connectionString);
+            servicesRepo = new ServicesRepo(_connectionString);
         }
 
         public IActionResult Index()
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+
+            var viewModel = new HomePageViewModel
             {
-                return View();
-            }
-            else
-            {
-                return RedirectToAction("Index", "Login");
-            }
+                patientStatisticsDTO = patientRepo.GetPatientStatistics(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"))),
+                patientCardStatisticsDTO = patientCardRepo.GetPatientCardStatistics(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"))),
+                paymentOperationStatisticsDTO = paymentOperationsRepo.GetPaymentOperationsStatistics(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"))),
+                top5sellingServiceStatistics = servicesRepo.GetTop5SellingServiceStatistics(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"))),
+                dailyIncomeStatistics = paymentOperationsRepo.GetDailyStatistics(Convert.ToInt64(HttpContext.Session.GetString("Medicloud_kassaID"))),
+                weeklyIncomeStatistics = paymentOperationsRepo.GetWeeklyStatistics(Convert.ToInt64(HttpContext.Session.GetString("Medicloud_kassaID")))
+                
+                // Populate other lists and properties as needed
+            };
+
+            return View(viewModel);
+           
+          
         }
 
         public IActionResult Privacy()

@@ -1,0 +1,125 @@
+﻿@{
+    ViewData["Title"] = "- eNövbələr";
+
+}
+
+@using Medicloud.Models.Domain;
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+
+                <a href="javascript:window.print()">
+                    <button type="button" class="btn btn-primary w-md bg-blue-light radius-10"><i class="ri-printer-line"></i>Çap et</button>
+                </a>
+
+
+                <a id="new-appointment" type="reset" data-bs-toggle="modal" data-bs-target="#add-appointment-modal" class="btn btn-primary w-md bg-blue radius-10">+ Yeni Randevu</a>
+
+            </div>
+            <h2 class="page-title">Müayinələr</h2>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade cus_modal" id="add-appointment-modal" data-bs-backdrop="static" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header py-3 px-4 border-bottom-0">
+                <button type="button" class="btn btn-light btn-sm delete-button d-none" onclick="deleteAppointment()">
+                    <i class="far fa-trash-alt"></i>
+                </button>
+                <h5 class="modal-title" id="modal-title">Yeni Randevu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="resetModal()"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form class="needs-validation" name="event-form" id="newAppointmentForm" action="../user/functions/main.php" method="post" novalidate>
+                    <input type="hidden" id="type_appointment" name="action" value="newAppointment">
+                    <input type="hidden" name="doctor_id" value="3223">
+                    <input type="hidden" id="appointment_id" name="id" value="">
+                    <div class="mb-3">
+                        <label for="patient_id" class="form-label">Pasient seç</label>
+                        <select class="form-select" name="patient_id" id="patient_id" required>
+                            <option selected disabled value="">Pasient seç</option>
+                            <option value="63704">dsadas</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="patientMobileModal" class="form-label">Mobil Nömrə</label>
+                        <input type="tel" class="form-control" id="patientMobileModal" name="phoneModal" placeholder="+994" required>
+                        <div class="form-check mt-2">
+                            <input class="form-check-input" type="checkbox" id="not_phone" name="not_phone">
+                            <label class="form-check-label" for="not_phone">Mobil nömrə mövcud deyil</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="appointment_service" class="form-label">Xidmət/Prosedur</label>
+                                <select class="form-select" name="service_name" id="appointment_service" required>
+                                    <option selected disabled value="">Xidməti seçin</option>
+                                    <option value="Konsultasiya">Konsultasiya</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="hospital" class="form-label">Klinika</label>
+                                <input type="text" class="form-control" id="hospital" name="hospital" placeholder="Klinika" value="klinika" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="appointment_date" class="form-label">Gün</label>
+                                <input type="text" class="form-control" id="appointment_date" name="appointment_date" placeholder="Gün" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="slot_time_id" class="form-label">Vaxt</label>
+                                <select class="form-select" id="slot_time_id" name="slot_time_id" disabled>
+                                    <option selected disabled value="">Seçilməyib</option>
+                                    <!-- Time slots options should be listed here -->
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="apply" class="form-label">Müraciyyət</label>
+                        <select class="form-select" name="apply" id="apply" required>
+                            <option selected disabled value="">Seç</option>
+                            <option value="social_media">Sosial Media</option>
+                            <option value="doctor_referral">Həkim göndərişi</option>
+                            <option value="clinic_referral">Klinika göndərişi</option>
+                            <option value="personal">Şöbə</option>
+                        </select>
+                    </div>
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-info">Təyin et</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+
+    <script>$('#choices-single-patient, #choices-single-patient-mobile').select2({
+            closeOnSelect: true
+        });
+
+        $('#choices-single-patient, #choices-single-patient-mobile').on('select2:select', function () {
+            const select = this;
+            const selectedValue = select.value;
+            window.location.href = 'patient-edit.php?patient_id=' + selectedValue;
+        });</script>
+}

@@ -2,17 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using FlexitHisMVC.Data;
-using FlexitHisMVC.Models;
-using FlexitHisMVC.Models.Domain;
-using FlexitHisMVC.Models.Repository;
-using FlexitHisMVC.Repository;
+using Medicloud.Data;
+using Medicloud.Models;
+using Medicloud.Models.Domain;
+using Medicloud.Models.Repository;
+using Medicloud.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace FlexitHisMVC.Controllers
+namespace Medicloud.Controllers
 {
+   
     public class PoliclinicController : Controller
     {
         private readonly string ConnectionString;
@@ -25,25 +27,21 @@ namespace FlexitHisMVC.Controllers
             _hostingEnvironment = hostingEnvironment;
 
         }
+        [Authorize]
         // GET: /<controller>/
         public IActionResult Index()
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
-            {
+          
                 PatientCardRepo patientRequestDAO = new PatientCardRepo(ConnectionString);
-                var response = patientRequestDAO.GetPatientsByDr(Convert.ToInt32(HttpContext.Session.GetInt32("userid")));
+                var response = patientRequestDAO.GetPatientsByDr(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID")));
                 return View(response);
-            }
-            else
-            {
-                return RedirectToAction("Index", "Login");
-            }
+          
             //return View();
         }
         [HttpGet]
         public IActionResult SearchDiagnose(string icdID, string name)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
                 DiagnoseRepo diagnoseRepo = new DiagnoseRepo(ConnectionString);
                 var response = diagnoseRepo.SearchDiagnose(icdID, name);
@@ -58,7 +56,7 @@ namespace FlexitHisMVC.Controllers
         [HttpGet]
         public IActionResult AddDiagnose(int patientID, long diagnoseID)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
                 PatientDiagnoseRel patientDiagnoseRel = new PatientDiagnoseRel(ConnectionString);
                 var response = patientDiagnoseRel.InsertPatientToDiagnose(patientID, diagnoseID);
@@ -73,7 +71,7 @@ namespace FlexitHisMVC.Controllers
         [HttpGet]
         public IActionResult GetDiagnoses(int patientID)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
                 PatientDiagnoseRel patientDiagnoseRel = new PatientDiagnoseRel(ConnectionString);
                 var response = patientDiagnoseRel.GetPatientToDiagnose(patientID);
@@ -88,7 +86,7 @@ namespace FlexitHisMVC.Controllers
         [HttpGet]
         public IActionResult DeleteDiagnose(int patientDiagnoseRelID)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
                 PatientDiagnoseRel patientDiagnoseRel = new PatientDiagnoseRel(ConnectionString);
                 var response = patientDiagnoseRel.RemovePatientToDiagnose(patientDiagnoseRelID);
@@ -103,7 +101,7 @@ namespace FlexitHisMVC.Controllers
         [HttpGet]
         public IActionResult GetRecords(int patientID)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
                 PatientRecordRelRepo patientRecordRelRepo = new PatientRecordRelRepo(ConnectionString);
                 var response = patientRecordRelRepo.GetRecords(patientID);
@@ -118,7 +116,7 @@ namespace FlexitHisMVC.Controllers
         [HttpGet]
         public IActionResult DeleteRec(int patientRecRelID)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
                 PatientRecordRelRepo patientRecordRelRepo = new PatientRecordRelRepo(ConnectionString);
                 var response = patientRecordRelRepo.RemovePatientToRec(patientRecRelID);
@@ -133,7 +131,7 @@ namespace FlexitHisMVC.Controllers
         [HttpPost]
         public IActionResult UploadVideo(int patientID, [FromForm] IFormFile videoFile)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
                 if (videoFile == null || videoFile.Length == 0)
                 {

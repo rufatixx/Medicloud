@@ -1,40 +1,174 @@
 ﻿
 @{
+    Layout = "~/Views/Shared/_WelcomeLayout.cshtml";
     ViewData["Title"] = "Giriş";
 }
-<section class="min-vh-100 d-flex align-items-center justify-content-center">
-    <div class="container-fluid">
-        <div class="row min-vh-100">
-            <div class="col-md-4 bg-light d-flex align-items-center justify-content-center">
-                <div class="card-body m-5">
-                    <div class="form-group">
-                        <img src="/res/logo_full.svg" class="image-fluid" />
-                        <span class="badge rounded-pill badge-notification bg-danger text-white">BETA</span>
-                        @*<p style="text-align: center; font-size: 24px;">Xəstəxana İnformasiya Sistemi</p>*@
+@*<body class="authentication-bg position-relative">*@
+
+<div class="account-pages pt-2 pt-sm-5 pb-4 pb-sm-5 position-relative">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xxl-4 col-lg-5">
+                <div class="card">
+
+                    <!-- Logo -->
+                    <div class="card-header pb-0 text-center ">
+                        <a href="/">
+
+                           
+                            <img src="/assets/images/mc_logo_inline.svg" alt="logo" >
+
+                            
+
+
+                        </a>
                     </div>
 
-                    <div class="alert alert-danger" id="alert" hidden role="alert"></div>
-                 
-                    <div class="form-group">
-                        <label for="exampleFormControlSelect1">İstifadəçi adı</label>
-                        <input type="email" class="form-control" placeholder="admin@gmail.com" id="username" aria-describedby="emailHelp">
-                    </div>
+                    <div class="card-body p-4">
 
-                    <div class="form-group">
-                        <label for="exampleFormControlSelect1">Şifrə</label>
-                        <input type="password" class="form-control" id="passBox" placeholder="*******">
-                    </div>
-                    <button class="btn btn-lg btn-block" style="color: #FFFFFF; background-color: #2AAEAD " onclick="signIn(this)" type="button" enabled>
+                        <div class="text-center w-75 m-auto">
+                            <h4 class="text-dark-50 text-center pb-0 fw-bold">Xoş gəlmişsiniz!</h4>
+                            <p class="text-muted mb-4">Sağlamlığınızı buludlara qaldırın</p>
+                        </div>
+                        <div class="alert alert-danger" id="alert" hidden role="alert"></div>
+                        <form action="#">
 
-                        Daxil ol
-                      
-                    </button>
+                            <div class="mb-3">
+                                <label for="emailaddress" class="form-label">Mobil nömrə</label>
+
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon1">+994</span>
+                                    <input class="form-control" type="email" id="mobileNumber" required="" placeholder="nömrənizi daxil edin">
+                                </div>
+
+                            </div>
+
+                            <div class="mb-3">
+                                <a href="#" class="text-muted float-end"><small>Şifrəninzi unutmusuz?</small></a>
+                                <label for="password" class="form-label">Şifrə</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="password" id="passBox" class="form-control" placeholder="Şifrəni daxil edin">
+                                    <div class="input-group-text" data-password="false">
+                                        <span class="password-eye"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @*<div class="mb-3 mb-3">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" id="checkbox-signin" checked>
+                                        <label class="form-check-label" for="checkbox-signin">Remember me</label>
+                                    </div>
+                                </div>*@
+
+                            <div class="mb-3 mb-0 text-center">
+                                <button class="btn btn-primary" onclick="signIn(this)" id="signInButton"> Daxil ol </button>
+                            </div>
+
+                        </form>
+                    </div> <!-- end card-body -->
                 </div>
-            </div>
-            <div class="col-md-8 d-none d-md-flex align-items-center justify-content-center"><img class="img-fluid" src="./res/login/dm04.svg" /></div>
+                <!-- end card -->
 
+                <div class="row mt-3">
+                    <div class="col-12 text-center">
+                        <p class="text-muted">Hesabınız yoxdur? <a href="#" class="text-muted ms-1"><b>Qeydiyyat</b></a></p>
+                    </div> <!-- end col -->
+                </div>
+                <!-- end row -->
+
+            </div> <!-- end col -->
         </div>
-
+        <!-- end row -->
     </div>
+    <!-- end container -->
+</div>
+<!-- end page -->
 
-</section>
+
+@section Scripts{
+    <script>$(document).ready(function () {
+            // Enter key event listener for sign in
+            $('#phone, #passBox').keypress(function (event) {
+                if (event.which === 13) {
+                    event.preventDefault();
+
+                    signIn($('#signInButton'));
+                }
+            });
+
+            function signIn(btn) {
+                let $btn = $(btn);
+                let mobileNumber = $("#mobileNumber").val();
+                let password = $("#passBox").val();
+                let $alert = $("#alert");
+
+                // Disable button and show loading state
+                $btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" id="signInSpinner"></span> Yüklənir...');
+
+                // Validate inputs
+                if (mobileNumber.length === 0) {
+                    showError('Xahiş olunur nömrənizin düzgünlüyünə diqqət edəsiniz!');
+                    return;
+                }
+
+                if (!password) {
+                    showError('Xahiş olunur daxil etdiyiniz məlumatların düzgünlüyünə diqqət edəsiniz!');
+                    return;
+                }
+
+                // Ajax POST request
+                $.ajax({
+                    type: 'POST',
+                    url: '/Login/SignIn',
+                    data: { mobileNumber: mobileNumber, pass: password },
+                    dataType: 'json',
+                    success: function (data, status, xhr) {
+                        handleLoginSuccess(data, xhr.status);
+                    },
+                    error: function (jqXhr, textStatus, errorMessage) {
+                        handleLoginError(jqXhr.status);
+                    }
+                });
+
+                function showError(message) {
+                    $alert.text(message).removeAttr("hidden");
+                    resetButton();
+                }
+
+                function resetButton() {
+                    $btn.prop('disabled', false).text('Daxil ol');
+                }
+
+                function handleLoginSuccess(data, statusCode) {
+                    resetButton();
+                    if (statusCode === 200) {
+                        if (typeof (Storage) !== "undefined") {
+                            localStorage.json = JSON.stringify(data);
+                            window.location.replace("/Home/Index");
+                        } else {
+                            showError('Brauzerinizi yeniləyin, dəstəklənmir');
+                        }
+                    } else {
+                        showError('İstifadəçi mövcud deyil');
+                    }
+                }
+
+                function handleLoginError(statusCode) {
+                    resetButton();
+                    if (statusCode === 401) {
+                        showError('İstifadəçi mövcud deyil');
+                    } else {
+                        showError('Xəta, internetə bağlı olduğunuzdan əmin olun');
+                    }
+                }
+            }
+            window.signIn = signIn; // Make the logout function globally accessible
+
+            // The getCookie function is commented out as it's not used in the signIn function
+            // If you need it for other parts of your application, you can uncomment it.
+            // function getCookie(cname) {
+            //     ...
+            // }
+        });</script>
+}

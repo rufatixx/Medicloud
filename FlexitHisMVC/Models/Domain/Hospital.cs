@@ -1,13 +1,13 @@
 ﻿using System;
-namespace FlexitHisMVC.Models
+namespace Medicloud.Models
 {
-    public class Hospital
+    public class Organization
     {
        
             public int id { get; set; }
-            public int hospitalID { get; set; }
+            public int organizationID { get; set; }
             public int userID { get; set; }
-            public string hospitalName { get; set; }
+            public string organizationName { get; set; }
 
         
     }

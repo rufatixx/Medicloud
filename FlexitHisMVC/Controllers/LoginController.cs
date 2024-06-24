@@ -1,73 +1,109 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FlexitHisCore.Models;
+﻿using System.Security.Claims;
+using Medicloud.BLL.Service;
+using Medicloud.Models;
+using Medicloud.Models.DTO;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using MySql.Data.MySqlClient;
-using FlexitHisMVC.Models;
-using FlexitHisMVC.Models.Login;
-using FlexitHisMVC.Models.DTO;
-using MySqlX.XDevAPI;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace FlexitHisMVC.Controllers
+namespace Medicloud.Controllers
 {
- 
+
     public class LoginController : Controller
     {
-      
-        private readonly string ConnectionString;
+
+        private readonly string _connectionString;
         public IConfiguration Configuration;
         private readonly IWebHostEnvironment _hostingEnvironment;
+        UserService userService;
         public LoginController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
         {
             Configuration = configuration;
-            ConnectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
+            _connectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
             _hostingEnvironment = hostingEnvironment;
+            userService = new UserService(_connectionString);
 
         }
+
+     
         // GET: /<controller>/
         public IActionResult Index()
         {
-
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Index", "Home");
             }
-            else
-            {
+
                 return View();
-                
-            }
-           
+
         }
 
         [HttpPost]
-        public IActionResult SignIn(string username, string pass)
+        public async Task<IActionResult> SignInAsync(string mobileNumber, string pass)
         {
-            UserService login = new UserService(ConnectionString);
-            var obj = login.SignIn(username, pass);
-            
+            UserService login = new UserService(_connectionString);
+            var obj = login.SignIn(mobileNumber, pass);
+
             if (obj.personal.ID > 0)
             {
-                ResponseDTO<LogInDTO> response = new ResponseDTO<LogInDTO>();
-                response.data = new List<LogInDTO>();
+                var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, $"{obj.personal.name} {obj.personal.surname}"),
+                new Claim("ID",obj.personal.ID.ToString())
+                // Add additional claims as needed
+            };
+
+                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                
+                var authProperties = new AuthenticationProperties
+                {
+                    IsPersistent = true, // Remember the user across sessions
+                };
+
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+
+
+                ResponseDTO<UserDTO> response = new ResponseDTO<UserDTO>();
+                response.data = new List<UserDTO>();
                 response.data.Add(obj);
 
-                HttpContext.Session.SetInt32("userid", obj.personal.ID);
+
+                //HttpContext.Session.SetInt32("userid", obj.personal.ID);
+
+
+               
+
+                userService.SaveSession(HttpContext, "Medicloud_userID", obj.personal.ID.ToString());
+                userService.SaveSession(HttpContext, "Medicloud_organizationID", obj.organizations[0].organizationID.ToString());
+                userService.SaveSession(HttpContext, "Medicloud_organizationName", obj.organizations[0].organizationName.ToString());
                 return Ok(response);
             }
-            else {
+            else
+            {
                 return Unauthorized();
             }
-            
+
         }
+
+       
+
+      
+
+
         [HttpPost]
-        public IActionResult Logout()
+        public async Task<IActionResult> LogoutAsync()
         {
+
+            foreach (var cookie in Request.Cookies.Keys)
+            {
+                Response.Cookies.Delete(cookie);
+            }
+
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             HttpContext.Session.Clear();
+
             return Ok();
 
         }

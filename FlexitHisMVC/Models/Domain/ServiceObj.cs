@@ -1,5 +1,5 @@
 ﻿using System;
-namespace FlexitHisMVC.Models
+namespace Medicloud.Models
 {
     public class ServiceObj
     {
@@ -8,7 +8,7 @@ namespace FlexitHisMVC.Models
         public string name { get; set; }
         public double price { get; set; }
         public double newPrice { get; set; }
-        public int hospitalID { get; set; }
+        public int organizationID { get; set; }
         public int serviceGroupID { get; set; }
         public int serviceTypeID { get; set; }
         public int servicePriceID { get; set; }

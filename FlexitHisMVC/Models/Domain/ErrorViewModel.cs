@@ -1,7 +1,7 @@
 ﻿
 using System;
-using FlexitHisMVC.Models;
-namespace FlexitHisMVC.Models {
+using Medicloud.Models;
+namespace Medicloud.Models {
     public class ErrorViewModel
     {
         public string? RequestId { get; set; }

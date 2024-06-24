@@ -1,0 +1,92 @@
+﻿@{
+    ViewData["Title"] = "- Müayinələr";
+
+}
+
+@using Medicloud.Models.Domain;
+@model List<dynamic>
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+
+                <a href="javascript:window.print()">
+                    <button type="button" class="btn btn-primary w-md bg-blue-light radius-10"><i class="ri-printer-line"></i>Çap et</button>
+                </a>
+
+                <a id="new-patient" href="@Url.Action("Index", "NewPatient", new {Area=""})">
+                    <button type="reset" class="btn btn-primary w-md bg-blue radius-10">+ Yeni müayinə</button>
+                </a>
+            </div>
+            <h2 class="page-title">Xidmətlər</h2>
+        </div>
+    </div>
+</div>
+<div class="row ">
+    <div class="col-12">
+        <div class="card  radius-15">
+
+            <div class="card-body">
+                <div id="datatable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+
+                    <div class="row">
+                        <div class="col-sm-12 table-responsive">
+                            <table style="border: 0px; width: 1183px;" id="datatable" class="table table table-striped table-borderless dt-responsive nowrap w-100 dataTable no-footer dtr-inline" role="grid" aria-describedby="datatable_info">
+                                <thead>
+                                    <tr role="row">
+                                        <th class="text-muted" rowspan="1" colspan="1" style="width: 43px;">#</th>
+                                        <th class="text-muted" rowspan="1" colspan="1" style="width: 160px;">Ad, Soyad</th>
+                                        <th class="text-muted" rowspan="1" colspan="1" style="width: 199px;">Gün</th>
+                                        <th class="text-muted" rowspan="1" colspan="1" style="width: 231px;">Xidmət/Prosedur</th>
+
+                                        <th class="text-muted" rowspan="1" colspan="1" style="width: 160px;">(Həkim) Ad, Soyad</th>
+
+
+                                        @*<th class="text-muted" rowspan="1" colspan="1" style="width: 175px;">Seçin</th>*@
+                                    </tr>
+                                </thead>
+                                <tbody style="vertical-align:middle; font-weight:500;">
+                                    @{ var rowNumber = 0;
+                                        foreach (var item in Model)
+                                        {
+                                            rowNumber++;
+
+                                            <tr class="odd">
+                                                <th class="text-muted dtr-control" tabindex="0">@rowNumber</th>
+                                                <td>@item.patientName @item.patientSurname</td>
+                                                <td>@item.cDate.ToString("dd.MM.yyyy")</td>
+
+
+                                                <td>
+                                                    @item.ServiceName
+                                                </td>
+                                                <td>
+                                                    @item.DocName @item.DocSurname
+                                                </td>
+
+                                                @*<td style="float: right">
+                                    <a href="patient-edit.php?patient_id=61294"><button type="button" class="btn btn-light btn-sm edit-button" data-id="1"><i class="far fa-edit"></i></button></a>
+                                    <a href="javascript:void(0);" class="delete-link" data-patient-id="61294">
+                                        <button type="button" class="btn btn-light btn-sm delete-button">
+                                            <i class="far fa-trash-alt"></i>
+                                        </button>
+                                    </a>
+                                </td>*@
+                                            </tr>
+
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    @*<div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="datatable_info" role="status" aria-live="polite">Showing 1 to 1 of 1 entries</div></div><div class="col-sm-12 col-md-7"></div></div>*@
+
+                </div>
+                <!--<div class="container mt-4" style="margin-right: 0">-->
+                    <!-- Pagination -->
+                <!--</div>-->
+            </div>
+        </div>
+    </div> <!-- end col -->
+</div>

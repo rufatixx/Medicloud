@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace FlexitHisMVC.Areas.Admin.Controllers
+namespace Medicloud.Areas.Admin.Controllers
 {
+    [Authorize]
     [Area("Admin")]
     public class HomeController : Controller
     {
@@ -22,18 +23,14 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
             _hostingEnvironment = hostingEnvironment;
             //communications = new Communications(Configuration, _hostingEnvironment);
         }
+       
         // GET: /<controller>/
         public IActionResult Index()
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
-            {
+          
                 return View();
 
-            }
-            else
-            {
-                return RedirectToAction("Index", "Login", new { area = "" });
-            }
+          
         }
 
     }

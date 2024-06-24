@@ -1,0 +1,77 @@
+﻿@*@using Medicloud.Controllers
+@{
+    var currentDate = ViewBag.CurrentDate as DateTime? ?? DateTime.Now;
+    var daysInMonth = DateTime.DaysInMonth(currentDate.Year, currentDate.Month);
+    var firstDayOfMonth = new DateTime(currentDate.Year, currentDate.Month, 1);
+    var lastDayOfMonth = new DateTime(currentDate.Year, currentDate.Month, daysInMonth);
+    var startDayOfWeek = (int)firstDayOfMonth.DayOfWeek == 0 ? 7 : (int)firstDayOfMonth.DayOfWeek; // Adjusting start day to match Bootstrap's grid (1 = Monday, 7 = Sunday)
+    var endDayOfWeek = (int)lastDayOfMonth.DayOfWeek == 0 ? 7 : (int)lastDayOfMonth.DayOfWeek;
+
+    var previousMonth = currentDate.AddMonths(-1);
+    var nextMonth = currentDate.AddMonths(1);
+
+    var daysBefore = startDayOfWeek - 1; // Days of the week before the first day of the month
+    var daysAfter = 7 - endDayOfWeek; // Days of the week after the last day of the month
+    var totalCells = daysBefore + daysInMonth + daysAfter;
+    var weeksInMonth = Math.Ceiling(totalCells / 7.0);
+
+
+    var events = ViewBag.Events as List<Event>;
+}
+
+<div class="container mt-5">
+    <div class="row mb-4">
+        <div class="col">
+            <h2>@currentDate.ToString("MMMM yyyy")</h2>
+        </div>
+        <div class="col text-end">
+            <a class="btn btn-outline-secondary" href="@Url.Action("Index", new { year = previousMonth.Year, month = previousMonth.Month })">&laquo; Previous</a>
+            <a class="btn btn-outline-secondary" href="@Url.Action("Index", new { year = nextMonth.Year, month = nextMonth.Month })">Next &raquo;</a>
+        </div>
+    </div>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Bazar ertəsi</th>
+                <th>Çərşənbə axşamı</th>
+                <th>Çərşənbə</th>
+                <th>Cümə axşamı</th>
+                <th>Cümə</th>
+                <th>Şənbə</th>
+                <th>Bazar</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < weeksInMonth; i++)
+            {
+                <tr>
+                    @for (int j = 1; j <= 7; j++)
+                    {
+                        int cellNumber = (i * 7 + j);
+                        int dayNumber = cellNumber - daysBefore;
+                        if (cellNumber <= daysBefore)
+                        {
+                            // Days from the previous month
+                            int previousMonthDays = DateTime.DaysInMonth(previousMonth.Year, previousMonth.Month);
+                            <td class="table-secondary">@((previousMonthDays - daysBefore) + cellNumber)</td>
+                        }
+                        else if (dayNumber > daysInMonth)
+                        {
+                            // Days from the next month
+                            <td class="table-secondary">@((dayNumber - daysInMonth))</td>
+                        }
+                        else
+                        {
+                            // Current month days
+                            var isToday = currentDate.Year == DateTime.Now.Year && currentDate.Month == DateTime.Now.Month && dayNumber == DateTime.Now.Day;
+                            var cssClass = isToday ? "table-primary" : "";
+
+                            <td class="@cssClass">@dayNumber</td>
+                        }
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>*@

@@ -35,15 +35,15 @@ var parsedJSON = JSON.parse(json)
 
 //    $("#fullName").text(parsedJSON.data[0].personal.name + " " + parsedJSON.data[0].personal.surname)
 
-//    if (localStorage.selectedHospital != null) {
+//    if (localStorage.selectedOrganization != null) {
 
-//        if (json.data[0].hospitals.length > 0) {
-//            $("#selectHospitalDropdownButton").text(json.data[0].hospitals[0].hospitalName)
-//            $('#hospitalLogo').text(parsedJSON.data[0].hospitals[0].hospitalName)
-//            localStorage.selectedHospital = parsedJSON.data[0].hospitals[0].id;
-//            localStorage.selectedHospitalName = parsedJSON.data[0].hospitals[0].hospitalName;
-//            $.each(parsedJSON.data[0].hospitals, function () {
-//                $("#selectHospitalDropdownItems").append(`<a class="dropdown-item" id="${this.id}" onclick="localStorage.selectedHospital='${this.id}';localStorage.selectedHospitalName='${this.hospitalName}'; $('#selectHospitalDropdownButton').text('${this.hospitalName} '); $('#hospitalLogo').text('${this.hospitalName} ');">${this.hospitalName}</a>`)
+//        if (json.data[0].organizations.length > 0) {
+//            $("#selectOrganizationDropdownButton").text(json.data[0].organizations[0].organizationName)
+//            $('#organizationLogo').text(parsedJSON.data[0].organizations[0].organizationName)
+//            localStorage.selectedOrganization = parsedJSON.data[0].organizations[0].id;
+//            localStorage.selectedOrganizationName = parsedJSON.data[0].organizations[0].organizationName;
+//            $.each(parsedJSON.data[0].organizations, function () {
+//                $("#selectOrganizationDropdownItems").append(`<a class="dropdown-item" id="${this.id}" onclick="localStorage.selectedOrganization='${this.id}';localStorage.selectedOrganizationName='${this.organizationName}'; $('#selectOrganizationDropdownButton').text('${this.organizationName} '); $('#organizationLogo').text('${this.organizationName} ');">${this.organizationName}</a>`)
 
 //            });
 //        }
@@ -57,8 +57,8 @@ var parsedJSON = JSON.parse(json)
 
 //    }
 //    else {
-//        $("#selectHospitalDropdownButton").text(localStorage.selectedHospitalName)
-//        $('#hospitalLogo').text(localStorage.selectedHospitalName)
+//        $("#selectOrganizationDropdownButton").text(localStorage.selectedOrganizationName)
+//        $('#organizationLogo').text(localStorage.selectedOrganizationName)
 //    }
 
 

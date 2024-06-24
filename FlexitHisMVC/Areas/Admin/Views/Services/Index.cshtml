@@ -294,7 +294,7 @@
                                 <div class="row align-items-end">
                                     <div class="col-md-6"><label>Başlıq</label></div>
                                     <div class="col-md-6 text-right">
-                                        <button type="button" class="btn" onclick="{$('#addHospital').modal('show');}">
+                                        <button type="button" class="btn" onclick="{$('#addOrganization').modal('show');}">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M15 13H13V15C13 15.55 12.55 16 12 16C11.45 16 11 15.55 11 15V13H9C8.45 13 8 12.55 8 12C8 11.45 8.45 11 9 11H11V9C11 8.45 11.45 8 12 8C12.55 8 13 8.45 13 9V11H15C15.55 11 16 11.45 16 12C16 12.55 15.55 13 15 13ZM12 2C6.486 2 2 6.486 2 12C2 17.514 6.486 22 12 22C17.514 22 22 17.514 22 12C22 6.486 17.514 2 12 2Z" fill="#2AAEAD"></path>
                                             </svg>
@@ -419,7 +419,7 @@
             <div class="row align-items-end">
                 <div class="col-md-6"><label>Alt grup</label></div>
                 <div class="col-md-6 text-right">
-                    <button type="button" class="btn" onclick="{$('#addHospital').modal('show');}">
+                    <button type="button" class="btn" onclick="{$('#addOrganization').modal('show');}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M15 13H13V15C13 15.55 12.55 16 12 16C11.45 16 11 15.55 11 15V13H9C8.45 13 8 12.55 8 12C8 11.45 8.45 11 9 11H11V9C11 8.45 11.45 8 12 8C12.55 8 13 8.45 13 9V11H15C15.55 11 16 11.45 16 12C16 12.55 15.55 13 15 13ZM12 2C6.486 2 2 6.486 2 12C2 17.514 6.486 22 12 22C17.514 22 22 17.514 22 12C22 6.486 17.514 2 12 2Z" fill="#2AAEAD"></path>
                         </svg>
@@ -579,7 +579,7 @@
                     </div>
                     <div class="form-group mb-3">
                         <label for="serviceName" class="form-label">Kodu</label>
-                        <input type="text" class="form-control" required id="serviceCode" placeholder="Daxil edin...">
+                        <input type="text" class="form-control"  id="serviceCode" placeholder="Daxil edin...">
                         <div class="valid-feedback">
                             Əla!
                         </div>
@@ -697,7 +697,7 @@
             $.ajax({
                 url: '/Admin/services/GetServiceGroups',
                 type: 'GET',
-                data: { hospitalID: localStorage.selectedHospital },
+                data: { organizationID: localStorage.selectedOrganization },
                 success: function (response) {
                     $('#cGroups').empty();
                     $('#cGroupsInModal').empty();
@@ -830,7 +830,7 @@
             $.ajax({
                 url: '/Admin/services/GetServicesWithServiceGroupName',
                 type: 'GET',
-                data: { hospitalID: localStorage.selectedHospital, serviceGroupID: groupId },
+                data: { organizationID: localStorage.selectedOrganization, serviceGroupID: groupId },
                 success: function (response) {
                     $('#servicesInGroup').empty();
 
@@ -926,9 +926,9 @@
 
         function fetchDepartments() {
             $.ajax({
-                url: '/Admin/services/GetDepartmentsInHospital',
+                url: '/Admin/services/GetDepartmentsInOrganization',
                 type: 'GET',
-                data: { hospitalID: localStorage.selectedHospital },
+                data: { organizationID: localStorage.selectedOrganization },
                 success: function (response) {
                     var departmentsSelect = $('#selectDepartment');
 
@@ -1118,7 +1118,7 @@
                 id: 0,
                 name: groupNameValue,
                 isHeading: isHeadingValue,
-                hospitalID: localStorage.selectedHospital,
+                organizationID: localStorage.selectedOrganization,
                 parent: isHeadingValue ? 0 : parseInt(parentGroupValue) // Convert string to integer
             };
 
@@ -1171,6 +1171,29 @@
                     alert('An unexpected error occurred.');
                 });
         }
+
+        function generateUniqueServiceCode() {
+            // Get the current date and time
+            const now = new Date();
+
+            // Format the date and time to include year, month, day, hours, minutes, seconds, and milliseconds
+            // This creates a string like '20230307T141520123'
+            const uniqueCode = now.getFullYear().toString() +
+                (now.getMonth() + 1).toString().padStart(2, '0') + // Months are 0-based
+                now.getDate().toString().padStart(2, '0') +
+                'T' + // Separating date and time with a 'T'
+                now.getHours().toString().padStart(2, '0') +
+                now.getMinutes().toString().padStart(2, '0') +
+                now.getSeconds().toString().padStart(2, '0') +
+                now.getMilliseconds().toString().padStart(3, '0');
+
+            // Set the generated unique code as the value of the 'serviceCode' input field
+            $('#serviceCode').val(uniqueCode);
+
+            // For purposes outside of setting the value directly, you might want to return it
+            return uniqueCode;
+        }
+
         function insertService() {
 
 
@@ -1195,6 +1218,7 @@
             });
 
             if (forms[0].checkValidity()) {
+                generateUniqueServiceCode()
                 // Get the values from the modal's fields
                 let serviceName = $('#serviceName').val();
                 let servicePrice = $('#servicePrice').val();
@@ -1207,6 +1231,10 @@
                     alert("Zəhmət olmasa bütün boşluqları doldurun");
                     return; // End the function here if any field is empty
                 }
+                if (serviceCode == '') {
+                    generateUniqueServiceCode()
+                    serviceCode = $('#serviceCode').val();
+                }
 
                 // Construct the service object
                 let serviceObj = {
@@ -1214,7 +1242,7 @@
                     code: serviceCode,
                     price: servicePrice,
                     serviceGroupID: groupID,
-                    hospitalID: localStorage.selectedHospital,
+                    organizationID: localStorage.selectedOrganization,
                     isActive: isActive
                 };
 
@@ -1288,7 +1316,7 @@
         }
 
 
-        function hospitalChanged() {
+        function organizationChanged() {
             // Reload all data with the new hospital ID
             loadData();
         }

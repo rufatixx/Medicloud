@@ -1,9 +1,9 @@
 ﻿using System;
 using FlexitHisCore;
-using FlexitHisMVC.Data;
+using Medicloud.Data;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FlexitHisMVC.Areas.Admin.ViewComponents
+namespace Medicloud.Areas.Admin.ViewComponents
 {
     public class DepartmentsViewComponent : ViewComponent
     {

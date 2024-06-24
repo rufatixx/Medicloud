@@ -49,7 +49,7 @@ button.accept-policy {
 }
 */
 
-#sidebar[b-ihhgavb77o] {
+#sidebar[b-s0elpcjdo3] {
     min-width: 250px;
     max-width: 250px;
     background: #F8F8F8;
@@ -60,75 +60,75 @@ button.accept-policy {
     position: relative;
 }
 
-    #sidebar .h6[b-ihhgavb77o] {
+    #sidebar .h6[b-s0elpcjdo3] {
         color: #4F4F4F;
     }
 
-    #sidebar.active[b-ihhgavb77o] {
+    #sidebar.active[b-s0elpcjdo3] {
         margin-left: -250px;
     }
 
-        #sidebar.active .custom-menu[b-ihhgavb77o] {
+        #sidebar.active .custom-menu[b-s0elpcjdo3] {
             margin-right: -50px;
         }
 
-    #sidebar h1[b-ihhgavb77o] {
+    #sidebar h1[b-s0elpcjdo3] {
         margin-bottom: 20px;
         font-weight: 700;
     }
 
-        #sidebar h1 .logo[b-ihhgavb77o] {
+        #sidebar h1 .logo[b-s0elpcjdo3] {
             color: #4F4F4F;
         }
 
-    #sidebar ul.components[b-ihhgavb77o] {
+    #sidebar ul.components[b-s0elpcjdo3] {
         padding: 0;
     }
 
-    #sidebar ul li[b-ihhgavb77o] {
+    #sidebar ul li[b-s0elpcjdo3] {
         font-size: 16px;
     }
 
-        #sidebar ul li > ul[b-ihhgavb77o] {
+        #sidebar ul li > ul[b-s0elpcjdo3] {
             margin-left: 10px;
         }
 
-            #sidebar ul li > ul li[b-ihhgavb77o] {
+            #sidebar ul li > ul li[b-s0elpcjdo3] {
                 font-size: 14px;
             }
 
-        #sidebar ul li a[b-ihhgavb77o] {
+        #sidebar ul li a[b-s0elpcjdo3] {
             padding: 10px 0;
             display: block;
             color: #4F4F4F;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-            #sidebar ul li a:hover[b-ihhgavb77o] {
+            #sidebar ul li a:hover[b-s0elpcjdo3] {
                 color: #2AAEAD;
             }
 
-        #sidebar ul li.active > a[b-ihhgavb77o] {
+        #sidebar ul li.active > a[b-s0elpcjdo3] {
             background: transparent;
             color: #2AAEAD;
         }
 
 @media (max-width: 991.98px) {
-    #sidebar[b-ihhgavb77o] {
+    #sidebar[b-s0elpcjdo3] {
         margin-left: -250px;
     }
 
-        #sidebar.active[b-ihhgavb77o] {
+        #sidebar.active[b-s0elpcjdo3] {
             margin-left: 0;
         }
 
-        #sidebar .custom-menu[b-ihhgavb77o] {
+        #sidebar .custom-menu[b-s0elpcjdo3] {
             margin-right: -50px !important;
             top: 10px !important;
         }
 }
 
-#sidebar .custom-menu[b-ihhgavb77o] {
+#sidebar .custom-menu[b-s0elpcjdo3] {
     display: inline-block;
     position: absolute;
     top: 20px;
@@ -140,35 +140,35 @@ button.accept-policy {
 }
 
 @media (prefers-reduced-motion: reduce) {
-    #sidebar .custom-menu[b-ihhgavb77o] {
+    #sidebar .custom-menu[b-s0elpcjdo3] {
         -webkit-transition: none;
         -o-transition: none;
         transition: none;
     }
 }
 
-#sidebar .custom-menu .btn[b-ihhgavb77o] {
+#sidebar .custom-menu .btn[b-s0elpcjdo3] {
     width: 40px;
     height: 40px;
     border-radius: 50%;
 }
 
-    #sidebar .custom-menu .btn.btn-primary[b-ihhgavb77o] {
+    #sidebar .custom-menu .btn.btn-primary[b-s0elpcjdo3] {
         background: #6749b9;
         border-color: #6749b9;
     }
 
-        #sidebar .custom-menu .btn.btn-primary:hover[b-ihhgavb77o],
-        #sidebar .custom-menu .btn.btn-primary:focus[b-ihhgavb77o] {
+        #sidebar .custom-menu .btn.btn-primary:hover[b-s0elpcjdo3],
+        #sidebar .custom-menu .btn.btn-primary:focus[b-s0elpcjdo3] {
             background: #6749b9 !important;
             border-color: #6749b9 !important;
         }
 
-a[data-toggle="collapse"][b-ihhgavb77o] {
+a[data-toggle="collapse"][b-s0elpcjdo3] {
     position: relative;
 }
 
-.dropdown-toggle[b-ihhgavb77o]::after {
+.dropdown-toggle[b-s0elpcjdo3]::after {
     display: block;
     position: absolute;
     top: 50%;
@@ -179,12 +179,12 @@ a[data-toggle="collapse"][b-ihhgavb77o] {
 }
 
 @media (max-width: 991.98px) {
-    #sidebarCollapse span[b-ihhgavb77o] {
+    #sidebarCollapse span[b-s0elpcjdo3] {
         display: none;
     }
 }
 
-#main-content[b-ihhgavb77o] {
+#main-content[b-s0elpcjdo3] {
     width: 100%;
     padding: 0;
     min-height: 100vh;

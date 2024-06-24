@@ -5,72 +5,75 @@ using System.Threading.Tasks;
 using FlexitHisCore.Models;
 using FlexitHisCore.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using FlexitHisMVC.Models;
-using FlexitHisMVC.Areas.Admin.Model;
-using FlexitHisMVC.Data;
-using FlexitHisMVC.Repository;
+using Medicloud.Models;
+using Medicloud.Areas.Admin.Model;
+using Medicloud.Data;
+using Medicloud.Repository;
+using Microsoft.AspNetCore.Authorization;
+using Medicloud.DAL.Repository;
+using Medicloud.BLL.Service;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace FlexitHisMVC.Areas.Admin.Controllers
+namespace Medicloud.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class DepartmentController : Controller
     {
-        private readonly string ConnectionString;
+        private readonly string _connectionString;
         private readonly IWebHostEnvironment _hostingEnvironment;
         public IConfiguration Configuration;
+        BuildingRepo buildingRepo ;
+        OrganizationService organizationService;
+        DepartmentsRepo departmentsRepo;
+        DepartmentTypeRepo departmentTypeRepo;
+
         //Communications communications;
         public DepartmentController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
         {
             Configuration = configuration;
-            ConnectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
+            _connectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
             _hostingEnvironment = hostingEnvironment;
+             buildingRepo = new BuildingRepo(_connectionString);
+             organizationService = new OrganizationService(_connectionString);
+            departmentsRepo = new DepartmentsRepo(_connectionString);
+            departmentTypeRepo = new DepartmentTypeRepo(_connectionString);
             //communications = new Communications(Configuration, _hostingEnvironment);
         }
+        [Authorize]
         // GET: /<controller>/
         public IActionResult Index()
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
-            {
                 return View();
-
-            }
-            else
-            {
-                return RedirectToAction("Index", "Login", new { area = "" });
-            }
         }
+
         [HttpGet]
         
-        public IActionResult GetAllHospitalsWithBuildings()
+        public IActionResult GetAllOrganizationsWithBuildings()
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
-                BuildingRepo buildingRepo = new BuildingRepo(ConnectionString);
-                HospitalRepo hospitalRepo = new HospitalRepo(ConnectionString);
+                
                 dynamic obj = new System.Dynamic.ExpandoObject();
-                obj.hospitals = hospitalRepo.GetHospitalList();
+                obj.organizations = organizationService.GetAllOrganizations();
                 obj.buildings = buildingRepo.GetAllBuildings();
                return Ok(obj);
 
             }
-            else
-            {
+           
                 return Unauthorized();
-            }
-
+       
 
         }
 
         [HttpPost]
         [Route("admin/departments/getBuildings")]
-        public IActionResult GetBuildings(long hospitalID)
+        public IActionResult GetBuildings(long organizationID)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
-                BuildingRepo select = new BuildingRepo(ConnectionString);
-                var list = select.GetBuildings(hospitalID);
+               
+                var list = buildingRepo.GetBuildings(organizationID);
                 list.Reverse();
                 ResponseDTO<Building> response = new ResponseDTO<Building>();
                 response.data = new List<Building>();
@@ -78,10 +81,9 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
                 return Ok(response);
 
             }
-            else
-            {
+          
                 return Unauthorized();
-            }
+           
 
 
         }
@@ -90,10 +92,10 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
         [Route("admin/departments/getDepartmentTypes")]
         public IActionResult GetDepartmentTypes(int buildingID)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
-                DepartmentTypeRepo select = new DepartmentTypeRepo(ConnectionString);
-                var list = select.GetDepartmentTypes();
+              
+                var list = departmentTypeRepo.GetDepartmentTypes();
 
                 list.Reverse();
                 ResponseDTO<DepartmentType> response = new ResponseDTO<DepartmentType>();
@@ -102,11 +104,9 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
                 return Ok(response);
 
             }
-            else
-            {
+           
                 return Unauthorized();
-            }
-
+           
 
         }
 
@@ -114,10 +114,10 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
         [Route("admin/departments/getDepartmentsInfoByBuilding")]
         public ActionResult<ResponseDTO<Department>> GetDepartmentsInfoByBuilding(int buildingID)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
-                DepartmentsRepo select = new DepartmentsRepo(ConnectionString);
-                var list = select.GetDepartmentsByBuilding(buildingID);
+                
+                var list = departmentsRepo.GetDepartmentsByBuilding(buildingID);
 
                 ResponseDTO<Department> response = new ResponseDTO<Department>();
                 response.data = new List<Department>();
@@ -126,10 +126,9 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
                 
 
             }
-            else
-            {
+           
                 return Unauthorized();
-            }
+          
         }
 
 
@@ -137,19 +136,18 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
         [Route("admin/departments/updateDepartment")]
         public IActionResult UpdateDepartment(int id, int gender, long buildingID, int depTypeID, int drIsRequired, int isActive, int isRandevuActive)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
-                DepartmentsRepo update = new DepartmentsRepo(ConnectionString);
-                var response = update.UpdateDepartments(id, gender, buildingID, depTypeID, drIsRequired, isActive, isRandevuActive);
+            
+                var response = departmentsRepo.UpdateDepartments(id, gender, buildingID, depTypeID, drIsRequired, isActive, isRandevuActive);
 
                 
                     return Ok(response);
                 
             }
-            else
-            {
+            
                 return Unauthorized();
-            }
+           
 
         }
 
@@ -157,19 +155,18 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
         [Route("admin/departments/insertDepartment")]
         public IActionResult InsertDepartment(long buildingID, string name, int depTypeID)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
-                DepartmentsRepo insert = new DepartmentsRepo(ConnectionString);
-                var response = insert.InsertDepartments(buildingID, name, depTypeID);
+               
+                var response = departmentsRepo.InsertDepartments(buildingID, name, depTypeID);
 
                
                     return Ok(response);
                 
             }
-            else
-            {
+          
                 return Unauthorized();
-            }
+          
 
 
         }

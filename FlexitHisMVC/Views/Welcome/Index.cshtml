@@ -1,0 +1,662 @@
+﻿@{
+    Layout = "";
+    var currentYear = DateTime.Now.Year;
+}
+
+
+<!DOCTYPE html>
+<html class="no-js" lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+
+    <!-- This site is optimized with the Yoast SEO plugin v18.0 - https://yoast.com/wordpress/plugins/seo/ -->
+    <meta name="description" content="Medicloud ilə sağlamlığınızı buludlara qaldırın! Pasient və müştərilərinizin elektron növbəsini yaradın, tibbi məlumatlarınızı təhlükəsiz şəkildə idarə edin. Asan və təhlükəsiz sağlamlıq həlli." />
+
+    <link rel="canonical" href="index.html" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Medicloud - Sağlamlığınızı buludlara qaldırın! - @currentYear" />
+    <meta property="og:description" content="Medicloud ilə sağlamlığınızı buludlara qaldırın! Pasient və müştərilərinizin elektron növbəsini yaradın, tibbi məlumatlarınızı təhlükəsiz şəkildə idarə edin. Asan və təhlükəsiz sağlamlıq həlli." />
+    <meta property="og:url" content="https://www.medicloud.az/" />
+    <meta property="og:site_name" content="Virtual Card" />
+    <meta property="article:publisher" content="https://www.facebook.com/profile.php?id=61560066662823" />
+    <meta property="article:modified_time" content="2022-02-12T12:58:50+00:00" />
+    <meta property="og:image" content="https://medicloud.az/assets/images/mc_logo.png" />
+    <meta property="og:image:width" content="1250" />
+    <meta property="og:image:height" content="1042" />
+    <meta property="og:image:type" content="image/png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://medicloud.az/assets/images/mc_logo.png" />
+    @*<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://www.virtualcard.az/#website","url":"https://www.virtualcard.az/","name":"Virtual Card","description":"Real pula virtual çıxışınız!","potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.virtualcard.az/?s={search_term_string}"},"query-input":"required name=search_term_string"}],"inLanguage":"en-US"},{"@type":"ImageObject","@id":"https://www.virtualcard.az/#primaryimage","inLanguage":"en-US","url":"https://www.virtualcard.az/wp-content/uploads/2021/08/Test-Banner-01.png","contentUrl":"https://www.virtualcard.az/wp-content/uploads/2021/08/Test-Banner-01.png","width":1250,"height":1042},{"@type":"WebPage","@id":"https://www.virtualcard.az/#webpage","url":"https://www.virtualcard.az/","name":"Virtual Card - Real pula virtual çıxışınız. Bank kartlarını unudun! - 2021","isPartOf":{"@id":"https://www.virtualcard.az/#website"},"datePublished":"2021-06-14T13:31:39+00:00","dateModified":"2022-02-12T12:58:50+00:00","description":"Banklara müraciət etmədən sadəcə öz smartfonunuza tədbiqi yükləyərək bütün kartlara sahib olun. Yüksək keşbek. Faizsiz kredit (taksit).","breadcrumb":{"@id":"https://www.virtualcard.az/#breadcrumb"},"inLanguage":"en-US","potentialAction":[{"@type":"ReadAction","target":["https://www.virtualcard.az/"]}]},{"@type":"BreadcrumbList","@id":"https://www.virtualcard.az/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home"}]}]}</script>*@
+    <!-- / Yoast SEO plugin. -->
+
+
+    @*<link rel='dns-prefetch' href='https://static.addtoany.com' />
+    <link rel='dns-prefetch' href='https://unpkg.com' />
+    <link rel='dns-prefetch' href='https://www.googletagmanager.com' />
+    <link rel='dns-prefetch' href='https://s.w.org' />*@
+    <link rel='stylesheet' id='wp-block-library-css' href='/welcome_files/wp-includes/css/dist/block-library/style.min-ver=5.9.1.1645738641.css' type='text/css' media='all' />
+    <style id='global-styles-inline-css' type='text/css'>
+        body {
+            --wp--preset--color--black: #000000;
+            --wp--preset--color--cyan-bluish-gray: #abb8c3;
+            --wp--preset--color--white: #ffffff;
+            --wp--preset--color--pale-pink: #f78da7;
+            --wp--preset--color--vivid-red: #cf2e2e;
+            --wp--preset--color--luminous-vivid-orange: #ff6900;
+            --wp--preset--color--luminous-vivid-amber: #fcb900;
+            --wp--preset--color--light-green-cyan: #7bdcb5;
+            --wp--preset--color--vivid-green-cyan: #00d084;
+            --wp--preset--color--pale-cyan-blue: #8ed1fc;
+            --wp--preset--color--vivid-cyan-blue: #0693e3;
+            --wp--preset--color--vivid-purple: #9b51e0;
+            --wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);
+            --wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);
+            --wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);
+            --wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);
+            --wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);
+            --wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);
+            --wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);
+            --wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);
+            --wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);
+            --wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);
+            --wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);
+            --wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);
+            --wp--preset--duotone--dark-grayscale: url('index.html#wp-duotone-dark-grayscale');
+            --wp--preset--duotone--grayscale: url('index.html#wp-duotone-grayscale');
+            --wp--preset--duotone--purple-yellow: url('index.html#wp-duotone-purple-yellow');
+            --wp--preset--duotone--blue-red: url('index.html#wp-duotone-blue-red');
+            --wp--preset--duotone--midnight: url('index.html#wp-duotone-midnight');
+            --wp--preset--duotone--magenta-yellow: url('index.html#wp-duotone-magenta-yellow');
+            --wp--preset--duotone--purple-green: url('index.html#wp-duotone-purple-green');
+            --wp--preset--duotone--blue-orange: url('index.html#wp-duotone-blue-orange');
+            --wp--preset--font-size--small: 13px;
+            --wp--preset--font-size--medium: 20px;
+            --wp--preset--font-size--large: 36px;
+            --wp--preset--font-size--x-large: 42px;
+        }
+
+        .has-black-color {
+            color: var(--wp--preset--color--black) !important;
+        }
+
+        .has-cyan-bluish-gray-color {
+            color: var(--wp--preset--color--cyan-bluish-gray) !important;
+        }
+
+        .has-white-color {
+            color: var(--wp--preset--color--white) !important;
+        }
+
+        .has-pale-pink-color {
+            color: var(--wp--preset--color--pale-pink) !important;
+        }
+
+        .has-vivid-red-color {
+            color: var(--wp--preset--color--vivid-red) !important;
+        }
+
+        .has-luminous-vivid-orange-color {
+            color: var(--wp--preset--color--luminous-vivid-orange) !important;
+        }
+
+        .has-luminous-vivid-amber-color {
+            color: var(--wp--preset--color--luminous-vivid-amber) !important;
+        }
+
+        .has-light-green-cyan-color {
+            color: var(--wp--preset--color--light-green-cyan) !important;
+        }
+
+        .has-vivid-green-cyan-color {
+            color: var(--wp--preset--color--vivid-green-cyan) !important;
+        }
+
+        .has-pale-cyan-blue-color {
+            color: var(--wp--preset--color--pale-cyan-blue) !important;
+        }
+
+        .has-vivid-cyan-blue-color {
+            color: var(--wp--preset--color--vivid-cyan-blue) !important;
+        }
+
+        .has-vivid-purple-color {
+            color: var(--wp--preset--color--vivid-purple) !important;
+        }
+
+        .has-black-background-color {
+            background-color: var(--wp--preset--color--black) !important;
+        }
+
+        .has-cyan-bluish-gray-background-color {
+            background-color: var(--wp--preset--color--cyan-bluish-gray) !important;
+        }
+
+        .has-white-background-color {
+            background-color: var(--wp--preset--color--white) !important;
+        }
+
+        .has-pale-pink-background-color {
+            background-color: var(--wp--preset--color--pale-pink) !important;
+        }
+
+        .has-vivid-red-background-color {
+            background-color: var(--wp--preset--color--vivid-red) !important;
+        }
+
+        .has-luminous-vivid-orange-background-color {
+            background-color: var(--wp--preset--color--luminous-vivid-orange) !important;
+        }
+
+        .has-luminous-vivid-amber-background-color {
+            background-color: var(--wp--preset--color--luminous-vivid-amber) !important;
+        }
+
+        .has-light-green-cyan-background-color {
+            background-color: var(--wp--preset--color--light-green-cyan) !important;
+        }
+
+        .has-vivid-green-cyan-background-color {
+            background-color: var(--wp--preset--color--vivid-green-cyan) !important;
+        }
+
+        .has-pale-cyan-blue-background-color {
+            background-color: var(--wp--preset--color--pale-cyan-blue) !important;
+        }
+
+        .has-vivid-cyan-blue-background-color {
+            background-color: var(--wp--preset--color--vivid-cyan-blue) !important;
+        }
+
+        .has-vivid-purple-background-color {
+            background-color: var(--wp--preset--color--vivid-purple) !important;
+        }
+
+        .has-black-border-color {
+            border-color: var(--wp--preset--color--black) !important;
+        }
+
+        .has-cyan-bluish-gray-border-color {
+            border-color: var(--wp--preset--color--cyan-bluish-gray) !important;
+        }
+
+        .has-white-border-color {
+            border-color: var(--wp--preset--color--white) !important;
+        }
+
+        .has-pale-pink-border-color {
+            border-color: var(--wp--preset--color--pale-pink) !important;
+        }
+
+        .has-vivid-red-border-color {
+            border-color: var(--wp--preset--color--vivid-red) !important;
+        }
+
+        .has-luminous-vivid-orange-border-color {
+            border-color: var(--wp--preset--color--luminous-vivid-orange) !important;
+        }
+
+        .has-luminous-vivid-amber-border-color {
+            border-color: var(--wp--preset--color--luminous-vivid-amber) !important;
+        }
+
+        .has-light-green-cyan-border-color {
+            border-color: var(--wp--preset--color--light-green-cyan) !important;
+        }
+
+        .has-vivid-green-cyan-border-color {
+            border-color: var(--wp--preset--color--vivid-green-cyan) !important;
+        }
+
+        .has-pale-cyan-blue-border-color {
+            border-color: var(--wp--preset--color--pale-cyan-blue) !important;
+        }
+
+        .has-vivid-cyan-blue-border-color {
+            border-color: var(--wp--preset--color--vivid-cyan-blue) !important;
+        }
+
+        .has-vivid-purple-border-color {
+            border-color: var(--wp--preset--color--vivid-purple) !important;
+        }
+
+        .has-vivid-cyan-blue-to-vivid-purple-gradient-background {
+            background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;
+        }
+
+        .has-light-green-cyan-to-vivid-green-cyan-gradient-background {
+            background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;
+        }
+
+        .has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background {
+            background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;
+        }
+
+        .has-luminous-vivid-orange-to-vivid-red-gradient-background {
+            background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;
+        }
+
+        .has-very-light-gray-to-cyan-bluish-gray-gradient-background {
+            background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;
+        }
+
+        .has-cool-to-warm-spectrum-gradient-background {
+            background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;
+        }
+
+        .has-blush-light-purple-gradient-background {
+            background: var(--wp--preset--gradient--blush-light-purple) !important;
+        }
+
+        .has-blush-bordeaux-gradient-background {
+            background: var(--wp--preset--gradient--blush-bordeaux) !important;
+        }
+
+        .has-luminous-dusk-gradient-background {
+            background: var(--wp--preset--gradient--luminous-dusk) !important;
+        }
+
+        .has-pale-ocean-gradient-background {
+            background: var(--wp--preset--gradient--pale-ocean) !important;
+        }
+
+        .has-electric-grass-gradient-background {
+            background: var(--wp--preset--gradient--electric-grass) !important;
+        }
+
+        .has-midnight-gradient-background {
+            background: var(--wp--preset--gradient--midnight) !important;
+        }
+
+        .has-small-font-size {
+            font-size: var(--wp--preset--font-size--small) !important;
+        }
+
+        .has-medium-font-size {
+            font-size: var(--wp--preset--font-size--medium) !important;
+        }
+
+        .has-large-font-size {
+            font-size: var(--wp--preset--font-size--large) !important;
+        }
+
+        .has-x-large-font-size {
+            font-size: var(--wp--preset--font-size--x-large) !important;
+        }
+    </style>
+    <link rel='stylesheet' id='email-subscribers-css' href='/welcome_files/wp-content/plugins/email-subscribers/lite/public/css/email-subscribers-public-ver=5.2.0.1645738641.css' type='text/css' media='all' />
+    <link rel='stylesheet' id='yop-public-css' href='/welcome_files/wp-content/plugins/yop-poll/public/assets/css/yop-poll-public-6.3.3-ver=5.9.1.1645738641.css' type='text/css' media='all' />
+    <link rel='stylesheet' id='style-css' href='/welcome_files/wp-content/themes/virtualcard/style-ver=177785.1645738641.css' type='text/css' media='all' />
+    <link rel='stylesheet' id='newsletter-css' href='/welcome_files/wp-content/plugins/newsletter/style-ver=7.3.6.1645738641.css' type='text/css' media='all' />
+    <link rel='stylesheet' id='addtoany-css' href='/welcome_files/wp-content/plugins/add-to-any/addtoany.min-ver=1.16.1645738641.css' type='text/css' media='all' />
+    <script type='text/javascript' id='addtoany-core-js-before'>window.a2a_config = window.a2a_config || {}; a2a_config.callbacks = []; a2a_config.overlays = []; a2a_config.templates = {};</script>
+    <script type='text/javascript' async src='https://static.addtoany.com/menu/page.js?ver=1645738641' id='addtoany-core-js'></script>
+    <script type='text/javascript' src='/welcome_files/wp-includes/js/jquery/jquery.min-ver=3.6.0.1645738641.js' id='jquery-core-js'></script>
+    <script type='text/javascript' src='/welcome_files/wp-includes/js/jquery/jquery-migrate.min-ver=3.3.2.1645738641.js' id='jquery-migrate-js'></script>
+    <script type='text/javascript' async src='/welcome_files/wp-content/plugins/add-to-any/addtoany.min-ver=1.1.1645738641.js' id='addtoany-jquery-js'></script>
+
+
+
+    @*<link rel="https://api.w.org/" href="wp-json/index.html" />
+        <link rel="alternate" type="application/json" href="wp-json/wp/v2/pages/10.json" />
+        <link rel="EditURI" type="application/rsd+xml" title="RSD" href="xmlrpc.php-rsd.xml" />
+        <link rel="wlwmanifest" type="application/wlwmanifest+xml" href="wp-includes/wlwmanifest.xml" />
+        <meta name="generator" content="WordPress 5.9.1" />
+        <link rel='shortlink' href='index.html' />
+        <link rel="alternate" type="application/json+oembed" href="wp-json/oembed/1.0/embed-url=https_%7C%7Cwww.virtualcard.az%7C.json" />
+        <link rel="alternate" type="text/xml+oembed" href="wp-json/oembed/1.0/embed-url=https_%7C%7Cwww.virtualcard.az%7C&format=xml.xml" />
+        <meta property="fb:app_id" content="388930579308414" />
+        <meta name="generator" content="Site Kit by Google 1.49.1" />*@
+    <!-- Google AdSense snippet added by Site Kit -->
+    <!--<meta name="google-adsense-platform-account" content="ca-host-pub-2644536267352236">
+    <meta name="google-adsense-platform-domain" content="sitekit.withgoogle.com">-->
+    <!-- End Google AdSense snippet added by Site Kit -->
+    <!--<link rel="icon" href="/welcome_files/wp-content/uploads/2021/06/cropped-V1-icon-32x32.png" sizes="32x32" />
+    <link rel="icon" href="/welcome_files/wp-content/uploads/2021/06/cropped-V1-icon-192x192.png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="/welcome_files/wp-content/uploads/2021/06/cropped-V1-icon-180x180.png" />
+    <meta name="msapplication-TileImage" content="https://www.virtualcard.az/wp-content/uploads/2021/06/cropped-V1-icon-270x270.png" />-->
+
+
+
+</head>
+<body>
+    <div class="preloader">
+        <div class="preloader__row">
+            <div class="preloader__item"></div>
+            <div class="preloader__item"></div>
+        </div>
+    </div><header>
+        <section class="top-navigation">
+            <div class="container">
+                <a class="horizontal-logo" href="/">
+                    @*<svg width="173" height="41" viewBox="0 0 173 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M22.3189 32V23.598C22.3189 21.1109 21.5403 19.8674 19.9832 19.8674C18.1233 19.8674 17.1501 21.219 17.0636 23.9224V32H12.1651V23.598C12.1651 21.1109 11.3865 19.8674 9.82938 19.8674C8.92106 19.8674 8.20737 20.2242 7.68833 20.9379C7.16929 21.6299 6.90976 22.6897 6.90976 24.117V32H2.01129V15.7799H6.90976V17.4343C7.94785 16.0935 9.33197 15.4231 11.0621 15.4231C13.3329 15.4231 14.9982 16.3746 16.0579 18.2778C16.5337 17.3478 17.2474 16.645 18.199 16.1692C19.1505 15.6718 20.1021 15.4231 21.0537 15.4231C23.0217 15.4231 24.5356 16.0719 25.5953 17.3695C26.6767 18.6671 27.2173 20.4621 27.2173 22.7545V32H22.3189ZM38.6535 32.3568C36.1448 32.3568 34.0795 31.5567 32.4574 29.9563C30.8571 28.3559 30.0569 26.323 30.0569 23.8575C30.0569 21.4353 30.8679 19.424 32.4899 17.8236C34.1335 16.2232 36.1881 15.4231 38.6535 15.4231C39.843 15.4231 40.9568 15.6285 41.9949 16.0394C43.0546 16.4503 43.9845 17.0451 44.7847 17.8236C45.6065 18.6022 46.2445 19.6078 46.6987 20.8406C47.1529 22.0733 47.3583 23.4682 47.3151 25.0254H34.8256C34.9121 25.9121 35.3014 26.6582 35.9934 27.2637C36.6855 27.8477 37.6587 28.1396 38.913 28.1396C39.6267 28.1396 40.2755 27.999 40.8595 27.7179C41.4434 27.4151 41.8327 27.0475 42.0273 26.6149H47.1529C46.6338 28.3234 45.5957 29.7076 44.0386 30.7673C42.4815 31.827 40.6864 32.3568 38.6535 32.3568ZM38.5238 19.3159C37.5938 19.3159 36.8152 19.5538 36.1881 20.0296C35.5825 20.5054 35.1716 21.1325 34.9553 21.9111H41.8975C41.6596 21.0244 41.2163 20.3756 40.5675 19.9647C39.9403 19.5321 39.2591 19.3159 38.5238 19.3159ZM56.9077 32.3568C54.8099 32.3568 53.0257 31.5242 51.5551 29.8589C50.1061 28.1937 49.3816 26.204 49.3816 23.8899C49.3816 21.5759 50.1061 19.5862 51.5551 17.9209C53.0257 16.2557 54.8099 15.4231 56.9077 15.4231C58.7676 15.4231 60.2383 16.0827 61.3196 17.4019V7.66984H66.2181V32H61.3196V30.378C60.2383 31.6972 58.7676 32.3568 56.9077 32.3568ZM55.3182 26.7771C56.0102 27.5341 56.9077 27.9125 58.0107 27.9125C59.1137 27.9125 60.0004 27.5341 60.6708 26.7771C61.3629 26.0202 61.7089 25.0578 61.7089 23.8899C61.7089 22.7221 61.3629 21.7597 60.6708 21.0028C60.0004 20.2458 59.1137 19.8674 58.0107 19.8674C56.9077 19.8674 56.0102 20.2458 55.3182 21.0028C54.6477 21.7597 54.3125 22.7221 54.3125 23.8899C54.3125 25.0578 54.6477 26.0202 55.3182 26.7771ZM72.6828 13.574C71.861 13.574 71.1473 13.282 70.5417 12.6981C69.9362 12.0925 69.6334 11.368 69.6334 10.5246C69.6334 9.68114 69.9362 8.96745 70.5417 8.38353C71.1473 7.77798 71.861 7.4752 72.6828 7.4752C73.5479 7.4752 74.2724 7.77798 74.8563 8.38353C75.4618 8.96745 75.7646 9.68114 75.7646 10.5246C75.7646 11.368 75.4618 12.0925 74.8563 12.6981C74.2724 13.282 73.5479 13.574 72.6828 13.574ZM70.2498 32V15.7799H75.1483V32H70.2498Z" fill="#494949" />
+                            <path d="M86.7421 32.3568C84.2982 32.3568 82.2653 31.5458 80.6433 29.9238C79.0213 28.2802 78.2103 26.2689 78.2103 23.8899C78.2103 21.511 79.0213 19.5105 80.6433 17.8885C82.2653 16.2449 84.2982 15.4231 86.7421 15.4231C88.9696 15.4231 90.8079 16.0394 92.2569 17.2721C93.7059 18.5049 94.6575 20.1161 95.1116 22.1057H90.051C89.3373 20.5919 88.2343 19.8349 86.7421 19.8349C85.6824 19.8349 84.8173 20.2026 84.1469 20.9379C83.4764 21.6516 83.1412 22.6356 83.1412 23.8899C83.1412 25.1443 83.4764 26.1391 84.1469 26.8744C84.8173 27.5881 85.6824 27.945 86.7421 27.945C88.2343 27.945 89.3373 27.188 90.051 25.6742H95.1116C94.6575 27.6638 93.7059 29.275 92.2569 30.5078C90.8079 31.7405 88.9696 32.3568 86.7421 32.3568ZM97.938 32V7.66984H102.836V32H97.938ZM120.432 29.9238C118.766 31.5458 116.755 32.3568 114.398 32.3568C112.041 32.3568 110.029 31.5458 108.364 29.9238C106.699 28.2802 105.866 26.2689 105.866 23.8899C105.866 21.511 106.699 19.5105 108.364 17.8885C110.029 16.2449 112.041 15.4231 114.398 15.4231C116.755 15.4231 118.766 16.2449 120.432 17.8885C122.097 19.5105 122.93 21.511 122.93 23.8899C122.93 26.2689 122.097 28.2802 120.432 29.9238ZM111.803 26.7122C112.495 27.4259 113.36 27.7828 114.398 27.7828C115.436 27.7828 116.29 27.4259 116.961 26.7122C117.653 25.9986 117.999 25.0578 117.999 23.8899C117.999 22.7221 117.653 21.7813 116.961 21.0676C116.29 20.354 115.436 19.9971 114.398 19.9971C113.36 19.9971 112.495 20.354 111.803 21.0676C111.132 21.7813 110.797 22.7221 110.797 23.8899C110.797 25.0578 111.132 25.9986 111.803 26.7122ZM131.88 32.3568C129.912 32.3568 128.398 31.6972 127.338 30.378C126.278 29.0588 125.748 27.2745 125.748 25.0254V15.7799H130.647V24.1819C130.647 26.669 131.479 27.9125 133.145 27.9125C135.178 27.9125 136.194 26.496 136.194 23.6629V15.7799H141.093V32H136.194V30.3455C135.264 31.6864 133.826 32.3568 131.88 32.3568ZM151.662 32.3568C149.564 32.3568 147.78 31.5242 146.31 29.8589C144.861 28.1937 144.136 26.204 144.136 23.8899C144.136 21.5759 144.861 19.5862 146.31 17.9209C147.78 16.2557 149.564 15.4231 151.662 15.4231C153.522 15.4231 154.993 16.0827 156.074 17.4019V7.66984H160.973V32H156.074V30.378C154.993 31.6972 153.522 32.3568 151.662 32.3568ZM150.073 26.7771C150.765 27.5341 151.662 27.9125 152.765 27.9125C153.868 27.9125 154.755 27.5341 155.425 26.7771C156.117 26.0202 156.463 25.0578 156.463 23.8899C156.463 22.7221 156.117 21.7597 155.425 21.0028C154.755 20.2458 153.868 19.8674 152.765 19.8674C151.662 19.8674 150.765 20.2458 150.073 21.0028C149.402 21.7597 149.067 22.7221 149.067 23.8899C149.067 25.0578 149.402 26.0202 150.073 26.7771ZM170.065 31.2539C169.395 31.9243 168.584 32.2595 167.632 32.2595C166.68 32.2595 165.859 31.9243 165.167 31.2539C164.496 30.5618 164.161 29.74 164.161 28.7884C164.161 27.8368 164.496 27.0258 165.167 26.3554C165.859 25.6633 166.68 25.3173 167.632 25.3173C168.584 25.3173 169.395 25.6633 170.065 26.3554C170.757 27.0258 171.103 27.8368 171.103 28.7884C171.103 29.74 170.757 30.5618 170.065 31.2539Z" fill="#22c4fa" />
+                        </svg>*@
+                    <img src="/assets/images/mc_logo_inline.svg" alt="logo">
+                </a>
+                <div class="right-navigation">
+                    <div class="social-icons mobile-hide tablet-show">
+                        <a class="social-icon reverse" target="_blank" href="https://www.instagram.com/medicloud.az">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M16 4H8C5.79086 4 4 5.79086 4 8V16C4 18.2091 5.79086 20 8 20H16C18.2091 20 20 18.2091 20 16V8C20 5.79086 18.2091 4 16 4Z" stroke="#5F7AA4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="#5F7AA4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M16.5 7.5V7.501" stroke="#5F7AA4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </a>
+                        <a class="social-icon" target="_blank" href="https://www.facebook.com/profile.php?id=61560066662823">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M10 20H12V13.8C12 13.247 12.447 12.8 13 12.8H15.24L15.685 11.2H13C12.447 11.2 12 10.753 12 10.2V7.5C12 6.452 12.897 5.6 14 5.6H16V4H14C11.794 4 10 5.57 10 7.5V10.2C10 10.753 9.553 11.2 9 11.2H7V12.8H9C9.553 12.8 10 13.247 10 13.8V20ZM13 22H9C8.447 22 8 21.553 8 21V14.8H6C5.447 14.8 5 14.353 5 13.8V10.2C5 9.647 5.447 9.2 6 9.2H8V7.5C8 4.468 10.691 2 14 2H17C17.553 2 18 2.447 18 3V6.6C18 7.152 17.553 7.6 17 7.6H14V9.2H17C17.312 9.2 17.607 9.347 17.796 9.595C17.985 9.844 18.047 10.167 17.964 10.468L16.964 14.067C16.844 14.5 16.449 14.8 16 14.8H14V21C14 21.553 13.553 22 13 22Z" fill="#5F7AA4" />
+                            </svg>
+                        </a>
+                        <a class="social-icon" target="_blank" href="https://www.linkedin.com/company/flexitmmc">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M4 10H3.998L4 20H6V10H4ZM6 22H4C2.897 22 2 21.103 2 20V10C2 8.897 2.897 8 4 8H6C7.103 8 8 8.897 8 10V20C8 21.103 7.103 22 6 22ZM15.5049 11.6924C15.6579 11.6924 15.8129 11.7054 15.9659 11.7294C17.3159 11.9504 18.3329 13.1964 18.3329 14.6294V20.0004H19.9999V14.5384C19.9999 12.0364 17.9819 10.0004 15.4999 10.0004C13.0189 10.0004 10.9999 12.0364 10.9999 14.5384V20.0004H12.6669V14.5384C12.6669 13.6994 13.0319 12.9074 13.6699 12.3654C14.1859 11.9274 14.8349 11.6924 15.5049 11.6924ZM19.9999 22.0004H18.3329C17.2309 22.0004 16.3329 21.1024 16.3329 20.0004V14.6294C16.3329 14.1724 16.0299 13.7664 15.6449 13.7044C15.3089 13.6464 15.0749 13.7964 14.9659 13.8884C14.7759 14.0504 14.6669 14.2874 14.6669 14.5384V20.0004C14.6669 21.1024 13.7699 22.0004 12.6669 22.0004H10.9999C9.8979 22.0004 8.9999 21.1024 8.9999 20.0004V14.5384C8.9999 10.9324 11.9159 8.0004 15.4999 8.0004C19.0839 8.0004 21.9999 10.9324 21.9999 14.5384V20.0004C21.9999 21.1024 21.1029 22.0004 19.9999 22.0004ZM5 3C4.448 3 4 3.448 4 4C4 4.552 4.448 5 5 5C5.552 5 6 4.552 6 4C6 3.448 5.552 3 5 3ZM5 7C3.346 7 2 5.654 2 4C2 2.346 3.346 1 5 1C6.654 1 8 2.346 8 4C8 5.654 6.654 7 5 7Z" fill="#5F7AA4" />
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="menu-separator mobile-hide tablet-show"></div>
+                    <a class="telegram-support" target="_blank" href="/Login">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 10L11 14L17 20L21 4L3 11L7 13L9 19L12 15" stroke="#5F7AA4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <span>Daxil ol</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </header>
+    <main>
+
+
+        <div class="page" id="front_page">
+            <section class="headline">
+                <div class="container">
+                    <h1>Sağlamlığınızı buludlara qaldırın</h1>
+                    <div class="headline-image">
+                        <img class="mobile-show tablet-hide" src="/welcome_files/wp-content/uploads/2021/07/headline-image-picture.png" alt="virtual-card-mobile-app-screen">
+                        <img class="mobile-show tablet-hide" src="/welcome_files/wp-content/uploads/2021/07/headline-image-shadow.png" alt="virtual-card-mobile-app-shadow">
+                        <img class="mobile-hide tablet-show" src="/welcome_files/wp-content/uploads/2021/07/Phone.png" alt="virtual-card-mobile-app-full">
+                    </div>
+                    <div class="cta">
+                        <div class="apply-why">
+                            <h2>Bizimlə xidmətlər daha keyfiyyətli!</h2>
+                            <ul>
+                                <li>Sağlamlıq və gözəllik sahəsindəki işlərinizi rəqəmsal dünyaya gətirin.</li>
+                                <li>Müştərilərinizi məmnun edin və biznesinizi inkişaf etdirin.</li>
+                            </ul>
+                            @*<p>Artıq <em class="user_count">11 000</em> <em>nəfər</em> ilkin qeydiyyatdan keçib.</p>*@
+                            <p style="display:none">Artıq <em class="user_count">11 000</em> <em>nəfər</em> ilkin qeydiyyatdan keçib.</p>
+                            <p><em>Medicloud</em> platforması sağlamlıq və gözəllik həlləri arasında ciddi fərqlər yaradır. Qeydiyyat yalnız platforma üzərindən aparılır.</p>
+                            @*<p>09.01.2022-ci il tarixinədək qeydiyyatdan keçmiş müştərilərin qazanılmış hədiyyə bonusları şəxsi hesablarda öz əksini tapacaqdır.</p>*@
+                        </div>
+                    </div>
+                </div>
+            </section>    <section class="advantages">
+                <div class="container">
+                    <h2>Üstünlüklər</h2>
+                    <h3>Məlumatlarınızı bir mənbədən idarə edin.</h3>
+                    <div class="advantages-list">
+                        <div class="advantages-item">
+                            <div class="icon">
+                                <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="28" cy="28" r="28" fill="#22c4fa" />
+                                    <path d="M28 28V28.01" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M30.828 25.172C31.5779 25.9221 31.9991 26.9393 31.9991 28C31.9991 29.0607 31.5779 30.0779 30.828 30.828" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M33.657 22.343C34.3999 23.0859 34.9892 23.9678 35.3913 24.9385C35.7933 25.9091 36.0003 26.9494 36.0003 28C36.0003 29.0506 35.7933 30.0909 35.3913 31.0616C34.9892 32.0322 34.3999 32.9141 33.657 33.657" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M25.168 30.828C24.4181 30.0779 23.9968 29.0607 23.9968 28C23.9968 26.9393 24.4181 25.9221 25.168 25.172" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M22.337 33.657C21.5941 32.9141 21.0048 32.0322 20.6027 31.0616C20.2007 30.0909 19.9937 29.0506 19.9937 28C19.9937 26.9494 20.2007 25.9091 20.6027 24.9385C21.0048 23.9678 21.5941 23.0859 22.337 22.343" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </div>
+                            <div class="text">
+                                <h4>Tam onlayn</h4>
+                                <p>Bütün əməliyyatlar tətbiq üzərindən aparılır - kağız daşıyıcılarını unudun!</p>
+                            </div>
+                        </div>
+                        <div class="advantages-item">
+                            <div class="icon">
+                                <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="28" cy="28" r="28" fill="#22c4fa" />
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M23.4409 20.918C22.9409 21.272 22.4819 21.682 22.0659 22.146C19.2169 25.317 19.3099 30.391 22.2729 33.456C23.8389 35.077 25.9429 35.981 28.1969 36C28.2219 36.001 28.2479 36.001 28.2739 36.001C30.4989 36.001 32.5879 35.138 34.1639 33.565C34.4919 33.238 34.7899 32.887 35.0569 32.513C31.9109 32.905 28.6859 31.851 26.3949 29.565C24.1049 27.279 23.0449 24.061 23.4409 20.918ZM28.2739 38.001C28.2419 38.001 28.2109 38.001 28.1789 38C25.3849 37.976 22.7759 36.856 20.8349 34.847C17.1579 31.042 17.0429 24.745 20.5769 20.81C21.6779 19.583 23.0219 18.66 24.5709 18.067C24.9359 17.925 25.3509 18.013 25.6299 18.289C25.9089 18.564 26.0019 18.977 25.8669 19.345C24.7489 22.4 25.5109 25.856 27.8079 28.149C30.1059 30.442 33.5709 31.203 36.6359 30.087C37.0039 29.951 37.4179 30.047 37.6919 30.325C37.9659 30.606 38.0529 31.02 37.9119 31.385C37.3879 32.748 36.6019 33.958 35.5759 34.981C33.6229 36.931 31.0329 38.001 28.2739 38.001Z" fill="white" />
+                                </svg>
+                            </div>
+                            <div class="text">
+                                <h4>Etik yanaşma</h4>
+                                <p>Medicloud məlumatlarınızın təhlükəsiz və məxfi saxlanılmasına zəmanət verir.</p>
+                            </div>
+
+                        </div>
+
+                        <div class="advantages-item">
+                            <div class="icon">
+                                <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="28" cy="28" r="28" fill="#22c4fa" />
+                                    <path d="M35 25H25C23.8954 25 23 25.8954 23 27V33C23 34.1046 23.8954 35 25 35H35C36.1046 35 37 34.1046 37 33V27C37 25.8954 36.1046 25 35 25Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M30 32C31.1046 32 32 31.1046 32 30C32 28.8954 31.1046 28 30 28C28.8954 28 28 28.8954 28 30C28 31.1046 28.8954 32 30 32Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M33 25V23C33 22.4696 32.7893 21.9609 32.4142 21.5858C32.0391 21.2107 31.5304 21 31 21H21C20.4696 21 19.9609 21.2107 19.5858 21.5858C19.2107 21.9609 19 22.4696 19 23V29C19 29.5304 19.2107 30.0391 19.5858 30.4142C19.9609 30.7893 20.4696 31 21 31H23" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </div>
+                            <div class="text">
+                                <h4>Qazancınızı artırın</h4>
+                                <p>Medicloud vasitəsilə xəstələrinizə daha çox xidmət göstərərək gəlirinizi artırın.</p>
+
+                            </div>
+                        </div>
+
+                        @*<div class="advantages-item">
+                            <div class="icon">
+                                <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="28" cy="28" r="28" fill="#22c4fa" />
+                                    <path d="M25 20H21C20.4477 20 20 20.4477 20 21V25C20 25.5523 20.4477 26 21 26H25C25.5523 26 26 25.5523 26 25V21C26 20.4477 25.5523 20 25 20Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M23 33V33.01" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M35 20H31C30.4477 20 30 20.4477 30 21V25C30 25.5523 30.4477 26 31 26H35C35.5523 26 36 25.5523 36 25V21C36 20.4477 35.5523 20 35 20Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M23 23V23.01" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M25 30H21C20.4477 30 20 30.4477 20 31V35C20 35.5523 20.4477 36 21 36H25C25.5523 36 26 35.5523 26 35V31C26 30.4477 25.5523 30 25 30Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M33 23V23.01" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M30 30H33" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M36 30V30.01" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M30 30V33" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M30 36H33" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M33 33H36" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M36 33V36" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </div>
+                            <div class="text">
+                                <h4>Statistika</h4>
+                                <p>Alış etmək üçün tətbiqlə QR kodu oxumaq kifayətdir.</p>
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="advantages-item">
+                            <div class="icon">
+                                <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="28" cy="28" r="28" fill="#22c4fa" />
+                                    <path d="M28 31C29.6569 31 31 29.6569 31 28C31 26.3431 29.6569 25 28 25C26.3431 25 25 26.3431 25 28C25 29.6569 26.3431 31 28 31Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M35 22H21C19.8954 22 19 22.8954 19 24V32C19 33.1046 19.8954 34 21 34H35C36.1046 34 37 33.1046 37 32V24C37 22.8954 36.1046 22 35 22Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M34 28H34.01" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M22 28H22.01" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </div>
+                            <div class="text">
+                                <h4>Pulunuz dəyərdən düşmür</h4>
+                                <p>Qabaqcadan ödənişi müəyyən olunmuş müddət ərzində şəbəkəmizdə xərcləyə bilməsəz, avansınız kompensasiya ilə birgə geri qaytarılacaq.</p>
+                            </div>
+                        </div>
+
+                        <div class="advantages-item">
+                            <div class="icon">
+                                <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="28" cy="28" r="28" fill="#22c4fa" />
+                                    <path d="M33 24V21C33 20.7348 32.8946 20.4804 32.7071 20.2929C32.5196 20.1054 32.2652 20 32 20H22C21.4696 20 20.9609 20.2107 20.5858 20.5858C20.2107 20.9609 20 21.4696 20 22M20 22C20 22.5304 20.2107 23.0391 20.5858 23.4142C20.9609 23.7893 21.4696 24 22 24H34C34.2652 24 34.5196 24.1054 34.7071 24.2929C34.8946 24.4804 35 24.7348 35 25V28M20 22V34C20 34.5304 20.2107 35.0391 20.5858 35.4142C20.9609 35.7893 21.4696 36 22 36H34C34.2652 36 34.5196 35.8946 34.7071 35.7071C34.8946 35.5196 35 35.2652 35 35V32" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M36 28V32H32C31.4696 32 30.9609 31.7893 30.5858 31.4142C30.2107 31.0391 30 30.5304 30 30C30 29.4696 30.2107 28.9609 30.5858 28.5858C30.9609 28.2107 31.4696 28 32 28H36Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </div>
+                            <div class="text">
+                                <h4>İndi al sonra ödə</h4>
+                                <p>Xərclərinizi 3 ay ərzində faizsiz hissə-hissə ödəyin.</p>
+                            </div>
+                        </div>*@
+
+
+                    </div>
+                </div>
+            </section>    <section id="faq" class="faq">
+                <div class="container">
+                    <h2>Tez-tez soruşulan suallar</h2><div class="accordion">
+    <div class="accordion-card">
+        <div class="card-heading">
+            <span class="card-heading-icon">
+                <svg height="20px" viewBox="1 1 511.99931 511.99931" width="20px"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path fill="#22c4fa"
+                          d="m256 0c-141.386719 0-256 114.613281-256 256 0 141.382812 114.613281 256 256 256 141.382812 0 256-114.617188 256-256-.167969-141.316406-114.683594-255.832031-256-256zm0 480c-123.710938 0-224-100.289062-224-224s100.289062-224 224-224 224 100.289062 224 224c-.132812 123.65625-100.34375 223.867188-224 224zm0 0" />
+                    <path fill="#22c4fa"
+                          d="m256 96c-52.996094.054688-95.949219 43.003906-96 96h32c0-35.34375 28.652344-64 64-64 35.34375-.035156 64.027344 28.589844 64.0625 63.9375.027344 28.300781-18.535156 53.257812-45.648438 61.375-20.402343 5.9375-34.429687 24.640625-34.414062 45.886719v52.800781h32v-52.800781c.0625-7.09375 4.789062-13.300781 11.613281-15.246094 50.785157-15.234375 79.605469-68.75 64.371094-119.535156-12.183594-40.621094-49.578125-68.433594-91.984375-68.417969zm0 0" />
+                    <path fill="#22c4fa" d="m240 384h32v32h-32zm0 0" />
+                </svg>
+            </span>
+            <h3 class="card-heading-title">Medicoud nədir?</h3>
+            <span class="card-heading-caret icon-arrow-right">
+                <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="arrow-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" height="20px" width="20px">
+                    <path fill="#779499" d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0L441 239c9.4 9.4 9.4 24.6 0 33.9L246.6 467.3c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 296H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"></path>
+                </svg>
+            </span>
+        </div>
+        <div class="card-panel">
+            <div class="card-content">
+                <p>Medicoud sağlamlıq və gözəllik sahələrində fəaliyyət göstərən müəssisələr üçün kompleks idarəetmə və analitik platformadır.</p>
+
+            </div>
+        </div>
+    </div>
+    <div class="accordion-card">
+        <div class="card-heading">
+            <span class="card-heading-icon">
+                <svg height="20px" viewBox="1 1 511.99931 511.99931" width="20px"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path fill="#22c4fa"
+                          d="m256 0c-141.386719 0-256 114.613281-256 256 0 141.382812 114.613281 256 256 256 141.382812 0 256-114.617188 256-256-.167969-141.316406-114.683594-255.832031-256-256zm0 480c-123.710938 0-224-100.289062-224-224s100.289062-224 224-224 224 100.289062 224 224c-.132812 123.65625-100.34375 223.867188-224 224zm0 0" />
+                    <path fill="#22c4fa"
+                          d="m256 96c-52.996094.054688-95.949219 43.003906-96 96h32c0-35.34375 28.652344-64 64-64 35.34375-.035156 64.027344 28.589844 64.0625 63.9375.027344 28.300781-18.535156 53.257812-45.648438 61.375-20.402343 5.9375-34.429687 24.640625-34.414062 45.886719v52.800781h32v-52.800781c.0625-7.09375 4.789062-13.300781 11.613281-15.246094 50.785157-15.234375 79.605469-68.75 64.371094-119.535156-12.183594-40.621094-49.578125-68.433594-91.984375-68.417969zm0 0" />
+                    <path fill="#22c4fa" d="m240 384h32v32h-32zm0 0" />
+                </svg>
+            </span>
+            <h3 class="card-heading-title">Medicoud hansı xidmətləri təklif edir?</h3>
+            <span class="card-heading-caret icon-arrow-right">
+                <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="arrow-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" height="20px" width="20px">
+                    <path fill="#779499" d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0L441 239c9.4 9.4 9.4 24.6 0 33.9L246.6 467.3c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 296H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"></path>
+                </svg>
+            </span>
+        </div>
+        <div class="card-panel">
+            <div class="card-content">
+                <p>Müştəri idarəetməsi, ziyarət tarixçəsi, xidmət planlaşdırma və daha çox.</p>
+
+            </div>
+        </div>
+    </div>
+    <div class="accordion-card">
+        <div class="card-heading">
+            <span class="card-heading-icon">
+                <svg height="20px" viewBox="1 1 511.99931 511.99931" width="20px"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path fill="#22c4fa"
+                          d="m256 0c-141.386719 0-256 114.613281-256 256 0 141.382812 114.613281 256 256 256 141.382812 0 256-114.617188 256-256-.167969-141.316406-114.683594-255.832031-256-256zm0 480c-123.710938 0-224-100.289062-224-224s100.289062-224 224-224 224 100.289062 224 224c-.132812 123.65625-100.34375 223.867188-224 224zm0 0" />
+                    <path fill="#22c4fa"
+                          d="m256 96c-52.996094.054688-95.949219 43.003906-96 96h32c0-35.34375 28.652344-64 64-64 35.34375-.035156 64.027344 28.589844 64.0625 63.9375.027344 28.300781-18.535156 53.257812-45.648438 61.375-20.402343 5.9375-34.429687 24.640625-34.414062 45.886719v52.800781h32v-52.800781c.0625-7.09375 4.789062-13.300781 11.613281-15.246094 50.785157-15.234375 79.605469-68.75 64.371094-119.535156-12.183594-40.621094-49.578125-68.433594-91.984375-68.417969zm0 0" />
+                    <path fill="#22c4fa" d="m240 384h32v32h-32zm0 0" />
+                </svg>
+            </span>
+            <h3 class="card-heading-title">Platforma nə zaman hazır olacaqdır?</h3>
+            <span class="card-heading-caret icon-arrow-right">
+                <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="arrow-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" height="20px" width="20px">
+                    <path fill="#779499" d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0L441 239c9.4 9.4 9.4 24.6 0 33.9L246.6 467.3c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 296H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"></path>
+                </svg>
+            </span>
+        </div>
+        <div class="card-panel">
+            <div class="card-content">
+                <p>Platformamız tezliklə istifadəyə veriləcəkdir.</p>
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+                </div>
+            </section><!--    -->
+        </div>
+
+
+    </main>
+    <footer>
+        <section class="simple-footer">
+            <div class="container">
+                <a class="horizontal-logo" href="">
+                    @*<svg viewBox="0 0 142 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M11.7255 25.613L0.291339 3.752C0.0869277 3.36108 -0.0129442 2.92432 0.0013435 2.48381C0.0156312 2.0433 0.143597 1.61388 0.372915 1.2369C0.602233 0.859924 0.925176 0.548099 1.31064 0.33146C1.6961 0.114822 2.13109 0.00066969 2.57371 0L28.35 0C28.7929 6.89897e-05 29.2284 0.113783 29.6143 0.330174C30.0002 0.546565 30.3237 0.858332 30.5534 1.23541C30.7831 1.61248 30.9114 2.04214 30.9259 2.48294C30.9403 2.92374 30.8404 3.36081 30.6359 3.752L19.2111 25.613C17.6318 28.6265 13.3013 28.6265 11.7255 25.613Z" fill="#22c4fa" />
+                            <path d="M28.4765 0H32.1086C32.6679 0 33.2044 0.221249 33.5999 0.615076C33.9954 1.0089 34.2176 1.54305 34.2176 2.1V25.9C34.2176 26.457 33.9954 26.9911 33.5999 27.3849C33.2044 27.7788 32.6679 28 32.1086 28H28.4765C24.7476 28 21.1714 26.525 18.5347 23.8995C15.898 21.274 14.4167 17.713 14.4167 14C14.4167 10.287 15.898 6.72601 18.5347 4.1005C21.1714 1.475 24.7476 0 28.4765 0V0Z" fill="#081132" />
+                            <path d="M48.1509 20.3584L43.0366 8.2251H45.2335L49.0273 17.3006L52.8035 8.2251H55.0167L49.9025 20.3584H48.1509Z" fill="#081132" />
+                            <path d="M57.3295 9.94947C57.1636 9.9511 56.999 9.9194 56.8456 9.85626C56.6922 9.79312 56.5531 9.69983 56.4368 9.58197C56.3147 9.46674 56.2181 9.32744 56.1532 9.17297C56.0882 9.0185 56.0563 8.85224 56.0595 8.6848C56.0575 8.51995 56.0901 8.3565 56.155 8.20485C56.22 8.0532 56.3159 7.91668 56.4368 7.80397C56.5531 7.68611 56.6922 7.59282 56.8456 7.52968C56.999 7.46654 57.1636 7.43484 57.3295 7.43647C57.4966 7.43197 57.6628 7.46234 57.8174 7.52564C57.9719 7.58893 58.1115 7.68374 58.227 7.80397C58.3418 7.91995 58.432 8.05765 58.4924 8.20895C58.5527 8.36024 58.582 8.52204 58.5785 8.6848C58.5832 8.85016 58.5546 9.01478 58.4942 9.16889C58.4338 9.323 58.343 9.46347 58.227 9.58197C58.1115 9.7022 57.9719 9.79701 57.8174 9.86031C57.6628 9.9236 57.4966 9.95397 57.3295 9.94947ZM56.3852 20.3585V11.8126H58.2739V20.3585H56.3852Z" fill="#081132" />
+                            <path d="M60.814 20.3584V11.8125H62.7027V13.3292C62.8587 12.8533 63.1696 12.4428 63.5861 12.1625C63.9892 11.8754 64.472 11.7204 64.9675 11.7192C65.2153 11.7142 65.4629 11.7369 65.7057 11.7869V13.7189C65.4031 13.6115 65.0836 13.5593 64.7625 13.5649C64.4825 13.5633 64.2059 13.6247 63.9531 13.7445C63.7003 13.8643 63.4779 14.0394 63.3026 14.2567C62.9019 14.7187 62.7019 15.3596 62.7027 16.1794V20.3584H60.814Z" fill="#081132" />
+                            <path d="M71.0613 20.4435C70.1919 20.4435 69.4854 20.2013 68.9418 19.7167C68.3981 19.2322 68.1247 18.5287 68.1216 17.6062V13.4867H66.3407V11.8125H68.1263V9.43604H70.0138V11.8125H72.4684V13.4867H70.0138V17.2982C70.0138 17.8232 70.1283 18.1965 70.3571 18.4182C70.586 18.6399 70.9523 18.7511 71.4561 18.7519C71.8018 18.7638 72.1462 18.7054 72.4684 18.5804V20.2557C72.0112 20.387 71.5371 20.4503 71.0613 20.4435Z" fill="#081132" />
+                            <path d="M77.3249 20.5333C76.3408 20.5333 75.5628 20.2059 74.991 19.551C74.4193 18.8961 74.133 18.0215 74.1322 16.9271V11.8171H76.0209V16.6191C76.0209 17.3028 76.1697 17.8414 76.4673 18.235C76.7649 18.6285 77.1883 18.8249 77.7374 18.8241C78.0311 18.8336 78.3227 18.7726 78.5878 18.6463C78.8529 18.52 79.0836 18.3321 79.2605 18.0985C79.6378 17.6147 79.8264 16.9225 79.8264 16.0218V11.8218H81.7151V20.3583H79.8323V19.1916C79.3324 20.0861 78.4966 20.5333 77.3249 20.5333Z" fill="#081132" />
+                            <path d="M87.7796 20.5332C87.2237 20.5424 86.6726 20.431 86.1643 20.2068C85.6561 19.9826 85.2029 19.6509 84.8364 19.2347C84.0412 18.369 83.6432 17.319 83.6425 16.0847C83.6417 14.8504 84.0396 13.8023 84.8364 12.9405C85.2029 12.5242 85.656 12.1924 86.1642 11.9679C86.6724 11.7435 87.2236 11.6319 87.7796 11.6409C88.3409 11.6356 88.895 11.7678 89.3929 12.0259C89.8386 12.2446 90.2266 12.5643 90.5259 12.9592V11.8147H92.4146V20.3582H90.5259V19.2125C90.2269 19.6078 89.8388 19.9275 89.3929 20.1459C88.895 20.4043 88.341 20.5372 87.7796 20.5332ZM86.2869 18.0377C86.5233 18.2861 86.8081 18.4839 87.1239 18.619C87.4396 18.7542 87.7797 18.8239 88.1234 18.8239C88.4671 18.8239 88.8072 18.7542 89.123 18.619C89.4387 18.4839 89.7235 18.2861 89.96 18.0377C90.4439 17.5053 90.7021 16.8071 90.6806 16.0894C90.7017 15.3717 90.4435 14.6737 89.96 14.141C89.7235 13.8927 89.4387 13.6949 89.123 13.5597C88.8072 13.4246 88.4671 13.3549 88.1234 13.3549C87.7797 13.3549 87.4396 13.4246 87.1239 13.5597C86.8081 13.6949 86.5233 13.8927 86.2869 14.141C85.8025 14.6732 85.5438 15.3715 85.5651 16.0894C85.5447 16.8058 85.8033 17.5022 86.2869 18.033V18.0377Z" fill="#081132" />
+                            <path d="M94.9711 20.3584V7.53906H96.8598V20.3584H94.9711Z" fill="#081132" />
+                            <path d="M109.235 20.5637C107.416 20.5637 105.903 19.9624 104.696 18.76C103.489 17.5576 102.885 16.0677 102.884 14.2905C102.884 12.5125 103.488 11.0227 104.696 9.821C105.903 8.61933 107.416 8.01811 109.235 8.01733C110.677 8.01733 111.939 8.42489 113.02 9.24C114.102 10.0551 114.797 11.0721 115.106 12.2908H112.943C112.674 11.5884 112.18 10.9939 111.537 10.5992C110.85 10.1629 110.05 9.937 109.236 9.94933C107.978 9.94933 106.942 10.3651 106.13 11.1965C105.318 12.0279 104.911 13.0593 104.911 14.2905C104.911 15.5217 105.318 16.5531 106.13 17.3845C106.942 18.2159 107.978 18.6317 109.236 18.6317C110.05 18.6444 110.85 18.4188 111.537 17.983C112.18 17.5876 112.674 16.9928 112.943 16.2902H115.106C114.793 17.5097 114.098 18.5267 113.02 19.341C111.942 20.1553 110.681 20.5629 109.235 20.5637Z" fill="#081132" />
+                            <path d="M120.426 20.5332C119.871 20.5424 119.319 20.431 118.811 20.2068C118.303 19.9826 117.85 19.6509 117.483 19.2347C116.688 18.369 116.291 17.319 116.291 16.0847C116.291 14.8504 116.688 13.8023 117.483 12.9405C117.85 12.5242 118.303 12.1924 118.811 11.9679C119.319 11.7435 119.871 11.6319 120.426 11.6409C120.988 11.6356 121.542 11.7678 122.04 12.0259C122.485 12.2446 122.874 12.5643 123.173 12.9592V11.8147H125.061V20.3582H123.173V19.2125C122.874 19.6078 122.486 19.9275 122.04 20.1459C121.542 20.4043 120.988 20.5372 120.426 20.5332ZM118.934 18.0377C119.17 18.2861 119.455 18.4839 119.771 18.619C120.087 18.7542 120.427 18.8239 120.77 18.8239C121.114 18.8239 121.454 18.7542 121.77 18.619C122.086 18.4839 122.37 18.2861 122.607 18.0377C123.091 17.5053 123.349 16.8071 123.327 16.0894C123.349 15.3717 123.09 14.6737 122.607 14.141C122.37 13.8927 122.086 13.6949 121.77 13.5597C121.454 13.4246 121.114 13.3549 120.77 13.3549C120.427 13.3549 120.087 13.4246 119.771 13.5597C119.455 13.6949 119.17 13.8927 118.934 14.141C118.449 14.6732 118.191 15.3715 118.212 16.0894C118.192 16.8058 118.45 17.5022 118.934 18.033V18.0377Z" fill="#081132" />
+                            <path d="M127.618 20.3584V11.8125H129.507V13.3292C129.663 12.8535 129.974 12.4431 130.39 12.1625C130.794 11.8755 131.277 11.7206 131.773 11.7192C132.02 11.7142 132.268 11.7369 132.511 11.7869V13.7189C132.208 13.6115 131.888 13.5593 131.566 13.5649C131.287 13.5633 131.01 13.6247 130.758 13.7445C130.505 13.8643 130.283 14.0394 130.108 14.2567C129.707 14.7187 129.507 15.3596 129.507 16.1794V20.3584H127.618Z" fill="#081132" />
+                            <path d="M137.368 20.5334C136.812 20.5426 136.261 20.4312 135.753 20.207C135.244 19.9828 134.791 19.6511 134.424 19.2349C133.629 18.3692 133.231 17.3192 133.231 16.0849C133.231 14.8506 133.629 13.8025 134.424 12.9407C134.791 12.5244 135.244 12.1925 135.753 11.9681C136.261 11.7437 136.812 11.6321 137.368 11.6411C137.93 11.6357 138.484 11.768 138.982 12.0261C139.428 12.2448 139.816 12.5644 140.115 12.9594V7.53906H142V20.3584H140.112V19.2127C139.813 19.608 139.425 19.9277 138.979 20.1461C138.482 20.4041 137.929 20.537 137.368 20.5334ZM135.875 18.0379C136.111 18.2863 136.396 18.4841 136.712 18.6192C137.027 18.7544 137.367 18.8241 137.711 18.8241C138.055 18.8241 138.395 18.7544 138.711 18.6192C139.026 18.4841 139.311 18.2863 139.548 18.0379C140.032 17.5056 140.291 16.8074 140.269 16.0896C140.29 15.3718 140.032 14.6737 139.548 14.1412C139.311 13.8929 139.026 13.6951 138.711 13.5599C138.395 13.4247 138.055 13.355 137.711 13.355C137.367 13.355 137.027 13.4247 136.712 13.5599C136.396 13.6951 136.111 13.8929 135.875 14.1412C135.391 14.6738 135.133 15.3719 135.154 16.0896C135.134 16.8057 135.392 17.502 135.875 18.0332V18.0379Z" fill="#081132" />
+                            <path d="M28.3886 0C24.675 0.023112 21.1213 1.5083 18.5036 4.13131C15.8858 6.75432 14.4166 10.3021 14.4167 14C14.4147 16.0801 14.8792 18.1345 15.7764 20.013C16.6735 21.8916 17.9807 23.5469 19.6024 24.8582L30.6417 3.752C30.845 3.36326 30.945 2.92915 30.932 2.49104C30.9191 2.05293 30.7937 1.62542 30.5678 1.24924C30.3419 0.873064 30.0231 0.560754 29.6416 0.342074C29.2601 0.123393 28.8288 0.00562809 28.3886 0V0Z" fill="#086350" />
+                        </svg>*@
+                    <img src="/assets/images/mc_logo_inline.svg" alt="logo">
+                </a>
+                <div class="social-icons">
+                    <a class="social-icon reverse" target="_blank" href="https://www.instagram.com/medicloud.az">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16 4H8C5.79086 4 4 5.79086 4 8V16C4 18.2091 5.79086 20 8 20H16C18.2091 20 20 18.2091 20 16V8C20 5.79086 18.2091 4 16 4Z" stroke="#5F7AA4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="#5F7AA4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M16.5 7.5V7.501" stroke="#5F7AA4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </a>
+                    <a class="social-icon" target="_blank" href="https://www.facebook.com/profile.php?id=61560066662823">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M10 20H12V13.8C12 13.247 12.447 12.8 13 12.8H15.24L15.685 11.2H13C12.447 11.2 12 10.753 12 10.2V7.5C12 6.452 12.897 5.6 14 5.6H16V4H14C11.794 4 10 5.57 10 7.5V10.2C10 10.753 9.553 11.2 9 11.2H7V12.8H9C9.553 12.8 10 13.247 10 13.8V20ZM13 22H9C8.447 22 8 21.553 8 21V14.8H6C5.447 14.8 5 14.353 5 13.8V10.2C5 9.647 5.447 9.2 6 9.2H8V7.5C8 4.468 10.691 2 14 2H17C17.553 2 18 2.447 18 3V6.6C18 7.152 17.553 7.6 17 7.6H14V9.2H17C17.312 9.2 17.607 9.347 17.796 9.595C17.985 9.844 18.047 10.167 17.964 10.468L16.964 14.067C16.844 14.5 16.449 14.8 16 14.8H14V21C14 21.553 13.553 22 13 22Z" fill="#5F7AA4" />
+                        </svg>
+                    </a>
+                    <a class="social-icon" target="_blank" href="https://www.linkedin.com/company/flexitmmc">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M4 10H3.998L4 20H6V10H4ZM6 22H4C2.897 22 2 21.103 2 20V10C2 8.897 2.897 8 4 8H6C7.103 8 8 8.897 8 10V20C8 21.103 7.103 22 6 22ZM15.5049 11.6924C15.6579 11.6924 15.8129 11.7054 15.9659 11.7294C17.3159 11.9504 18.3329 13.1964 18.3329 14.6294V20.0004H19.9999V14.5384C19.9999 12.0364 17.9819 10.0004 15.4999 10.0004C13.0189 10.0004 10.9999 12.0364 10.9999 14.5384V20.0004H12.6669V14.5384C12.6669 13.6994 13.0319 12.9074 13.6699 12.3654C14.1859 11.9274 14.8349 11.6924 15.5049 11.6924ZM19.9999 22.0004H18.3329C17.2309 22.0004 16.3329 21.1024 16.3329 20.0004V14.6294C16.3329 14.1724 16.0299 13.7664 15.6449 13.7044C15.3089 13.6464 15.0749 13.7964 14.9659 13.8884C14.7759 14.0504 14.6669 14.2874 14.6669 14.5384V20.0004C14.6669 21.1024 13.7699 22.0004 12.6669 22.0004H10.9999C9.8979 22.0004 8.9999 21.1024 8.9999 20.0004V14.5384C8.9999 10.9324 11.9159 8.0004 15.4999 8.0004C19.0839 8.0004 21.9999 10.9324 21.9999 14.5384V20.0004C21.9999 21.1024 21.1029 22.0004 19.9999 22.0004ZM5 3C4.448 3 4 3.448 4 4C4 4.552 4.448 5 5 5C5.552 5 6 4.552 6 4C6 3.448 5.552 3 5 3ZM5 7C3.346 7 2 5.654 2 4C2 2.346 3.346 1 5 1C6.654 1 8 2.346 8 4C8 5.654 6.654 7 5 7Z" fill="#5F7AA4" />
+                        </svg>
+                    </a>
+                    <a class="social-icon reverse" target="_blank" href="/Login/Index">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 10L11 14L17 20L21 4L3 11L7 13L9 19L12 15" stroke="#5F7AA4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </a>
+                </div>
+                <p class="copy">
+                    <em>&copy;</em><span> Flexit MMC. 2021 -
+                    <script>document.write(new Date().getFullYear())</script></span>
+                </p>
+            </div>
+        </section>
+    </footer>
+
+
+    <link rel='stylesheet' id='dashicons-css' href='/welcome_files/wp-includes/css/dashicons.min-ver=5.9.1.1645738641.css' type='text/css' media='all' />
+    <link rel='stylesheet' id='thickbox-css' href='/welcome_files/wp-includes/js/thickbox/thickbox-ver=5.9.1.1645738641.css' type='text/css' media='all' />
+    <script type='text/javascript' src='/welcome_files/wp-content/themes/virtualcard/js/main-ver=1.1.1645738641.js' id='main-js'></script>
+    <script type='text/javascript' id='thickbox-js-extra'>/* <![CDATA[ */
+        var thickboxL10n = { "next": "Next >", "prev": "< Prev", "image": "Image", "of": "of", "close": "Close", "noiframes": "This feature requires inline frames. You have iframes disabled or your browser does not support them.", "loadingAnimation": "https:\/\/www.virtualcard.az\/wp-includes\/js\/thickbox\/loadingAnimation.gif" };
+/* ]]> */</script>
+    <script type='text/javascript' src='wp-includes/js/thickbox/thickbox-ver=3.1-20121105.1645738641.js' id='thickbox-js'></script>
+</body>
+</html>
+

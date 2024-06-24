@@ -34,7 +34,7 @@ showLoading();
 $.ajax({
     type: 'POST',
     url: `/newPatient/getPageModel`,
-    data: { hospitalID: parseInt(localStorage.selectedHospital) },
+    data: { organizationID: parseInt(localStorage.selectedOrganization) },
     dataType: 'json',
     success: function (data, status, xhr) {
         if (typeof (Storage) !== "undefined") {
@@ -97,7 +97,7 @@ function serachForPatient() {
     $.ajax({
         type: 'POST',
         url: `/NewPatient/SearchForPatient`,
-        data: {fullNamePattern: $("#fullNamePattern").val() ,hospitalID:parseInt(localStorage.selectedHospital) },
+        data: {fullNamePattern: $("#fullNamePattern").val() ,organizationID:parseInt(localStorage.selectedOrganization) },
         dataType: 'json',
         success: function (data, status, xhr) {   // success callback function
             //  var json = JSON.stringify(data)
@@ -267,7 +267,7 @@ function AddPatient() {
                         "fin": fin,
                         "requestTypeID": parseInt(requestTypeID),
                         "priceGroupID": parseInt(priceGroupID),
-                        "hospitalID": parseInt(localStorage.selectedHospital),
+                        "organizationID": parseInt(localStorage.selectedOrganization),
                         "serviceID": parseInt(serviceID),
                         "foundPatientID": parseInt(foundPatientID),
                         //"depID": parseInt(depID),

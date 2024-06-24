@@ -1,0 +1,139 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="MySql.Data" />
+    <None Remove="Serilog.AspNetCore" />
+    <None Remove="Swashbuckle.AspNetCore" />
+    <None Remove="Areas\" />
+    <None Remove="Areas\Admin\" />
+    <None Remove="Areas\Admin\Controllers\" />
+    <None Remove="Areas\Admin\Views\" />
+    <None Remove="Models\" />
+    <None Remove="Controllers\" />
+    <None Remove="Views\" />
+    <None Remove="Views\Shared\" />
+    <None Remove="Areas\Admin\Views\Personal\" />
+    <None Remove="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" />
+    <None Remove="Areas\Admin\Views\Personal\Components\PersonalView\" />
+    <None Remove="Areas\Admin\ViewComponents\" />
+    <None Remove="ViewComponents\" />
+    <None Remove="Areas\Admin\Views\Department\" />
+    <None Remove="Areas\Admin\Views\Home\" />
+    <None Remove="Data\" />
+    <None Remove="Areas\Admin\Views\Services\" />
+    <None Remove="Areas\Admin\Views\Shared\" />
+    <None Remove="Areas\Admin\Views\Shared\Components\" />
+    <None Remove="Models\Domain\" />
+    <None Remove="Views\Policlinic\" />
+    <None Remove="Areas\Admin\Views\PriceGroup\" />
+    <None Remove="Views\Shared\Components\SideNav\" />
+    <None Remove="Views\Registration\" />
+    <None Remove="Views\Performance\" />
+    <None Remove="Views\Shared\Components\KassaSelector\" />
+    <None Remove="Models\ViewModels\" />
+    <None Remove="Views\Clients\" />
+    <None Remove="Views\Prescriptions\" />
+    <None Remove="Views\Diagnoses\" />
+    <None Remove="Views\Services\" />
+    <None Remove="Views\Appointments\" />
+    <None Remove="Views\Welcome\" />
+    <None Remove="Views\Pricing\" />
+    <None Remove="BLL\" />
+    <None Remove="DAL\" />
+    <None Remove="BLL\Service\" />
+    <None Remove="DAL\Repository\" />
+    <None Remove="BLL\DTO\" />
+    <None Remove="DAL\Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\js\menu\" />
+    <Folder Include="wwwroot\js\new_patient\" />
+    <Folder Include="Areas\" />
+    <Folder Include="Areas\Admin\" />
+    <Folder Include="Areas\Admin\Controllers\" />
+    <Folder Include="Areas\Admin\Views\" />
+    <Folder Include="Models\" />
+    <Folder Include="Controllers\" />
+    <Folder Include="Views\" />
+    <Folder Include="Views\Shared\" />
+    <Folder Include="wwwroot\js\admin\departments\" />
+    <Folder Include="Areas\Admin\Views\Personal\" />
+    <Folder Include="Areas\Admin\ViewComponents\" />
+    <Folder Include="ViewComponents\" />
+    <Folder Include="Areas\Admin\Views\Department\" />
+    <Folder Include="Areas\Admin\Views\Home\" />
+    <Folder Include="wwwroot\res\kassa\" />
+    <Folder Include="wwwroot\res\admin\" />
+    <Folder Include="wwwroot\res\brand\" />
+    <Folder Include="Areas\Admin\Views\Services\" />
+    <Folder Include="Areas\Admin\Views\Shared\" />
+    <Folder Include="Areas\Admin\Views\Shared\Components\" />
+    <Folder Include="Models\Domain\" />
+    <Folder Include="wwwroot\js\kassa\" />
+    <Folder Include="wwwroot\res\login\" />
+    <Folder Include="Views\Policlinic\" />
+    <Folder Include="wwwroot\res\fonts\" />
+    <Folder Include="Areas\Admin\Views\PriceGroup\" />
+    <Folder Include="Views\Shared\Components\SideNav\" />
+    <Folder Include="Views\Registration\" />
+    <Folder Include="Views\Performance\" />
+    <Folder Include="Views\Shared\Components\KassaSelector\" />
+    <Folder Include="Models\ViewModels\" />
+    <Folder Include="Views\Clients\" />
+    <Folder Include="Views\Prescriptions\" />
+    <Folder Include="Views\Diagnoses\" />
+    <Folder Include="Views\Services\" />
+    <Folder Include="Views\Appointments\" />
+    <Folder Include="Views\Welcome\" />
+    <Folder Include="wwwroot\welcome_files\" />
+    <Folder Include="Views\Pricing\" />
+    <Folder Include="BLL\" />
+    <Folder Include="DAL\" />
+    <Folder Include="BLL\Service\" />
+    <Folder Include="DAL\Repository\" />
+    <Folder Include="BLL\DTO\" />
+    <Folder Include="DAL\Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MySql.Data" Version="8.0.31" />
+    <PackageReference Include="Serilog.AspNetCore" Version="6.0.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.10" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\js\menu\" />
+    <Content Remove="wwwroot\js\new_patient\" />
+    <Content Remove="wwwroot\js\admin\departments\" />
+    <Content Remove="wwwroot\res\kassa\" />
+    <Content Remove="wwwroot\res\admin\" />
+    <Content Remove="wwwroot\res\brand\" />
+    <Content Remove="wwwroot\res\logo_transparent.png" />
+    <Content Remove="wwwroot\js\kassa\" />
+    <Content Remove="wwwroot\res\login\" />
+    <Content Remove="wwwroot\res\fonts\" />
+    <Content Remove="wwwroot\welcome_files\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Views\NewPatient">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
+    <None Update="Views\Shared\OLDLayout.html">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
+    <None Update="Areas\Admin\Views\PriceGroup\AddService.cshtml:">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
+</Project>

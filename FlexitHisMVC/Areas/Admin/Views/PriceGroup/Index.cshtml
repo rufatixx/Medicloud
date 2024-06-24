@@ -98,7 +98,7 @@ var selectedPriceGroupID
             $.ajax({
                 type: 'POST',
                 url: '@Url.Action("getActiveCompanies", "PriceGroup", new { area = "Admin" })', // Replace 'ControllerName' with the actual controller name containing the API action
-                data: { hospitalID: localStorage.selectedHospital }, // Replace '1' with the actual hospitalID or pass it dynamically from your application
+                data: { organizationID: localStorage.selectedOrganization }, // Replace '1' with the actual organizationID or pass it dynamically from your application
                 success: function (response) {
                     console.log('API response:', response);
                     // Handle the API response to populate the modal with companies

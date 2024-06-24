@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Specialized;
-using FlexitHisMVC.Models;
+using Medicloud.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FlexitHisMVC.ViewComponents
+namespace Medicloud.ViewComponents
 {
 
     public class ModulesViewComponent : ViewComponent
@@ -74,7 +74,7 @@ namespace FlexitHisMVC.ViewComponents
                 case 2:
                     break;
                 default:
-                    module.name = "Xəstə qəbulu";
+                    module.name = "Qəbul";
                     module.id = "newPatientButton";
                     module.img = "/res/new_patient.png";
                     module.url = "/NewPatient";

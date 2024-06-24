@@ -1,5 +1,5 @@
 ﻿using System;
-namespace FlexitHisMVC.Models
+namespace Medicloud.Models
 {
     public class User
 
@@ -16,10 +16,12 @@ namespace FlexitHisMVC.Models
         public string fin { get; set; }
         public string email { get; set; }
         public string bDate { get; set; }
+        public DateTime? otpSentDate { get; set; }
         public bool isActive { get; set; }
         public bool isUser { get; set; }
         public bool isDr { get; set; }
         public bool isAdmin { get; set; }
+        public bool isRegistered { get; set; }
         public int status { get; set; }
         public int userType { get; set; }
   

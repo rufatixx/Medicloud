@@ -3,90 +3,94 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FlexitHisCore;
-using FlexitHisMVC.Areas.Admin.Model;
-using FlexitHisMVC.Data;
-using FlexitHisMVC.Models;
-using FlexitHisMVC.Repository;
+using Medicloud.Areas.Admin.Model;
+using Medicloud.BLL.Service;
+using Medicloud.DAL.Repository;
+using Medicloud.Data;
+using Medicloud.Models;
+using Medicloud.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Org.BouncyCastle.Ocsp;
+
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace FlexitHisMVC.Areas.Admin.Controllers
+namespace Medicloud.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class PersonalController : Controller
     {
-        private readonly string ConnectionString;
+        private readonly string _connectionString;
         private readonly IWebHostEnvironment _hostingEnvironment;
         public IConfiguration Configuration;
         //Communications communications;
+
+        PersonalPageDTO response;
+        UserRepo personalRepo ;
+        SpecialityRepo specialityRepo ;
+        OrganizationService organizationService;
         public PersonalController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
         {
             Configuration = configuration;
-            ConnectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
+            _connectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
             _hostingEnvironment = hostingEnvironment;
+
+
+             response = new PersonalPageDTO();
+             personalRepo = new UserRepo(_connectionString);
+             specialityRepo = new SpecialityRepo(_connectionString);
+             organizationService = new OrganizationService(_connectionString);
             //communications = new Communications(Configuration, _hostingEnvironment);
         }
-     
+        [Authorize]
         public IActionResult Index()
         {
 
-            if (HttpContext.Session.GetInt32("userid") != null)
-            {
-                PersonalPageDTO response = new PersonalPageDTO();
-                UserRepo personalRepo = new UserRepo(ConnectionString);
-                SpecialityRepo  specialityRepo = new SpecialityRepo(ConnectionString);
-                HospitalRepo  hospitalRepo = new HospitalRepo(ConnectionString);
+        
+                
               
-                response.personalList = personalRepo.GetPersonalList();
+                response.personalList = personalRepo.GetUserList(Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID")));
                 response.specialityList = specialityRepo.GetSpecialities();
-                response.hospitalList = hospitalRepo.GetHospitalList();
+                response.organizationList = organizationService.GetAllOrganizations();
               
                 return View(response);
 
 
-            }
-            else
-            {
-                return RedirectToAction("Index", "Login", new { area = "" });
-            }
+            
+
 
 
            
         }
         [HttpGet]
-        public IActionResult HospitalsByUser(int personalID)
+        public IActionResult OrganizationsByUser(int personalID)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
-                HospitalRepo hospitalRepo = new HospitalRepo(ConnectionString);
+                OrganizationRepo organizationRepo = new OrganizationRepo(_connectionString);
                 
-                return Ok(hospitalRepo.GetHospitalListByUser(personalID));
+                return Ok(organizationRepo.GetOrganizationListByUser(personalID));
 
             }
-            else
-            {
-                return RedirectToAction("Index", "Login", new { area = "" });
-            }
+
+            return Unauthorized();
 
 
 
         }
         [HttpGet]
-        public IActionResult DepartmentsByHospital(int hospitalID)
+        public IActionResult DepartmentsByOrganization(int organizationID)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
-                DepartmentsRepo departmentsRepo = new DepartmentsRepo(ConnectionString);
+                DepartmentsRepo departmentsRepo = new DepartmentsRepo(_connectionString);
 
-                return Ok(departmentsRepo.GetDepartmentsByHospital(hospitalID));
+                return Ok(departmentsRepo.GetDepartmentsByOrganization(organizationID));
 
             }
-            else
-            {
+           
                 return Unauthorized();
-            }
+       
 
 
 
@@ -94,125 +98,128 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Add(string name, string surname, string father,int specialityID, string passportSerialNum, string fin, string phone, string email, string bDate, string username, string pwd, int isUser,int isDr,int isAdmin)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
-                UserRepo personal = new UserRepo(ConnectionString);
+                UserRepo personal = new UserRepo(_connectionString);
+
+
                
-                return Ok(personal.InsertPersonal( name,  surname,  father,specialityID,  passportSerialNum,  fin,  phone,  email,  bDate,  username,  pwd,  isUser, isDr, isAdmin));
+                long newUserID = personal.InsertUser(name, surname, father, specialityID, passportSerialNum, fin, phone, email, bDate, username, pwd, isUser, isDr, isAdmin);
+                if (newUserID>0)
+                {
+                    return Ok(organizationService.LinkOrganizationToUser(newUserID, Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")))); 
+                }
+                else
+                {
+                    return Ok(newUserID);//not inserted
+                }
+
+               
 
             }
-            else
-            {
+           
                 return Unauthorized();
-            }
+          
 
 
 
         }
         [HttpPost]
-        public IActionResult AddHospitalToUser(int userID,int hospitalID)
+        public IActionResult AddOrganizationToUser(long userID,int organizationID)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
-                HospitalRepo hospital = new HospitalRepo(ConnectionString);
+                OrganizationRepo organization = new OrganizationRepo(_connectionString);
 
-                return Ok(hospital.InsertHospitalToUser(userID, hospitalID));
+                return Ok(organization.InsertOrganizationToUser(userID, organizationID));
 
             }
-            else
-            {
+           
                 return Unauthorized();
-            }
+          
 
 
 
         }
         [HttpPost]
-        public IActionResult RemoveHospitalFromUser(int userID, int hospitalID)
+        public IActionResult RemoveOrganizationFromUser(int userID, int organizationID)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
-                HospitalRepo hospital = new HospitalRepo(ConnectionString);
+                OrganizationRepo organization = new OrganizationRepo(_connectionString);
 
-                return Ok(hospital.RemoveHospitalFromUser(userID, hospitalID));
+                return Ok(organization.RemoveOrganizationFromUser(userID, organizationID));
 
             }
-            else
-            {
+           
                 return Unauthorized();
-            }
-
+           
 
 
         }
         [HttpGet]
         public IActionResult GetDepartmentsByUser(int userID)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
 
-                UserDepRelRepo userDepRel = new UserDepRelRepo(ConnectionString);
+                UserDepRelRepo userDepRel = new UserDepRelRepo(_connectionString);
 
                 return Ok(userDepRel.GetUserDepartments(userID));
 
             }
-            else
-            {
+          
                 return Unauthorized();
-            }
+           
 
 
         }
         [HttpGet]
-        public IActionResult GetAllKassaByHospital(int hospitalID)
+        public IActionResult GetAllKassaByOrganization(int organizationID)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
 
-                KassaRepo kassaRepo = new KassaRepo(ConnectionString);
+                KassaRepo kassaRepo = new KassaRepo(_connectionString);
 
-                return Ok(kassaRepo.GetAllKassaListByHospital(hospitalID));
+                return Ok(kassaRepo.GetAllKassaListByOrganization(organizationID));
 
             }
-            else
-            {
+           
                 return Unauthorized();
-            }
+
 
 
         }
         [HttpGet]
-        public IActionResult GetUserKassaByHospital(int hospitalID,int userID)
+        public IActionResult GetUserKassaByOrganization(int organizationID,int userID)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
 
-                KassaRepo kassaRepo = new KassaRepo(ConnectionString);
+                KassaRepo kassaRepo = new KassaRepo(_connectionString);
 
-                return Ok(kassaRepo.GetUserKassaByHospital(hospitalID,userID));
+                return Ok(kassaRepo.GetUserKassaByOrganization(organizationID,userID));
 
             }
-            else
-            {
+           
                 return Unauthorized();
-            }
-
+           
 
         }
         [HttpPost]
         public IActionResult AddDepToUser(int userID, int depID, bool read_only, bool full_access)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
-                UserDepRelRepo departmentsRepo = new UserDepRelRepo(ConnectionString);
+                UserDepRelRepo departmentsRepo = new UserDepRelRepo(_connectionString);
 
                 return Ok(departmentsRepo.InsertDepToUser(userID, depID,read_only,full_access));
 
             }
-            else
-            {
+            
                 return Unauthorized();
-            }
+
 
 
 
@@ -220,54 +227,47 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult AddKassaToUser(int userID, int kassaID, bool read_only, bool full_access)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
-                KassaRepo kassaRepo = new KassaRepo(ConnectionString);
+                KassaRepo kassaRepo = new KassaRepo(_connectionString);
 
                 return Ok(kassaRepo.InsertKassaToUser(userID, kassaID, read_only, full_access));
 
             }
-            else
-            {
+           
                 return Unauthorized();
-            }
-
+          
 
 
         }
         [HttpPost]
         public IActionResult RemoveKassaFromUser(int userID, int kassaID)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
-                KassaRepo kassaRepo = new KassaRepo(ConnectionString);
+                KassaRepo kassaRepo = new KassaRepo(_connectionString);
 
                 return Ok(kassaRepo.RemoveKassaFromUser(userID, kassaID));
 
             }
-            else
-            {
+           
                 return Unauthorized();
-            }
-
+            
 
 
         }
         [HttpPost]
         public IActionResult RemoveDepFromUser(int userID, int depID)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
-                UserDepRelRepo departmentsRepo = new UserDepRelRepo(ConnectionString);
+                UserDepRelRepo departmentsRepo = new UserDepRelRepo(_connectionString);
 
                 return Ok(departmentsRepo.RemoveDepFromUser(userID, depID));
 
             }
-            else
-            {
                 return Unauthorized();
-            }
-
+          
 
 
         }
@@ -275,17 +275,16 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult UpdateUser(int userID, string name, string surname, string father, int specialityID, string passportSerialNum, string fin, string mobile, string email, string bDate, string username, int isUser, int isDr, int isActive,int isAdmin)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
-                UserRepo user = new UserRepo(ConnectionString);
+                UserRepo user = new UserRepo(_connectionString);
    
                 return Ok(user.UpdateUser(userID, name, surname, father, specialityID, passportSerialNum, fin, mobile, email, bDate, username, isUser, isDr, isActive, isAdmin));
 
             }
-            else
-            {
+           
                 return Unauthorized();
-            }
+            
 
 
 
@@ -293,17 +292,16 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult UpdateUserPwd(int userID, string pwd)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
-                UserRepo user = new UserRepo(ConnectionString);
+                UserRepo user = new UserRepo(_connectionString);
 
                 return Ok(user.UpdateUserPwd(userID,pwd));
 
             }
-            else
-            {
+            
                 return Unauthorized();
-            }
+           
 
 
 

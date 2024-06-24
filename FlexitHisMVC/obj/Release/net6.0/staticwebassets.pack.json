@@ -1,12 +1,8 @@
 {
   "Files": [
     {
-      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/obj/Release/net6.0/scopedcss/projectbundle/FlexitHisMVC.bundle.scp.css",
-      "PackagePath": "staticwebassets/FlexitHisMVC.bundle.scp.css"
-    },
-    {
-      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/.DS_Store",
-      "PackagePath": "staticwebassets/.DS_Store"
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/obj/Release/net6.0/scopedcss/projectbundle/Medicloud.bundle.scp.css",
+      "PackagePath": "staticwebassets/Medicloud.bundle.scp.css"
     },
     {
       "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/css/app-saas.min.css",
@@ -275,6 +271,22 @@
     {
       "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/logo.png",
       "PackagePath": "staticwebassets/assets/images/logo.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/logo.svg",
+      "PackagePath": "staticwebassets/assets/images/logo.svg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/mc_logo.png",
+      "PackagePath": "staticwebassets/assets/images/mc_logo.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/mc_logo.svg",
+      "PackagePath": "staticwebassets/assets/images/mc_logo.svg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/mc_logo_inline.svg",
+      "PackagePath": "staticwebassets/assets/images/mc_logo_inline.svg"
     },
     {
       "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/assets/images/payments/cod.png",
@@ -1037,14 +1049,6 @@
       "PackagePath": "staticwebassets/favicon.ico"
     },
     {
-      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/js/.DS_Store",
-      "PackagePath": "staticwebassets/js/.DS_Store"
-    },
-    {
-      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/js/admin/.DS_Store",
-      "PackagePath": "staticwebassets/js/admin/.DS_Store"
-    },
-    {
       "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/js/admin/companies/companySettings.js",
       "PackagePath": "staticwebassets/js/admin/companies/companySettings.js"
     },
@@ -1055,6 +1059,10 @@
     {
       "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/js/app.js",
       "PackagePath": "staticwebassets/js/app.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/js/app_копия.js",
+      "PackagePath": "staticwebassets/js/app_копия.js"
     },
     {
       "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/js/kassa/home.js",
@@ -1083,10 +1091,6 @@
     {
       "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/js/site.js",
       "PackagePath": "staticwebassets/js/site.js"
-    },
-    {
-      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/.DS_Store",
-      "PackagePath": "staticwebassets/lib/.DS_Store"
     },
     {
       "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/lib/bootstrap/LICENSE",
@@ -1297,10 +1301,6 @@
       "PackagePath": "staticwebassets/lib/jquery/dist/jquery.min.map"
     },
     {
-      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/patients/.DS_Store",
-      "PackagePath": "staticwebassets/patients/.DS_Store"
-    },
-    {
       "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/patients/1/00c51e2b-e49d-4331-9dbf-df4c4c9e7746.webm",
       "PackagePath": "staticwebassets/patients/1/00c51e2b-e49d-4331-9dbf-df4c4c9e7746.webm"
     },
@@ -1413,10 +1413,6 @@
       "PackagePath": "staticwebassets/patients/16/e926991a-1085-4116-bdbc-c5f41bb561d3.webm"
     },
     {
-      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/.DS_Store",
-      "PackagePath": "staticwebassets/res/.DS_Store"
-    },
-    {
       "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/admin/admin.png",
       "PackagePath": "staticwebassets/res/admin/admin.png"
     },
@@ -1435,10 +1431,6 @@
     {
       "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/admin/personal.png",
       "PackagePath": "staticwebassets/res/admin/personal.png"
-    },
-    {
-      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/.DS_Store",
-      "PackagePath": "staticwebassets/res/brand/.DS_Store"
     },
     {
       "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/brand/android-icon-144x144.png",
@@ -1601,6 +1593,10 @@
       "PackagePath": "staticwebassets/res/logo_full.svg"
     },
     {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/logo_full_gray.svg",
+      "PackagePath": "staticwebassets/res/logo_full_gray.svg"
+    },
+    {
       "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/res/module.png",
       "PackagePath": "staticwebassets/res/module.png"
     },
@@ -1621,20 +1617,156 @@
       "PackagePath": "staticwebassets/res/user.svg"
     },
     {
-      "Id": "obj/Release/net6.0/staticwebassets/msbuild.FlexitHisMVC.Microsoft.AspNetCore.StaticWebAssets.props",
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/welcome_files/wp-content/plugins/add-to-any/addtoany.min-ver=1.1.1645738641.js",
+      "PackagePath": "staticwebassets/welcome_files/wp-content/plugins/add-to-any/addtoany.min-ver=1.1.1645738641.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/welcome_files/wp-content/plugins/add-to-any/addtoany.min-ver=1.16.1645738641.css",
+      "PackagePath": "staticwebassets/welcome_files/wp-content/plugins/add-to-any/addtoany.min-ver=1.16.1645738641.css"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/welcome_files/wp-content/plugins/email-subscribers/lite/public/css/email-subscribers-public-ver=5.2.0.1645738641.css",
+      "PackagePath": "staticwebassets/welcome_files/wp-content/plugins/email-subscribers/lite/public/css/email-subscribers-public-ver=5.2.0.1645738641.css"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/welcome_files/wp-content/plugins/email-subscribers/lite/public/js/email-subscribers-public-ver=5.2.0.1645738641.js",
+      "PackagePath": "staticwebassets/welcome_files/wp-content/plugins/email-subscribers/lite/public/js/email-subscribers-public-ver=5.2.0.1645738641.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/welcome_files/wp-content/plugins/newsletter/style-ver=7.3.6.1645738641.css",
+      "PackagePath": "staticwebassets/welcome_files/wp-content/plugins/newsletter/style-ver=7.3.6.1645738641.css"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/welcome_files/wp-content/plugins/yop-poll/public/assets/css/yop-poll-public-6.3.3-ver=5.9.1.1645738641.css",
+      "PackagePath": "staticwebassets/welcome_files/wp-content/plugins/yop-poll/public/assets/css/yop-poll-public-6.3.3-ver=5.9.1.1645738641.css"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/welcome_files/wp-content/plugins/yop-poll/public/assets/fonts/glyphicons-halflings-regular-.eot",
+      "PackagePath": "staticwebassets/welcome_files/wp-content/plugins/yop-poll/public/assets/fonts/glyphicons-halflings-regular-.eot"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/welcome_files/wp-content/plugins/yop-poll/public/assets/fonts/glyphicons-halflings-regular.eot",
+      "PackagePath": "staticwebassets/welcome_files/wp-content/plugins/yop-poll/public/assets/fonts/glyphicons-halflings-regular.eot"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/welcome_files/wp-content/plugins/yop-poll/public/assets/fonts/glyphicons-halflings-regular.svg",
+      "PackagePath": "staticwebassets/welcome_files/wp-content/plugins/yop-poll/public/assets/fonts/glyphicons-halflings-regular.svg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/welcome_files/wp-content/plugins/yop-poll/public/assets/fonts/glyphicons-halflings-regular.ttf",
+      "PackagePath": "staticwebassets/welcome_files/wp-content/plugins/yop-poll/public/assets/fonts/glyphicons-halflings-regular.ttf"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/welcome_files/wp-content/plugins/yop-poll/public/assets/fonts/glyphicons-halflings-regular.woff",
+      "PackagePath": "staticwebassets/welcome_files/wp-content/plugins/yop-poll/public/assets/fonts/glyphicons-halflings-regular.woff"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/welcome_files/wp-content/plugins/yop-poll/public/assets/js/yop-poll-public-6.3.3.min-ver=5.9.1.1645738641.js",
+      "PackagePath": "staticwebassets/welcome_files/wp-content/plugins/yop-poll/public/assets/js/yop-poll-public-6.3.3.min-ver=5.9.1.1645738641.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/welcome_files/wp-content/themes/virtualcard/fonts/EuclidCircularA-Regular.ttf",
+      "PackagePath": "staticwebassets/welcome_files/wp-content/themes/virtualcard/fonts/EuclidCircularA-Regular.ttf"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/welcome_files/wp-content/themes/virtualcard/images/checkmark-circle.png",
+      "PackagePath": "staticwebassets/welcome_files/wp-content/themes/virtualcard/images/checkmark-circle.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/welcome_files/wp-content/themes/virtualcard/js/main-ver=1.1.1645738641.js",
+      "PackagePath": "staticwebassets/welcome_files/wp-content/themes/virtualcard/js/main-ver=1.1.1645738641.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/welcome_files/wp-content/themes/virtualcard/style-ver=177785.1645738641.css",
+      "PackagePath": "staticwebassets/welcome_files/wp-content/themes/virtualcard/style-ver=177785.1645738641.css"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/welcome_files/wp-content/uploads/2021/06/cropped-V1-icon-180x180.png",
+      "PackagePath": "staticwebassets/welcome_files/wp-content/uploads/2021/06/cropped-V1-icon-180x180.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/welcome_files/wp-content/uploads/2021/06/cropped-V1-icon-192x192.png",
+      "PackagePath": "staticwebassets/welcome_files/wp-content/uploads/2021/06/cropped-V1-icon-192x192.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/welcome_files/wp-content/uploads/2021/06/cropped-V1-icon-32x32.png",
+      "PackagePath": "staticwebassets/welcome_files/wp-content/uploads/2021/06/cropped-V1-icon-32x32.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/welcome_files/wp-content/uploads/2021/07/2.svg",
+      "PackagePath": "staticwebassets/welcome_files/wp-content/uploads/2021/07/2.svg"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/welcome_files/wp-content/uploads/2021/07/Phone.png",
+      "PackagePath": "staticwebassets/welcome_files/wp-content/uploads/2021/07/Phone.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/welcome_files/wp-content/uploads/2021/07/Phone2.png",
+      "PackagePath": "staticwebassets/welcome_files/wp-content/uploads/2021/07/Phone2.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/welcome_files/wp-content/uploads/2021/07/headline-image-picture.png",
+      "PackagePath": "staticwebassets/welcome_files/wp-content/uploads/2021/07/headline-image-picture.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/welcome_files/wp-content/uploads/2021/07/headline-image-picture2.png",
+      "PackagePath": "staticwebassets/welcome_files/wp-content/uploads/2021/07/headline-image-picture2.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/welcome_files/wp-content/uploads/2021/07/headline-image-shadow.png",
+      "PackagePath": "staticwebassets/welcome_files/wp-content/uploads/2021/07/headline-image-shadow.png"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/welcome_files/wp-includes/css/dashicons.min-ver=5.9.1.1645738641.css",
+      "PackagePath": "staticwebassets/welcome_files/wp-includes/css/dashicons.min-ver=5.9.1.1645738641.css"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/welcome_files/wp-includes/css/dist/block-library/style.min-ver=5.9.1.1645738641.css",
+      "PackagePath": "staticwebassets/welcome_files/wp-includes/css/dist/block-library/style.min-ver=5.9.1.1645738641.css"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/welcome_files/wp-includes/fonts/dashicons-99ac726223c749443b642ce33df8b800.eot",
+      "PackagePath": "staticwebassets/welcome_files/wp-includes/fonts/dashicons-99ac726223c749443b642ce33df8b800.eot"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/welcome_files/wp-includes/fonts/dashicons-99ac726223c749443b642ce33df8b800.ttf",
+      "PackagePath": "staticwebassets/welcome_files/wp-includes/fonts/dashicons-99ac726223c749443b642ce33df8b800.ttf"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/welcome_files/wp-includes/js/jquery/jquery-migrate.min-ver=3.3.2.1645738641.js",
+      "PackagePath": "staticwebassets/welcome_files/wp-includes/js/jquery/jquery-migrate.min-ver=3.3.2.1645738641.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/welcome_files/wp-includes/js/jquery/jquery.min-ver=3.6.0.1645738641.js",
+      "PackagePath": "staticwebassets/welcome_files/wp-includes/js/jquery/jquery.min-ver=3.6.0.1645738641.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/welcome_files/wp-includes/js/thickbox/thickbox-ver=3.1-20121105.1645738641.js",
+      "PackagePath": "staticwebassets/welcome_files/wp-includes/js/thickbox/thickbox-ver=3.1-20121105.1645738641.js"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/welcome_files/wp-includes/js/thickbox/thickbox-ver=5.9.1.1645738641.css",
+      "PackagePath": "staticwebassets/welcome_files/wp-includes/js/thickbox/thickbox-ver=5.9.1.1645738641.css"
+    },
+    {
+      "Id": "/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/wwwroot/welcome_files/wp-includes/wlwmanifest.xml",
+      "PackagePath": "staticwebassets/welcome_files/wp-includes/wlwmanifest.xml"
+    },
+    {
+      "Id": "obj/Release/net6.0/staticwebassets/msbuild.Medicloud.Microsoft.AspNetCore.StaticWebAssets.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
     },
     {
-      "Id": "obj/Release/net6.0/staticwebassets/msbuild.build.FlexitHisMVC.props",
-      "PackagePath": "build\\FlexitHisMVC.props"
+      "Id": "obj/Release/net6.0/staticwebassets/msbuild.build.Medicloud.props",
+      "PackagePath": "build\\Medicloud.props"
     },
     {
-      "Id": "obj/Release/net6.0/staticwebassets/msbuild.buildMultiTargeting.FlexitHisMVC.props",
-      "PackagePath": "buildMultiTargeting\\FlexitHisMVC.props"
+      "Id": "obj/Release/net6.0/staticwebassets/msbuild.buildMultiTargeting.Medicloud.props",
+      "PackagePath": "buildMultiTargeting\\Medicloud.props"
     },
     {
-      "Id": "obj/Release/net6.0/staticwebassets/msbuild.buildTransitive.FlexitHisMVC.props",
-      "PackagePath": "buildTransitive\\FlexitHisMVC.props"
+      "Id": "obj/Release/net6.0/staticwebassets/msbuild.buildTransitive.Medicloud.props",
+      "PackagePath": "buildTransitive\\Medicloud.props"
     }
   ],
   "ElementsToRemove": []

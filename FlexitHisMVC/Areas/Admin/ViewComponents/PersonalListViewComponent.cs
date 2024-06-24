@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Configuration;
 using FlexitHisCore;
-using FlexitHisMVC.Data;
+using Medicloud.DAL.Repository;
+using Medicloud.Data;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FlexitHisMVC.Areas.Admin.Views.ViewComponents
+namespace Medicloud.Areas.Admin.Views.ViewComponents
 {
     public class PersonalListViewComponent : ViewComponent 
     {
@@ -24,7 +25,7 @@ namespace FlexitHisMVC.Areas.Admin.Views.ViewComponents
             {
                 UserRepo personal = new UserRepo(ConnectionString);
 
-                return View(personal.GetPersonalList());
+                return View(personal.GetUserList());
 
             }
             else {

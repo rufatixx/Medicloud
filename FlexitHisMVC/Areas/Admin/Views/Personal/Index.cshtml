@@ -1,5 +1,5 @@
 ﻿
-@model FlexitHisMVC.Areas.Admin.Model.PersonalPageDTO
+@model Medicloud.Areas.Admin.Model.PersonalPageDTO
 
 @{
     ViewData["Title"] = "- Personal";
@@ -415,18 +415,18 @@
 
                                 <div class="dropdown">
 
-                                    <button class="btn btn-outline-dark dropdown-toggle w-100" type="button" id="userHospitals" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <button class="btn btn-outline-dark dropdown-toggle w-100" type="button" id="userOrganizations" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     </button>
                                     <div class="dropdown-menu">
                                         <h6 class="dropdown-header">Əlavə olunmuş müəssisələr</h6>
-                                        <div id="userHospitalsMenu">
+                                        <div id="userOrganizationsMenu">
 
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-8">
-                                <button type="button" class="btn btn-light" onclick="{$('#addHospital').modal('show');}">
+                                <button type="button" class="btn btn-light" onclick="{$('#addOrganization').modal('show');}">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                         <path fill-rule="evenodd" clip-rule="evenodd" d="M15 13H13V15C13 15.55 12.55 16 12 16C11.45 16 11 15.55 11 15V13H9C8.45 13 8 12.55 8 12C8 11.45 8.45 11 9 11H11V9C11 8.45 11.45 8 12 8C12.55 8 13 8.45 13 9V11H15C15.55 11 16 11.45 16 12C16 12.55 15.55 13 15 13ZM12 2C6.486 2 2 6.486 2 12C2 17.514 6.486 22 12 22C17.514 22 22 17.514 22 12C22 6.486 17.514 2 12 2Z" fill="#2AAEAD" />
                                     </svg> müəssisə əlavə et
@@ -467,7 +467,7 @@
 
 
                                 </div>
-                                <div class="list-group list-group-flush" style="max-height: 30vh; overflow-y: auto" id="depsInHospitalByUser">
+                                <div class="list-group list-group-flush" style="max-height: 30vh; overflow-y: auto" id="depsInOrganizationByUser">
 
 
 
@@ -503,7 +503,7 @@
 
 
                                 </div>
-                                <div class="list-group list-group-flush" style="max-height: 30vh; overflow-y: auto" id="kassaInHospitalByUser">
+                                <div class="list-group list-group-flush" style="max-height: 30vh; overflow-y: auto" id="kassaInOrganizationByUser">
 
 
 
@@ -697,7 +697,7 @@
 
 
                                         <label>Kassalar</label>
-                                        <select class="form-control dropdown" required id="kassaInHospital">
+                                        <select class="form-control dropdown" required id="kassaInOrganization">
                                         </select>
 
                                     </div>
@@ -830,7 +830,7 @@
 
 
                                         <label>Şöbələr</label>
-                                        <select class="form-control dropdown" required id="depsInHospital">
+                                        <select class="form-control dropdown" required id="depsInOrganization">
                                         </select>
 
                                     </div>
@@ -905,7 +905,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="addHospital" data-backdrop="static" data-keyboard="false" tabindex="-1"
+<div class="modal fade" id="addOrganization" data-backdrop="static" data-keyboard="false" tabindex="-1"
      aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
@@ -945,7 +945,7 @@
                                 <div class="row">
 
                                     <div class="col-md-12 text-center">
-                                        <h6>İstifadəçiyə xəstəxana əlavə edilməsi</h6>
+                                        <h6>İstifadəçiyə müəssisə əlavə edilməsi</h6>
 
                                     </div>
 
@@ -961,11 +961,11 @@
                                     <div class="col-md-12">
 
 
-                                        <label>Xəstəxanalar</label>
-                                        <select class="form-control dropdown" required id="allHospitals">
-                                            @{foreach (var item in Model.hospitalList)
+                                        <label>Müəssisələr</label>
+                                        <select class="form-control dropdown" required id="allOrganizations">
+                                            @{foreach (var item in Model.organizationList)
                                                 {
-                                                    <option value="@item.id">@item.hospitalName</option>
+                                                    <option value="@item.id">@item.organizationName</option>
                                                 }
                                             }
                                         </select>
@@ -991,7 +991,7 @@
 
 
                                         <button type="button" class="btn btn-primary justify-content-center"
-                                                onclick="addHospitalToUser()">
+                                                onclick="addOrganizationToUser()">
                                             Əlavə et
                                         </button>
 
@@ -1448,14 +1448,14 @@
 
     <script>
 
-        var selectedHospital;
+        var selectedOrganization;
       var selectedPersonalID = @Model.personalList[0].ID;
         $("#reqCode").val(@Model.personalList[0].ID);
 
         @*var today = new Date('@Model.personalList[0].bDate').toISOString().split('T')[0];
         alert()*@
         $("#bDate").val('@Model.personalList[0].bDate');
-        getHospitalsByUser(selectedPersonalID);
+        getOrganizationsByUser(selectedPersonalID);
 
         $("#speciality").val('@Model.personalList[0].speciality');
         $("#mobile").val('@Model.personalList[0].mobile');
@@ -1598,28 +1598,28 @@
 
 
 
-        function getHospitalsByUser(personalID) {
+        function getOrganizationsByUser(personalID) {
          $.get(
-                "@Url.Action("HospitalsByUser", "Personal", new { area = "Admin" })",
+                "@Url.Action("OrganizationsByUser", "Personal", new { area = "Admin" })",
             { personalID: selectedPersonalID },
             function (data) {
                 if (data.length > 0) {
-                    $("#userHospitals").text(data[0].hospitalName);
-                    $("#userHospitals").val(data[0].hospitalID);
-                     $("#userHospitals").text(data[0].hospitalName);
-                    selectedHospital = data[0].hospitalID;
-                    $("#userHospitalsMenu").empty();
+                    $("#userOrganizations").text(data[0].organizationName);
+                    $("#userOrganizations").val(data[0].organizationID);
+                     $("#userOrganizations").text(data[0].organizationName);
+                    selectedOrganization = data[0].organizationID;
+                    $("#userOrganizationsMenu").empty();
 
                     $.each(data, function () {
 
-                        $("#userHospitalsMenu").append($(`
+                        $("#userOrganizationsMenu").append($(`
 
 
                                             <div class="row m-1">
  <div class="col-9 ">
-<a class="dropdown-item"  id=${this.id} onclick="{  $('#userHospitals').text('${this.hospitalName}').val('${this.hospitalID}');getDepartmentsByHospital(${this.hospitalID});getKassaByHospital() }">
-                                                ${this.hospitalName}</a></div>
-                                                <div class="col-3 "><button class='btn text-danger' onclick = 'removeHospitalFromUser(${this.hospitalID});'>Sil</button></div>
+<a class="dropdown-item"  id=${this.id} onclick="{  $('#userOrganizations').text('${this.organizationName}').val('${this.organizationID}');getDepartmentsByOrganization(${this.organizationID});getKassaByOrganization();getUserKassaByOrganization();getUserDepsByOrganization(); }">
+                                                ${this.organizationName}</a></div>
+                                                <div class="col-3 "><button class='btn text-danger' onclick = 'removeOrganizationFromUser(${this.organizationID});'>Sil</button></div>
                                             </div>
                                         </div>
 
@@ -1627,19 +1627,19 @@
 
 
                     });
-                    getDepartmentsByHospital($('#userHospitals').val());
-                    getUserDepsByHospital()
-                    getUserKassaByHospital()
-                    getKassaByHospital()
+                    getDepartmentsByOrganization($('#userOrganizations').val());
+                    getUserDepsByOrganization()
+                    getUserKassaByOrganization()
+                    getKassaByOrganization()
                 }
                 else {
 
-                     selectedHospital = 0;
-                    $("#userHospitals").text("Əlavə edin");
-                    $("#userHospitalsMenu").empty();
-                    $("#depsInHospitalByUser").empty();
+                     selectedOrganization = 0;
+                    $("#userOrganizations").text("Əlavə edin");
+                    $("#userOrganizationsMenu").empty();
+                    $("#depsInOrganizationByUser").empty();
 
-                    $("#depsInHospitalByUser").append($(`<div class='text-center m-3'><img style='height:100px' src="/res/empty.png"/><br><h2 class='mt-3'>Boşdur</h2></div>`))
+                    $("#depsInOrganizationByUser").append($(`<div class='text-center m-3'><img style='height:100px' src="/res/empty.png"/><br><h2 class='mt-3'>Boşdur</h2></div>`))
 
                 }
             }
@@ -1648,18 +1648,18 @@
 
               }
 
-        function getDepartmentsByHospital(hospitalID) {
-            $("#depsInHospital").empty();
+        function getDepartmentsByOrganization(organizationID) {
+            $("#depsInOrganization").empty();
             $.get(
-                "@Url.Action("DepartmentsByHospital", "Personal", new { area = "Admin" })",
-                { hospitalID: hospitalID },
+                "@Url.Action("DepartmentsByOrganization", "Personal", new { area = "Admin" })",
+                { organizationID: organizationID },
                 function (data) {
                     if (data.length > 0) {
 
                         $.each(data, function () {
 
 
-                            $("#depsInHospital").append($(`
+                            $("#depsInOrganization").append($(`
     <option id='${this.id}'>${this.name} - ${this.type}</option>
 
 
@@ -1676,19 +1676,19 @@
                 });
 
         }
-        function getKassaByHospital() {
+        function getKassaByOrganization() {
 
-            $("#kassaInHospital").empty();
+            $("#kassaInOrganization").empty();
             $.get(
-                "@Url.Action("GetAllKassaByHospital", "Personal", new { area = "Admin" })",
-                { hospitalID: $('#userHospitals').val() },
+                "@Url.Action("GetAllKassaByOrganization", "Personal", new { area = "Admin" })",
+                { organizationID: $('#userOrganizations').val() },
                 function (data) {
                     if (data.length > 0) {
 
                         $.each(data, function () {
 
 
-                            $("#kassaInHospital").append($(`
+                            $("#kassaInOrganization").append($(`
     <option id='${this.id}'>${this.name}</option>
 
 
@@ -1760,16 +1760,16 @@
         else {
              $("#isAdminCheckBox").prop('checked', false);
         }
-             getHospitalsByUser(selectedPersonalID);
+             getOrganizationsByUser(selectedPersonalID);
 
 
 
 
         }
 
-        function getUserDepsByHospital() {
-            $("#depsInHospitalByUser").empty();
-            var depsByHospital;
+        function getUserDepsByOrganization() {
+            $("#depsInOrganizationByUser").empty();
+            var depsByOrganization;
             var userDeps;
             $.get(
                 "@Url.Action("GetDepartmentsByUser", "Personal", new { area = "Admin" })",
@@ -1780,16 +1780,16 @@
                         userDeps = data;
 
                         $.get(
-                            "/Admin/Personal/DepartmentsByHospital",
-                            { hospitalID: $("#userHospitals").val() },
+                            "/Admin/Personal/DepartmentsByOrganization",
+                            { organizationID: $("#userOrganizations").val() },
                             function (data) {
                                 if (data.length > 0) {
 
-                                    var depsByHospital = data;
+                                    var depsByOrganization = data;
 
                                     for (let a = 0; a < userDeps.length; a++) {
-                                        for (let i = 0; i < depsByHospital.length; i++) {
-                                            if (depsByHospital[i].id == userDeps[a].depID) {
+                                        for (let i = 0; i < depsByOrganization.length; i++) {
+                                            if (depsByOrganization[i].id == userDeps[a].depID) {
 
                                                 var readOnlyCheckBox;
 
@@ -1813,13 +1813,13 @@
 
 
 
-                                                $("#depsInHospitalByUser").append($(`
+                                                $("#depsInOrganizationByUser").append($(`
 
-<div class="list-group-item list-group-item-action dep-list" id=${depsByHospital[i].id} >
+<div class="list-group-item list-group-item-action dep-list" id=${depsByOrganization[i].id} >
 
                             <div class="row">
-                                <div class="col-3">${depsByHospital[i].name}</div>
-                                <div class="col-2">${depsByHospital[i].type}</div>
+                                <div class="col-3">${depsByOrganization[i].name}</div>
+                                <div class="col-2">${depsByOrganization[i].type}</div>
                                 <div class="col-2 ">
 
     ${readOnlyCheckBox}
@@ -1828,7 +1828,7 @@
 ${fullAccessCheckBox}
                             </div>
 <div class="col-2">
-<a class=' text-danger' onclick = 'removeDepFromUser(${depsByHospital[i].id});'>Sil</a>
+<a class=' text-danger' onclick = 'removeDepFromUser(${depsByOrganization[i].id});'>Sil</a>
                             </div>
 
                         </div>
@@ -1843,18 +1843,18 @@ ${fullAccessCheckBox}
                                 }
 
                                 else {
-                                    $("#depsInHospitalByUser").empty();
+                                    $("#depsInOrganizationByUser").empty();
 
-                                    $("#depsInHospitalByUser").append($(`<div class='text-center m-3'><img style='height:100px' src="/res/empty.png"/><br><h2 class='mt-3'>Boşdur</h2></div>`))
+                                    $("#depsInOrganizationByUser").append($(`<div class='text-center m-3'><img style='height:100px' src="/res/empty.png"/><br><h2 class='mt-3'>Boşdur</h2></div>`))
 
                                 }
                             });
 
                     }
                     else {
-                        $("#depsInHospitalByUser").empty();
+                        $("#depsInOrganizationByUser").empty();
 
-                        $("#depsInHospitalByUser").append($(`<div class='text-center m-3'><img style='height:100px' src="/res/empty.png"/><br><h2 class='mt-3'>Boşdur</h2></div>`))
+                        $("#depsInOrganizationByUser").append($(`<div class='text-center m-3'><img style='height:100px' src="/res/empty.png"/><br><h2 class='mt-3'>Boşdur</h2></div>`))
 
                     }
 
@@ -1870,14 +1870,14 @@ ${fullAccessCheckBox}
             $('.personal-list').removeClass('active');
             $(obj).addClass('active');
         }
-        function getUserKassaByHospital() {
-            $("#kassaInHospitalByUser").empty();
-            var depsByHospital;
+        function getUserKassaByOrganization() {
+            $("#kassaInOrganizationByUser").empty();
+            var depsByOrganization;
             var userDeps;
 
             $.get(
-                "@Url.Action("GetUserKassaByHospital", "Personal", new { area = "Admin" })",
-                { hospitalID: $("#userHospitals").val(), userID: $("#reqCode").val() },
+                "@Url.Action("GetUserKassaByOrganization", "Personal", new { area = "Admin" })",
+                { organizationID: $("#userOrganizations").val(), userID: $("#reqCode").val() },
                 function (data) {
                     if (data.length > 0) {
 
@@ -1901,7 +1901,7 @@ ${fullAccessCheckBox}
                                 fullAccessCheckBox = '<input class=" me-1 " type="checkbox" value="" onclick="return false">'
                             }
 
-                            $("#kassaInHospitalByUser").append($(`
+                            $("#kassaInOrganizationByUser").append($(`
 
 <div class="list-group-item list-group-item-action kassa-list" id='${this.id}' >
 
@@ -1957,9 +1957,9 @@ ${fullAccessCheckBox}
                     }
 
                     else {
-                        $("#kassaInHospitalByUser").empty();
+                        $("#kassaInOrganizationByUser").empty();
 
-                        $("#kassaInHospitalByUser").append($(`<div class='text-center m-3'><img style='height:100px' src="/res/empty.png"/><br><h2 class='mt-3'>Boşdur</h2></div>`))
+                        $("#kassaInOrganizationByUser").append($(`<div class='text-center m-3'><img style='height:100px' src="/res/empty.png"/><br><h2 class='mt-3'>Boşdur</h2></div>`))
 
                     }
                 });
@@ -2129,15 +2129,15 @@ ${fullAccessCheckBox}
 
             }
         }
-        function addHospitalToUser() {
+        function addOrganizationToUser() {
 
 
             $.post(
-                "@Url.Action("AddHospitalToUser", "Personal", new { area = "Admin" })",
-                { userID: $("#reqCode").val(), hospitalID: $("#allHospitals").val() },
+                "@Url.Action("AddOrganizationToUser", "Personal", new { area = "Admin" })",
+                { userID: $("#reqCode").val(), organizationID: $("#allOrganizations").val() },
                 function (data) {
                     if (data > 0) {
-                          getHospitalsByUser($('#reqCode').val())
+                          getOrganizationsByUser($('#reqCode').val())
                         $('#systemModal').modal('hide')
                         $('#warningModal').modal('show')
                         $('#warningText').text('Müəssisə əlavə olundu!');
@@ -2152,15 +2152,15 @@ ${fullAccessCheckBox}
             );
 
         }
-        function removeHospitalFromUser(hospitalID) {
+        function removeOrganizationFromUser(organizationID) {
 
 
             $.post(
-                "@Url.Action("RemoveHospitalFromUser", "Personal", new { area = "Admin" })",
-                { userID: $("#reqCode").val(), hospitalID:  hospitalID },
+                "@Url.Action("RemoveOrganizationFromUser", "Personal", new { area = "Admin" })",
+                { userID: $("#reqCode").val(), organizationID:  organizationID },
                 function (data) {
                     if (data > 0) {
-                        getHospitalsByUser($('#reqCode').val())
+                        getOrganizationsByUser($('#reqCode').val())
                         $('#systemModal').modal('hide')
                         $('#warningModal').modal('show')
                         $('#warningText').text('Müəssisə silindi!');
@@ -2177,13 +2177,13 @@ ${fullAccessCheckBox}
         }
         function addDepartmentToUser() {
             //alert($("#depReadOnlyCheckBox").is(":checked"))
-var id = $("#depsInHospital").find('option:selected').attr('id');
+var id = $("#depsInOrganization").find('option:selected').attr('id');
             $.post(
                 "@Url.Action("AddDepToUser", "Personal", new { area = "Admin" })",
                 { userID: $("#reqCode").val(), depID: id, read_only: $("#depReadOnlyCheckBox").is(":checked"), full_access: $("#depFullControlCheckBox").is(":checked")},
                 function (data) {
                     if (data > 0) {
-                          getHospitalsByUser($('#reqCode').val())
+                          getOrganizationsByUser($('#reqCode').val())
                         $('#systemModal').modal('hide')
                         $('#warningModal').modal('show')
                         $('#warningText').text('Şöbə əlavə olundu!');
@@ -2206,7 +2206,7 @@ var id = $("#depsInHospital").find('option:selected').attr('id');
                 { userID: $("#reqCode").val(), depID: userDepID },
                 function (data) {
                     if (data > 0) {
-                        getUserDepsByHospital();
+                        getUserDepsByOrganization();
                         $('#systemModal').modal('hide')
                         $('#warningModal').modal('show')
                         $('#warningText').text('Şöbə silindi!');
@@ -2225,13 +2225,13 @@ var id = $("#depsInHospital").find('option:selected').attr('id');
 
 
         function addKassaToUser() {
-            var id = $("#kassaInHospital").find('option:selected').attr('id');
+            var id = $("#kassaInOrganization").find('option:selected').attr('id');
             $.post(
                 "@Url.Action("AddKassaToUser", "Personal", new { area = "Admin" })",
                 { userID: $("#reqCode").val(), kassaId: id, read_only: $("#kassaReadOnlyCheckBox").is(":checked"), full_access: $("#kassaFullControlCheckBox").is(":checked") },
                 function (data) {
                     if (data > 0) {
-                        getUserKassaByHospital()
+                        getUserKassaByOrganization()
                         $('#systemModal').modal('hide')
                         $('#warningModal').modal('show')
                         $('#warningText').text('Kassa əlavə olundu!');
@@ -2254,7 +2254,7 @@ var id = $("#depsInHospital").find('option:selected').attr('id');
                 { userID: $("#reqCode").val(), kassaId: kassaID },
                 function (data) {
                     if (data > 0) {
-                        getUserKassaByHospital();
+                        getUserKassaByOrganization();
                         $('#systemModal').modal('hide')
                         $('#warningModal').modal('show')
                         $('#warningText').text('Kassa silindi!');

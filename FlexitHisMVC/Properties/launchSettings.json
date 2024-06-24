@@ -8,17 +8,17 @@
     }
   },
   "profiles": {
-    "FlexitHisMVC": {
-      "commandName": "Project",
+    "IIS Express": {
+      "commandName": "IISExpress",
       "launchBrowser": true,
-      "applicationUrl": "http://localhost:28340",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "IIS Express": {
-      "commandName": "IISExpress",
+    "Medicloud": {
+      "commandName": "Project",
       "launchBrowser": true,
+      "applicationUrl": "http://localhost:28340",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

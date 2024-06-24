@@ -1,13 +1,13 @@
-﻿using FlexitHisMVC.Data;
-using FlexitHisMVC.Models;
-using FlexitHisMVC.Models.NewPatient;
-using FlexitHisMVC.Models.Repository;
-using FlexitHisMVC.Repository;
+﻿using Medicloud.DAL.Repository;
+using Medicloud.Data;
+using Medicloud.Models;
+using Medicloud.Models.Repository;
+using Medicloud.Repository;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace FlexitHisMVC.Controllers
+namespace Medicloud.Controllers
 {
 
     public class NewPatientController : Controller
@@ -17,6 +17,8 @@ namespace FlexitHisMVC.Controllers
         private readonly IWebHostEnvironment _hostingEnvironment;
         private PriceGroupCompanyRepository priceGroupCompanyRepository;
         private ServicePriceGroupRepository servicePriceGroupRepository;
+        PatientCardRepo patientCardRepo;
+        PatientCardServiceRelRepo patientCardServiceRelRepo;
         public NewPatientController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
         {
             Configuration = configuration;
@@ -24,11 +26,13 @@ namespace FlexitHisMVC.Controllers
             _hostingEnvironment = hostingEnvironment;
             priceGroupCompanyRepository = new PriceGroupCompanyRepository(ConnectionString);
             servicePriceGroupRepository = new ServicePriceGroupRepository(ConnectionString);
+            patientCardRepo = new PatientCardRepo(ConnectionString);
+            patientCardServiceRelRepo = new PatientCardServiceRelRepo(ConnectionString);
         }
         // GET: /<controller>/
         public IActionResult Index()
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
                 return View();
             }
@@ -37,29 +41,56 @@ namespace FlexitHisMVC.Controllers
                 return RedirectToAction("Index", "Login");
             }
         }
-        [HttpPost]
-        public IActionResult getCompanies(int hospitalID)
+
+        public IActionResult Recipe(int cardID)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
+            {
+                var obj = patientCardRepo.GetUnpaidRecipe(cardID);
+                return View(obj);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+        }
+
+        [HttpGet]
+        public IActionResult GetPatientCards(int patientID)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var obj = patientCardRepo.GetUnpaidPatientCards(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID")), patientID);
+                return Ok(obj);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+        }
+        [HttpPost]
+        public IActionResult getCompanies(int organizationID)
+        {
+            if (User.Identity.IsAuthenticated)
             {
                 CompanyRepo select = new CompanyRepo(ConnectionString);
-                var list = select.GetActiveCompanies(hospitalID);
+                var list = select.GetActiveCompanies(organizationID);
                 ResponseDTO<Company> response = new ResponseDTO<Company>();
                 response.data = new List<Company>();
                 response.data = list;
                 return Ok(response);
 
             }
-            else
-            {
+          
                 return Unauthorized();
-            }
+            
 
         }
         [HttpPost]
-        public ActionResult<NewPatientViewDTO> getPageModel(int hospitalID)
+        public ActionResult<NewPatientViewDTO> getPageModel(int organizationID)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
                 NewPatientViewDTO pageStruct = new NewPatientViewDTO();
                 pageStruct.requestTypes = new List<RequestType>();
@@ -75,17 +106,17 @@ namespace FlexitHisMVC.Controllers
 
                 ServicesRepo servicesDAO = new ServicesRepo(ConnectionString);
 
-                pageStruct.services.AddRange(servicesDAO.GetServicesByHospital(hospitalID));
+                pageStruct.services.AddRange(servicesDAO.GetServicesByOrganization(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"))));
 
 
                 UserDepRelRepo departmentsDAO = new UserDepRelRepo(ConnectionString);
 
                 pageStruct.departments = departmentsDAO.GetUserDepartments(1);
 
-                UserHospitalRel userHospitalRel = new UserHospitalRel(ConnectionString);
-                
+                UserOrganizationRel userOrganizationRel = new UserOrganizationRel(ConnectionString);
 
-                pageStruct.personal.AddRange(userHospitalRel.GetUsersByHospital(hospitalID));
+
+                pageStruct.personal.AddRange(userOrganizationRel.GetDoctorsByOrganization(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"))));
 
 
                 UserRepo personalDAO = new UserRepo(ConnectionString);
@@ -93,16 +124,15 @@ namespace FlexitHisMVC.Controllers
                 pageStruct.referers.AddRange(personalDAO.GetRefererList());
 
                 CompanyRepo companyRepo = new CompanyRepo(ConnectionString);
-                pageStruct.companies.AddRange(companyRepo.GetActiveCompanies(hospitalID));
+                pageStruct.companies.AddRange(companyRepo.GetActiveCompanies(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"))));
 
                 pageStruct.status = 1;
 
                 return pageStruct;
             }
-            else
-            {
-                return Unauthorized();
-            }
+
+            return Unauthorized();
+
 
 
 
@@ -110,99 +140,110 @@ namespace FlexitHisMVC.Controllers
         [HttpGet]
         public ActionResult GetPriceGroupDataForCompany(int companyID)
         {
-            if (HttpContext.Session.GetInt32("userid") == null)
+            if (User.Identity.IsAuthenticated)
             {
-                return Unauthorized();
+
+                var results = priceGroupCompanyRepository.GetPriceGroupDataForCompany(companyID);
+                return Ok(results);
+
             }
-            var results = priceGroupCompanyRepository.GetPriceGroupDataForCompany(companyID);
-            return Ok(results);
+            return Unauthorized();
+
         }
 
         [HttpGet]
         public ActionResult GetActiveServicesByPriceGroupID(int priceGroupID)
         {
-            if (HttpContext.Session.GetInt32("userid") == null)
+            if (User.Identity.IsAuthenticated)
             {
-                return Unauthorized();
+                var results = servicePriceGroupRepository.GetActiveServicesByPriceGroupID(priceGroupID, Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID")));
+                return Ok(results);
+
             }
-            var results = servicePriceGroupRepository.GetActiveServicesByPriceGroupID(priceGroupID);
-            return Ok(results);
+            return Unauthorized();
         }
 
         [HttpPost]
 
         public IActionResult AddPatient([FromBody] AddPatientDTO newPatient)
         {
-            if (HttpContext.Session.GetInt32("userid") == null)
+            if (User.Identity.IsAuthenticated)
             {
-                return Unauthorized();
-            }
 
-            try
-            {
-                long patientID;
-                long cardID = 0;
-                PatientRepo patientRepo = new PatientRepo(ConnectionString);
-
-                if (newPatient.foundPatientID > 0)
+                try
                 {
-                    patientID = newPatient.foundPatientID;
-                }
-                else
-                {
-                    patientID = patientRepo.InsertPatient(Convert.ToInt32(HttpContext.Session.GetInt32("userid")), newPatient);
 
-                    if (patientID == 0)
+                    long cardID = 0;
+                    PatientRepo patientRepo = new PatientRepo(ConnectionString);
+
+
+                    var newPatientID = patientRepo.InsertPatient(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID")), Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID")), newPatient);
+
+                    if (newPatientID > 0)
                     {
-                        return BadRequest("Xəstəni artıq mövcuddur");
+                        //return BadRequest("Xəstə artıq mövcuddur");
+                       
+                        cardID = patientCardRepo.InsertPatientCard(newPatient, Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID")), Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID")), newPatientID);
+                        var serviceInserted = patientCardServiceRelRepo.InsertServiceToPatientCard(cardID, newPatient.serviceID, 0, newPatient.referDocID, newPatient.docID);
+                        if (cardID == 0 || serviceInserted == false)
+                        {
+                            return BadRequest("Xəstə kartını daxil etmək mümkün olmadı.");
+                        }
                     }
-                }
+                    else
+                    {
+                       
+                        cardID = patientCardRepo.InsertPatientCard(newPatient, Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID")), Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID")), newPatient.foundPatientID);
+                        var serviceInserted = patientCardServiceRelRepo.InsertServiceToPatientCard(cardID, newPatient.serviceID, 0, newPatient.referDocID, newPatient.docID);
+                        if (cardID == 0 || serviceInserted == false)
+                        {
+                            return BadRequest("Xəstə kartını daxil etmək mümkün olmadı.");
+                        }
 
-                PatientCardRepo patientCardRepo = new PatientCardRepo(ConnectionString);
-                PatientCardServiceRelRepo patientCardServiceRelRepo = new PatientCardServiceRelRepo(ConnectionString);
-                cardID = patientCardRepo.InsertPatientCard(newPatient, Convert.ToInt32(HttpContext.Session.GetInt32("userid")), patientID);
-                var serviceInserted = patientCardServiceRelRepo.InsertServiceToPatientCard(cardID, newPatient.serviceID, 0, newPatient.referDocID, newPatient.docID);
-                if (cardID == 0 || serviceInserted ==false)
+                    }
+
+
+
+
+
+                    return Ok(cardID);
+                }
+                catch (Exception ex)
                 {
-                    return BadRequest("Xəstə kartını daxil etmək mümkün olmadı.");
+                    // Handle the exception and return an appropriate response
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Sorğunu emal edərkən xəta baş verdi.");
                 }
-
-                return Ok(cardID);
             }
-            catch (Exception ex)
-            {
-                // Handle the exception and return an appropriate response
-                return StatusCode(StatusCodes.Status500InternalServerError, "Sorğunu emal edərkən xəta baş verdi.");
-            }
+            return Unauthorized();
         }
 
         [HttpPost]
-        public IActionResult SearchForPatient(string fullNamePattern, long hospitalID)
+        public IActionResult SearchForPatient(string fullNamePattern)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
 
                 PatientRepo select = new PatientRepo(ConnectionString);
-                var response = select.SearchForPatients(fullNamePattern, hospitalID);
+                var response = select.SearchForPatients(fullNamePattern, Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")));
 
 
                 return Ok(response);
 
             }
-            else
-            {
-                return Unauthorized();
-            }
+
+            return Unauthorized();
+
 
         }
 
         [HttpGet]
-        public IActionResult InsertServiceToPatientCard(int patientCardID, int serviceID,int depID, int senderDocID, int docID) {
-            if (HttpContext.Session.GetInt32("userid") != null)
+        public IActionResult InsertServiceToPatientCard(int patientCardID, int serviceID, int depID, int senderDocID, int docID)
+        {
+            if (User.Identity.IsAuthenticated)
             {
                 PatientCardServiceRelRepo insert = new PatientCardServiceRelRepo(ConnectionString);
-               
-                return Ok(insert.InsertServiceToPatientCard(patientCardID, serviceID,depID, senderDocID, docID));
+
+                return Ok(insert.InsertServiceToPatientCard(patientCardID, serviceID, depID, senderDocID, docID));
             }
             else
             {
@@ -213,10 +254,10 @@ namespace FlexitHisMVC.Controllers
         [HttpGet]
         public IActionResult GetServices(int patientCardID)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
                 PatientCardServiceRelRepo select = new PatientCardServiceRelRepo(ConnectionString);
-                List<dynamic> services = select.GetServicesFromPatientCard(patientCardID);
+                List<dynamic> services = select.GetServicesFromPatientCard(patientCardID, Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")));
 
                 // Call the GetServicesFromPatientCard function to retrieve the list of dynamic objects
                 if (services != null)
@@ -235,12 +276,12 @@ namespace FlexitHisMVC.Controllers
             {
                 return Unauthorized();
             }
-           
+
         }
         [HttpGet]
         public IActionResult GetDoctorsInCard(int patientCardID)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
                 PatientCardServiceRelRepo select = new PatientCardServiceRelRepo(ConnectionString);
                 List<dynamic> services = select.GetDoctorsFromPatientCard(patientCardID);
@@ -267,7 +308,7 @@ namespace FlexitHisMVC.Controllers
         [HttpGet]
         public IActionResult GetDoctorsInDepartment(int depID)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
                 UserDepRelRepo select = new UserDepRelRepo(ConnectionString);
                 List<User> services = select.GetUsersByDepartment(depID);
@@ -293,13 +334,13 @@ namespace FlexitHisMVC.Controllers
         }
 
 
-        //public IActionResult SearchForPatientCard(int patientID, long hospitalID)
+        //public IActionResult SearchForPatientCard(int patientID, long organizationID)
         //{
         //    if (HttpContext.Session.GetInt32("userid") != null)
         //    {
 
         //        PatientCardRepo select = new PatientCardRepo(ConnectionString);
-        //        var response = select.(fullNamePattern, hospitalID);
+        //        var response = select.(fullNamePattern, organizationID);
 
 
         //        return Ok(response);

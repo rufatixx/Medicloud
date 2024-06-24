@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Serilog;
 using Serilog.Events;
 
-namespace FlexitHisMVC
+namespace Medicloud
 {
     public class StandardMessages
     {

@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using FlexitHisMVC.Data;
-using FlexitHisMVC.Models;
-using FlexitHisMVC.Models.Domain;
+using Medicloud.BLL.Service;
+using Medicloud.Data;
+using Medicloud.Models;
+using Medicloud.Models.Domain;
+using Medicloud.Models.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace FlexitHisMVC.Areas.Admin.Controllers
+namespace Medicloud.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class ServicesController : Controller
@@ -20,7 +23,7 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
         private ServiceGroupsRepo sgRepo;
         private ServiceTypeRepo stRepo;
         private ServicesRepo sRepo;
-        private HospitalRepo hospitalRepo;
+        private OrganizationService organizationService;
         private DepartmentsRepo departmentsRepo;
         //Communications communications;
         public ServicesController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
@@ -30,46 +33,44 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
             _hostingEnvironment = hostingEnvironment;
             sgRepo = new ServiceGroupsRepo(ConnectionString);
             sRepo = new ServicesRepo(ConnectionString);
-            hospitalRepo = new HospitalRepo(ConnectionString);
+            organizationService = new OrganizationService(ConnectionString);
             departmentsRepo = new DepartmentsRepo(ConnectionString);
             stRepo = new ServiceTypeRepo(ConnectionString);
             //communications = new Communications(Configuration, _hostingEnvironment);
         }
 
+        [Authorize]
         // GET: /<controller>/
         public IActionResult Index()
         {
-            int userID = Convert.ToInt32(HttpContext.Session.GetInt32("userid"));
+            int userID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID"));
             if (userID >0)
             {
                
-                return View(hospitalRepo.GetHospitalListByUser(userID));
+                return View(organizationService.GetOrganizationsByUser(userID));
             }
-            else
-            {
-                return RedirectToAction("Index", "Login", new { Area = "" });
-            }
+            return NotFound();
+         
            
         }
 
-        public IActionResult GetServicesWithServiceGroupName(int hospitalID,int serviceGroupID = 0)
+        public IActionResult GetServicesWithServiceGroupName(int organizationID,int serviceGroupID = 0)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
-                List<ServiceObj> serviceObjs = sRepo.GetServicesWithServiceGroupName(hospitalID,serviceGroupID);
+                List<ServiceObj> serviceObjs = sRepo.GetServicesWithServiceGroupName(organizationID,serviceGroupID);
                 return Ok(serviceObjs);
             }
-            else
-            {
-                return RedirectToAction("Index", "Login", new { Area = "" });
-            }
+
+            return Unauthorized();
+            
            
         }
 
         [HttpPost]
         public IActionResult UpdateService([FromBody] ServiceObj service)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
                 // Update the service in the repository or database
                 int updateResult = sRepo.UpdateService(service);
@@ -91,24 +92,22 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
                 }
               
             }
-            else
-            {
-                return RedirectToAction("Index", "Login", new { Area = "" });
-            }
+
+            return Unauthorized();
+            
            
         }
 
-        public IActionResult GetDepartmentsInHospital(int hospitalID)
+        public IActionResult GetDepartmentsInOrganization(int organizationID)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
-                List<Department> departments = departmentsRepo.GetDepartmentsByHospital(hospitalID);
+                List<Department> departments = departmentsRepo.GetDepartmentsByOrganization(organizationID);
                 return Ok(departments);
             }
-            else
-            {
-                return RedirectToAction("Index", "Login", new { Area = "" });
-            }
+
+            return Unauthorized();
+            
 
 
 
@@ -116,22 +115,21 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
 
         public IActionResult GetDepartmentsInService(int serviceID)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
                 List<Department> departments = departmentsRepo.GetDepartmentsInService(serviceID);
                 return Ok(departments);
             }
-            else
-            {
-                return RedirectToAction("Index", "Login", new { Area = "" });
-            }
+
+            return Unauthorized();
+          
 
 
 
         }
         public IActionResult InsertDepartmentToService(int serviceId, int departmentId)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
                 var updateResult = departmentsRepo.InsertDepartmentToService(serviceId, departmentId);
 
@@ -148,22 +146,22 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Login", new { Area = "" });
+                return Unauthorized();
             }
 
 
 
         }
-        public IActionResult GetServiceGroups(int hospitalID)
+        public IActionResult GetServiceGroups(int organizationID)
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
-                List<ServiceGroup> serviceGroups = sgRepo.GetGroupsByHospital(hospitalID);
+                List<ServiceGroup> serviceGroups = sgRepo.GetGroupsByOrganization(organizationID);
                 return Ok(serviceGroups);
             }
             else
             {
-                return RedirectToAction("Index", "Login", new { Area = "" });
+                return Unauthorized();
             }
            
 
@@ -172,14 +170,14 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
 
         public IActionResult GetServiceTypes()
         {
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
                 List<ServiceType> serviceTypes = stRepo.GetServiceTypes();
                 return Ok(serviceTypes);
             }
             else
             {
-                return RedirectToAction("Index", "Login", new { Area = "" });
+                return Unauthorized();
             }
 
 
@@ -190,7 +188,7 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
         public IActionResult InsertService([FromBody] ServiceObj serviceObj)
         {
 
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
                 var result = sRepo.InsertService(serviceObj);
                 if (result>0)
@@ -221,8 +219,8 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult InserServiceGroup([FromBody]ServiceGroup serviceGroup)
         {
-            
-            if (HttpContext.Session.GetInt32("userid") != null)
+
+            if (User.Identity.IsAuthenticated)
             {
                 sgRepo.InsertServiceGroup(serviceGroup);
 
@@ -236,7 +234,7 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
         public IActionResult DeleteServiceGroup(int sgID)
         {
 
-            if (HttpContext.Session.GetInt32("userid") != null)
+            if (User.Identity.IsAuthenticated)
             {
                 sgRepo.DeleteServiceGroup(sgID);
 
@@ -244,7 +242,7 @@ namespace FlexitHisMVC.Areas.Admin.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Login", new { Area = "" });
+                return Unauthorized();
             }
         }
 

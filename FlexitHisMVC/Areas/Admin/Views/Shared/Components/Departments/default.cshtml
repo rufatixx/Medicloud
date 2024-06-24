@@ -2,7 +2,7 @@
 
 
     <label for="exampleFormControlSelect1">Müəssisə</label>
-    <select class="form-control" id="departments" onchange="hospitalChanged(this)">
+    <select class="form-control" id="departments" onchange="organizationChanged(this)">
     </select>
 
 
@@ -13,21 +13,21 @@
 <script>
 
 
-    var allHospitalsWithBuildings;
+    var allOrganizationsWithBuildings;
 
     $("#departments").empty();
     $("#buildingsInDep").empty();
 
     $.get(
-        "/Admin/Company/GetAllHospitalsWithBuildings",
+        "/Admin/Company/GetAllOrganizationsWithBuildings",
 
         function (data) {
-            allHospitalsWithBuildings = data;
-            if (data.hospitals.length > 0) {
+            allOrganizationsWithBuildings = data;
+            if (data.organizations.length > 0) {
 
-                $.each(data.hospitals, function () {
+                $.each(data.organizations, function () {
 
-                    $("#departments").append($("<option />").val(this.id).text(this.hospitalName));
+                    $("#departments").append($("<option />").val(this.id).text(this.organizationName));
 
 
 

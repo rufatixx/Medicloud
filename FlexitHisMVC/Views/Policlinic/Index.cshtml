@@ -1,4 +1,4 @@
-﻿@model List<FlexitHisMVC.Models.PatientDocDTO>
+﻿@model List<Medicloud.Models.PatientDocDTO>
 @{
     ViewData["Title"] = "- Poliklinika";
 }
@@ -68,7 +68,7 @@
         <div class="col-md-3 mr-3">
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <h6 class="font-weight-bold">Xəstələrin siyahısı</h6>
+                    <h6 class="font-weight-bold">Pasientlər</h6>
                     <ul class="list-group ">
                         @{
                             if (Model.Count > 0)
@@ -91,7 +91,7 @@
         <div class="col-md-4 mr-3">
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <h6 class="font-weight-bold">Xəstənin şəxsi məlumatları</h6>
+                    <h6 class="font-weight-bold">Şəxsi məlumatları</h6>
                     <!-- Patient Profile Picture -->
                     @if (Model.Count > 0)
                     {

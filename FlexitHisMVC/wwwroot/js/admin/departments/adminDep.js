@@ -12,7 +12,7 @@ $('#depType').attr('disabled', true);
 $("#depBuilding").attr('disabled', true);
 
 
-var allHospitalsWithBuildings;
+var allOrganizationsWithBuildings;
 
 $("#departments").empty();
 $("#buildingsInDep").empty();
@@ -79,7 +79,7 @@ function getPageData() {
     $.ajax({
         type: 'POST',
         url: `/admin/departments/getBuildings`,
-        data: { hospitalID: localStorage.selectedHospital },
+        data: { organizationID: localStorage.selectedOrganization },
         dataType: 'json',
         success: function (data, status, xhr) {   // success callback function
             if (data.status != 4) {
@@ -284,7 +284,7 @@ function selectDepTypeInBuilding(typeID) {
 }
 
 
-function hospitalChanged() {
+function organizationChanged() {
     //$("#depIsActive").prop("disabled", true);
     //$("#isRandevuActive").prop("disabled", true);
     //$('#docRequired').attr('disabled', true);
@@ -294,8 +294,8 @@ function hospitalChanged() {
     //$("#buildings").empty();
     //$("#depBuilding").empty();
    
-    //$.each(allHospitalsWithBuildings.buildings, function () {
-    //    if ($("#departments").val() == this.hospitalID) {
+    //$.each(allOrganizationsWithBuildings.buildings, function () {
+    //    if ($("#departments").val() == this.organizationID) {
     //        $("#buildings").append($("<option />").val(this.id).text(this.name));
     //        $("#depBuilding").append($("<option />").val(this.id).text(this.name));
 
