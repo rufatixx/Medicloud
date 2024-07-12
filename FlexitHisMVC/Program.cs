@@ -1,6 +1,10 @@
-﻿using FlexitHisCore.Models;
+﻿using System.Configuration;
+using FlexitHisCore.Models;
+using Medicloud.BLL.Service;
+using Medicloud.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +12,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 
+// Register dependencies
+builder.Services.AddScoped<SpecialityRepo>(provider => new SpecialityRepo(builder.Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value));
+builder.Services.AddScoped<SpecialityService>();
 //builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 //.AddCookie(options =>
 //{

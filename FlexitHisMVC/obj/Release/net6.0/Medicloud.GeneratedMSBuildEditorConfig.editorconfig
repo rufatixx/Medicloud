@@ -118,14 +118,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTG9naW4vSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Views/NewPatient/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTmV3UGF0aWVudC9JbmRleC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Views/NewPatient/Recipe.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTmV3UGF0aWVudC9SZWNpcGUuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
 [/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Views/Performance/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGVyZm9ybWFuY2UvSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -140,6 +132,30 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Views/Pricing/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUHJpY2luZy9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Views/Reception/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUmVjZXB0aW9uL0luZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Views/Reception/Recipe.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUmVjZXB0aW9uL1JlY2lwZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Views/Recovery/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUmVjb3ZlcnkvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Views/Recovery/Step2.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUmVjb3ZlcnkvU3RlcDIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Views/Recovery/Step3.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUmVjb3ZlcnkvU3RlcDMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Views/Recovery/Success.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUmVjb3ZlcnkvU3VjY2Vzcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Views/Registration/Index.cshtml]

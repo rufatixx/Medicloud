@@ -56,6 +56,9 @@ namespace Medicloud.Areas.Admin.Controllers
 
         public IActionResult GetServicesWithServiceGroupName(int organizationID,int serviceGroupID = 0)
         {
+
+             organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
+          
             if (User.Identity.IsAuthenticated)
             {
                 List<ServiceObj> serviceObjs = sRepo.GetServicesWithServiceGroupName(organizationID,serviceGroupID);

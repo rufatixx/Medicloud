@@ -363,10 +363,6 @@
                 </div>
             </div>
         </div>
-
-
-
-
     </form>
     <div class="modal fade" id="addServiceToPatient" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-fullscreen">
@@ -619,7 +615,7 @@
 @section Scripts{
 
     @*<script src="~/js/new_patient/new_patient.js" asp-append-version="true"></script>*@
-    <script>var json = localStorage.getItem("json")
+<script>var json = localStorage.getItem("json")
         var pageData;
         var parsedJSON = JSON.parse(json)
         var selectedCardID = 0;
@@ -649,7 +645,7 @@
 
         $.ajax({
             type: 'POST',
-            url: `/newPatient/getPageModel`,
+            url: `@Url.Action("getPageModel", "Reception")`,
             data: { organizationID: parseInt(localStorage.selectedOrganization) },
             dataType: 'json',
             success: function (data, status, xhr) {
@@ -733,7 +729,7 @@
             // Make an API call to fetch data for the "otherDropdown"
             $.ajax({
                 type: 'GET',
-                url: "@Url.Action("GetPriceGroupDataForCompany", "NewPatient")" , // Replace with your API endpoint
+                url: "@Url.Action("GetPriceGroupDataForCompany", "Reception")" , // Replace with your API endpoint
                 data: { companyID: selectedCompanyID },
                 success: function (response) {
                     // Clear previous options and populate the "otherDropdown"
@@ -763,7 +759,7 @@
             // Make an API call to fetch data for the "otherDropdown"
             $.ajax({
                 type: 'GET',
-                url: "@Url.Action("GetPatientCards", "NewPatient")" ,
+                url: "@Url.Action("GetPatientCards", "Reception")" ,
                 data: { patientID: patientID },
                 success: function (response) {
                     // Clear previous options and populate the "otherDropdown"
@@ -810,7 +806,7 @@
 
     $.ajax({
         type: 'GET',
-        url: "@Url.Action("GetActiveServicesByPriceGroupID", "NewPatient")", // Replace with your second API endpoint
+        url: "@Url.Action("GetActiveServicesByPriceGroupID", "Reception")", // Replace with your second API endpoint
         data: { priceGroupID: selectedPriceGroupID },
         success: function (response) {
             // Clear previous options and populate the second dropdown
@@ -840,7 +836,7 @@
             $('#systemModalBtn').attr("hidden", "");
             $.ajax({
                 type: 'POST',
-                url: `/NewPatient/SearchForPatient`,
+                url: `@Url.Action("SearchForPatient", "Reception")`,
                 data: { fullNamePattern: $("#fullNamePattern").val()},
                 dataType: 'json',
                 success: function (data, status, xhr) {   // success callback function
@@ -1018,7 +1014,7 @@
                         "Content-Type": "application/json"
                     },
                     type: 'POST',
-                    url: `/NewPatient/AddPatient`,
+                    url: `@Url.Action("AddPatient", "Reception")`,
                     data: JSON.stringify({
                         "name": name,
                         "surname": surname,
@@ -1067,7 +1063,7 @@
             $('#selectedServiceGroupInSettings').empty();
 
             $.ajax({
-                url: '/Admin/services/GetServiceGroups',
+                url: '@Url.Action("GetServiceGroups", "Services", new { area = "Admin" })',
                 type: 'GET',
                 data: { organizationID: localStorage.selectedOrganization },
                 success: function (response) {
@@ -1195,7 +1191,7 @@
 
 
             $.ajax({
-                url: '/Admin/services/GetServicesWithServiceGroupName',
+                url: '@Url.Action("GetServicesWithServiceGroupName", "Services", new { area = "Admin" })',
                 type: 'GET',
                 data: { organizationID: localStorage.selectedOrganization, serviceGroupID: groupId },
                 success: function (response) {
@@ -1269,7 +1265,7 @@
                 }
         function fetchDepartmentsInService(serviceID) {
             $.ajax({
-                url: '/Admin/services/GetDepartmentsInService',
+                url: '@Url.Action("GetDepartmentsInService", "Services", new { area = "Admin" })',
                 type: 'GET',
                 data: { serviceID: serviceID },
                 success: function (response) {
@@ -1309,7 +1305,7 @@
         }
         function fetchDoctorsInDepartment(depID) {
             $.ajax({
-                url: '/NewPatient/GetDoctorsInDepartment',
+                url: '@Url.Action("GetDoctorsInDepartment", "Reception");',
                 type: 'GET',
                 data: { depID: depID },
                 success: function (response) {
@@ -1339,7 +1335,7 @@
 
         function fetchDoctorsInCard() {
             $.ajax({
-                url: '/NewPatient/GetDoctorsInCard',
+                url: '@Url.Action("GetDoctorsInCard", "Reception");',
                 type: 'GET',
                 data: { patientCardID: selectedCardID },
                 success: function (response) {
@@ -1424,7 +1420,7 @@
 
             $.ajax({
                 type: 'GET',
-                url: `/NewPatient/GetServices?patientCardID=${selectedCardID}`,
+                url: `@Url.Action("GetServices", "Reception")?patientCardID=${selectedCardID}`,
                 success: function (data, status, xhr) {
                     var servicesTable = $('#servicesList');
                     servicesTable.empty();
@@ -1477,7 +1473,7 @@
 
             // Make an HTTP GET request to the API endpoint
             $.ajax({
-                url: '/NewPatient/InsertServiceToPatientCard',
+                url: '@Url.Action("InsertServiceToPatientCard", "Reception")',
                 type: 'GET',
                 data: {
                     patientCardID: patientCardID,
@@ -1501,7 +1497,7 @@
         function generateRecipe() {
             if (selectedCardID > 0) {
 
-                window.location.href = `@Url.Action("Recipe", "NewPatient")?cardID=${selectedCardID}`;
+                window.location.href = `@Url.Action("Recipe", "Reception")?cardID=${selectedCardID}`;
 
 
             }

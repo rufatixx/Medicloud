@@ -17,7 +17,6 @@
     <None Remove="Areas\Admin\" />
     <None Remove="Areas\Admin\Controllers\" />
     <None Remove="Areas\Admin\Views\" />
-    <None Remove="Models\" />
     <None Remove="Controllers\" />
     <None Remove="Views\" />
     <None Remove="Views\Shared\" />
@@ -32,14 +31,12 @@
     <None Remove="Areas\Admin\Views\Services\" />
     <None Remove="Areas\Admin\Views\Shared\" />
     <None Remove="Areas\Admin\Views\Shared\Components\" />
-    <None Remove="Models\Domain\" />
     <None Remove="Views\Policlinic\" />
     <None Remove="Areas\Admin\Views\PriceGroup\" />
     <None Remove="Views\Shared\Components\SideNav\" />
     <None Remove="Views\Registration\" />
     <None Remove="Views\Performance\" />
     <None Remove="Views\Shared\Components\KassaSelector\" />
-    <None Remove="Models\ViewModels\" />
     <None Remove="Views\Clients\" />
     <None Remove="Views\Prescriptions\" />
     <None Remove="Views\Diagnoses\" />
@@ -51,8 +48,10 @@
     <None Remove="DAL\" />
     <None Remove="BLL\Service\" />
     <None Remove="DAL\Repository\" />
-    <None Remove="BLL\DTO\" />
-    <None Remove="DAL\Models\" />
+    <None Remove="BLL\Models\" />
+    <None Remove="DAL\Entities\" />
+    <None Remove="Views\Recovery\" />
+    <None Remove="Views\Profile\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\js\menu\" />
@@ -61,7 +60,6 @@
     <Folder Include="Areas\Admin\" />
     <Folder Include="Areas\Admin\Controllers\" />
     <Folder Include="Areas\Admin\Views\" />
-    <Folder Include="Models\" />
     <Folder Include="Controllers\" />
     <Folder Include="Views\" />
     <Folder Include="Views\Shared\" />
@@ -77,7 +75,6 @@
     <Folder Include="Areas\Admin\Views\Services\" />
     <Folder Include="Areas\Admin\Views\Shared\" />
     <Folder Include="Areas\Admin\Views\Shared\Components\" />
-    <Folder Include="Models\Domain\" />
     <Folder Include="wwwroot\js\kassa\" />
     <Folder Include="wwwroot\res\login\" />
     <Folder Include="Views\Policlinic\" />
@@ -87,7 +84,6 @@
     <Folder Include="Views\Registration\" />
     <Folder Include="Views\Performance\" />
     <Folder Include="Views\Shared\Components\KassaSelector\" />
-    <Folder Include="Models\ViewModels\" />
     <Folder Include="Views\Clients\" />
     <Folder Include="Views\Prescriptions\" />
     <Folder Include="Views\Diagnoses\" />
@@ -100,8 +96,10 @@
     <Folder Include="DAL\" />
     <Folder Include="BLL\Service\" />
     <Folder Include="DAL\Repository\" />
-    <Folder Include="BLL\DTO\" />
-    <Folder Include="DAL\Models\" />
+    <Folder Include="BLL\Models\" />
+    <Folder Include="DAL\Entities\" />
+    <Folder Include="Views\Recovery\" />
+    <Folder Include="Views\Profile\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MySql.Data" Version="8.0.31" />

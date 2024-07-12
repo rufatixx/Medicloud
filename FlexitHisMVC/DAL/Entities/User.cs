@@ -10,13 +10,16 @@ namespace Medicloud.Models
         public string surname { get; set; }
         public string father { get; set; }
         public string username { get; set; }
-        public string speciality { get; set; }
+        public long specialityID { get; set; }
+        public Speciality speciality { get; set; }
         public string mobile { get; set; }
         public string passportSerialNum { get; set; }
         public string fin { get; set; }
         public string email { get; set; }
         public string bDate { get; set; }
+        public DateTime? recovery_otp_send_date { get; set; }
         public DateTime? otpSentDate { get; set; }
+        public DateTime? subscription_expire_date { get; set; }
         public bool isActive { get; set; }
         public bool isUser { get; set; }
         public bool isDr { get; set; }

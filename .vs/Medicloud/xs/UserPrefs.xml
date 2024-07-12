@@ -1,0 +1,129 @@
+﻿<Properties StartupConfiguration="{94E91CB4-7BC1-46BE-971E-169B5A29C9BE}|Default">
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Medicloud PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Controllers/KassaController.cs" relfile="FlexitHisMVC/Controllers/KassaController.cs" line="154" column="1" />
+      <Breakpoint file="/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Areas/Admin/Controllers/PersonalController.cs" relfile="FlexitHisMVC/Areas/Admin/Controllers/PersonalController.cs" line="110" column="1" />
+      <Breakpoint file="/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/DAL/Repository/PatientRepo.cs" relfile="FlexitHisMVC/DAL/Repository/PatientRepo.cs" line="24" column="1" />
+      <Breakpoint file="/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Controllers/ReceptionController.cs" relfile="FlexitHisMVC/Controllers/ReceptionController.cs" line="214" column="1" />
+      <Breakpoint file="/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Controllers/RegistrationController.cs" relfile="FlexitHisMVC/Controllers/RegistrationController.cs" line="115" column="1" />
+      <Breakpoint file="/Users/admin/Projects/FlexitHisMVC/FlexitHisMVC/Views/Home/Index.cshtml" relfile="FlexitHisMVC/Views/Home/Index.cshtml" line="353" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.Workbench ActiveDocument="FlexitHisMVC/BLL/Service/CommunicationService.cs">
+    <Files>
+      <File FileName="FlexitHisMVC/Views/Kassa/Index.cshtml" />
+      <File FileName="FlexitHisMVC/Controllers/KassaController.cs" />
+      <File FileName="FlexitHisMVC/Program.cs" />
+      <File FileName="FlexitHisMVC/Controllers/KassaRecipesController.cs" />
+      <File FileName="FlexitHisMVC/Views/Shared/_Layout.cshtml" />
+      <File FileName="FlexitHisMVC/Views/Login/Index.cshtml" />
+      <File FileName="FlexitHisMVC/Controllers/LoginController.cs" />
+      <File FileName="FlexitHisMVC/Controllers/HomeController.cs" />
+      <File FileName="FlexitHisMVC/Controllers/ProfileController.cs" />
+      <File FileName="FlexitHisMVC/Views/Shared/_ValidationScriptsPartial.cshtml" />
+      <File FileName="FlexitHisMVC/Views/Shared/Components/SideNav/default.cshtml" />
+      <File FileName="FlexitHisMVC/wwwroot/js/admin/departments/adminDep.js" />
+      <File FileName="FlexitHisMVC/wwwroot/js/app_копия.js" />
+      <File FileName="FlexitHisMVC/wwwroot/js/new_patient/new_patient.js" />
+      <File FileName="FlexitHisMVC/wwwroot/js/kassa/home.js" />
+      <File FileName="FlexitHisMVC/Views/KassaRecipes/Index.cshtml" />
+      <File FileName="FlexitHisMVC/Views/Home/Index.cshtml" />
+      <File FileName="FlexitHisMVC/Areas/Admin/Views/Company/Index.cshtml" />
+      <File FileName="FlexitHisMVC/ViewComponents/SideNavViewComponent.cs" />
+      <File FileName="FlexitHisMVC/Views/Shared/_WelcomeLayout.cshtml" />
+      <File FileName="FlexitHisMVC/ViewComponents/ModulesViewComponent.cs" />
+      <File FileName="FlexitHisMVC/wwwroot/js/app.js" />
+      <File FileName="FlexitHisMVC/Controllers/PoliclinicController.cs" />
+      <File FileName="FlexitHisMVC/Controllers/RegistrationController.cs" />
+      <File FileName="FlexitHisMVC/Areas/Admin/Controllers/CompanyController.cs" />
+      <File FileName="FlexitHisMVC/Areas/Admin/Controllers/DepartmentController.cs" />
+      <File FileName="FlexitHisMVC/Areas/Admin/Controllers/HomeController.cs" />
+      <File FileName="FlexitHisMVC/Areas/Admin/Controllers/PersonalController.cs" />
+      <File FileName="FlexitHisMVC/Areas/Admin/Controllers/PriceGroupController.cs" />
+      <File FileName="FlexitHisMVC/Areas/Admin/Controllers/ServicesController.cs" />
+      <File FileName="FlexitHisMVC/Areas/Admin/Views/PriceGroup/AddService.cshtml" />
+      <File FileName="FlexitHisMVC/ViewComponents/KassaSelectorViewComponent.cs" />
+      <File FileName="FlexitHisMVC/Views/Shared/Components/Navbar/default.cshtml" />
+      <File FileName="FlexitHisMVC/Views/Shared/Components/KassaSelector/default.cshtml" />
+      <File FileName="FlexitHisMVC/wwwroot/assets/js/pages/demo.widgets.js" />
+      <File FileName="FlexitHisMVC/wwwroot/assets/js/pages/demo.dashboard.js" />
+      <File FileName="FlexitHisMVC/ViewComponents/NavbarViewComponent.cs" />
+      <File FileName="FlexitHisMVC/wwwroot/assets/js/pages/demo.materialdesignicons.js" />
+      <File FileName="FlexitHisMVC/wwwroot/assets/css/icons.min.css" />
+      <File FileName="FlexitHisMVC/wwwroot/assets/js/pages/demo.dashboard-analytics.js" />
+      <File FileName="FlexitHisMVC/Areas/Admin/Views/Home/Index.cshtml" />
+      <File FileName="FlexitHisMVC/Views/Home/IndexOLD.cshtml" />
+      <File FileName="FlexitHisMVC/Views/Registration/Index.cshtml" />
+      <File FileName="FlexitHisMVC/Areas/Admin/Views/Personal/Index.cshtml" />
+      <File FileName="FlexitHisMVC/wwwroot/js/menu/menu.js" />
+      <File FileName="FlexitHisMVC/wwwroot/assets/vendor/highlightjs/highlight.pack.min.js" />
+      <File FileName="FlexitHisMVC/Views/Clients/Index.cshtml" />
+      <File FileName="FlexitHisMVC/Controllers/PrescriptionsController.cs" />
+      <File FileName="FlexitHisMVC/Views/Prescriptions/Index.cshtml" />
+      <File FileName="FlexitHisMVC/Views/Policlinic/Index.cshtml" />
+      <File FileName="FlexitHisMVC/Controllers/DiagnosesController.cs" />
+      <File FileName="FlexitHisMVC/Views/Diagnoses/Index.cshtml" />
+      <File FileName="FlexitHisMVC/Views/Services/Index.cshtml" />
+      <File FileName="FlexitHisMVC/Controllers/ServicesController.cs" />
+      <File FileName="FlexitHisMVC/Areas/Admin/Views/Services/Index.cshtml" />
+      <File FileName="FlexitHisMVC/wwwroot/assets/js/vendor.min.js" />
+      <File FileName="FlexitHisMVC/Controllers/ClientsController.cs" />
+      <File FileName="FlexitHisMVC/Properties/launchSettings.json" />
+      <File FileName="FlexitHisMVC/appsettings.json" />
+      <File FileName="FlexitHisMVC/Views/Appointments/Calendar.cshtml" />
+      <File FileName="FlexitHisMVC/Views/Appointments/Index.cshtml" />
+      <File FileName="FlexitHisMVC/wwwroot/js/login/index.js" />
+      <File FileName="FlexitHisMVC/Views/Shared/OLDLayout.html" />
+      <File FileName="FlexitHisMVC/Views/_ViewImports.cshtml" />
+      <File FileName="FlexitHisMVC/Views/Welcome/Index.cshtml" />
+      <File FileName="FlexitHisMVC/Controllers/WelcomeController.cs" />
+      <File FileName="FlexitHisMVC/wwwroot/assets/css/app-saas.min.css" />
+      <File FileName="FlexitHisMVC/wwwroot/assets/js/app.min.js" />
+      <File FileName="FlexitHisMVC/wwwroot/welcome_files/wp-content/plugins/yop-poll/public/assets/js/yop-poll-public-6.3.3.min-ver=5.9.1.1645738641.js" />
+      <File FileName="FlexitHisMVC/wwwroot/welcome_files/wp-content/themes/virtualcard/style-ver=177785.1645738641.css" />
+      <File FileName="FlexitHisMVC/wwwroot/assets/js/hyper-config.js" />
+      <File FileName="FlexitHisMVC/Views/Login/Index (копия).cshtml" />
+      <File FileName="FlexitHisMVC/Views/Login/Index.cshtml.cs" />
+      <File FileName="FlexitHisMVC/Views/Login/Index (копия).cshtml.cs" />
+      <File FileName="FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap.css" />
+      <File FileName="FlexitHisMVC/Views/Welcome/Index (копия).cshtml" />
+      <File FileName="FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap.css.map" />
+      <File FileName="FlexitHisMVC/wwwroot/assets/js/pages/demo.calendar.js" />
+      <File FileName="FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css.map" />
+      <File FileName="FlexitHisMVC/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css" />
+      <File FileName="FlexitHisMVC/wwwroot/welcome_files/wp-content/plugins/yop-poll/public/assets/css/yop-poll-public-6.3.3-ver=5.9.1.1645738641.css" />
+      <File FileName="FlexitHisMVC/Views/Shared/OLDLayout.html.css" />
+      <File FileName="FlexitHisMVC/Views/Pricing/Index.cshtml" />
+      <File FileName="FlexitHisMVC/Controllers/PricingController.cs" />
+      <File FileName="FlexitHisMVC/Views/Registration/Step2.cshtml" />
+      <File FileName="FlexitHisMVC/BLL/Service/UserService.cs" />
+      <File FileName="FlexitHisMVC/DAL/Repository/UserRepo.cs" />
+      <File FileName="FlexitHisMVC/BLL/Service/CommunicationService.cs" Line="226" Column="90" />
+      <File FileName="FlexitHisMVC/Controllers/AppointmentsController.cs" />
+      <File FileName="FlexitHisMVC/BLL/Service/OrganizationService.cs" />
+      <File FileName="FlexitHisMVC/Areas/Admin/ViewComponents/PersonalListViewComponent.cs" />
+      <File FileName="FlexitHisMVC/DAL/Repository/DepartmentsRepo.cs" />
+      <File FileName="FlexitHisMVC/DAL/Repository/DiagnoseRepo.cs" />
+      <File FileName="FlexitHisMVC/DAL/Repository/UserDepRelRepo.cs" />
+      <File FileName="FlexitHisMVC/Views/Performance/Index.cshtml" />
+      <File FileName="FlexitHisMVC/Views/Reception/Index.cshtml" />
+      <File FileName="FlexitHisMVC/Views/Registration/Step3.cshtml" />
+      <File FileName="FlexitHisMVC/DAL/Repository/CompanyGroupRepo.cs" />
+      <File FileName="FlexitHisMVC/Properties/PublishProfiles/FolderProfile.pubxml" />
+      <File FileName="FlexitHisMVC/BLL/Service/SpecialityService.cs" />
+      <File FileName="FlexitHisMVC/DAL/Repository/BuildingRepo.cs" />
+      <File FileName="FlexitHisMVC/DAL/Repository/KassaRepo.cs" />
+      <File FileName="FlexitHisMVC/Views/Home/Index (копия).cshtml" />
+      <File FileName="FlexitHisMVC/BLL/Models/LogInDTO.cs" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__" />
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+</Properties>

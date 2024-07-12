@@ -13,12 +13,6 @@ namespace Medicloud.DAL.Repository
             _connectionString = conString;
         }
 
-
-
-      
-
-
-
         public bool UserExists(string mobile)
         {
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
@@ -90,9 +84,13 @@ namespace Medicloud.DAL.Repository
                             personal.fin = reader["fin"] == DBNull.Value ? "" : reader["fin"].ToString();
 
                             personal.bDate = reader["bDate"] == DBNull.Value ? DateTime.Now.Date.ToString("yyyy-MM-dd") : Convert.ToDateTime(reader["bDate"]).Date.ToString("yyyy-MM-dd");
-                            personal.speciality = reader["specialityName"] == DBNull.Value ? "" : reader["specialityName"].ToString();
+                            personal.speciality = new Speciality
+                            {
+                                id = Convert.ToInt64(reader["specialityID"]),
+                                name = reader["specialityName"] == DBNull.Value ? "" : reader["specialityName"].ToString()
+                            };
                             personal.isActive = reader["isActive"] == DBNull.Value ? false : Convert.ToBoolean(reader["isActive"]);
-                            personal.isUser = reader["isCRMuser"] == DBNull.Value ? false : Convert.ToBoolean(reader["isCRMuser"]);
+                            personal.isUser = reader["isUser"] == DBNull.Value ? false : Convert.ToBoolean(reader["isUser"]);
                             personal.isDr = reader["isDr"] == DBNull.Value ? false : Convert.ToBoolean(reader["isDr"]);
                             personal.isAdmin = reader["isAdmin"] == DBNull.Value ? false : Convert.ToBoolean(reader["isAdmin"]);
 
@@ -159,7 +157,7 @@ namespace Medicloud.DAL.Repository
             {
 
                 connection.Open();
-                using (MySqlCommand com = new MySqlCommand("select * from users where pwd=SHA2(@pass,256) and mobile = @mobileNumber and isActive=1 and isCRMuser=1", connection))
+                using (MySqlCommand com = new MySqlCommand("select * from users where pwd=SHA2(@pass,256) and mobile = @mobileNumber and isActive=1 and isUser=1 and isRegistered=1", connection))
                 {
 
                     com.Parameters.AddWithValue("@pass", pass);
@@ -178,7 +176,7 @@ namespace Medicloud.DAL.Repository
                                 personal.name = reader["name"].ToString();
                                 personal.surname = reader["surname"].ToString();
                                 personal.isAdmin = reader["isAdmin"] == DBNull.Value ? false : Convert.ToBoolean(reader["isAdmin"]);
-                                personal.isUser = reader["isCRMuser"] == DBNull.Value ? false : Convert.ToBoolean(reader["isCRMuser"]);
+                                personal.isUser = reader["isUser"] == DBNull.Value ? false : Convert.ToBoolean(reader["isUser"]);
                                 personal.isDr = reader["isDr"] == DBNull.Value ? false : Convert.ToBoolean(reader["isDr"]);
                             }
 
@@ -200,13 +198,17 @@ namespace Medicloud.DAL.Repository
 
         public User GetUserByID(int id)
         {
-            User personal = new User();
+            User user = new User();
 
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
 
                 connection.Open();
-                using (MySqlCommand com = new MySqlCommand("select * from users where id=@id and isActive=1", connection))
+                using (MySqlCommand com = new MySqlCommand(@"SELECT a.*, s.name AS speciality
+FROM users a
+JOIN speciality s ON a.specialityID = s.id
+WHERE a.id = @id AND a.isActive = 1;
+", connection))
                 {
 
                     com.Parameters.AddWithValue("@id", id);
@@ -219,14 +221,31 @@ namespace Medicloud.DAL.Repository
 
                             while (reader.Read())
                             {
-                                personal.ID = Convert.ToInt32(reader["id"]);
-                                personal.isActive = Convert.ToBoolean(reader["isActive"]);
 
-                                personal.name = reader["name"].ToString();
-                                personal.surname = reader["surname"].ToString();
-                                personal.isAdmin = reader["isAdmin"] == DBNull.Value ? false : Convert.ToBoolean(reader["isAdmin"]);
-                                personal.isUser = reader["isCRMuser"] == DBNull.Value ? false : Convert.ToBoolean(reader["isCRMuser"]);
-                                personal.isDr = reader["isDr"] == DBNull.Value ? false : Convert.ToBoolean(reader["isDr"]);
+                                user.ID = Convert.ToInt32(reader["id"]);
+                                user.isActive = Convert.ToBoolean(reader["isActive"]);
+                                user.specialityID = Convert.ToInt64(reader["specialityID"]);
+                                user.speciality = new Speciality
+                                {
+                                    id = Convert.ToInt64(reader["specialityID"]),
+                                    name = reader.GetString(reader.GetOrdinal("speciality"))
+                                };
+                                user.name = reader["name"].ToString();
+                                user.surname = reader["surname"].ToString();
+                                user.father = reader["father"] == DBNull.Value ? "" : reader["father"].ToString();
+                                user.mobile = reader["mobile"] == DBNull.Value ? "" : reader["mobile"].ToString();
+                                user.username = reader["username"] == DBNull.Value ? "" : reader["username"].ToString();
+                                user.email = reader["email"] == DBNull.Value ? "" : reader["email"].ToString();
+                                user.passportSerialNum = reader["passportSerialNum"] == DBNull.Value ? "" : reader["passportSerialNum"].ToString();
+                                user.fin = reader["fin"] == DBNull.Value ? "" : reader["fin"].ToString();
+                                user.bDate = reader["bDate"] == DBNull.Value ? DateTime.Now.Date.ToString("yyyy-MM-dd") : Convert.ToDateTime(reader["bDate"]).Date.ToString("yyyy-MM-dd");
+                                user.isAdmin = reader["isAdmin"] == DBNull.Value ? false : Convert.ToBoolean(reader["isAdmin"]);
+                                user.isUser = reader["isUser"] == DBNull.Value ? false : Convert.ToBoolean(reader["isUser"]);
+                                user.isDr = reader["isDr"] == DBNull.Value ? false : Convert.ToBoolean(reader["isDr"]);
+                                user.subscription_expire_date = reader["subscription_expire_date"] == DBNull.Value ? null : Convert.ToDateTime(reader["subscription_expire_date"]);
+
+
+
                             }
 
                             connection.Close();
@@ -242,12 +261,12 @@ namespace Medicloud.DAL.Repository
                 }
                 connection.Close();
             }
-            return personal;
+            return user;
         }
 
-        public User GetUserByPhone(string mobileNumber)
+        public User? GetUserByPhone(string mobileNumber)
         {
-            User personal = new User();
+
 
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
@@ -262,6 +281,7 @@ namespace Medicloud.DAL.Repository
                     {
                         if (reader.HasRows)
                         {
+                            User personal = new User();
 
 
                             while (reader.Read())
@@ -269,11 +289,12 @@ namespace Medicloud.DAL.Repository
                                 personal.ID = Convert.ToInt32(reader["id"]);
                                 personal.isActive = Convert.ToBoolean(reader["isActive"]);
                                 personal.otpSentDate = reader["otp_sent_date"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(reader["otp_sent_date"]);
+                                personal.recovery_otp_send_date = reader["recovery_otp_send_date"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(reader["recovery_otp_send_date"]);
                                 personal.name = reader["name"].ToString();
                                 personal.surname = reader["surname"].ToString();
                                 personal.isAdmin = reader["isAdmin"] == DBNull.Value ? false : Convert.ToBoolean(reader["isAdmin"]);
                                 personal.isRegistered = reader["isRegistered"] == DBNull.Value ? false : Convert.ToBoolean(reader["isRegistered"]);
-                                personal.isUser = reader["isCRMuser"] == DBNull.Value ? false : Convert.ToBoolean(reader["isCRMuser"]);
+                                personal.isUser = reader["isUser"] == DBNull.Value ? false : Convert.ToBoolean(reader["isUser"]);
                                 personal.isDr = reader["isDr"] == DBNull.Value ? false : Convert.ToBoolean(reader["isDr"]);
                             }
 
@@ -311,9 +332,9 @@ namespace Medicloud.DAL.Repository
                     connection.Open();
 
                     var query = @"INSERT INTO users (name, surname, father, specialityID, mobile, email, bDate, username, pwd, 
-                          isCRMuser, isDr, isAdmin, isActive, otp_code, subscription_expire_date)
+                          isUser, isDr, isAdmin, isActive, otp_code, subscription_expire_date)
                           SELECT @name, @surname, @father, @specialityID, @mobile, @email, @bDate, @username, SHA2(@pwd, 256), 
-                          @isCRMuser, @isDr, @isAdmin, @isActive, SHA2(@otp_code, 256), @subscription_expire_date
+                          @isUser, @isDr, @isAdmin, @isActive, @otp_code, @subscription_expire_date
                           FROM DUAL
                           WHERE NOT EXISTS (
                             SELECT 1 FROM users 
@@ -332,7 +353,7 @@ namespace Medicloud.DAL.Repository
                         command.Parameters.AddWithValue("@bDate", string.IsNullOrEmpty(bDate) ? (object)DBNull.Value : DateTime.Parse(bDate));
                         command.Parameters.AddWithValue("@username", username ?? "");
                         command.Parameters.AddWithValue("@pwd", pwd ?? "");
-                        command.Parameters.AddWithValue("@isCRMuser", isUser);
+                        command.Parameters.AddWithValue("@isUser", isUser);
                         command.Parameters.AddWithValue("@isActive", isActive);
                         command.Parameters.AddWithValue("@isDr", isDr);
                         command.Parameters.AddWithValue("@isAdmin", isAdmin);
@@ -356,7 +377,7 @@ namespace Medicloud.DAL.Repository
             int specialityID = 0, string passportSerialNum = "", string fin = "",
             string mobile = "", string email = "", string bDate = "",
             string username = "", int isUser = 0, int isDr = 0, int isActive = 0,
-            int isAdmin = 0, string otp = "", string subscriptionExpireDate = "")
+            int isAdmin = 0, string otp = "", string recoveryOtp = "", DateTime? recoveryOtpSendDate = null, string subscriptionExpireDate = "", string password = "", int isRegistered = 0)
         {
             int updated = 0;
 
@@ -388,6 +409,11 @@ namespace Medicloud.DAL.Repository
                     {
                         query.Append("mobile = @mobile, ");
                         parameters.Add(new MySqlParameter("@mobile", mobile));
+                    }
+                    if (!string.IsNullOrEmpty(password))
+                    {
+                        query.Append("pwd = @pwd, ");
+                        parameters.Add(new MySqlParameter("@pwd", password));
                     }
                     if (!string.IsNullOrEmpty(email))
                     {
@@ -421,8 +447,8 @@ namespace Medicloud.DAL.Repository
                     }
                     if (isUser != 0)
                     {
-                        query.Append("isCRMuser = @isCRMuser, ");
-                        parameters.Add(new MySqlParameter("@isCRMuser", isUser));
+                        query.Append("isUser = @isUser, ");
+                        parameters.Add(new MySqlParameter("@isUser", isUser));
                     }
                     if (isActive != 0)
                     {
@@ -441,13 +467,28 @@ namespace Medicloud.DAL.Repository
                     }
                     if (!string.IsNullOrEmpty(otp))
                     {
-                        query.Append("otp_code = SHA2(@otp_code, 256), ");
+                        query.Append("otp_code = @otp_code, ");
                         parameters.Add(new MySqlParameter("@otp_code", otp));
+                    }
+                    if (!string.IsNullOrEmpty(recoveryOtp))
+                    {
+                        query.Append("recovery_otp = @recovery_otp, ");
+                        parameters.Add(new MySqlParameter("@recovery_otp", recoveryOtp));
                     }
                     if (!string.IsNullOrEmpty(subscriptionExpireDate))
                     {
                         query.Append("subscription_expire_date = @subscription_expire_date, ");
                         parameters.Add(new MySqlParameter("@subscription_expire_date", string.IsNullOrEmpty(subscriptionExpireDate) ? (object)DBNull.Value : DateTime.Parse(subscriptionExpireDate)));
+                    }
+                    if (subscriptionExpireDate != null)
+                    {
+                        query.Append("recovery_otp_send_date = @recovery_otp_send_date, ");
+                        parameters.Add(new MySqlParameter("@recovery_otp_send_date", recoveryOtpSendDate));
+                    }
+                    if (isRegistered > 0)
+                    {
+                        query.Append("isRegistered = @isRegistered, ");
+                        parameters.Add(new MySqlParameter("@isRegistered", isRegistered));
                     }
                     query.Append("otp_sent_date = @otp_sent_date, ");
                     parameters.Add(new MySqlParameter("@otp_sent_date", DateTime.Now));
@@ -499,11 +540,11 @@ namespace Medicloud.DAL.Repository
                             if (reader.Read())
                             {
                                 otpHash = reader["otp_code"] == DBNull.Value ? null : reader["otp_code"].ToString();
-                            
 
-                               
+
+
                             }
-                           
+
                         }
                     }
 
@@ -522,6 +563,48 @@ namespace Medicloud.DAL.Repository
             return otpHash;
         }
 
+        public string GetRecoveryOtpData(string phone)
+        {
+            string otpHash = string.Empty;
+
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(_connectionString))
+                {
+                    connection.Open();
+
+                    var query = "SELECT recovery_otp, recovery_otp_send_date FROM users WHERE mobile = @mobile";
+                    using (MySqlCommand com = new MySqlCommand(query, connection))
+                    {
+                        com.Parameters.AddWithValue("@mobile", phone);
+
+                        using (var reader = com.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                otpHash = reader["recovery_otp"] == DBNull.Value ? null : reader["recovery_otp"].ToString();
+
+
+
+                            }
+
+                        }
+                    }
+
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                // Log the exception
+                // elangoAPI.StandardMessages.CallSerilog(ex);
+                //result.Success = false;
+                //result.Message = "Server error: " + ex.Message;
+            }
+
+            return otpHash;
+        }
 
         public int UpdateUserPwd(int userID, string pwd)
         {
@@ -531,9 +614,6 @@ namespace Medicloud.DAL.Repository
             {
                 using (MySqlConnection connection = new MySqlConnection(_connectionString))
                 {
-
-
-
 
                     connection.Open();
                     using (MySqlCommand com = new MySqlCommand("update users set pwd = SHA2(@pwd,256) where id = @userID", connection))
@@ -546,7 +626,6 @@ namespace Medicloud.DAL.Repository
 
                     }
                     connection.Close();
-
 
 
                 }

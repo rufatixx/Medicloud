@@ -3,6 +3,7 @@ using Medicloud.DAL.Repository;
 using Medicloud.Data;
 using Medicloud.Models;
 using Medicloud.Models.DTO;
+using Medicloud.Models.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Medicloud.Controllers
 {
-
+    [Authorize]
     public class ProfileController : Controller
     {
         private readonly string _connectionString;
@@ -20,6 +21,7 @@ namespace Medicloud.Controllers
         UserService userService;
         UserRepo personalDAO;
         OrganizationService organizationService;
+        private ServicesRepo servicesRepo;
         public ProfileController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
         {
             _configuration = configuration;
@@ -29,17 +31,89 @@ namespace Medicloud.Controllers
             personalDAO = new UserRepo(_connectionString);
             organizationService = new OrganizationService(_connectionString);
             userService = new UserService(_connectionString);
+            servicesRepo = new ServicesRepo(_connectionString);
+
         }
-        [Authorize]
+  
         // GET: /<controller>/
         public IActionResult Index()
         {
+            var userID = User.FindFirst("ID")?.Value;
+           
+            ViewBag.userData = personalDAO.GetUserByID(Convert.ToInt32(userID));
+
+            ViewBag.services = servicesRepo.GetServicesByOrganization(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")));
             return View();
         }
-        public IActionResult getProfileInfo()
+
+        [HttpPost]
+        public IActionResult InsertService([FromBody] ServiceObj serviceObj)
+        {
+
+            if (User.Identity.IsAuthenticated)
+            {
+                serviceObj.organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
+                var result = servicesRepo.InsertService(serviceObj);
+                if (result > 0)
+                {
+                    return Ok();
+                }
+                else if (result == -1)
+                {
+                    // A matching record already exists
+                    // Return 409 Conflict status with an error message
+                    return StatusCode(409, "Xidmət artıq mövcuddur");
+
+                }
+                else
+                {
+                    return BadRequest("Xəta baş verdi"); // Return HTTP 400 Bad Request if the update failed
+                }
+
+
+
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
+
+
+        [HttpPost]
+        public IActionResult UpdateService([FromBody] ServiceObj service)
         {
             if (User.Identity.IsAuthenticated)
             {
+                // Update the service in the repository or database
+                int updateResult = servicesRepo.UpdateService(service);
+
+                if (updateResult > 0)
+                {
+                    return Ok(); // Return HTTP 200 OK if the update was successful
+                }
+                else if (updateResult == -1)
+                {
+                    // A matching record already exists
+                    // Return 409 Conflict status with an error message
+                    return StatusCode(409, "Xidmət artıq mövcuddur");
+
+                }
+                else
+                {
+                    return BadRequest("Xəta baş verdi"); // Return HTTP 400 Bad Request if the update failed
+                }
+
+            }
+
+            return Unauthorized();
+
+
+        }
+
+        public IActionResult getProfileInfo()
+        {
+        
                 var userID = Request.Cookies["Medicloud_userID"];
 
                 //long formattedPhone = regexPhone(phone);
@@ -70,11 +144,25 @@ namespace Medicloud.Controllers
                 }
                 return Ok(status);
 
-            }
-            else
+         
+
+
+
+        }
+
+        [HttpPost]
+        public IActionResult UpdateUser(int userID, string name, string surname, string father, int specialityID, string passportSerialNum, string fin, string mobile, string email, string bDate, string username, int isUser, int isDr, int isActive, int isAdmin)
+        {
+            if (User.Identity.IsAuthenticated)
             {
-                return Unauthorized();
+                UserRepo user = new UserRepo(_connectionString);
+
+                return Ok(user.UpdateUser(userID, name, surname, father, specialityID, passportSerialNum, fin, mobile, email, bDate, username, isUser, isDr, isActive, isAdmin));
+
             }
+
+            return Unauthorized();
+
 
 
 

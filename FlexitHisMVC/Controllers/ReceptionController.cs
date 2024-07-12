@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Medicloud.Controllers
 {
 
-    public class NewPatientController : Controller
+    public class ReceptionController : Controller
     {
         private readonly string ConnectionString;
         public IConfiguration Configuration;
@@ -19,7 +19,7 @@ namespace Medicloud.Controllers
         private ServicePriceGroupRepository servicePriceGroupRepository;
         PatientCardRepo patientCardRepo;
         PatientCardServiceRelRepo patientCardServiceRelRepo;
-        public NewPatientController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
+        public ReceptionController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
         {
             Configuration = configuration;
             ConnectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;

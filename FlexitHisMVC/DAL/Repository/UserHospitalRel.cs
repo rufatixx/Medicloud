@@ -45,10 +45,15 @@ WHERE a.organizationID = @organizationID and b.isDr = 1;", connection))
 
                                 User user = new User();
                                 user.ID = Convert.ToInt32(reader["userID"]);
-                                user.speciality = reader["speciality"].ToString();
+                                user.specialityID = Convert.ToInt64(reader["specialityID"]);
+                                user.speciality = new Speciality
+                                {
+                                    id = Convert.ToInt64(reader["specialityID"]),
+                                    name = reader["speciality"].ToString()
+                                };
                                 user.name = reader["name"].ToString();
                                 user.surname = reader["surname"].ToString();
-                               
+
 
 
                                 userDepRelList.Add(user);

@@ -75,7 +75,55 @@
             </g>
         </svg>
     </div>
-    @RenderBody()
+
+
+    <div class="account-pages pt-2 pt-sm-5 pb-4 pb-sm-5 position-relative">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xxl-4 col-lg-5">
+                    <div class="card">
+
+                        <!-- Logo -->
+                        <div class="card-header pb-0 text-center ">
+                            <a href="/">
+                                <img src="/assets/images/mc_logo_inline.svg" alt="logo">
+                            </a>
+                        </div>
+
+                        @RenderBody()
+                    </div>
+                    <!-- end card -->
+
+                    <div class="row mt-3">
+                        <div class="col-12 text-center">
+                            @{
+                                var controllerName = ViewContext.RouteData.Values["controller"]?.ToString();
+                            }
+                            <p class="text-muted">
+                                @if (controllerName == "Registration")
+                                {
+                                    @:Hesabınız var? <a href="@Url.Action("Index", "Login")" class="text-muted ms-1"><b>Daxil olun</b></a>
+                                }
+                                else if (controllerName == "Recovery")
+                                {
+                                    @:Hesabınız yoxdur? <a href="@Url.Action("Index", "Registration")" class="text-muted ms-1"><b>Qeydiyyat</b></a>
+                                }
+                                else
+                                {
+                                    @:Hesabınız yoxdur? <a href="@Url.Action("Index", "Registration")" class="text-muted ms-1"><b>Qeydiyyat</b></a>
+                                }
+                            </p>
+                        </div> <!-- end col -->
+                    </div>
+                    <!-- end row -->
+
+                </div> <!-- end col -->
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- end container -->
+    </div>
+
 
 
     <footer class="footer footer-alt">

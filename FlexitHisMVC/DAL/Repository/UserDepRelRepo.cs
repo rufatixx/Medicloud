@@ -107,7 +107,7 @@ namespace Medicloud.Repository
                                 user.ID = Convert.ToInt32(reader["id"]);
                                 user.name = reader["name"].ToString();
                                 user.surname = reader["surname"].ToString();
-                                user.speciality = reader["speciality"].ToString();
+                                user.speciality = new Speciality {id = Convert.ToInt64(reader["specialityID"]) , name = reader["speciality"].ToString() };
 
                                 userList.Add(user);
                             }

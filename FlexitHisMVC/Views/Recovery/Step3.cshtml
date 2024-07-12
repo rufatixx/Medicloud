@@ -1,0 +1,91 @@
+﻿@{
+    Layout = "~/Views/Shared/_WelcomeLayout.cshtml";
+    ViewData["Title"] = "Hesabın bərpası";
+}
+<div class="card-body p-4">
+    <div class="text-center w-75 m-auto">
+        <h4 class="text-dark-50 text-center pb-0 fw-bold">Hesab yarat</h4>
+        <p class="text-muted mb-4">Sağlamlığınızı buludlara qaldırın</p>
+    </div>
+    <div class="alert alert-danger" id="alert" style="display:none" role="alert"></div>
+    <form id="addUserForm" class="needs-validation" novalidate>
+        <div class="mb-3">
+            <label for="pwd" class="form-label">Şifrə</label>
+            <div class="input-group has-validation">
+                <input type="password" id="pwd" class="form-control" placeholder="Şifrəni daxil edin" required>
+                <div class="input-group-text" data-password="false">
+                    <span class="password-eye"></span>
+                </div>
+                <div class="invalid-feedback">
+                    Zəhmət olmasa, şifrənizi daxil edin.
+                </div>
+            </div>
+        </div>
+        <div class="mb-3 mb-0 text-center">
+            <button class="btn btn-primary" type="button" onclick="updatePass(event)" id="nextButton"> Növbəti </button>
+        </div>
+    </form>
+</div> <!-- end card-body -->
+
+@section Scripts {
+    <script>
+        // Bootstrap validation
+        (function () {
+            'use strict';
+            window.addEventListener('load', function () {
+                var forms = document.getElementsByClassName('needs-validation');
+                var validation = Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+
+        async function updatePass(event) {
+            event.preventDefault();
+
+            if ($('#addUserForm')[0].checkValidity() === false) {
+                event.stopPropagation();
+                $('#addUserForm').addClass('was-validated');
+                return;
+            }
+
+            // Получаем значения полей формы
+            const pwd = $('#pwd').val();
+            var btn = $("#nextButton");
+            btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Yüklənir...');
+
+            // Подготавливаем параметры запроса
+            const params = {
+                password: pwd
+            };
+
+            $.ajax({
+                url: '@Url.Action("UpdatePass", "Recovery")',
+                method: 'POST',
+                data: params,
+                success: function(result) {
+                    console.log('Password updated successfully:', result);
+                    window.location.href = "@Url.Action("Success", "Recovery")";
+                    btn.prop('disabled', false).html('Növbəti');
+                },
+                error: function(xhr) {
+                    if (xhr.status === 400) {
+                        var errorResult = xhr;
+                        console.log('Error updating password:', errorResult);
+                        $('#alert').text('Şifrə yenilənərkən xəta baş verdi: ' + (errorResult.message || xhr.statusText)).show();
+                    } else {
+                        console.log('Error updating password:', xhr.statusText);
+                        $('#alert').text('Şifrə yenilənərkən xəta baş verdi').show();
+                    }
+                    btn.prop('disabled', false).html('Növbəti');
+                }
+            });
+        }
+    </script>
+}

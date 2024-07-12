@@ -1,111 +1,182 @@
-﻿
-@{
+﻿@{
     Layout = "~/Views/Shared/_WelcomeLayout.cshtml";
     ViewData["Title"] = "Qeydiyyat";
 }
-<div class="account-pages pt-2 pt-sm-5 pb-4 pb-sm-5 position-relative">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-xxl-4 col-lg-5">
-                <div class="card">
 
-                    <!-- Logo -->
-                    <div class="card-header pb-0 text-center ">
-                        <a href="/">
-
-
-                            <img src="/assets/images/mc_logo_inline.svg" alt="logo">
-
-
-
-
-                        </a>
-                    </div>
-
-                    <div class="card-body p-4">
-
-                        <div class="text-center w-75 m-auto">
-                            <h4 class="text-dark-50 text-center pb-0 fw-bold">Hesab yarat</h4>
-                            <p class="text-muted mb-4">Sağlamlığınızı buludlara qaldırın</p>
-                        </div>
-                        <div class="alert alert-danger" id="alert" hidden role="alert"></div>
-                        <form action="#">
-
-                            <div class="mb-3">
-                                <label for="password" class="form-label">İşlədiyiniz müəssisə</label>
-                                <div class="input-group input-group-merge">
-                                    <input type="text" id="passBox" class="form-control" placeholder="Daxil edin">
-
-                                </div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Ad</label>
-                                <div class="input-group input-group-merge">
-                                    <input type="text" id="passBox" class="form-control" placeholder="Adı daxil edin">
-
-                                </div>
-                            </div>
-
-
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Soyad</label>
-                                <div class="input-group input-group-merge">
-                                    <input type="text" id="passBox" class="form-control" placeholder="Soyadı daxil edin">
-
-                                </div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Ata adı</label>
-                                <div class="input-group input-group-merge">
-                                    <input type="text" id="passBox" class="form-control" placeholder="Ata adı daxil edin">
-
-                                </div>
-                            </div>
-                            <div class="mb-3">
-
-                                <label for="password" class="form-label">Şifrə</label>
-                                <div class="input-group input-group-merge">
-                                    <input type="password" id="passBox" class="form-control" placeholder="Şifrəni daxil edin">
-                                    <div class="input-group-text" data-password="false">
-                                        <span class="password-eye"></span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="mb-3">
-
-                                <label for="password" class="form-label">Şifrənin təkrarı</label>
-                                <div class="input-group input-group-merge">
-                                    <input type="password" id="passBox" class="form-control" placeholder="Şifrəni daxil edin">
-                                    <div class="input-group-text" data-password="false">
-                                        <span class="password-eye"></span>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="mb-3 mb-0 text-center">
-                                <button class="btn btn-primary" onclick="signIn(this)" id="signInButton"> Növbəti </button>
-                            </div>
-
-                        </form>
-                    </div> <!-- end card-body -->
-                </div>
-                <!-- end card -->
-
-                <div class="row mt-3">
-                    <div class="col-12 text-center">
-                        <p class="text-muted">Hesabınız var? <a href="#" class="text-muted ms-1"><b>Daxil olun</b></a></p>
-                    </div> <!-- end col -->
-                </div>
-                <!-- end row -->
-
-            </div> <!-- end col -->
-        </div>
-        <!-- end row -->
+<div class="card-body p-4">
+    <div class="text-center w-75 m-auto">
+        <h4 class="text-dark-50 text-center pb-0 fw-bold">Hesab yarat</h4>
+        <p class="text-muted mb-4">Sağlamlığınızı buludlara qaldırın</p>
     </div>
-    <!-- end container -->
-</div>
-    <!-- end row -->
+    <div class="alert alert-danger" id="alert" hidden role="alert"></div>
+    <form id="addUserForm" class="needs-validation" novalidate onsubmit="signUp(event)">
+        <div class="mb-3">
+            <label for="organizationName" class="form-label">İşlədiyiniz müəssisə</label>
+            <div class="input-group has-validation">
+                <input type="text" id="organizationName" class="form-control" placeholder="Daxil edin" required>
+                <div class="invalid-feedback">
+                    Zəhmət olmasa, işlədiyiniz müəssisəni daxil edin.
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="name" class="form-label">Ad</label>
+            <div class="input-group has-validation">
+                <input type="text" id="name" class="form-control" placeholder="Adı daxil edin" required>
+                <div class="invalid-feedback">
+                    Zəhmət olmasa, adınızı daxil edin.
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="surname" class="form-label">Soyad</label>
+            <div class="input-group has-validation">
+                <input type="text" id="surname" class="form-control" placeholder="Soyadı daxil edin" required>
+                <div class="invalid-feedback">
+                    Zəhmət olmasa, soyadınızı daxil edin.
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="father" class="form-label">Ata adı</label>
+            <div class="input-group has-validation">
+                <input type="text" id="father" class="form-control" placeholder="Ata adı daxil edin" required>
+                <div class="invalid-feedback">
+                    Zəhmət olmasa, ata adınızı daxil edin.
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="specialityDropdown" class="form-label">İxtisas</label>
+            <select class="form-control" id="specialityDropdown" required>
+                <option value="">İxtisas seçin...</option>
+                @{
+                    foreach (var item in ViewBag.specialities)
+                    {
+                        <option value="@item.id">@item.name</option>
+                    }
+                }
+            </select>
+            <div class="invalid-feedback">
+                Zəhmət olmasa, ixtisas seçin.
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="fin" class="form-label">FİN</label>
+            <div class="input-group has-validation">
+                <input type="text" id="fin" class="form-control" placeholder="FİN daxil edin" required>
+                <div class="invalid-feedback">
+                    Zəhmət olmasa, FİN daxil edin.
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="bDate" class="form-label">Doğum tarixi</label>
+            <div class="input-group has-validation">
+                <input type="date" id="bDate" class="form-control" placeholder="B Date daxil edin" required>
+                <div class="invalid-feedback">
+                    Zəhmət olmasa, doğum tarixinizi daxil edin.
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="pwd" class="form-label">Şifrə</label>
+            <div class="input-group has-validation">
+                <input type="password" id="pwd" class="form-control" placeholder="Şifrəni daxil edin" required>
+
+                <div class="input-group-text" data-password="false">
+                    <span class="password-eye"></span>
+                </div>
+
+                <div class="invalid-feedback">
+                    Zəhmət olmasa, şifrənizi daxil edin.
+                </div>
+            </div>
+        </div>
+        <div class="mb-3 mb-0 text-center">
+            <button class="btn btn-primary" type="submit" id="nextButton"> Növbəti </button>
+        </div>
+    </form>
+</div> <!-- end card-body -->
+
+@section Scripts {
+    <script>// Bootstrap validation
+        (function () {
+            'use strict';
+            window.addEventListener('load', function () {
+                var forms = document.getElementsByClassName('needs-validation');
+                var validation = Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+
+        async function signUp(event) {
+            event.preventDefault();
+
+            if ($('#addUserForm')[0].checkValidity() === false) {
+                event.stopPropagation();
+                $('#addUserForm').addClass('was-validated');
+                return;
+            }
+
+            // Get form field values
+            const organizationName = $('#organizationName').val();
+            const name = $('#name').val();
+            const surname = $('#surname').val();
+            const father = $('#father').val();
+            const specialityID = $('#specialityDropdown').val();
+            const fin = $('#fin').val();
+            const bDate = $('#bDate').val();
+            const pwd = $('#pwd').val();
+
+            var btn = $("#nextButton");
+            btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Yüklənir...');
+
+            // Prepare query parameters
+            const params = new URLSearchParams({
+                organizationName: organizationName,
+                name: name,
+                surname: surname,
+                father: father,
+                specialityID: specialityID,
+                fin: fin,
+                bDate: bDate,
+                pwd: pwd
+            });
+
+            try {
+                $.ajax({
+                    url: '@Url.Action("AddUser","Registration")',
+                    method: 'POST',
+                    data: params.toString(),
+                    success: function (result) {
+                        console.log('User added successfully:', result);
+                        window.location.href = "/Registration/Success";
+                        btn.prop('disabled', false).html('Növbəti');
+                    },
+                    error: function (xhr) {
+                        if (xhr.status === 400) {
+                            var errorResult = xhr.responseJSON;
+                            console.error('Error adding user:', errorResult);
+                            $('#alert').text('İstifadəçi əlavə edilərkən xəta baş verdi: ' + (errorResult.message || xhr.statusText)).show();
+                        } else {
+                            console.error('Error adding user:', xhr.statusText);
+                            $('#alert').text('İstifadəçi əlavə edilərkən xəta baş verdi').show();
+                        }
+                        btn.prop('disabled', false).html('Növbəti');
+                    }
+                });
+
+            } catch (error) {
+                console.error('Error:', error);
+                $('#alert').text('Error adding user').show();
+            }
+        }</script>
+}

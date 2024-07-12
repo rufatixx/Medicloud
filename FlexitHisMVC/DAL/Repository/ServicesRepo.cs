@@ -21,7 +21,7 @@ namespace Medicloud.Models.Repository
             {
 
                 connection.Open();
-                using (MySqlCommand com = new MySqlCommand("SELECT * FROM services where organizationID=@organizationID;", connection))
+                using (MySqlCommand com = new MySqlCommand("SELECT * FROM services where organizationID=@organizationID and isActive=1 order by id desc;", connection))
                 {
                     com.Parameters.AddWithValue("organizationID", organizationID);
 
@@ -148,53 +148,70 @@ namespace Medicloud.Models.Repository
             {
                 connection.Open();
 
-                string checkQuery = @"
-            SELECT 1
-            FROM services
-            WHERE code = @code OR name = @name;
-        ";
-
                 string insertQuery = @"
             INSERT INTO services (code, name, price, serviceGroupID, organizationID, serviceTypeID, isActive)
             VALUES (@code, @name, @price, @serviceGroupID, @organizationID, @serviceTypeID, @isActive);
         ";
 
-                using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                 {
-                    checkCommand.Parameters.AddWithValue("@code", service.code);
-                    checkCommand.Parameters.AddWithValue("@name", service.name);
-
-                    using (MySqlDataReader reader = checkCommand.ExecuteReader())
+                    if (!string.IsNullOrEmpty(service.code))
                     {
-                        if (reader.HasRows)
-                        {
-                            rowAffected = -1;
-                        }
-                        else
-                        {
-                            reader.Close();
-
-                            // No matching record found, proceed with the insert
-                            using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
-                            {
-                                insertCommand.Parameters.AddWithValue("@code", service.code);
-                                insertCommand.Parameters.AddWithValue("@name", service.name);
-                                insertCommand.Parameters.AddWithValue("@price", service.price);
-                                insertCommand.Parameters.AddWithValue("@organizationID", service.organizationID);
-                                insertCommand.Parameters.AddWithValue("@serviceGroupID", service.serviceGroupID);
-                                insertCommand.Parameters.AddWithValue("@serviceTypeID", service.serviceTypeID);
-                                insertCommand.Parameters.AddWithValue("@isActive", service.isActive);
-
-                                rowAffected = insertCommand.ExecuteNonQuery();
-                            }
-                        }
+                        insertCommand.Parameters.AddWithValue("@code", service.code);
                     }
+                    else
+                    {
+                        insertCommand.Parameters.AddWithValue("@code", DBNull.Value);
+                    }
+
+                    if (!string.IsNullOrEmpty(service.name))
+                    {
+                        insertCommand.Parameters.AddWithValue("@name", service.name);
+                    }
+                    else
+                    {
+                        insertCommand.Parameters.AddWithValue("@name", DBNull.Value);
+                    }
+
+                    insertCommand.Parameters.AddWithValue("@price", service.price);
+
+                    if (service.organizationID != null)
+                    {
+                        insertCommand.Parameters.AddWithValue("@organizationID", service.organizationID);
+                    }
+                    else
+                    {
+                        insertCommand.Parameters.AddWithValue("@organizationID", DBNull.Value);
+                    }
+
+                    if (service.serviceGroupID != null)
+                    {
+                        insertCommand.Parameters.AddWithValue("@serviceGroupID", service.serviceGroupID);
+                    }
+                    else
+                    {
+                        insertCommand.Parameters.AddWithValue("@serviceGroupID", DBNull.Value);
+                    }
+
+                    if (service.serviceTypeID != null)
+                    {
+                        insertCommand.Parameters.AddWithValue("@serviceTypeID", service.serviceTypeID);
+                    }
+                    else
+                    {
+                        insertCommand.Parameters.AddWithValue("@serviceTypeID", DBNull.Value);
+                    }
+
+                    insertCommand.Parameters.AddWithValue("@isActive", service.isActive);
+
+                    rowAffected = insertCommand.ExecuteNonQuery();
                 }
 
                 connection.Close();
             }
             return rowAffected;
         }
+
 
         public List<ServiceStatisticsDTO> GetTop5SellingServiceStatistics(long organizationID)
 

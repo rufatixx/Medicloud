@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MySql.Data.MySqlClient;
 
-
+[Authorize]
 [Area("Admin")]
 public class PriceGroupController : Controller
 {
@@ -38,50 +38,50 @@ public class PriceGroupController : Controller
         stRepo = new ServiceTypeRepo(_connectionString);
         //communications = new Communications(Configuration, _hostingEnvironment);
     }
-    [Authorize]
+
     // Get all PriceGroups
-    public ActionResult Index()
+    public IActionResult Index()
     {
-       
-            List<PriceGroup> priceGroups = new List<PriceGroup>();
-            using (MySqlConnection con = new MySqlConnection(_connectionString))
+        var orgID = Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID"));
+        List<PriceGroup> priceGroups = new List<PriceGroup>();
+        using (MySqlConnection con = new MySqlConnection(_connectionString))
+        {
+            con.Open();
+            using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM price_group where organizationID = @orgID", con))
             {
-                con.Open();
-                using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM price_group", con))
+                cmd.Parameters.AddWithValue("@orgID", orgID);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
                 {
-                    MySqlDataReader reader = cmd.ExecuteReader();
-                    while (reader.Read())
+                    PriceGroup priceGroup = new PriceGroup
                     {
-                        PriceGroup priceGroup = new PriceGroup
-                        {
-                            ID = Convert.ToInt32(reader["ID"]),
-                            Name = reader["Name"].ToString(),
-                            ParentID = Convert.ToInt32(reader["ParentID"])
-                        };
-                        priceGroups.Add(priceGroup);
-                    }
+                        ID = Convert.ToInt32(reader["ID"]),
+                        Name = reader["Name"].ToString(),
+                        ParentID = Convert.ToInt32(reader["ParentID"])
+                    };
+                    priceGroups.Add(priceGroup);
                 }
             }
-            return View(priceGroups);
+        }
+        return View(priceGroups);
 
-       
+
     }
     // Get all PriceGroups
-    public ActionResult getCompaniesByPriceGroupID(int priceGroupID)
+    public IActionResult getCompaniesByPriceGroupID(int priceGroupID)
     {
-        if (User.Identity.IsAuthenticated)
-        {
+      
             List<dynamic> companies = new List<dynamic>();
             using (MySqlConnection con = new MySqlConnection(_connectionString))
             {
                 con.Open();
                 using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM price_group_company_rel where priceGroupID=@priceGroupID", con))
                 {
-                    cmd.Parameters.AddWithValue("@priceGroupID",priceGroupID);
+                    cmd.Parameters.AddWithValue("@priceGroupID", priceGroupID);
                     MySqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        dynamic company = new 
+                        dynamic company = new
                         {
                             ID = Convert.ToInt32(reader["id"]),
                             PriceGroupID = reader["PriceGroupID"].ToString(),
@@ -92,16 +92,14 @@ public class PriceGroupController : Controller
                 }
             }
             return Ok(companies);
-        }
-        return Unauthorized();
+     
 
     }
 
     [HttpPost]
-    public ActionResult updateSelectedCompanies(int priceGroupID, int selectedCompanyID, bool delete)
+    public IActionResult updateSelectedCompanies(int priceGroupID, int selectedCompanyID, bool delete)
     {
-        if (User.Identity.IsAuthenticated)
-        {
+     
             using (MySqlConnection con = new MySqlConnection(_connectionString))
             {
                 con.Open();
@@ -129,78 +127,72 @@ public class PriceGroupController : Controller
 
             // Return a success response if everything is executed successfully
             return Ok("Selected companies have been updated successfully.");
-        }
-      
-            // Return an unauthorized response if the user is not logged in
-            return Unauthorized();
         
+
+     
+
     }
 
     // Действие для создания новой группы цен (GET)
-    public ActionResult Create()
+    public IActionResult Create()
     {
-        if (User.Identity.IsAuthenticated)
+        var orgID = Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID"));
+        using (MySqlConnection con = new MySqlConnection(_connectionString))
         {
-            using (MySqlConnection con = new MySqlConnection(_connectionString))
+            con.Open();
+            string query = "SELECT * FROM price_group WHERE ParentID = 0 and organizationID=@orgID";
+            MySqlCommand cmd = new MySqlCommand(query, con);
+            cmd.Parameters.AddWithValue("@orgID", orgID);
+            using (MySqlDataReader reader = cmd.ExecuteReader())
             {
-                con.Open();
-                string query = "SELECT * FROM price_group WHERE ParentID = 0";
-                MySqlCommand cmd = new MySqlCommand(query, con);
-                using (MySqlDataReader reader = cmd.ExecuteReader())
+                var parentGroups = new List<SelectListItem>();
+                while (reader.Read())
                 {
-                    var parentGroups = new List<SelectListItem>();
-                    while (reader.Read())
+                    var parentGroup = new SelectListItem
                     {
-                        var parentGroup = new SelectListItem
-                        {
-                            Value = reader["ID"].ToString(),
-                            Text = reader["Name"].ToString()
-                        };
-                        parentGroups.Add(parentGroup);
-                    }
-                    ViewBag.ParentGroups = new SelectList(parentGroups, "Value", "Text");
+                        Value = reader["ID"].ToString(),
+                        Text = reader["Name"].ToString()
+                    };
+                    parentGroups.Add(parentGroup);
                 }
+                ViewBag.ParentGroups = new SelectList(parentGroups, "Value", "Text");
             }
-
-            return View();
         }
-        return Unauthorized();
+
+        return View();
+
+      
 
 
     }
 
     [HttpPost]
-    public ActionResult Create(PriceGroup priceGroup)
+    public IActionResult Create(PriceGroup priceGroup)
     {
-        if (User.Identity.IsAuthenticated)
-        {
-            using (MySqlConnection con = new MySqlConnection(_connectionString))
+        var orgID = Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID"));
+        using (MySqlConnection con = new MySqlConnection(_connectionString))
             {
                 con.Open();
-                string query = "INSERT INTO price_group (Name, ParentID) VALUES (@Name, @ParentID)";
+                string query = "INSERT INTO price_group (Name, ParentID,organizationID) VALUES (@Name, @ParentID,@orgID)";
                 MySqlCommand cmd = new MySqlCommand(query, con);
                 cmd.Parameters.AddWithValue("@Name", priceGroup.Name);
                 cmd.Parameters.AddWithValue("@ParentID", priceGroup.ParentID);
+                cmd.Parameters.AddWithValue("@orgID", orgID);
                 cmd.ExecuteNonQuery();
             }
 
             return RedirectToAction("Index");
-        }
-        else
-        {
-            return RedirectToAction("Index", "Login", new { Area = "" });
-        }
-
-
        
+
+
+
     }
 
 
     // Действие для редактирования группы цен (GET)
-    public ActionResult Edit(int id)
+    public IActionResult Edit(int id)
     {
-        if (User.Identity.IsAuthenticated)
-        {
+      
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
                 connection.Open();
@@ -222,22 +214,16 @@ public class PriceGroupController : Controller
                 }
             }
             return NotFound();
-        }
-        else
-        {
-            return RedirectToAction("Index", "Login", new { Area = "" });
-        }
+        
 
-       
+
     }
 
     // Действие для редактирования группы цен (POST)
     [HttpPost]
-    public ActionResult Edit(PriceGroup priceGroup)
+    public IActionResult Edit(PriceGroup priceGroup)
     {
-        if (User.Identity.IsAuthenticated)
-        {
-            if (ModelState.IsValid)
+         if (ModelState.IsValid)
             {
                 using (MySqlConnection connection = new MySqlConnection(_connectionString))
                 {
@@ -253,20 +239,16 @@ public class PriceGroupController : Controller
             }
 
             return View(priceGroup);
-        }
-        else
-        {
-            return RedirectToAction("Index", "Login", new { Area = "" });
-        }
+     
 
 
 
 
-       
+
     }
 
     // Действие для удаления группы цен (GET)
-    public ActionResult Delete(int id)
+    public IActionResult Delete(int id)
     {
         using (MySqlConnection connection = new MySqlConnection(_connectionString))
         {
@@ -293,10 +275,9 @@ public class PriceGroupController : Controller
 
     // Действие для удаления группы цен (POST)
     [HttpPost, ActionName("Delete")]
-    public ActionResult DeleteConfirmed(int id)
+    public IActionResult DeleteConfirmed(int id)
     {
-        if (User.Identity.IsAuthenticated)
-        {
+      
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
                 connection.Open();
@@ -306,21 +287,15 @@ public class PriceGroupController : Controller
                 command.ExecuteNonQuery();
             }
             return RedirectToAction("Index");
-        }
-        else
-        {
-            return RedirectToAction("Index", "Login", new { Area = "" });
-        }
+     
     }
 
-    public ActionResult AddService(int id)
+    public IActionResult AddService(int id)
     {
 
-        if (User.Identity.IsAuthenticated)
-        {
 
             PriceGroup priceGroup = GetPriceGroup(id);
-            List<dynamic> services = GetServices(id,Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID")));
+            List<dynamic> services = GetServices(id, Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID")));
 
             if (priceGroup != null)
             {
@@ -330,21 +305,16 @@ public class PriceGroupController : Controller
             }
 
             return NotFound();
-        }
-        else
-        {
-            return RedirectToAction("Index", "Login", new { Area = "" });
-        }
+     
 
 
     }
 
 
     [HttpPost]
-    public ActionResult AddService(int id, int serviceID, decimal price)
+    public IActionResult AddService(int id, int serviceID, decimal price)
     {
-        if (User.Identity.IsAuthenticated)
-        {
+   
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
                 connection.Open();
@@ -366,14 +336,10 @@ public class PriceGroupController : Controller
 
             // Return the view
             return View("AddService");
-        }
-        else
-        {
-            return RedirectToAction("Index", "Login", new { Area = "" });
-        }
+   
 
 
-       
+
     }
     [HttpPost]
     public IActionResult AddServicesToPriceGroup(int percent, int priceGroupID, bool isDiscount)
@@ -421,8 +387,7 @@ public class PriceGroupController : Controller
     [HttpPost]
     public IActionResult getActiveCompanies(int organizationID)
     {
-        if (User.Identity.IsAuthenticated)
-        {
+     
             CompanyRepo select = new CompanyRepo(_connectionString);
             var list = select.GetActiveCompanies(organizationID);
             ResponseDTO<Company> response = new ResponseDTO<Company>();
@@ -430,10 +395,7 @@ public class PriceGroupController : Controller
             response.data = list;
             return Ok(response);
 
-        }
-       
-            return Unauthorized();
-        
+
 
     }
     private PriceGroup GetPriceGroup(int id)
@@ -461,7 +423,7 @@ public class PriceGroupController : Controller
         return null;
     }
 
-    private List<dynamic> GetServices(int id,long organizationID)
+    private List<dynamic> GetServices(int id, long organizationID)
     {
         List<dynamic> services = new List<dynamic>();
 
@@ -507,5 +469,7 @@ public class PriceGroup
     [DisplayName("Qrupun adı")]
     public string Name { get; set; }
 
+    [DisplayName("Üst qrup")]
     public int ParentID { get; set; }
+    
 }

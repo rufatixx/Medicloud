@@ -15,30 +15,57 @@ namespace Medicloud.Controllers
         private readonly IWebHostEnvironment _hostingEnvironment;
         UserService userService;
         OrganizationService organizationService;
-        public RegistrationController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
+        private readonly SpecialityService _specialityService;
+        public RegistrationController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, SpecialityService specialityService)
         {
             Configuration = configuration;
             _connectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
             userService = new UserService(_connectionString);
             organizationService = new OrganizationService(_connectionString);
+            _specialityService = specialityService;
         }
         // GET: /<controller>/
         public IActionResult Index()
         {
             return View();
         }
+
+
         public IActionResult Step2()
         {
-            return View();
+            if (HttpContext.Session.GetString("registrationPhone") != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Registration");
+            }
         }
 
         public IActionResult Step3()
         {
-            return View();
+            if (HttpContext.Session.GetString("registrationPhone") != null)
+            {
+                ViewBag.specialities = _specialityService.GetSpecialities();
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Registration");
+            }
         }
+
         public IActionResult Success()
         {
-            return View();
+            if (HttpContext.Session.GetString("registrationPhone") != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Registration");
+            }
         }
 
 
@@ -53,6 +80,7 @@ namespace Medicloud.Controllers
 
                 if (result.Success)
                 {
+                    HttpContext.Session.SetString("registrationPhone", phone);
                     return Json(new { success = true, message = result.Message });
                 }
                 else
@@ -74,21 +102,22 @@ namespace Medicloud.Controllers
         }
 
         [HttpPost]
-        public IActionResult CheckForOTP(string phone, string otpCode)
+        public IActionResult CheckForOTP(string otpCode)
         {
 
             try
             {
-
+                var phone = HttpContext.Session.GetString("registrationPhone");
                 var result = userService.CheckOtpHash(phone, otpCode);
 
                 if (result)
                 {
+                    HttpContext.Session.SetString("registrationOtpCode", otpCode);
                     return Json(new { success = true, message = "OK" });
                 }
                 else
                 {
-                    return Json(new { success = true, message = "OTP kod yalnışdır" });
+                    return Json(new { success = false, message = "OTP kod yalnışdır" });
                 }
 
 
@@ -105,18 +134,25 @@ namespace Medicloud.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddUser(string name, string surname, string father, string phone, int specialityID, string fin, string bDate, string pwd, string organizationName)
+        public IActionResult AddUser(string name, string surname, string father, int specialityID, string fin, string bDate, string pwd, string organizationName)
         {
-            long newUserID = userService.InsertUser(name, surname, father, specialityID, fin: fin, phone: phone, bDate: bDate, pwd: pwd);
-            if (newUserID > 0)
+            var otpCode = HttpContext.Session.GetString("registrationOtpCode");
+            var phone = HttpContext.Session.GetString("registrationPhone");
+            if (userService.CheckOtpHash(phone, otpCode))
             {
-                return Ok(organizationService.AddOrganizationToNewUser(newUserID, organizationName));
+                var newUserID = userService.AddUser(phone, name, surname, father, specialityID, fin: fin, bDate: bDate, pwd: pwd, organizationName);
+                if (newUserID)
+                {
+                    HttpContext.Session.Remove("recoveryOtpCode");
+                    HttpContext.Session.Remove("recoveryPhone");
+
+                    return Ok();
+                }
+               
             }
-            else
-            {
-                return Ok(newUserID);//not inserted
-            }
-          
+         
+            return BadRequest();
+
         }
 
 

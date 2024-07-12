@@ -1,0 +1,62 @@
+﻿@{
+    Layout = "~/Views/Shared/_WelcomeLayout.cshtml";
+    ViewData["Title"] = "Hesabın bərpası";
+}
+<div class="card-body p-4">
+    <div class="text-center w-75 m-auto">
+        <h4 class="text-dark-50 text-center pb-0 fw-bold">Hesabın bərpası</h4>
+        <p class="text-muted mb-4">Sağlamlığınızı buludlara qaldırın</p>
+    </div>
+    <div class="alert alert-danger" id="alert" hidden role="alert"></div>
+    <form action="#">
+        <div class="mb-3">
+            <label for="emailaddress" class="form-label">Mobil nömrə</label>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">+994</span>
+                <input class="form-control" type="number" id="mobileNumber" required="" placeholder="nömrənizi daxil edin">
+            </div>
+        </div>
+        <div class="mb-3 mb-0 text-center">
+            <button class="btn btn-primary" type="button" onclick="sendOtpToRegister()" id="nextButton"> Növbəti </button>
+        </div>
+    </form>
+</div> <!-- end card-body -->
+
+@section Scripts{
+    <script>
+        function sendOtpToRegister() {
+            var phone = $("#mobileNumber").val();
+            var alertBox = $("#alert");
+            var btn = $("#nextButton");
+
+            if (!phone) {
+                alertBox.text("Zəhmət olmasa nömrənizi daxil edin").removeAttr('hidden');
+                return;
+            }
+
+            // Disable the button and show the loading spinner
+            btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Yüklənir...');
+
+            $.ajax({
+                url: '@Url.Action("SendRecoveryOtpForUser", "Recovery")',
+                type: 'POST',
+                data: { phone: phone },
+                success: function (response) {
+                    if (response.success) {
+                        alertBox.text("OTP uğurla göndərildi").removeClass('alert-danger').addClass('alert-success').removeAttr('hidden');
+                        location.href = "@Url.Action("Step2", "Recovery")";
+                    } else {
+                        alertBox.text(response.message).removeClass('alert-success').addClass('alert-danger').removeAttr('hidden');
+                        // Enable the button and reset the text
+                        btn.prop('disabled', false).html('Növbəti');
+                    }
+                },
+                error: function () {
+                    alertBox.text("Server səhvi, yenidən cəhd edin").removeClass('alert-success').addClass('alert-danger').removeAttr('hidden');
+                    // Enable the button and reset the text
+                    btn.prop('disabled', false).html('Növbəti');
+                }
+            });
+        }
+    </script>
+}

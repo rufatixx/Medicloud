@@ -20,6 +20,7 @@ namespace Medicloud.Controllers
         PatientCardRepo patientCardRepo;
         PatientCardServiceRelRepo patientCardServiceRelRepo;
         PatientDiagnoseRel patientDiagnoseRel;
+        ServicesRepo servicesRepo;
         public PrescriptionsController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
         {
             Configuration = configuration;
@@ -30,13 +31,19 @@ namespace Medicloud.Controllers
             patientCardRepo = new PatientCardRepo(ConnectionString);
             patientCardServiceRelRepo = new PatientCardServiceRelRepo(ConnectionString);
             patientDiagnoseRel = new PatientDiagnoseRel(ConnectionString);
+            servicesRepo = new ServicesRepo(ConnectionString);
+
         }
         // GET: /<controller>/
         public IActionResult Index(int patientID)
         {
             if (User.Identity.IsAuthenticated)
             {
-             
+
+
+             ViewBag.services =  servicesRepo.GetServicesByOrganization(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")));
+
+
                 var response = patientCardRepo.GetAllPatientsCards(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")),patientID);
               
                 return View(response);

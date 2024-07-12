@@ -18,7 +18,7 @@
     "Medicloud": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "http://localhost:28340",
+      "applicationUrl": "http://localhost:24171",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
