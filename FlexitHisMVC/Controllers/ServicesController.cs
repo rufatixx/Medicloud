@@ -17,6 +17,7 @@ namespace Medicloud.Controllers
         private readonly IWebHostEnvironment _hostingEnvironment;
         private PriceGroupCompanyRepository priceGroupCompanyRepository;
         private ServicePriceGroupRepository servicePriceGroupRepository;
+        private ServicesRepo serviceRepository;
         PatientCardRepo patientCardRepo;
         PatientCardServiceRelRepo patientCardServiceRelRepo;
         PatientDiagnoseRel patientDiagnoseRel;
@@ -30,6 +31,7 @@ namespace Medicloud.Controllers
             patientCardRepo = new PatientCardRepo(ConnectionString);
             patientCardServiceRelRepo = new PatientCardServiceRelRepo(ConnectionString);
             patientDiagnoseRel = new PatientDiagnoseRel(ConnectionString);
+            serviceRepository = new ServicesRepo(ConnectionString);
         }
         // GET: /<controller>/
         public IActionResult Index(int id)
@@ -48,13 +50,13 @@ namespace Medicloud.Controllers
             }
         }
 
-    
 
-      
-
-      
-
-
+        [HttpGet]
+        public IActionResult GetAllServices([FromQuery] string search)
+        {
+            var response = serviceRepository.GetAllServices(search);
+            return Ok(response);
+        }
     }
 }
 

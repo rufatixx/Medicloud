@@ -1,4 +1,5 @@
 ﻿using System;
+using Medicloud.BLL.Models;
 using Medicloud.Models;
 using Medicloud.Models.DTO;
 using MySql.Data.MySqlClient;
@@ -296,6 +297,55 @@ LIMIT 5;
 
 
             return list;
+        }
+
+        public List<ServiceObj> GetAllServices(string keyword)
+        {
+            List<ServiceObj> services = new();
+            MySqlConnection con = new(ConnectionString);
+
+            string query = @"SELECT * FROM services
+WHERE isActive = 1 AND 
+(name like concat('%', @search, '%') or
+code like concat('%', @search, '%'))
+";
+
+            MySqlCommand cmd = new(query, con);
+            cmd.Parameters.AddWithValue("@search", keyword);
+
+            try
+            {
+                con.Open();
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+
+                    //  reader["new_customers_this_month"] == DBNull.Value ? "" : reader["new_customers_this_month"].ToString();
+                    
+                    ServiceObj service = new ServiceObj
+                    {
+                        ID = Convert.ToInt32(reader["id"]),
+                        code = reader["code"] == DBNull.Value ? "" : reader["code"].ToString(),
+                        name = reader["name"] == DBNull.Value ? "" : reader["name"].ToString(),
+                        price = Convert.ToDouble(reader["price"]),
+                        organizationID = Convert.ToInt32(reader["organizationID"]),
+                        serviceGroupID = Convert.ToInt32(reader["serviceGroupID"]),
+                        serviceTypeID = Convert.ToInt32(reader["serviceTypeID"])
+                    };
+
+                    services.Add(service);
+                }
+                services.Reverse();
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                Medicloud.StandardMessages.CallSerilog(ex);
+                Console.WriteLine(ex.Message);
+            }
+
+            return services;
         }
     }
 }
