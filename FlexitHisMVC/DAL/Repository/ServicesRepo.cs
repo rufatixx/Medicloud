@@ -306,8 +306,8 @@ LIMIT 5;
 
             string query = @"SELECT * FROM services
 WHERE isActive = 1 AND 
-(name like concat('%', @search, '%') or
-code like concat('%', @search, '%'))
+(LOWER(name) like concat('%', LOWER(@search), '%') or
+LOWER(code) like concat('%', LOWER(@search), '%'))
 ";
 
             MySqlCommand cmd = new(query, con);

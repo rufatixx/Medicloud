@@ -240,9 +240,9 @@ FROM (
             List<Patient> patients = new List<Patient>();
             MySqlConnection con = new(ConnectionString);
             string query = $@"SELECT * FROM patients WHERE
-name like concat('%', @search, '%') or
-surname like concat('%', @search, '%') or
-father like concat('%', @search, '%');";
+LOWER(name) like concat('%', LOWER(@search), '%') or
+LOWER(surname) like concat('%', LOWER(@search), '%') or
+LOWER(father) like concat('%', LOWER(@search), '%');";
 
             MySqlCommand cmd = new(query, con);
             cmd.Parameters.AddWithValue("@search", keyword);

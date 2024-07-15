@@ -1,4 +1,5 @@
-﻿using Medicloud.BLL.Models;
+﻿using Medicloud.BLL.Helpers;
+using Medicloud.BLL.Models;
 using Medicloud.DAL.Entities;
 using Medicloud.DAL.Repository;
 
@@ -61,5 +62,12 @@ namespace Medicloud.BLL.Service
 			return result;
 		}
 
-    }
+		public AppointmentPagedResult GetAllAppointments(string searchQuery, int pageNumber)
+		{
+			var app = _appointmentRepo.GetAllAppointments(searchQuery, pageNumber);
+			return app;
+		}
+
+
+	}
 }

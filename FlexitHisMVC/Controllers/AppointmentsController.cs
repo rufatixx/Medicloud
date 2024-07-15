@@ -34,10 +34,10 @@ public class AppointmentsController : Controller
 	}
 
     [HttpGet]
-    public IActionResult Index()
+    public IActionResult Index([FromQuery] int pageNumber=1)
     {
-        var result = appointmentService.GetAllAppointments();
-        return View(result.ToList());
+        var result = appointmentService.GetAllAppointments(null, pageNumber);
+        return View(result);
     }
 
     [HttpGet]
