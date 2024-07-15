@@ -60,7 +60,6 @@
     <Folder Include="Areas\Admin\" />
     <Folder Include="Areas\Admin\Controllers\" />
     <Folder Include="Areas\Admin\Views\" />
-    <Folder Include="Controllers\" />
     <Folder Include="Views\" />
     <Folder Include="Views\Shared\" />
     <Folder Include="wwwroot\js\admin\departments\" />
@@ -92,12 +91,6 @@
     <Folder Include="Views\Welcome\" />
     <Folder Include="wwwroot\welcome_files\" />
     <Folder Include="Views\Pricing\" />
-    <Folder Include="BLL\" />
-    <Folder Include="DAL\" />
-    <Folder Include="BLL\Service\" />
-    <Folder Include="DAL\Repository\" />
-    <Folder Include="BLL\Models\" />
-    <Folder Include="DAL\Entities\" />
     <Folder Include="Views\Recovery\" />
     <Folder Include="Views\Profile\" />
   </ItemGroup>

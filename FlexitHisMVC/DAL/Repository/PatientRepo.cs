@@ -1,8 +1,4 @@
-﻿using System;
-using FlexitHisCore.Models;
-using Medicloud.Data;
-using Medicloud.Models;
-using Medicloud.Models.Domain;
+﻿using Medicloud.Models.Domain;
 using Medicloud.Models.DTO;
 using MySql.Data.MySqlClient;
 
@@ -290,6 +286,90 @@ FROM (
             return statisticsDTO;
         }
 
+        public IEnumerable<Patient> GetPatientByName(string keyword)
+        {
+            List<Patient> patients = new List<Patient>();
+            MySqlConnection con = new(ConnectionString);
+            string query = $@"SELECT * FROM patients WHERE
+LOWER(name) like concat('%', LOWER(@search), '%') or
+LOWER(surname) like concat('%', LOWER(@search), '%') or
+LOWER(father) like concat('%', LOWER(@search), '%');";
+
+            MySqlCommand cmd = new(query, con);
+            cmd.Parameters.AddWithValue("@search", keyword);
+
+            try
+            {
+                con.Open();
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    Patient patient = new Patient
+                    {
+                        ID = Convert.ToInt64(reader["id"]),
+                        name = reader["name"] == DBNull.Value ? "" : reader["name"].ToString(),
+                        surname = reader["surname"] == DBNull.Value ? "" : reader["surname"].ToString(),
+                        father = reader["father"] == DBNull.Value ? "" : reader["father"].ToString(),
+                        genderID = reader["genderID"] == DBNull.Value ? 0 : Convert.ToInt32(reader["genderID"]),
+                        fin = reader["fin"] == DBNull.Value ? "" : Convert.ToString(reader["fin"]),
+                        phone = reader["clientPhone"] == DBNull.Value ? 0 : Convert.ToInt64(reader["clientPhone"]),
+                        bDate = reader["bDate"] == DBNull.Value ? Convert.ToDateTime("0001-01-01T00:00:00") : Convert.ToDateTime(reader["bDate"])
+                    };
+                    patients.Add(patient);
+                }
+                patients.Reverse();
+                con.Close();
+            }
+
+            catch (Exception ex)
+            {
+                Medicloud.StandardMessages.CallSerilog(ex);
+                Console.WriteLine(ex.Message);
+            }
+
+            return patients;
+        }
+
+        public Patient GetPatientById(string id)
+        {
+            Patient patient = new();
+
+            MySqlConnection con = new(ConnectionString);
+            string query = $@"SELECT * FROM patients WHERE id=@id";
+
+            MySqlCommand cmd = new(query, con);
+            cmd.Parameters.AddWithValue("@id", Convert.ToInt32(id));
+
+            try
+            {
+                con.Open();
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    patient = new Patient
+                    {
+
+                        ID = Convert.ToInt64(reader["id"]),
+                        name = reader["name"] == DBNull.Value ? "" : reader["name"].ToString(),
+                        surname = reader["surname"] == DBNull.Value ? "" : reader["surname"].ToString(),
+                        father = reader["father"] == DBNull.Value ? "" : reader["father"].ToString(),
+                        genderID = reader["genderID"] == DBNull.Value ? 0 : Convert.ToInt32(reader["genderID"]),
+                        fin = reader["fin"] == DBNull.Value ? "" : Convert.ToString(reader["fin"]),
+                        phone = reader["clientPhone"] == DBNull.Value ? 0 : Convert.ToInt64(reader["clientPhone"]),
+                        bDate = reader["bDate"] == DBNull.Value ? Convert.ToDateTime("0001-01-01T00:00:00") : Convert.ToDateTime(reader["bDate"])
+                    };
+                }
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                Medicloud.StandardMessages.CallSerilog(ex);
+                Console.WriteLine(ex.Message);
+            }
+            return patient;
+        }
     }
 }
 

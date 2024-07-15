@@ -1,4 +1,4 @@
-﻿using Medicloud.Data;
+using Medicloud.Data;
 using Medicloud.Models;
 using Medicloud.Models.Domain;
 using Medicloud.Models.Repository;
@@ -10,53 +10,54 @@ using Microsoft.AspNetCore.Mvc;
 namespace Medicloud.Controllers
 {
 
-    public class ServicesController : Controller
-    {
-        private readonly string ConnectionString;
-        public IConfiguration Configuration;
-        private readonly IWebHostEnvironment _hostingEnvironment;
-        private PriceGroupCompanyRepository priceGroupCompanyRepository;
-        private ServicePriceGroupRepository servicePriceGroupRepository;
-        PatientCardRepo patientCardRepo;
-        PatientCardServiceRelRepo patientCardServiceRelRepo;
-        PatientDiagnoseRel patientDiagnoseRel;
-        ServicesRepo servicesRepo;
-        RequestTypeRepo requestTypeRepo;
-        public ServicesController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
-        {
-            Configuration = configuration;
-            ConnectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
-            _hostingEnvironment = hostingEnvironment;
-            priceGroupCompanyRepository = new PriceGroupCompanyRepository(ConnectionString);
-            servicePriceGroupRepository = new ServicePriceGroupRepository(ConnectionString);
-            patientCardRepo = new PatientCardRepo(ConnectionString);
-            patientCardServiceRelRepo = new PatientCardServiceRelRepo(ConnectionString);
-            patientDiagnoseRel = new PatientDiagnoseRel(ConnectionString);
+	public class ServicesController : Controller
+	{
+		private readonly string ConnectionString;
+		public IConfiguration Configuration;
+		private readonly IWebHostEnvironment _hostingEnvironment;
+		private PriceGroupCompanyRepository priceGroupCompanyRepository;
+		private ServicePriceGroupRepository servicePriceGroupRepository;
+		PatientCardRepo patientCardRepo;
+		PatientCardServiceRelRepo patientCardServiceRelRepo;
+		PatientDiagnoseRel patientDiagnoseRel;
+		ServicesRepo servicesRepo;
+		RequestTypeRepo requestTypeRepo;
+		public ServicesController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
+		{
+			Configuration = configuration;
+			ConnectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
+			_hostingEnvironment = hostingEnvironment;
+			priceGroupCompanyRepository = new PriceGroupCompanyRepository(ConnectionString);
+			servicePriceGroupRepository = new ServicePriceGroupRepository(ConnectionString);
+			patientCardRepo = new PatientCardRepo(ConnectionString);
+			patientCardServiceRelRepo = new PatientCardServiceRelRepo(ConnectionString);
+			patientDiagnoseRel = new PatientDiagnoseRel(ConnectionString);
             servicesRepo = new ServicesRepo(ConnectionString);
             requestTypeRepo = new RequestTypeRepo(ConnectionString);
-        }
-        // GET: /<controller>/
-        public IActionResult Index(int cardId)
-        {
-            if (User.Identity.IsAuthenticated)
-            {
+		}
+		// GET: /<controller>/
+		public IActionResult Index(int cardId)
+		{
+			if (User.Identity.IsAuthenticated)
+			{
 
 
-                ViewBag.services = servicesRepo.GetServicesByOrganization(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")));
+				ViewBag.services = servicesRepo.GetServicesByOrganization(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")));
 
-                ViewBag.requestTypes = requestTypeRepo.GetRequestType();
-                ViewBag.cardID = cardId;
+				ViewBag.requestTypes = requestTypeRepo.GetRequestType();
+				ViewBag.cardID = cardId;
 
-                var response = patientCardServiceRelRepo.GetServicesFromPatientCard(cardId,Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")));
-              
-                return View(response);
-           
-            }
-            else
-            {
-                return RedirectToAction("Index", "Login");
-            }
-        }
+				var response = patientCardServiceRelRepo.GetServicesFromPatientCard(cardId, Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")));
+
+				return View(response);
+
+			}
+			else
+			{
+				return RedirectToAction("Index", "Login");
+			}
+		}
+
 
 
 
@@ -130,7 +131,12 @@ namespace Medicloud.Controllers
             return Unauthorized();
         }
 
-
-    }
+		[HttpGet]
+		public IActionResult GetAllServices([FromQuery] string search)
+		{
+			var response = servicesRepo.GetAllServices(search);
+			return Ok(response);
+		}
+	}
 }
 
