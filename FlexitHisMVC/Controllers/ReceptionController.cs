@@ -165,7 +165,7 @@ namespace Medicloud.Controllers
 
         [HttpPost]
 
-        public IActionResult AddPatient([FromBody] AddPatientDTO newPatient)
+        public IActionResult AddPatient([FromBody] PatientDTO newPatient)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -183,7 +183,7 @@ namespace Medicloud.Controllers
                     {
                         //return BadRequest("Xəstə artıq mövcuddur");
                        
-                        cardID = patientCardRepo.InsertPatientCard(newPatient, Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID")), Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID")), newPatientID);
+                        cardID = patientCardRepo.InsertPatientCardEnterprise(newPatient, Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID")), Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID")), newPatientID);
                         var serviceInserted = patientCardServiceRelRepo.InsertServiceToPatientCard(cardID, newPatient.serviceID, 0, newPatient.referDocID, newPatient.docID);
                         if (cardID == 0 || serviceInserted == false)
                         {
@@ -193,7 +193,7 @@ namespace Medicloud.Controllers
                     else
                     {
                        
-                        cardID = patientCardRepo.InsertPatientCard(newPatient, Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID")), Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID")), newPatient.foundPatientID);
+                        cardID = patientCardRepo.InsertPatientCardEnterprise(newPatient, Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID")), Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID")), newPatient.id);
                         var serviceInserted = patientCardServiceRelRepo.InsertServiceToPatientCard(cardID, newPatient.serviceID, 0, newPatient.referDocID, newPatient.docID);
                         if (cardID == 0 || serviceInserted == false)
                         {

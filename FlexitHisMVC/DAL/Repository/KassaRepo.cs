@@ -148,7 +148,57 @@ FROM kassa_user_rel a where kassaID in (select id from kassa where organizationI
             }
             return kassaList;
         }
-        public int InsertKassaToUser(int userID, int kassaID, bool read_only, bool full_access)
+        public long CreateKassa(string name, long organizationID)
+        {
+            long lastID = 0;
+
+            try
+            {
+
+                using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+                {
+
+
+                    var sql = "";
+
+                    connection.Open();
+
+                    sql = @"Insert INTO kassa (name,organizationID) value(@name, @organizationID)";
+
+
+
+                    using (MySqlCommand com = new MySqlCommand(sql, connection))
+                    {
+                        com.Parameters.AddWithValue("@name", name);
+                        com.Parameters.AddWithValue("@organizationID", organizationID);
+
+
+
+                        com.ExecuteNonQuery();
+                        lastID = com.LastInsertedId;
+
+                    }
+                    connection.Close();
+
+
+
+                }
+
+
+
+
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex.Message);
+
+
+            }
+            return lastID;
+        }
+
+        public int InsertKassaToUser(int userID, long kassaID, bool read_only, bool full_access)
         {
             int lastID = 0;
 

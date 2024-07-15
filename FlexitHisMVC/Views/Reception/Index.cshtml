@@ -46,7 +46,7 @@
         </div>
     </div>-->
 
-    <form class="needs-validation  " novalidate id="form1">
+    <form class="needs-validation" novalidate id="form1">
 
 
         <div class="row">
@@ -686,7 +686,7 @@
                 $doctorDropdown.append($("<option  disabled selected />").val('').text(`Seçin..`));
 
                 $.each(data.personal, function () {
-                    $doctorDropdown.append($("<option />").val(this.id).text(`${this.name} ${this.surname} (${this.speciality})`));
+                    $doctorDropdown.append($("<option />").val(this.id).text(`${this.name} ${this.surname} (${this.speciality.name})`));
                 });
 
                 $refererDropdown.empty(); // Clear existing options
@@ -1019,7 +1019,7 @@
                         "name": name,
                         "surname": surname,
                         "father": father,
-                        "clientPhone": parseInt("00994" + phone),
+                        "clientPhone": phone,
                         "genderID": parseInt(genderID),
                         "fin": fin,
                         "requestTypeID": parseInt(requestTypeID),

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Medicloud")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0b76cb9efba7ebc1e86e09ed4a488846e8e19222")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5f6157c774c2bfae6c946160dc8e18498770176a")]
 [assembly: System.Reflection.AssemblyProductAttribute("Medicloud")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Medicloud")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

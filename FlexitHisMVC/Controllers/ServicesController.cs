@@ -1,4 +1,4 @@
-﻿using Medicloud.Data;
+using Medicloud.Data;
 using Medicloud.Models;
 using Medicloud.Models.Domain;
 using Medicloud.Models.Repository;
@@ -10,53 +10,133 @@ using Microsoft.AspNetCore.Mvc;
 namespace Medicloud.Controllers
 {
 
-    public class ServicesController : Controller
-    {
-        private readonly string ConnectionString;
-        public IConfiguration Configuration;
-        private readonly IWebHostEnvironment _hostingEnvironment;
-        private PriceGroupCompanyRepository priceGroupCompanyRepository;
-        private ServicePriceGroupRepository servicePriceGroupRepository;
-        private ServicesRepo serviceRepository;
-        PatientCardRepo patientCardRepo;
-        PatientCardServiceRelRepo patientCardServiceRelRepo;
-        PatientDiagnoseRel patientDiagnoseRel;
-        public ServicesController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
-        {
-            Configuration = configuration;
-            ConnectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
-            _hostingEnvironment = hostingEnvironment;
-            priceGroupCompanyRepository = new PriceGroupCompanyRepository(ConnectionString);
-            servicePriceGroupRepository = new ServicePriceGroupRepository(ConnectionString);
-            patientCardRepo = new PatientCardRepo(ConnectionString);
-            patientCardServiceRelRepo = new PatientCardServiceRelRepo(ConnectionString);
-            patientDiagnoseRel = new PatientDiagnoseRel(ConnectionString);
-            serviceRepository = new ServicesRepo(ConnectionString);
-        }
-        // GET: /<controller>/
-        public IActionResult Index(int id)
+	public class ServicesController : Controller
+	{
+		private readonly string ConnectionString;
+		public IConfiguration Configuration;
+		private readonly IWebHostEnvironment _hostingEnvironment;
+		private PriceGroupCompanyRepository priceGroupCompanyRepository;
+		private ServicePriceGroupRepository servicePriceGroupRepository;
+		PatientCardRepo patientCardRepo;
+		PatientCardServiceRelRepo patientCardServiceRelRepo;
+		PatientDiagnoseRel patientDiagnoseRel;
+		ServicesRepo servicesRepo;
+		RequestTypeRepo requestTypeRepo;
+		public ServicesController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
+		{
+			Configuration = configuration;
+			ConnectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
+			_hostingEnvironment = hostingEnvironment;
+			priceGroupCompanyRepository = new PriceGroupCompanyRepository(ConnectionString);
+			servicePriceGroupRepository = new ServicePriceGroupRepository(ConnectionString);
+			patientCardRepo = new PatientCardRepo(ConnectionString);
+			patientCardServiceRelRepo = new PatientCardServiceRelRepo(ConnectionString);
+			patientDiagnoseRel = new PatientDiagnoseRel(ConnectionString);
+            servicesRepo = new ServicesRepo(ConnectionString);
+            requestTypeRepo = new RequestTypeRepo(ConnectionString);
+		}
+		// GET: /<controller>/
+		public IActionResult Index(int cardId)
+		{
+			if (User.Identity.IsAuthenticated)
+			{
+
+
+				ViewBag.services = servicesRepo.GetServicesByOrganization(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")));
+
+				ViewBag.requestTypes = requestTypeRepo.GetRequestType();
+				ViewBag.cardID = cardId;
+
+				var response = patientCardServiceRelRepo.GetServicesFromPatientCard(cardId, Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")));
+
+				return View(response);
+
+			}
+			else
+			{
+				return RedirectToAction("Index", "Login");
+			}
+		}
+
+
+
+
+
+
+        [HttpPost]
+
+        public IActionResult AddService(long cardID, int serviceID)
         {
             if (User.Identity.IsAuthenticated)
             {
-             
-                var response = patientCardServiceRelRepo.GetServicesFromPatientCard(id,Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")));
-              
-                return View(response);
-           
+
+                try
+                {
+
+
+                    var userID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID"));
+                    var organizationID = Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID"));
+                    var serviceInserted = patientCardServiceRelRepo.InsertServiceToPatientCard(cardID, serviceID, 0, 0, userID);
+
+                    if (cardID == 0 || serviceInserted == false)
+                    {
+                        return BadRequest("Xəstə kartını daxil etmək mümkün olmadı.");
+                    }
+
+
+
+                    return Ok(cardID);
+                }
+                catch (Exception ex)
+                {
+                    // Handle the exception and return an appropriate response
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Sorğunu emal edərkən xəta baş verdi.");
+                }
             }
-            else
-            {
-                return RedirectToAction("Index", "Login");
-            }
+            return Unauthorized();
         }
 
 
-        [HttpGet]
-        public IActionResult GetAllServices([FromQuery] string search)
+
+        [HttpPost]
+
+        public IActionResult RemoveService(long cardID, int serviceID)
         {
-            var response = serviceRepository.GetAllServices(search);
-            return Ok(response);
+            if (User.Identity.IsAuthenticated)
+            {
+
+                try
+                {
+
+
+                    var userID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID"));
+                    var organizationID = Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID"));
+                    var serviceInserted = patientCardServiceRelRepo.RemoveServiceFromPatientCard(cardID, serviceID);
+
+                    if (cardID == 0 || serviceInserted == false)
+                    {
+                        return BadRequest("Xəstə xidmətini silmək mümkün olmadı.");
+                    }
+
+
+
+                    return Ok(cardID);
+                }
+                catch (Exception ex)
+                {
+                    // Handle the exception and return an appropriate response
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Sorğunu emal edərkən xəta baş verdi.");
+                }
+            }
+            return Unauthorized();
         }
-    }
+
+		[HttpGet]
+		public IActionResult GetAllServices([FromQuery] string search)
+		{
+			var response = servicesRepo.GetAllServices(search);
+			return Ok(response);
+		}
+	}
 }
 

@@ -18,6 +18,8 @@
 
 
                 <button type="reset" class="btn btn-primary w-md bg-blue radius-10" onclick=" $('#patientSearch').modal('show');">+ Yeni müayinə</button>
+  @*<button type="reset" class="btn btn-primary w-md bg-blue radius-10" onclick=" $('#patientSearch').modal('show');">+ Yeni xidmət</button>
+  <button type="reset" class="btn btn-primary w-md bg-blue radius-10" onclick=" $('#patientSearch').modal('show');">+ Yeni diagnoz</button>*@
 
             </div>
             <h2 class="page-title">Müayinələr</h2>
@@ -57,7 +59,7 @@
 
 
                                                 <td>
-                                                    <a href="@Url.Action("Index", "Services", new { area = "", id = @item.patientCardID })">
+                                                    <a href="@Url.Action("Index", "Services", new { area = "",cardId=$"{@item.patientCardID}"})">
                                                         Bax
                                                     </a>
                                                 </td>
@@ -177,35 +179,60 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="serviceForm">
+                <form id="serviceForm" class="needs-validation">
                     <div class="form-group mb-3">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <label class="form-label">A.S.A</label>
                                 <input class="form-control" id="patientFullName" disabled />
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <label class="form-label">Müştəri müayinə kartı</label>
                                 <select class="form-control" id="patientCardSelector"></select>
                             </div>
 
+                            <div class="col-md-4">
+                                <label class="form-label">Müraciyət növü</label>
+                                <select class="form-control" required id="requestType">
+                                    <option value="">Seçin...</option>
+                                    @foreach (var item in ViewBag.requestTypes)
+                                    {
 
+                                        <option value="@item.ID">@item.name</option>
+                                    }
+                                    <!-- <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option> -->
+                                </select>
+                                <div class="valid-feedback">
+                                    Əla!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Seçim edin.
+                                </div>
+                            </div>
                         </div>
                     </div>
+                   
 
                     <div class="form-group mb-3">
                         <div class="row">
                             <div class="col-md-6">
                                 <label class="form-label">Xidmət</label>
                                 <select class="form-control" required id="services" onchange="servicesChanged(this)">
+                                    <option value="">Seçin...</option>
                                     @foreach (var service in ViewBag.services)
                                     {
-                                        <option value="@service.ID">@service.name</option>
+                                        <option value="@service.ID" data-price="@service.price">@service.name</option>
 
                                     }
                                 </select>
                                 <div class="valid-feedback">Əla!</div>
-                                <div class="invalid-feedback">Boşluğu doldurun.</div>
+                                <div class="invalid-feedback">
+                                    Seçim edin.
+                                </div>
                             </div>
 
                             <div class="col-md-6">
@@ -224,9 +251,9 @@
                     </div>
                     <div class="form-group mb-3">
                         <div class="d-flex justify-content-between">
-                            <button type="button" id="createCard" class="btn btn-primary" onclick="AddPatient()">Əlavə et</button>
+                            <button type="button" id="createCard" class="btn btn-primary" onclick="addPrescription()">Əlavə et</button>
                             @*<button type="button" class="btn btn-info" onclick="loadAddServiceIntoPatientCardModal()">Xidmətlər</button>
-                                <button type="button" class="btn btn-primary" onclick="generateRecipe()">Çek əldə et</button>*@
+                <button type="button" class="btn btn-primary" onclick="generateRecipe()">Çek əldə et</button>*@
                         </div>
                     </div>
                 </form>
@@ -247,7 +274,9 @@
         var $patientCardsDropdown = $("#patientCardSelector");
         var $newPatientContainer = $("#newPatientContainer");
         var $createCard = $("#createCard");
+        var $note = $("#note");
         var selectedPatientCardID = 0;
+        var selectedPatientID = 0;
 
           function serachForPatient() {
 
@@ -409,7 +438,57 @@
                     // Handle API errors here, e.g., show an error message
                 }
             });
-         }
+          }
+
+
+        function servicesChanged(a) {
+      
+            $("#price").val($('option:selected', a).data('price'));
+        }
+    </script>
+    <script>
+        
+
+        function addPrescription() {
+            showLoading()
+
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function (form) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            });
+            if (forms[0].checkValidity()) {
+                $.ajax({
+                    url: `@Url.Action("AddPrescription", "Prescriptions")`,
+                    type: 'POST',
+                   
+                    data:{
+                        requestTypeID: $('#requestType').val(),
+                        patientID: selectedPatientID,
+                        cardID: $('#patientCardSelector').val(),
+                        serviceID: $('#services').val(),
+                        note: $('#note').val()
+                    },
+                    success: function (response) {
+                        console.log('Success:', response);
+                        location.reload();
+
+                        window.addEventListener('beforeunload', hideLoading);
+                        // Handle the response from the server here
+                    },
+                    error: function (xhr, status, error) {
+                        hideLoading();
+                        console.error('Error:', error);
+                        // Handle errors here
+                    }
+                });
+            }
+    }
+
     </script>
 
 

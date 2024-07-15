@@ -12,7 +12,7 @@
                 <a href="javascript:window.print()">
                     <button type="button" class="btn btn-primary w-md bg-blue-light radius-10"><i class="ri-printer-line"></i>Çap et</button>
                 </a>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#customerInfoModal">
+                <button type="button" class="btn btn-primary" onclick="showClientModal()">
                     + Yeni pasient
                 </button>
             </div>
@@ -49,7 +49,7 @@
                                         {
                                             rowNumber++;
 
-                                            <tr  class="odd">
+                                            <tr class="client-row" data-client='@Html.Raw(Json.Serialize(item))'>
                                                 <th class="text-muted dtr-control" tabindex="0">@rowNumber</th>
                                                 <td>@item.name @item.surname</td>
                                                 <td>@item.phone</td>
@@ -178,7 +178,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" onclick="AddPatient()">Əlavə et</button>
+                        <button type="button" class="btn btn-primary" id="addClientBtn" onclick="AddPatient()">Əlavə et</button>
+                        <button type="button" class="btn btn-warning" id="updateClientBtn" onclick="UpdatePatient()">Yenilə</button>
                     </div>
                 </form>
             </div>
@@ -186,7 +187,53 @@
     </div>
 </div>
 @section Scripts{
+    <script>
+        var selectedClientID = 0;
 
+        $('.client-row').on('click', function () {
+
+            const client = $(this).data('client');
+
+
+            $('#name').val(client.name);
+            $('#surname').val(client.surname);
+            $('#father').val(client.father);
+            $('#gender').val(client.genderID);
+            $('#clientPhone').val(client.phone);
+            $('#fin').val(client.fin);
+
+            $('#bDate').val(client.bDate.split('T')[0]);
+
+            selectedClientID = client.id;
+
+
+            $('#updateClientBtn').show()
+            $('#addClientBtn').hide()
+
+            $('#customerInfoModal').modal('show');
+        });</script>
+
+<script>
+
+    function showClientModal() {
+
+        $('#name').val("");
+        $('#surname').val("");
+        $('#father').val("");
+        $('#gender').val("");
+        $('#clientPhone').val("");
+        $('#fin').val("");
+
+        $('#bDate').val("");
+
+
+        $('#updateClientBtn').hide()
+        $('#addClientBtn').show()
+
+        $('#customerInfoModal').modal('show');
+    }
+
+</script>
     <script>function AddPatient() {
             // Fetch all the forms we want to apply custom Bootstrap validation styles to
             var forms = document.getElementsByClassName('needs-validation');
@@ -200,7 +247,7 @@
             });
 
             if (forms[0].checkValidity()) {
-                
+
                 var name = $('#name').val();
                 var surname = $('#surname').val();
                 var father = $('#father').val();
@@ -219,7 +266,7 @@
                         "Content-Type": "application/json"
                     },
                     type: 'POST',
-                    url: `/Clients/AddPatient`,
+                    url: `@Url.Action("AddClient", "Clients")`,
                     data: JSON.stringify({
                         "name": name,
                         "surname": surname,
@@ -231,16 +278,24 @@
 
                     }),
                     success: function (data, status, xhr) {
+
                         if (data > 0) {
+
+                            location.reload();
+
+                            window.addEventListener('beforeunload', hideLoading);
+
+                        }
+                        else {
                             hideLoading();
                             $('#warningModal').modal("show");
-                            $('#warningText').text('Məlumatlar qeydə alındı');
-                            selectedCardID = data
+                            $('#warningText').text('Xəta baş verdi, zəhmət olmasa biraz sonra yenidən cəht edin');
                         }
 
 
                     },
                     error: function (jqXhr, textStatus, errorMessage) {
+                        hideLoading();
                         if (jqXhr.status == 401) {
                             localStorage.clear();
                             $('#systemModalTitle').text("Sessiyanız başa çatıb");
@@ -248,7 +303,7 @@
                             $('#systemModalBtn').removeAttr("hidden");
                         }
                         else {
-                            hideLoading();
+
                             $('#warningModal').modal("show");
                             $('#warningText').text(jqXhr.responseText);
                         }
@@ -256,5 +311,82 @@
                 });
             }
         }</script>
+    <script>function UpdatePatient() {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function (form) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            });
 
+            if (forms[0].checkValidity()) {
+
+                var name = $('#name').val();
+                var surname = $('#surname').val();
+                var father = $('#father').val();
+                var phone = $('#clientPhone').val();
+                var genderID = $('#gender').val();
+                var bDate = $('#bDate').val();
+                var fin = $("#fin").val();
+
+                var date = new Date(bDate);
+                var isoBdate = date.toISOString();
+
+                showLoading();
+
+                $.ajax({
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    type: 'POST',
+                    url: `@Url.Action("UpdateClient", "Clients")`,
+                    data: JSON.stringify({
+                        "id": selectedClientID,
+                        "name": name,
+                        "surname": surname,
+                        "father": father,
+                        "clientPhone": phone,
+                        "genderID": parseInt(genderID),
+                        "fin": fin,
+                        "birthDate": bDate,
+
+                    }),
+                    success: function (data, status, xhr) {
+
+                        if (data > 0) {
+
+                            location.reload();
+
+                            window.addEventListener('beforeunload', hideLoading);
+
+                        }
+                        else {
+                            hideLoading();
+                            $('#warningModal').modal("show");
+                            $('#warningText').text('Xəta baş verdi, zəhmət olmasa biraz sonra yenidən cəht edin');
+                        }
+
+
+                    },
+                    error: function (jqXhr, textStatus, errorMessage) {
+                        hideLoading();
+                        if (jqXhr.status == 401) {
+                            localStorage.clear();
+                            $('#systemModalTitle').text("Sessiyanız başa çatıb");
+                            $('#systemModalText').html(`<p id="systemModalText">Zəhmət olmasa yenidən giriş edin</p>`);
+                            $('#systemModalBtn').removeAttr("hidden");
+                        }
+                        else {
+
+                            $('#warningModal').modal("show");
+                            $('#warningText').text(jqXhr.responseText);
+                        }
+                    }
+                });
+            }
+        }</script>
 }
