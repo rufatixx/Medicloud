@@ -4,7 +4,7 @@ public class AppointmentViewModel
 {
     public int id;
     public int patient_id;
-    public string patient_name;
+    public string? patient_name;
     public string patient_surname;
     public DateTime start_date;
     public DateTime end_date;

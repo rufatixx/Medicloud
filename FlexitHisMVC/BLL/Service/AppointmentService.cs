@@ -41,5 +41,11 @@ namespace Medicloud.BLL.Service
             return result;
         }
 
+        public bool DeleteAppointment(string id)
+        {
+            var result = _appointmentRepo.DeleteAppointment(id);
+            return result;
+        }
+
     }
 }

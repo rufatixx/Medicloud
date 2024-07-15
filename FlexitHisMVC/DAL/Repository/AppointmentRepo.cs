@@ -105,15 +105,15 @@ WHERE is_active = 1";
 
             MySqlConnection con = new(ConnectionString);
             string query = @"SELECT a.*,
- p.name patient_name,
- p.surname patient_surname,
- p.id patient_id,
- s.name service_name,
- s.id service_id
-FROM appointments a
-LEFT JOIN patients p on p.id=a.patient_id
-LEFT JOIN services s on s.id=a.service_id
-WHERE is_active = 1 AND a.id=@id";
+                             p.name patient_name,
+                             p.surname patient_surname,
+                             p.id patient_id,
+                             s.name service_name,
+                             s.id service_id
+                            FROM appointments a
+                            LEFT JOIN patients p on p.id=a.patient_id
+                            LEFT JOIN services s on s.id=a.service_id
+                            WHERE a.id=@id";
 
             MySqlCommand cmd = new(query, con);
             cmd.Parameters.AddWithValue("@id", Convert.ToInt32(id));
@@ -123,7 +123,7 @@ WHERE is_active = 1 AND a.id=@id";
                 con.Open();
                 MySqlDataReader reader = cmd.ExecuteReader();
 
-                while (reader.Read())
+                if (reader.Read())
                 {
                     appointmentViewModel = new AppointmentViewModel
                     {
@@ -147,6 +147,33 @@ WHERE is_active = 1 AND a.id=@id";
 				Console.WriteLine(ex.Message);
             }
             return appointmentViewModel;
+        }
+        
+        
+
+        public bool DeleteAppointment(string id)
+        {
+            MySqlConnection con = new(ConnectionString);
+            var query = $@"UPDATE appointments SET is_active=0 WHERE id=@id";
+            
+            MySqlCommand cmd = new(query, con);
+            cmd.Parameters.AddWithValue("@id", Convert.ToInt32(id));
+            
+            try
+            {
+                con.Open();
+                var result = cmd.ExecuteNonQuery();
+                
+                con.Close();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Medicloud.StandardMessages.CallSerilog(ex);
+                Console.WriteLine(ex.Message);
+            }
+
+            return false;
         }
 
     }

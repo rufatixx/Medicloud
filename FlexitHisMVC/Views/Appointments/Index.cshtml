@@ -56,284 +56,296 @@
 </style>
 
 <div class="row">
-	<div class="col-12">
-		<div class="page-title-box">
-			<div class="page-title-right">
-				<a href="javascript:window.print()">
-					<button type="button" class="btn btn-primary w-md bg-blue-light radius-10">
-						<i class="ri-printer-line"></i>Çap et
-					</button>
-				</a>
-				<a id="new-appointment"
-				   type="reset"
-				   data-bs-toggle="modal"
-				   data-bs-target="#add-appointment-modal"
-				   class="btn btn-primary w-md bg-blue radius-10">
-					+ Yeni Randevu
-				</a>
-			</div>
-			<h2 class="page-title">Randevular</h2>
-		</div>
-	</div>
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <a href="javascript:window.print()">
+                    <button type="button" class="btn btn-primary w-md bg-blue-light radius-10">
+                        <i class="ri-printer-line"></i>Çap et
+                    </button>
+                </a>
+                <a id="new-appointment"
+                   type="reset"
+                   data-bs-toggle="modal"
+                   data-bs-target="#add-appointment-modal"
+                   class="btn btn-primary w-md bg-blue radius-10">
+                    + Yeni Randevu
+                </a>
+            </div>
+            <h2 class="page-title">Randevular</h2>
+        </div>
+    </div>
 
-	<div class="row">
-		<div class="col-sm-12 table-responsive mb-5">
-			<table style="border: 0px; width: 1183px;"
-				   id="datatable"
-				   class="table table table-striped table-borderless dt-responsive nowrap w-100 dataTable no-footer dtr-inline"
-				   role="grid"
-				   aria-describedby="datatable_info">
-				<thead>
-					<tr role="row">
-						<th class="text-muted" rowspan="1" colspan="1" style="width: 43px;">#</th>
-						<th class="text-muted" rowspan="1" colspan="1" style="width: 160px;">Ad, soyad</th>
-						<th class="text-muted" rowspan="1" colspan="1" style="width: 199px;">Xidmət/Prosedur</th>
-						<th class="text-muted" rowspan="1" colspan="1" style="width: 231px;">Gün</th>
-						<th class="text-muted" rowspan="1" colspan="1" style="width: 160px;">Vaxt</th>
-						<th class="text-muted" rowspan="1" colspan="1" style="width: 160px;">Seçin</th>
-					</tr>
-				</thead>
-				<tbody style="vertical-align:middle;">
-					@{
-						var rowNumber = 0;
-						if (Model is not null)
-						{
-							foreach (var item in Model)
-							{
-								rowNumber++;
-								<tr class="odd">
-									<th class="text-muted dtr-control" tabindex="0">
-										@rowNumber
-									</th>
-									<td>
-										<span style="color:black;">@item.patient_name @item.patient_surname </span>
-									</td>
-									<td>
-										<span style="color:black;">@item.service_name</span>
-									</td>
-									<td>
-										<span style="color:black;">@item.start_date.ToString("yyyy/MM/dd")</span>
-									</td>
-									<td>
-										<span style="color:black;">@item.start_date.ToString("HH:mm") - @item.end_date.ToString("HH:mm")</span>
-									</td>
-									<td>
-										<a onclick="updateAppointment(@item.id)"
-										   data-bs-toggle="modal"
-										   data-bs-target="#add-appointment-modal" href="#">Edit</a>
-										<a onclick="updateAppointment(@item.id)"
-										   data-bs-toggle="modal"
-										   data-bs-target="#add-appointment-modal" href="#">Delete</a>
-									</td>
-								</tr>
-							}
-						}
-					}
-				</tbody>
-			</table>
-		</div>
-	</div>
+    <div class="row">
+        <div class="col-sm-12 table-responsive mb-5">
+            <table style="border: 0px; width: 1183px;"
+                   id="datatable"
+                   class="table table table-striped table-borderless dt-responsive nowrap w-100 dataTable no-footer dtr-inline"
+                   role="grid"
+                   aria-describedby="datatable_info">
+                <thead>
+                <tr role="row">
+                    <th class="text-muted" rowspan="1" colspan="1" style="width: 43px;">#</th>
+                    <th class="text-muted" rowspan="1" colspan="1" style="width: 160px;">Ad, soyad</th>
+                    <th class="text-muted" rowspan="1" colspan="1" style="width: 199px;">Xidmət/Prosedur</th>
+                    <th class="text-muted" rowspan="1" colspan="1" style="width: 231px;">Gün</th>
+                    <th class="text-muted" rowspan="1" colspan="1" style="width: 160px;">Vaxt</th>
+                    <th class="text-muted" rowspan="1" colspan="1" style="width: 160px;">Seçin</th>
+                </tr>
+                </thead>
+                <tbody style="vertical-align:middle;">
+                @{
+                    var rowNumber = 0;
+                    if (Model is not null)
+                    {
+                        foreach (var item in Model)
+                        {
+                            rowNumber++;
+                            <tr class="odd">
+                                <th class="text-muted dtr-control" tabindex="0">
+                                    @rowNumber
+                                </th>
+                                <td>
+                                    <span style="color:black;">@item.patient_name @item.patient_surname </span>
+                                </td>
+                                <td>
+                                    <span style="color:black;">@item.service_name</span>
+                                </td>
+                                <td>
+                                    <span style="color:black;">@item.start_date.ToString("yyyy/MM/dd")</span>
+                                </td>
+                                <td>
+                                    <span style="color:black;">@item.start_date.ToString("HH:mm") - @item.end_date.ToString("HH:mm")</span>
+                                </td>
+                                <td>
+                                    <a style="margin-right: 5px;" onclick="updateAppointment(@item.id)"
+                                       data-bs-toggle="modal"
+                                       data-bs-target="#add-appointment-modal" href="#">
+                                        Dəyiş
+                                    </a>
+                                    <a onclick="deleteAppointment(@item.id)"
+                                       href="#">
+                                        Sil
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 <div class="modal fade cus_modal"
-	 id="add-appointment-modal"
-	 data-bs-backdrop="static"
-	 aria-hidden="true"
-	 style="display: none;">
-	<div class="modal-dialog modal-dialog-centered">
-		<div class="modal-content">
-			<div class="modal-header py-3 px-4 border-bottom-0">
-				<button type="button"
-						class="btn btn-light btn-sm delete-button d-none"
-						onclick="deleteAppointment()">
-					<i class="far fa-trash-alt"></i>
-				</button>
-				<h5 class="modal-title"
-					id="modal-title">
-					Yeni Randevu
-				</h5>
-				<button type="button"
-						class="btn-close"
-						data-bs-dismiss="modal"
-						aria-label="Close"
-						onclick="resetModal()" />
-			</div>
-			<div class="modal-body p-4">
-				<form class="needs-validation"
-					  name="event-form"
-					  id="newAppointmentForm"
-					  onsubmit="return validateForm()"
-					  asp-controller="Appointments"
-					  asp-action="AddAppointment"
-					  method="post"
-					  novalidate>
-					<div class="mb-3">
-						<label for="patient_id"
-							   class="form-label">
-							Ad, soyad, ata adı
-						</label>
+     id="add-appointment-modal"
+     data-bs-backdrop="static"
+     aria-hidden="true"
+     style="display: none;">
+<div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+        <div class="modal-header py-3 px-4 border-bottom-0">
+            <button type="button"
+                    class="btn btn-light btn-sm delete-button d-none"
+                    onclick="deleteAppointment()">
+                <i class="far fa-trash-alt"></i>
+            </button>
+            <h5 class="modal-title"
+                id="modal-title">
+                Yeni Randevu
+            </h5>
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                    onclick="resetModal()"/>
+        </div>
+        <div class="modal-body p-4">
+            <form class="needs-validation"
+                  name="event-form"
+                  id="newAppointmentForm"
+                  onsubmit="return validateForm()"
+                  asp-controller="Appointments"
+                  asp-action="AddAppointment"
+                  method="post"
+                  novalidate>
+                <div class="mb-3">
+                    <label for="patient_id"
+                           class="form-label">
+                        Ad, soyad, ata adı
+                    </label>
 
-						<br />
+                    <br/>
 
-						<div class="dropdown-app">
-							<input required type="hidden" name="PatientId" id="PatientId" />
-							<input type="text" class="searchInput" id="searchInput" placeholder="Pasient seç">
-							<div id="dropdownContent" class="dropdown-content">
-							</div>
-						</div>
+                    <div class="dropdown-app">
+                        <input type="hidden" name="PatientId" id="PatientId"/>
+                        <input type="text" 
+                               onchange="clearPatientId()"
+                               class="searchInput"
+                               id="searchInput"
+                               placeholder="Pasient seç">
+                        <p id="validationForPatient" style="color: red; display: none; font-size: 12px">Pasient seçin</p>
+                        <div id="dropdownContent" class="dropdown-content">
+                        </div>
+                    </div>
 
-					</div>
-					<div class="mb-3">
-						<label for="patientMobileModal"
-							   class="form-label">
-							Mobil Nömrə
-						</label>
-						<input type="tel"
-							   class="form-control"
-							   id="patientMobileModal"
-							   name="PhoneNumber"
-							   placeholder="+994"
-							   required>
-						<div class="form-check mt-2">
-							<input class="form-check-input"
-								   type="checkbox"
-								   id="not_phone"
-								   name="not_phone">
-							<label class="form-check-label"
-								   for="not_phone">
-								Mobil nömrə mövcud deyil
-							</label>
-						</div>
-					</div>
+                </div>
+                <div class="mb-3">
+                    <label for="patientMobileModal"
+                           class="form-label">
+                        Mobil Nömrə
+                    </label>
+                    <input type="tel"
+                           class="form-control"
+                           id="patientMobileModal"
+                           name="PhoneNumber"
+                           placeholder="+994"
+                           required>
+                    <div class="form-check mt-2">
+                        <input class="form-check-input"
+                               type="checkbox"
+                               id="not_phone"
+                               name="not_phone">
+                        <label class="form-check-label"
+                               for="not_phone">
+                            Mobil nömrə mövcud deyil
+                        </label>
+                    </div>
+                </div>
 
-					<div class="mb-3">
-						<label for="service_id"
-							   class="form-label">
-							Xidmət/Prosedur
-						</label>
+                <div class="mb-3">
+                    <label for="service_id"
+                           class="form-label">
+                        Xidmət/Prosedur
+                    </label>
 
-						<br />
+                    <br/>
 
-						<div class="dropdown-app">
-							<input type="hidden" name="ServiceId" id="ServiceId" />
-							<input class="form-control searchInput" required type="text" id="searchInputService" placeholder="Xidmət seç">
-							<div id="dropdownContentService" class="dropdown-content">
-							</div>
-						</div>
+                    <div class="dropdown-app">
+                        <input type="hidden" name="ServiceId" id="ServiceId"/>
+                        <input onchange="clearServiceId()" class="searchInput" type="text" id="searchInputService" placeholder="Xidmət seç">
+                        <p id="validationForService" style="color: red; display: none; font-size: 12px">Xidmət seçin</p>
+                        <div id="dropdownContentService" class="dropdown-content">
+                        </div>
+                    </div>
 
-					</div>
-					<div class="row">
-						<div class="col-md-6">
-							<label class="form-label">Gün:</label>
-							<input class="form-control"
-								   type="date"
-								   id="MeetingDate"
-								   name="MeetingDate"
-								   value="2018-06-12T19:30"
-								   required>
-							<div class="invalid-feedback">Günü daxil edin</div>
-						</div>
-						<div class="col-md-6">
-							<div class="mb-3">
-								<label for="appointment_time" class="form-label">Vaxt</label>
-								<select class="form-select" name="Time" id="Time" required>
-									<option selected disabled value="">Seçilməyib</option>
-									<option value="08:00">08:00 - 08:10</option>
-									<option value="08:10">08:10 - 08:20</option>
-									<option value="08:20">08:20 - 08:30</option>
-									<option value="08:30">08:30 - 08:40</option>
-									<option value="08:40">08:40 - 08:50</option>
-									<option value="08:50">08:50 - 09:00</option>
-									<option value="09:00">09:00 - 09:10</option>
-									<option value="09:10">09:10 - 09:20</option>
-									<option value="09:20">09:20 - 09:30</option>
-									<option value="09:30">09:30 - 09:40</option>
-									<option value="09:40">09:40 - 09:50</option>
-									<option value="09:50">09:50 - 10:00</option>
-									<option value="10:00">10:00 - 10:10</option>
-									<option value="10:10">10:10 - 10:20</option>
-									<option value="10:20">10:20 - 10:30</option>
-									<option value="10:30">10:30 - 10:40</option>
-									<option value="10:40">10:40 - 10:50</option>
-									<option value="10:50">10:50 - 11:00</option>
-									<option value="11:00">11:00 - 11:10</option>
-									<option value="11:10">11:10 - 11:20</option>
-									<option value="11:20">11:20 - 11:30</option>
-									<option value="11:30">11:30 - 11:40</option>
-									<option value="11:40">11:40 - 11:50</option>
-									<option value="11:50">11:50 - 12:00</option>
-									<option value="12:00">12:00 - 12:10</option>
-									<option value="12:10">12:10 - 12:20</option>
-									<option value="12:20">12:20 - 12:30</option>
-									<option value="12:30">12:30 - 12:40</option>
-									<option value="12:40">12:40 - 12:50</option>
-									<option value="12:50">12:50 - 13:00</option>
-									<option value="13:00">13:00 - 13:10</option>
-									<option value="13:10">13:10 - 13:20</option>
-									<option value="13:20">13:20 - 13:30</option>
-									<option value="13:30">13:30 - 13:40</option>
-									<option value="13:40">13:40 - 13:50</option>
-									<option value="13:50">13:50 - 14:00</option>
-									<option value="14:00">14:00 - 14:10</option>
-									<option value="14:10">14:10 - 14:20</option>
-									<option value="14:20">14:20 - 14:30</option>
-									<option value="14:30">14:30 - 14:40</option>
-									<option value="14:40">14:40 - 14:50</option>
-									<option value="14:50">14:50 - 15:00</option>
-									<option value="15:00">15:00 - 15:10</option>
-									<option value="15:10">15:10 - 15:20</option>
-									<option value="15:20">15:20 - 15:30</option>
-									<option value="15:30">15:30 - 15:40</option>
-									<option value="15:40">15:40 - 15:50</option>
-									<option value="15:50">15:50 - 16:00</option>
-									<option value="16:00">16:00 - 16:10</option>
-									<option value="16:10">16:10 - 16:20</option>
-									<option value="16:20">16:20 - 16:30</option>
-									<option value="16:30">16:30 - 16:40</option>
-									<option value="16:40">16:40 - 16:50</option>
-									<option value="16:50">16:50 - 17:00</option>
-									<option value="17:00">17:00 - 17:10</option>
-									<option value="17:10">17:10 - 17:20</option>
-									<option value="17:20">17:20 - 17:30</option>
-									<option value="17:30">17:30 - 17:40</option>
-									<option value="17:40">17:40 - 17:50</option>
-									<option value="17:50">17:50 - 18:00</option>
-									<option value="18:00">18:00 - 18:10</option>
-									<option value="18:10">18:10 - 18:20</option>
-									<option value="18:20">18:20 - 18:30</option>
-									<option value="18:30">18:30 - 18:40</option>
-									<option value="18:40">18:40 - 18:50</option>
-									<option value="18:50">18:50 - 19:00</option>
-									<option value="19:00">19:00 - 19:10</option>
-									<option value="19:10">19:10 - 19:20</option>
-									<option value="19:20">19:20 - 19:30</option>
-									<option value="19:30">19:30 - 19:40</option>
-									<option value="19:40">19:40 - 19:50</option>
-									<option value="19:50">19:50 - 20:00</option>
-									<option value="20:00">20:00 - 20:10</option>
-									<option value="20:10">20:10 - 20:20</option>
-									<option value="20:20">20:20 - 20:30</option>
-									<option value="20:30">20:30 - 20:40</option>
-									<option value="20:40">20:40 - 20:50</option>
-									<option value="20:50">20:50 - 21:00</option>
-									<option value="21:00">21:00 - 21:10</option>
-									<option value="21:10">21:10 - 21:20</option>
-									<option value="21:20">21:20 - 21:30</option>
-									<option value="21:30">21:30 - 21:40</option>
-									<option value="21:40">21:40 - 21:50</option>
-									<option value="21:50">21:50 - 22:00</option>
-								</select>
-							</div>
-						</div>
-					</div>
-					<div class="text-end">
-						<input type="submit" value="Təyin et"
-							   class="btn btn-info" />
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="form-label">Gün:</label>
+                        <input class="form-control"
+                               type="date"
+                               id="MeetingDate"
+                               name="MeetingDate"
+                               value="2018-06-12T19:30"
+                               required>
+                        <div class="invalid-feedback">Günü daxil edin</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="appointment_time" class="form-label">Vaxt</label>
+                            <select class="form-select" name="Time" id="Time" required>
+                                <option selected disabled value="">Seçilməyib</option>
+                            </select>
+                            @* <select class="form-select" name="Time" id="Time" required> *@
+                            @*     <option selected disabled value="">Seçilməyib</option> *@
+                            @*     <option value="08:00">08:00 - 08:10</option> *@
+                            @*     <option value="08:10">08:10 - 08:20</option> *@
+                            @*     <option value="08:20">08:20 - 08:30</option> *@
+                            @*     <option value="08:30">08:30 - 08:40</option> *@
+                            @*     <option value="08:40">08:40 - 08:50</option> *@
+                            @*     <option value="08:50">08:50 - 09:00</option> *@
+                            @*     <option value="09:00">09:00 - 09:10</option> *@
+                            @*     <option value="09:10">09:10 - 09:20</option> *@
+                            @*     <option value="09:20">09:20 - 09:30</option> *@
+                            @*     <option value="09:30">09:30 - 09:40</option> *@
+                            @*     <option value="09:40">09:40 - 09:50</option> *@
+                            @*     <option value="09:50">09:50 - 10:00</option> *@
+                            @*     <option value="10:00">10:00 - 10:10</option> *@
+                            @*     <option value="10:10">10:10 - 10:20</option> *@
+                            @*     <option value="10:20">10:20 - 10:30</option> *@
+                            @*     <option value="10:30">10:30 - 10:40</option> *@
+                            @*     <option value="10:40">10:40 - 10:50</option> *@
+                            @*     <option value="10:50">10:50 - 11:00</option> *@
+                            @*     <option value="11:00">11:00 - 11:10</option> *@
+                            @*     <option value="11:10">11:10 - 11:20</option> *@
+                            @*     <option value="11:20">11:20 - 11:30</option> *@
+                            @*     <option value="11:30">11:30 - 11:40</option> *@
+                            @*     <option value="11:40">11:40 - 11:50</option> *@
+                            @*     <option value="11:50">11:50 - 12:00</option> *@
+                            @*     <option value="12:00">12:00 - 12:10</option> *@
+                            @*     <option value="12:10">12:10 - 12:20</option> *@
+                            @*     <option value="12:20">12:20 - 12:30</option> *@
+                            @*     <option value="12:30">12:30 - 12:40</option> *@
+                            @*     <option value="12:40">12:40 - 12:50</option> *@
+                            @*     <option value="12:50">12:50 - 13:00</option> *@
+                            @*     <option value="13:00">13:00 - 13:10</option> *@
+                            @*     <option value="13:10">13:10 - 13:20</option> *@
+                            @*     <option value="13:20">13:20 - 13:30</option> *@
+                            @*     <option value="13:30">13:30 - 13:40</option> *@
+                            @*     <option value="13:40">13:40 - 13:50</option> *@
+                            @*     <option value="13:50">13:50 - 14:00</option> *@
+                            @*     <option value="14:00">14:00 - 14:10</option> *@
+                            @*     <option value="14:10">14:10 - 14:20</option> *@
+                            @*     <option value="14:20">14:20 - 14:30</option> *@
+                            @*     <option value="14:30">14:30 - 14:40</option> *@
+                            @*     <option value="14:40">14:40 - 14:50</option> *@
+                            @*     <option value="14:50">14:50 - 15:00</option> *@
+                            @*     <option value="15:00">15:00 - 15:10</option> *@
+                            @*     <option value="15:10">15:10 - 15:20</option> *@
+                            @*     <option value="15:20">15:20 - 15:30</option> *@
+                            @*     <option value="15:30">15:30 - 15:40</option> *@
+                            @*     <option value="15:40">15:40 - 15:50</option> *@
+                            @*     <option value="15:50">15:50 - 16:00</option> *@
+                            @*     <option value="16:00">16:00 - 16:10</option> *@
+                            @*     <option value="16:10">16:10 - 16:20</option> *@
+                            @*     <option value="16:20">16:20 - 16:30</option> *@
+                            @*     <option value="16:30">16:30 - 16:40</option> *@
+                            @*     <option value="16:40">16:40 - 16:50</option> *@
+                            @*     <option value="16:50">16:50 - 17:00</option> *@
+                            @*     <option value="17:00">17:00 - 17:10</option> *@
+                            @*     <option value="17:10">17:10 - 17:20</option> *@
+                            @*     <option value="17:20">17:20 - 17:30</option> *@
+                            @*     <option value="17:30">17:30 - 17:40</option> *@
+                            @*     <option value="17:40">17:40 - 17:50</option> *@
+                            @*     <option value="17:50">17:50 - 18:00</option> *@
+                            @*     <option value="18:00">18:00 - 18:10</option> *@
+                            @*     <option value="18:10">18:10 - 18:20</option> *@
+                            @*     <option value="18:20">18:20 - 18:30</option> *@
+                            @*     <option value="18:30">18:30 - 18:40</option> *@
+                            @*     <option value="18:40">18:40 - 18:50</option> *@
+                            @*     <option value="18:50">18:50 - 19:00</option> *@
+                            @*     <option value="19:00">19:00 - 19:10</option> *@
+                            @*     <option value="19:10">19:10 - 19:20</option> *@
+                            @*     <option value="19:20">19:20 - 19:30</option> *@
+                            @*     <option value="19:30">19:30 - 19:40</option> *@
+                            @*     <option value="19:40">19:40 - 19:50</option> *@
+                            @*     <option value="19:50">19:50 - 20:00</option> *@
+                            @*     <option value="20:00">20:00 - 20:10</option> *@
+                            @*     <option value="20:10">20:10 - 20:20</option> *@
+                            @*     <option value="20:20">20:20 - 20:30</option> *@
+                            @*     <option value="20:30">20:30 - 20:40</option> *@
+                            @*     <option value="20:40">20:40 - 20:50</option> *@
+                            @*     <option value="20:50">20:50 - 21:00</option> *@
+                            @*     <option value="21:00">21:00 - 21:10</option> *@
+                            @*     <option value="21:10">21:10 - 21:20</option> *@
+                            @*     <option value="21:20">21:20 - 21:30</option> *@
+                            @*     <option value="21:30">21:30 - 21:40</option> *@
+                            @*     <option value="21:40">21:40 - 21:50</option> *@
+                            @*     <option value="21:50">21:50 - 22:00</option> *@
+                            @* </select> *@
+                        </div>
+                    </div>
+                </div>
+                <div class="text-end">
+                    <input type="submit" value="Təyin et"
+                           class="btn btn-info"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 </div>
 
 <script>
@@ -343,6 +355,8 @@
 
 		const searchInputService = document.getElementById('searchInputService');
 		const dropdownContentService = document.getElementById('dropdownContentService');
+		
+		loadTime();
 
 		searchInput.addEventListener('focus', () => {
 			dropdownContent.classList.add('show');
@@ -363,10 +377,7 @@
 				dropdownContent.classList.remove('show');
 			}
 		});
-
-
-
-
+		
 		searchInputService.addEventListener('focus', () => {
 			dropdownContentService.classList.add('show');
 		});
@@ -387,6 +398,33 @@
 			}
 		});
 
+		function loadTime() {
+			const select = document.getElementById('Time');
+			const startHour = 8; 
+			const endHour = 21;  
+			const interval = 10;
+
+			for (let hour = startHour; hour <= endHour; hour++) {
+				for (let minute = 0; minute < 60; minute += interval) {
+					let start = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+					let endMinute = minute + interval;
+					let end = `${String(hour).padStart(2, '0')}:${String(endMinute).padStart(2, '0')}`;
+
+					if (endMinute > 59) {
+						endMinute = 0;
+						end = `${String(hour + 1).padStart(2, '0')}:00`;
+					}
+
+					let optionValue = `${start}`;
+					let optionText = `${start} - ${end}`;
+					let option = document.createElement('option');
+					option.value = optionValue;
+					option.textContent = optionText;
+
+					select.appendChild(option);
+				}
+			}
+		}
 
 	});
 </script>
@@ -399,7 +437,7 @@
 			const search = $("#searchInput").val();
 
 			$.get(`/Patient/GetPatientByName?search=${search}`, null, function (data) {
-				var listContent = "";
+				let listContent = "";
 				data.map(x => {
 					listContent += `<a onclick="functionOnClick('${x.id}', '${x.name}')">${x.name}</a>`;
 				});
@@ -411,7 +449,7 @@
 			const search = $("#searchInputService").val();
 
 			$.get(`/Services/GetAllServices?search=${search}`, null, function (data) {
-				var listContent = "";
+				let listContent = "";
 				data.map(x => {
 					listContent += `<a onclick="functionOnClickService('${x.id}', '${x.name}')">${x.name}</a>`;
 				});
@@ -420,13 +458,31 @@
 		});
 
 		function validateForm() {
-			$("#searchInputService").prop("required", true);
-			const a = $("#ServiceId").val();
+			let isValid = true;
 
-			if (a > 0) {
-				$("#searchInputService").prop("required", false);
+			if ($("#ServiceId").val().trim().length === 0) {
+				$("#validationForService").show();
+				isValid = false;
+			} else {
+				$("#validationForService").hide();
 			}
-			return false;
+
+			if ($("#PatientId").val().trim().length === 0) {
+				$("#validationForPatient").show();
+				isValid = false;
+			} else {
+				$("#validationForPatient").hide();
+			}
+
+			return isValid;
+		}
+
+		function clearPatientId() {
+			document.getElementById('PatientId').value = '';
+		}
+
+		function clearServiceId() {
+			document.getElementById('ServiceId').value = '';
 		}
 
 		function functionOnClick(id, name) {
@@ -435,18 +491,6 @@
 			})
 			$("#searchInput").prop("value", name);
 			$("#PatientId").prop("value", id);
-		}
-
-		function updateServiceRequiredStatus() {
-			var serviceId = $("#ServiceId").val();
-			var searchInputService = $("#searchInputService");
-
-			if (!serviceId) {
-				console.log("if");
-				searchInputService.attr("required", "required");
-			} else {
-				searchInputService.removeAttr("required");
-			}
 		}
 
 		function updateAppointment(id) {
@@ -460,11 +504,22 @@
 				$("#Time").prop("value", name);
 			})
 		}
+		
+		function deleteAppointment(id){
+			if (confirm("Yes?")) {
+				$.ajax({
+					url:`/Appointments/DeleteAppointmentById?id=${id}`,
+					type: 'DELETE',
+					success: function(result) {
+						window.location.reload();
+					}
+        })
+			}
+		}
 
 		function functionOnClickService(id, name) {
 			$("#searchInputService").prop("value", name);
 			$("#ServiceId").prop("value", id);
-			updateServiceRequiredStatus();
 		}
 
 		$(".default").datetimepicker({
@@ -475,17 +530,7 @@
 		$(function () {
 			$(".default").datetimepicker();
 		});
-
-		$('#choices-single-patient, #choices-single-patient-mobile').select2({
-			closeOnSelect: true
-		});
-
-		$('#choices-single-patient, #choices-single-patient-mobile').on('select2:select', function () {
-			const select = this;
-			const selectedValue = select.value;
-			window.location.href = 'patient-edit.php?patient_id=' + selectedValue;
-		});
-
+		
 		document.addEventListener('DOMContentLoaded', function () {
 			jQuery('#example').datepicker({});
 		});

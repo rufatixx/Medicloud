@@ -40,5 +40,12 @@ public class AppointmentsController : Controller
         var result = appointmentService.GetAppointmentById(id);
         return Ok(result);
     }
+
+    [HttpDelete]
+    public IActionResult DeleteAppointmentById([FromQuery] string id)
+    {
+        var result = appointmentService.DeleteAppointment(id);
+        return Ok(result);
+    }
 }
 
