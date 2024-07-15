@@ -23,10 +23,10 @@
 		border-radius: 3px;
 	}
 
-		.searchInput:focus {
-			border-color: cornflowerblue;
-			outline: none;
-		}
+	.searchInput:focus {
+		border-color: cornflowerblue;
+		outline: none;
+	}
 
 	.dropdown-content {
 		display: none;
@@ -39,16 +39,16 @@
 		z-index: 1;
 	}
 
-		.dropdown-content a {
-			color: black;
-			padding: 8px 12px;
-			text-decoration: none;
-			display: block;
-		}
+	.dropdown-content a {
+		color: black;
+		padding: 8px 12px;
+		text-decoration: none;
+		display: block;
+	}
 
-			.dropdown-content a:hover {
-				background-color: #f1f1f1;
-			}
+	.dropdown-content a:hover {
+		background-color: #f1f1f1;
+	}
 
 	.show {
 		display: block;
@@ -66,6 +66,7 @@
                 </a>
                 <a id="new-appointment"
                    type="reset"
+                   onclick="clearFields()"
                    data-bs-toggle="modal"
                    data-bs-target="#add-appointment-modal"
                    class="btn btn-primary w-md bg-blue radius-10">
@@ -170,22 +171,24 @@
                   asp-action="AddAppointment"
                   method="post"
                   novalidate>
+
+                <input type="hidden" name="Id" id="Id" />
                 <div class="mb-3">
                     <label for="patient_id"
                            class="form-label">
                         Ad, soyad, ata adı
                     </label>
 
-                    <br/>
+                    <br />
 
                     <div class="dropdown-app">
-                        <input type="hidden" name="PatientId" id="PatientId"/>
-                        <input type="text" 
+                        <input type="hidden" name="PatientId" id="PatientId" />
+                        <input type="text"
                                onchange="clearPatientId()"
                                class="searchInput"
                                id="searchInput"
                                placeholder="Pasient seç">
-                        <p id="validationForPatient" style="color: red; display: none; font-size: 12px">Pasient seçin</p>
+                        <p id="validationForPatient" style="color: #fa5c7c; display: none; font-size: 12px">Pasient seçin</p>
                         <div id="dropdownContent" class="dropdown-content">
                         </div>
                     </div>
@@ -220,12 +223,12 @@
                         Xidmət/Prosedur
                     </label>
 
-                    <br/>
+                    <br />
 
                     <div class="dropdown-app">
-                        <input type="hidden" name="ServiceId" id="ServiceId"/>
+                        <input type="hidden" name="ServiceId" id="ServiceId" />
                         <input onchange="clearServiceId()" class="searchInput" type="text" id="searchInputService" placeholder="Xidmət seç">
-                        <p id="validationForService" style="color: red; display: none; font-size: 12px">Xidmət seçin</p>
+                        <p id="validationForService" style="color: #fa5c7c; display: none; font-size: 12px">Xidmət seçin</p>
                         <div id="dropdownContentService" class="dropdown-content">
                         </div>
                     </div>
@@ -248,99 +251,12 @@
                             <select class="form-select" name="Time" id="Time" required>
                                 <option selected disabled value="">Seçilməyib</option>
                             </select>
-                            @* <select class="form-select" name="Time" id="Time" required> *@
-                            @*     <option selected disabled value="">Seçilməyib</option> *@
-                            @*     <option value="08:00">08:00 - 08:10</option> *@
-                            @*     <option value="08:10">08:10 - 08:20</option> *@
-                            @*     <option value="08:20">08:20 - 08:30</option> *@
-                            @*     <option value="08:30">08:30 - 08:40</option> *@
-                            @*     <option value="08:40">08:40 - 08:50</option> *@
-                            @*     <option value="08:50">08:50 - 09:00</option> *@
-                            @*     <option value="09:00">09:00 - 09:10</option> *@
-                            @*     <option value="09:10">09:10 - 09:20</option> *@
-                            @*     <option value="09:20">09:20 - 09:30</option> *@
-                            @*     <option value="09:30">09:30 - 09:40</option> *@
-                            @*     <option value="09:40">09:40 - 09:50</option> *@
-                            @*     <option value="09:50">09:50 - 10:00</option> *@
-                            @*     <option value="10:00">10:00 - 10:10</option> *@
-                            @*     <option value="10:10">10:10 - 10:20</option> *@
-                            @*     <option value="10:20">10:20 - 10:30</option> *@
-                            @*     <option value="10:30">10:30 - 10:40</option> *@
-                            @*     <option value="10:40">10:40 - 10:50</option> *@
-                            @*     <option value="10:50">10:50 - 11:00</option> *@
-                            @*     <option value="11:00">11:00 - 11:10</option> *@
-                            @*     <option value="11:10">11:10 - 11:20</option> *@
-                            @*     <option value="11:20">11:20 - 11:30</option> *@
-                            @*     <option value="11:30">11:30 - 11:40</option> *@
-                            @*     <option value="11:40">11:40 - 11:50</option> *@
-                            @*     <option value="11:50">11:50 - 12:00</option> *@
-                            @*     <option value="12:00">12:00 - 12:10</option> *@
-                            @*     <option value="12:10">12:10 - 12:20</option> *@
-                            @*     <option value="12:20">12:20 - 12:30</option> *@
-                            @*     <option value="12:30">12:30 - 12:40</option> *@
-                            @*     <option value="12:40">12:40 - 12:50</option> *@
-                            @*     <option value="12:50">12:50 - 13:00</option> *@
-                            @*     <option value="13:00">13:00 - 13:10</option> *@
-                            @*     <option value="13:10">13:10 - 13:20</option> *@
-                            @*     <option value="13:20">13:20 - 13:30</option> *@
-                            @*     <option value="13:30">13:30 - 13:40</option> *@
-                            @*     <option value="13:40">13:40 - 13:50</option> *@
-                            @*     <option value="13:50">13:50 - 14:00</option> *@
-                            @*     <option value="14:00">14:00 - 14:10</option> *@
-                            @*     <option value="14:10">14:10 - 14:20</option> *@
-                            @*     <option value="14:20">14:20 - 14:30</option> *@
-                            @*     <option value="14:30">14:30 - 14:40</option> *@
-                            @*     <option value="14:40">14:40 - 14:50</option> *@
-                            @*     <option value="14:50">14:50 - 15:00</option> *@
-                            @*     <option value="15:00">15:00 - 15:10</option> *@
-                            @*     <option value="15:10">15:10 - 15:20</option> *@
-                            @*     <option value="15:20">15:20 - 15:30</option> *@
-                            @*     <option value="15:30">15:30 - 15:40</option> *@
-                            @*     <option value="15:40">15:40 - 15:50</option> *@
-                            @*     <option value="15:50">15:50 - 16:00</option> *@
-                            @*     <option value="16:00">16:00 - 16:10</option> *@
-                            @*     <option value="16:10">16:10 - 16:20</option> *@
-                            @*     <option value="16:20">16:20 - 16:30</option> *@
-                            @*     <option value="16:30">16:30 - 16:40</option> *@
-                            @*     <option value="16:40">16:40 - 16:50</option> *@
-                            @*     <option value="16:50">16:50 - 17:00</option> *@
-                            @*     <option value="17:00">17:00 - 17:10</option> *@
-                            @*     <option value="17:10">17:10 - 17:20</option> *@
-                            @*     <option value="17:20">17:20 - 17:30</option> *@
-                            @*     <option value="17:30">17:30 - 17:40</option> *@
-                            @*     <option value="17:40">17:40 - 17:50</option> *@
-                            @*     <option value="17:50">17:50 - 18:00</option> *@
-                            @*     <option value="18:00">18:00 - 18:10</option> *@
-                            @*     <option value="18:10">18:10 - 18:20</option> *@
-                            @*     <option value="18:20">18:20 - 18:30</option> *@
-                            @*     <option value="18:30">18:30 - 18:40</option> *@
-                            @*     <option value="18:40">18:40 - 18:50</option> *@
-                            @*     <option value="18:50">18:50 - 19:00</option> *@
-                            @*     <option value="19:00">19:00 - 19:10</option> *@
-                            @*     <option value="19:10">19:10 - 19:20</option> *@
-                            @*     <option value="19:20">19:20 - 19:30</option> *@
-                            @*     <option value="19:30">19:30 - 19:40</option> *@
-                            @*     <option value="19:40">19:40 - 19:50</option> *@
-                            @*     <option value="19:50">19:50 - 20:00</option> *@
-                            @*     <option value="20:00">20:00 - 20:10</option> *@
-                            @*     <option value="20:10">20:10 - 20:20</option> *@
-                            @*     <option value="20:20">20:20 - 20:30</option> *@
-                            @*     <option value="20:30">20:30 - 20:40</option> *@
-                            @*     <option value="20:40">20:40 - 20:50</option> *@
-                            @*     <option value="20:50">20:50 - 21:00</option> *@
-                            @*     <option value="21:00">21:00 - 21:10</option> *@
-                            @*     <option value="21:10">21:10 - 21:20</option> *@
-                            @*     <option value="21:20">21:20 - 21:30</option> *@
-                            @*     <option value="21:30">21:30 - 21:40</option> *@
-                            @*     <option value="21:40">21:40 - 21:50</option> *@
-                            @*     <option value="21:50">21:50 - 22:00</option> *@
-                            @* </select> *@
                         </div>
                     </div>
                 </div>
                 <div class="text-end">
                     <input type="submit" value="Təyin et"
-                           class="btn btn-info"/>
+                           class="btn btn-info" />
                 </div>
             </form>
         </div>
@@ -425,115 +341,174 @@
 				}
 			}
 		}
-
 	});
 </script>
 
 
 @section Scripts {
-	<script>
+    <script>
 
-		$("#searchInput").on("keyup", function (e) {
-			const search = $("#searchInput").val();
+        document.addEventListener('DOMContentLoaded', function () {
 
-			$.get(`/Patient/GetPatientByName?search=${search}`, null, function (data) {
-				let listContent = "";
-				data.map(x => {
-					listContent += `<a onclick="functionOnClick('${x.id}', '${x.name}')">${x.name}</a>`;
-				});
-				$('#dropdownContent').html(listContent);
-			});
-		});
+        const searchInput = document.getElementById('searchInput');
+        const dropdownContent = document.getElementById('dropdownContent');
 
-		$("#searchInputService").on("keyup", function (e) {
-			const search = $("#searchInputService").val();
+        searchInput.addEventListener('keyup', debounce(function (e) {
+            const search = searchInput.value;
 
-			$.get(`/Services/GetAllServices?search=${search}`, null, function (data) {
-				let listContent = "";
-				data.map(x => {
-					listContent += `<a onclick="functionOnClickService('${x.id}', '${x.name}')">${x.name}</a>`;
-				});
-				$('#dropdownContentService').html(listContent);
-			});
-		});
+            fetch(`/Patient/GetPatientByName?search=${encodeURIComponent(search)}`)
+                .then(response => response.json())
+                .then(data => {
+                    let listContent = "";
+                    data.forEach(x => {
+                        const escapedId = document.createElement('div').textContent = x.id;
+                        const escapedName = document.createElement('div').textContent = x.name;
+                        listContent += `<a onclick="selectPatient('${escapedId}', '${escapedName}')">${escapedName}</a>`;
+                    });
+                    dropdownContent.innerHTML = listContent;
+                })
+                .catch(error => {
+                    console.error("Error fetching services.", error);
+                });
+        }, 300));
 
-		function validateForm() {
-			let isValid = true;
 
-			if ($("#ServiceId").val().trim().length === 0) {
-				$("#validationForService").show();
-				isValid = false;
-			} else {
-				$("#validationForService").hide();
-			}
+        const searchInputService = document.getElementById('searchInputService');
+        const dropdownContentService = document.getElementById('dropdownContentService');
 
-			if ($("#PatientId").val().trim().length === 0) {
-				$("#validationForPatient").show();
-				isValid = false;
-			} else {
-				$("#validationForPatient").hide();
-			}
+        searchInputService.addEventListener('keyup', debounce(function (e) {
+            const search = searchInputService.value;
 
-			return isValid;
+            fetch(`/Services/GetAllServices?search=${encodeURIComponent(search)}`)
+                .then(response => response.json())
+                .then(data => {
+                    let listContent = "";
+                    data.forEach(x => {
+                        const escapedId = document.createElement('div').textContent = x.id;
+                        const escapedName = document.createElement('div').textContent = x.name;
+                        listContent += `<a onclick="selectService('${escapedId}', '${escapedName}')">${escapedName}</a>`;
+                    });
+                    dropdownContentService.innerHTML = listContent;
+                })
+                .catch(error => {
+                    console.error("Error fetching services.", error);
+                });
+        }, 300));
+        });
+
+        function debounce(func, delay) {
+            let debounceTimer;
+            return function () {
+                const context = this;
+                const args = arguments;
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(() => func.apply(context, args), delay);
+            };
+        }
+
+        function validateForm() {
+            let isValid = true;
+
+            if (document.getElementById('ServiceId').value.trim().length === 0) {
+                document.getElementById('validationForService').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('validationForService').style.display = 'none';
+            }
+
+            if (document.getElementById('PatientId').value.trim().length === 0) {
+                document.getElementById('validationForPatient').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('validationForPatient').style.display = 'none';
+            }
+
+            return isValid;
+        }
+
+        function clearPatientId() {
+            document.getElementById('PatientId').value = '';
+        }
+
+        function clearServiceId() {
+            document.getElementById('ServiceId').value = '';
+        }
+
+        function selectPatient(id, name) {
+            fetch(`/Patient/GetPatientById?id=${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('patientMobileModal').value = data?.phone;
+                });
+            document.getElementById('searchInput').value = name;
+            document.getElementById('PatientId').value = id;
+            document.getElementById('validationForPatient').style.display = 'none';
+        }
+
+        function formatTime(date) {
+            let hours = date.getHours().toString().padStart(2, '0');
+            let minutes = date.getMinutes().toString().padStart(2, '0');
+            return `${hours}:${minutes}`;
+        }
+
+        function updateAppointment(id) {
+            fetch(`/Appointments/GetAppointmentById?id=${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("Id").value = data?.id;
+                    document.getElementById('ServiceId').value = data?.service_id;
+                    document.getElementById('PatientId').value = data?.patient_id;
+                    document.getElementById('MeetingDate').value = new Date(data?.start_date).toISOString().split('T')[0];
+                    document.getElementById('patientMobileModal').value = data?.patient_phone;
+                    document.getElementById('searchInput').value = data?.patient_name;
+                    document.getElementById('searchInputService').value = data?.service_name;
+                    document.getElementById('Time').value = `${formatTime(new Date(data?.start_date))}`;
+                });
 		}
 
-		function clearPatientId() {
-			document.getElementById('PatientId').value = '';
-		}
+        function deleteAppointment(id) {
+            if (confirm("Silmək istədiyinizə əminsiniz?")) {
+                fetch(`/Appointments/DeleteAppointmentById?id=${id}`, {
+                    method: 'DELETE'
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            window.location.reload();
+                        } else {
+                            console.error('Failed to delete appointment');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            }
+        }
 
-		function clearServiceId() {
-			document.getElementById('ServiceId').value = '';
-		}
+        function selectService(id, name) {
+            document.getElementById('searchInputService').value = name;
+            document.getElementById('ServiceId').value = id;
+            document.getElementById('validationForService').style.display = 'none';
+        }
 
-		function functionOnClick(id, name) {
-			$.get(`/Patient/GetPatientById?id=${id}`, null, function (data) {
-				$("#patientMobileModal").prop("value", data?.phone);
-			})
-			$("#searchInput").prop("value", name);
-			$("#PatientId").prop("value", id);
-		}
+        function clearFields() {
+            document.getElementById('Id').value = '';
+            document.getElementById('ServiceId').value = '';
+            document.getElementById('PatientId').value = '';
+            document.getElementById('MeetingDate').value = '';
+            document.getElementById('patientMobileModal').value = '';
+            document.getElementById('searchInput').value = '';
+            document.getElementById('searchInputService').value = '';
+            document.getElementById('Time').value = '';
+        }
 
-		function updateAppointment(id) {
-			$.get(`/Appointments/GetAppointmentById?id=${id}`, null, function (data) {
-				$("#patientId").prop("value", data.patient_id);
-				$("#searchInput").prop("value", data.patient_name);
-				$("#patientMobileModal").prop("value", name);
-				$("#ServiceId").prop("value", service_id);
-				$("#searchInputService").prop("value", service_name);
-				$("#MeetingDate").prop("value", start_date);
-				$("#Time").prop("value", name);
-			})
-		}
-		
-		function deleteAppointment(id){
-			if (confirm("Yes?")) {
-				$.ajax({
-					url:`/Appointments/DeleteAppointmentById?id=${id}`,
-					type: 'DELETE',
-					success: function(result) {
-						window.location.reload();
-					}
-        })
-			}
-		}
+        document.addEventListener('DOMContentLoaded', function () {
+            flatpickr('#example', {});
+            flatpickr('.default', {
+                enableTime: true,
+                dateFormat: "Y-m-d H:i",
+                minuteIncrement: 10
+            });
+        });
 
-		function functionOnClickService(id, name) {
-			$("#searchInputService").prop("value", name);
-			$("#ServiceId").prop("value", id);
-		}
-
-		$(".default").datetimepicker({
-			pickerPosition: 'top-right',
-			minuteStep: 10
-		});
-
-		$(function () {
-			$(".default").datetimepicker();
-		});
-		
-		document.addEventListener('DOMContentLoaded', function () {
-			jQuery('#example').datepicker({});
-		});
-
-	</script>
+    </script>
 }

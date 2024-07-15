@@ -23,7 +23,13 @@ public class AppointmentsController : Controller
     [HttpPost]
     public IActionResult AddAppointment(AddAppointmentDto appointmentDto)
     {
-        var result =  appointmentService.AddAppointment(appointmentDto);
+		if(appointmentDto.Id > 0)
+		{
+			appointmentService.UpdateAppointment(appointmentDto);
+		} else
+		{
+			appointmentService.AddAppointment(appointmentDto);
+		}
 		return RedirectToAction("Index");
 	}
 

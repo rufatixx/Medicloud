@@ -47,5 +47,19 @@ namespace Medicloud.BLL.Service
             return result;
         }
 
+		public bool UpdateAppointment(AddAppointmentDto appointmentDto)
+		{
+			var appointment = new Appointment()
+			{
+				id = appointmentDto.Id,
+				patient_id = appointmentDto.PatientId,
+				service_id = appointmentDto.ServiceId,
+				end_date = (appointmentDto.MeetingDate.Date + appointmentDto.Time).AddMinutes(10),
+				start_date = appointmentDto.MeetingDate.Date + appointmentDto.Time,
+			};
+			var result = _appointmentRepo.UpdateAppointment(appointment);
+			return result;
+		}
+
     }
 }

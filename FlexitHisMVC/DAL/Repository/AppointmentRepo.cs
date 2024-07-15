@@ -101,12 +101,13 @@ WHERE is_active = 1";
 
         public AppointmentViewModel GetAppointmentById(string id)
         {
-            AppointmentViewModel appointmentViewModel = new();
+			AppointmentViewModel appointmentViewModel = new();
 
             MySqlConnection con = new(ConnectionString);
             string query = @"SELECT a.*,
                              p.name patient_name,
                              p.surname patient_surname,
+							 p.clientPhone patient_phone,
                              p.id patient_id,
                              s.name service_name,
                              s.id service_id
@@ -126,7 +127,7 @@ WHERE is_active = 1";
                 if (reader.Read())
                 {
                     appointmentViewModel = new AppointmentViewModel
-                    {
+					{
                         id = Convert.ToInt32(reader["id"]),
                         patient_id = Convert.ToInt32(reader["patient_id"]),
                         service_id = Convert.ToInt32(reader["service_id"]),
@@ -134,9 +135,10 @@ WHERE is_active = 1";
                         start_date = reader["start_date"] == DBNull.Value ? Convert.ToDateTime("0001-01-01T00:00:00") : Convert.ToDateTime(reader["start_date"]),
                         end_date = reader["end_date"] == DBNull.Value ? Convert.ToDateTime("0001-01-01T00:00:00") : Convert.ToDateTime(reader["end_date"]),
                         is_active = Convert.ToBoolean(reader["is_active"]),
-                        patient_name = reader["patient_name"] == DBNull.Value ? "" : reader["patient_name"].ToString(),
-                        patient_surname = reader["patient_surname"] == DBNull.Value ? "" : reader["patient_surname"].ToString(),
-                        service_name = reader["service_name"] == DBNull.Value ? "" : reader["service_name"].ToString()
+                        patient_name = reader["patient_name"].ToString(),
+						patient_phone = reader["patient_phone"].ToString(),
+                        patient_surname =  reader["patient_surname"].ToString(),
+                        service_name = reader["service_name"].ToString()
                     };
                 }
                 con.Close();
@@ -149,8 +151,6 @@ WHERE is_active = 1";
             return appointmentViewModel;
         }
         
-        
-
         public bool DeleteAppointment(string id)
         {
             MySqlConnection con = new(ConnectionString);
@@ -175,6 +175,39 @@ WHERE is_active = 1";
 
             return false;
         }
+
+		public bool UpdateAppointment(Appointment appointment)
+		{
+			MySqlConnection con = new(ConnectionString);
+			string query = $@"UPDATE medicloud.appointments 
+SET patient_id = @patient_id, service_id = @service_id, start_date = @start_date, end_date = @end_date
+WHERE id = @id";
+
+			MySqlCommand cmd = new(query, con);
+			cmd.Parameters.AddWithValue("@id", appointment.id);
+			cmd.Parameters.AddWithValue("@patient_id", appointment.patient_id);
+			cmd.Parameters.AddWithValue("@service_id", appointment.service_id);
+			cmd.Parameters.AddWithValue("@start_date", appointment.start_date);
+			cmd.Parameters.AddWithValue("@end_date", appointment.end_date);
+
+
+			try
+			{
+				con.Open();
+				cmd.ExecuteNonQuery();
+			}
+			catch (MySqlException ex)
+			{
+				Medicloud.StandardMessages.CallSerilog(ex);
+				Console.WriteLine(ex.Message);
+				return false;
+			}
+			finally
+			{
+				con.Close();
+			}
+			return true;
+		}
 
     }
 }
