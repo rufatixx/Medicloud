@@ -17,36 +17,52 @@ namespace Medicloud.Models.Repository
         {
             ConnectionString = conString;
         }
-        public bool InsertServiceToPatientCard(long patientCardID, int serviceID,int depID, int senderDocID, int docID)
+        public bool InsertServiceToPatientCard(long patientCardID, int serviceID, int? depID, int? senderDocID, int? docID)
         {
             try
             {
-
                 using (MySqlConnection connection = new MySqlConnection(ConnectionString))
                 {
-
                     connection.Open();
 
+                    string sql = "INSERT INTO patient_card_service_rel (patientCardID, serviceID";
+                    string values = "VALUES (@patientCardID, @serviceID";
 
+                    // Dynamically building the query based on available parameters
+                    if (depID.HasValue)
+                    {
+                        sql += ", depID";
+                        values += ", @depID";
+                    }
 
+                    if (senderDocID.HasValue)
+                    {
+                        sql += ", senderDocID";
+                        values += ", @senderDocID";
+                    }
 
+                    if (docID.HasValue)
+                    {
+                        sql += ", docID";
+                        values += ", @docID";
+                    }
 
-                    using (MySqlCommand com = new MySqlCommand(@"INSERT INTO patient_card_service_rel (patientCardID,serviceID,depID,senderDocID,docID)
-                      Values (@patientCardID, @serviceID,@depID,@senderDocID,@docID)"
-                    , connection))
+                    sql += ") " + values + ")";
 
+                    using (MySqlCommand com = new MySqlCommand(sql, connection))
                     {
                         com.Parameters.AddWithValue("@patientCardID", patientCardID);
                         com.Parameters.AddWithValue("@serviceID", serviceID);
-                        com.Parameters.AddWithValue("@depID", depID);
-                        com.Parameters.AddWithValue("@senderDocID", senderDocID);
-                        com.Parameters.AddWithValue("@docID", docID);
-                        
+
+                        if (depID.HasValue)
+                            com.Parameters.AddWithValue("@depID", depID.Value);
+                        if (senderDocID.HasValue)
+                            com.Parameters.AddWithValue("@senderDocID", senderDocID.Value);
+                        if (docID.HasValue)
+                            com.Parameters.AddWithValue("@docID", docID.Value);
 
                         com.ExecuteNonQuery();
-
                     }
-
 
                     connection.Close();
                 }
@@ -59,6 +75,49 @@ namespace Medicloud.Models.Repository
                 return false;
             }
         }
+
+        public bool RemoveServiceFromPatientCard(long patientCardID, int serviceID)
+        {
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+                {
+                    connection.Open();
+
+                    string sql = @"
+                UPDATE patient_card_service_rel 
+                SET is_removed = 1 
+                WHERE patientCardID = @patientCardID 
+                  AND serviceID = @serviceID
+                  AND is_removed = 0;";  // Ensures that only non-removed services are marked as removed
+
+                    using (MySqlCommand com = new MySqlCommand(sql, connection))
+                    {
+                        com.Parameters.AddWithValue("@patientCardID", patientCardID);
+                        com.Parameters.AddWithValue("@serviceID", serviceID);
+
+                        int rowsAffected = com.ExecuteNonQuery();
+                        if (rowsAffected > 0)
+                        {
+                            Console.WriteLine("Service successfully marked as removed.");
+                            return true; // The service was successfully marked as removed
+                        }
+                        else
+                        {
+                            Console.WriteLine("No service was marked as removed.");
+                            return false; // No rows were updated, possibly because no matching record was found or it was already removed
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Medicloud.StandardMessages.CallSerilog(ex);
+                Console.WriteLine(ex.Message);
+                return false; // Return false if an exception occurred
+            }
+        }
+
         //public List<dynamic> GetServicesFromPatientCard(int patientCardID)
         //{
         //    try
@@ -137,7 +196,7 @@ namespace Medicloud.Models.Repository
                     connection.Open();
 
                     string query = @"
-            SELECT pcsr.*, p.name,p.surname,p.id as patientID,
+           SELECT pcsr.*, p.name,p.surname,p.id as patientID,
                    s.name AS service_name, 
                    s.price as service_price,
                    s.code as service_code,
@@ -147,19 +206,19 @@ namespace Medicloud.Models.Repository
                    senderDoc.name AS sender_doc_name, 
                    senderDoc.surname AS sender_doc_surname
             FROM patient_card_service_rel pcsr
-            JOIN services s ON pcsr.serviceID = s.id
-            JOIN service_group sg ON s.serviceGroupID = sg.id
-            JOIN users doc ON pcsr.docID = doc.id
-            JOIN users senderDoc ON pcsr.senderDocID = senderDoc.id
-            JOIN patient_card pc ON pcsr.patientCardID = pc.id
-            Join patients p on pc.patientID = p.id
-            WHERE pc.organizationID = @organizationID" +
+            left JOIN services s ON pcsr.serviceID = s.id
+           left JOIN service_group sg ON s.serviceGroupID = sg.id
+            left JOIN users doc ON pcsr.docID = doc.id
+           left JOIN users senderDoc ON pcsr.senderDocID = senderDoc.id
+           left JOIN patient_card pc ON pcsr.patientCardID = pc.id
+           left Join patients p on pc.patientID = p.id
+            WHERE pc.organizationID = @organizationID AND pcsr.is_removed = 0" +
                     (!patientCardID.Equals(0) ? " AND pcsr.patientCardID = @patientCardID" : "");
 
                     using (MySqlCommand com = new MySqlCommand(query, connection))
                     {
                         com.Parameters.AddWithValue("@organizationID", organizationID);
-                        if (patientCardID>0)
+                        if (patientCardID > 0)
                         {
                             com.Parameters.AddWithValue("@patientCardID", patientCardID);
                         }
@@ -170,22 +229,22 @@ namespace Medicloud.Models.Repository
                             {
                                 dynamic result = new ExpandoObject();
 
-                                result.PatientCardID = Convert.ToInt32(reader["patientCardID"]);
-                                result.ServiceID = Convert.ToInt32(reader["serviceID"]);
-                                result.SenderDocID = Convert.ToInt32(reader["senderDocID"]);
-                                result.DocID = Convert.ToInt32(reader["docID"]);
-                                result.patientID = Convert.ToInt32(reader["patientID"]);
-                                result.patientName = reader["name"].ToString();
-                                result.patientSurname = reader["surname"].ToString();
-                                result.ServiceName = reader["service_name"].ToString();
-                                result.ServicePrice = reader["service_price"].ToString();
-                                result.ServiceCode = reader["service_code"].ToString();
-                                result.ServiceGroup = reader["service_group_name"].ToString();
-                                result.DocName = reader["doc_name"].ToString();
-                                result.DocSurname = reader["doc_surname"].ToString();
-                                result.SenderDocName = reader["sender_doc_name"].ToString();
-                                result.SenderDocSurname = reader["sender_doc_surname"].ToString();
-                                result.cDate = Convert.ToDateTime(reader["cDate"]);
+                                result.PatientCardID = reader["patientCardID"] != DBNull.Value ? Convert.ToInt32(reader["patientCardID"]) : (int?)null;
+                                result.ServiceID = reader["serviceID"] != DBNull.Value ? Convert.ToInt32(reader["serviceID"]) : (int?)null;
+                                result.SenderDocID = reader["senderDocID"] != DBNull.Value ? Convert.ToInt32(reader["senderDocID"]) : (int?)null;
+                                result.DocID = reader["docID"] != DBNull.Value ? Convert.ToInt32(reader["docID"]) : (int?)null;
+                                result.patientID = reader["patientID"] != DBNull.Value ? Convert.ToInt32(reader["patientID"]) : (int?)null;
+                                result.patientName = reader["name"] != DBNull.Value ? reader["name"].ToString() : null;
+                                result.patientSurname = reader["surname"] != DBNull.Value ? reader["surname"].ToString() : null;
+                                result.ServiceName = reader["service_name"] != DBNull.Value ? reader["service_name"].ToString() : null;
+                                result.ServicePrice = reader["service_price"] != DBNull.Value ? reader["service_price"].ToString() : null;
+                                result.ServiceCode = reader["service_code"] != DBNull.Value ? reader["service_code"].ToString() : null;
+                                result.ServiceGroup = reader["service_group_name"] != DBNull.Value ? reader["service_group_name"].ToString() : null;
+                                result.DocName = reader["doc_name"] != DBNull.Value ? reader["doc_name"].ToString() : null;
+                                result.DocSurname = reader["doc_surname"] != DBNull.Value ? reader["doc_surname"].ToString() : null;
+                                result.SenderDocName = reader["sender_doc_name"] != DBNull.Value ? reader["sender_doc_name"].ToString() : null;
+                                result.SenderDocSurname = reader["sender_doc_surname"] != DBNull.Value ? reader["sender_doc_surname"].ToString() : null;
+                                result.cDate = reader["cDate"] != DBNull.Value ? Convert.ToDateTime(reader["cDate"]) : (DateTime?)null;
 
 
                                 results.Add(result);

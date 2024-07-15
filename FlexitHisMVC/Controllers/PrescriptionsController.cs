@@ -21,6 +21,8 @@ namespace Medicloud.Controllers
         PatientCardServiceRelRepo patientCardServiceRelRepo;
         PatientDiagnoseRel patientDiagnoseRel;
         ServicesRepo servicesRepo;
+        PatientRepo patientRepo;
+        RequestTypeRepo requestTypeDAO;
         public PrescriptionsController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
         {
             Configuration = configuration;
@@ -32,6 +34,8 @@ namespace Medicloud.Controllers
             patientCardServiceRelRepo = new PatientCardServiceRelRepo(ConnectionString);
             patientDiagnoseRel = new PatientDiagnoseRel(ConnectionString);
             servicesRepo = new ServicesRepo(ConnectionString);
+            patientRepo = new PatientRepo(ConnectionString);
+           requestTypeDAO = new RequestTypeRepo(ConnectionString);
 
         }
         // GET: /<controller>/
@@ -42,6 +46,8 @@ namespace Medicloud.Controllers
 
 
              ViewBag.services =  servicesRepo.GetServicesByOrganization(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")));
+
+                ViewBag.requestTypes = requestTypeDAO.GetRequestType();
 
 
                 var response = patientCardRepo.GetAllPatientsCards(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")),patientID);
@@ -55,11 +61,49 @@ namespace Medicloud.Controllers
             }
         }
 
-    
 
-      
 
-      
+        [HttpPost]
+
+        public IActionResult AddPrescription(int requestTypeID,long patientID,long cardID, int serviceID, string note)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+
+                try
+                {
+
+
+                    var userID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID"));
+                    var organizationID = Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID"));
+
+                    if (cardID==0)
+                    {
+                        cardID = patientCardRepo.CreatePatientCard(requestTypeID, userID, patientID, organizationID, serviceID,note:note);
+                    }
+
+                       
+                        var serviceInserted = patientCardServiceRelRepo.InsertServiceToPatientCard(cardID, serviceID, 0,0, userID);
+                        if (cardID == 0 || serviceInserted == false)
+                        {
+                            return BadRequest("Xəstə kartını daxil etmək mümkün olmadı.");
+                        }
+
+                   
+
+                    return Ok(cardID);
+                }
+                catch (Exception ex)
+                {
+                    // Handle the exception and return an appropriate response
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Sorğunu emal edərkən xəta baş verdi.");
+                }
+            }
+            return Unauthorized();
+        }
+
+
+
 
 
     }

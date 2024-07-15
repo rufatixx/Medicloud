@@ -19,6 +19,8 @@ namespace Medicloud.Controllers
         private ServicePriceGroupRepository servicePriceGroupRepository;
         PatientCardRepo patientCardRepo;
         PatientCardServiceRelRepo patientCardServiceRelRepo;
+        PatientRepo patientRepo;
+
         public ClientsController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
         {
             Configuration = configuration;
@@ -28,6 +30,7 @@ namespace Medicloud.Controllers
             servicePriceGroupRepository = new ServicePriceGroupRepository(ConnectionString);
             patientCardRepo = new PatientCardRepo(ConnectionString);
             patientCardServiceRelRepo = new PatientCardServiceRelRepo(ConnectionString);
+            patientRepo = new PatientRepo(ConnectionString);
         }
 
         // GET: /<controller>/
@@ -43,23 +46,15 @@ namespace Medicloud.Controllers
 
 
         [HttpPost]
-        public IActionResult AddPatient([FromBody] AddPatientDTO newPatient)
+        public IActionResult AddClient([FromBody] PatientDTO newPatient)
         {
       
                 try
                 {
 
-                  
-                    PatientRepo patientRepo = new PatientRepo(ConnectionString);
-
-
                     var newPatientID = patientRepo.InsertPatient(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID")), Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID")), newPatient);
 
-
-
-
-
-                    return Ok();
+                    return Ok(newPatientID);
                 }
                 catch (Exception ex)
                 {
@@ -72,6 +67,25 @@ namespace Medicloud.Controllers
 
 
 
+
+        [HttpPost]
+        public IActionResult UpdateClient([FromBody] PatientDTO patient)
+        {
+
+            try
+            {
+                var newPatientID = patientRepo.UpdatePatient(patient);
+
+                return Ok(newPatientID);
+            }
+            catch (Exception ex)
+            {
+                // Handle the exception and return an appropriate response
+                return StatusCode(StatusCodes.Status500InternalServerError, "Sorğunu emal edərkən xəta baş verdi.");
+            }
+
+
+        }
 
 
 

@@ -229,8 +229,7 @@ namespace Medicloud.BLL.Service
                     // New user registration
                     otpWasSet = _userRepository.InsertUser(
                         otp: sha256(randomCode),
-                        phone: phone,
-                        subscriptionExpireDate: DateTime.Now.AddMonths(1).ToString("yyyy-MM-dd HH:mm:ss")
+                        phone: phone
                     );
                     result.Message = "OTP kod göndərildi.";
                 }
@@ -348,9 +347,12 @@ namespace Medicloud.BLL.Service
             var user = _userRepository.GetUserByPhone(phone);
             try
             {
-                var updated = _userRepository.UpdateUser(user.ID, name, surname, father, specialityID, fin: fin, bDate: bDate, password: sha256(pwd), isActive: 1, isUser: 1, isRegistered: 1);
+                var updated = _userRepository.UpdateUser(user.ID, name, surname, father, specialityID, fin: fin, bDate: bDate, password: sha256(pwd), isActive: 1, subscriptionExpireDate: DateTime.Now.AddMonths(1).ToString("yyyy-MM-dd HH:mm:ss"), isUser: 1, isRegistered: 1);
 
                 var orgID = _organizationService.AddOrganizationToNewUser(user.ID, organizationName);
+                var kassaID = _kassaRepo.CreateKassa($"{organizationName} (Kassa)", orgID);
+                var kasaUserRelID = _kassaRepo.InsertKassaToUser(user.ID, kassaID, false, true);
+             
 
                 if (updated > 0 && orgID > 0)
                 {

@@ -19,7 +19,7 @@ namespace Medicloud.Models.Repository
         {
             ConnectionString = conString;
         }
-        public long InsertPatientCard(AddPatientDTO newPatient, int userID, long organizationID, long lastID)
+        public long InsertPatientCardEnterprise(PatientDTO newPatient, int userID, long organizationID, long lastID)
         {
             long cardID = 0;
             try
@@ -67,6 +67,66 @@ namespace Medicloud.Models.Repository
                 return cardID;
             }
         }
+
+
+        public long CreatePatientCard(int requestTypeID, int userID, long patientID, long organizationID, int? serviceID = 0, int? docID = 0, int? priceGroupID = 0, string note = "", int? referDocID = 0)
+        {
+            long cardID = 0;
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+                {
+                    connection.Open();
+
+                    using (MySqlCommand com = new MySqlCommand(@"INSERT INTO patient_card (requestTypeID, userID, patientID, organizationID, serviceID, docID, priceGroupID, note, referDocID)
+                VALUES (@requestTypeID, @userID, @patientID, @organizationID, @serviceID, @docID, @priceGroupID, @note, @referDocID)", connection))
+                    {
+                        // Mandatory parameters
+                        com.Parameters.AddWithValue("@requestTypeID", requestTypeID);
+                        com.Parameters.AddWithValue("@userID", userID);
+                        com.Parameters.AddWithValue("@patientID", patientID);
+                        com.Parameters.AddWithValue("@organizationID", organizationID);
+
+                        // Optional parameters
+                        if (serviceID.HasValue)
+                            com.Parameters.AddWithValue("@serviceID", serviceID);
+                        else
+                            com.Parameters.AddWithValue("@serviceID", DBNull.Value);
+
+                        if (docID.HasValue)
+                            com.Parameters.AddWithValue("@docID", docID);
+                        else
+                            com.Parameters.AddWithValue("@docID", DBNull.Value);
+
+                        if (priceGroupID.HasValue)
+                            com.Parameters.AddWithValue("@priceGroupID", priceGroupID);
+                        else
+                            com.Parameters.AddWithValue("@priceGroupID", DBNull.Value);
+
+                        com.Parameters.AddWithValue("@note", note ?? (object)DBNull.Value);
+
+                        if (referDocID.HasValue)
+                            com.Parameters.AddWithValue("@referDocID", referDocID);
+                        else
+                            com.Parameters.AddWithValue("@referDocID", DBNull.Value);
+
+                        com.ExecuteNonQuery();
+                        cardID = com.LastInsertedId;
+                    }
+
+                    connection.Close();
+                }
+                return cardID;
+            }
+            catch (Exception ex)
+            {
+                Medicloud.StandardMessages.CallSerilog(ex);
+                Console.WriteLine(ex.Message);
+                return cardID;
+            }
+        }
+
+
         //        public List<PatientKassaDTO> GetDebtorPatients(long organizationID)
 
         //        {

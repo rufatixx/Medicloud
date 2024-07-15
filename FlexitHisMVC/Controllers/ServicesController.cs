@@ -20,6 +20,8 @@ namespace Medicloud.Controllers
         PatientCardRepo patientCardRepo;
         PatientCardServiceRelRepo patientCardServiceRelRepo;
         PatientDiagnoseRel patientDiagnoseRel;
+        ServicesRepo servicesRepo;
+        RequestTypeRepo requestTypeRepo;
         public ServicesController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
         {
             Configuration = configuration;
@@ -30,14 +32,22 @@ namespace Medicloud.Controllers
             patientCardRepo = new PatientCardRepo(ConnectionString);
             patientCardServiceRelRepo = new PatientCardServiceRelRepo(ConnectionString);
             patientDiagnoseRel = new PatientDiagnoseRel(ConnectionString);
+            servicesRepo = new ServicesRepo(ConnectionString);
+            requestTypeRepo = new RequestTypeRepo(ConnectionString);
         }
         // GET: /<controller>/
-        public IActionResult Index(int id)
+        public IActionResult Index(int cardId)
         {
             if (User.Identity.IsAuthenticated)
             {
-             
-                var response = patientCardServiceRelRepo.GetServicesFromPatientCard(id,Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")));
+
+
+                ViewBag.services = servicesRepo.GetServicesByOrganization(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")));
+
+                ViewBag.requestTypes = requestTypeRepo.GetRequestType();
+                ViewBag.cardID = cardId;
+
+                var response = patientCardServiceRelRepo.GetServicesFromPatientCard(cardId,Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")));
               
                 return View(response);
            
@@ -48,11 +58,77 @@ namespace Medicloud.Controllers
             }
         }
 
-    
 
-      
 
-      
+
+
+        [HttpPost]
+
+        public IActionResult AddService(long cardID, int serviceID)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+
+                try
+                {
+
+
+                    var userID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID"));
+                    var organizationID = Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID"));
+                    var serviceInserted = patientCardServiceRelRepo.InsertServiceToPatientCard(cardID, serviceID, 0, 0, userID);
+
+                    if (cardID == 0 || serviceInserted == false)
+                    {
+                        return BadRequest("Xəstə kartını daxil etmək mümkün olmadı.");
+                    }
+
+
+
+                    return Ok(cardID);
+                }
+                catch (Exception ex)
+                {
+                    // Handle the exception and return an appropriate response
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Sorğunu emal edərkən xəta baş verdi.");
+                }
+            }
+            return Unauthorized();
+        }
+
+
+
+        [HttpPost]
+
+        public IActionResult RemoveService(long cardID, int serviceID)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+
+                try
+                {
+
+
+                    var userID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID"));
+                    var organizationID = Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID"));
+                    var serviceInserted = patientCardServiceRelRepo.RemoveServiceFromPatientCard(cardID, serviceID);
+
+                    if (cardID == 0 || serviceInserted == false)
+                    {
+                        return BadRequest("Xəstə xidmətini silmək mümkün olmadı.");
+                    }
+
+
+
+                    return Ok(cardID);
+                }
+                catch (Exception ex)
+                {
+                    // Handle the exception and return an appropriate response
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Sorğunu emal edərkən xəta baş verdi.");
+                }
+            }
+            return Unauthorized();
+        }
 
 
     }

@@ -27,7 +27,7 @@ namespace Medicloud.Repository
 
                     connection.Open();
 
-                    using (MySqlCommand com = new MySqlCommand($@"SELECT a.*, b.name,b.isDr, b.surname, c.name as speciality
+                    using (MySqlCommand com = new MySqlCommand($@"SELECT a.*, b.name,b.isDr,b.specialityID, b.surname, c.name as speciality
 FROM user_organization_rel a
 INNER JOIN users b ON a.userID = b.id
 INNER JOIN speciality c ON b.specialityID = c.id

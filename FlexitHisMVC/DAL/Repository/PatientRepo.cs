@@ -18,7 +18,7 @@ namespace Medicloud.Models.Repository
         }
 
 
-        public long InsertPatient(int userID, long organizationID, AddPatientDTO newPatient)
+        public long InsertPatient(int userID, long organizationID, PatientDTO newPatient)
         {
 
             long lastID = 0;
@@ -78,6 +78,57 @@ WHERE NOT EXISTS (
 
             return lastID;
         }
+
+        public bool UpdatePatient(PatientDTO updatedPatient)
+        {
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+                {
+                    connection.Open();
+
+                    using (MySqlCommand com = new MySqlCommand(@"
+UPDATE patients SET 
+    name = @name, 
+    surname = @surname, 
+    father = @father, 
+    clientPhone = @clientPhone, 
+    bDate = @bDate, 
+    genderID = @genderID, 
+    fin = @fin 
+WHERE id = @patientID;", connection))
+                    {
+                        com.Parameters.AddWithValue("@patientID", updatedPatient.id);
+                        com.Parameters.AddWithValue("@name", updatedPatient.name);
+                        com.Parameters.AddWithValue("@surname", updatedPatient.surname);
+                        com.Parameters.AddWithValue("@father", updatedPatient.father);
+                        com.Parameters.AddWithValue("@clientPhone", updatedPatient.clientPhone);
+                        com.Parameters.AddWithValue("@bDate", updatedPatient.birthDate); // Ensure this date is correctly formatted
+                        com.Parameters.AddWithValue("@genderID", updatedPatient.genderID);
+                        com.Parameters.AddWithValue("@fin", updatedPatient.fin);
+
+                        int rowsAffected = com.ExecuteNonQuery();
+                        if (rowsAffected > 0)
+                        {
+                            Console.WriteLine("Update successful");
+                            return true; // Return true if at least one row was updated
+                        }
+                        else
+                        {
+                            Console.WriteLine("No rows updated");
+                            return false; // No rows updated
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                //Medicloud.StandardMessages.CallSerilog(ex);
+                Console.WriteLine(ex.Message);
+                return false; // Return false if an exception occurred
+            }
+        }
+
 
         public List<Patient> SearchForPatients(string fullNamePattern, long organizationID)
 

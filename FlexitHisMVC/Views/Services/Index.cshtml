@@ -14,9 +14,9 @@
                     <button type="button" class="btn btn-primary w-md bg-blue-light radius-10"><i class="ri-printer-line"></i>Çap et</button>
                 </a>
 
-                <a id="new-patient" href="@Url.Action("Index", "NewPatient", new {Area=""})">
-                    <button type="reset" class="btn btn-primary w-md bg-blue radius-10">+ Yeni müayinə</button>
-                </a>
+                <button type="button" class="btn btn-primary" onclick="showAddServiceModal()">
+                    + Yeni xidmət
+                </button>
             </div>
             <h2 class="page-title">Xidmətlər</h2>
         </div>
@@ -51,7 +51,7 @@
                                         {
                                             rowNumber++;
 
-                                            <tr class="odd">
+                                            <tr class="service-row" data-service='@Html.Raw(Json.Serialize(item))'>
                                                 <th class="text-muted dtr-control" tabindex="0">@rowNumber</th>
                                                 <td>@item.patientName @item.patientSurname</td>
                                                 <td>@item.cDate.ToString("dd.MM.yyyy")</td>
@@ -65,13 +65,13 @@
                                                 </td>
 
                                                 @*<td style="float: right">
-                                    <a href="patient-edit.php?patient_id=61294"><button type="button" class="btn btn-light btn-sm edit-button" data-id="1"><i class="far fa-edit"></i></button></a>
-                                    <a href="javascript:void(0);" class="delete-link" data-patient-id="61294">
-                                        <button type="button" class="btn btn-light btn-sm delete-button">
-                                            <i class="far fa-trash-alt"></i>
-                                        </button>
-                                    </a>
-                                </td>*@
+                                                        <a href="patient-edit.php?patient_id=61294"><button type="button" class="btn btn-light btn-sm edit-button" data-id="1"><i class="far fa-edit"></i></button></a>
+                                                        <a href="javascript:void(0);" class="delete-link" data-patient-id="61294">
+                                                            <button type="button" class="btn btn-light btn-sm delete-button">
+                                                                <i class="far fa-trash-alt"></i>
+                                                            </button>
+                                                        </a>
+                                                    </td>*@
                                             </tr>
 
                                         }
@@ -84,9 +84,187 @@
 
                 </div>
                 <!--<div class="container mt-4" style="margin-right: 0">-->
-                    <!-- Pagination -->
+                <!-- Pagination -->
                 <!--</div>-->
             </div>
         </div>
     </div> <!-- end col -->
 </div>
+
+<div class="modal fade custom-modal" id="serviceModal" tabindex="-1" aria-labelledby="prescriptionModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="serviceFormModalLabel">Xidmət məlumatları</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="serviceForm" class="needs-validation">
+
+
+                    <div class="form-group mb-3" >
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="form-label">Xidmət</label>
+                                <select class="form-control" required id="services" onchange="servicesChanged(this)">
+                                    <option value="">Seçin...</option>
+                                    @foreach (var service in ViewBag.services)
+                                    {
+                                        <option value="@service.ID">@service.name</option>
+
+                                    }
+                                </select>
+                                <div class="valid-feedback">Əla!</div>
+                                <div class="invalid-feedback">
+                                    Seçim edin.
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Qiymət (AZN)</label>
+                                <input type="tel" class="form-control" required id="price" placeholder="Məbləğ" disabled>
+                                <div class="valid-feedback">Əla!</div>
+                                <div class="invalid-feedback">Boşluğu doldurun.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <div class="d-flex justify-content-between">
+                            <button type="button" id="addServiceBtn" class="btn btn-primary" onclick="addService()">Əlavə et</button>
+                            <button type="button" id="removeServiceBtn" class="btn btn-danger" onclick="removeService()">Sil</button>
+                            @*<button type="button" class="btn btn-info" onclick="loadAddServiceIntoPatientCardModal()">Xidmətlər</button>
+                                <button type="button" class="btn btn-primary" onclick="generateRecipe()">Çek əldə et</button>*@
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+
+
+    <script>
+        var selectedCardID;
+        $('.service-row').on('click', function () {
+
+            const service = $(this).data('service');
+            selectedCardID = service.PatientCardID;
+
+            $('#services').val(service.ServiceID);
+         
+            $("#price").val(service.ServicePrice);
+
+            $('#addServiceBtn').hide()
+            $('#removeServiceBtn').show()
+            $("#services").prop('disabled', true);
+          
+
+            $('#serviceModal').modal('show');
+        });
+
+        function showAddServiceModal() {
+
+            $('#services').val("");
+
+            $("#price").val("");
+            $("#services").prop('disabled', false);
+            $('#addServiceBtn').show()
+            $('#removeServiceBtn').hide()
+
+            $('#serviceModal').modal('show');
+        }
+
+    </script>
+
+    <script>
+      
+       function servicesChanged(a) {
+           //alert($(a).val())
+           $("#price").val($(a).val());
+       }
+
+        function addService() {
+
+
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function (form) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            });
+            if (forms[0].checkValidity()) {
+                showLoading()
+                $.ajax({
+                    url: `@Url.Action("AddService", "Services")`,
+                    type: 'POST',
+
+                    data:{
+
+                        cardID: selectedCardID,
+                        serviceID: $('#services').val(),
+                    },
+                    success: function (response) {
+                        console.log('Success:', response);
+                        location.reload();
+
+                        window.addEventListener('beforeunload', hideLoading);
+                        // Handle the response from the server here
+                    },
+                    error: function (xhr, status, error) {
+                        hideLoading();
+                        console.error('Error:', error);
+                        // Handle errors here
+                    }
+                });
+            }
+
+    }
+
+       function removeService() {
+
+
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function (form) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            });
+            if (forms[0].checkValidity()) {
+                showLoading()
+                $.ajax({
+                    url: `@Url.Action("RemoveService", "Services")`,
+                    type: 'POST',
+
+                    data:{
+
+                        cardID: selectedCardID,
+                        serviceID: $('#services').val(),
+                    },
+                    success: function (response) {
+                        console.log('Success:', response);
+                        location.reload();
+
+                        window.addEventListener('beforeunload', hideLoading);
+                        // Handle the response from the server here
+                    },
+                    error: function (xhr, status, error) {
+                        hideLoading();
+                        console.error('Error:', error);
+                        // Handle errors here
+                    }
+                });
+            }
+
+    }
+
+
+    </script>
+}
