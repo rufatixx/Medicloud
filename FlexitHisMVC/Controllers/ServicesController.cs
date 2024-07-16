@@ -134,7 +134,8 @@ namespace Medicloud.Controllers
 		[HttpGet]
 		public IActionResult GetAllServices([FromQuery] string search)
 		{
-			var response = servicesRepo.GetAllServices(search);
+            var organizationID = Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID"));
+            var response = servicesRepo.GetAllServices(organizationID,search);
 			return Ok(response);
 		}
 	}

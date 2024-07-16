@@ -23,7 +23,9 @@ public class AppointmentsController : Controller
     [HttpPost]
     public IActionResult AddAppointment(AddAppointmentDto appointmentDto)
     {
-		if(appointmentDto.Id > 0)
+        appointmentDto.OrganizationID = Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID"));
+
+        if (appointmentDto.Id > 0)
 		{
 			appointmentService.UpdateAppointment(appointmentDto);
 		} else
@@ -36,7 +38,7 @@ public class AppointmentsController : Controller
     [HttpGet]
     public IActionResult Index([FromQuery] int pageNumber=1)
     {
-        var result = appointmentService.GetAllAppointments(null, pageNumber);
+        var result = appointmentService.GetAllAppointments(Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID")), null, pageNumber);
         return View(result);
     }
 

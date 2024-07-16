@@ -21,6 +21,7 @@ namespace Medicloud.BLL.Service
             var appointment = new Appointment()
             {
                 patient_id = appointmentDto.PatientId,
+                organization_id = appointmentDto.OrganizationID,
                 service_id = appointmentDto.ServiceId,
                 end_date = (appointmentDto.MeetingDate.Date + appointmentDto.Time).AddMinutes(10),
                 start_date = appointmentDto.MeetingDate.Date + appointmentDto.Time,
@@ -30,11 +31,11 @@ namespace Medicloud.BLL.Service
             return result;
         }
 
-        public IEnumerable<AppointmentViewModel> GetAllAppointments()
-        {
-            var result = _appointmentRepo.GetAllAppointment();
-            return result;
-        }
+        //public IEnumerable<AppointmentViewModel> GetAllAppointments()
+        //{
+        //    var result = _appointmentRepo.GetAllAppointment();
+        //    return result;
+        //}
 
         public AppointmentViewModel GetAppointmentById(string id)
         {
@@ -53,6 +54,7 @@ namespace Medicloud.BLL.Service
 			var appointment = new Appointment()
 			{
 				id = appointmentDto.Id,
+                organization_id = appointmentDto.OrganizationID,
 				patient_id = appointmentDto.PatientId,
 				service_id = appointmentDto.ServiceId,
 				end_date = (appointmentDto.MeetingDate.Date + appointmentDto.Time).AddMinutes(10),
@@ -62,9 +64,9 @@ namespace Medicloud.BLL.Service
 			return result;
 		}
 
-		public AppointmentPagedResult GetAllAppointments(string searchQuery, int pageNumber)
+		public AppointmentPagedResult GetAllAppointments(long organizationID, string searchQuery, int pageNumber)
 		{
-			var app = _appointmentRepo.GetAllAppointments(searchQuery, pageNumber);
+			var app = _appointmentRepo.GetAllAppointments(organizationID,searchQuery, pageNumber);
 			return app;
 		}
 

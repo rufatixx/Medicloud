@@ -286,17 +286,22 @@ FROM (
             return statisticsDTO;
         }
 
-        public IEnumerable<Patient> GetPatientByName(string keyword)
+        public IEnumerable<Patient> GetPatientByName(long organizationID,string keyword)
         {
             List<Patient> patients = new List<Patient>();
             MySqlConnection con = new(ConnectionString);
             string query = $@"SELECT * FROM patients WHERE
-LOWER(name) like concat('%', LOWER(@search), '%') or
-LOWER(surname) like concat('%', LOWER(@search), '%') or
-LOWER(father) like concat('%', LOWER(@search), '%');";
+(
+    LOWER(name) LIKE CONCAT('%', LOWER(@search), '%') OR
+    LOWER(surname) LIKE CONCAT('%', LOWER(@search), '%') OR
+    LOWER(father) LIKE CONCAT('%', LOWER(@search), '%')
+)
+AND organizationID = @organizationId;";
+
 
             MySqlCommand cmd = new(query, con);
             cmd.Parameters.AddWithValue("@search", keyword);
+            cmd.Parameters.AddWithValue("@organizationId", organizationID);
 
             try
             {

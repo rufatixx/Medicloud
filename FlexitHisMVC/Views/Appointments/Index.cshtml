@@ -406,8 +406,8 @@
                     let listContent = "";
                     data.forEach(x => {
                         const escapedId = document.createElement('div').textContent = x.id;
-                        const escapedName = document.createElement('div').textContent = x.name;
-                        listContent += `<a onclick="selectPatient('${escapedId}', '${escapedName}')">${escapedName}</a>`;
+                
+                        listContent += `<a onclick="selectPatient('${escapedId}', '${x.name}')">${x.name} ${x.surname} ${x.father} (FİN: ${x.fin})</a>`;
                     });
                     dropdownContent.innerHTML = listContent;
                 })

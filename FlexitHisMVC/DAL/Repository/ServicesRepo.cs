@@ -299,19 +299,23 @@ LIMIT 5;
             return list;
         }
 
-        public List<ServiceObj> GetAllServices(string keyword)
+        public List<ServiceObj> GetAllServices(long orgId, string keyword)
         {
             List<ServiceObj> services = new();
             MySqlConnection con = new(ConnectionString);
 
-            string query = @"SELECT * FROM services
-WHERE isActive = 1 AND 
-(LOWER(name) like concat('%', LOWER(@search), '%') or
-LOWER(code) like concat('%', LOWER(@search), '%'))
+            string query = @"
+SELECT * FROM services
+WHERE isActive = 1 
+AND organizationID = @orgId
+AND (LOWER(name) LIKE CONCAT('%', LOWER(@search), '%') OR
+     LOWER(code) LIKE CONCAT('%', LOWER(@search), '%'))
 ";
+
 
             MySqlCommand cmd = new(query, con);
             cmd.Parameters.AddWithValue("@search", keyword);
+            cmd.Parameters.AddWithValue("@orgId", orgId);
 
             try
             {

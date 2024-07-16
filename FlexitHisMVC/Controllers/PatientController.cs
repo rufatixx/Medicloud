@@ -22,7 +22,7 @@ namespace Medicloud.Controllers
         [HttpGet]
         public IActionResult GetPatientByName([FromQuery]string search)
         {
-            var result = _patientService.GetPatientByName(search);
+            var result = _patientService.GetPatientByName(Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID")),search);
             return Ok(result);
         }
 

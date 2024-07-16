@@ -14,9 +14,9 @@ namespace Medicloud.BLL.Service
             _connectionString = conString;
             _patientRepo = new PatientRepo(_connectionString);
         }
-        public IEnumerable<Patient> GetPatientByName(string keyword)
+        public IEnumerable<Patient> GetPatientByName(long organizationID,string keyword)
         {
-            var result = _patientRepo.GetPatientByName(keyword);
+            var result = _patientRepo.GetPatientByName(organizationID,keyword);
             return result;
         }
 
