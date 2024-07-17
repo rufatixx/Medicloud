@@ -1,4 +1,6 @@
-﻿@{
+﻿@model Medicloud.BLL.Models.PaymentViewModel;
+
+@{
     ViewData["Title"] = "- Tarif və xidmətlər";
 
 }
@@ -10,12 +12,12 @@
         <div class="col-12">
             <div class="page-title-box">
                 @*<div class="page-title-right">
-                    <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Hyper</a></li>
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Pages</a></li>
-                        <li class="breadcrumb-item active">Pricing</li>
-                    </ol>
-                </div>*@
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Hyper</a></li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Pages</a></li>
+                            <li class="breadcrumb-item active">Pricing</li>
+                        </ol>
+                    </div>*@
                 <h4 class="page-title">Tarif və xidmətlər</h4>
             </div>
         </div>
@@ -34,6 +36,9 @@
                 </p>
             </div>
 
+
+
+
             <!-- Plans -->
             <div class="row mt-sm-5 mt-3 mb-3">
                 <div class="col-md-4">
@@ -50,7 +55,7 @@
                                 <li>Email Support</li>
                                 <li>24x7 Support</li>
                             </ul>
-                            <button class="btn btn-primary mt-4 mb-2 rounded-pill">Seçin</button>
+                            <button onclick="setPayment(100)" class="btn btn-primary mt-4 mb-2 rounded-pill">Seçin</button>
                         </div>
                     </div> <!-- end Pricing_card -->
                 </div> <!-- end col -->
@@ -70,7 +75,7 @@
                                 <li>Email Support</li>
                                 <li>24x7 Support</li>
                             </ul>
-                            <button class="btn btn-primary mt-4 mb-2 rounded-pill">Seçin</button>
+                            <button onclick="setPayment(200)" class="btn btn-primary mt-4 mb-2 rounded-pill">Seçin</button>
                         </div>
                     </div> <!-- end Pricing_card -->
                 </div> <!-- end col -->
@@ -89,7 +94,7 @@
                                 <li>Email Support</li>
                                 <li>24x7 Support</li>
                             </ul>
-                            <button class="btn btn-primary mt-4 mb-2 rounded-pill">Seçin</button>
+                            <button onclick="setPayment(300)" class="btn btn-primary mt-4 mb-2 rounded-pill">Seçin</button>
                         </div>
                     </div> <!-- end Pricing_card -->
                 </div> <!-- end col -->
@@ -97,8 +102,61 @@
             </div>
             <!-- end row -->
 
+
+
         </div> <!-- end col-->
     </div>
     <!-- end row -->
 
 </div> <!-- container -->
+
+<script src="~/js/crypto-js.min.js"></script>
+<script>
+
+    const service_id = 1394;
+
+
+    function generateHash(inputString, secretKey) {
+        const hash = CryptoJS.HmacSHA256(inputString, secretKey).toString(CryptoJS.enc.Hex);
+        return hash;
+    }
+
+    function createHiddenInput(name, value) {
+        var input = document.createElement("input");
+        input.type = "hidden";
+        input.name = name;
+        input.value = value;
+        return input;
+    }
+
+    function generateGUID() {
+        var hex = function () {
+            return Math.floor(Math.random() * 16).toString(16);
+        };
+
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            var r = Math.random() * 16 | 0,
+                v = c === 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    }
+
+
+    function setPayment(amount) {
+        var form = document.createElement("form");
+        form.method = "post";
+        form.action = "https://psp.mps.az/process";
+        const clientRrn = generateGUID();
+        const secret_key = "Medicloud1234"; 
+        form.appendChild(createHiddenInput("service_id", service_id));
+        form.appendChild(createHiddenInput("client_rrn", clientRrn));
+        form.appendChild(createHiddenInput("amount", amount));
+        form.appendChild(createHiddenInput("client_ip", "188.213.212.170"));
+        form.appendChild(createHiddenInput("hash", generateHash(`${service_id}${clientRrn}${amount}`, secret_key)));
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+    submitPaymentForm();
+</script>

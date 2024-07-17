@@ -15,6 +15,7 @@ builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 // Register dependencies
 builder.Services.AddScoped<SpecialityRepo>(provider => new SpecialityRepo(builder.Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value));
 builder.Services.AddScoped<SpecialityService>();
+builder.Services.AddScoped(provider => new HttpClient());
 //builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 //.AddCookie(options =>
 //{
