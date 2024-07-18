@@ -315,7 +315,6 @@ WHERE a.id = @id AND a.isActive = 1;
             return null;
         }
 
-
         public long InsertUser(string name = "", string surname = "",
             string father = "", int specialityID = 0, string passportSerialNum = "",
             string fin = "", string phone = "", string email = "",
@@ -641,7 +640,6 @@ WHERE a.id = @id AND a.isActive = 1;
             }
             return updated;
         }
-
     }
 }
 

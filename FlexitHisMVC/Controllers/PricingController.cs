@@ -32,12 +32,11 @@ namespace Medicloud.Controllers
             patientCardRepo = new PatientCardRepo(ConnectionString);
             patientCardServiceRelRepo = new PatientCardServiceRelRepo(ConnectionString);
         }
-        // GET: /<controller>/
+
         public IActionResult Index()
         {
             return View();
         }
-
 
 		[HttpGet]
 		public IActionResult SuccessPayment()
@@ -50,7 +49,12 @@ namespace Medicloud.Controllers
 		{
 			return View();
 		}
-    }
-   
+
+		[HttpGet]
+		public IActionResult PendingPayment()
+		{
+			return View();
+		}
+	}
 }
 

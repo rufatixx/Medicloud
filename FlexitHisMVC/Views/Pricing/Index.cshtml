@@ -1,6 +1,4 @@
-﻿@model Medicloud.BLL.Models.PaymentViewModel;
-
-@{
+﻿@{
     ViewData["Title"] = "- Tarif və xidmətlər";
 
 }
@@ -44,18 +42,17 @@
                 <div class="col-md-4">
                     <div class="card card-pricing">
                         <div class="card-body text-center">
-                            <p class="card-pricing-plan-name fw-bold text-uppercase">Fərdi</p>
-                            <i class="card-pricing-icon ri-user-line text-primary"></i>
-                            <h2 class="card-pricing-price">$19 <span>/ Ay</span></h2>
+                            <p class="card-pricing-plan-name fw-bold text-uppercase">Bu ay</p>
+                            <h2 class="card-pricing-price">39₼ <span>/ </span></h2>
                             <ul class="card-pricing-features">
-                                <li>10 GB Storage</li>
-                                <li>500 GB Bandwidth</li>
-                                <li>No Domain</li>
-                                <li>1 User</li>
-                                <li>Email Support</li>
-                                <li>24x7 Support</li>
+                                <li>Pasient qeydiyyatı</li>
+                                <li>Randevu təyin etmək</li>
+                                <li>Pasientin müayinə tarixçəsi</li>
+                                <li>Ətraflı statistika</li>
+                                <li>SMS bildirişlər</li>
+                                <li>Xüsusi həkim təqvimi</li>
                             </ul>
-                            <button onclick="setPayment(100)" class="btn btn-primary mt-4 mb-2 rounded-pill">Seçin</button>
+                            <button onclick="setPayment(39)" class="btn btn-primary mt-4 mb-2 rounded-pill">Seçin</button>
                         </div>
                     </div> <!-- end Pricing_card -->
                 </div> <!-- end col -->
@@ -64,18 +61,17 @@
                     <div class="card card-pricing card-pricing-recommended">
                         <div class="card-body text-center">
                             <div class="card-pricing-plan-tag">Tövsiyə olunan</div>
-                            <p class="card-pricing-plan-name fw-bold text-uppercase">Biznes</p>
-                            <i class="card-pricing-icon ri-briefcase-line text-primary"></i>
-                            <h2 class="card-pricing-price">$29 <span>/ Ay</span></h2>
+                            <p class="card-pricing-plan-name fw-bold text-uppercase">6 aylıq</p>
+                            <h2 class="card-pricing-price">190₼ <span>/ </span></h2>
                             <ul class="card-pricing-features">
-                                <li>50 GB Storage</li>
-                                <li>900 GB Bandwidth</li>
-                                <li>2 Domain</li>
-                                <li>10 User</li>
-                                <li>Email Support</li>
-                                <li>24x7 Support</li>
+                                <li>Pasient qeydiyyatı</li>
+                                <li>Randevu təyin etmək</li>
+                                <li>Pasientin müayinə tarixçəsi</li>
+                                <li>Ətraflı statistika</li>
+                                <li>SMS bildirişlər</li>
+                                <li>Xüsusi həkim təqvimi</li>
                             </ul>
-                            <button onclick="setPayment(200)" class="btn btn-primary mt-4 mb-2 rounded-pill">Seçin</button>
+                            <button onclick="setPayment(190)" class="btn btn-primary mt-4 mb-2 rounded-pill">Seçin</button>
                         </div>
                     </div> <!-- end Pricing_card -->
                 </div> <!-- end col -->
@@ -83,18 +79,17 @@
                 <div class="col-md-4">
                     <div class="card card-pricing">
                         <div class="card-body text-center">
-                            <p class="card-pricing-plan-name fw-bold text-uppercase">Müəssisə</p>
-                            <i class="card-pricing-icon ri-store-2-line text-primary"></i>
-                            <h2 class="card-pricing-price">$39 <span>/ Ay</span></h2>
+                            <p class="card-pricing-plan-name fw-bold text-uppercase">İllik</p>
+                            <h2 class="card-pricing-price">360₼ <span>/ </span></h2>
                             <ul class="card-pricing-features">
-                                <li>100 GB Storege</li>
-                                <li>Unlimited Bandwidth</li>
-                                <li>10 Domain</li>
-                                <li>Unlimited User</li>
-                                <li>Email Support</li>
-                                <li>24x7 Support</li>
+                                <li>Pasient qeydiyyatı</li>
+                                <li>Randevu təyin etmək</li>
+                                <li>Pasientin müayinə tarixçəsi</li>
+                                <li>Ətraflı statistika</li>
+                                <li>SMS bildirişlər</li>
+                                <li>Xüsusi həkim təqvimi</li>
                             </ul>
-                            <button onclick="setPayment(300)" class="btn btn-primary mt-4 mb-2 rounded-pill">Seçin</button>
+                            <button onclick="setPayment(360)" class="btn btn-primary mt-4 mb-2 rounded-pill">Seçin</button>
                         </div>
                     </div> <!-- end Pricing_card -->
                 </div> <!-- end col -->
@@ -111,16 +106,8 @@
 </div> <!-- container -->
 
 <script src="~/js/crypto-js.min.js"></script>
+
 <script>
-
-    const service_id = 1394;
-
-
-    function generateHash(inputString, secretKey) {
-        const hash = CryptoJS.HmacSHA256(inputString, secretKey).toString(CryptoJS.enc.Hex);
-        return hash;
-    }
-
     function createHiddenInput(name, value) {
         var input = document.createElement("input");
         input.type = "hidden";
@@ -129,33 +116,24 @@
         return input;
     }
 
-    function generateGUID() {
-        var hex = function () {
-            return Math.floor(Math.random() * 16).toString(16);
-        };
-
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-            var r = Math.random() * 16 | 0,
-                v = c === 'x' ? r : (r & 0x3 | 0x8);
-            return v.toString(16);
-        });
-    }
-
-
     function setPayment(amount) {
-        var form = document.createElement("form");
-        form.method = "post";
-        form.action = "https://psp.mps.az/process";
-        const clientRrn = generateGUID();
-        const secret_key = "Medicloud1234"; 
-        form.appendChild(createHiddenInput("service_id", service_id));
-        form.appendChild(createHiddenInput("client_rrn", clientRrn));
-        form.appendChild(createHiddenInput("amount", amount));
-        form.appendChild(createHiddenInput("client_ip", "188.213.212.170"));
-        form.appendChild(createHiddenInput("hash", generateHash(`${service_id}${clientRrn}${amount}`, secret_key)));
 
-        document.body.appendChild(form);
-        form.submit();
+        fetch(`/payment/process?amount=${amount}`, {
+            method: 'POST',
+        })
+            .then(response => response.text())
+            .then(url => {
+                var form = document.createElement('form');
+                form.setAttribute('method', 'post');
+                form.setAttribute('action', url);
+                form.setAttribute('action', url);
+                document.body.appendChild(form);
+
+                form.submit();
+            })
+            .catch(error => {
+                console.error('Error fetching URL:', error);
+            });
     }
 
     submitPaymentForm();

@@ -1,11 +1,10 @@
-﻿using Medicloud.BLL.Helpers;
-using Medicloud.BLL.Models;
+﻿using Medicloud.BLL.Models;
 using Medicloud.DAL.Entities;
 using MySql.Data.MySqlClient;
 
 namespace Medicloud.DAL.Repository
 {
-	public class AppointmentRepo
+    public class AppointmentRepo
 	{
 		private readonly string ConnectionString;
 
