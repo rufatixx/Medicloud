@@ -519,6 +519,26 @@ WHERE a.id = @id AND a.isActive = 1;
             return updated;
         }
 
+        public int UpdateUserExpireDate(int userId, DateTime expireDate)
+        {
+            using MySqlConnection connection = new MySqlConnection(_connectionString);
+            connection.Open();
+            int res = 0;
+
+            var query = $@"UPDATE users SET subscription_expire_date = @expireDate WHERE id=@id";
+
+            using (var com = new MySqlCommand(query, connection))
+            {
+                com.Parameters.AddWithValue("@expireDate", expireDate);
+                com.Parameters.AddWithValue("@id", userId);
+
+                res = com.ExecuteNonQuery();
+            }
+                
+            connection.Close();
+            return res;
+        }
+        
         public string GetOtpData(string phone)
         {
             string otpHash = string.Empty;

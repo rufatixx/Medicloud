@@ -105,28 +105,25 @@
 
 </div> <!-- container -->
 
-<script src="~/js/crypto-js.min.js"></script>
-
 <script>
     function createHiddenInput(name, value) {
-        var input = document.createElement("input");
+        const input = document.createElement("input");
         input.type = "hidden";
         input.name = name;
         input.value = value;
         return input;
     }
 
-    function setPayment(amount) {
-
-        fetch(`/payment/process?amount=${amount}`, {
+    function setPayment(amount, month) {
+        fetch(`/payment/process?amount=${amount}&month=${month}`, {
             method: 'POST',
         })
             .then(response => response.text())
             .then(url => {
-                var form = document.createElement('form');
+                const form = document.createElement('form');
                 form.setAttribute('method', 'post');
                 form.setAttribute('action', url);
-                form.setAttribute('action', url);
+                console.log(url);
                 document.body.appendChild(form);
 
                 form.submit();

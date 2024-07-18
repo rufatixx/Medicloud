@@ -14,6 +14,7 @@ namespace Medicloud.Controllers
 		public IConfiguration Configuration;
 
 		private readonly PaymentRepo paymentRepo;
+		private readonly UserRepo userRepo;
 
 		private readonly int _serviceId;
 		private readonly string _clientRrn;
@@ -31,6 +32,7 @@ namespace Medicloud.Controllers
 			_clientIp = "188.213.212.170";
 			_secretKey = "Medicloud1234";
 			paymentRepo = new PaymentRepo(ConnectionString);
+			userRepo = new UserRepo(ConnectionString);
 		}
 
 		[HttpPost]
@@ -66,7 +68,10 @@ namespace Medicloud.Controllers
 
 				paymentRepo.AddTransaction(pvm);
 
-				if (pvm.status == 0) {
+				if (pvm.status == 0)
+				{
+					var user = userRepo.GetUserByID(pvm.user_id);
+					userRepo.UpdateUserExpireDate(pvm.user_id, user.subscription_expire_date.Value.AddMonths(1));
 					return RedirectToAction("SuccessPayment", "Pricing");
 				} else if (pvm.status == 1) {
 					return RedirectToAction("Pending", "Pricing");
