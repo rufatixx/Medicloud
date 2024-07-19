@@ -1,4 +1,5 @@
 ﻿using Medicloud.BLL.Models;
+using Medicloud.Models;
 using MySql.Data.MySqlClient;
 
 namespace Medicloud.DAL.Repository;
@@ -21,12 +22,13 @@ public class PaymentRepo
 			
 		try
 		{
-			using (MySqlCommand cmd = new("INSERT INTO transactions (client_rrn, psp_rrn, client_ip_addr) VALUES (@client_rrn, @psp_rrn, @client_ip_addr);  SELECT LAST_INSERT_ID();", con, transaction))
+			using (MySqlCommand cmd = new("INSERT INTO transactions (client_rrn, psp_rrn, client_ip_addr, month) VALUES (@client_rrn, @psp_rrn, @client_ip_addr, @month);  SELECT LAST_INSERT_ID();", con, transaction))
 			{
 
 				cmd.Parameters.AddWithValue("@client_rrn", pvm.client_rrn);
 				cmd.Parameters.AddWithValue("@psp_rrn", pvm.psp_rrn);
 				cmd.Parameters.AddWithValue("@client_ip_addr", pvm.client_ip_addr);
+				cmd.Parameters.AddWithValue("@month", pvm.month);
 
 				pvm.transaction_id = Convert.ToInt32(cmd.ExecuteScalar());
 			}
@@ -41,6 +43,15 @@ public class PaymentRepo
 				cmd2.ExecuteScalar();
 			}
 
+			if (pvm.status == 0)
+			{
+				using (MySqlCommand cmd3 = new("UPDATE users SET subscription_expire_date = @expireDate WHERE id=@id", con, transaction))
+				{
+					cmd3.Parameters.AddWithValue("@expireDate", pvm.expireDate);
+					cmd3.Parameters.AddWithValue("@id", pvm.user_id);
+				}
+			}
+			
 			transaction.Commit();
 
 		}

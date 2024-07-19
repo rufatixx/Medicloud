@@ -39,7 +39,8 @@ namespace Medicloud.Controllers
 		public async Task<IActionResult> CallBack(
 			[FromQuery] string client_rrn,
 			[FromQuery] string psp_rrn,
-			[FromQuery] string client_ip_addr)
+			[FromQuery] string client_ip_addr,
+			[FromQuery] int month)
 		{
 			PaymentViewModel pvm = new()
 			{
@@ -48,7 +49,8 @@ namespace Medicloud.Controllers
 				psp_rrn = psp_rrn,
 				user_id = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID")),
 				status = -1,
-				payment_reason_id = 1
+				payment_reason_id = 1,
+				month = month
 			};
 			try
 			{
@@ -66,12 +68,22 @@ namespace Medicloud.Controllers
 					}
 				}
 
-				paymentRepo.AddTransaction(pvm);
-
-				if (pvm.status == 0)
+				if(pvm.status == 0)
 				{
 					var user = userRepo.GetUserByID(pvm.user_id);
-					userRepo.UpdateUserExpireDate(pvm.user_id, user.subscription_expire_date.Value.AddMonths(1));
+					if (user.subscription_expire_date.HasValue && user.subscription_expire_date.Value >= DateTime.Now)
+					{
+						pvm.expireDate = user.subscription_expire_date.Value.AddMonths(month);
+					}
+					else
+					{
+						pvm.expireDate = DateTime.Now.AddMonths(month);
+					}
+				}
+
+				paymentRepo.AddTransaction(pvm);
+
+				if (pvm.status == 0) {
 					return RedirectToAction("SuccessPayment", "Pricing");
 				} else if (pvm.status == 1) {
 					return RedirectToAction("Pending", "Pricing");
@@ -90,10 +102,10 @@ namespace Medicloud.Controllers
 
 
 		[HttpPost]
-		public async Task<IActionResult> Process([FromQuery] int amount)
+		public async Task<IActionResult> Process([FromQuery] int amount, int month)
 		{
 			_hash = HMACUtils.ComputeHMACSHA256($"{_serviceId}{_clientRrn}{amount}", _secretKey);
-			string url = $"https://psp.mps.az/process?service_id={_serviceId}&client_rrn={_clientRrn}&amount={amount}&client_ip={_clientIp}&hash={_hash}";
+			string url = $"https://psp.mps.az/process?service_id={_serviceId}&client_rrn={_clientRrn}&amount={amount}&client_ip={_clientIp}&hash={_hash}&month={month}";
 
 			return Ok(url);
 		}

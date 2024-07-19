@@ -52,7 +52,7 @@
                                 <li>SMS bildirişlər</li>
                                 <li>Xüsusi həkim təqvimi</li>
                             </ul>
-                            <button onclick="setPayment(39)" class="btn btn-primary mt-4 mb-2 rounded-pill">Seçin</button>
+                            <button onclick="setPayment(39,1)" class="btn btn-primary mt-4 mb-2 rounded-pill">Seçin</button>
                         </div>
                     </div> <!-- end Pricing_card -->
                 </div> <!-- end col -->
@@ -71,7 +71,7 @@
                                 <li>SMS bildirişlər</li>
                                 <li>Xüsusi həkim təqvimi</li>
                             </ul>
-                            <button onclick="setPayment(190)" class="btn btn-primary mt-4 mb-2 rounded-pill">Seçin</button>
+                            <button onclick="setPayment(190,6)" class="btn btn-primary mt-4 mb-2 rounded-pill">Seçin</button>
                         </div>
                     </div> <!-- end Pricing_card -->
                 </div> <!-- end col -->
@@ -89,7 +89,7 @@
                                 <li>SMS bildirişlər</li>
                                 <li>Xüsusi həkim təqvimi</li>
                             </ul>
-                            <button onclick="setPayment(360)" class="btn btn-primary mt-4 mb-2 rounded-pill">Seçin</button>
+                            <button onclick="setPayment(360,12)" class="btn btn-primary mt-4 mb-2 rounded-pill">Seçin</button>
                         </div>
                     </div> <!-- end Pricing_card -->
                 </div> <!-- end col -->
@@ -123,7 +123,6 @@
                 const form = document.createElement('form');
                 form.setAttribute('method', 'post');
                 form.setAttribute('action', url);
-                console.log(url);
                 document.body.appendChild(form);
 
                 form.submit();
