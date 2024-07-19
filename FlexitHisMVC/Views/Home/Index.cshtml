@@ -1,9 +1,25 @@
 ﻿@using Medicloud.Models.ViewModels
+@using Microsoft.AspNetCore.Http
 @model HomePageViewModel;
 
 
 <div class="row">
-     @Html.Partial("_SubscriptionAlert")
+    @{
+        var planExpiryDateString = ViewContext.HttpContext.Session.GetString("Medicloud_UserPlanExpireDate");
+        var showAlert = false;
+
+        if (string.IsNullOrEmpty(planExpiryDateString) || !DateTime.TryParse(planExpiryDateString, out var planExpiryDate) || DateTime.Now > planExpiryDate)
+        {
+            showAlert = true;
+        }
+    }
+
+    @if (showAlert)
+    {
+        @Html.Partial("_SubscriptionAlert")
+    }
+
+
 
     <div class="col-12">
         <div class="page-title-box">
@@ -341,8 +357,15 @@
         });
     </script>
 
+    @{
+        var seriesData = Model.top5sellingServiceStatistics
+            .Select(s => s.amount.ToString(CultureInfo.InvariantCulture))
+            .ToArray();
+    }
 
     <script>
+
+
         document.addEventListener("DOMContentLoaded", function() {
             function getColorByIndex(index) {
                 var colors = ['#727cf5', '#0acf97', '#fa5c7c', '#ffbc00', '#f76397'];
@@ -350,8 +373,13 @@
             }
 
             var categories = @Html.Raw(Json.Serialize(Model.top5sellingServiceStatistics.Select(s => s.name).ToArray()));
-            var seriesData = @Html.Raw(Json.Serialize(Model.top5sellingServiceStatistics.Select(s => s.amount).ToArray()));
-seriesData = seriesData.map(Number);
+             var seriesData = @Html.Raw(Json.Serialize(seriesData));
+
+            // Convert strings to numbers in JavaScript
+            seriesData = seriesData.map(function (item) {
+                return parseFloat(item.replace(',', '.'));
+            });
+
             var colors = seriesData.map((_, index) => getColorByIndex(index));
 
             var options = {

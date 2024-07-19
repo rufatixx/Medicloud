@@ -208,25 +208,25 @@
                 <li class="side-nav-item">
                     <a href="@Url.Action("Index", "Clients", new { area = "" })" class="side-nav-link">
                         <i class="ri-heart-line"></i>
-                        <span> Pasientlər </span>
+                        <span>Pasientlər / Müştərilər </span>
                     </a>
                 </li>
                 <li class="side-nav-item">
                     <a href="@Url.Action("Index", "Prescriptions", new { area = "" })" class="side-nav-link">
                         <i class="ri-clipboard-line"></i>
-                        <span> Müayinələr </span>
+                        <span> Anketlər </span>
                     </a>
                 </li>
                 <li class="side-nav-item">
                     <a href="@Url.Action("Index", "Services", new { area = "" })" class="side-nav-link">
                         <i class="uil uil-medical"></i>
-                        <span> Göstərilmiş Xidmətlər </span>
+                        <span> Göstərilmiş xidmətlər </span>
                     </a>
                 </li>
                 <li class="side-nav-item">
                     <a href="@Url.Action("Index", "Appointments", new { area = "" })" class="side-nav-link">
                         <i class="ri-time-line"></i>
-                        <span> Randevular </span>
+                        <span> eNövbə </span>
                     </a>
                 </li>
 
@@ -619,24 +619,34 @@
         </li>*@
 
 
+            @{
+                var registrationDate = Model.cDate; // User's registration date
+                var currentDate = DateTime.Now;
+                var showHelpBox = false;
 
-
-            <!-- Help Box -->
-            <div class="help-box text-white text-center">
-                @*<a href="javascript: void(0);" class="float-end close-btn text-white">
-                <i class="mdi mdi-close"></i>
-            </a>*@
-                <img src="/assets/images/svg/help-icon.svg" height="90" alt="Helper Icon Image" />
-                <h5 class="mt-3">XƏBƏRDARLIQ</h5>
-                @{
-                    var expireDateText = Model.subscription_expire_date?.ToString("yyyy-MM-dd") ?? "(tarixi mövcud deyil)";
+                if (registrationDate.HasValue)
+                {
+                    var firstMonthEndDate = registrationDate.Value.AddMonths(1);
+                    showHelpBox = currentDate <= firstMonthEndDate;
                 }
-                <p class="mb-3">
-                    Hörmətli @Model.name @Model.surname, sizin 30 gün Medicloud sistemindən pulsuz istifadə etmək haqqınız var. Yoxlama müddəti @expireDateText tarixində bitəcək.
-                </p>
+            }
 
-                @*<a href="javascript: void(0);" class="btn btn-secondary btn-sm">Upgrade</a>*@<!--<a href="javascript: void(0);" class="btn btn-secondary btn-sm"></a><a href="javascript: void(0);" class="btn btn-secondary btn-sm"></a>-->
-            </div>
+            @if (showHelpBox)
+            {
+                <!-- Help Box -->
+                <div class="help-box text-white text-center position-relative" style="background-color: #17a2b8; padding: 20px; border-radius: 5px;">
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-2" aria-label="Close" onclick="this.parentElement.style.display='none';"></button>
+                    <img src="/assets/images/svg/help-icon.svg" height="90" alt="Helper Icon Image" />
+                    <h5 class="mt-3">XƏBƏRDARLIQ</h5>
+                    @{
+                        var expireDateText = Model.subscription_expire_date?.ToString("yyyy-MM-dd") ?? "(tarixi mövcud deyil)";
+                    }
+                    <p class="mb-3">
+                        Hörmətli @Model.name @Model.surname, sizin 30 gün Medicloud sistemindən pulsuz istifadə etmək haqqınız var. Yoxlama müddəti @expireDateText tarixində bitəcək.
+                    </p>
+                </div>
+            }
+
             <!-- end Help Box -->
 
 

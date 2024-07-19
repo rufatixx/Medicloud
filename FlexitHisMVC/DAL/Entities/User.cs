@@ -20,6 +20,7 @@ namespace Medicloud.Models
         public DateTime? recovery_otp_send_date { get; set; }
         public DateTime? otpSentDate { get; set; }
         public DateTime? subscription_expire_date { get; set; }
+        public DateTime? cDate { get; set; }
         public bool isActive { get; set; }
         public bool isUser { get; set; }
         public bool isDr { get; set; }

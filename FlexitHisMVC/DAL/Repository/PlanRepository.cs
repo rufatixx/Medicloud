@@ -58,7 +58,7 @@ public class PlanRepository
 
 		try
 		{
-			using (MySqlCommand cmd = new("SELECT * FROM user_plans WHERE user_id=@userId", con))
+			using (MySqlCommand cmd = new("SELECT * FROM user_plans WHERE user_id=@userId and isActive=1", con))
 			{
 				cmd.Parameters.AddWithValue("@userId", userId);
 				var reader = cmd.ExecuteReader();
@@ -70,7 +70,7 @@ public class PlanRepository
 						plan_id = Convert.ToInt32(reader["plan_id"]),
 						user_id = Convert.ToInt32(reader["user_id"]),
 						cDate = reader["cDate"] == DBNull.Value ? default(DateTime) : Convert.ToDateTime(reader["cDate"]),
-						expire_date = reader["expire_date"] == DBNull.Value ? default(DateTime) : Convert.ToDateTime(reader["expire_date"])
+						expire_date = reader["expire_date"] == DBNull.Value ? null : Convert.ToDateTime(reader["expire_date"])
 					};
 				}
 				con.Close();

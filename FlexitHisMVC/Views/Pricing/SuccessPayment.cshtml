@@ -1,52 +1,52 @@
-﻿<head>
-    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,700,900&display=swap" rel="stylesheet">
-</head>
+﻿
+@{
 
+    ViewData["Title"] = "Uğurlu ödəniş";
+}
 
-<style>
-    .content {
-        text-align: center;
-        padding: 40px 0;
-    }
+<div class="container ">
+    <div class="row justify-content-center align-items-center min-vh-100">
+        <div class="col-xxl-4 col-lg-5">
+            <div class="card">
 
-        .content h1 {
-            color: #88B04B;
-            font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
-            font-weight: 900;
-            font-size: 40px;
-            margin-bottom: 10px;
-        }
+                <!-- Logo -->
+                @*<div class="card-header pb-0 text-center ">
+                    <a href="/">
+                        <img src="/assets/images/mc_logo_inline.svg" alt="logo">
+                    </a>
+                </div>*@
 
-        .content p {
-            color: #404F5E;
-            font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
-            font-size: 20px;
-            margin: 0;
-        }
+                <div class="card-body p-4">
 
-        .content i {
-            color: #9ABC66;
-            font-size: 100px;
-            line-height: 200px;
-            margin-left: -15px;
-        }
+                    <div class="text-center w-75 m-auto">
+                        <h4 class="text-dark-50 text-center mt-0 fw-bold">Uğurlu əməliyyat</h4>
+                        <p class="text-muted mb-4">Ödənişiniz uğurla başa çatdı</p>
+                    </div>
 
-        .content .card {
-            background: white;
-            padding: 60px;
-            border-radius: 4px;
-            box-shadow: 0 2px 3px #C8D0D8;
-            display: inline-block;
-            margin: 0 auto;
-        }
-</style>
+                    <div class="logout-icon m-auto mb-3">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                             viewBox="0 0 161.2 161.2" enable-background="new 0 0 161.2 161.2" xml:space="preserve">
+                        <path class="path" fill="none" stroke="#0acf97" stroke-miterlimit="10" d="M425.9,52.1L425.9,52.1c-2.2-2.6-6-2.6-8.3-0.1l-42.7,46.2l-14.3-16.4
+                                            c-2.3-2.7-6.2-2.7-8.6-0.1c-1.9,2.1-2,5.6-0.1,7.7l17.6,20.3c0.2,0.3,0.4,0.6,0.6,0.9c1.8,2,4.4,2.5,6.6,1.4c0.7-0.3,1.4-0.8,2-1.5
+                                            c0.3-0.3,0.5-0.6,0.7-0.9l46.3-50.1C427.7,57.5,427.7,54.2,425.9,52.1z" />
+                        <circle class="path" fill="none" stroke="#0acf97" stroke-width="4" stroke-miterlimit="10" cx="80.6" cy="80.6" r="62.1" />
+                        <polyline class="path" fill="none" stroke="#0acf97" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" points="113,52.8
+                                            74.1,108.4 48.2,86.4 " />
 
-<div class="content">
-    <div class="card">
-        <div style="border-radius:200px; height:200px; width:200px; background: #F8FAF5; margin:0 auto;">
-            <i>✓</i>
-        </div>
-        <h1>Sifarişiniz uğurlu oldu</h1>
-        <p>Təşəkkür edirik.</p>
+                        <circle class="spin" fill="none" stroke="#0acf97" stroke-width="4" stroke-miterlimit="10" stroke-dasharray="12.2175,12.2175" cx="80.6" cy="80.6" r="73.9" />
+                                    </svg>
+                    </div> <!-- end logout-icon-->
+
+                    <div class="mb-3 mb-0 text-center ">
+                        <a href="@Url.Action("Index","Home")" class="btn btn-primary w-100"><b>Əsas səhifə</b></a>
+                    </div>
+
+                </div> <!-- end card-body-->
+            </div>
+            <!-- end card -->
+            <!-- end row -->
+
+        </div> <!-- end col -->
     </div>
+    <!-- end row -->
 </div>

@@ -151,49 +151,71 @@ namespace Medicloud.DAL.Repository
 
         public User GetUser(string mobileNumber, string pass)
         {
-            User personal = new User();
-
-            using (MySqlConnection connection = new MySqlConnection(_connectionString))
+            User user = new User();
+            try
             {
-
-                connection.Open();
-                using (MySqlCommand com = new MySqlCommand("select * from users where pwd=SHA2(@pass,256) and mobile = @mobileNumber and isActive=1 and isUser=1 and isRegistered=1", connection))
+                using (MySqlConnection connection = new MySqlConnection(_connectionString))
                 {
 
-                    com.Parameters.AddWithValue("@pass", pass);
-                    com.Parameters.AddWithValue("@mobileNumber", mobileNumber);
-                    using (MySqlDataReader reader = com.ExecuteReader())
+                    connection.Open();
+                    using (MySqlCommand com = new MySqlCommand(@"SELECT 
+    u.*, 
+    up.expire_date as subscription_expire_date
+FROM 
+    users u
+left JOIN 
+    user_plans up ON u.id = up.user_id AND up.isActive = 1
+WHERE 
+    u.pwd = SHA2(@pass, 256) 
+    AND u.mobile = @mobileNumber 
+    AND u.isActive = 1 
+    AND u.isUser = 1 
+    AND u.isRegistered = 1;
+", connection))
                     {
-                        if (reader.HasRows)
+
+                        com.Parameters.AddWithValue("@pass", pass);
+                        com.Parameters.AddWithValue("@mobileNumber", mobileNumber);
+                        using (MySqlDataReader reader = com.ExecuteReader())
                         {
-
-
-                            while (reader.Read())
+                            if (reader.HasRows)
                             {
-                                personal.ID = Convert.ToInt32(reader["id"]);
-                                personal.isActive = Convert.ToBoolean(reader["isActive"]);
 
-                                personal.name = reader["name"].ToString();
-                                personal.surname = reader["surname"].ToString();
-                                personal.isAdmin = reader["isAdmin"] == DBNull.Value ? false : Convert.ToBoolean(reader["isAdmin"]);
-                                personal.isUser = reader["isUser"] == DBNull.Value ? false : Convert.ToBoolean(reader["isUser"]);
-                                personal.isDr = reader["isDr"] == DBNull.Value ? false : Convert.ToBoolean(reader["isDr"]);
+
+                                while (reader.Read())
+                                {
+                                    user.ID = Convert.ToInt32(reader["id"]);
+                                    user.isActive = Convert.ToBoolean(reader["isActive"]);
+
+                                    user.name = reader["name"].ToString();
+                                    user.surname = reader["surname"].ToString();
+                                    user.isAdmin = reader["isAdmin"] == DBNull.Value ? false : Convert.ToBoolean(reader["isAdmin"]);
+                                    user.isUser = reader["isUser"] == DBNull.Value ? false : Convert.ToBoolean(reader["isUser"]);
+                                    user.isDr = reader["isDr"] == DBNull.Value ? false : Convert.ToBoolean(reader["isDr"]);
+                                    user.subscription_expire_date = reader["subscription_expire_date"] == DBNull.Value ? null : Convert.ToDateTime(reader["subscription_expire_date"]);
+                                }
+
+                                connection.Close();
+
+
+
+
+
                             }
-
-                            connection.Close();
-
-
-
-
 
                         }
 
                     }
-
+                    connection.Close();
                 }
-                connection.Close();
             }
-            return personal;
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex.Message);
+            }
+          
+            return user;
         }
 
         public User GetUserByID(int id)
@@ -204,10 +226,20 @@ namespace Medicloud.DAL.Repository
             {
 
                 connection.Open();
-                using (MySqlCommand com = new MySqlCommand(@"SELECT a.*, s.name AS speciality
-FROM users a
-JOIN speciality s ON a.specialityID = s.id
-WHERE a.id = @id AND a.isActive = 1;
+                using (MySqlCommand com = new MySqlCommand(@"SELECT 
+    a.*, 
+    s.name AS speciality, 
+    p.expire_date as plan_expire_date
+FROM 
+    users a
+JOIN 
+    speciality s ON a.specialityID = s.id
+LEFT JOIN 
+    user_plans p ON a.id = p.user_id
+WHERE 
+    a.id = @id
+    AND a.isActive = 1;
+
 ", connection))
                 {
 
@@ -242,7 +274,8 @@ WHERE a.id = @id AND a.isActive = 1;
                                 user.isAdmin = reader["isAdmin"] == DBNull.Value ? false : Convert.ToBoolean(reader["isAdmin"]);
                                 user.isUser = reader["isUser"] == DBNull.Value ? false : Convert.ToBoolean(reader["isUser"]);
                                 user.isDr = reader["isDr"] == DBNull.Value ? false : Convert.ToBoolean(reader["isDr"]);
-                                user.subscription_expire_date = reader["subscription_expire_date"] == DBNull.Value ? null : Convert.ToDateTime(reader["subscription_expire_date"]);
+                                user.subscription_expire_date = reader["plan_expire_date"] == DBNull.Value ? null : Convert.ToDateTime(reader["plan_expire_date"]);
+                                user.cDate = reader["cDate"] == DBNull.Value ? null : Convert.ToDateTime(reader["cDate"]);
 
 
 

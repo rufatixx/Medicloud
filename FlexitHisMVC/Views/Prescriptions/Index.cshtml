@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "- Müayinələr";
+    ViewData["Title"] = "- Anketlər";
 
 }
 
@@ -17,12 +17,12 @@
                 </a>
 
 
-                <button type="reset" class="btn btn-primary w-md bg-blue radius-10" onclick=" $('#patientSearch').modal('show');">+ Yeni müayinə</button>
+                <button type="reset" class="btn btn-primary w-md bg-blue radius-10" onclick=" $('#patientSearch').modal('show');">+ Yeni anket</button>
   @*<button type="reset" class="btn btn-primary w-md bg-blue radius-10" onclick=" $('#patientSearch').modal('show');">+ Yeni xidmət</button>
   <button type="reset" class="btn btn-primary w-md bg-blue radius-10" onclick=" $('#patientSearch').modal('show');">+ Yeni diagnoz</button>*@
 
             </div>
-            <h2 class="page-title">Müayinələr</h2>
+            <h2 class="page-title">Anketlər</h2>
         </div>
     </div>
 </div>
@@ -175,7 +175,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="serviceFormModalLabel">Müayinə məlumatları</h5>
+                <h5 class="modal-title" id="serviceFormModalLabel">Anket məlumatları</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -187,7 +187,7 @@
                                 <input class="form-control" id="patientFullName" disabled />
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label">Müştəri müayinə kartı</label>
+                                <label class="form-label">Müştəri anketi</label>
                                 <select class="form-control" id="patientCardSelector"></select>
                             </div>
 
