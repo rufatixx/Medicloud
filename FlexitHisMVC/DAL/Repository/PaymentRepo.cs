@@ -7,10 +7,11 @@ namespace Medicloud.DAL.Repository;
 public class PaymentRepo
 {
 	private readonly string ConnectionString;
-
+	private readonly PlanRepository planRepository;
 	public PaymentRepo(string connectionString)
 	{
 		ConnectionString = connectionString;
+		planRepository = new PlanRepository(connectionString);
 	}
 
 
@@ -19,10 +20,15 @@ public class PaymentRepo
 		using var con = new MySqlConnection(ConnectionString);
 		con.Open();
 		var transaction = con.BeginTransaction();
-			
+
 		try
 		{
-			using (MySqlCommand cmd = new("INSERT INTO transactions (client_rrn, psp_rrn, client_ip_addr, month) VALUES (@client_rrn, @psp_rrn, @client_ip_addr, @month);  SELECT LAST_INSERT_ID();", con, transaction))
+
+			#region AddTransaction
+			using (MySqlCommand cmd =
+				new(@"
+INSERT INTO transactions (client_rrn, psp_rrn, client_ip_addr, month)
+VALUES (@client_rrn, @psp_rrn, @client_ip_addr, @month);  SELECT LAST_INSERT_ID();", con, transaction))
 			{
 
 				cmd.Parameters.AddWithValue("@client_rrn", pvm.client_rrn);
@@ -32,9 +38,12 @@ public class PaymentRepo
 
 				pvm.transaction_id = Convert.ToInt32(cmd.ExecuteScalar());
 			}
+			#endregion
 
 
-			using (MySqlCommand cmd2 = new ("INSERT INTO user_payment (user_id, transaction_id, payment_reason_id) VALUES (@user_id, @transaction_id, @payment_reason_id); SELECT LAST_INSERT_ID();", con, transaction))
+			#region AddUserPayment
+			using (MySqlCommand cmd2 = new (@"INSERT INTO user_payment (user_id, transaction_id, payment_reason_id) 
+VALUES (@user_id, @transaction_id, @payment_reason_id); SELECT LAST_INSERT_ID();", con, transaction))
 			{
 				cmd2.Parameters.AddWithValue("@user_id", pvm.user_id);
 				cmd2.Parameters.AddWithValue("@transaction_id", pvm.transaction_id);
@@ -42,14 +51,40 @@ public class PaymentRepo
 					
 				cmd2.ExecuteScalar();
 			}
+			#endregion
 
 			if (pvm.status == 0)
 			{
-				using (MySqlCommand cmd3 = new("UPDATE users SET subscription_expire_date = @expireDate WHERE id=@id", con, transaction))
+
+				#region UpdateUserSubscription
+
+				using (MySqlCommand cmd3 = new(@"UPDATE users 
+SET subscription_expire_date = @expireDate WHERE id=@id", con, transaction))
 				{
 					cmd3.Parameters.AddWithValue("@expireDate", pvm.expireDate);
 					cmd3.Parameters.AddWithValue("@id", pvm.user_id);
+
+					cmd3.ExecuteNonQuery();
 				}
+
+				#endregion
+
+
+				#region UpdatePlan
+				var plan = planRepository.GetById(pvm.plan_id);
+
+				using (MySqlCommand cmd4 = new (@"
+INSERT INTO user_plans (user_id, plan_id, expire_date) 
+VALUES (@user_id, @plan_id, @expire_date)", con, transaction))
+				{
+					cmd4.Parameters.AddWithValue("@user_id", pvm.user_id);
+					cmd4.Parameters.AddWithValue("@plan_id", plan.id);
+					cmd4.Parameters.AddWithValue("@expire_date", DateTime.Now.AddMonths(plan.duration));
+
+					cmd4.ExecuteNonQuery();
+				}
+
+				#endregion
 			}
 			
 			transaction.Commit();

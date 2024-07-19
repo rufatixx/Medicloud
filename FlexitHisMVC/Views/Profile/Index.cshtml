@@ -128,6 +128,29 @@
             </div> <!-- end card-->
         </div> <!-- end col-->
     </div>
+
+
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <p>Ödənişli planın bitmə vaxtı</p>
+                    <p>@ViewBag.expiredDate.ToString("dd.MM.yyyy")</p>
+                </div>
+                @{
+                    if (ViewBag.expiredDate < DateTime.Now)
+                    {
+                        <button onclick="window.location.href = '@Url.Action("Index", "Pricing")';" type="button" class="btn btn-primary">
+
+                            <a>Planı uzat</a>
+
+                        </button>
+                    }
+                }
+            </div>
+
+        </div>
+    </div>
     <!-- end row -->
 
 </div> <!-- container -->
@@ -199,9 +222,10 @@
         </div>
     </div>
 </div>
+
+
 @section Scripts
 {
-
     <script>
         var selectedServiceID = 0;
 
@@ -335,5 +359,4 @@
                 });
     }
     </script>
-
 }

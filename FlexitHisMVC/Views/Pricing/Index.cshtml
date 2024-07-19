@@ -52,7 +52,7 @@
                                 <li>SMS bildirişlər</li>
                                 <li>Xüsusi həkim təqvimi</li>
                             </ul>
-                            <button onclick="setPayment(39,1)" class="btn btn-primary mt-4 mb-2 rounded-pill">Seçin</button>
+                            <button onclick="setPayment(39, 1, 1)" class="btn btn-primary mt-4 mb-2 rounded-pill">Seçin</button>
                         </div>
                     </div> <!-- end Pricing_card -->
                 </div> <!-- end col -->
@@ -71,7 +71,7 @@
                                 <li>SMS bildirişlər</li>
                                 <li>Xüsusi həkim təqvimi</li>
                             </ul>
-                            <button onclick="setPayment(190,6)" class="btn btn-primary mt-4 mb-2 rounded-pill">Seçin</button>
+                            <button onclick="setPayment(190, 6, 2)" class="btn btn-primary mt-4 mb-2 rounded-pill">Seçin</button>
                         </div>
                     </div> <!-- end Pricing_card -->
                 </div> <!-- end col -->
@@ -89,7 +89,7 @@
                                 <li>SMS bildirişlər</li>
                                 <li>Xüsusi həkim təqvimi</li>
                             </ul>
-                            <button onclick="setPayment(360,12)" class="btn btn-primary mt-4 mb-2 rounded-pill">Seçin</button>
+                            <button onclick="setPayment(360, 12, 3)" class="btn btn-primary mt-4 mb-2 rounded-pill">Seçin</button>
                         </div>
                     </div> <!-- end Pricing_card -->
                 </div> <!-- end col -->
@@ -114,8 +114,8 @@
         return input;
     }
 
-    function setPayment(amount, month) {
-        fetch(`/payment/process?amount=${amount}&month=${month}`, {
+    function setPayment(amount, month, planId) {
+        fetch(`/payment/process?amount=${amount}&month=${month}&planId=${planId}`, {
             method: 'POST',
         })
             .then(response => response.text())

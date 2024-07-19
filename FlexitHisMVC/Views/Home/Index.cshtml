@@ -1,6 +1,10 @@
 ﻿@using Medicloud.Models.ViewModels
 @model HomePageViewModel;
+
+
 <div class="row">
+     @Html.Partial("_SubscriptionAlert")
+
     <div class="col-12">
         <div class="page-title-box">
             <div class="page-title-right">
@@ -46,8 +50,6 @@
                             }
                             else
                             {
-
-
                                 <span class="text-danger me-2"><i class="mdi mdi-arrow-down-bold"></i> @(string.IsNullOrEmpty(Model.patientStatisticsDTO.percentage) ? "0" : Model.patientStatisticsDTO.percentage)%</span>
                             }
 
@@ -217,16 +219,16 @@
         <div class="card">
             <div class="d-flex card-header justify-content-between align-items-center">
                 <h4 class="header-title">Ümumi Satış</h4>
-               
+
             </div>
             <div class="card-body pt-0">
                 @if (Model.top5sellingServiceStatistics != null && Model.top5sellingServiceStatistics.Any())
-                    {
-                        var colors = new[] { "#727cf5", "#0acf97", "#fa5c7c", "#ffbc00", "#f76397" };
+                {
+                    var colors = new[] { "#727cf5", "#0acf97", "#fa5c7c", "#ffbc00", "#f76397" };
                     <div id="sales-chart" class="apex-charts mb-4 mt-2"></div>
                     <div class="chart-widget-list">
 
-                       
+
                         @for (int i = 0; i < Model.top5sellingServiceStatistics.Count; i++)
                         {
                             var item = Model.top5sellingServiceStatistics[i];

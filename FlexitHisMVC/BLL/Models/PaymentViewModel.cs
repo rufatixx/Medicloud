@@ -9,8 +9,10 @@
 		public string payment_reason { get; set; }
 		public int payment_reason_id { get; set; }
 		public int user_id { get; set; }
+        public DateTime expireDate { get; set; }
+
+		public int plan_id { get; set; }
 		public int status { get; set; }
 		public int month { get; set; }
-        public DateTime expireDate { get; set; }
-    }
+	}
 }

@@ -35,12 +35,13 @@ namespace Medicloud.Controllers
 			userRepo = new UserRepo(ConnectionString);
 		}
 
-		[HttpPost]
+		[HttpGet]
 		public async Task<IActionResult> CallBack(
 			[FromQuery] string client_rrn,
 			[FromQuery] string psp_rrn,
 			[FromQuery] string client_ip_addr,
-			[FromQuery] int month)
+			[FromQuery] int month,
+			[FromQuery] int planId)
 		{
 			PaymentViewModel pvm = new()
 			{
@@ -50,11 +51,13 @@ namespace Medicloud.Controllers
 				user_id = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID")),
 				status = -1,
 				payment_reason_id = 1,
-				month = month
+				month = month,	
+				plan_id = planId
 			};
 			try
 			{
-				var response = await _httpClient.PostAsync(new Uri($"https://psp.mps.az/check?psp_rrn={psp_rrn}"), null);
+				var response = await _httpClient
+					.PostAsync(new Uri($"https://psp.mps.az/check?psp_rrn={psp_rrn}"), null);
 
 				if (response.IsSuccessStatusCode)
 				{
@@ -68,18 +71,20 @@ namespace Medicloud.Controllers
 					}
 				}
 
-				if(pvm.status == 0)
-				{
-					var user = userRepo.GetUserByID(pvm.user_id);
-					if (user.subscription_expire_date.HasValue && user.subscription_expire_date.Value >= DateTime.Now)
-					{
-						pvm.expireDate = user.subscription_expire_date.Value.AddMonths(month);
-					}
-					else
-					{
-						pvm.expireDate = DateTime.Now.AddMonths(month);
-					}
-				}
+				pvm.status = 0;
+
+				//if(pvm.status == 0)
+				//{
+				//	var user = userRepo.GetUserByID(pvm.user_id);
+				//	if (user.subscription_expire_date.HasValue && user.subscription_expire_date.Value >= DateTime.Now)
+				//	{
+				//		pvm.expireDate = user.subscription_expire_date.Value.AddMonths(month);
+				//	}
+				//	else
+				//	{
+				//		pvm.expireDate = DateTime.Now.AddMonths(month);
+				//	}
+				//}
 
 				paymentRepo.AddTransaction(pvm);
 
@@ -102,7 +107,7 @@ namespace Medicloud.Controllers
 
 
 		[HttpPost]
-		public async Task<IActionResult> Process([FromQuery] int amount, int month)
+		public async Task<IActionResult> Process([FromQuery] int amount, int month, int planId)
 		{
 			_hash = HMACUtils.ComputeHMACSHA256($"{_serviceId}{_clientRrn}{amount}", _secretKey);
 			string url = $"https://psp.mps.az/process?service_id={_serviceId}&client_rrn={_clientRrn}&amount={amount}&client_ip={_clientIp}&hash={_hash}&month={month}";
