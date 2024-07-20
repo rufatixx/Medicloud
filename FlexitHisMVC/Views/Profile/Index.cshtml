@@ -1,4 +1,11 @@
-﻿<!-- Start Content-->
+﻿<style>
+    .bg-blue-purple-gradient {
+        background: linear-gradient(to right, #a7c7e7, #e2c3f3); /* Pastel blue to pastel purple */
+    }
+
+</style>
+
+<!-- Start Content-->
 <div class="container-fluid">
 
     <!-- start page title -->
@@ -16,7 +23,7 @@
     <div class="row">
         <div class="col-sm-12">
             <!-- Profile -->
-            <div class="card bg-primary">
+            <div class="card bg-blue-purple-gradient ">
                 <div class="card-body profile-user-box">
                     <div class="row">
                         <div class="col-sm-8">
@@ -105,7 +112,7 @@
                             <p>
                                 @if (ViewBag.expiredDate != null)
                                 {
-                                    @ViewBag.expiredDate.Value.ToString("dd.MM.yyyy")
+                                    @ViewBag.expiredDate.ToString("dd.MM.yyyy")
                                 }
                                 else
                                 {

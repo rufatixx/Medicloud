@@ -409,7 +409,7 @@ WHERE
             int specialityID = 0, string passportSerialNum = "", string fin = "",
             string mobile = "", string email = "", string bDate = "",
             string username = "", int isUser = 0, int isDr = 0, int isActive = 0,
-            int isAdmin = 0, string otp = "", string recoveryOtp = "", DateTime? recoveryOtpSendDate = null, string subscriptionExpireDate = "", string password = "", int isRegistered = 0)
+            int isAdmin = 0, string otp = "", string recoveryOtp = "", DateTime? recoveryOtpSendDate = null, string password = "", int isRegistered = 0)
         {
             int updated = 0;
 
@@ -507,12 +507,8 @@ WHERE
                         query.Append("recovery_otp = @recovery_otp, ");
                         parameters.Add(new MySqlParameter("@recovery_otp", recoveryOtp));
                     }
-                    if (!string.IsNullOrEmpty(subscriptionExpireDate))
-                    {
-                        query.Append("subscription_expire_date = @subscription_expire_date, ");
-                        parameters.Add(new MySqlParameter("@subscription_expire_date", string.IsNullOrEmpty(subscriptionExpireDate) ? (object)DBNull.Value : DateTime.Parse(subscriptionExpireDate)));
-                    }
-                    if (subscriptionExpireDate != null)
+                   
+                    if (recoveryOtpSendDate != null)
                     {
                         query.Append("recovery_otp_send_date = @recovery_otp_send_date, ");
                         parameters.Add(new MySqlParameter("@recovery_otp_send_date", recoveryOtpSendDate));

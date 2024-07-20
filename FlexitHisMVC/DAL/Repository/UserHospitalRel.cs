@@ -3,91 +3,49 @@ using Medicloud.Models;
 using Medicloud.Models.DTO;
 using MySql.Data.MySqlClient;
 
-namespace Medicloud.Repository
+namespace Medicloud.DAL.Repository
 {
-    public class UserOrganizationRel
+    public class UserPlanRepo
     {
-        private readonly string ConnectionString;
 
-        public UserOrganizationRel(string conString)
+        private readonly string _connectionString;
+
+        public UserPlanRepo(string connectionString)
         {
-            ConnectionString = conString;
+            _connectionString = connectionString;
         }
-        public List<User> GetDoctorsByOrganization(int organizationID)
 
+        public void AddUserPlan(int userId, int planId, int duration, bool isActive)
         {
-
-            List<User> userDepRelList = new List<User>();
-
-            try
+            using (var con = new MySqlConnection(_connectionString))
             {
-                using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+                con.Open();
+                using (var transaction = con.BeginTransaction())
                 {
-
-
-                    connection.Open();
-
-                    using (MySqlCommand com = new MySqlCommand($@"SELECT a.*, b.name,b.isDr,b.specialityID, b.surname, c.name as speciality
-FROM user_organization_rel a
-INNER JOIN users b ON a.userID = b.id
-INNER JOIN speciality c ON b.specialityID = c.id
-WHERE a.organizationID = @organizationID and b.isDr = 1;", connection))
+                    try
                     {
-                        com.Parameters.AddWithValue("@organizationID", organizationID);
-
-                        MySqlDataReader reader = com.ExecuteReader();
-                        if (reader.HasRows)
+                        using (var cmd = new MySqlCommand(@"
+INSERT INTO user_plans (user_id, plan_id, expire_date, isActive) 
+VALUES (@user_id, @plan_id, @expire_date, @isActive)", con, transaction))
                         {
+                            cmd.Parameters.AddWithValue("@user_id", userId);
+                            cmd.Parameters.AddWithValue("@plan_id", planId);
+                            cmd.Parameters.AddWithValue("@expire_date", DateTime.Now.AddMonths(duration));
+                            cmd.Parameters.AddWithValue("@isActive", isActive);
 
-
-                            while (reader.Read())
-                            {
-
-                                User user = new User();
-                                user.ID = Convert.ToInt32(reader["userID"]);
-                                user.specialityID = Convert.ToInt64(reader["specialityID"]);
-                                user.speciality = new Speciality
-                                {
-                                    id = Convert.ToInt64(reader["specialityID"]),
-                                    name = reader["speciality"].ToString()
-                                };
-                                user.name = reader["name"].ToString();
-                                user.surname = reader["surname"].ToString();
-
-
-
-                                userDepRelList.Add(user);
-
-
-                            }
-
-                            //response.data.Reverse();
-
-                            //response.status = 1;
+                            cmd.ExecuteNonQuery();
                         }
 
+                        transaction.Commit();
                     }
-
-
-                    connection.Close();
-
-
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        throw new Exception("Failed to add user plan", ex);
+                    }
                 }
-
-
             }
-            catch (Exception ex)
-            {
-                //FlexitHis_API.StandardMessages.CallSerilog(ex);
-                Console.WriteLine(ex.Message);
-
-            }
-
-
-            return userDepRelList;
         }
-
-
     }
 }
 
