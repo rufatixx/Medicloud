@@ -13,10 +13,13 @@
                 <a href="javascript:window.print()">
                     <button type="button" class="btn btn-primary w-md bg-blue-light radius-10"><i class="ri-printer-line"></i>Çap et</button>
                 </a>
+                @if (ViewBag.cardID>0)
+                {
+                    <button type="button" class="btn btn-primary" onclick="showAddServiceModal()">
+                        + Yeni xidmət
+                    </button>
+                }
 
-                <button type="button" class="btn btn-primary" onclick="showAddServiceModal()">
-                    + Yeni xidmət
-                </button>
             </div>
             <h2 class="page-title">Xidmətlər</h2>
         </div>
@@ -146,11 +149,11 @@
 
 
     <script>
-        var selectedCardID;
+        var selectedCardID = @ViewBag.cardID;
         $('.service-row').on('click', function () {
 
             const service = $(this).data('service');
-            selectedCardID = service.PatientCardID;
+           
 
             $('#services').val(service.ServiceID);
          
