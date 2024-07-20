@@ -263,7 +263,7 @@ namespace Medicloud.BLL.Service
                 if (otpWasSet > 0)
                 {
                     // Optionally send the SMS
-                    //_communicationService.sendSMS($"OTP: {randomCode}", phone);
+                    _communicationService.sendSMS($"OTP: {randomCode}", phone);
                     Console.WriteLine("OTP:" + randomCode);
                     result.Success = true;
                     result.Message = "OTP kod göndərildi";
@@ -467,7 +467,7 @@ namespace Medicloud.BLL.Service
             int specialityID = 0, string passportSerialNum = "", string fin = "",
             string mobile = "", string email = "", string bDate = "",
             string username = "", int isUser = 0, int isDr = 0, int isActive = 0,
-            int isAdmin = 0, string otp = "", string recoveryOtp = "", DateTime? recoveryOtpSendDate = null,string password = "", int isRegistered = 0)
+            int isAdmin = 0, string otp = "", string recoveryOtp = "", DateTime? recoveryOtpSendDate = null, string password = "", int isRegistered = 0)
         {
 
             return _userRepository.UpdateUser(userID, name, surname, father,
