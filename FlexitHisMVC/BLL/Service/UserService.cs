@@ -451,14 +451,14 @@ namespace Medicloud.BLL.Service
       string fin = "", string phone = "", string email = "",
       string bDate = "", string username = "", string pwd = "",
       int isUser = 0, int isDr = 0, int isAdmin = 0,
-      int isActive = 0, string otp = "", string subscriptionExpireDate = "")
+      int isActive = 0, string otp = "")
         {
 
             return _userRepository.InsertUser(name, surname,
            father, specialityID, passportSerialNum, fin, phone, email,
             bDate, username, pwd,
             isUser, isDr, isAdmin,
-            isActive, subscriptionExpireDate);
+            isActive);
 
         }
 
