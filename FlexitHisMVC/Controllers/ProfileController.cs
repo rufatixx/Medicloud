@@ -20,6 +20,7 @@ namespace Medicloud.Controllers
         KassaRepo kassaRepo;
         UserService userService;
         UserRepo personalDAO;
+		PlanRepository planRepository;
         OrganizationService organizationService;
         private ServicesRepo servicesRepo;
         public ProfileController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
@@ -32,6 +33,7 @@ namespace Medicloud.Controllers
             organizationService = new OrganizationService(_connectionString);
             userService = new UserService(_connectionString);
             servicesRepo = new ServicesRepo(_connectionString);
+			planRepository = new PlanRepository(_connectionString);
 
         }
   
@@ -39,6 +41,8 @@ namespace Medicloud.Controllers
         public IActionResult Index()
         {
             var userID = User.FindFirst("ID")?.Value;
+
+			ViewBag.expiredDate = planRepository.GetUserPlanByUserId(Convert.ToInt32(userID)).expire_date;
            
             ViewBag.userData = personalDAO.GetUserByID(Convert.ToInt32(userID));
 
@@ -69,9 +73,6 @@ namespace Medicloud.Controllers
                 {
                     return BadRequest("Xəta baş verdi"); // Return HTTP 400 Bad Request if the update failed
                 }
-
-
-
             }
             else
             {

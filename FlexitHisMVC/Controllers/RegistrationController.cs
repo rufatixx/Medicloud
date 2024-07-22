@@ -140,7 +140,7 @@ namespace Medicloud.Controllers
             var phone = HttpContext.Session.GetString("registrationPhone");
             if (userService.CheckOtpHash(phone, otpCode))
             {
-                var newUserID = userService.AddUser(phone, name, surname, father, specialityID, fin: fin, bDate: bDate, pwd: pwd, organizationName);
+                var newUserID = userService.AddUser(phone, name, surname, father, specialityID, fin: fin, bDate: bDate, pwd: pwd, organizationName,4);
                 if (newUserID)
                 {
                     HttpContext.Session.Remove("recoveryOtpCode");

@@ -2,109 +2,73 @@
 
 @if (string.IsNullOrEmpty(ViewBag.warningText))
 {
-
-
     <div class="row">
         <div class="col-12">
             <div class="page-title-box">
                 <div class="page-title-right">
                     <form class="d-flex">
                         @await Component.InvokeAsync("KassaSelector")
-
-                        @*<a class="btn" onclick=" $('#patientSearch').modal('show');">
-                                <span class="input-group-text bg-primary border-primary text-white mdi mdi-account-search-outline">
-                                    Xəstə axtar
-                                </span>
-                            </a>
-
-                            <a class="btn">
-
-                                <span class="input-group-text bg-primary border-primary text-white">
-                                    Kart axtar
-                                </span>
-                            </a>*@
-
-
                     </form>
                 </div>
                 <h4 class="page-title">Ödənilmiş qəbzlərin siyahısı 📄</h4>
             </div>
         </div>
     </div>
-    <div class="container-fluid" style="margin-top:74px">
 
 
 
-        <div class="row justify-content-center">
-            <!--<div class="col" style="text-align:left">
+    <div class="card rounded-bottom-0 rounded-top-5 mb-0" style="background-image: linear-gradient(to right,#50C3BD,#7ADBA8);">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-9 d-flex align-items-center">
+                    <h3 id="kassaSumText" class="mb-0" style="color:white;">Kassa qalığı: @Model.kassaSum AZN</h3>
+                </div>
+                @*<div class="col-3 d-flex justify-content-end align-items-center">
+                    <a class="btn btn-light">Hesabdan çıxarış</a>
+                </div>*@
+            </div>
+        </div>
+    </div>
 
-              <button type="button" class="btn btn-danger">
-                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-bell-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-              <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z"/>
-              </svg> <span class="badge badge-light">4</span>
-              </button>
-                 <h5 ><span class="badge badge-secondary" id="kassaSumText">Kassa qalığı: ---</span></h5>
-            </div>-->
-            <div class=" col-12 " style="background-image: linear-gradient(to right,#50C3BD,#7ADBA8); border-radius:8px">
+    <div class="card rounded-top-0 rounded-bottom-5 mt-0">
+        <div class="card-body">
+            <div id="datatable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                 <div class="row">
-                    <div class="col-9 " style="padding:30px;">
-                        <h3 id="kassaSumText" style="color:white">Kassa qalığı: @Model.kassaSum AZN</h3>
-
-                    </div>
-                    <div class="col-3" style="padding:30px;">
-
-
-                        <a class="btn btn-light float-right">Hesabdan çıxarış</a>
+                    <div class="col-sm-12 table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Xəstə Adı</th>
+                                    <th scope="col">Tarix</th>
+                                    <th scope="col">Qəbz nömrəsi</th>
+                                    <th scope="col">Məbləğ</th>
+                                    <th scope="col">Ödəniş növü</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.recipeList)
+                                {
+                                    <tr>
+                                        <td>@item.patientFullName</td>
+                                        <td>@item.cdate</td>
+                                        <td>@item.id</td>
+                                        <td>@item.price AZN</td>
+                                        <td>@item.pTypeName</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
-
-
-
-        <form style="margin:5%">
-
-            <div class="accordion" id="sumAccordion">
-                @foreach (var item in Model.recipeList)
-                {
-                    <div class="card">
-                        <div class="card-header" id="@item.id">
-                            <h2 class="mb-0">
-                                <button class="btn btn-block text-left" type="button" data-bs-toggle="collapse" data-bs-target="#id_@item.id" aria-expanded="true" aria-controls="collapseOne">
-                                    @item.patientFullName - @item.cdate
-                                </button>
-                            </h2>
-                        </div>
-                        <div id="id_@item.id" class="collapse" aria-labelledby="headingOne" data-parent="#sumAccordion">
-                            <div class="card-body">
-                                <ul class="list-group">
-                                    <li class="list-group-item">Tarix: @item.cdate</li>
-                                    <li class="list-group-item">Qəbz nömrəsi: @item.id</li>
-                                    <li class="list-group-item">Məbləğ: @item.price AZN</li>
-                                    <li class="list-group-item">Ödəniş növü: @item.pTypeName</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                }
-
-
-
-            </div>
-
-        </form>
     </div>
+
+
 }
 else
 {
     <center>
         <h1>@ViewBag.warningText</h1>
-
     </center>
 }
-<!-- Button trigger modal -->
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-@*@section Scripts{
-
-    }*@

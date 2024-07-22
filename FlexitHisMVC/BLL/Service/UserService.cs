@@ -13,6 +13,8 @@ namespace Medicloud.BLL.Service
         private readonly string _connectionString;
         KassaRepo _kassaRepo;
         UserRepo _userRepository;
+        PlanRepository _planRepository;
+        UserPlanRepo _userPlanRepo;
 
         CommunicationService _communicationService;
         OrganizationService _organizationService;
@@ -23,6 +25,8 @@ namespace Medicloud.BLL.Service
             _userRepository = new UserRepo(_connectionString);
             _communicationService = new CommunicationService(_connectionString);
             _organizationService = new OrganizationService(conString);
+            _planRepository = new PlanRepository(conString);
+            _userPlanRepo = new UserPlanRepo(conString);
         }
 
         public UserDTO SignIn(string mobileNumber, string pass)
@@ -341,18 +345,19 @@ namespace Medicloud.BLL.Service
         }
 
 
-        public bool AddUser(string phone, string name, string surname, string father, int specialityID, string fin, string bDate, string pwd, string organizationName)
+        public bool AddUser(string phone, string name, string surname, string father, int specialityID, string fin, string bDate, string pwd, string organizationName, int planID)
         {
 
             var user = _userRepository.GetUserByPhone(phone);
             try
             {
-                var updated = _userRepository.UpdateUser(user.ID, name, surname, father, specialityID, fin: fin, bDate: bDate, password: sha256(pwd), isActive: 1, subscriptionExpireDate: DateTime.Now.AddMonths(1).ToString("yyyy-MM-dd HH:mm:ss"), isUser: 1, isRegistered: 1);
+                var updated = _userRepository.UpdateUser(user.ID, name, surname, father, specialityID, fin: fin, bDate: bDate, password: sha256(pwd), isActive: 1, isUser: 1, isRegistered: 1);
 
                 var orgID = _organizationService.AddOrganizationToNewUser(user.ID, organizationName);
                 var kassaID = _kassaRepo.CreateKassa($"{organizationName} (Kassa)", orgID);
                 var kasaUserRelID = _kassaRepo.InsertKassaToUser(user.ID, kassaID, false, true);
-             
+                var plan = _planRepository.GetById(planID);
+                _userPlanRepo.AddUserPlan(user.ID, plan.id, plan.duration, true);
 
                 if (updated > 0 && orgID > 0)
                 {
@@ -462,14 +467,14 @@ namespace Medicloud.BLL.Service
             int specialityID = 0, string passportSerialNum = "", string fin = "",
             string mobile = "", string email = "", string bDate = "",
             string username = "", int isUser = 0, int isDr = 0, int isActive = 0,
-            int isAdmin = 0, string otp = "", string recoveryOtp = "", DateTime? recoveryOtpSendDate = null, string subscriptionExpireDate = "", string password = "", int isRegistered = 0)
+            int isAdmin = 0, string otp = "", string recoveryOtp = "", DateTime? recoveryOtpSendDate = null, string password = "", int isRegistered = 0)
         {
 
             return _userRepository.UpdateUser(userID, name, surname, father,
              specialityID, passportSerialNum, fin,
              mobile, email, bDate,
              username, isUser, isDr, isActive,
-             isAdmin, otp, recoveryOtp, recoveryOtpSendDate, subscriptionExpireDate, password, isRegistered);
+             isAdmin, otp, recoveryOtp, recoveryOtpSendDate, password, isRegistered);
 
         }
 

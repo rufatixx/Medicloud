@@ -13,10 +13,13 @@
                 <a href="javascript:window.print()">
                     <button type="button" class="btn btn-primary w-md bg-blue-light radius-10"><i class="ri-printer-line"></i>Çap et</button>
                 </a>
+                @if (ViewBag.cardID>0)
+                {
+                    <button type="button" class="btn btn-primary" onclick="showAddServiceModal()">
+                        + Yeni xidmət
+                    </button>
+                }
 
-                <button type="button" class="btn btn-primary" onclick="showAddServiceModal()">
-                    + Yeni xidmət
-                </button>
             </div>
             <h2 class="page-title">Xidmətlər</h2>
         </div>
@@ -24,7 +27,7 @@
 </div>
 <div class="row ">
     <div class="col-12">
-        <div class="card  radius-15">
+        <div class="card  rounded-4">
 
             <div class="card-body">
                 <div id="datatable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
@@ -91,9 +94,9 @@
     </div> <!-- end col -->
 </div>
 
-<div class="modal fade custom-modal" id="serviceModal" tabindex="-1" aria-labelledby="prescriptionModal" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
+<div class="modal fade custom-modal " id="serviceModal" tabindex="-1" aria-labelledby="prescriptionModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg ">
+        <div class="modal-content rounded-4">
             <div class="modal-header">
                 <h5 class="modal-title" id="serviceFormModalLabel">Xidmət məlumatları</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -146,11 +149,11 @@
 
 
     <script>
-        var selectedCardID;
+        var selectedCardID = @ViewBag.cardID;
         $('.service-row').on('click', function () {
 
             const service = $(this).data('service');
-            selectedCardID = service.PatientCardID;
+           
 
             $('#services').val(service.ServiceID);
          

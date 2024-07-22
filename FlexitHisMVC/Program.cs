@@ -15,6 +15,7 @@ builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 // Register dependencies
 builder.Services.AddScoped<SpecialityRepo>(provider => new SpecialityRepo(builder.Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value));
 builder.Services.AddScoped<SpecialityService>();
+builder.Services.AddScoped(provider => new HttpClient());
 //builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 //.AddCookie(options =>
 //{
@@ -113,6 +114,28 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.Use(async (context, next) =>
+{
+    if (context.User.Identity.IsAuthenticated)
+    {
+        var planExpiryDateString = context.Session.GetString("Medicloud_UserPlanExpireDate");
+
+        if (string.IsNullOrEmpty(planExpiryDateString) || !DateTime.TryParse(planExpiryDateString, out var planExpiryDate) || DateTime.Now > planExpiryDate)
+        {
+            var path = context.Request.Path.Value.ToLower();
+
+            if (path != "/" && !path.StartsWith("/home") && !path.StartsWith("/profile") && !path.StartsWith("/pricing") && !path.StartsWith("/payment"))
+            {
+                context.Response.Redirect("/Pricing");
+                return;
+            }
+        }
+    }
+
+    await next();
+});
+
 //app.MapAreaControllerRoute(
 //    name: "Admin",
 //    areaName: "Admin",

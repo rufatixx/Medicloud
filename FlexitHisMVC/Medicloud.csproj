@@ -60,8 +60,6 @@
     <Folder Include="Areas\Admin\" />
     <Folder Include="Areas\Admin\Controllers\" />
     <Folder Include="Areas\Admin\Views\" />
-    <Folder Include="Views\" />
-    <Folder Include="Views\Shared\" />
     <Folder Include="wwwroot\js\admin\departments\" />
     <Folder Include="Areas\Admin\Views\Personal\" />
     <Folder Include="Areas\Admin\ViewComponents\" />
@@ -90,12 +88,12 @@
     <Folder Include="Views\Appointments\" />
     <Folder Include="Views\Welcome\" />
     <Folder Include="wwwroot\welcome_files\" />
-    <Folder Include="Views\Pricing\" />
     <Folder Include="Views\Recovery\" />
     <Folder Include="Views\Profile\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MySql.Data" Version="8.0.31" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Serilog.AspNetCore" Version="6.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.10" />
