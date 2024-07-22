@@ -78,7 +78,6 @@ namespace Medicloud.Controllers
                 userService.SaveSession(HttpContext, "Medicloud_userID", obj.personal.ID.ToString());
                 userService.SaveSession(HttpContext, "Medicloud_organizationID", obj.organizations[0].organizationID.ToString());
                 userService.SaveSession(HttpContext, "Medicloud_organizationName", obj.organizations[0].organizationName.ToString());
-                userService.SaveSession(HttpContext, "Medicloud_UserPlanExpireDate", obj.personal.subscription_expire_date.ToString());
                 return Ok(response);
             }
             else

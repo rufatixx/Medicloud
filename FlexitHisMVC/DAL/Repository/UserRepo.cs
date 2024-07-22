@@ -192,7 +192,6 @@ WHERE
                                     user.isAdmin = reader["isAdmin"] == DBNull.Value ? false : Convert.ToBoolean(reader["isAdmin"]);
                                     user.isUser = reader["isUser"] == DBNull.Value ? false : Convert.ToBoolean(reader["isUser"]);
                                     user.isDr = reader["isDr"] == DBNull.Value ? false : Convert.ToBoolean(reader["isDr"]);
-                                    user.subscription_expire_date = reader["subscription_expire_date"] == DBNull.Value ? null : Convert.ToDateTime(reader["subscription_expire_date"]);
                                 }
 
                                 connection.Close();
@@ -274,7 +273,6 @@ WHERE
                                 user.isAdmin = reader["isAdmin"] == DBNull.Value ? false : Convert.ToBoolean(reader["isAdmin"]);
                                 user.isUser = reader["isUser"] == DBNull.Value ? false : Convert.ToBoolean(reader["isUser"]);
                                 user.isDr = reader["isDr"] == DBNull.Value ? false : Convert.ToBoolean(reader["isDr"]);
-                                user.subscription_expire_date = reader["plan_expire_date"] == DBNull.Value ? null : Convert.ToDateTime(reader["plan_expire_date"]);
                                 user.cDate = reader["cDate"] == DBNull.Value ? null : Convert.ToDateTime(reader["cDate"]);
 
 
@@ -353,7 +351,7 @@ WHERE
             string fin = "", string phone = "", string email = "",
             string bDate = "", string username = "", string pwd = "",
             int isUser = 0, int isDr = 0, int isAdmin = 0,
-            int isActive = 0, string otp = "", string subscriptionExpireDate = "")
+            int isActive = 0, string otp = "")
         {
             try
             {
@@ -364,9 +362,9 @@ WHERE
                     connection.Open();
 
                     var query = @"INSERT INTO users (name, surname, father, specialityID, mobile, email, bDate, username, pwd, 
-                          isUser, isDr, isAdmin, isActive, otp_code, subscription_expire_date)
+                          isUser, isDr, isAdmin, isActive, otp_code)
                           SELECT @name, @surname, @father, @specialityID, @mobile, @email, @bDate, @username, SHA2(@pwd, 256), 
-                          @isUser, @isDr, @isAdmin, @isActive, @otp_code, @subscription_expire_date
+                          @isUser, @isDr, @isAdmin, @isActive, @otp_code
                           FROM DUAL
                           WHERE NOT EXISTS (
                             SELECT 1 FROM users 
@@ -390,7 +388,6 @@ WHERE
                         command.Parameters.AddWithValue("@isDr", isDr);
                         command.Parameters.AddWithValue("@isAdmin", isAdmin);
                         command.Parameters.AddWithValue("@otp_code", otp ?? "");
-                        command.Parameters.AddWithValue("@subscription_expire_date", string.IsNullOrEmpty(subscriptionExpireDate) ? (object)DBNull.Value : DateTime.Parse(subscriptionExpireDate));
 
 
                         command.ExecuteNonQuery();
