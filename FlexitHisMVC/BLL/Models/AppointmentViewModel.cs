@@ -14,4 +14,5 @@ public class AppointmentViewModel
 	public string service_name { get; set; }
 	public bool is_active { get; set; }
 	public int organization_id { get; set; }
+	public int user_id { get; set; }
 }

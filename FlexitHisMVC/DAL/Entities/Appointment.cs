@@ -9,4 +9,5 @@ public class Appointment
     public DateTime start_date { get; set; }
     public DateTime end_date { get; set; }
     public bool is_active { get; set; }
+	public int user_id { get; set; }
 }

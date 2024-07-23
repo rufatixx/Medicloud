@@ -24,8 +24,9 @@ public class AppointmentsController : Controller
     public IActionResult AddAppointment(AddAppointmentDto appointmentDto)
     {
         appointmentDto.OrganizationID = Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID"));
-
-        if (appointmentDto.Id > 0)
+		var userID = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "ID")?.Value ?? "0");
+		appointmentDto.UserId = userID;
+		if (appointmentDto.Id > 0)
 		{
 			appointmentService.UpdateAppointment(appointmentDto);
 		} else
@@ -55,5 +56,23 @@ public class AppointmentsController : Controller
         var result = appointmentService.DeleteAppointment(id);
         return Ok(result);
     }
+
+	[HttpGet]
+	public IActionResult GetAppointmentsByRange([FromQuery] DateTime startDate, [FromQuery] DateTime endDate)
+	{
+		var userID = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "ID")?.Value ?? "0");
+		var organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
+		var result = appointmentService.GetAppointmentsByRange(startDate, endDate, userID, organizationID);
+		return Ok(result);
+	}
+
+	[HttpGet]
+	public IActionResult GetAppointmentByDate([FromQuery] DateTime date)
+	{
+		var userID = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "ID")?.Value ?? "0");
+		var organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
+		var result = appointmentService.GetAppointmentByDate(date, userID, organizationID);
+		return Ok(result);
+	}
 }
 

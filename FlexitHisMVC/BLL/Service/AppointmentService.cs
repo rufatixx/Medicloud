@@ -24,6 +24,7 @@ namespace Medicloud.BLL.Service
                 service_id = appointmentDto.ServiceId,
                 end_date = (appointmentDto.MeetingDate.Date + appointmentDto.Time).AddMinutes(10),
                 start_date = appointmentDto.MeetingDate.Date + appointmentDto.Time,
+				user_id = appointmentDto.UserId
             };
 
             bool result = _appointmentRepo.InsertAppointment(appointment);
@@ -69,6 +70,16 @@ namespace Medicloud.BLL.Service
 			return app;
 		}
 
+		public List<AppointmentViewModel> GetAppointmentsByRange(DateTime startDate, DateTime endDate, int userID, int organizationID)
+		{
+			var res = _appointmentRepo.GetAppointmentsByRange(startDate, endDate, userID, organizationID);
+			return res;
+		}
 
+		public List<AppointmentViewModel> GetAppointmentByDate(DateTime date, int userID, int organizationID)
+		{
+			var res = _appointmentRepo.GetAppointmentByDate(date, userID, organizationID);
+			return res;
+		}
 	}
 }
