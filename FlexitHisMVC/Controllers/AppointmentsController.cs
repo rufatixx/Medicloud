@@ -23,9 +23,10 @@ public class AppointmentsController : Controller
     [HttpPost]
     public IActionResult AddAppointment(AddAppointmentDto appointmentDto)
     {
+	    string referer = Request.Headers["Referer"].ToString();
+	    
         appointmentDto.OrganizationID = Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID"));
-		var userID = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "ID")?.Value ?? "0");
-		appointmentDto.UserId = userID;
+        appointmentDto.UserId = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "ID")?.Value ?? "0");
 		if (appointmentDto.Id > 0)
 		{
 			appointmentService.UpdateAppointment(appointmentDto);
@@ -33,8 +34,9 @@ public class AppointmentsController : Controller
 		{
 			appointmentService.AddAppointment(appointmentDto);
 		}
-		return RedirectToAction("Index");
-	}
+
+		return referer.Contains("Calendar") ? RedirectToAction("Index", "Calendar") : RedirectToAction("Index");
+    }
 
     [HttpGet]
     public IActionResult Index([FromQuery] int pageNumber=1)

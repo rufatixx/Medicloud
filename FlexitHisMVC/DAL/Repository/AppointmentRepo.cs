@@ -213,13 +213,15 @@ WHERE id = @id";
 			return true;
 		}
 
-        public AppointmentPagedResult GetAllAppointments(long organizationID, string searchQuery, int pageNumber)
+        public AppointmentPagedResult GetAllAppointments(long organizationID, string searchQuery, int pageNumber=1)
         {
             const int pageSize = 10;
             var result = new AppointmentPagedResult
             {
                 Appointments = new List<AppointmentViewModel>()
             };
+
+	        result.CurrentPage = pageNumber;
 
             var totalRecords = 0;
 
