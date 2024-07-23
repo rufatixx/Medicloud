@@ -1,9 +1,13 @@
-﻿
-<link rel="shortcut icon" href="assets/images/favicon.ico">
-<link href="assets/vendor/fullcalendar/main.min.css" rel="stylesheet" type="text/css" />
-<link href="assets/css/app-saas.min.css" rel="stylesheet" type="text/css" id="app-style" />
-<link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+﻿<link rel="shortcut icon" href="assets/images/favicon.ico">
+<link href="assets/vendor/fullcalendar/main.min.css" rel="stylesheet" type="text/css"/>
+<link href="assets/css/app-saas.min.css" rel="stylesheet" type="text/css" id="app-style"/>
+<link href="assets/css/icons.min.css" rel="stylesheet" type="text/css"/>
 
+<style>
+    .fc-event {
+        cursor: pointer;
+    }
+</style>
 
 <div class="wrapper">
 
@@ -41,15 +45,14 @@
     </div>
 
 
-
     @Html.Partial("_AppointmentModal")
 
 </div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
+        const calendarEl = document.getElementById('calendar');
+        const calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: 'dayGridMonth',
             headerToolbar: {
                 left: "prev,next today",
@@ -64,7 +67,7 @@
                 newAppointment: {
                     text: 'Yeni Randevu',
                     click: function () {
-                        var myModal = new bootstrap.Modal(document.getElementById('add-appointment-modal'));
+                        const myModal = new bootstrap.Modal(document.getElementById('add-appointment-modal'));
                         myModal.show();
                     }
                 }
@@ -84,9 +87,7 @@
             let hours = date.getHours().toString().padStart(2, '0');
             let minutes = date.getMinutes().toString().padStart(2, '0');
 
-            let timeString = `${hours}:${minutes}`;
-
-            return timeString;
+            return `${hours}:${minutes}`;
         }
 
         function fetchAppointmentsForDay(dateStr) {
@@ -98,23 +99,25 @@
                     return response.json();
                 })
                 .then(appointments => {
-                    var tableBody = document.getElementById('appointmentsTableBody');
-                    tableBody.innerHTML = '';
+                    if (appointments?.length > 0){
+                        const tableBody = document.getElementById('appointmentsTableBody');
+                        tableBody.innerHTML = '';
 
-                    appointments.forEach((appointment, index) => {
-                        var row = document.createElement('tr');
-                        row.innerHTML = `
+                        appointments.forEach((appointment, index) => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
                         <td>${index + 1}</td>
                         <td>${appointment.patient_name}, ${appointment.patient_surname}</td >
                         <td>${appointment.patient_phone}</td>
                         <td>${appointment.service_name}</td>
                         <td>${getTimeOfDate(new Date(appointment.start_date))} - ${getTimeOfDate(new Date(appointment.end_date))}</td>
                     `;
-                        tableBody.appendChild(row);
-                    });
+                            tableBody.appendChild(row);
+                        });
 
-                    var appointmentsModal = new bootstrap.Modal(document.getElementById('appointmentsModal'));
-                    appointmentsModal.show();
+                        const appointmentsModal = new bootstrap.Modal(document.getElementById('appointmentsModal'));
+                        appointmentsModal.show();
+                    }
                 })
                 .catch(error => {
                     console.error('Fetch error:', error);
@@ -124,8 +127,8 @@
         function fetchAndDisplayEvents() {
             calendar.removeAllEvents()
 
-            var startDate = calendar.view.currentStart;
-            var endDate = calendar.view.currentEnd;
+            const startDate = calendar.view.activeStart;
+            const endDate = calendar.view.activeEnd;
 
             fetch(`/Appointments/GetAppointmentsByRange?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`)
                 .then(response => {
@@ -135,9 +138,9 @@
                     return response.json();
                 })
                 .then(data => {
-                    var appointmentsCount = {};
+                    const appointmentsCount = {};
                     data.forEach(appointment => {
-                        var date = appointment.start_date.split('T')[0];
+                        const date = appointment.start_date.split('T')[0];
                         if (appointmentsCount[date]) {
                             appointmentsCount[date]++;
                         } else {
@@ -145,7 +148,7 @@
                         }
                     });
 
-                    for (var date in appointmentsCount) {
+                    for (const date in appointmentsCount) {
                         calendar.addEvent({
                             title: `Yeni randevu sayı: ${appointmentsCount[date]}`,
                             start: date,
