@@ -1,0 +1,386 @@
+﻿<style>
+    .dropdown-app {
+        position: relative;
+        display: inline-block;
+        min-width: 100%;
+    }
+
+    .searchInput {
+        box-sizing: border-box;
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        font-size: 16px;
+        border: 1px solid #ddd;
+        height: 38px;
+        border-radius: 3px;
+    }
+
+        .searchInput:focus {
+            border-color: cornflowerblue;
+            outline: none;
+        }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        width: 100%;
+        max-height: 250px;
+        overflow-y: auto;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+        .dropdown-content a {
+            color: black;
+            padding: 8px 12px;
+            text-decoration: none;
+            display: block;
+        }
+
+            .dropdown-content a:hover {
+                background-color: #f1f1f1;
+            }
+
+    .show {
+        display: block;
+    }
+</style>
+
+<div class="modal fade cus_modal"
+     id="add-appointment-modal"
+     data-bs-backdrop="static"
+     aria-hidden="true"
+     style="display: none;">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4">
+            <div class="modal-header py-3 px-4 border-bottom-0">
+                <button type="button"
+                        class="btn btn-light btn-sm delete-button d-none"
+                        onclick="deleteAppointment()">
+                    <i class="far fa-trash-alt"></i>
+                </button>
+                <h5 class="modal-title"
+                    id="modal-title">
+                    Yeni Randevu
+                </h5>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                        onclick="resetModal()" />
+            </div>
+            <div class="modal-body p-4">
+                <form class="needs-validation"
+                      name="event-form"
+                      id="newAppointmentForm"
+                      onsubmit="return validateForm()"
+                      asp-controller="Appointments"
+                      asp-action="AddAppointment"
+                      method="post"
+                      novalidate>
+
+                    <input type="hidden" name="Id" id="Id" />
+                    <div class="mb-3">
+                        <label for="patient_id"
+                               class="form-label">
+                            Ad, soyad, ata adı
+                        </label>
+
+                        <br />
+
+                        <div class="dropdown-app">
+                            <input type="hidden" name="PatientId" id="PatientId" />
+                            <input type="text"
+                                   onchange="clearPatientId()"
+                                   class="searchInput"
+                                   id="searchInput"
+                                   placeholder="Pasient seç">
+                            <p id="validationForPatient" style="color: #fa5c7c; display: none; font-size: 12px">Pasient seçin</p>
+                            <div id="dropdownContent" class="dropdown-content">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="mb-3">
+                        <label for="patientMobileModal"
+                               class="form-label">
+                            Mobil Nömrə
+                        </label>
+                        <input type="tel"
+                               class="form-control"
+                               id="patientMobileModal"
+                               name="PhoneNumber"
+                               placeholder="+994"
+                               required>
+                        <div class="form-check mt-2">
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   id="not_phone"
+                                   name="not_phone">
+                            <label class="form-check-label"
+                                   for="not_phone">
+                                Mobil nömrə mövcud deyil
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="service_id"
+                               class="form-label">
+                            Xidmət/Prosedur
+                        </label>
+
+                        <br />
+
+                        <div class="dropdown-app">
+                            <input type="hidden" name="ServiceId" id="ServiceId" />
+                            <input onchange="clearServiceId()" class="searchInput" type="text" id="searchInputService" placeholder="Xidmət seç">
+                            <p id="validationForService" style="color: #fa5c7c; display: none; font-size: 12px">Xidmət seçin</p>
+                            <div id="dropdownContentService" class="dropdown-content">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-label">Gün:</label>
+                            <input class="form-control"
+                                   type="date"
+                                   id="MeetingDate"
+                                   name="MeetingDate"
+                                   value="2018-06-12T19:30"
+                                   required>
+                            <div class="invalid-feedback">Günü daxil edin</div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="appointment_time" class="form-label">Vaxt</label>
+                                <select class="form-select" name="Time" id="Time" required>
+                                    <option selected disabled value="">Seçilməyib</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <input type="submit" value="Təyin et"
+                               class="btn btn-info" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+
+        const searchInput = document.getElementById('searchInput');
+        const dropdownContent = document.getElementById('dropdownContent');
+
+        const searchInputService = document.getElementById('searchInputService');
+        const dropdownContentService = document.getElementById('dropdownContentService');
+
+        loadTime();
+
+        searchInput.addEventListener('focus', () => {
+            dropdownContent.classList.add('show');
+        });
+
+        searchInput.addEventListener('input', () => {
+            const filter = searchInput.value.toLowerCase();
+            const links = dropdownContent.getElementsByTagName('a');
+
+            for (let i = 0; i < links.length; i++) {
+                const textValue = links[i].textContent || links[i].innerText;
+                links[i].style.display = textValue.toLowerCase().includes(filter) ? '' : 'none';
+            }
+        });
+
+        document.addEventListener('click', (event) => {
+            if (!event.target.matches('#searchInput')) {
+                dropdownContent.classList.remove('show');
+            }
+        });
+
+        searchInputService.addEventListener('focus', () => {
+            dropdownContentService.classList.add('show');
+        });
+
+        searchInputService.addEventListener('input', () => {
+            const filter = searchInputService.value.toLowerCase();
+            const links = dropdownContentService.getElementsByTagName('a');
+
+            for (let i = 0; i < links.length; i++) {
+                const textValue = links[i].textContent || links[i].innerText;
+                links[i].style.display = textValue.toLowerCase().includes(filter) ? '' : 'none';
+            }
+        });
+
+        document.addEventListener('click', (event) => {
+            if (!event.target.matches('#searchInputService')) {
+                dropdownContentService.classList.remove('show');
+            }
+        });
+
+        function loadTime() {
+            const select = document.getElementById('Time');
+            const startHour = 8;
+            const endHour = 21;
+            const interval = 10;
+
+            for (let hour = startHour; hour <= endHour; hour++) {
+                for (let minute = 0; minute < 60; minute += interval) {
+                    let start = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+                    let endMinute = minute + interval;
+                    let end = `${String(hour).padStart(2, '0')}:${String(endMinute).padStart(2, '0')}`;
+
+                    if (endMinute > 59) {
+                        endMinute = 0;
+                        end = `${String(hour + 1).padStart(2, '0')}:00`;
+                    }
+
+                    let optionValue = `${start}`;
+                    let optionText = `${start} - ${end}`;
+                    let option = document.createElement('option');
+                    option.value = optionValue;
+                    option.textContent = optionText;
+
+                    select.appendChild(option);
+                }
+            }
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+
+        const searchInput = document.getElementById('searchInput');
+        const dropdownContent = document.getElementById('dropdownContent');
+
+        searchInput.addEventListener('keyup', debounce(function (e) {
+            const search = searchInput.value;
+
+            fetch(`/Patient/GetPatientByName?search=${encodeURIComponent(search)}`)
+                .then(response => response.json())
+                .then(data => {
+                    let listContent = "";
+                    data.forEach(x => {
+                        const escapedId = document.createElement('div').textContent = x.id;
+
+                        listContent += `<a onclick="selectPatient('${escapedId}', '${x.name}')">${x.name} ${x.surname} ${x.father} (FİN: ${x.fin})</a>`;
+                    });
+                    dropdownContent.innerHTML = listContent;
+                })
+                .catch(error => {
+                    console.error("Error fetching services.", error);
+                });
+        }, 300));
+
+
+        const searchInputService = document.getElementById('searchInputService');
+        const dropdownContentService = document.getElementById('dropdownContentService');
+
+        searchInputService.addEventListener('keyup', debounce(function (e) {
+            const search = searchInputService.value;
+
+            fetch(`/Services/GetAllServices?search=${encodeURIComponent(search)}`)
+                .then(response => response.json())
+                .then(data => {
+                    let listContent = "";
+                    data.forEach(x => {
+                        const escapedId = document.createElement('div').textContent = x.id;
+                        const escapedName = document.createElement('div').textContent = x.name;
+                        listContent += `<a onclick="selectService('${escapedId}', '${escapedName}')">${escapedName}</a>`;
+                    });
+                    dropdownContentService.innerHTML = listContent;
+                })
+                .catch(error => {
+                    console.error("Error fetching services.", error);
+                });
+        }, 300));
+    });
+
+    function debounce(func, delay) {
+        let debounceTimer;
+        return function () {
+            const context = this;
+            const args = arguments;
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => func.apply(context, args), delay);
+        };
+    }
+
+    function validateForm() {
+        let isValid = true;
+
+        if (document.getElementById('ServiceId').value.trim().length === 0) {
+            document.getElementById('validationForService').style.display = 'block';
+            isValid = false;
+        } else {
+            document.getElementById('validationForService').style.display = 'none';
+        }
+
+        if (document.getElementById('PatientId').value.trim().length === 0) {
+            document.getElementById('validationForPatient').style.display = 'block';
+            isValid = false;
+        } else {
+            document.getElementById('validationForPatient').style.display = 'none';
+        }
+
+        return isValid;
+    }
+
+    function clearPatientId() {
+        document.getElementById('PatientId').value = '';
+    }
+
+    function clearServiceId() {
+        document.getElementById('ServiceId').value = '';
+    }
+
+    function selectPatient(id, name) {
+        fetch(`/Patient/GetPatientById?id=${id}`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('patientMobileModal').value = data?.phone;
+            });
+        document.getElementById('searchInput').value = name;
+        document.getElementById('PatientId').value = id;
+        document.getElementById('validationForPatient').style.display = 'none';
+    }
+
+    function formatTime(date) {
+        let hours = date.getHours().toString().padStart(2, '0');
+        let minutes = date.getMinutes().toString().padStart(2, '0');
+        return `${hours}:${minutes}`;
+    }
+
+    function selectService(id, name) {
+        document.getElementById('searchInputService').value = name;
+        document.getElementById('ServiceId').value = id;
+        document.getElementById('validationForService').style.display = 'none';
+    }
+
+    function clearFields() {
+        document.getElementById('Id').value = '';
+        document.getElementById('ServiceId').value = '';
+        document.getElementById('PatientId').value = '';
+        document.getElementById('MeetingDate').value = '';
+        document.getElementById('patientMobileModal').value = '';
+        document.getElementById('searchInput').value = '';
+        document.getElementById('searchInputService').value = '';
+        document.getElementById('Time').value = '';
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        flatpickr('#example', {});
+        flatpickr('.default', {
+            enableTime: true,
+            dateFormat: "Y-m-d H:i",
+            minuteIncrement: 10
+        });
+    });
+</script>

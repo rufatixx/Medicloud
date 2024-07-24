@@ -1,0 +1,194 @@
+﻿<link rel="shortcut icon" href="assets/images/favicon.ico">
+<link href="assets/vendor/fullcalendar/main.min.css" rel="stylesheet" type="text/css"/>
+<link href="assets/css/app-saas.min.css" rel="stylesheet" type="text/css" id="app-style"/>
+<link href="assets/css/icons.min.css" rel="stylesheet" type="text/css"/>
+
+<style>
+    .fc-event {
+        cursor: pointer;
+    }
+    
+</style>
+
+<div class="wrapper">
+
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="modal fade" id="appointmentsModal" tabindex="-1" aria-labelledby="appointmentsModalLabel" aria-hidden="true">
+                <div class="modal-dialog  modal-dialog-centered modal-lg">
+                    <div class="modal-content ">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="appointmentsModalLabel">Randevular</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <table class="table w-100">
+
+                                <tbody id="appointmentsTableBody">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div id="external-events" class="mt-3"></div>
+                    <div class="col-lg-12">
+                        <div class="mt-4 mt-lg-0">
+                            <div id="calendar"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @Html.Partial("_AppointmentModal")
+
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const calendarEl = document.getElementById('calendar');
+        const calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            headerToolbar: {
+                left: "prev,next today",
+                center: "title",
+                right: "newAppointment"
+            },
+            buttonText: {
+                prev: "<",
+                next: ">",
+                today : "Bu gün"
+            },
+            customButtons: {
+                newAppointment: {
+                    text: 'Yeni Randevu',
+                    click: function () {
+                        const myModal = new bootstrap.Modal(document.getElementById('add-appointment-modal'));
+                        myModal.show();
+                    }
+                }
+            },
+            dateClick: function (info) {
+                fetchAppointmentsForDay(new Date(info.dateStr));
+            },
+            eventClick: function (info) {
+                fetchAppointmentsForDay(new Date(info.event.startStr));
+            },
+            themeSystem: 'bootstrap',
+        });
+
+        calendar.render();
+
+        function getTimeOfDate(date) {
+            let hours = date.getHours().toString().padStart(2, '0');
+            let minutes = date.getMinutes().toString().padStart(2, '0');
+
+            return `${hours}:${minutes}`;
+        }
+
+        function fetchAppointmentsForDay(dateStr) {
+            fetch(`/Appointments/GetAppointmentByDate?date=${dateStr.toISOString()}`)
+                .then(response => {
+                    return response.json();
+                })
+                .then(appointments => {
+                    if (appointments?.length > 0){
+                        const tableBody = document.getElementById('appointmentsTableBody');
+                        tableBody.innerHTML = '';
+
+                        appointments.forEach((appointment, index) => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                        <td style="width:50px">${index + 1}</td>
+                        <td style="width:160px" >${appointment.patient_name} ${appointment.patient_surname}</td >
+                        <td style="width:120px" >${appointment.patient_phone}</td>
+                        <td style="width:300px" >${appointment.service_name}</td>
+                        <td style="width:120px" >${getTimeOfDate(new Date(appointment.start_date))} - ${getTimeOfDate(new Date(appointment.end_date))}</td>
+                    `;
+                            tableBody.appendChild(row);
+                        });
+
+                        const appointmentsModal = new bootstrap.Modal(document.getElementById('appointmentsModal'));
+                        appointmentsModal.show();
+                    }
+                })
+                .catch(error => {
+                    console.error('Fetch error:', error);
+                });
+        }
+
+        function fetchAndDisplayEvents() {
+
+            const startDate = calendar.view.activeStart;
+            const endDate = calendar.view.activeEnd;
+
+            fetch(`/Appointments/GetAppointmentsByRange?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`)
+                .then(response => {
+                    return response.json();
+                })
+                .then(data => {
+                    const appointmentsCount = {};
+                    data.forEach(appointment => {
+                        const date = appointment.start_date.split('T')[0];
+                        if (appointmentsCount[date]) {
+                            appointmentsCount[date]++;
+                        } else {
+                            appointmentsCount[date] = 1;
+                        }
+                    });
+
+                    for (const date in appointmentsCount) {
+                        calendar.addEvent({
+                            title: `Yeni randevu sayı: ${appointmentsCount[date]}`,
+                            start: date,
+                            allDay: true,
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('fetch error:', error);
+                });
+        }
+
+        function debounce(func, delay) {
+            let debounceTimer;
+            return function () {
+                const context = this;
+                const args = arguments;
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(() => func.apply(context, args), delay);
+            };
+        }
+
+        const debounceFetchAndDisplayEvents = debounce(fetchAndDisplayEvents, 300);
+
+        document.querySelector('.fc-prev-button').addEventListener('click', () => {
+            calendar.removeAllEvents();
+            debounceFetchAndDisplayEvents();
+        });
+
+        document.querySelector('.fc-next-button').addEventListener('click', () => {
+            calendar.removeAllEvents();
+            debounceFetchAndDisplayEvents();
+        });
+
+        document.querySelector('.fc-today-button').addEventListener('click', () => {
+            calendar.today(); 
+            calendar.removeAllEvents();
+            debounceFetchAndDisplayEvents();
+        });
+
+        fetchAndDisplayEvents();
+    });
+</script>
+
+<script src="assets/js/vendor.min.js"></script>
+<script src="assets/vendor/fullcalendar/main.min.js"></script>
+<script src="assets/js/app.min.js"></script>
+<script src="assets/js/hyper-config.js"></script>

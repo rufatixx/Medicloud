@@ -23,17 +23,20 @@ public class AppointmentsController : Controller
     [HttpPost]
     public IActionResult AddAppointment(AddAppointmentDto appointmentDto)
     {
+	    string referer = Request.Headers["Referer"].ToString();
+	    
         appointmentDto.OrganizationID = Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID"));
-
-        if (appointmentDto.Id > 0)
+        appointmentDto.UserId = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "ID")?.Value ?? "0");
+		if (appointmentDto.Id > 0)
 		{
 			appointmentService.UpdateAppointment(appointmentDto);
 		} else
 		{
 			appointmentService.AddAppointment(appointmentDto);
 		}
-		return RedirectToAction("Index");
-	}
+
+		return referer.Contains("Calendar") ? RedirectToAction("Index", "Calendar") : RedirectToAction("Index");
+    }
 
     [HttpGet]
     public IActionResult Index([FromQuery] int pageNumber=1)
@@ -55,5 +58,23 @@ public class AppointmentsController : Controller
         var result = appointmentService.DeleteAppointment(id);
         return Ok(result);
     }
+
+	[HttpGet]
+	public IActionResult GetAppointmentsByRange([FromQuery] DateTime startDate, [FromQuery] DateTime endDate)
+	{
+		var userID = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "ID")?.Value ?? "0");
+		var organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
+		var result = appointmentService.GetAppointmentsByRange(startDate, endDate, userID, organizationID);
+		return Ok(result);
+	}
+
+	[HttpGet]
+	public IActionResult GetAppointmentByDate([FromQuery] DateTime date)
+	{
+		var userID = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "ID")?.Value ?? "0");
+		var organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
+		var result = appointmentService.GetAppointmentByDate(date, userID, organizationID);
+		return Ok(result);
+	}
 }
 

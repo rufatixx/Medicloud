@@ -8,4 +8,5 @@ public class AddAppointmentDto
     public long OrganizationID { get; set; }
     public DateTime MeetingDate { get; set; }
     public TimeSpan Time { get; set; }
+	public int UserId { get; set; }
 }

@@ -16,8 +16,8 @@ namespace Medicloud.DAL.Repository
 		public bool InsertAppointment(Appointment appointment)
 		{
 			MySqlConnection con = new(ConnectionString);
-			string query = @"INSERT INTO appointments (patient_id, service_id, organization_id, start_date, end_date)
-                VALUES (@patient_id, @service_id, @orgID, @start_date, @end_date)";
+			string query = @"INSERT INTO appointments (patient_id, service_id, organization_id, start_date, end_date, user_id)
+                VALUES (@patient_id, @service_id, @orgID, @start_date, @end_date, @user_id)";
 
 			MySqlCommand cmd = new(query, con);
 			cmd.Parameters.AddWithValue("@patient_id", appointment.patient_id);
@@ -25,6 +25,7 @@ namespace Medicloud.DAL.Repository
 			cmd.Parameters.AddWithValue("@orgID", appointment.organization_id);
 			cmd.Parameters.AddWithValue("@start_date", appointment.start_date);
 			cmd.Parameters.AddWithValue("@end_date", appointment.end_date);
+			cmd.Parameters.AddWithValue("@user_id", appointment.user_id);
 
 			try
 			{
@@ -75,6 +76,7 @@ WHERE organization_id = @orgID and is_active = 1";
 						id = Convert.ToInt32(reader["id"]),
 						patient_id = Convert.ToInt32(reader["patient_id"]),
 						service_id = Convert.ToInt32(reader["service_id"]),
+						user_id = Convert.ToInt32(reader["user_id"]),
 						organization_id = reader["organization_id"] == DBNull.Value ? 0 : Convert.ToInt32(reader["organization_id"]),
 						start_date = reader["start_date"] == DBNull.Value ? Convert.ToDateTime("0001-01-01T00:00:00") : Convert.ToDateTime(reader["start_date"]),
 						end_date = reader["end_date"] == DBNull.Value ? Convert.ToDateTime("0001-01-01T00:00:00") : Convert.ToDateTime(reader["end_date"]),
@@ -130,6 +132,7 @@ WHERE organization_id = @orgID and is_active = 1";
 						id = Convert.ToInt32(reader["id"]),
 						patient_id = Convert.ToInt32(reader["patient_id"]),
 						service_id = Convert.ToInt32(reader["service_id"]),
+						user_id = Convert.ToInt32(reader["user_id"]),
 						organization_id = reader["organization_id"] == DBNull.Value ? 0 : Convert.ToInt32(reader["organization_id"]),
 						start_date = reader["start_date"] == DBNull.Value ? Convert.ToDateTime("0001-01-01T00:00:00") : Convert.ToDateTime(reader["start_date"]),
 						end_date = reader["end_date"] == DBNull.Value ? Convert.ToDateTime("0001-01-01T00:00:00") : Convert.ToDateTime(reader["end_date"]),
@@ -179,7 +182,7 @@ WHERE organization_id = @orgID and is_active = 1";
 		{
 			MySqlConnection con = new(ConnectionString);
 			string query = $@"UPDATE medicloud.appointments 
-SET patient_id = @patient_id,organization_id=@orgID, service_id = @service_id, start_date = @start_date, end_date = @end_date
+SET patient_id = @patient_id,organization_id=@orgID, service_id = @service_id, start_date = @start_date, end_date = @end_date, user_id=@user_id
 WHERE id = @id";
 
 			MySqlCommand cmd = new(query, con);
@@ -189,6 +192,7 @@ WHERE id = @id";
 			cmd.Parameters.AddWithValue("@service_id", appointment.service_id);
 			cmd.Parameters.AddWithValue("@start_date", appointment.start_date);
 			cmd.Parameters.AddWithValue("@end_date", appointment.end_date);
+			cmd.Parameters.AddWithValue("@user_id", appointment.user_id);
 
 
 			try
@@ -209,13 +213,15 @@ WHERE id = @id";
 			return true;
 		}
 
-        public AppointmentPagedResult GetAllAppointments(long organizationID, string searchQuery, int pageNumber)
+        public AppointmentPagedResult GetAllAppointments(long organizationID, string searchQuery, int pageNumber=1)
         {
             const int pageSize = 10;
             var result = new AppointmentPagedResult
             {
                 Appointments = new List<AppointmentViewModel>()
             };
+
+	        result.CurrentPage = pageNumber;
 
             var totalRecords = 0;
 
@@ -258,7 +264,8 @@ s.name AS service_name, s.id AS service_id {baseQuery} ORDER BY a.id DESC LIMIT 
                                     id = Convert.ToInt32(reader["id"]),
                                     patient_id = Convert.ToInt32(reader["patient_id"]),
                                     service_id = Convert.ToInt32(reader["service_id"]),
-                                    organization_id = Convert.ToInt32(reader["organization_id"]),
+									user_id = Convert.ToInt32(reader["user_id"]),
+									organization_id = Convert.ToInt32(reader["organization_id"]),
                                     start_date = reader["start_date"] == DBNull.Value ? default(DateTime) : Convert.ToDateTime(reader["start_date"]),
                                     end_date = reader["end_date"] == DBNull.Value ? default(DateTime) : Convert.ToDateTime(reader["end_date"]),
                                     is_active = Convert.ToBoolean(reader["is_active"]),
@@ -282,5 +289,112 @@ s.name AS service_name, s.id AS service_id {baseQuery} ORDER BY a.id DESC LIMIT 
             return result;
         }
 
-    }
+		public List<AppointmentViewModel> GetAppointmentsByRange(DateTime startDate, DateTime endDate, int userID, int organizationID)
+		{
+			List<AppointmentViewModel> appointments = new List<AppointmentViewModel>();
+			MySqlConnection con = new(ConnectionString);
+
+			string query = $@"SELECT * FROM medicloud.appointments
+                      WHERE start_date >= @startDate AND 
+							start_date <= @endDate AND
+							is_active = 1 AND
+							user_id = @userID AND
+							organization_id = @organizationID";
+
+			MySqlCommand cmd = new(query, con);
+			cmd.Parameters.AddWithValue("@startDate", startDate);
+			cmd.Parameters.AddWithValue("@endDate", endDate);
+			cmd.Parameters.AddWithValue("@userID", userID);
+			cmd.Parameters.AddWithValue("@organizationID", organizationID);
+
+			try
+			{
+				con.Open();
+				MySqlDataReader reader = cmd.ExecuteReader();
+				while (reader.Read())
+				{
+					AppointmentViewModel appointment = new AppointmentViewModel
+					{
+						id = Convert.ToInt32(reader["id"]),
+						patient_id = Convert.ToInt32(reader["patient_id"]),
+						user_id = Convert.ToInt32(reader["user_id"]),
+						service_id = Convert.ToInt32(reader["service_id"]),
+						organization_id = reader["organization_id"] == DBNull.Value ? 0 : Convert.ToInt32(reader["organization_id"]),
+						start_date = reader["start_date"] == DBNull.Value ? Convert.ToDateTime("0001-01-01T00:00:00") : Convert.ToDateTime(reader["start_date"]),
+						end_date = reader["end_date"] == DBNull.Value ? Convert.ToDateTime("0001-01-01T00:00:00") : Convert.ToDateTime(reader["end_date"]),
+						is_active = Convert.ToBoolean(reader["is_active"]),
+					};
+
+					appointments.Add(appointment);
+				}
+				appointments.Reverse();
+				con.Close();
+			}
+			catch (Exception ex)
+			{
+				Medicloud.StandardMessages.CallSerilog(ex);
+				Console.WriteLine(ex.Message);
+			}
+			return appointments;
+		}
+
+		public List<AppointmentViewModel> GetAppointmentByDate(DateTime date, int userID, int organizationID)
+		{
+			List<AppointmentViewModel> appointments = new List<AppointmentViewModel>();
+			MySqlConnection con = new(ConnectionString);
+
+			string query = $@"SELECT a.*,
+									 p.name patient_name,
+									 p.surname patient_surname,
+									 p.id patient_id,
+									 p.clientPhone patient_phone,
+									 s.name service_name,
+									 s.id service_id
+							FROM medicloud.appointments a
+							LEFT JOIN patients p on p.id= a.patient_id
+							LEFT JOIN services s on s.id= a.service_id
+							WHERE DATE(start_date) = DATE(@date) AND 
+							is_active = 1 AND
+							user_id = @userID AND
+							organization_id = @organizationID";
+
+			MySqlCommand cmd = new(query, con);
+			cmd.Parameters.AddWithValue("@date", date);
+			cmd.Parameters.AddWithValue("@userID", userID);
+			cmd.Parameters.AddWithValue("@organizationID", organizationID);
+			try
+			{
+				con.Open();
+				MySqlDataReader reader = cmd.ExecuteReader();
+				while (reader.Read())
+				{
+					AppointmentViewModel appointment = new AppointmentViewModel
+					{
+						id = Convert.ToInt32(reader["id"]),
+						patient_id = Convert.ToInt32(reader["patient_id"]),
+						user_id = Convert.ToInt32(reader["user_id"]),
+						service_id = Convert.ToInt32(reader["service_id"]),
+						organization_id = reader["organization_id"] == DBNull.Value ? 0 : Convert.ToInt32(reader["organization_id"]),
+						start_date = reader["start_date"] == DBNull.Value ? Convert.ToDateTime("0001-01-01T00:00:00") : Convert.ToDateTime(reader["start_date"]),
+						end_date = reader["end_date"] == DBNull.Value ? Convert.ToDateTime("0001-01-01T00:00:00") : Convert.ToDateTime(reader["end_date"]),
+						is_active = Convert.ToBoolean(reader["is_active"]),
+						patient_name = reader["patient_name"].ToString(),
+						patient_surname = reader["patient_surname"].ToString(),
+						service_name = reader["service_name"].ToString(),
+						patient_phone = reader["patient_phone"].ToString(),
+					};
+
+					appointments.Add(appointment);
+				}
+				appointments.Reverse();
+				con.Close();
+			}
+			catch (Exception ex)
+			{
+				Medicloud.StandardMessages.CallSerilog(ex);
+				Console.WriteLine(ex.Message);
+			}
+			return appointments;
+		}
+	}
 }
