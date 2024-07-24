@@ -3,6 +3,7 @@ using Medicloud.Data;
 using Medicloud.Models;
 using Medicloud.Models.Repository;
 using Medicloud.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Security.Cryptography;
@@ -12,7 +13,7 @@ using System.Text;
 
 namespace Medicloud.Controllers
 {
-
+    [Authorize]
     public class PricingController : Controller
     {
         private readonly string ConnectionString;

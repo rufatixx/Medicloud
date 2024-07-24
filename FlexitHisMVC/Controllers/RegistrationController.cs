@@ -2,12 +2,14 @@
 using Medicloud.BLL.Service;
 using Medicloud.DAL.Repository;
 using Medicloud.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Medicloud.Controllers
 {
+   
     public class RegistrationController : Controller
     {
         private readonly string _connectionString;

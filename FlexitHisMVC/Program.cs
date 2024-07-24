@@ -125,7 +125,7 @@ app.Use(async (context, next) =>
         {
             var path = context.Request.Path.Value.ToLower();
 
-            if (path != "/" && !path.StartsWith("/home") && !path.StartsWith("/profile") && !path.StartsWith("/pricing") && !path.StartsWith("/payment"))
+            if (path != "/" && !path.StartsWith("/home") && !path.StartsWith("/profile") && !path.StartsWith("/pricing") && !path.StartsWith("/payment") && !path.StartsWith("/login"))
             {
                 context.Response.Redirect("/Pricing");
                 return;
