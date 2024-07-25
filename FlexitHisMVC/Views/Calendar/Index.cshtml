@@ -81,6 +81,11 @@
                 fetchAppointmentsForDay(new Date(info.event.startStr));
             },
             themeSystem: 'bootstrap',
+            titleFormat: {
+                month: 'numeric',
+                year: 'numeric'
+            },
+            locale : 'az'
         });
 
         calendar.render();
