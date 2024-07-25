@@ -1,8 +1,10 @@
 ﻿using Medicloud.BLL.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Medicloud.Controllers
 {
+    [Authorize]
     public class PatientController : Controller
     {
         private readonly string ConnectionString;

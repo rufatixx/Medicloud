@@ -5,6 +5,7 @@ using Medicloud.BLL.Models;
 using Medicloud.BLL.Utils;
 using Medicloud.DAL.Repository;
 using Medicloud.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Medicloud.Controllers
 {
@@ -114,7 +115,7 @@ namespace Medicloud.Controllers
             }
         }
 
-
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Process([FromQuery] int amount, int month, int planId)
         {

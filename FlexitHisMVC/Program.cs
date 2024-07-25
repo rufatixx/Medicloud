@@ -117,22 +117,21 @@ app.UseAuthorization();
 
 app.Use(async (context, next) =>
 {
-    // if (context.User.Identity.IsAuthenticated)
-    // {
-    //     var planExpiryDateString = context.Session.GetString("Medicloud_UserPlanExpireDate");
-    //
-    //     if (string.IsNullOrEmpty(planExpiryDateString) || !DateTime.TryParse(planExpiryDateString, out var planExpiryDate) || DateTime.Now > planExpiryDate)
-    //     {
-    //         var path = context.Request.Path.Value.ToLower();
-    //
-    //         if (path != "/" && !path.StartsWith("/home") && !path.StartsWith("/profile") && !path.StartsWith("/pricing") && !path.StartsWith("/payment"))
-    //         {
-    //             context.Response.Redirect("/Pricing");
-    //             return;
-    //         }
-    //     }
-    // }
+    if (context.User.Identity.IsAuthenticated)
+    {
+        var planExpiryDateString = context.Session.GetString("Medicloud_UserPlanExpireDate");
 
+        if (string.IsNullOrEmpty(planExpiryDateString) || !DateTime.TryParse(planExpiryDateString, out var planExpiryDate) || DateTime.Now > planExpiryDate)
+        {
+            var path = context.Request.Path.Value.ToLower();
+
+            if (path != "/" && !path.StartsWith("/home") && !path.StartsWith("/profile") && !path.StartsWith("/pricing") && !path.StartsWith("/payment") && !path.StartsWith("/login"))
+            {
+                context.Response.Redirect("/Pricing");
+                return;
+            }
+        }
+    }
     await next();
 });
 
