@@ -102,7 +102,7 @@
         }
 
         function fetchAppointmentsForDay(dateStr) {
-            fetch(`/Appointments/GetAppointmentByDate?date=${dateStr.toISOString()}`)
+            fetch(`@Url.Action("GetAppointmentByDate", "Appointments")/?date=${dateStr.toISOString()}`)
                 .then(response => {
                     return response.json();
                 })
@@ -137,7 +137,7 @@
             const startDate = calendar.view.activeStart;
             const endDate = calendar.view.activeEnd;
 
-            fetch(`/Appointments/GetAppointmentsByRange?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`)
+            fetch(`@Url.Action("GetAppointmentsByRange", "Appointments")/?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`)
                 .then(response => {
                     return response.json();
                 })

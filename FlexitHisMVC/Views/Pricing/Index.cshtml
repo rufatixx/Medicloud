@@ -115,7 +115,7 @@
     }
 
     function setPayment(amount, month, planId) {
-        fetch(`/payment/process?amount=${amount}&month=${month}&planId=${planId}`, {
+        fetch(`@Url.Action("Process", "Payment")?amount=${amount}&month=${month}&planId=${planId}`, {
             method: 'POST',
         })
             .then(response => response.text())

@@ -83,7 +83,7 @@
                 // Ajax POST request
                 $.ajax({
                     type: 'POST',
-                    url: '/Login/SignIn',
+                    url : '@Url.Action("SignIn","Login")',
                     data: { mobileNumber: mobileNumber, pass: password },
                     dataType: 'json',
                     success: function (data, status, xhr) {

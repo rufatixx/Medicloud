@@ -149,7 +149,7 @@
             let percent = $('#percent').val();
             let isDiscount = $('#isDiscount').prop('checked');
             $.ajax({
-                url: '/Admin/PriceGroup/AddServicesToPriceGroup',
+                url: @Url.Action("AddServicesToPriceGroup","Services", new {Area = "Admin"}),
                 method: 'POST',
                 data: { percent: percent, priceGroupID: priceGroupID, isDiscount: isDiscount },
                 success: function (data) {

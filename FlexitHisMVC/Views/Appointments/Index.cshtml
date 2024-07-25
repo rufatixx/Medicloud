@@ -166,8 +166,6 @@
         const searchInputService = document.getElementById('searchInputService');
         const dropdownContentService = document.getElementById('dropdownContentService');
 
-        loadTime();
-
         searchInput.addEventListener('focus', () => {
             dropdownContent.classList.add('show');
         });
@@ -208,35 +206,6 @@
             }
         });
 
-        function loadTime() {
-            const select = document.getElementById('Time');
-            const startHour = 8;
-            const endHour = 21;
-            const interval = 10;
-
-            for (let hour = startHour; hour <= endHour; hour++) {
-                for (let minute = 0; minute < 60; minute += interval) {
-                    let start = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
-                    let endMinute = minute + interval;
-                    let end = `${String(hour).padStart(2, '0')}:${String(endMinute).padStart(2, '0')}`;
-
-                    if (endMinute > 59) {
-                        endMinute = 0;
-                        end = `${String(hour + 1).padStart(2, '0')}:00`;
-                    }
-
-                    let optionValue = `${start}`;
-                    let optionText = `${start} - ${end}`;
-                    let option = document.createElement('option');
-                    option.value = optionValue;
-                    option.textContent = optionText;
-
-                    select.appendChild(option);
-                }
-            }
-        }
-
-
     });
 </script>
 
@@ -252,7 +221,7 @@
             searchInput.addEventListener('keyup', debounce(function (e) {
                 const search = searchInput.value;
 
-                fetch(`/Patient/GetPatientByName?search=${encodeURIComponent(search)}`)
+                fetch(`@Url.Action("GetPatientByName", "Patient")/?search=${encodeURIComponent(search)}`)
                     .then(response => response.json())
                     .then(data => {
                         let listContent = "";
@@ -275,7 +244,7 @@
             searchInputService.addEventListener('keyup', debounce(function (e) {
                 const search = searchInputService.value;
 
-                fetch(`/Services/GetAllServices?search=${encodeURIComponent(search)}`)
+                fetch(`@Url.Action("GetAllServices", "Services")/?search=${encodeURIComponent(search)}`)
                     .then(response => response.json())
                     .then(data => {
                         let listContent = "";
@@ -331,7 +300,7 @@
         }
 
         function selectPatient(id, name) {
-            fetch(`/Patient/GetPatientById?id=${id}`)
+            fetch(`@Url.Action("GetPatientById", "Patient")/?id=${id}`)
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById('patientMobileModal').value = data?.phone;
@@ -348,7 +317,7 @@
         }
 
         function updateAppointment(id) {
-            fetch(`/Appointments/GetAppointmentById?id=${id}`)
+            fetch(`@Url.Action("GetAppointmentById", "Appointments")/?id=${id}`)
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById("Id").value = data?.id;
@@ -364,7 +333,7 @@
 
         function deleteAppointment(id) {
             if (confirm("Silmək istədiyinizə əminsiniz?")) {
-                fetch(`/Appointments/DeleteAppointmentById?id=${id}`, {
+                fetch(`@Url.Action("DeleteAppointmentById", "Appointments")/?id=${id}`,{
                     method: 'DELETE'
                 })
                     .then(response => {

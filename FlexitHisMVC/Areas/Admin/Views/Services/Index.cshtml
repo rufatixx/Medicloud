@@ -695,7 +695,7 @@
             $('#selectedServiceGroupInSettings').empty();
 
             $.ajax({
-                url: '/Admin/services/GetServiceGroups',
+                url: '@Url.Action("GetServiceGroups","Services", new {Area = "Admin"})',
                 type: 'GET',
                 data: { organizationID: localStorage.selectedOrganization },
                 success: function (response) {
@@ -828,7 +828,7 @@
         }
         function fetchServicesWithGroupNames(groupId) {
             $.ajax({
-                url: '/Admin/services/GetServicesWithServiceGroupName',
+                url: '@Url.Action("GetServicesWithServiceGroupName","Services", new {Area = "Admin"})',
                 type: 'GET',
                 data: { organizationID: localStorage.selectedOrganization, serviceGroupID: groupId },
                 success: function (response) {
@@ -926,7 +926,7 @@
 
         function fetchDepartments() {
             $.ajax({
-                url: '/Admin/services/GetDepartmentsInOrganization',
+                url: '@Url.Action("GetDepartmentsInOrganization","Services", new {Area = "Admin"})',
                 type: 'GET',
                 data: { organizationID: localStorage.selectedOrganization },
                 success: function (response) {
@@ -949,7 +949,7 @@
         }
         function fetchServiceTypes() {
             $.ajax({
-                url: '/Admin/services/GetServiceTypes',
+                url: '@Url.Action("GetServiceTypes","Services", new {Area = "Admin"})',
                 type: 'GET',
                 success: function (response) {
                     var serviceTypesSelect = $('#serviceTypeInSettings');
@@ -971,7 +971,7 @@
         }
         function fetchDepartmentsInService(serviceID) {
             $.ajax({
-                url: '/Admin/services/GetDepartmentsInService',
+                url: '@Url.Action("GetDepartmentsInService","Services", new {Area = "Admin"})',
                 type: 'GET',
                 data: { serviceID: serviceID },
                 success: function (response) {
@@ -1014,7 +1014,7 @@
             };
 
             $.ajax({
-                url: '/Admin/services/UpdateService',
+                url: '@Url.Action("UpdateService","Services", new {Area = "Admin"})',
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(service),
@@ -1248,7 +1248,7 @@
 
                 // Send the service object to the server-side endpoint for insertion
                 $.ajax({
-                    url: '/admin/services/InsertService', // Replace this with your actual endpoint URL
+                    url: '@Url.Action("InsertService","Services", new {Area = "Admin"})',
                     type: 'POST',
                     contentType: 'application/json',
                     data: JSON.stringify(serviceObj),
@@ -1295,7 +1295,7 @@
             // Assuming you have the serviceId available, add the department to the service
             // This will need to be an AJAX call or similar to your backend system, like:
             $.ajax({
-                url: '/Admin/services/InsertDepartmentToService',
+                url: '@Url.Action("InsertDepartmentToService","Services", new {Area = "Admin"})',
                 type: 'GET',
                 data: {
                     serviceId: selectedServiceID, // Update this with how you are storing the current service ID
