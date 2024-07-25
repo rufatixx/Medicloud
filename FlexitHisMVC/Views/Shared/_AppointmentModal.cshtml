@@ -263,7 +263,7 @@
         searchInput.addEventListener('keyup', debounce(function (e) {
             const search = searchInput.value;
 
-            fetch(`/Patient/GetPatientByName?search=${encodeURIComponent(search)}`)
+            fetch(`@Url.Action("GetPatientByName", "Patient")/?search=${encodeURIComponent(search)}`)
                 .then(response => response.json())
                 .then(data => {
                     let listContent = "";
@@ -286,7 +286,7 @@
         searchInputService.addEventListener('keyup', debounce(function (e) {
             const search = searchInputService.value;
 
-            fetch(`/Services/GetAllServices?search=${encodeURIComponent(search)}`)
+            fetch(`@Url.Action("GetAllServices", "Services")/?search=${encodeURIComponent(search)}`)
                 .then(response => response.json())
                 .then(data => {
                     let listContent = "";
@@ -342,7 +342,7 @@
     }
 
     function selectPatient(id, name) {
-        fetch(`/Patient/GetPatientById?id=${id}`)
+        fetch(`@Url.Action("GetPatientById", "Patient")/?id=${id}`)
             .then(response => response.json())
             .then(data => {
                 document.getElementById('patientMobileModal').value = data?.phone;

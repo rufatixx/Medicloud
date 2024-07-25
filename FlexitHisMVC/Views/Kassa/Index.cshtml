@@ -669,8 +669,7 @@ else
 
             $.ajax({
                 type: 'POST',
-                url: '/Kassa/AddIncome',
-
+                url: '@Url.Action("AddIncome","Kassa")',
                 data: paymentData,
                 dataType: 'json',
                 success: function (data, status, xhr) {
