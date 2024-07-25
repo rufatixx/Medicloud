@@ -1,10 +1,11 @@
 ﻿using Medicloud.BLL.Models;
 using Medicloud.BLL.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Medicloud.Controllers;
 
-
+[Authorize]
 public class AppointmentsController : Controller
 {
     private readonly string ConnectionString;

@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Medicloud.Controllers
 {
+    [Authorize]
     public class KassaRecipesController : Controller
     {
         

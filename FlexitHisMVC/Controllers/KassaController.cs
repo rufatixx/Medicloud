@@ -18,6 +18,7 @@ using Org.BouncyCastle.Utilities.Collections;
 
 namespace Medicloud.Controllers
 {
+    [Authorize]
     public class KassaController : Controller
     {
 

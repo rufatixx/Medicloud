@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Medicloud.Controllers
 {
-	public class CalendarController : Controller
+    [Authorize]
+    public class CalendarController : Controller
 	{
 		public IActionResult Index()
 		{

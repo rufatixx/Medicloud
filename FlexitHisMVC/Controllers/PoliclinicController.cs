@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Medicloud.Controllers
 {
-   
+    [Authorize]
     public class PoliclinicController : Controller
     {
         private readonly string ConnectionString;

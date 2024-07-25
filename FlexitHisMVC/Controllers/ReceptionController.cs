@@ -3,13 +3,14 @@ using Medicloud.Data;
 using Medicloud.Models;
 using Medicloud.Models.Repository;
 using Medicloud.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Medicloud.Controllers
 {
-
+    [Authorize]
     public class ReceptionController : Controller
     {
         private readonly string ConnectionString;

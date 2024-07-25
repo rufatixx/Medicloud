@@ -3,13 +3,14 @@ using Medicloud.Models;
 using Medicloud.Models.Domain;
 using Medicloud.Models.Repository;
 using Medicloud.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Medicloud.Controllers
 {
-
+    [Authorize]
     public class PrescriptionsController : Controller
     {
         private readonly string ConnectionString;
