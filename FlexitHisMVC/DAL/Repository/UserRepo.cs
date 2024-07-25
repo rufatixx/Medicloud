@@ -235,7 +235,7 @@ FROM
 JOIN 
     speciality s ON a.specialityID = s.id
 LEFT JOIN 
-    user_plans p ON a.id = p.user_id
+    user_plans p ON a.id = p.user_id AND p.isActive = 1
 WHERE 
     a.id = @id
     AND a.isActive = 1;
