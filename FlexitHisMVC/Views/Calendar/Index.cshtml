@@ -10,7 +10,7 @@
 </style>
 <div class="col-12">
     <div class="page-title-box">
-        
+
         <h2 class="page-title">Təqvim</h2>
     </div>
 </div>
@@ -53,9 +53,10 @@
 
 @Html.Partial("_AppointmentModal")
 
+@section Scripts{
+    <script src="/assets/vendor/fullcalendar/main.min.js"></script>
 
-
-<script>document.addEventListener('DOMContentLoaded', function () {
+    <script>document.addEventListener('DOMContentLoaded', function () {
         const calendarEl = document.getElementById('calendar');
         const calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: 'dayGridMonth',
@@ -196,7 +197,4 @@
         fetchAndDisplayEvents();
     });</script>
 
-<script src="assets/js/vendor.min.js"></script>
-<script src="assets/vendor/fullcalendar/main.min.js"></script>
-<script src="assets/js/app.min.js"></script>
-<script src="assets/js/hyper-config.js"></script>
+}
