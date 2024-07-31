@@ -303,7 +303,7 @@
             fetch(`@Url.Action("GetPatientById", "Patient")/?id=${id}`)
                 .then(response => response.json())
                 .then(data => {
-                    document.getElementById('patientMobileModal').value = data?.phone;
+                    document.getElementById('patientPhone').value = data?.phone;
                 });
             document.getElementById('searchInput').value = name;
             document.getElementById('PatientId').value = id;
@@ -324,7 +324,7 @@
                     document.getElementById('ServiceId').value = data?.service_id;
                     document.getElementById('PatientId').value = data?.patient_id;
                     document.getElementById('MeetingDate').value = new Date(data?.start_date).toISOString().split('T')[0];
-                    document.getElementById('patientMobileModal').value = data?.patient_phone;
+                    document.getElementById('patientPhone').value = data?.patient_phone;
                     document.getElementById('searchInput').value = data?.patient_name;
                     document.getElementById('searchInputService').value = data?.service_name;
                     document.getElementById('Time').value = `${formatTime(new Date(data?.start_date))}`;
@@ -360,7 +360,7 @@
             document.getElementById('ServiceId').value = '';
             document.getElementById('PatientId').value = '';
             document.getElementById('MeetingDate').value = '';
-            document.getElementById('patientMobileModal').value = '';
+            document.getElementById('patientPhone').value = '';
             document.getElementById('searchInput').value = '';
             document.getElementById('searchInputService').value = '';
             document.getElementById('Time').value = '';

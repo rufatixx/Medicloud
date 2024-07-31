@@ -110,7 +110,7 @@
                         </label>
                         <input type="tel"
                                class="form-control"
-                               id="patientMobileModal"
+                               id="patientPhone"
                                name="PhoneNumber"
                                placeholder="+994"
                                required>
@@ -175,6 +175,18 @@
 
 
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const phoneInput = document.getElementById('patientPhone');
+        const checkbox = document.getElementById('not_phone');
+
+        checkbox.addEventListener('change', function() {
+            phoneInput.disabled = checkbox.checked;
+            if (checkbox.checked) {
+                phoneInput.value = ''; 
+            }
+        });
+    });
+    
     document.addEventListener('DOMContentLoaded', () => {
 
 
@@ -345,7 +357,7 @@
         fetch(`@Url.Action("GetPatientById", "Patient")/?id=${id}`)
             .then(response => response.json())
             .then(data => {
-                document.getElementById('patientMobileModal').value = data?.phone;
+                document.getElementById('patientPhone').value = data?.phone;
             });
         document.getElementById('searchInput').value = name;
         document.getElementById('PatientId').value = id;
@@ -369,7 +381,7 @@
         document.getElementById('ServiceId').value = '';
         document.getElementById('PatientId').value = '';
         document.getElementById('MeetingDate').value = '';
-        document.getElementById('patientMobileModal').value = '';
+        document.getElementById('patientPhone').value = '';
         document.getElementById('searchInput').value = '';
         document.getElementById('searchInputService').value = '';
         document.getElementById('Time').value = '';
@@ -383,4 +395,5 @@
             minuteIncrement: 10
         });
     });
+
 </script>

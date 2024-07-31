@@ -10,4 +10,5 @@ public class Appointment
     public DateTime end_date { get; set; }
     public bool is_active { get; set; }
 	public int user_id { get; set; }
+	public long? patient_phone { get; set; }
 }

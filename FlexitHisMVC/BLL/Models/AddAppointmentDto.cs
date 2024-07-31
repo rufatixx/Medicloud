@@ -9,4 +9,5 @@ public class AddAppointmentDto
     public DateTime MeetingDate { get; set; }
     public TimeSpan Time { get; set; }
 	public int UserId { get; set; }
+	public long? PhoneNumber { get; set; }
 }

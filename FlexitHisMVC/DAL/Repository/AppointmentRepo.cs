@@ -16,8 +16,8 @@ namespace Medicloud.DAL.Repository
 		public bool InsertAppointment(Appointment appointment)
 		{
 			MySqlConnection con = new(ConnectionString);
-			string query = @"INSERT INTO appointments (patient_id, service_id, organization_id, start_date, end_date, user_id)
-                VALUES (@patient_id, @service_id, @orgID, @start_date, @end_date, @user_id)";
+			string query = @"INSERT INTO appointments (patient_id, service_id, organization_id, start_date, end_date, user_id, patient_phone)
+                VALUES (@patient_id, @service_id, @orgID, @start_date, @end_date, @user_id, @patient_phone)";
 
 			MySqlCommand cmd = new(query, con);
 			cmd.Parameters.AddWithValue("@patient_id", appointment.patient_id);
@@ -26,6 +26,7 @@ namespace Medicloud.DAL.Repository
 			cmd.Parameters.AddWithValue("@start_date", appointment.start_date);
 			cmd.Parameters.AddWithValue("@end_date", appointment.end_date);
 			cmd.Parameters.AddWithValue("@user_id", appointment.user_id);
+			cmd.Parameters.AddWithValue("@patient_phone", appointment.patient_phone);
 
 			try
 			{
@@ -108,7 +109,6 @@ WHERE organization_id = @orgID and is_active = 1";
 			string query = @"SELECT a.*,
                              p.name patient_name,
                              p.surname patient_surname,
-							 p.clientPhone patient_phone,
                              p.id patient_id,
                              s.name service_name,
                              s.id service_id
@@ -182,7 +182,9 @@ WHERE organization_id = @orgID and is_active = 1";
 		{
 			MySqlConnection con = new(ConnectionString);
 			string query = $@"UPDATE medicloud.appointments 
-SET patient_id = @patient_id,organization_id=@orgID, service_id = @service_id, start_date = @start_date, end_date = @end_date, user_id=@user_id
+SET patient_id = @patient_id,organization_id=@orgID, service_id = @service_id,
+    start_date = @start_date, end_date = @end_date, user_id=@user_id,
+    patient_phone = @patient_phone
 WHERE id = @id";
 
 			MySqlCommand cmd = new(query, con);
@@ -193,6 +195,7 @@ WHERE id = @id";
 			cmd.Parameters.AddWithValue("@start_date", appointment.start_date);
 			cmd.Parameters.AddWithValue("@end_date", appointment.end_date);
 			cmd.Parameters.AddWithValue("@user_id", appointment.user_id);
+			cmd.Parameters.AddWithValue("@patient_phone", appointment.patient_phone);
 
 
 			try
@@ -347,7 +350,6 @@ s.name AS service_name, s.id AS service_id {baseQuery} ORDER BY a.id DESC LIMIT 
 									 p.name patient_name,
 									 p.surname patient_surname,
 									 p.id patient_id,
-									 p.clientPhone patient_phone,
 									 s.name service_name,
 									 s.id service_id
 							FROM medicloud.appointments a
