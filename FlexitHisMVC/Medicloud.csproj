@@ -102,6 +102,7 @@
     <Content Remove="wwwroot\js\menu\" />
     <Content Remove="wwwroot\js\new_patient\" />
     <Content Remove="wwwroot\js\admin\departments\" />
+    <Content Remove="wwwroot\js\phone-mask-min.js" />
     <Content Remove="wwwroot\res\kassa\" />
     <Content Remove="wwwroot\res\admin\" />
     <Content Remove="wwwroot\res\brand\" />
@@ -110,6 +111,12 @@
     <Content Remove="wwwroot\res\login\" />
     <Content Remove="wwwroot\res\fonts\" />
     <Content Remove="wwwroot\welcome_files\" />
+  </ItemGroup>
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\js\phone-mask-min.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="wwwroot\js\phone-mask-min.js" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Views\NewPatient">

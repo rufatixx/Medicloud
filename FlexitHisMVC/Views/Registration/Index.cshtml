@@ -15,11 +15,9 @@
         <div class="mb-3">
             <label for="emailaddress" class="form-label">Mobil nömrə</label>
 
-            <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1">+994</span>
-                <input class="form-control" type="number" id="mobileNumber" required="" placeholder="nömrənizi daxil edin">
+            <div class="form-group">
+                <input type="text" class="masked-phone form-control" data-phonemask="+994 (__) ___-__-__" id="mobileNumber" name="mobileNumber" placeholder="+994" />
             </div>
-
         </div>
 
 
@@ -30,38 +28,59 @@
 
     </form>
 </div> <!-- end card-body -->
-@section Scripts{
-    <script>
-    function sendOtpToRegister() {
-        var phone = $("#mobileNumber").val();
-        var alertBox = $("#alert");
-        var btn = $("#nextButton");
 
-        if (!phone) {
-            alertBox.text("Zəhmət olmasa nömrənizi daxil edin").removeAttr('hidden');
-            return;
+@section Scripts{
+    <script src="~/js/phone-mask-min.js"></script>
+
+    <script>
+        function setCursorToLastPlaceholder(input) {
+            const placeholder = input.value;
+            const cursorPos = placeholder.indexOf('_');
+
+            input.focus();
+
+            input.setSelectionRange(cursorPos, cursorPos);
         }
 
-        btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Yüklənir...');
-
-        $.ajax({
-            url: '@Url.Action("SendOtpForUserRegistration", "Registration")', // Change the URL to your actual endpoint
-            type: 'POST',
-            data:{ phone: phone },
-            success: function (response) {
-                if (response.success) {
-                    alertBox.text("OTP uğurla göndərildi").removeClass('alert-danger').addClass('alert-success').removeAttr('hidden');
-                    location.href = "/Registration/Step2"
-                } else {
-                    alertBox.text(response.message).removeClass('alert-success').addClass('alert-danger').removeAttr('hidden');
-                }
-                btn.prop('disabled', false).html('Növbəti');
-            },
-            error: function () {
-                alertBox.text("Server səhvi, yenidən cəhd edin").removeClass('alert-success').addClass('alert-danger').removeAttr('hidden');
-                btn.prop('disabled', false).html('Növbəti');
-            }
+        document.getElementById('mobileNumber').addEventListener('click', function () {
+            setCursorToLastPlaceholder(this);
         });
+
+
+    function sendOtpToRegister() {
+    var phone = $("#mobileNumber").val();
+    let formattedPhone = phone
+        .replace(/\+994\s*\(/, '')
+        .replace(/\)\s*/, '')
+        .replace(/[\s-]/g, '');
+    var alertBox = $("#alert");
+    var btn = $("#nextButton");
+
+    if (!formattedPhone) {
+    alertBox.text("Zəhmət olmasa nömrənizi daxil edin").removeAttr('hidden');
+    return;
+    }
+
+    btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Yüklənir...');
+
+    $.ajax({
+    url: '@Url.Action("SendOtpForUserRegistration", "Registration")', // Change the URL to your actual endpoint
+    type: 'POST',
+        data: { phone: formattedPhone },
+    success: function (response) {
+    if (response.success) {
+    alertBox.text("OTP uğurla göndərildi").removeClass('alert-danger').addClass('alert-success').removeAttr('hidden');
+    location.href = "/Registration/Step2"
+    } else {
+    alertBox.text(response.message).removeClass('alert-success').addClass('alert-danger').removeAttr('hidden');
+    }
+    btn.prop('disabled', false).html('Növbəti');
+    },
+    error: function () {
+    alertBox.text("Server səhvi, yenidən cəhd edin").removeClass('alert-success').addClass('alert-danger').removeAttr('hidden');
+    btn.prop('disabled', false).html('Növbəti');
+    }
+    });
     }
     </script>
 
