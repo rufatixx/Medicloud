@@ -3,30 +3,7 @@
 @{
     ViewData["Title"] = "Appointment Page";
 
-    int halfRange = 3;
-    int startPage = Model.CurrentPage - halfRange;
-    int endPage = Model.CurrentPage + halfRange;
-
-    if (startPage <= 0)
-    {
-        endPage -= (startPage - 1);
-        startPage = 1;
-    }
-    if (endPage > Model.TotalPages)
-    {
-        startPage -= (endPage - Model.TotalPages);
-        endPage = Model.TotalPages;
-    }
-    if (startPage <= 0) startPage = 1;
-
-    int loopStart = startPage;
-    int loopEnd = Math.Min(startPage + 6, Model.TotalPages);
-    var searchQuery = Context.Request.Query["searchQuery"];
-
 }
-
-
-
 
 
 <div class="col-12">
@@ -43,7 +20,7 @@
                data-bs-toggle="modal"
                data-bs-target="#add-appointment-modal"
                class="btn btn-primary w-md bg-blue radius-10">
-                + Yeni Randevu
+                + Yeni müayinə
             </a>
         </div>
         <h2 class="page-title">eNövbələr</h2>
@@ -76,7 +53,8 @@
                                 </thead>
                                 <tbody style="vertical-align:middle;">
                                     @{
-                                        var rowNumber = 0;
+                                        int pageSize = 10;
+                                        int rowNumber = ((Model.CurrentPage - 1) * pageSize);
                                         if (Model is not null)
                                         {
                                             foreach (var item in Model.Appointments)
@@ -116,31 +94,9 @@
                                 </tbody>
                             </table>
 
-                            @if (Model.TotalPages > 1)
-                            {
-                                <div class="pagination-container" style="overflow-x:auto;">
-                                    <nav class="d-flex justify-content-center">
-                                        <ul class="pagination mb-0">
-                                            <li class="page-item @(Model.CurrentPage <= 1 ? "disabled" : "")">
-                                                <a class="page-link" href="@Url.Action("Index", new { pageNumber = Model.CurrentPage - 1, searchQuery = searchQuery })" aria-label="Previous">
-                                                    <span aria-hidden="true">&laquo;</span>
-                                                </a>
-                                            </li>
-                                            @for (int i = loopStart; i <= loopEnd; i++)
-                                            {
-                                                <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
-                                                    <a class="page-link" href="@Url.Action("Index", new { pageNumber = i, searchQuery = searchQuery })">@i</a>
-                                                </li>
-                                            }
-                                            <li class="page-item @(Model.CurrentPage >= Model.TotalPages ? "disabled" : "")">
-                                                <a class="page-link" href="@Url.Action("Index", new { pageNumber = Model.CurrentPage + 1, searchQuery = searchQuery })" aria-label="Next">
-                                                    <span aria-hidden="true">&raquo;</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            }
+
+
+                            @await Component.InvokeAsync("Pagination", new { currentPage = Model.CurrentPage, totalPages = Model.TotalPages, searchQuery = Context.Request.Query["searchQuery"].ToString() })
 
 
 
@@ -366,14 +322,14 @@
             document.getElementById('Time').value = '';
         }
 
-        document.addEventListener('DOMContentLoaded', function () {
-            flatpickr('#example', {});
-            flatpickr('.default', {
-                enableTime: true,
-                dateFormat: "Y-m-d H:i",
-                minuteIncrement: 10
-            });
-        });
+        //document.addEventListener('DOMContentLoaded', function () {
+        //    flatpickr('#example', {});
+        //    flatpickr('.default', {
+        //        enableTime: true,
+        //        dateFormat: "Y-m-d H:i",
+        //        minuteIncrement: 10
+        //    });
+        //});
 
     </script>
 }

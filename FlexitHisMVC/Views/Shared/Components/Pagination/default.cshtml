@@ -1,0 +1,27 @@
+﻿@model Medicloud.ViewComponents.PaginationModel
+
+@if (Model.TotalPages > 1)
+{
+    <div class="pagination-container" style="overflow-x:auto;">
+        <nav class="d-flex justify-content-center">
+            <ul class="pagination mb-0">
+                <li class="page-item @(Model.CurrentPage <= 1 ? "disabled" : "")">
+                    <a class="page-link" href="@Url.Action("Index", new { pageNumber = Model.CurrentPage - 1, searchQuery = Model.SearchQuery })" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                @for (int i = Model.StartPage; i <= Model.EndPage; i++)
+                {
+                    <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                        <a class="page-link" href="@Url.Action("Index", new { pageNumber = i, searchQuery = Model.SearchQuery })">@i</a>
+                    </li>
+                }
+                <li class="page-item @(Model.CurrentPage >= Model.TotalPages ? "disabled" : "")">
+                    <a class="page-link" href="@Url.Action("Index", new { pageNumber = Model.CurrentPage + 1, searchQuery = Model.SearchQuery })" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+}

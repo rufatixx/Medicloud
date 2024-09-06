@@ -16467,7 +16467,7 @@ html[data-sidenav-size=sm-hover-active]:not([data-layout=topnav]) .leftside-menu
 .button-close-fullsidebar {
     cursor: pointer;
     display: none;
-    right: calc(var(--ct-leftbar-width-sm) * .5 - var(--ct-logo-sm-height) * .7);
+    right: calc(var(--ct-leftbar-width-sm) * .5 - var(--ct-logo-sm-height) * 1.3);
     top: 0;
     position: absolute;
     font-size: var(--ct-menu-item-icon-size);

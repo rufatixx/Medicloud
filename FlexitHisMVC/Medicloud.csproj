@@ -63,7 +63,6 @@
     <Folder Include="wwwroot\js\admin\departments\" />
     <Folder Include="Areas\Admin\Views\Personal\" />
     <Folder Include="Areas\Admin\ViewComponents\" />
-    <Folder Include="ViewComponents\" />
     <Folder Include="Areas\Admin\Views\Department\" />
     <Folder Include="Areas\Admin\Views\Home\" />
     <Folder Include="wwwroot\res\kassa\" />
