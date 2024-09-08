@@ -16933,8 +16933,8 @@ html[data-bs-theme=dark] #light-dark-mode .ri-moon-line::before {
     }
 
         .navbar-custom .dropdown .dropdown-menu {
-            left: 10px !important;
-            right: 10px !important
+/*            left: 10px !important;*/
+            right: 10px !important;
         }
 }
 

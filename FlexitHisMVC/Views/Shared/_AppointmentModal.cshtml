@@ -55,7 +55,7 @@
      style="display: none;">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content rounded-4">
-            <div class="modal-header py-3 px-4 border-bottom-0">
+            <div class="modal-header pt-3 px-4 border-bottom-0">
                 <button type="button"
                         class="btn btn-light btn-sm delete-button d-none"
                         onclick="deleteAppointment()">
@@ -63,7 +63,7 @@
                 </button>
                 <h5 class="modal-title"
                     id="modal-title">
-                    Yeni Randevu
+                    Yeni Növbə
                 </h5>
                 <button type="button"
                         class="btn-close"
@@ -71,7 +71,12 @@
                         aria-label="Close"
                         onclick="resetModal()" />
             </div>
-            <div class="modal-body p-4">
+
+            <div class="modal-body px-4">
+                <div class="alert alert-warning alert-dismissible fade show" role="alert" style="font-size:13px">
+                    Pasientin nömrəsi olduğu halda ona sms bildiriş göndəriləcək.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
                 <form class="needs-validation"
                       name="event-form"
                       id="newAppointmentForm"
@@ -79,6 +84,7 @@
                       asp-controller="Appointments"
                       asp-action="AddAppointment"
                       method="post"
+                      autocomplete="off"
                       novalidate>
 
                     <input type="hidden" name="Id" id="Id" />
@@ -97,9 +103,9 @@
                                    class="searchInput"
                                    id="searchInput"
                                    placeholder="Pasient seç">
-                            <p id="validationForPatient" style="color: #fa5c7c; display: none; font-size: 12px">Pasient seçin</p>
                             <div id="dropdownContent" class="dropdown-content">
                             </div>
+                            <p id="validationForPatient" style="color: #fa5c7c; display: none; font-size: 12px">Pasient seçin</p>
                         </div>
 
                     </div>
@@ -137,9 +143,9 @@
                         <div class="dropdown-app">
                             <input type="hidden" name="ServiceId" id="ServiceId" />
                             <input onchange="clearServiceId()" class="searchInput" type="text" id="searchInputService" placeholder="Xidmət seç">
-                            <p id="validationForService" style="color: #fa5c7c; display: none; font-size: 12px">Xidmət seçin</p>
                             <div id="dropdownContentService" class="dropdown-content">
                             </div>
+                            <p id="validationForService" style="color: #fa5c7c; display: none; font-size: 12px">Xidmət seçin</p>
                         </div>
 
                     </div>
@@ -198,11 +204,11 @@
 
         loadTime();
 
-        searchInput.addEventListener('focus', () => {
-            dropdownContent.classList.add('show');
-        });
+        // searchInput.addEventListener('input', () => {
+        // });
 
         searchInput.addEventListener('input', () => {
+            dropdownContent.classList.add('show');
             const filter = searchInput.value.toLowerCase();
             const links = dropdownContent.getElementsByTagName('a');
 
@@ -218,11 +224,11 @@
             }
         });
 
-        searchInputService.addEventListener('focus', () => {
-            dropdownContentService.classList.add('show');
-        });
+        // searchInputService.addEventListener('focus', () => {
+        // });
 
         searchInputService.addEventListener('input', () => {
+            dropdownContentService.classList.add('show');
             const filter = searchInputService.value.toLowerCase();
             const links = dropdownContentService.getElementsByTagName('a');
 
@@ -272,9 +278,8 @@
         const searchInput = document.getElementById('searchInput');
         const dropdownContent = document.getElementById('dropdownContent');
 
-        searchInput.addEventListener('keyup', debounce(function (e) {
+        searchInput.addEventListener('change', debounce(function (e) {
             const search = searchInput.value;
-
             fetch(`@Url.Action("GetPatientByName", "Patient")/?search=${encodeURIComponent(search)}`)
                 .then(response => response.json())
                 .then(data => {

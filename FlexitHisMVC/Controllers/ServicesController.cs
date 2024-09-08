@@ -98,6 +98,30 @@ namespace Medicloud.Controllers
         }
 
 
+        [HttpPost]
+
+        public IActionResult RemovePatientServiceByid(int id)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+
+                try
+                {
+
+                    var serviceInserted = patientCardServiceRelRepo.RemovePatientServiceById(id);
+
+
+                    return Ok();
+                }
+                catch (Exception ex)
+                {
+                    // Handle the exception and return an appropriate response
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Sorğunu emal edərkən xəta baş verdi.");
+                }
+            }
+            return Unauthorized();
+        }
+
 
         [HttpPost]
 

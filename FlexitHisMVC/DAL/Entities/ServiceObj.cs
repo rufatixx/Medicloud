@@ -14,6 +14,7 @@ namespace Medicloud.Models
         public int servicePriceID { get; set; }
         public string serviceGroup { get; set; }
         public bool isActive { get; set; }
+        public int card_id { get; set; }
 
     }
 }

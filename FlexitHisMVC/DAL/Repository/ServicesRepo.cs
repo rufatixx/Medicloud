@@ -20,7 +20,6 @@ namespace Medicloud.Models.Repository
 
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
             {
-
                 connection.Open();
                 using (MySqlCommand com = new MySqlCommand("SELECT * FROM services where organizationID=@organizationID and isActive=1 order by id desc;", connection))
                 {
@@ -41,7 +40,6 @@ namespace Medicloud.Models.Repository
                            
                             service.name = reader["name"].ToString();
                             service.price = Convert.ToDouble(reader["price"]);
-
                             serviceList.Add(service);
 
                            

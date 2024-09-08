@@ -118,6 +118,46 @@ namespace Medicloud.Models.Repository
             }
         }
 
+
+        public bool RemovePatientServiceById(int id)
+        {
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+                {
+                    connection.Open();
+
+                    string sql = @"
+                UPDATE patient_card_service_rel 
+                SET is_removed = 1 
+                WHERE id=@id";  
+
+                    using (MySqlCommand com = new MySqlCommand(sql, connection))
+                    {
+                        com.Parameters.AddWithValue("@id", id);
+
+                        int rowsAffected = com.ExecuteNonQuery();
+                        if (rowsAffected > 0)
+                        {
+                            Console.WriteLine("Service successfully marked as removed.");
+                            return true; // The service was successfully marked as removed
+                        }
+                        else
+                        {
+                            Console.WriteLine("No service was marked as removed.");
+                            return false; // No rows were updated, possibly because no matching record was found or it was already removed
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Medicloud.StandardMessages.CallSerilog(ex);
+                Console.WriteLine(ex.Message);
+                return false; // Return false if an exception occurred
+            }
+        }
+
         //public List<dynamic> GetServicesFromPatientCard(int patientCardID)
         //{
         //    try
@@ -204,7 +244,8 @@ namespace Medicloud.Models.Repository
                    doc.name AS doc_name, 
                    doc.surname AS doc_surname, 
                    senderDoc.name AS sender_doc_name, 
-                   senderDoc.surname AS sender_doc_surname
+                   senderDoc.surname AS sender_doc_surname,
+                   pc.ID as CardId
             FROM patient_card_service_rel pcsr
             left JOIN services s ON pcsr.serviceID = s.id
            left JOIN service_group sg ON s.serviceGroupID = sg.id
@@ -228,7 +269,7 @@ namespace Medicloud.Models.Repository
                             while (reader.Read())
                             {
                                 dynamic result = new ExpandoObject();
-
+                                result.id=reader["id"] != DBNull.Value ? Convert.ToInt32(reader["id"]) : (int?)null;
                                 result.PatientCardID = reader["patientCardID"] != DBNull.Value ? Convert.ToInt32(reader["patientCardID"]) : (int?)null;
                                 result.ServiceID = reader["serviceID"] != DBNull.Value ? Convert.ToInt32(reader["serviceID"]) : (int?)null;
                                 result.SenderDocID = reader["senderDocID"] != DBNull.Value ? Convert.ToInt32(reader["senderDocID"]) : (int?)null;
@@ -245,7 +286,7 @@ namespace Medicloud.Models.Repository
                                 result.SenderDocName = reader["sender_doc_name"] != DBNull.Value ? reader["sender_doc_name"].ToString() : null;
                                 result.SenderDocSurname = reader["sender_doc_surname"] != DBNull.Value ? reader["sender_doc_surname"].ToString() : null;
                                 result.cDate = reader["cDate"] != DBNull.Value ? Convert.ToDateTime(reader["cDate"]) : (DateTime?)null;
-
+                                result.card_id=reader["CardId"] != DBNull.Value ? Convert.ToInt32(reader["CardId"]) : (int?)null;
 
                                 results.Add(result);
                             }

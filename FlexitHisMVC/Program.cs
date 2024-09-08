@@ -1,6 +1,12 @@
 ﻿using System.Configuration;
 using FlexitHisCore.Models;
 using Medicloud.BLL.Service;
+using Medicloud.BLL.Services.Abstract;
+using Medicloud.BLL.Services.Concrete;
+using Medicloud.DAL.Infrastructure.Abstract;
+using Medicloud.DAL.Infrastructure.Concrete;
+using Medicloud.DAL.Repository.Abstract;
+using Medicloud.DAL.Repository.Concrete;
 using Medicloud.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -92,7 +98,14 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 builder.Services.AddSwaggerGen();
 
-
+var con= builder.Configuration.GetConnectionString("DefaultConnectionString");
+builder.Services.AddScoped<IUnitOfWork>(provider => new UnitOfWork(con));
+builder.Services.AddScoped<IServicesRepository, ServicesRepository>();
+builder.Services.AddScoped<IServicesService, ServicesService>();
+builder.Services.AddScoped<IRequestTypeRepository, RequestTypeRepository>();
+builder.Services.AddScoped<IRequestTypeService, RequestTypeService>();
+builder.Services.AddScoped<IPatientCardRepository, PatientCardRepository>();
+builder.Services.AddScoped<IPatientCardService, PatientCardService>();
 var app = builder.Build();
 
 app.UseSession();

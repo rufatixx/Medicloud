@@ -1,0 +1,178 @@
+﻿
+<div class="modal fade" id="patientSearch" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content rounded-4">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Müştəri axtarışı</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <div class="modal-body">
+                <form id="searchForm" autocomplete="off">
+                    <div class="form-group mb-3">
+                        <!-- <h3 style="text-align:right; margin-right:2%"><span class="badge badge-secondary">Cəmi: ---</span></h1> -->
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                <label class="form-label">Xəstənin tam adı </label>
+                                <input type="text" class="form-control" required id="fullNamePattern" placeholder="">
+
+                            </div>
+
+
+
+                        </div>
+
+
+
+                    </div>
+                    <div class="form-group mb-3">
+                        <!-- <h3 style="text-align:right; margin-right:2%"><span class="badge badge-secondary">Cəmi: ---</span></h1> -->
+                        <div class="row">
+
+                            <div class="col-md-12">
+
+
+                                <label class="form-label">Xəstələr</label>
+
+
+                                <table class="table" id="foundPatientsTable">
+                                    <thead>
+                                        <tr>
+
+                                            <th scope="col">Ad</th>
+                                            <th scope="col">Soyad</th>
+                                            <th scope="col">Ata adı</th>
+
+                                            <th scope="col">fin</th>
+
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+
+
+                        </div>
+
+
+
+                    </div>
+
+
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ləğv et</button>
+                <button type="button" class="btn btn-primary" onclick="serachForPatient()">Axtar</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function serachForPatient() {
+
+        showLoading();
+        $('#systemModalTitle').text("Yüklənir...");
+        $('#systemModalText').html(`<center><div class="spinner-border text-dark mx-auto" role="status">
+                                                                    <span class="sr-only">Loading...</span>
+                                                                  </div></center>`);
+        $('#systemModalBtn').attr("hidden", "");
+        $.ajax({
+            type: 'POST',
+            url: `@Url.Action("SearchForPatient", "Reception")`,
+            data: { fullNamePattern: $("#fullNamePattern").val() },
+            dataType: 'json',
+            success: function (data, status, xhr) {   // success callback function
+                //  var json = JSON.stringify(data)
+
+                if (typeof (Storage) !== "undefined") {
+
+                    localStorage.requestToken = data.requestToken
+                } else {
+
+                    // Sorry! No Web Storage support..
+                }
+
+                const tableBody = $('#foundPatientsTable tbody');
+                tableBody.empty();
+                //$("#foundPatients").empty();
+                foundPatients = data;
+                //alert(data.requestTypes[0].name)
+                //$.each(data, function () {
+                //    var bDate = this.bDate.split('T')[0];
+                //    $("#foundPatients").append($("<option />").val(this.id).text(`${this.name} ${this.surname} ${this.father} (${bDate})`));
+                //});
+
+
+                data.forEach(function (item) {
+                    const row = $('<tr></tr>');
+                    // Add an event listener for row click
+                    row.on('click', function () {
+
+                        foundPatientClicked(item);
+                    });
+                    //const checkbox = $('<input type="checkbox" class="select-item" data-id="' + item.id + '">');
+                    //row.append('<td></td>').append(checkbox);
+
+                    row.append('<td>' + item.name + '</td>');
+                    row.append('<td>' + item.surname + '</td>');
+                    row.append('<td>' + item.father + '</td>');
+                    row.append('<td>' + item.fin + '</td>');
+
+                    // Add more columns as needed
+
+                    tableBody.append(row);
+                });
+
+                // Add event listener for checkbox changes
+                $('.select-item-ingredient').on('change', function () {
+                    const selectedId = $(this).data('id');
+                    if ($(this).prop('checked')) {
+                        // Checkbox is checked
+                        $('.select-item-ingredient').not(this).prop('checked', false);
+
+                        $('#insertActiveIngredientBtn').hide()
+                        $('#updateActiveIngredientBtn').show()
+                    } else {
+                        $('#insertActiveIngredientBtn').show()
+                        $('#updateActiveIngredientBtn').hide()
+                    }
+                });
+                hideLoading()
+
+
+
+                //$('p').append(data.name + ' ' + data.surname);
+            },
+            error: function (jqXhr, textStatus, errorMessage) { // error callback
+                hideLoading()
+
+                if (jqXhr.status == "401") {
+                    localStorage.clear()
+                    $('#systemModalTitle').text("Sessiyanız başa çatıb");
+                    $('#systemModalText').html(`<p id="systemModalText">Zəhmət olmasa yenidən giriş edin</p>`);
+                    $('#systemModalBtn').removeAttr("hidden");
+                }
+                else {
+                    $('#warningModal').show()
+                    $('#warningText').text(jqXhr.status);
+                }
+                //  $('#alert').text('Error: ' + errorMessage);
+            }
+
+        });
+    }
+
+
+
+
+</script>

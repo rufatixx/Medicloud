@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "- Anketlər";
+    ViewData["Title"] = "- Kartlar";
 
 }
 
@@ -17,12 +17,12 @@
                 </a>
 
 
-                <button type="reset" class="btn btn-primary w-md bg-blue radius-10" onclick=" $('#patientSearch').modal('show');">+ Yeni anket</button>
-  @*<button type="reset" class="btn btn-primary w-md bg-blue radius-10" onclick=" $('#patientSearch').modal('show');">+ Yeni xidmət</button>
-  <button type="reset" class="btn btn-primary w-md bg-blue radius-10" onclick=" $('#patientSearch').modal('show');">+ Yeni diagnoz</button>*@
+                <button type="reset" class="btn btn-primary w-md bg-blue radius-10" onclick=" $('#patientSearch').modal('show');">+ Yeni müayinə kartı</button>
+                @*<button type="reset" class="btn btn-primary w-md bg-blue radius-10" onclick=" $('#patientSearch').modal('show');">+ Yeni xidmət</button>
+                <button type="reset" class="btn btn-primary w-md bg-blue radius-10" onclick=" $('#patientSearch').modal('show');">+ Yeni diagnoz</button>*@
 
             </div>
-            <h2 class="page-title">Anketlər</h2>
+            <h2 class="page-title">Müayinə Kartları</h2>
         </div>
     </div>
 </div>
@@ -41,42 +41,42 @@
                                         <th class="text-muted" rowspan="1" colspan="1" style="width: 43px;">#</th>
                                         <th class="text-muted" rowspan="1" colspan="1" style="width: 160px;">Ad, Soyad</th>
                                         <th class="text-muted" rowspan="1" colspan="1" style="width: 199px;">Gün</th>
-                                        <th class="text-muted" rowspan="1" colspan="1" style="width: 231px;">Xidmət/Prosedur</th>
                                         <th class="text-muted" rowspan="1" colspan="1" style="width: 231px;">Diagnoz</th>
+                                        <th class="text-muted" rowspan="1" colspan="1" style="width: 231px;">Kart nömrəsi</th>
                                         @*<th class="text-muted" rowspan="1" colspan="1" style="width: 175px;">Seçin</th>*@
                                     </tr>
                                 </thead>
                                 <tbody style="vertical-align:middle; font-weight:500;">
-                                    @{ var rowNumber = 0;
+                                    @{
+                                        var rowNumber = 0;
                                         foreach (var item in Model)
                                         {
                                             rowNumber++;
 
-                                            <tr  class="odd">
+                                            <tr class="odd">
                                                 <th class="text-muted dtr-control" tabindex="0">@rowNumber</th>
                                                 <td>@item.name @item.surname</td>
                                                 <td>@item.cDate.ToString("dd.MM.yyyy")</td>
 
 
                                                 <td>
-                                                    <a href="@Url.Action("Index", "Services", new { area = "",cardId=$"{@item.patientCardID}"})">
-                                                        Bax
-                                                    </a>
-                                                </td>
-                                                <td>
                                                     <a href="@Url.Action("Index", "Diagnoses", new {area="",patientFullName=$"{@item.name} {@item.surname}",patientID =item.ID})">
                                                         Bax
                                                     </a>
                                                 </td>
-
+                                                <td>
+                                                    <a href="@Url.Action("Index", "Services", new { area = "",cardId=$"{@item.patientCardID}"})">
+                                                        @item.patientCardID
+                                                    </a>
+                                                </td>
                                                 @*<td style="float: right">
-                                                        <a href="patient-edit.php?patient_id=61294"><button type="button" class="btn btn-light btn-sm edit-button" data-id="1"><i class="far fa-edit"></i></button></a>
-                                                        <a href="javascript:void(0);" class="delete-link" data-patient-id="61294">
-                                                            <button type="button" class="btn btn-light btn-sm delete-button">
-                                                                <i class="far fa-trash-alt"></i>
-                                                            </button>
-                                                        </a>
-                                                    </td>*@
+                                        <a href="patient-edit.php?patient_id=61294"><button type="button" class="btn btn-light btn-sm edit-button" data-id="1"><i class="far fa-edit"></i></button></a>
+                                        <a href="javascript:void(0);" class="delete-link" data-patient-id="61294">
+                                        <button type="button" class="btn btn-light btn-sm delete-button">
+                                        <i class="far fa-trash-alt"></i>
+                                        </button>
+                                        </a>
+                                        </td>*@
                                             </tr>
 
                                         }
@@ -95,173 +95,11 @@
         </div>
     </div> <!-- end col -->
 </div>
-<div class="modal fade" id="patientSearch" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-scrollable">
-        <div class="modal-content rounded-4">
-            <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Müştəri axtarışı</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="form-group mb-3">
-                        <!-- <h3 style="text-align:right; margin-right:2%"><span class="badge badge-secondary">Cəmi: ---</span></h1> -->
-                        <div class="row">
 
-                            <div class="col-md-12">
-                                <label class="form-label">Xəstənin tam adı </label>
-                                <input type="text" class="form-control" required id="fullNamePattern" placeholder="">
+@await Component.InvokeAsync("PrescriptionModal")
+@await Component.InvokeAsync("SearchPatient")
 
-                            </div>
-
-
-
-                        </div>
-
-
-
-                    </div>
-                    <div class="form-group mb-3">
-                        <!-- <h3 style="text-align:right; margin-right:2%"><span class="badge badge-secondary">Cəmi: ---</span></h1> -->
-                        <div class="row">
-
-                            <div class="col-md-12">
-
-
-                                <label class="form-label">Xəstələr</label>
-
-
-                                <table class="table" id="foundPatientsTable">
-                                    <thead>
-                                        <tr>
-
-                                            <th scope="col">Ad</th>
-                                            <th scope="col">Soyad</th>
-                                            <th scope="col">Ata adı</th>
-
-                                            <th scope="col">fin</th>
-
-
-
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
-
-                            </div>
-
-
-
-                        </div>
-
-
-
-                    </div>
-
-
-
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ləğv et</button>
-                <button type="button" class="btn btn-primary" onclick="serachForPatient()">Axtar</button>
-
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade custom-modal" id="prescriptionModal" tabindex="-1" aria-labelledby="prescriptionModal" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content rounded-4">
-            <div class="modal-header">
-                <h5 class="modal-title" id="serviceFormModalLabel">Anket məlumatları</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="serviceForm" class="needs-validation">
-                    <div class="form-group mb-3">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label class="form-label">A.S.A</label>
-                                <input class="form-control" id="patientFullName" disabled />
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label">Müştəri anketi</label>
-                                <select class="form-control" id="patientCardSelector"></select>
-                            </div>
-
-                            <div class="col-md-4">
-                                <label class="form-label">Müraciyət növü</label>
-                                <select class="form-control" required id="requestType">
-                                    <option value="">Seçin...</option>
-                                    @foreach (var item in ViewBag.requestTypes)
-                                    {
-
-                                        <option value="@item.ID">@item.name</option>
-                                    }
-                                    <!-- <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option> -->
-                                </select>
-                                <div class="valid-feedback">
-                                    Əla!
-                                </div>
-                                <div class="invalid-feedback">
-                                    Seçim edin.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                   
-
-                    <div class="form-group mb-3">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label class="form-label">Xidmət</label>
-                                <select class="form-control" required id="services" onchange="servicesChanged(this)">
-                                    <option value="">Seçin...</option>
-                                    @foreach (var service in ViewBag.services)
-                                    {
-                                        <option value="@service.ID" data-price="@service.price">@service.name</option>
-
-                                    }
-                                </select>
-                                <div class="valid-feedback">Əla!</div>
-                                <div class="invalid-feedback">
-                                    Seçim edin.
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <label class="form-label">Qiymət (AZN)</label>
-                                <input type="tel" class="form-control" required id="price" placeholder="Məbləğ" disabled>
-                                <div class="valid-feedback">Əla!</div>
-                                <div class="invalid-feedback">Boşluğu doldurun.</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label class="form-label">Qeyd</label>
-                        <textarea class="form-control" id="note" rows="3" placeholder="Qeydlərinizi daxil edin"></textarea>
-                        <div class="valid-feedback">Əla!</div>
-                        <div class="invalid-feedback">Boşluğu doldurun.</div>
-                    </div>
-                    <div class="form-group mb-3">
-                        <div class="d-flex justify-content-between">
-                            <button type="button" id="createCard" class="btn btn-primary" onclick="addPrescription()">Əlavə et</button>
-                            @*<button type="button" class="btn btn-info" onclick="loadAddServiceIntoPatientCardModal()">Xidmətlər</button>
-                <button type="button" class="btn btn-primary" onclick="generateRecipe()">Çek əldə et</button>*@
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-@section Scripts{
+@section Scripts {
 
     <script>
 
@@ -277,102 +115,6 @@
         var $note = $("#note");
         var selectedPatientCardID = 0;
         var selectedPatientID = 0;
-
-          function serachForPatient() {
-
-            showLoading();
-            $('#systemModalTitle').text("Yüklənir...");
-            $('#systemModalText').html(`<center><div class="spinner-border text-dark mx-auto" role="status">
-                    <span class="sr-only">Loading...</span>
-                  </div></center>`);
-            $('#systemModalBtn').attr("hidden", "");
-            $.ajax({
-                type: 'POST',
-                url: `@Url.Action("SearchForPatient", "Reception")`,
-                data: { fullNamePattern: $("#fullNamePattern").val()},
-                dataType: 'json',
-                success: function (data, status, xhr) {   // success callback function
-                    //  var json = JSON.stringify(data)
-
-                    if (typeof (Storage) !== "undefined") {
-
-                        localStorage.requestToken = data.requestToken
-                    } else {
-
-                        // Sorry! No Web Storage support..
-                    }
-
-                    const tableBody = $('#foundPatientsTable tbody');
-                    tableBody.empty();
-                    //$("#foundPatients").empty();
-                    foundPatients = data;
-                    //alert(data.requestTypes[0].name)
-                    //$.each(data, function () {
-                    //    var bDate = this.bDate.split('T')[0];
-                    //    $("#foundPatients").append($("<option />").val(this.id).text(`${this.name} ${this.surname} ${this.father} (${bDate})`));
-                    //});
-
-
-                    data.forEach(function (item) {
-                        const row = $('<tr></tr>');
-                        // Add an event listener for row click
-                        row.on('click', function () {
-
-                            foundPatientClicked(item);
-                        });
-                        //const checkbox = $('<input type="checkbox" class="select-item" data-id="' + item.id + '">');
-                        //row.append('<td></td>').append(checkbox);
-
-                        row.append('<td>' + item.name + '</td>');
-                        row.append('<td>' + item.surname + '</td>');
-                        row.append('<td>' + item.father + '</td>');
-                        row.append('<td>' + item.fin + '</td>');
-
-                        // Add more columns as needed
-
-                        tableBody.append(row);
-                    });
-
-                    // Add event listener for checkbox changes
-                    $('.select-item-ingredient').on('change', function () {
-                        const selectedId = $(this).data('id');
-                        if ($(this).prop('checked')) {
-                            // Checkbox is checked
-                            $('.select-item-ingredient').not(this).prop('checked', false);
-
-                            $('#insertActiveIngredientBtn').hide()
-                            $('#updateActiveIngredientBtn').show()
-                        } else {
-                            $('#insertActiveIngredientBtn').show()
-                            $('#updateActiveIngredientBtn').hide()
-                        }
-                    });
-                    hideLoading()
-
-
-
-                    //$('p').append(data.name + ' ' + data.surname);
-                },
-                error: function (jqXhr, textStatus, errorMessage) { // error callback
-                    hideLoading()
-
-                    if (jqXhr.status == "401") {
-                        localStorage.clear()
-                        $('#systemModalTitle').text("Sessiyanız başa çatıb");
-                        $('#systemModalText').html(`<p id="systemModalText">Zəhmət olmasa yenidən giriş edin</p>`);
-                        $('#systemModalBtn').removeAttr("hidden");
-                    }
-                    else {
-                        $('#warningModal').show()
-                        $('#warningText').text(jqXhr.status);
-                    }
-                    //  $('#alert').text('Error: ' + errorMessage);
-                }
-
-            });
-
-          }
-
 
         function foundPatientClicked(item) {
             $('#patientSearch').modal('hide');
@@ -393,7 +135,7 @@
             $(`#gender`).prop("disabled", true);
 
 
-            $("#patientFullName").val(`${item.name} ${item.surname} ${item.father}` );
+            $("#patientFullName").val(`${item.name} ${item.surname} ${item.father}`);
 
             var lastNine = item.phone.toString().slice(-9);
             $("#clientPhone").val(lastNine);
@@ -410,11 +152,11 @@
 
         }
 
-          function populatePatientCards(patientID) {
+        function populatePatientCards(patientID) {
             // Make an API call to fetch data for the "otherDropdown"
             $.ajax({
                 type: 'GET',
-                url: "@Url.Action("GetPatientCards", "Reception")" ,
+                url: "@Url.Action("GetPatientCards", "Reception")",
                 data: { patientID: patientID },
                 success: function (response) {
                     // Clear previous options and populate the "otherDropdown"
@@ -424,7 +166,7 @@
                     // Populate options based on the response
                     $patientCardsDropdown.append($("<option />").val("").text(`Yeni Kart`));
                     response.forEach(function (item) {
-                        $patientCardsDropdown.append($("<option />").val(item.cardID).text(`${item.cDate}`));
+                        $patientCardsDropdown.append($("<option />").val(item.cardID).text(`Kart - ${item.cardID}`));
 
                     });
 
@@ -438,58 +180,20 @@
                     // Handle API errors here, e.g., show an error message
                 }
             });
-          }
-
-
-        function servicesChanged(a) {
-      
-            $("#price").val($('option:selected', a).data('price'));
         }
+
+
+        $('#patientSearch').on('hidden.bs.modal', function () {
+            $('#foundPatientsTable tbody').empty();
+            $('#fullNamePattern').val('');
+        });
+
+        $('#prescriptionModal').on('hidden.bs.modal', function () {
+            $('#serviceForm')[0].reset();
+            $('#serviceForm').removeClass('was-validated');
+        });
     </script>
-    <script>
-        
 
-        function addPrescription() {
-            showLoading()
-
-            var forms = document.getElementsByClassName('needs-validation');
-            // Loop over them and prevent submission
-            var validation = Array.prototype.filter.call(forms, function (form) {
-                if (form.checkValidity() === false) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-                form.classList.add('was-validated');
-            });
-            if (forms[0].checkValidity()) {
-                $.ajax({
-                    url: `@Url.Action("AddPrescription", "Prescriptions")`,
-                    type: 'POST',
-                   
-                    data:{
-                        requestTypeID: $('#requestType').val(),
-                        patientID: selectedPatientID,
-                        cardID: $('#patientCardSelector').val(),
-                        serviceID: $('#services').val(),
-                        note: $('#note').val()
-                    },
-                    success: function (response) {
-                        console.log('Success:', response);
-                        location.reload();
-
-                        window.addEventListener('beforeunload', hideLoading);
-                        // Handle the response from the server here
-                    },
-                    error: function (xhr, status, error) {
-                        hideLoading();
-                        console.error('Error:', error);
-                        // Handle errors here
-                    }
-                });
-            }
-    }
-
-    </script>
 
 
 }

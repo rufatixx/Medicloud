@@ -1,0 +1,140 @@
+﻿<div class="modal fade custom-modal" id="prescriptionModal" tabindex="-1" aria-labelledby="prescriptionModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content rounded-4">
+            <div class="modal-header">
+                <h5 class="modal-title" id="serviceFormModalLabel">Kart məlumatları</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="serviceForm" class="needs-validation" autocomplete="off">
+                    <div class="form-group mb-3">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label class="form-label">A.S.A</label>
+                                <input class="form-control" id="patientFullName" disabled />
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Müştəri kartı</label>
+                                <select class="form-control" id="patientCardSelector"></select>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="form-label">Müraciət növü</label>
+                                <select class="form-control" required id="requestType">
+                                    <option value="">Seçin...</option>
+                                    @foreach (var item in ViewBag.requestTypes)
+                                    {
+
+                                        <option value="@item.ID">@item.name</option>
+                                    }
+                                    <!-- <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option> -->
+                                </select>
+                                <div class="valid-feedback">
+                                    Əla!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Seçim edin.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group mb-3">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="form-label">Xidmət</label>
+                                <select class="form-control" required id="services" onchange="servicesChanged(this)">
+                                    <option value="">Seçin...</option>
+                                    @foreach (var service in ViewBag.services)
+                                    {
+                                        <option value="@service.ID" data-price="@service.price">@service.name</option>
+
+                                    }
+                                </select>
+                                <div class="valid-feedback">Əla!</div>
+                                <div class="invalid-feedback">
+                                    Seçim edin.
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Qiymət (AZN)</label>
+                                <input type="tel" class="form-control" required id="price" placeholder="Məbləğ" disabled>
+                                <div class="valid-feedback">Əla!</div>
+                                <div class="invalid-feedback">Boşluğu doldurun.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="form-label">Qeyd</label>
+                        <textarea class="form-control" id="note" rows="3" placeholder="Qeydlərinizi daxil edin"></textarea>
+                        <div class="valid-feedback">Əla!</div>
+                        <div class="invalid-feedback">Boşluğu doldurun.</div>
+                    </div>
+                    <div class="form-group mb-3">
+                        <div class="d-flex justify-content-between">
+                            <button type="button" id="createCard" class="btn btn-primary" onclick="addPrescription()">Əlavə et</button>
+                            @*<button type="button" class="btn btn-info" onclick="loadAddServiceIntoPatientCardModal()">Xidmətlər</button>
+                            <button type="button" class="btn btn-primary" onclick="generateRecipe()">Çek əldə et</button>*@
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function addPrescription() {
+        showLoading()
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function (form) {
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+                hideLoading();
+            }
+            form.classList.add('was-validated');
+        });
+        if (forms[0].checkValidity()) {
+            $.ajax({
+                url: `@Url.Action("AddPrescription", "Prescriptions")`,
+                type: 'POST',
+
+                data: {
+                    requestTypeID: $('#requestType').val(),
+                    patientID: selectedPatientID,
+                    cardID: $('#patientCardSelector').val(),
+                    serviceID: $('#services').val(),
+                    note: $('#note').val()
+                },
+                success: function (response) {
+                    console.log('Success:', response);
+                    location.reload();
+
+                    window.addEventListener('beforeunload', hideLoading);
+                    // Handle the response from the server here
+                },
+                error: function (xhr, status, error) {
+                    hideLoading();
+                    console.error('Error:', error);
+                    // Handle errors here
+                }
+            });
+        }
+    }
+
+    function servicesChanged(selectElement) {
+        var selectedOption = selectElement.options[selectElement.selectedIndex];
+        var price = selectedOption.getAttribute('data-price');
+        $("#price").val(price);
+    }
+
+
+</script>

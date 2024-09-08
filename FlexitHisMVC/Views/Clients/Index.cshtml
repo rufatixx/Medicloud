@@ -39,7 +39,7 @@
                                         <th class="text-muted" rowspan="1" colspan="1" style="width: 199px;">Mobil Nömrə</th>
                                         <th class="text-muted" rowspan="1" colspan="1" style="width: 231px;">Cins</th>
                                         <th class="text-muted" rowspan="1" colspan="1" style="width: 231px;">Yaş</th>
-                                        <th class="text-muted" rowspan="1" colspan="1" style="width: 231px;">Müayinələr</th>
+                                        <th class="text-muted" rowspan="1" colspan="1" style="width: 231px;">Müayinə Kartları</th>
                                         @*<th class="text-muted" rowspan="1" colspan="1" style="width: 175px;">Seçin</th>*@
                                     </tr>
                                 </thead>
@@ -77,7 +77,7 @@
 
                                                     <td>@age</td>
                                                 }
-                                                <td>
+                                                <td onclick="event.stopPropagation()">
                                                     <a href="@Url.Action("Index", "Prescriptions", new { area = "", patientFullName = $"{item.name} {item.surname}", patientID = item.ID })">
                                                         Bax
                                                     </a>
@@ -189,7 +189,6 @@
 @section Scripts{
     <script>
         var selectedClientID = 0;
-
         $('.client-row').on('click', function () {
 
             const client = $(this).data('client');
@@ -211,7 +210,8 @@
             $('#addClientBtn').hide()
 
             $('#customerInfoModal').modal('show');
-        });</script>
+        });
+    </script>
 
 <script>
 

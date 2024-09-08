@@ -40,17 +40,16 @@ public class AppointmentsController : Controller
 		{
 			appointmentService.AddAppointment(appointmentDto);
 
-			//if (user != null && appointmentDto.PhoneNumber > 0)
-			//{
-			//	var userTel = user.mobile;
-			//	var patientTel = appointmentDto.PhoneNumber;
-			//	var dateTime = appointmentDto.MeetingDate;
-			//	var date = dateTime.ToString("yyyy-MM-dd");
-			//	var time = $"{appointmentDto.Time.Hours:D2}:{appointmentDto.Time.Minutes:D2}";
-			//	var message = $"Hormetli pasient,Sizin Dr {user.name} ile {date} saat {time} randevunuz var.Etrafli: {userTel}";
-			//	communicationService.sendSMS(message, patientTel.ToString());
-
-			//}
+			if (user != null && appointmentDto.PhoneNumber > 0)
+			{
+				var userTel = user.mobile;
+				var patientTel = appointmentDto.PhoneNumber;
+				var dateTime = appointmentDto.MeetingDate;
+				var date = dateTime.ToString("yyyy-MM-dd");
+				var time = $"{appointmentDto.Time.Hours:D2}:{appointmentDto.Time.Minutes:D2}";
+				var message = $"Hormetli pasient,Sizin Dr {user.name} ile {date} saat {time} randevunuz var.Etrafli: {userTel}";
+				communicationService.sendSMS(message, patientTel.ToString());
+			}
 
 		}
 

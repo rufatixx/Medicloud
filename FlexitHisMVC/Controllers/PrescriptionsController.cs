@@ -1,4 +1,5 @@
-﻿using Medicloud.Data;
+﻿using Medicloud.BLL.Services.Abstract;
+using Medicloud.Data;
 using Medicloud.Models;
 using Medicloud.Models.Domain;
 using Medicloud.Models.Repository;
@@ -24,7 +25,8 @@ namespace Medicloud.Controllers
         ServicesRepo servicesRepo;
         PatientRepo patientRepo;
         RequestTypeRepo requestTypeDAO;
-        public PrescriptionsController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
+        private readonly IPatientCardService _patientCardService;
+        public PrescriptionsController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IPatientCardService patientCardService)
         {
             Configuration = configuration;
             ConnectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
@@ -36,22 +38,16 @@ namespace Medicloud.Controllers
             patientDiagnoseRel = new PatientDiagnoseRel(ConnectionString);
             servicesRepo = new ServicesRepo(ConnectionString);
             patientRepo = new PatientRepo(ConnectionString);
-           requestTypeDAO = new RequestTypeRepo(ConnectionString);
-
+            requestTypeDAO = new RequestTypeRepo(ConnectionString);
+            _patientCardService=patientCardService;
         }
         // GET: /<controller>/
-        public IActionResult Index(int patientID)
+        public async Task<IActionResult> Index(int patientID)
         {
             if (User.Identity.IsAuthenticated)
             {
 
-
-             ViewBag.services =  servicesRepo.GetServicesByOrganization(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")));
-
-                ViewBag.requestTypes = requestTypeDAO.GetRequestType();
-
-
-                var response = patientCardRepo.GetAllPatientsCards(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")),patientID);
+                var response = await _patientCardService.GetAllPatientsCards(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")),patientID);
               
                 return View(response);
            
