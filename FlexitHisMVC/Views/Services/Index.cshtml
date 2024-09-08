@@ -29,7 +29,7 @@
 
             </div>
             @{
-                var title = ViewBag.cardID > 0 ? $"Müayinələr - {ViewBag.cardID}" : "Müayinələr";
+                var title = ViewBag.cardID > 0 ? $"Müayinə kartı № {ViewBag.cardID}" : "Müayinələr";
             }
 
             <h2 class="page-title">@title</h2>
@@ -84,8 +84,11 @@
                                                 </td>
                                                 @if (ViewBag.cardID==0)
                                                 {
-                                                    <td>
-                                                        @item.card_id
+                                                    <td class="cardIdCol">
+                                                        <a href="@Url.Action("Index", "Services", new { area = "",cardId=$"{@item.card_id}"})">
+                                                            № @item.card_id
+                                                        </a>
+                                                       
                                                     </td>
                                                 }
 
@@ -184,21 +187,25 @@
     <script>
         var selectedCardID = @ViewBag.cardID;
         let selectedId;
-        $('.service-row').on('click', function () {
 
+
+        $('.service-row').on('click', function (event) {
+            // Check if the click happened on a <td> with the excluded class
+            if ($(event.target).closest('td.cardIdCol').length > 0) {
+                return; // Exit the function if the click is on a <td> with the excluded class
+            }
+
+            // If not, proceed with showing the modal
             const service = $(this).data('service');
             selectedId = service.id;
             $('#servicesModal').val(service.ServiceID);
-
             $("#priceModal").val(service.ServicePrice);
-
-            $('#addServiceBtn').hide()
-            $('#removeServiceBtn').show()
+            $('#addServiceBtn').hide();
+            $('#removeServiceBtn').show();
             $("#servicesModal").prop('disabled', true);
-
-
             $('#serviceModal').modal('show');
         });
+
 
         function showAddServiceModal() {
 

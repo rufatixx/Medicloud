@@ -19,21 +19,22 @@ namespace Medicloud.DAL.Repository.Concrete
         public async Task<List<PatientDocDTO>> GetAllPatientsCards(long organizationID, long patientID)
         {
             var queryBuilder = new StringBuilder($@"
-            SELECT a.id as patientCardID,
-            a.cDate,
-            a.patientID as ID, 
-            a.serviceID, 
-            a.note, 
-            p.name, 
-            p.surname, 
-            p.father,
-            p.clientPhone as phone,
-            p.bDate,
-            p.genderID,
-            p.fin
-            FROM patient_card a
-            INNER JOIN patients p ON a.patientID = p.id
-            WHERE a.organizationID = @organizationID");
+           SELECT a.id as patientCardID,
+       a.cDate,
+       a.patientID as ID, 
+       a.serviceID, 
+       a.note, 
+       p.name, 
+       p.surname, 
+       p.father,
+       p.clientPhone as phone,
+       p.bDate,
+       p.genderID,
+       p.fin
+FROM patient_card a
+INNER JOIN patients p ON a.patientID = p.id
+WHERE a.organizationID = @organizationID
+ORDER BY a.cDate DESC;");
 
             // Dynamically add patient condition if patientID is greater than 0
             if (patientID > 0)
