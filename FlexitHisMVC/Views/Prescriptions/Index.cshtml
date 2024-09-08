@@ -66,6 +66,7 @@
                                         <th class="text-muted" rowspan="1" colspan="1" style="width: 199px;">Tarix</th>
                                         <th class="text-muted" rowspan="1" colspan="1" style="width: 231px;">Diagnoz</th>
                                         <th class="text-muted" rowspan="1" colspan="1" style="width: 231px;">Kart nömrəsi</th>
+                                        <th class="text-muted" rowspan="1" colspan="1" style="width: 231px;">Status</th>
                                         @*<th class="text-muted" rowspan="1" colspan="1" style="width: 175px;">Seçin</th>*@
                                     </tr>
                                 </thead>
@@ -76,31 +77,37 @@
                                         {
                                             rowNumber++;
 
-                                            <tr class="odd">
-                                                <th class="text-muted dtr-control" tabindex="0">@rowNumber</th>
-                                                <td>@item.name @item.surname</td>
-                                                <td>@item.cDate.ToString("dd.MM.yyyy")</td>
+                                                                        <tr class="odd">
+                                                                            <th class="text-muted dtr-control" tabindex="0">@rowNumber</th>
+                                                                            <td>@item.name @item.surname</td>
+                                                                            <td>@item.cDate.ToString("dd.MM.yyyy")</td>
 
 
-                                                <td>
-                                                    <a href="@Url.Action("Index", "Diagnoses", new {area="",patientFullName=$"{@item.name} {@item.surname}",patientID =item.ID})">
-                                                        Bax
-                                                    </a>
-                                                </td>
-                                                <td>
-                                                    <a href="@Url.Action("Index", "Services", new { area = "",cardId=$"{@item.patientCardID}"})">
-                                                        № @item.patientCardID
-                                                    </a>
-                                                </td>
-                                                @*<td style="float: right">
-                                                    <a href="patient-edit.php?patient_id=61294"><button type="button" class="btn btn-light btn-sm edit-button" data-id="1"><i class="far fa-edit"></i></button></a>
-                                                    <a href="javascript:void(0);" class="delete-link" data-patient-id="61294">
-                                                    <button type="button" class="btn btn-light btn-sm delete-button">
-                                                    <i class="far fa-trash-alt"></i>
-                                                    </button>
-                                                    </a>
-                                                    </td>*@
-                                            </tr>
+                                                                            <td>
+                                                                                <a href="@Url.Action("Index", "Diagnoses", new {area="",patientFullName=$"{@item.name} {@item.surname}",patientID =item.ID})">
+                                                                                    Bax
+                                                                                </a>
+                                                                            </td>
+                                                                            <td>
+                                                                                <a href="@Url.Action("Index", "Services", new { area = "",cardId=$"{@item.patientCardID}"})">
+                                                                                    № @item.patientCardID
+                                                                                </a>
+                                                                            </td>
+                                                                            <td>
+                                                                                <span class="badge @(item.finished == 1 ? "bg-danger" : "bg-success")">
+                                                                                    @(item.finished == 1 ? "Ödənilib və bağlanıb" : "Aktiv")
+                                                                                </span>
+                                                                               
+                                                                            </td>
+                                                                            @*<td style="float: right">
+        <a href="patient-edit.php?patient_id=61294"><button type="button" class="btn btn-light btn-sm edit-button" data-id="1"><i class="far fa-edit"></i></button></a>
+        <a href="javascript:void(0);" class="delete-link" data-patient-id="61294">
+        <button type="button" class="btn btn-light btn-sm delete-button">
+        <i class="far fa-trash-alt"></i>
+        </button>
+        </a>
+        </td>*@
+                                                                        </tr>
 
                                         }
                                     }
