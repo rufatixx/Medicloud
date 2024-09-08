@@ -615,10 +615,21 @@ GROUP BY a.patientID
 
                     connection.Open();
 
-                    using (MySqlCommand com = new MySqlCommand($@"SELECT *
-FROM patients
-WHERE organizationID = @organizationID
-GROUP BY id;", connection))
+                    using (MySqlCommand com = new MySqlCommand($@"SELECT 
+    p.*,
+    COUNT(pc.id) AS totalCardNumbers,
+    MAX(pc.cDate) AS LatestCardDate -- Assuming cDate is the date of the card
+FROM 
+    patients p
+LEFT JOIN 
+    patient_card pc ON p.id = pc.patientID AND pc.finished = 0
+WHERE 
+    p.organizationID = @organizationID
+GROUP BY 
+    p.id
+ORDER BY 
+    LatestCardDate DESC
+", connection))
                     {
                         com.Parameters.AddWithValue("@organizationID", organizationID);
                         MySqlDataReader reader = com.ExecuteReader();
@@ -637,6 +648,7 @@ GROUP BY id;", connection))
                                 patient.phone = Convert.ToInt64(reader["clientPhone"]);
                                 patient.bDate = Convert.ToDateTime(reader["bDate"]);
                                 patient.genderID = Convert.ToInt32(reader["genderID"]);
+                                patient.totalCardNumbers = Convert.ToInt32(reader["totalCardNumbers"]);
                                 patient.fin = reader["fin"].ToString();
                               
 

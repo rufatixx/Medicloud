@@ -9,6 +9,7 @@ namespace Medicloud.Models
         public DateTime cDate { get; set; }
         public long serviceID { get; set; }
         public long patientCardID { get; set; }
+        public int totalCardNumbers { get; set; }
         public string note { get; set; }
        
     }

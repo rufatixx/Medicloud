@@ -1,7 +1,19 @@
-﻿@{
-    ViewData["Title"] = "- Kartlar";
+﻿
 
+@{
+    // Determine the title based on ViewBag.patientFullname
+    if (!string.IsNullOrEmpty(ViewBag.patientFullname))
+    {
+        // Format the title and set it in ViewData
+        ViewData["Title"] = $"({ViewBag.patientFullname} - Müayinə Kartları)";
+    }
+    else
+    {
+        // Set the default title
+        ViewData["Title"] = " - Müayinə Kartları";
+    }
 }
+
 
 @using Medicloud.Models.Domain;
 @model List<PatientDocDTO>
@@ -19,10 +31,21 @@
 
                 <button type="reset" class="btn btn-primary w-md bg-blue radius-10" onclick=" $('#patientSearch').modal('show');">+ Yeni müayinə kartı</button>
                 @*<button type="reset" class="btn btn-primary w-md bg-blue radius-10" onclick=" $('#patientSearch').modal('show');">+ Yeni xidmət</button>
-                <button type="reset" class="btn btn-primary w-md bg-blue radius-10" onclick=" $('#patientSearch').modal('show');">+ Yeni diagnoz</button>*@
+            <button type="reset" class="btn btn-primary w-md bg-blue radius-10" onclick=" $('#patientSearch').modal('show');">+ Yeni diagnoz</button>*@
 
             </div>
-            <h2 class="page-title">Müayinə Kartları</h2>
+
+            <h2 class="page-title">
+                @if (!string.IsNullOrEmpty(ViewBag.patientFullname))
+                {
+                    @($"{ViewBag.patientFullname} - Müayinə Kartları")
+                }
+                else
+                {
+                    @Html.Raw("Müayinə Kartları")
+                }
+            </h2>
+
         </div>
     </div>
 </div>
@@ -40,7 +63,7 @@
                                     <tr role="row">
                                         <th class="text-muted" rowspan="1" colspan="1" style="width: 43px;">#</th>
                                         <th class="text-muted" rowspan="1" colspan="1" style="width: 160px;">Ad, Soyad</th>
-                                        <th class="text-muted" rowspan="1" colspan="1" style="width: 199px;">Gün</th>
+                                        <th class="text-muted" rowspan="1" colspan="1" style="width: 199px;">Tarix</th>
                                         <th class="text-muted" rowspan="1" colspan="1" style="width: 231px;">Diagnoz</th>
                                         <th class="text-muted" rowspan="1" colspan="1" style="width: 231px;">Kart nömrəsi</th>
                                         @*<th class="text-muted" rowspan="1" colspan="1" style="width: 175px;">Seçin</th>*@
@@ -70,13 +93,13 @@
                                                     </a>
                                                 </td>
                                                 @*<td style="float: right">
-                                        <a href="patient-edit.php?patient_id=61294"><button type="button" class="btn btn-light btn-sm edit-button" data-id="1"><i class="far fa-edit"></i></button></a>
-                                        <a href="javascript:void(0);" class="delete-link" data-patient-id="61294">
-                                        <button type="button" class="btn btn-light btn-sm delete-button">
-                                        <i class="far fa-trash-alt"></i>
-                                        </button>
-                                        </a>
-                                        </td>*@
+                                                    <a href="patient-edit.php?patient_id=61294"><button type="button" class="btn btn-light btn-sm edit-button" data-id="1"><i class="far fa-edit"></i></button></a>
+                                                    <a href="javascript:void(0);" class="delete-link" data-patient-id="61294">
+                                                    <button type="button" class="btn btn-light btn-sm delete-button">
+                                                    <i class="far fa-trash-alt"></i>
+                                                    </button>
+                                                    </a>
+                                                    </td>*@
                                             </tr>
 
                                         }

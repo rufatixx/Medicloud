@@ -42,13 +42,13 @@ namespace Medicloud.Controllers
             _patientCardService=patientCardService;
         }
         // GET: /<controller>/
-        public async Task<IActionResult> Index(int patientID)
+        public async Task<IActionResult> Index(string patientFullName,int patientID)
         {
             if (User.Identity.IsAuthenticated)
             {
 
                 var response = await _patientCardService.GetAllPatientsCards(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")),patientID);
-              
+                ViewBag.patientFullname = patientFullName;
                 return View(response);
            
             }
