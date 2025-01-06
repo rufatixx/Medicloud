@@ -157,6 +157,15 @@ app.MapControllerRoute(
         name: "areaRoute",
         pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
     );
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
+
+    // Map all API endpoints
+    endpoints.MapControllers();
+});
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Welcome}/{action=Index}/{id?}");

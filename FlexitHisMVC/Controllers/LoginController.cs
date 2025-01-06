@@ -40,7 +40,7 @@ namespace Medicloud.Controllers
 
         }
 
-        [HttpPost]
+        [HttpPost("[controller]/[action]")]
         public async Task<IActionResult> SignInAsync(string mobileNumber, string pass)
         {
             UserService login = new UserService(_connectionString);
@@ -88,12 +88,12 @@ namespace Medicloud.Controllers
 
         }
 
-       
-
-      
 
 
-        [HttpPost]
+
+
+
+        [HttpPost("[controller]/[action]")]
         public async Task<IActionResult> LogoutAsync()
         {
 
