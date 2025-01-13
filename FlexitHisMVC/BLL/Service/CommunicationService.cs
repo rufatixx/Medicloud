@@ -221,7 +221,7 @@ namespace Medicloud.BLL.Service
         {
             try
             {
-                string apiUrl = $"sendsms.asp?user=mediclound_s&password=mediclound123&gsm={smsTel}&text={smsText}";
+                string apiUrl = $"sendsms.asp?user=mediclound_s&password=Medicloud2025&gsm={smsTel}&text={smsText}";
                 var httpClient = new HttpClient();
                 httpClient.BaseAddress = new Uri("https://www.poctgoyercini.com/api_http/");
                 var response = httpClient.GetAsync($"{apiUrl}").Result;
