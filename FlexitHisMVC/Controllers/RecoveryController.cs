@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Medicloud.Controllers
 {
-    [Authorize]
     public class RecoveryController : Controller
     {
         private readonly string _connectionString;

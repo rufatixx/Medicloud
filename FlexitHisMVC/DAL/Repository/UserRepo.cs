@@ -353,7 +353,7 @@ WHERE
             string fin = "", string phone = "", string email = "",
             string bDate = "", string username = "", string pwd = "",
             int isUser = 0, int isDr = 0, int isAdmin = 0,
-            int isActive = 0, string otp = "")
+            int isActive = 0, string otp = "",string imagePath="")
         {
             try
             {
@@ -390,6 +390,7 @@ WHERE
                         command.Parameters.AddWithValue("@isDr", isDr);
                         command.Parameters.AddWithValue("@isAdmin", isAdmin);
                         command.Parameters.AddWithValue("@otp_code", otp ?? "");
+                        command.Parameters.AddWithValue("@image_path", imagePath ?? "");
 
 
                         command.ExecuteNonQuery();
