@@ -3,6 +3,8 @@
 
 @{
     ViewData["Title"] = "- Personal";
+
+    var currentUser = Model.personalList[0];
 }
 <style>
     .nav-pills .nav-link.active {
@@ -134,11 +136,18 @@
                             <div class="row">
                                 <div class="col-6">@item.name @item.surname</div>
                                 <div class="col-6 text-right">@item.speciality.name</div>
+                                @*@foreach (var item2 in item.roles)
+                                {
+                                    <h1>@item2.id</h1>
+                                    <h1>@item2.name</h1>
+                                }*@
                             </div>
 
                         </div>
                         @*<a class="list-group-item list-group-item-action personal-list" ></a>*@
                     }
+
+
 
 
                 }
@@ -166,7 +175,7 @@
             <div class="card-body bg-transparent">
 
 
-                <div  id="generalSettings">
+                <div id="generalSettings">
                     <ul class="nav nav-pills mb-3">
                         <li class="nav-item">
                             <a class="nav-link active" href="#">Əsas məlumatlar</a>
@@ -181,17 +190,17 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <label for="exampleFormControlSelect1">Registr kodu</label>
-                                        <input type="text" class="form-control" id="reqCode" placeholder="00000" aria-label="00000" disabled>
+                                        <input type="text" class="form-control" id="reqCode" value="@currentUser.ID" placeholder="00000" aria-label="00000" disabled>
 
                                     </div>
                                     <div class="col-md-4">
                                         <label for="exampleFormControlSelect1">Ad</label>
-                                        <input type="text" class="form-control" id="name" placeholder="-" aria-label="00000">
+                                        <input type="text" class="form-control" id="name" value="@currentUser.name" placeholder="-" aria-label="00000">
 
                                     </div>
                                     <div class="col-md-4">
                                         <label for="exampleFormControlSelect1">Soyad</label>
-                                        <input type="text" class="form-control" id="surname" placeholder="00000" aria-label="00000">
+                                        <input type="text" class="form-control" id="surname" value="@currentUser.surname" placeholder="00000" aria-label="00000">
 
                                     </div>
 
@@ -202,17 +211,17 @@
 
                                     <div class="col-md-4">
                                         <label for="exampleFormControlSelect1">Ata adı</label>
-                                        <input type="text" class="form-control" id="father" placeholder="-" aria-label="00000">
+                                        <input type="text" class="form-control" id="father" value="@currentUser.father" placeholder="-" aria-label="00000">
 
                                     </div>
                                     <div class="col-md-4">
                                         <label for="exampleFormControlSelect1">ŞV Seriyası</label>
-                                        <input type="text" class="form-control" id="passportSerialNum" placeholder="-" aria-label="00000">
+                                        <input type="text" class="form-control" id="passportSerialNum" value="@currentUser.passportSerialNum" placeholder="-" aria-label="00000">
 
                                     </div>
                                     <div class="col-md-4">
                                         <label for="exampleFormControlSelect1">ŞV FİN</label>
-                                        <input type="text" class="form-control" id="passportFin" placeholder="-" aria-label="00000">
+                                        <input type="text" class="form-control" id="passportFin" value="@currentUser.fin" placeholder="-" aria-label="00000">
 
                                     </div>
 
@@ -224,7 +233,7 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <label for="exampleFormControlSelect1">Doğum tarixi</label>
-                                        <input type="date" class="form-control" id="bDate" placeholder="00000" aria-label="00000">
+                                        <input type="date" class="form-control" id="bDate" value="@currentUser.passportSerialNum" placeholder="00000" aria-label="00000">
 
                                     </div>
                                     <div class="col-md-4">
@@ -235,7 +244,16 @@
                                                 foreach (var item in Model.specialityList)
 
                                                 {
-                                                    <option data-foo="@item.id">@item.name</option>
+                                                    if (currentUser.speciality.id == item.id)
+                                                    {
+                                                        <option value="@item.id" selected data-foo="@item.id">@item.name</option>
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@item.id" data-foo="@item.id">@item.name</option>
+
+                                                    }
 
                                                     @*<a class="list-group-item list-group-item-action personal-list" ></a>*@
                                                 }
@@ -249,7 +267,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <label for="exampleFormControlSelect1">Mobil nömrə</label>
-                                        <input type="text" class="form-control" id="mobile" placeholder="00000" aria-label="00000">
+                                        <input type="text" class="form-control" id="mobile" value="@currentUser.mobile" placeholder="00000" aria-label="00000">
 
                                     </div>
 
@@ -263,7 +281,7 @@
                                             <div class="row">
                                                 <div class="col-md-12" style="display:inline">
                                                     <label for="exampleFormControlSelect1">E-poçt ünvanı</label>
-                                                    <input type="text" class="form-control" id="email" placeholder="e-poçt" aria-label="00000">
+                                                    <input type="text" class="form-control" value="@currentUser.email" id="email" placeholder="e-poçt" aria-label="00000">
 
 
                                                 </div>
@@ -273,17 +291,17 @@
                                         </div>
 
                                         @*<div class="form-group">
-                                    <div class="row">
-                                        <div class="col-md-12" style="display:inline">
-                                            <input class=" me-1 " type="checkbox" value="">
-                                            <label for="exampleFormControlSelect1">email göndər</label>
+                                                <div class="row">
+                                                    <div class="col-md-12" style="display:inline">
+                                                        <input class=" me-1 " type="checkbox" value="">
+                                                        <label for="exampleFormControlSelect1">email göndər</label>
 
 
-                                        </div>
+                                                    </div>
 
 
-                                    </div>
-                                </div>*@
+                                                </div>
+                                            </div>*@
                                     </div>
 
                                     <div class="col-md-6 mb-3">
@@ -291,7 +309,7 @@
                                             <div class="row">
                                                 <div class="col-md-12" style="display:inline">
                                                     <label for="exampleFormControlSelect1">İstifadəçi adı</label>
-                                                    <input type="text" class="form-control" id="username" placeholder="Yoxdur" aria-label="00000">
+                                                    <input type="text" class="form-control" id="username" value="@currentUser.username" placeholder="Yoxdur" aria-label="00000">
 
 
                                                 </div>
@@ -303,31 +321,35 @@
                                         <div class="form-group mb-3">
                                             <div class="row">
                                                 <div class="col-md-3" style="display:inline">
-                                                    <input class=" me-1 " id="isActiveCheckBox" type="checkbox" value="">
+                                                    <input class=" me-1 " id="isActiveCheckBox" type="checkbox" @(currentUser.isActive ? "checked" : "") value="">
                                                     <label for="exampleFormControlSelect1">Aktiv</label>
 
 
                                                 </div>
                                                 <div class="col-md-3" style="display:inline">
-                                                    <input class=" me-1 " id="isDrCheckBox" type="checkbox" value="">
+                                                    <input class=" me-1 " id="isDrCheckBox" type="checkbox" @(currentUser.isDr ? "checked" : "") value="">
                                                     <label for="exampleFormControlSelect1">Həkim</label>
 
 
                                                 </div>
                                                 <div class="col-md-3" style="display:inline">
-                                                    <input class=" me-1 " id="isUserCheckBox" type="checkbox" value="">
+                                                    <input class=" me-1 " id="isUserCheckBox" type="checkbox" @(currentUser.isUser ? "checked" : "") value="">
                                                     <label for="exampleFormControlSelect1">İstifadəçi</label>
 
 
                                                 </div>
-@*                                                 <div class="col-md-3" style="display:inline">
-                                                    <input class=" me-1 " id="isAdminCheckBox" type="checkbox" value="">
-                                                    <label for="exampleFormControlSelect1">Admin</label>
-                                                </div> *@
+                                                @if (currentUser.roleId == 2)
+                                                {
+                                                    <div class="col-md-3" style="display:inline">
+                                                        <input class=" me-1 " id="isAdminCheckBox" type="checkbox" checked value="">
+                                                        <label for="exampleFormControlSelect1">Admin</label>
+                                                    </div>
+                                                }
+
 
                                                 <div class="col-md-3" style="display:inline">
-                                                <input class=" me-1 " id="isAdminCheckBox" type="checkbox" value="">
-                                                <label for="exampleFormControlSelect1">İnzibatçı</label>
+                                                    <input class=" me-1 " id="isManagerCheckBox" type="checkbox" @(currentUser.roles.Select(r => r.id).Contains(3) ? "checked" : "") value="">
+                                                    <label for="exampleFormControlSelect1">İnzibatçı</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -403,41 +425,45 @@
                         </li>
 
                     </ul>
-
-                    <div class="ml-3 mb-3">
-
-
+                    @if (currentUser.roles.Select(r => r.id).Contains(2))
+                    {
 
 
-                        <label>Müəssisə</label>
-                        <div class="row">
-                            <div class="col-4">
+                        <div class="ml-3 mb-3">
 
-                                <div class="dropdown">
 
-                                    <button class="btn btn-outline-dark dropdown-toggle w-100" type="button" id="userOrganizations" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <h6 class="dropdown-header">Əlavə olunmuş müəssisələr</h6>
-                                        <div id="userOrganizationsMenu">
 
+
+                            <label>Müəssisə</label>
+                            <div class="row">
+                                <div class="col-4">
+
+                                    <div class="dropdown">
+
+                                        <button class="btn btn-outline-dark dropdown-toggle w-100" type="button" id="userOrganizations" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <h6 class="dropdown-header">Əlavə olunmuş müəssisələr</h6>
+                                            <div id="userOrganizationsMenu">
+
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-8">
+                                    <button type="button" class="btn btn-light" onclick="{$('#addOrganization').modal('show');}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M15 13H13V15C13 15.55 12.55 16 12 16C11.45 16 11 15.55 11 15V13H9C8.45 13 8 12.55 8 12C8 11.45 8.45 11 9 11H11V9C11 8.45 11.45 8 12 8C12.55 8 13 8.45 13 9V11H15C15.55 11 16 11.45 16 12C16 12.55 15.55 13 15 13ZM12 2C6.486 2 2 6.486 2 12C2 17.514 6.486 22 12 22C17.514 22 22 17.514 22 12C22 6.486 17.514 2 12 2Z" fill="#2AAEAD" />
+                                        </svg> müəssisə əlavə et
+                                    </button>
+                                </div>
                             </div>
-                            <div class="col-8">
-                                <button type="button" class="btn btn-light" onclick="{$('#addOrganization').modal('show');}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M15 13H13V15C13 15.55 12.55 16 12 16C11.45 16 11 15.55 11 15V13H9C8.45 13 8 12.55 8 12C8 11.45 8.45 11 9 11H11V9C11 8.45 11.45 8 12 8C12.55 8 13 8.45 13 9V11H15C15.55 11 16 11.45 16 12C16 12.55 15.55 13 15 13ZM12 2C6.486 2 2 6.486 2 12C2 17.514 6.486 22 12 22C17.514 22 22 17.514 22 12C22 6.486 17.514 2 12 2Z" fill="#2AAEAD" />
-                                    </svg> müəssisə əlavə et
-                                </button>
-                            </div>
+
+
+
+
                         </div>
-
-
-
-
-                    </div>
+                    }
                     <div class="row">
                         <div class="col-12">
                             <div class="card border-light" id="userDepList">
@@ -519,11 +545,11 @@
             </div>
 
 
-            </div>
-
-
-
         </div>
+
+
+
+    </div>
     @*@Html.Partial("_PersonalSettingsBoxPartial")*@
 
 
@@ -1032,7 +1058,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             </div>
             <div class="modal-body">
-                <form class="needs-validation container" novalidate>
+                <form id="addPersonalForm" class="needs-validation container" novalidate>
 
 
                     <div class="row ">
@@ -1231,7 +1257,7 @@
                                         <!-- <select class="form-control" id="departments">
                                         </select> -->
 
-                                        <input type="text" class="form-control"  id="newUserMobile"
+                                        <input type="text" class="form-control" id="newUserMobile"
                                                placeholder="Daxil edin" required>
                                         <div class="valid-feedback">
                                             Əla!
@@ -1274,8 +1300,44 @@
                                 <!-- <h3 style="text-align:right; margin-right:2%"><span class="badge badge-secondary">Cəmi: ---</span></h1> -->
                                 <div class="row">
 
+                                    <div class="col-md-6">
 
-                                    <div class="col-md-6 ">
+                                        <label>Vəzifə</label>
+                                        <div class="dropdown">
+                                            <button class="btn btn-outline-dark dropdown-toggle w-100" type="button" id="rolesDropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Seçin
+                                            </button>
+                                            <ul class="dropdown-menu" id="rolesSelectDropdownMenu" aria-labelledby="rolesDropdownMenuButton">
+                                                @*<li>
+                                                        <label class="dropdown-item">
+                                                            <input type="checkbox" value="2" class="form-check-input me-2">
+                                                        </label>
+                                                    </li>*@
+                                                <li>
+                                                    <label class="dropdown-item">
+                                                        <input type="checkbox" value="3" class="form-check-input me-2"> İnzibatçı
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label class="dropdown-item">
+                                                        <input type="checkbox" value="4" class="form-check-input me-2"> Həkim
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label class="dropdown-item">
+                                                        <input type="checkbox" value="5" class="form-check-input me-2"> Kassir
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label class="dropdown-item">
+                                                        <input type="checkbox" value="6" checked class="form-check-input me-2"> İstifadəçi
+                                                    </label>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 " id="newUserSpecialityContent" style="display:none;">
 
 
                                         <label>İxtisas</label>
@@ -1309,27 +1371,27 @@
 
 
 
+
                                 </div>
 
 
-
-
                             </div>
-                            <div class="form-group border-bottom mb-3 pb-3">
-                                <div class="row ">
+
+                            @*<div class="form-group border-bottom mb-3 pb-3">
+                                    <div class="row ">
 
 
-                                    <div class="col-md-6 ">
-                                        <label>Həkim</label>
-                                        <input class=" me-1 " id="isDr" type="checkbox" value="">
+                                        <div class="col-md-6 ">
+                                            <label>Həkim</label>
+                                            <input class=" me-1 " id="isDr" type="checkbox" value="">
+
+
+                                        </div>
+
 
 
                                     </div>
-
-
-
-                                </div>
-                            </div>
+                                </div>*@
                             <div class="form-group mb-3">
                                 <div class="row align-items-center ">
 
@@ -1337,18 +1399,18 @@
                                         <h3>İstifadəçi məlumatları</h3>
 
                                     </div>
-                                    @if (Model.personalList[0].isAdmin)
-                                    {
-                                        <div class="col-md-2 ">
-                                            <label for="exampleFormControlSelect1">İstifadəçi</label>
-                                            <input class=" me-1 " id="isUser" type="checkbox" onclick="checkIsUserBox(this)" value="">
-                                        </div>
-                                        <div class="col-md-2 ">
-                                            <label for="exampleFormControlSelect1">Admin</label>
-                                            <input class=" me-1 " id="isAdmin" type="checkbox" value="">
+                                    @*@if (Model.personalList[0].isAdmin)
+                                        {
+                                            <div class="col-md-2 ">
+                                                <label for="exampleFormControlSelect1">İstifadəçi</label>
+                                                <input class=" me-1 " id="isUser" type="checkbox" onclick="checkIsUserBox(this)" value="">
+                                            </div>
+                                            <div class="col-md-2 ">
+                                                <label for="exampleFormControlSelect1">Admin</label>
+                                                <input class=" me-1 " id="isAdmin" type="checkbox" value="">
 
-                                        </div>
-                                    }
+                                            </div>
+                                        }*@
 
 
 
@@ -1385,7 +1447,7 @@
                                         </select> -->
 
                                         <input type="text" class="form-control" id="newUserPwd"
-                                               placeholder="Daxil edin">
+                                               placeholder="Daxil edin" required>
                                         <div class="valid-feedback">
                                             Əla!
                                         </div>
@@ -1451,59 +1513,9 @@
     <script>
 
         var selectedOrganization;
-      var selectedPersonalID = @Model.personalList[0].ID;
-        $("#reqCode").val(@Model.personalList[0].ID);
 
-        @*var today = new Date('@Model.personalList[0].bDate').toISOString().split('T')[0];
-        alert()*@
-        $("#bDate").val('@Model.personalList[0].bDate');
+             var selectedPersonalID = @Model.personalList[0].ID;
         getOrganizationsByUser(selectedPersonalID);
-
-        $("#speciality").val('@Model.personalList[0].speciality');
-        $("#mobile").val('@Model.personalList[0].mobile');
-        $("#email").val('@Model.personalList[0].email');
-              $("#name").val('@Model.personalList[0].name');
-        $("#surname").val('@Model.personalList[0].surname');
-        console.log('@Model.personalList[0].father')
-        $("#father").val('@Model.personalList[0].father');
-        $("#passportSerialNum").val('@Model.personalList[0].passportSerialNum');
-        $("#passportFin").val('@Model.personalList[0].fin');
-        $("#username").val('@Model.personalList[0].username');
-        if (@Model.personalList[0].isActive.ToString().ToLower()) {
-            $("#isActiveCheckBox").prop('checked', true);
-
-
-        }
-        else {
-            $("#isActiveCheckBox").prop('checked', false);
-        }
-
-        if (@Model.personalList[0].isDr.ToString().ToLower()) {
-            $("#isDrCheckBox").prop('checked', true);
-
-
-        }
-        else {
-            $("#isDrCheckBox").prop('checked', false);
-        }
-
-        if (@Model.personalList[0].isUser.ToString().ToLower()) {
-            $("#isUserCheckBox").prop('checked', true);
-
-
-        }
-        else {
-            $("#isUserCheckBox").prop('checked', false);
-        }
-
-         if (@Model.personalList[0].isAdmin.ToString().ToLower()) {
-             $("#isAdminCheckBox").prop('checked', true);
-
-
-        }
-        else {
-             $("#isAdminCheckBox").prop('checked', false);
-        }
         var newPersonalIsUser = 0;
         function checkIsUserBox(state) {
             if ($(state).is(':checked'))
@@ -1720,7 +1732,7 @@
 
             $("#bDate").val(today);
 
-            $("#speciality").val(obj.speciality);
+            $("#speciality").val(obj.speciality.id);
             $("#mobile").val(obj.mobile);
             $("#email").val(obj.email);
             $("#father").val(obj.father);
@@ -1729,15 +1741,20 @@
             $("#passportSerialNum").val(obj.passportSerialNum);
             $("#passportFin").val(obj.fin);
             $("#username").val(obj.username);
+
+            var roles = obj.roles;
+            var roleIds = roles.map(r => r.id);
+            console.log(obj.speciality.id)
+            console.log()
             if (obj.isActive) {
             $("#isActiveCheckBox").prop('checked', true);
 
 
-        }
-        else {
-            $("#isActiveCheckBox").prop('checked', false);
             }
-            if (obj.isDr) {
+            else {
+                $("#isActiveCheckBox").prop('checked', false);
+            }
+            if (roleIds.includes(4)) {
                 $("#isDrCheckBox").prop('checked', true);
 
 
@@ -1746,7 +1763,7 @@
                 $("#isDrCheckBox").prop('checked', false);
             }
 
-            if (obj.isUser) {
+            if (roleIds.includes(6)) {
                 $("#isUserCheckBox").prop('checked', true);
 
 
@@ -1755,20 +1772,31 @@
                 $("#isUserCheckBox").prop('checked', false);
             }
 
-             if (obj.isAdmin) {
+            if (roleIds.includes(2)) {
              $("#isAdminCheckBox").prop('checked', true);
 
 
-        }
-        else {
-             $("#isAdminCheckBox").prop('checked', false);
-        }
+            }
+            else {
+                 $("#isAdminCheckBox").prop('checked', false);
+            }
+            if (roleIds.includes(3)) {
+                $("#isManagerCheckBox").prop('checked', true);
+
+
+            }
+            else {
+                $("#isManagerCheckBox").prop('checked', false);
+            }
              getOrganizationsByUser(selectedPersonalID);
 
 
 
 
         }
+
+
+
 
         function getUserDepsByOrganization() {
             $("#depsInOrganizationByUser").empty();
@@ -2008,6 +2036,39 @@ ${fullAccessCheckBox}
             }
         }
 
+
+
+        $("#rolesSelectDropdownMenu").on('click', function (event) {
+            event.stopPropagation();
+        })
+
+            $('#rolesSelectDropdownMenu input[type="checkbox"]').on('change', function () {
+                var selectedValues = [];
+                $('#rolesSelectDropdownMenu input[type="checkbox"]:checked').each(function () {
+                    selectedValues.push($(this).val());
+
+
+
+                });
+                console.log('selected', selectedValues)
+                // Seçilen seçenekleri güncelle
+                if (selectedValues.includes('4')) {
+                    $("#newUserSpecialityContent").show();
+
+                }
+                else {
+                    $("#newUserSpecialityContent").hide();
+
+                }
+            });
+
+
+        $('#addPersonal').on('hidden.bs.modal', function () {
+            $form = $('#addPersonalForm');
+            $form.removeClass('was-validated');
+            $form[0].reset();
+        });
+
         function addPersonal() {
 
             var forms = document.getElementsByClassName('needs-validation');
@@ -2050,7 +2111,13 @@ ${fullAccessCheckBox}
                 var username = $("#newUserUsername").val();
                 var password = $("#newUserPwd").val();
                 var specialityID = $('.newUserSpeciality').attr('id')
+                var roleIds = [];
+                $('#rolesSelectDropdownMenu input[type="checkbox"]:checked').each(function () {
+                    roleIds.push($(this).val());
 
+
+
+                });
                 //var date = new Date(bDate);
                 //var isoBdate = date.toISOString()
 
@@ -2076,10 +2143,8 @@ ${fullAccessCheckBox}
                         "email": email,
                         "username": username,
                         "pwd": password,
-                        "isUser": newPersonalIsUser,
                         "bDate": bDate,
-                        "isDr": newUserIsDr,
-                        "admin":admin
+                        "roleIds": roleIds
                     },
                     success: function (data, status, xhr) {   // success callback function
                         //  var json = JSON.stringify(data)

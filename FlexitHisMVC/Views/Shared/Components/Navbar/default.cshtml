@@ -239,18 +239,29 @@
                     <span class="d-lg-flex flex-column gap-1 d-none">
                         <h5 class="my-0 fullName">@Model.personal.name @Model.personal.surname</h5>
                         <h6 class="my-0 fw-normal userType">
-                            @{ if (Model.personal.isAdmin)
+
+                            @{
+
+
+
+                                var roleIds = Model.Roles.Select(a => a.id);
+                                if (roleIds.Contains(2))
                                 {
                                     @:Admin
                                 }
+                                else if (roleIds.Contains(3))
+                                {
 
-                                else if (Model.personal.isDr)
+                                    @:İnzibatçı
+
+                                }
+                                else if (roleIds.Contains(4))
                                 {
 
                                     @:Həkim
 
                                 }
-                               else if (Model.personal.isUser)
+                                else if (roleIds.Contains(6))
                                 {
                                     @:İstifadəçi
                                 }

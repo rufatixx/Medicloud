@@ -2,6 +2,7 @@
 using System.Collections.Specialized;
 using System.Net.NetworkInformation;
 using Medicloud.DAL.Repository;
+using Medicloud.DAL.Repository.Role;
 using Medicloud.Data;
 using Medicloud.Models;
 using Medicloud.Models.DTO;
@@ -20,35 +21,40 @@ namespace Medicloud.ViewComponents
         OrganizationRepo organizationDAO;
         KassaRepo kassaDAO;
         private readonly string _connectionString;
-        public NavbarViewComponent(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
+		private readonly IRoleRepository _roleRepository;
+		public NavbarViewComponent(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IRoleRepository roleRepository)
+		{
+			Configuration = configuration;
+
+			_hostingEnvironment = hostingEnvironment;
+			//communications = new Communications(Configuration, _hostingEnvironment);
+			_connectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
+			personalDAO = new UserRepo(_connectionString);
+			organizationDAO = new OrganizationRepo(_connectionString);
+			kassaDAO = new KassaRepo(_connectionString);
+			_roleRepository = roleRepository;
+		}
+
+		public async Task<IViewComponentResult> InvokeAsync(/* параметры, если необходимы */)
         {
-            Configuration = configuration;
+			int orgId = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
+			int userId = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID"));
 
-            _hostingEnvironment = hostingEnvironment;
-            //communications = new Communications(Configuration, _hostingEnvironment);
-            _connectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
-            personalDAO = new UserRepo(_connectionString);
-            organizationDAO = new OrganizationRepo(_connectionString);
-            kassaDAO = new KassaRepo(_connectionString);
-
-        }
-
-        public async Task<IViewComponentResult> InvokeAsync(/* параметры, если необходимы */)
-        {
-            UserDTO obj = new UserDTO();
+			UserDTO obj = new UserDTO();
             obj.personal = new User();
             obj.organizations = new List<Organization>();
             obj.kassaList = new List<Kassa>();
 
-            obj.personal = personalDAO.GetUserByID(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID")));
+            obj.personal = personalDAO.GetUserByID(userId);
 
           
             obj.organizations = organizationDAO.GetOrganizationListByUser(obj.personal.ID);
 
-         
+			obj.Roles=await _roleRepository.GetUserRoles(orgId, userId);
+			
 
 
-            ViewBag.SelectedOrganization = HttpContext.Session.GetString("Medicloud_organizationName");
+			ViewBag.SelectedOrganization = HttpContext.Session.GetString("Medicloud_organizationName");
             return View(obj);
         }
     }

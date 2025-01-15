@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Medicloud.DAL.Entities;
+using System;
 namespace Medicloud.Models
 {
     public class User
@@ -29,8 +30,11 @@ namespace Medicloud.Models
         public bool isRegistered { get; set; }
         public int status { get; set; }
         public int userType { get; set; }
-  
-
-    }
+		public int organizationId { get; set; }
+		public string organizationName { get; set; }
+		public int roleId { get; set; }
+		public string roleName { get; set; }
+		public List<RoleDTO> roles { get; set; }
+	}
 }
 

@@ -49,8 +49,8 @@ namespace Medicloud.DAL.Repository
                 // Build the SQL query string dynamically, including the WHERE clause if applicable
                 string sqlQuery = @$"SELECT u.*, s.name AS specialityName
                     FROM users u
-                    JOIN medicloud.user_organization_rel uhr ON u.id = uhr.userID
-                    LEFT JOIN speciality s ON u.specialityID = s.id {organizationQuery}";
+                    LEFT JOIN medicloud.user_organization_rel uhr ON u.id = uhr.userID
+                    LEFT JOIN speciality s ON u.specialityID = s.id {organizationQuery} GROUP BY u.id";
 
 
                 using (MySqlCommand com = new MySqlCommand(sqlQuery, connection))
@@ -93,8 +93,9 @@ namespace Medicloud.DAL.Repository
                             personal.isUser = reader["isUser"] == DBNull.Value ? false : Convert.ToBoolean(reader["isUser"]);
                             personal.isDr = reader["isDr"] == DBNull.Value ? false : Convert.ToBoolean(reader["isDr"]);
                             personal.isAdmin = reader["isAdmin"] == DBNull.Value ? false : Convert.ToBoolean(reader["isAdmin"]);
+							personal.isManager = reader["isManager"] == DBNull.Value ? false : Convert.ToBoolean(reader["isManager"]);
 
-                            personalList.Add(personal);
+							personalList.Add(personal);
 
 
                         }
@@ -190,6 +191,7 @@ WHERE
                                     user.name = reader["name"].ToString();
                                     user.surname = reader["surname"].ToString();
                                     user.isAdmin = reader["isAdmin"] == DBNull.Value ? false : Convert.ToBoolean(reader["isAdmin"]);
+                                    user.isManager = reader["isManager"] == DBNull.Value ? false : Convert.ToBoolean(reader["isManager"]);
                                     user.isUser = reader["isUser"] == DBNull.Value ? false : Convert.ToBoolean(reader["isUser"]);
                                     user.isDr = reader["isDr"] == DBNull.Value ? false : Convert.ToBoolean(reader["isDr"]);
                                     user.subscription_expire_date = reader["subscription_expire_date"] == DBNull.Value ? null : Convert.ToDateTime(reader["subscription_expire_date"]);
@@ -272,6 +274,7 @@ WHERE
                                 user.fin = reader["fin"] == DBNull.Value ? "" : reader["fin"].ToString();
                                 user.bDate = reader["bDate"] == DBNull.Value ? DateTime.Now.Date.ToString("yyyy-MM-dd") : Convert.ToDateTime(reader["bDate"]).Date.ToString("yyyy-MM-dd");
                                 user.isAdmin = reader["isAdmin"] == DBNull.Value ? false : Convert.ToBoolean(reader["isAdmin"]);
+                                user.isManager = reader["isManager"] == DBNull.Value ? false : Convert.ToBoolean(reader["isManager"]);
                                 user.isUser = reader["isUser"] == DBNull.Value ? false : Convert.ToBoolean(reader["isUser"]);
                                 user.isDr = reader["isDr"] == DBNull.Value ? false : Convert.ToBoolean(reader["isDr"]);
                                 user.subscription_expire_date = reader["plan_expire_date"] == DBNull.Value ? null : Convert.ToDateTime(reader["plan_expire_date"]);

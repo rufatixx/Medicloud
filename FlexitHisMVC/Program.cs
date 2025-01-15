@@ -7,6 +7,7 @@ using Medicloud.DAL.Infrastructure.Abstract;
 using Medicloud.DAL.Infrastructure.Concrete;
 using Medicloud.DAL.Repository.Abstract;
 using Medicloud.DAL.Repository.Concrete;
+using Medicloud.DAL.Repository.Role;
 using Medicloud.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -106,6 +107,7 @@ builder.Services.AddScoped<IRequestTypeRepository, RequestTypeRepository>();
 builder.Services.AddScoped<IRequestTypeService, RequestTypeService>();
 builder.Services.AddScoped<IPatientCardRepository, PatientCardRepository>();
 builder.Services.AddScoped<IPatientCardService, PatientCardService>();
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 var app = builder.Build();
 
 app.UseSession();

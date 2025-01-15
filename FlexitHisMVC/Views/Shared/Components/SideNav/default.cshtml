@@ -271,9 +271,15 @@
         </li>
         }*@
 
-
-
-            @if (Model.isAdmin)
+            @{ 
+                var roles = Model.roles.Select(r => r.id);
+                @*foreach (var item in roles)
+                {
+                    <h1>@item</h1>
+                }*@
+            }
+            
+            @if (roles.Contains(2) || roles.Contains(3))
             {
                 <li class="side-nav-title">İnzibati məlumat sistemi</li>
 

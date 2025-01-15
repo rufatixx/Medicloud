@@ -46,7 +46,7 @@ namespace Medicloud.DAL.Repository
             {
 
                 connection.Open();
-                using (MySqlCommand organizationCom = new MySqlCommand("SELECT *,(select name from organizations where id = a.organizationID) as hName FROM user_organization_rel a where userID = @userID;", connection))
+                using (MySqlCommand organizationCom = new MySqlCommand("SELECT *,(select name from organizations where id = a.organizationID) as hName FROM user_organization_rel a where userID = @userID GROUP BY a.organizationID;", connection))
                 {
 
                     organizationCom.Parameters.AddWithValue("@userID", userID);
