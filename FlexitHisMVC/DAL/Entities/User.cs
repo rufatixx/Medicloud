@@ -25,6 +25,7 @@ namespace Medicloud.Models
         public bool isUser { get; set; }
         public bool isDr { get; set; }
         public bool isAdmin { get; set; }
+        public bool isManager { get; set; }
         public bool isRegistered { get; set; }
         public int status { get; set; }
         public int userType { get; set; }

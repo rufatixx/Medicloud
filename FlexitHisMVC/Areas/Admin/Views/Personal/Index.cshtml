@@ -133,8 +133,7 @@
 
                             <div class="row">
                                 <div class="col-6">@item.name @item.surname</div>
-                                <div class="col-6 text-right">@item.speciality</div>
-
+                                <div class="col-6 text-right">@item.speciality.name</div>
                             </div>
 
                         </div>
@@ -321,14 +320,15 @@
 
 
                                                 </div>
-                                                <div class="col-md-3" style="display:inline">
+@*                                                 <div class="col-md-3" style="display:inline">
                                                     <input class=" me-1 " id="isAdminCheckBox" type="checkbox" value="">
                                                     <label for="exampleFormControlSelect1">Admin</label>
+                                                </div> *@
 
-
+                                                <div class="col-md-3" style="display:inline">
+                                                <input class=" me-1 " id="isAdminCheckBox" type="checkbox" value="">
+                                                <label for="exampleFormControlSelect1">İnzibatçı</label>
                                                 </div>
-
-
                                             </div>
                                         </div>
                                     </div>
@@ -1231,8 +1231,8 @@
                                         <!-- <select class="form-control" id="departments">
                                         </select> -->
 
-                                        <input type="text" class="form-control" id="newUserMobile"
-                                               placeholder="Daxil edin">
+                                        <input type="text" class="form-control"  id="newUserMobile"
+                                               placeholder="Daxil edin" required>
                                         <div class="valid-feedback">
                                             Əla!
                                         </div>
@@ -1333,22 +1333,24 @@
                             <div class="form-group mb-3">
                                 <div class="row align-items-center ">
 
-                                    <div class="col-md-10 ">
-                                        <h3>İstifdəçi məlumatları</h3>
+                                    <div class="col-md-12 ">
+                                        <h3>İstifadəçi məlumatları</h3>
 
                                     </div>
-                                    <div class="col-md-2 ">
-                                        <label for="exampleFormControlSelect1">İstifadəçi</label>
-                                        <input class=" me-1 " id="isUser" type="checkbox" onclick="checkIsUserBox(this)" value="">
+                                    @if (Model.personalList[0].isAdmin)
+                                    {
+                                        <div class="col-md-2 ">
+                                            <label for="exampleFormControlSelect1">İstifadəçi</label>
+                                            <input class=" me-1 " id="isUser" type="checkbox" onclick="checkIsUserBox(this)" value="">
+                                        </div>
+                                        <div class="col-md-2 ">
+                                            <label for="exampleFormControlSelect1">Admin</label>
+                                            <input class=" me-1 " id="isAdmin" type="checkbox" value="">
+
+                                        </div>
+                                    }
 
 
-                                    </div>
-                                    <div class="col-md-2 ">
-                                        <label for="exampleFormControlSelect1">Admin</label>
-                                        <input class=" me-1 " id="isAdmin" type="checkbox" value="">
-
-
-                                    </div>
 
 
                                 </div>
@@ -1462,6 +1464,7 @@
         $("#email").val('@Model.personalList[0].email');
               $("#name").val('@Model.personalList[0].name');
         $("#surname").val('@Model.personalList[0].surname');
+        console.log('@Model.personalList[0].father')
         $("#father").val('@Model.personalList[0].father');
         $("#passportSerialNum").val('@Model.personalList[0].passportSerialNum');
         $("#passportFin").val('@Model.personalList[0].fin');
@@ -2054,7 +2057,7 @@ ${fullAccessCheckBox}
                 $('#systemModal').modal('show');
                 $('#systemModalTitle').text("Yüklənir...");
                 $('#systemModalText').html(`<center><div class="spinner-border text-dark mx-auto" role="status">
-    <span class="sr-only">Loading...</span>
+    // <span class="sr-only">Loading...</span>
   </div></center>`);
                 $('#systemModalBtn').attr("hidden", "");
 
