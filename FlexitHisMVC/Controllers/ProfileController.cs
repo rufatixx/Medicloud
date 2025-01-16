@@ -43,8 +43,16 @@ namespace Medicloud.Controllers
             var userID = User.FindFirst("ID")?.Value;
 
 			ViewBag.expiredDate = planRepository.GetUserPlanByUserId(Convert.ToInt32(userID)).expire_date;
-           
-            ViewBag.userData = personalDAO.GetUserByID(Convert.ToInt32(userID));
+			var user = personalDAO.GetUserByID(Convert.ToInt32(userID));
+			if (!string.IsNullOrEmpty(user.imagePath))
+			{
+				string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", user.imagePath.TrimStart('/'));
+				if (!System.IO.File.Exists(path))
+				{
+					user.imagePath = "";
+				}
+			}
+			ViewBag.userData =user;
 
             ViewBag.services = servicesRepo.GetServicesByOrganization(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")));
             return View();

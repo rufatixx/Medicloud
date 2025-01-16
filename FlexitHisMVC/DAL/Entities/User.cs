@@ -35,6 +35,7 @@ namespace Medicloud.Models
 		public int roleId { get; set; }
 		public string roleName { get; set; }
 		public List<RoleDTO> roles { get; set; }
+		public string imagePath { get; set; }
 	}
 }
 

@@ -113,7 +113,7 @@ namespace Medicloud.Areas.Admin.Controllers
 				int organizationId = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
 
 
-				long newUserID = personal.InsertUser(name, surname, father, specialityID, passportSerialNum, fin, phone, email, bDate, username, pwd);
+				long newUserID = personal.InsertUser(name, surname, father, specialityID, passportSerialNum, fin, phone, email, bDate, username, pwd, isActive: 1, isRegistered: 1);
 
 
 				if (newUserID > 0)
@@ -303,13 +303,57 @@ namespace Medicloud.Areas.Admin.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult UpdateUser(int userID, string name, string surname, string father, int specialityID, string passportSerialNum, string fin, string mobile, string email, string bDate, string username, int isUser, int isDr, int isActive, int isAdmin)
+		public async Task<IActionResult> UpdateUser(int userID, string name, string surname, string father, int specialityID, string passportSerialNum, string fin, string mobile, string email, string bDate, string username,int isActive, List<int> roleIds)
 		{
 			if (User.Identity.IsAuthenticated)
 			{
 				UserRepo user = new UserRepo(_connectionString);
 
-				return Ok(user.UpdateUser(userID, name, surname, father, specialityID, passportSerialNum, fin, mobile, email, bDate, username, isUser, isDr, isActive, isAdmin));
+				int organizationId = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
+
+				int result = user.UpdateUser(userID, name, surname, father, specialityID, passportSerialNum, fin, mobile, email, bDate, username);
+				var userRoles = await _roleRepository.GetUserRoles(organizationId, userID);
+				if (isActive == 0)
+				{
+					if (userRoles != null && userRoles.Count>0)
+					{
+						foreach (var role in userRoles)
+						{
+							await _roleRepository.RemoveUserRole(organizationId, userID, role.id);
+
+						}
+					}
+				}
+				if (roleIds != null)
+				{
+
+					if (userRoles != null)
+					{
+
+						var rolesToAdd = roleIds.Except(userRoles.Select(r => r.id)).ToList();
+
+	
+						var rolesToRemove = userRoles.Select(r => r.id).Except(roleIds).ToList();
+
+
+						foreach (int roleId in rolesToAdd)
+						{
+
+							await _roleRepository.AddUserRole(organizationId, userID, roleId);
+						}
+
+
+						foreach (int roleId in rolesToRemove)
+						{
+							await _roleRepository.RemoveUserRole(organizationId, userID, roleId);
+						}
+					}
+
+
+				}
+
+
+				return Ok(result);
 
 			}
 

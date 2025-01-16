@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using Medicloud.BLL.DTO;
 using Medicloud.DAL.Repository;
+using Medicloud.DAL.Repository.Userr;
 using Medicloud.Data;
 using Medicloud.Models;
 using Medicloud.Models.DTO;
@@ -15,9 +16,10 @@ namespace Medicloud.BLL.Service
 		UserRepo _userRepository;
 		PlanRepository _planRepository;
 		UserPlanRepo _userPlanRepo;
-
 		CommunicationService _communicationService;
 		OrganizationService _organizationService;
+
+		private readonly IUserRepository _nUserRepository;
 		public UserService(string conString)
 		{
 			_connectionString = conString;
@@ -27,9 +29,10 @@ namespace Medicloud.BLL.Service
 			_organizationService = new OrganizationService(conString);
 			_planRepository = new PlanRepository(conString);
 			_userPlanRepo = new UserPlanRepo(conString);
+			//_nUserRepository = new UserRepository()
 		}
 
-		public UserDTO SignIn(string mobileNumber, string pass)
+		public  UserDTO SignIn(string mobileNumber, string pass)
 		{
 
 			//long formattedPhone = regexPhone(phone);
@@ -42,6 +45,7 @@ namespace Medicloud.BLL.Service
 			{
 				UserRepo personalDAO = new UserRepo(_connectionString);
 				status.personal = personalDAO.GetUser(mobileNumber, pass);
+				//status.personal = await _nUserRepository.GetUser(mobileNumber, pass);
 
 				OrganizationRepo organizationDAO = new OrganizationRepo(_connectionString);
 				status.organizations = organizationDAO.GetOrganizationListByUser(status.personal.ID);
@@ -263,7 +267,7 @@ namespace Medicloud.BLL.Service
 				if (otpWasSet > 0)
 				{
 					// Optionally send the SMS
-					//_communicationService.sendSMS($"OTP: {randomCode}", phone);
+					_communicationService.sendSMS($"OTP: {randomCode}", phone);
 					Console.WriteLine("OTP:" + randomCode);
 					result.Success = true;
 					result.Message = "OTP kod göndərildi";
@@ -314,7 +318,7 @@ namespace Medicloud.BLL.Service
 					if (otpWasSet > 0)
 					{
 						// Optionally send the SMS
-						//_communicationService.sendSMS($"OTP: {randomCode}", phone);
+						_communicationService.sendSMS($"OTP: {randomCode}", phone);
 						Console.WriteLine("OTP:" + randomCode);
 						result.Success = true;
 						result.Message = "OTP successfully sent.";
@@ -345,13 +349,13 @@ namespace Medicloud.BLL.Service
 		}
 
 
-		public bool AddUser(string phone, string name, string surname, string father, int specialityID, string fin, string bDate, string pwd, string organizationName, int planID)
+		public bool AddUser(string phone, string name, string surname, string father, int specialityID, string fin, string bDate, string pwd, string organizationName, int planID,string imagePath)
 		{
 
 			var user = _userRepository.GetUserByPhone(phone);
 			try
 			{
-				var updated = _userRepository.UpdateUser(user.ID, name, surname, father, specialityID, fin: fin, bDate: bDate, password: sha256(pwd), isActive: 1, isUser: 1, isRegistered: 1);
+				var updated = _userRepository.UpdateUser(user.ID, name, surname, father, specialityID, fin: fin, bDate: bDate, password: sha256(pwd), isActive: 1, isUser: 1, isRegistered: 1,imagePath:imagePath);
 
 				var orgID = _organizationService.AddOrganizationToNewUser(user.ID, organizationName);
 				var kassaID = _kassaRepo.CreateKassa($"{organizationName} (Kassa)", orgID);

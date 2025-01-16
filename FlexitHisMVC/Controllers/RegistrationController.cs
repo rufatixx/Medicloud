@@ -136,22 +136,39 @@ namespace Medicloud.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddUser(string name, string surname, string father, int specialityID, string fin, string bDate, string pwd, string organizationName)
+        public async Task<IActionResult> AddUser(IFormFile profileImage, string name, string surname, string father, int specialityID, string fin, string bDate, string pwd, string organizationName)
         {
-            var otpCode = HttpContext.Session.GetString("registrationOtpCode");
+
+
+			var otpCode = HttpContext.Session.GetString("registrationOtpCode");
             var phone = HttpContext.Session.GetString("registrationPhone");
+			string relativeFilePath = "";
             if (userService.CheckOtpHash(phone, otpCode))
             {
-                var newUserID = userService.AddUser(phone, name, surname, father, specialityID, fin: fin, bDate: bDate, pwd: pwd, organizationName,4);
-                if (newUserID)
-                {
-                    HttpContext.Session.Remove("recoveryOtpCode");
-                    HttpContext.Session.Remove("recoveryPhone");
+				if (profileImage != null && profileImage.Length > 0)
+				{
+					string fileExtension = Path.GetExtension(profileImage.FileName);
 
-                    return Ok();
-                }
-               
-            }
+					string fileName = Guid.NewGuid().ToString() + fileExtension;
+					var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "user_images", fileName);
+					relativeFilePath = "/user_images/" + fileName;
+					using (var stream = new FileStream(filePath, FileMode.Create))
+					{
+						await profileImage.CopyToAsync(stream);
+					}
+				}
+
+
+				var newUserID = userService.AddUser(phone, name, surname, father, specialityID, fin: fin, bDate: bDate, pwd: pwd, organizationName, 4,relativeFilePath);
+				if (newUserID)
+				{
+					HttpContext.Session.Remove("recoveryOtpCode");
+					HttpContext.Session.Remove("recoveryPhone");
+
+					return Ok();
+				}
+
+			}
          
             return BadRequest();
 

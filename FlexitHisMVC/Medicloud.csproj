@@ -66,6 +66,7 @@
     <Folder Include="Areas\Admin\ViewComponents\" />
     <Folder Include="Areas\Admin\Views\Department\" />
     <Folder Include="Areas\Admin\Views\Home\" />
+    <Folder Include="wwwroot\user_images\" />
     <Folder Include="wwwroot\res\kassa\" />
     <Folder Include="wwwroot\res\admin\" />
     <Folder Include="wwwroot\res\brand\" />

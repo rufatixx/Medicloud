@@ -66,7 +66,7 @@
                                 <p class="text-muted mb-4">Sağlamlığınızı buludlara qaldırın</p>
                             </div>
                             <div class="alert alert-danger" id="alert" hidden role="alert"></div>
-                            <form id="addUserForm" class="needs-validation" novalidate onsubmit="signUp(event)">
+                            <form id="addUserForm" class="needs-validation" novalidate>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="position-relative border-bottom text-center mb-2 mb-sm-0 justify-content-center">
@@ -133,21 +133,25 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="mb-3 col-md-6">
-                                        <label for="specialityDropdown" class="form-label">İxtisas</label>
-                                        <select class="form-control" id="specialityDropdown" required>
-                                            <option value="">İxtisas seçin...</option>
-                                            @{
-                                                foreach (var item in ViewBag.specialities)
-                                                {
-                                                    <option value="@item.id">@item.name</option>
+                                    @if (ViewBag.specialities != null)
+                                    {
+                                        <div class="mb-3 col-md-6">
+                                            <label for="specialityDropdown" class="form-label">İxtisas</label>
+                                            <select class="form-control" id="specialityDropdown" required>
+                                                <option value="">İxtisas seçin...</option>
+                                                @{
+                                                    foreach (var item in ViewBag.specialities)
+                                                    {
+                                                        <option value="@item.id">@item.name</option>
+                                                    }
                                                 }
-                                            }
-                                        </select>
-                                        <div class="invalid-feedback">
-                                            Zəhmət olmasa, ixtisas seçin.
+                                            </select>
+                                            <div class="invalid-feedback">
+                                                Zəhmət olmasa, ixtisas seçin.
+                                            </div>
                                         </div>
-                                    </div>
+                                    }
+
                                     <div class="mb-3 col-md-6">
                                         <label for="organizationName" class="form-label">İşlədiyiniz müəssisə</label>
                                         <div class="input-group has-validation">
@@ -177,7 +181,7 @@
 
 
                                 <div class="mb-3 mb-0 text-center">
-                                    <button class="btn btn-primary" type="submit" id="nextButton"> Növbəti </button>
+                                    <button class="btn btn-primary" type="button" onclick="signUp(event)"> Növbəti </button>
                                 </div>
                             </form>
                         </div> <!-- end card-body -->
@@ -260,30 +264,233 @@
         }
         reader.readAsDataURL(file);
     }
+
+    async function signUp(event) {
+         event.preventDefault();
+    const form = $('#addUserForm')[0];
+
+    if (form.checkValidity() === false) {
+        event.stopPropagation();
+        $('#addUserForm').addClass('was-validated');
+        return;
+    }
+
+    // Get form field values
+    const organizationName = $('#organizationName').val();
+    const name = $('#name').val();
+    const surname = $('#surname').val();
+    const father = $('#father').val();
+    const specialityID = $('#specialityDropdown').val();
+    const fin = $('#fin').val();
+    const bDate = $('#bDate').val();
+    const pwd = $('#pwd').val();
+    const picture = $('#profilePicture')[0].files[0];  // Get the file from the input
+    var btn = $("#nextButton");
+    btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Yüklənir...');
+
+    // Prepare FormData
+    const formData = new FormData();
+    formData.append('organizationName', organizationName);
+    formData.append('name', name);
+    formData.append('surname', surname);
+    formData.append('father', father);
+    formData.append('specialityID', specialityID);
+    formData.append('fin', fin);
+    formData.append('bDate', bDate);
+    formData.append('pwd', pwd);
+
+    if (picture) {
+        formData.append('profileImage', picture);  // Append the image file
+    }
+
+    console.log("Form data:", formData);
+
+    try {
+        $.ajax({
+            url: '@Url.Action("AddUser","Registration")',
+            method: 'POST',
+            data: formData,
+            processData: false,  // Don't process the data
+            contentType: false,  // Don't set content type (FormData will handle it)
+            success: function (result) {
+                console.log('User added successfully:', result);
+                window.location.href = "/Registration/Success";
+                btn.prop('disabled', false).html('Növbəti');
+            },
+            error: function (xhr) {
+                if (xhr.status === 400) {
+                    var errorResult = xhr.responseJSON;
+                    console.error('Error adding user:', errorResult);
+                    $('#alert').text('İstifadəçi əlavə edilərkən xəta baş verdi: ' + (errorResult.message || xhr.statusText)).show();
+                } else {
+                    console.error('Error adding user:', xhr.statusText);
+                    $('#alert').text('İstifadəçi əlavə edilərkən xəta baş verdi').show();
+                }
+                btn.prop('disabled', false).html('Növbəti');
+            }
+        });
+    } catch (error) {
+        console.error('Error:', error);
+        $('#alert').text('Error adding user').show();
+    }
+        @*event.preventDefault();
+        const picture = $('#profilePicture').val();
+
+        if ($('#addUserForm')[0].checkValidity() === false) {
+            event.stopPropagation();
+            $('#addUserForm').addClass('was-validated');
+            return;
+        }
+
+        // Get form field values
+        const organizationName = $('#organizationName').val();
+        const name = $('#name').val();
+        const surname = $('#surname').val();
+        const father = $('#father').val();
+        const specialityID = $('#specialityDropdown').val();
+        const fin = $('#fin').val();
+        const bDate = $('#bDate').val();
+        const pwd = $('#pwd').val();
+        var btn = $("#nextButton");
+        btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Yüklənir...');
+
+        // Prepare query parameters
+        const params = new URLSearchParams({
+            organizationName: organizationName,
+            name: name,
+            surname: surname,
+            father: father,
+            specialityID: specialityID,
+            fin: fin,
+            bDate: bDate,
+            pwd: pwd,
+            profileImage: picture
+        });
+
+        console.log(params.toString())
+
+        try {
+            $.ajax({
+                url: '@Url.Action("AddUser","Registration")',
+                method: 'POST',
+                data: params.toString(),
+                success: function (result) {
+                    console.log('User added successfully:', result);
+                    window.location.href = "/Registration/Success";
+                    btn.prop('disabled', false).html('Növbəti');
+                },
+                error: function (xhr) {
+                    if (xhr.status === 400) {
+                        var errorResult = xhr.responseJSON;
+                        console.error('Error adding user:', errorResult);
+                        $('#alert').text('İstifadəçi əlavə edilərkən xəta baş verdi: ' + (errorResult.message || xhr.statusText)).show();
+                    } else {
+                        console.error('Error adding user:', xhr.statusText);
+                        $('#alert').text('İstifadəçi əlavə edilərkən xəta baş verdi').show();
+                    }
+                    btn.prop('disabled', false).html('Növbəti');
+                }
+            });
+
+        } catch (error) {
+            console.error('Error:', error);
+            $('#alert').text('Error adding user').show();
+        }*@
+
+    }
+
+
+
 </script>
 @section Scripts {
     <script>
-// Bootstrap validation
-        //(function () {
-        //    'use strict';
-        //    window.addEventListener('load', function () {
-        //        var forms = document.getElementsByClassName('needs-validation');
-        //        var validation = Array.prototype.filter.call(forms, function (form) {
-        //            form.addEventListener('submit', function (event) {
-        //                if (form.checkValidity() === false) {
-        //                    event.preventDefault();
-        //                    event.stopPropagation();
-        //                }
-        //                form.classList.add('was-validated');
-        //            }, false);
-        //        });
-        //    }, false);
-        //})();
+        // Bootstrap validation
+        (function () {
+            'use strict';
+            window.addEventListener('load', function () {
+                var forms = document.getElementsByClassName('needs-validation');
+                var validation = Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
 
 
-        //document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function () {
+            @*$('#nextButton').on('click', function (event) {
+                event.preventDefault();
+                console.log('clicked')
+                const picture = $('#profilePicture').val();
 
-        //})
+                if ($('#addUserForm')[0].checkValidity() === false) {
+                    event.stopPropagation();
+                    $('#addUserForm').addClass('was-validated');
+                    return;
+                }
+
+                // Get form field values
+                const organizationName = $('#organizationName').val();
+                const name = $('#name').val();
+                const surname = $('#surname').val();
+                const father = $('#father').val();
+                const specialityID = $('#specialityDropdown').val();
+                const fin = $('#fin').val();
+                const bDate = $('#bDate').val();
+                const pwd = $('#pwd').val();
+                var btn = $("#nextButton");
+                btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Yüklənir...');
+
+                // Prepare query parameters
+                const params = new URLSearchParams({
+                    organizationName: organizationName,
+                    name: name,
+                    surname: surname,
+                    father: father,
+                    specialityID: specialityID,
+                    fin: fin,
+                    bDate: bDate,
+                    pwd: pwd,
+                    profileImage: picture
+                });
+
+                console.log(params.toString())
+
+                try {
+                    $.ajax({
+                        url: '@Url.Action("AddUser","Registration")',
+                        method: 'POST',
+                        data: params.toString(),
+                        success: function (result) {
+                            console.log('User added successfully:', result);
+                            window.location.href = "/Registration/Success";
+                            btn.prop('disabled', false).html('Növbəti');
+                        },
+                        error: function (xhr) {
+                            if (xhr.status === 400) {
+                                var errorResult = xhr.responseJSON;
+                                console.error('Error adding user:', errorResult);
+                                $('#alert').text('İstifadəçi əlavə edilərkən xəta baş verdi: ' + (errorResult.message || xhr.statusText)).show();
+                            } else {
+                                console.error('Error adding user:', xhr.statusText);
+                                $('#alert').text('İstifadəçi əlavə edilərkən xəta baş verdi').show();
+                            }
+                            btn.prop('disabled', false).html('Növbəti');
+                        }
+                    });
+
+                } catch (error) {
+                    console.error('Error:', error);
+                    $('#alert').text('Error adding user').show();
+                }
+
+            })*@
+        })
 
 
         //$('#changeProfilePicture').on('click', function () {
@@ -292,67 +499,7 @@
 
 
 
-        async function signUp(event) {
-            event.preventDefault();
-            const picture = $('#profilePicture').val();
 
-            if ($('#addUserForm')[0].checkValidity() === false || !picture) {
-                event.stopPropagation();
-                $('#addUserForm').addClass('was-validated');
-                return;
-            }
 
-            // Get form field values
-            const organizationName = $('#organizationName').val();
-            const name = $('#name').val();
-            const surname = $('#surname').val();
-            const father = $('#father').val();
-            const specialityID = $('#specialityDropdown').val();
-            const fin = $('#fin').val();
-            const bDate = $('#bDate').val();
-            const pwd = $('#pwd').val();
-            var btn = $("#nextButton");
-            btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Yüklənir...');
-
-            // Prepare query parameters
-            const params = new URLSearchParams({
-                organizationName: organizationName,
-                name: name,
-                surname: surname,
-                father: father,
-                specialityID: specialityID,
-                fin: fin,
-                bDate: bDate,
-                pwd: pwd,
-                profileImage: picture
-            });
-
-            try {
-                $.ajax({
-                    url: '@Url.Action("AddUser","Registration")',
-                    method: 'POST',
-                    data: params.toString(),
-                    success: function (result) {
-                        console.log('User added successfully:', result);
-                        window.location.href = "/Registration/Success";
-                        btn.prop('disabled', false).html('Növbəti');
-                    },
-                    error: function (xhr) {
-                        if (xhr.status === 400) {
-                            var errorResult = xhr.responseJSON;
-                            console.error('Error adding user:', errorResult);
-                            $('#alert').text('İstifadəçi əlavə edilərkən xəta baş verdi: ' + (errorResult.message || xhr.statusText)).show();
-                        } else {
-                            console.error('Error adding user:', xhr.statusText);
-                            $('#alert').text('İstifadəçi əlavə edilərkən xəta baş verdi').show();
-                        }
-                        btn.prop('disabled', false).html('Növbəti');
-                    }
-                });
-
-            } catch (error) {
-                console.error('Error:', error);
-                $('#alert').text('Error adding user').show();
-            }
-        }</script>
+    </script>
 }

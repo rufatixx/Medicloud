@@ -160,17 +160,13 @@ namespace Medicloud.DAL.Repository
 
                     connection.Open();
                     using (MySqlCommand com = new MySqlCommand(@"SELECT 
-    u.*, 
-    up.expire_date as subscription_expire_date
+    u.*
 FROM 
     users u
-left JOIN 
-    user_plans up ON u.id = up.user_id AND up.isActive = 1
 WHERE 
     u.pwd = SHA2(@pass, 256) 
     AND u.mobile = @mobileNumber 
     AND u.isActive = 1 
-    AND u.isUser = 1 
     AND u.isRegistered = 1;
 ", connection))
                     {
@@ -194,7 +190,6 @@ WHERE
                                     user.isManager = reader["isManager"] == DBNull.Value ? false : Convert.ToBoolean(reader["isManager"]);
                                     user.isUser = reader["isUser"] == DBNull.Value ? false : Convert.ToBoolean(reader["isUser"]);
                                     user.isDr = reader["isDr"] == DBNull.Value ? false : Convert.ToBoolean(reader["isDr"]);
-                                    user.subscription_expire_date = reader["subscription_expire_date"] == DBNull.Value ? null : Convert.ToDateTime(reader["subscription_expire_date"]);
                                 }
 
                                 connection.Close();
@@ -276,6 +271,7 @@ WHERE
                                 user.isAdmin = reader["isAdmin"] == DBNull.Value ? false : Convert.ToBoolean(reader["isAdmin"]);
                                 user.isManager = reader["isManager"] == DBNull.Value ? false : Convert.ToBoolean(reader["isManager"]);
                                 user.isUser = reader["isUser"] == DBNull.Value ? false : Convert.ToBoolean(reader["isUser"]);
+                                user.imagePath = reader["image_path"] == DBNull.Value ? string.Empty : reader["image_path"].ToString();
                                 user.isDr = reader["isDr"] == DBNull.Value ? false : Convert.ToBoolean(reader["isDr"]);
                                 user.subscription_expire_date = reader["plan_expire_date"] == DBNull.Value ? null : Convert.ToDateTime(reader["plan_expire_date"]);
                                 user.cDate = reader["cDate"] == DBNull.Value ? null : Convert.ToDateTime(reader["cDate"]);
@@ -356,7 +352,7 @@ WHERE
             string fin = "", string phone = "", string email = "",
             string bDate = "", string username = "", string pwd = "",
             int isUser = 0, int isDr = 0, int isAdmin = 0,
-            int isActive = 0, string otp = "",string imagePath="")
+            int isActive = 0, string otp = "",string imagePath="",int isRegistered=0)
         {
             try
             {
@@ -367,9 +363,9 @@ WHERE
                     connection.Open();
 
                     var query = @"INSERT INTO users (name, surname, father, specialityID, mobile, email, bDate, username, pwd, 
-                          isUser, isDr, isAdmin, isActive, otp_code)
+                          isUser, isDr, isAdmin, isActive, otp_code,isRegistered)
                           SELECT @name, @surname, @father, @specialityID, @mobile, @email, @bDate, @username, SHA2(@pwd, 256), 
-                          @isUser, @isDr, @isAdmin, @isActive, @otp_code
+                          @isUser, @isDr, @isAdmin, @isActive, @otp_code,@isRegistered
                           FROM DUAL
                           WHERE NOT EXISTS (
                             SELECT 1 FROM users 
@@ -392,6 +388,7 @@ WHERE
                         command.Parameters.AddWithValue("@isActive", isActive);
                         command.Parameters.AddWithValue("@isDr", isDr);
                         command.Parameters.AddWithValue("@isAdmin", isAdmin);
+                        command.Parameters.AddWithValue("@isRegistered", isRegistered);
                         command.Parameters.AddWithValue("@otp_code", otp ?? "");
                         command.Parameters.AddWithValue("@image_path", imagePath ?? "");
 
@@ -412,7 +409,7 @@ WHERE
             int specialityID = 0, string passportSerialNum = "", string fin = "",
             string mobile = "", string email = "", string bDate = "",
             string username = "", int isUser = 0, int isDr = 0, int isActive = 0,
-            int isAdmin = 0, string otp = "", string recoveryOtp = "", DateTime? recoveryOtpSendDate = null, string password = "", int isRegistered = 0)
+            int isAdmin = 0, string otp = "", string recoveryOtp = "", DateTime? recoveryOtpSendDate = null, string password = "", int isRegistered = 0,string imagePath="")
         {
             int updated = 0;
 
@@ -521,7 +518,12 @@ WHERE
                         query.Append("isRegistered = @isRegistered, ");
                         parameters.Add(new MySqlParameter("@isRegistered", isRegistered));
                     }
-                    query.Append("otp_sent_date = @otp_sent_date, ");
+					if (!string.IsNullOrEmpty(fin))
+					{
+						query.Append("image_path = @imagePath, ");
+						parameters.Add(new MySqlParameter("@imagePath", imagePath));
+					}
+					query.Append("otp_sent_date = @otp_sent_date, ");
                     parameters.Add(new MySqlParameter("@otp_sent_date", DateTime.Now));
 
 
@@ -659,6 +661,7 @@ WHERE
 
         public int UpdateUserPwd(int userID, string pwd)
         {
+			Console.WriteLine(pwd);
             int updated = 0;
             List<User> personalList = new List<User>();
             try

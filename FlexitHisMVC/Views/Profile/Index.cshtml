@@ -29,8 +29,17 @@
                         <div class="col-sm-8">
                             <div class="row align-items-center">
                                 <div class="col-auto">
+                                    @{
+                                        var imageSrc = "/res/user.svg";
+                                        if (!string.IsNullOrEmpty(ViewBag.userData.imagePath as string))
+                                        {
+                                            var filePath = ViewBag.userData.imagePath.Replace("\\", "/");
+                                            imageSrc = filePath;
+
+                                        }
+                                    }
                                     <div class="avatar-lg">
-                                        <img src="/res/user.svg" width="86" alt="" class="rounded-circle img-thumbnail">
+                                        <img src="@imageSrc" width="86" style="object-fit:cover;" alt="" class="rounded-circle img-thumbnail">
                                     </div>
                                 </div>
                                 <div class="col">

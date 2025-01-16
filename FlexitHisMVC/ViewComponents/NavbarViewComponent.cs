@@ -46,9 +46,16 @@ namespace Medicloud.ViewComponents
             obj.kassaList = new List<Kassa>();
 
             obj.personal = personalDAO.GetUserByID(userId);
+			if (!string.IsNullOrEmpty(obj.personal.imagePath))
+			{
+				string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", obj.personal.imagePath.TrimStart('/'));
+				if (!System.IO.File.Exists(path))
+				{
+					obj.personal.imagePath = "";
+				}
+			}
 
-          
-            obj.organizations = organizationDAO.GetOrganizationListByUser(obj.personal.ID);
+			obj.organizations = organizationDAO.GetOrganizationListByUser(obj.personal.ID);
 
 			obj.Roles=await _roleRepository.GetUserRoles(orgId, userId);
 			
