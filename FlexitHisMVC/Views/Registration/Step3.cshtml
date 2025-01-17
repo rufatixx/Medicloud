@@ -124,6 +124,8 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="row">
                                     <div class="mb-3 col-md-6">
                                         <label for="bDate" class="form-label">Doğum tarixi</label>
                                         <div class="input-group has-validation">
@@ -133,34 +135,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @if (ViewBag.specialities != null)
-                                    {
-                                        <div class="mb-3 col-md-6">
-                                            <label for="specialityDropdown" class="form-label">İxtisas</label>
-                                            <select class="form-control" id="specialityDropdown" required>
-                                                <option value="">İxtisas seçin...</option>
-                                                @{
-                                                    foreach (var item in ViewBag.specialities)
-                                                    {
-                                                        <option value="@item.id">@item.name</option>
-                                                    }
-                                                }
-                                            </select>
-                                            <div class="invalid-feedback">
-                                                Zəhmət olmasa, ixtisas seçin.
-                                            </div>
-                                        </div>
-                                    }
 
-                                    <div class="mb-3 col-md-6">
-                                        <label for="organizationName" class="form-label">İşlədiyiniz müəssisə</label>
-                                        <div class="input-group has-validation">
-                                            <input type="text" id="organizationName" class="form-control" placeholder="Daxil edin" required>
-                                            <div class="invalid-feedback">
-                                                Zəhmət olmasa, işlədiyiniz müəssisəni daxil edin.
-                                            </div>
-                                        </div>
-                                    </div>
 
                                     <div class="mb-3 col-md-6">
                                         <label for="pwd" class="form-label">Şifrə</label>
@@ -178,7 +153,34 @@
                                     </div>
                                 </div>
 
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <div class="form-check">
+                                            <input type="checkbox" style="cursor:pointer;" class="form-check-input" id="specialistCheckbox">
+                                            <label class="form-check-label" style="cursor:pointer;" for="specialistCheckbox">Peşəkar</label>
+                                        </div>
+                                    </div>
 
+                                    @if (ViewBag.specialities != null)
+                                    {
+                                        <div class="mb-3 col-md-6" id="specialityContent" style="display:none;">
+                                            <label for="specialityDropdown" class="form-label">İxtisas</label>
+                                            <select class="form-control" id="specialityDropdown">
+                                                <option value="">İxtisas seçin...</option>
+                                                @{
+                                                    foreach (var item in ViewBag.specialities)
+                                                    {
+                                                        <option value="@item.id">@item.name</option>
+                                                    }
+                                                }
+                                            </select>
+                                            <div class="invalid-feedback">
+                                                Zəhmət olmasa, ixtisas seçin.
+                                            </div>
+                                        </div>
+                                    }
+
+                                </div>
 
                                 <div class="mb-3 mb-0 text-center">
                                     <button class="btn btn-primary" type="button" onclick="signUp(event)"> Növbəti </button>
@@ -219,7 +221,15 @@
         <!-- end container -->
     </div>
 
-
+    @*<div class="mb-3 col-md-6">
+            <label for="organizationName" class="form-label">İşlədiyiniz müəssisə</label>
+            <div class="input-group has-validation">
+                <input type="text" id="organizationName" class="form-control" placeholder="Daxil edin" required>
+                <div class="invalid-feedback">
+                    Zəhmət olmasa, işlədiyiniz müəssisəni daxil edin.
+                </div>
+            </div>
+        </div>*@
 
     <footer class="footer footer-alt">
         2021 -
@@ -244,26 +254,36 @@
 </html>
 
 <script>
+
     function changePicture(event) {
         event.preventDefault();
         $('#profilePicture').click();
         //document.getElementById("profileImage").src = '/res/user.svg';
     }
 
-    $('#profilePicture').on('change', function () {
-        //$('#profilePictureForm').submit();
-        previewProfilePicture()
-        console.log('changed pctr')
+    $('#profilePicture').on('change', function (event) {
+        previewProfilePicture(event)
     });
     function previewProfilePicture(event) {
         const file = event.target.files[0];
         const reader = new FileReader();
         reader.onload = function (e) {
             document.getElementById("profileImage").src = e.target.result;
-            showSaveButton();
         }
         reader.readAsDataURL(file);
     }
+
+    $('#specialistCheckbox').on('change', function () {
+        //console.log('checked')
+        if ($(this).is(':checked')) {
+            $('#specialityContent').show();
+            $('#specialityDropdown').prop('required',true);
+        } else {
+            $('#specialityContent').hide();
+            $('#specialityDropdown').prop('required', false);
+
+        }
+    });
 
     async function signUp(event) {
          event.preventDefault();
@@ -333,69 +353,6 @@
         console.error('Error:', error);
         $('#alert').text('Error adding user').show();
     }
-        @*event.preventDefault();
-        const picture = $('#profilePicture').val();
-
-        if ($('#addUserForm')[0].checkValidity() === false) {
-            event.stopPropagation();
-            $('#addUserForm').addClass('was-validated');
-            return;
-        }
-
-        // Get form field values
-        const organizationName = $('#organizationName').val();
-        const name = $('#name').val();
-        const surname = $('#surname').val();
-        const father = $('#father').val();
-        const specialityID = $('#specialityDropdown').val();
-        const fin = $('#fin').val();
-        const bDate = $('#bDate').val();
-        const pwd = $('#pwd').val();
-        var btn = $("#nextButton");
-        btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Yüklənir...');
-
-        // Prepare query parameters
-        const params = new URLSearchParams({
-            organizationName: organizationName,
-            name: name,
-            surname: surname,
-            father: father,
-            specialityID: specialityID,
-            fin: fin,
-            bDate: bDate,
-            pwd: pwd,
-            profileImage: picture
-        });
-
-        console.log(params.toString())
-
-        try {
-            $.ajax({
-                url: '@Url.Action("AddUser","Registration")',
-                method: 'POST',
-                data: params.toString(),
-                success: function (result) {
-                    console.log('User added successfully:', result);
-                    window.location.href = "/Registration/Success";
-                    btn.prop('disabled', false).html('Növbəti');
-                },
-                error: function (xhr) {
-                    if (xhr.status === 400) {
-                        var errorResult = xhr.responseJSON;
-                        console.error('Error adding user:', errorResult);
-                        $('#alert').text('İstifadəçi əlavə edilərkən xəta baş verdi: ' + (errorResult.message || xhr.statusText)).show();
-                    } else {
-                        console.error('Error adding user:', xhr.statusText);
-                        $('#alert').text('İstifadəçi əlavə edilərkən xəta baş verdi').show();
-                    }
-                    btn.prop('disabled', false).html('Növbəti');
-                }
-            });
-
-        } catch (error) {
-            console.error('Error:', error);
-            $('#alert').text('Error adding user').show();
-        }*@
 
     }
 
@@ -423,6 +380,10 @@
 
 
         document.addEventListener('DOMContentLoaded', function () {
+
+
+
+
             @*$('#nextButton').on('click', function (event) {
                 event.preventDefault();
                 console.log('clicked')

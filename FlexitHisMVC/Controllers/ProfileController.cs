@@ -4,6 +4,7 @@ using Medicloud.Data;
 using Medicloud.Models;
 using Medicloud.Models.DTO;
 using Medicloud.Models.Repository;
+using Medicloud.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -55,7 +56,17 @@ namespace Medicloud.Controllers
 			ViewBag.userData =user;
 
             ViewBag.services = servicesRepo.GetServicesByOrganization(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")));
-            return View();
+
+			var vm = new ProfileViewModel
+			{
+				UserSurname = user.name,
+				UserName = user.surname,
+				Email = user.email,
+				ImagePath = user.imagePath,
+				SpecialityName = user.speciality?.name ?? "",
+				PhoneNumber = user.mobile
+			};
+            return View(vm);
         }
 
         [HttpPost]

@@ -2,9 +2,9 @@
     .bg-blue-purple-gradient {
         background: linear-gradient(to right, #7bb7ff, #d4f2ff); /* Pastel blue to pastel purple */
     }
-
 </style>
 
+@model Medicloud.ViewModels.ProfileViewModel
 <!-- Start Content-->
 <div class="container-fluid">
 
@@ -44,17 +44,17 @@
                                 </div>
                                 <div class="col">
                                     <div>
-                                        <h4 class="mt-1 mb-1 text-white">@ViewBag.userData.name @ViewBag.userData.surname</h4>
-                                        <p class="font-13 text-white-50"> @ViewBag.userData.speciality.name</p>
+                                        <h4 class="mt-1 mb-1 text-white">@Model.UserSurname @Model.UserSurname</h4>
+                                        <p class="font-13 text-white-50"> @(Model.SpecialityName??"")</p>
 
                                         <ul class="mb-0 list-inline text-light">
                                             <li class="list-inline-item me-3">
                                                 <h5 class="mb-1 text-white">Mobil nömrə</h5>
-                                                <p class="mb-0 font-13 text-white-50">+994 @ViewBag.userData.mobile</p>
+                                                <p class="mb-0 font-13 text-white-50">+994 @Model.PhoneNumber</p>
                                             </li>
                                             <li class="list-inline-item">
                                                 <h5 class="mb-1 text-white">Email</h5>
-                                                <p class="mb-0 font-13 text-white-50">@ViewBag.userData.email</p>
+                                                <p class="mb-0 font-13 text-white-50">@Model.Email</p>
                                             </li>
                                         </ul>
                                     </div>
@@ -175,7 +175,7 @@
     </div>
 
 
-  
+
     <!-- end row -->
 
 </div> <!-- container -->
@@ -223,7 +223,7 @@
                     </div>
                     <div class="form-group mb-3">
                         <label for="surname">Soyadınız</label>
-                        <input type="text" class="form-control" id="surname"  placeholder="">
+                        <input type="text" class="form-control" id="surname" placeholder="">
                     </div>
                     <div class="form-group mb-3">
                         <label for="name">Ata adı</label>
@@ -240,7 +240,7 @@
 
                     <div class="d-flex justify-content-between">
                         <button type="button" class="btn btn-primary col-5" onclick="updateUser()">Yenilə</button>
-                       
+
                     </div>
                 </form>
             </div>

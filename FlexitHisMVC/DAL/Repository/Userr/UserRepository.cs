@@ -1,7 +1,14 @@
 ﻿using Dapper;
+using Medicloud.BLL.Models;
 using Medicloud.DAL.Infrastructure.Abstract;
 using Medicloud.Models;
+using Microsoft.Extensions.FileSystemGlobbing;
 using MySql.Data.MySqlClient;
+using System.Reflection;
+using System;
+using System.Text;
+using static System.Net.WebRequestMethods;
+using System.Xml.Linq;
 
 namespace Medicloud.DAL.Repository.Userr
 {
@@ -17,8 +24,7 @@ namespace Medicloud.DAL.Repository.Userr
 		public async Task<User> GetUser(string mobileNumber, string pass)
 		{
 			string query = @"SELECT 
-		    u.*, 
-		    up.expire_date as subscription_expire_date
+		    u.*
 			FROM 
 			    users u
 			WHERE 
@@ -30,7 +36,124 @@ namespace Medicloud.DAL.Repository.Userr
 			using var con=_unitOfWork.BeginConnection();
 			var result=await con.QuerySingleOrDefaultAsync<User>(query, new { MobileNumber =mobileNumber,Pass=pass});
 			return result;
+
+
+
+		public async Task<User> GetUserById(string mobileNumber, string pass)
+		{
+			string query = @"SELECT 
+		    u.*
+			FROM 
+			    users u
+			WHERE 
+			    u.pwd = SHA2(@Pass, 256) 
+				AND u.mobile = @MobileNumber 
+				AND u.isActive = 1 
+				AND u.isRegistered = 1;
+		";
+			using var con = _unitOfWork.BeginConnection();
+			var result = await con.QuerySingleOrDefaultAsync<User>(query, new { MobileNumber = mobileNumber, Pass = pass });
+			return result;
 		}
+
+		public async Task<int> GetUserIdByPhoneNumber(string mobileNumber)
+		{
+			string query = @"SELECT 
+		    u.id
+			FROM 
+			    users u
+			WHERE 
+				u.mobile = @MobileNumber;
+		";
+			var con = _unitOfWork.GetConnection();
+			var result = await con.QuerySingleOrDefaultAsync<int>(query, new { MobileNumber = mobileNumber });
+			return result;
+		}
+
+		public async Task<int> UpdateUserAsync(UpdateUserDTO userDTO)
+		{
+
+			var query = new StringBuilder("UPDATE users SET ");
+			var parameters = new DynamicParameters();
+
+			if (!string.IsNullOrEmpty(userDTO.name))
+			{
+				query.Append("name = @name, ");
+				parameters.Add("@name", userDTO.name);
+			}
+			if (!string.IsNullOrEmpty(userDTO.surname))
+			{
+				query.Append("surname = @surname, ");
+				parameters.Add("@surname", userDTO.surname);
+			}
+			if (!string.IsNullOrEmpty(userDTO.father))
+			{
+				query.Append("father = @father, ");
+				parameters.Add("@father", userDTO.father);
+			}
+			if (!string.IsNullOrEmpty(userDTO.mobile))
+			{
+				query.Append("mobile = @mobile, ");
+				parameters.Add("@mobile", userDTO.mobile);
+			}
+			if (!string.IsNullOrEmpty(userDTO.pwd))
+			{
+				query.Append("pwd = @pwd, ");
+				parameters.Add("@pwd", userDTO.pwd);
+			}
+			if (!string.IsNullOrEmpty(userDTO.email))
+			{
+				query.Append("email = @email, ");
+				parameters.Add("@email", userDTO.email);
+			}
+			if (!string.IsNullOrEmpty(userDTO.bDate))
+			{
+				query.Append("bDate = @bDate, ");
+				parameters.Add("@bDate", string.IsNullOrEmpty(userDTO.bDate) ? (object)DBNull.Value : DateTime.Parse(userDTO.bDate));
+			}
+			if (!string.IsNullOrEmpty(userDTO.username))
+			{
+				query.Append("username = @username, ");
+				parameters.Add("@username", userDTO.username);
+			}
+			if (!string.IsNullOrEmpty(userDTO.passportSerialNum))
+			{
+				query.Append("passportSerialNum = @passportSerialNum, ");
+				parameters.Add("@passportSerialNum", userDTO.passportSerialNum);
+			}
+			if (!string.IsNullOrEmpty(userDTO.fin))
+			{
+				query.Append("fin = @fin, ");
+				parameters.Add("@fin", userDTO.fin);
+			}
+			if (userDTO.isRegistered)
+			{
+				query.Append("isRegistered = @isRegistered, ");
+				parameters.Add("@isRegistered", userDTO.isRegistered);
+			}
+			if (!string.IsNullOrEmpty(userDTO.imagePath))
+			{
+				query.Append("image_path = @imagePath, ");
+				parameters.Add("@imagePath", userDTO.imagePath);
+			}
+			query.Append("otp_sent_date = @otp_sent_date, ");
+			parameters.Add("@otp_sent_date", DateTime.Now);
+
+
+			// Remove the last comma and space
+			if (parameters.ParameterNames.Count() > 0)
+			{
+				query.Length -= 2;
+			}
+
+			query.Append(" WHERE id = @userID");
+			parameters.Add("@userID", userDTO.ID);
+			using var con = _unitOfWork.BeginConnection();
+			await con.ExecuteAsync(query.ToString(),parameters);
+			return userDTO.ID;
+		}
+
+
 		//		public User GetUser(string mobileNumber, string pass)
 		//		{
 		//			User user = new User();

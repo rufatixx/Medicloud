@@ -1,5 +1,6 @@
 ﻿
 using Medicloud.BLL.Service;
+using Medicloud.BLL.Services.User;
 using Medicloud.DAL.Repository;
 using Medicloud.Data;
 using Microsoft.AspNetCore.Authorization;
@@ -15,19 +16,21 @@ namespace Medicloud.Controllers
         private readonly string _connectionString;
         public IConfiguration Configuration;
         private readonly IWebHostEnvironment _hostingEnvironment;
-        UserService userService;
+		UserService userService;
         OrganizationService organizationService;
         private readonly SpecialityService _specialityService;
-        public RegistrationController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, SpecialityService specialityService)
-        {
-            Configuration = configuration;
-            _connectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
-            userService = new UserService(_connectionString);
-            organizationService = new OrganizationService(_connectionString);
-            _specialityService = specialityService;
-        }
-        // GET: /<controller>/
-        public IActionResult Index()
+		private readonly INUserService _userService;
+		public RegistrationController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, SpecialityService specialityService, INUserService nuserService)
+		{
+			Configuration = configuration;
+			_connectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
+			userService = new UserService(_connectionString);
+			organizationService = new OrganizationService(_connectionString);
+			_specialityService = specialityService;
+			_userService = nuserService;
+		}
+		// GET: /<controller>/
+		public IActionResult Index()
         {
             return View();
         }
@@ -136,7 +139,7 @@ namespace Medicloud.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddUser(IFormFile profileImage, string name, string surname, string father, int specialityID, string fin, string bDate, string pwd, string organizationName)
+        public async Task<IActionResult> AddUser(IFormFile profileImage, string name, string surname, string father, int specialityID, string fin, string bDate, string pwd)
         {
 
 
@@ -159,8 +162,19 @@ namespace Medicloud.Controllers
 				}
 
 
-				var newUserID = userService.AddUser(phone, name, surname, father, specialityID, fin: fin, bDate: bDate, pwd: pwd, organizationName, 4,relativeFilePath);
-				if (newUserID)
+				//var newUserID = userService.AddUser(phone, name, surname, father, specialityID, fin: fin, bDate: bDate, pwd: pwd, "", 4, relativeFilePath);
+				int userId = await _userService.UpdateUserAsync(phone, new()
+				{
+					name = name,
+					surname = surname,
+					father = father,
+					specialityID = specialityID,
+					fin = fin,
+					bDate = bDate,
+					pwd = pwd
+
+				});
+				if (userId>0)
 				{
 					HttpContext.Session.Remove("recoveryOtpCode");
 					HttpContext.Session.Remove("recoveryPhone");

@@ -146,8 +146,11 @@
             <li class="dropdown">
                 <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="index.html#" role="button" aria-haspopup="false" aria-expanded="false">
                     @*<img src="/assets/images/flags/Azerbaijan.svg" alt="user-image" class="me-0 me-sm-1" height="12">*@
-                    <span class="align-middle d-inline"> @ViewBag.SelectedOrganization</span>
-                    <i class="mdi mdi-chevron-down d-inline align-middle"></i>
+                    @{ 
+                        var selectedOrganization = string.IsNullOrEmpty(@ViewBag.SelectedOrganization as string) ? " " : @ViewBag.SelectedOrganization;
+                    }
+                    <span class="align-middle d-inline"> </span>
+                    <i class="mdi mdi-chevron-down d-inline align-middle">@selectedOrganization</i>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated">
                     @foreach (var item in Model.organizations)

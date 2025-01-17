@@ -267,7 +267,7 @@ namespace Medicloud.BLL.Service
 				if (otpWasSet > 0)
 				{
 					// Optionally send the SMS
-					_communicationService.sendSMS($"OTP: {randomCode}", phone);
+					//_communicationService.sendSMS($"OTP: {randomCode}", phone);
 					Console.WriteLine("OTP:" + randomCode);
 					result.Success = true;
 					result.Message = "OTP kod göndərildi";
@@ -318,7 +318,7 @@ namespace Medicloud.BLL.Service
 					if (otpWasSet > 0)
 					{
 						// Optionally send the SMS
-						_communicationService.sendSMS($"OTP: {randomCode}", phone);
+						//_communicationService.sendSMS($"OTP: {randomCode}", phone);
 						Console.WriteLine("OTP:" + randomCode);
 						result.Success = true;
 						result.Message = "OTP successfully sent.";
@@ -357,16 +357,21 @@ namespace Medicloud.BLL.Service
 			{
 				var updated = _userRepository.UpdateUser(user.ID, name, surname, father, specialityID, fin: fin, bDate: bDate, password: sha256(pwd), isActive: 1, isUser: 1, isRegistered: 1,imagePath:imagePath);
 
-				var orgID = _organizationService.AddOrganizationToNewUser(user.ID, organizationName);
-				var kassaID = _kassaRepo.CreateKassa($"{organizationName} (Kassa)", orgID);
-				var kasaUserRelID = _kassaRepo.InsertKassaToUser(user.ID, kassaID, false, true);
-				var plan = _planRepository.GetById(planID);
-				_userPlanRepo.AddUserPlan(user.ID, plan.id, plan.duration, true);
+				//var orgID = _organizationService.AddOrganizationToNewUser(user.ID, organizationName);
+				//var kassaID = _kassaRepo.CreateKassa($"{organizationName} (Kassa)", orgID);
+				//var kasaUserRelID = _kassaRepo.InsertKassaToUser(user.ID, kassaID, false, true);
+				//var plan = _planRepository.GetById(planID);
+				//_userPlanRepo.AddUserPlan(user.ID, plan.id, plan.duration, true);
 
-				if (updated > 0 && orgID > 0)
+				//if (updated > 0 && orgID > 0)
+				//{
+				//	return true;
+				//}
+				if (updated > 0)
 				{
 					return true;
 				}
+
 
 			}
 			catch (Exception ex)
