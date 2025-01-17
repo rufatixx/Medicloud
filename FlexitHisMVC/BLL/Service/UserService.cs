@@ -267,7 +267,7 @@ namespace Medicloud.BLL.Service
 				if (otpWasSet > 0)
 				{
 					// Optionally send the SMS
-					_communicationService.sendSMS($"OTP: {randomCode}", phone);
+					//_communicationService.sendSMS($"OTP: {randomCode}", phone);
 					Console.WriteLine("OTP:" + randomCode);
 					result.Success = true;
 					result.Message = "OTP kod göndərildi";
@@ -318,7 +318,7 @@ namespace Medicloud.BLL.Service
 					if (otpWasSet > 0)
 					{
 						// Optionally send the SMS
-						_communicationService.sendSMS($"OTP: {randomCode}", phone);
+						//_communicationService.sendSMS($"OTP: {randomCode}", phone);
 						Console.WriteLine("OTP:" + randomCode);
 						result.Success = true;
 						result.Message = "OTP successfully sent.";
