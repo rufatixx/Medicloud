@@ -35,7 +35,7 @@ namespace Medicloud.Controllers
 
         public IActionResult Step2()
         {
-            if (HttpContext.Session.GetString("registrationPhone") != null)
+            if (HttpContext.Session.GetString("registrationPhone") != null || HttpContext.Session.GetString("registrationEmail") != null)
             {
                 return View();
             }
@@ -52,15 +52,21 @@ namespace Medicloud.Controllers
                 ViewBag.specialities = _specialityService.GetSpecialities();
                 return View();
             }
+            else if (HttpContext.Session.GetString("registrationEmail") != null)
+            {
+                ViewBag.specialities = _specialityService.GetSpecialities();
+                return View();
+            }
             else
             {
                 return RedirectToAction("Index", "Registration");
+
             }
         }
 
         public IActionResult Success()
         {
-            if (HttpContext.Session.GetString("registrationPhone") != null)
+            if (HttpContext.Session.GetString("registrationPhone") != null || HttpContext.Session.GetString("registrationEmail") != null)
             {
                 return View();
             }
@@ -72,17 +78,28 @@ namespace Medicloud.Controllers
 
 
         [HttpPost]
-        public IActionResult SendOtpForUserRegistration(string phone)
+        public async Task<IActionResult> SendOtpForUserRegistration(string content,int type)
         {
 
             try
             {
-
-                var result = userService.SendOtpForUserRegistration(phone);
+                if (type==0)
+                {
+                    throw new Exception();
+                }
+                var result =await userService.SendOtpForUserRegistration(content,type);
 
                 if (result.Success)
                 {
-                    HttpContext.Session.SetString("registrationPhone", phone);
+                    if (type==1)
+                    {
+                        HttpContext.Session.SetString("registrationPhone", content);
+                    }
+                    else if (type==2)
+                    {
+                        HttpContext.Session.SetString("registrationEmail", content);
+
+                    }
                     return Json(new { success = true, message = result.Message });
                 }
                 else
@@ -110,7 +127,17 @@ namespace Medicloud.Controllers
             try
             {
                 var phone = HttpContext.Session.GetString("registrationPhone");
-                var result = userService.CheckOtpHash(phone, otpCode);
+                var email = HttpContext.Session.GetString("registrationEmail");
+                bool result = false;
+                if(!string.IsNullOrEmpty(phone))
+                {
+                    result = userService.CheckOtpHash(phone, otpCode,1);
+                }
+                else if(!string.IsNullOrEmpty(email))
+                {
+                    result = userService.CheckOtpHash(email, otpCode, 2);
+
+                }
 
                 if (result)
                 {
@@ -142,8 +169,20 @@ namespace Medicloud.Controllers
 
 			var otpCode = HttpContext.Session.GetString("registrationOtpCode");
             var phone = HttpContext.Session.GetString("registrationPhone");
+            var email = HttpContext.Session.GetString("registrationEmail");
 			string relativeFilePath = "";
-            if (userService.CheckOtpHash(phone, otpCode))
+
+            bool result = false;
+            if (!string.IsNullOrEmpty(phone))
+            {
+                result = userService.CheckOtpHash(phone, otpCode, 1);
+            }
+            else if (!string.IsNullOrEmpty(email))
+            {
+                result = userService.CheckOtpHash(email, otpCode, 2);
+
+            }
+            if (result)
             {
 				if (profileImage != null && profileImage.Length > 0)
 				{
@@ -159,7 +198,7 @@ namespace Medicloud.Controllers
 				}
 
 
-				var newUserID = userService.AddUser(phone, name, surname, father, specialityID, fin: fin, bDate: bDate, pwd: pwd, organizationName, 4,relativeFilePath);
+				var newUserID = userService.AddUser(phone,email, name, surname, father, specialityID, fin: fin, bDate: bDate, pwd: pwd, organizationName, 4,relativeFilePath);
 				if (newUserID)
 				{
 					HttpContext.Session.Remove("recoveryOtpCode");

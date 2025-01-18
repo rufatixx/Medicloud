@@ -1,7 +1,11 @@
 ﻿using System;
 using MySql.Data.MySqlClient;
-using System.Net.Mail;
 using System.Text;
+using System.Net.Http;
+using MailKit;
+using MailKit.Security;
+using MimeKit;
+using MailKit.Net.Smtp;
 
 namespace Medicloud.BLL.Service
 {
@@ -216,6 +220,44 @@ namespace Medicloud.BLL.Service
         //    catch { }
 
         //}
+
+        public async Task sendMail(string body, string to)
+        {
+            try
+            {
+                //string email = select.getUserMail(to);
+                if (!string.IsNullOrEmpty(to))
+                {
+                    var emailMessage = new MimeKit.MimeMessage();
+                    emailMessage.From.Add(new MailboxAddress("Medicloud", "office@flexit.az"));
+                    emailMessage.To.Add(new MailboxAddress("İstifadəçi", $"{to}"));
+                    emailMessage.Subject = "Qeydiyyat";
+
+                    var bodyBuilder = new BodyBuilder
+                    {
+                        TextBody =$"{body}",
+                    };
+
+                    emailMessage.Body = bodyBuilder.ToMessageBody();
+
+
+
+                    using (var smtpClient = new SmtpClient())
+                    {
+                        smtpClient.Connect("mail.hmc.az", 587, SecureSocketOptions.StartTls);
+                        smtpClient.Authenticate("office@flexit.az", "b78053Sa7");
+                        smtpClient.Send(emailMessage);
+                        smtpClient.Disconnect(true);
+                    }
+                }
+
+            }
+            catch (Exception ex){
+
+                Console.WriteLine($"error send mail {ex.Message}");
+            }
+
+        }
 
         public void sendSMS(string smsText, string smsTel)
         {

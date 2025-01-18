@@ -347,6 +347,57 @@ WHERE
             return null;
         }
 
+        public User? GetUserByEmail(string email)
+        {
+
+
+            using (MySqlConnection connection = new MySqlConnection(_connectionString))
+            {
+
+                connection.Open();
+                using (MySqlCommand com = new MySqlCommand("select * from users where email=@email", connection))
+                {
+
+                    com.Parameters.AddWithValue("@email", email);
+
+                    using (MySqlDataReader reader = com.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                        {
+                            User personal = new User();
+
+
+                            while (reader.Read())
+                            {
+                                personal.ID = Convert.ToInt32(reader["id"]);
+                                personal.isActive = Convert.ToBoolean(reader["isActive"]);
+                                personal.otpSentDate = reader["otp_sent_date"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(reader["otp_sent_date"]);
+                                personal.recovery_otp_send_date = reader["recovery_otp_send_date"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(reader["recovery_otp_send_date"]);
+                                personal.name = reader["name"].ToString();
+                                personal.surname = reader["surname"].ToString();
+                                personal.isAdmin = reader["isAdmin"] == DBNull.Value ? false : Convert.ToBoolean(reader["isAdmin"]);
+                                personal.isRegistered = reader["isRegistered"] == DBNull.Value ? false : Convert.ToBoolean(reader["isRegistered"]);
+                                personal.isUser = reader["isUser"] == DBNull.Value ? false : Convert.ToBoolean(reader["isUser"]);
+                                personal.isDr = reader["isDr"] == DBNull.Value ? false : Convert.ToBoolean(reader["isDr"]);
+                            }
+
+                            connection.Close();
+
+
+                            return personal;
+
+
+                        }
+
+
+                    }
+
+                }
+
+            }
+            return null;
+        }
+
         public long InsertUser(string name = "", string surname = "",
             string father = "", int specialityID = 0, string passportSerialNum = "",
             string fin = "", string phone = "", string email = "",
@@ -356,20 +407,29 @@ WHERE
         {
             try
             {
+                string condition = "";
+                if (!string.IsNullOrEmpty(phone))
+                {
+                    condition="mobile = @mobile";
+                }
+                else if (!string.IsNullOrEmpty(email))
+                {
+                    condition="email = @email";
 
+                }
 
                 using (var connection = new MySqlConnection(_connectionString))
                 {
                     connection.Open();
 
-                    var query = @"INSERT INTO users (name, surname, father, specialityID, mobile, email, bDate, username, pwd, 
+                    var query = @$"INSERT INTO users (name, surname, father, specialityID, mobile, email, bDate, username, pwd, 
                           isUser, isDr, isAdmin, isActive, otp_code,isRegistered)
                           SELECT @name, @surname, @father, @specialityID, @mobile, @email, @bDate, @username, SHA2(@pwd, 256), 
                           @isUser, @isDr, @isAdmin, @isActive, @otp_code,@isRegistered
                           FROM DUAL
                           WHERE NOT EXISTS (
                             SELECT 1 FROM users 
-                            WHERE mobile = @mobile)";
+                            WHERE {condition})";
 
                     using (var command = new MySqlCommand(query, connection))
                     {
@@ -518,7 +578,7 @@ WHERE
                         query.Append("isRegistered = @isRegistered, ");
                         parameters.Add(new MySqlParameter("@isRegistered", isRegistered));
                     }
-					if (!string.IsNullOrEmpty(fin))
+					if (!string.IsNullOrEmpty(imagePath))
 					{
 						query.Append("image_path = @imagePath, ");
 						parameters.Add(new MySqlParameter("@imagePath", imagePath));
@@ -573,20 +633,30 @@ WHERE
             return res;
         }
         
-        public string GetOtpData(string phone)
+        public string GetOtpData(string content,int type)
         {
             string otpHash = string.Empty;
+            string condition = "";
+            if (type==1)
+            {
+                condition="mobile = @content";
+            }
+            else if (type==2)
+            {
+                condition="email = @content";
 
+            }
+            else return otpHash;
             try
             {
                 using (MySqlConnection connection = new MySqlConnection(_connectionString))
                 {
                     connection.Open();
 
-                    var query = "SELECT otp_code, otp_sent_date FROM users WHERE mobile = @mobile";
+                    var query = $"SELECT otp_code, otp_sent_date FROM users WHERE {condition}";
                     using (MySqlCommand com = new MySqlCommand(query, connection))
                     {
-                        com.Parameters.AddWithValue("@mobile", phone);
+                        com.Parameters.AddWithValue("@content", content);
 
                         using (var reader = com.ExecuteReader())
                         {

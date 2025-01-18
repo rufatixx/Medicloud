@@ -1,8 +1,15 @@
-﻿
-@{
+﻿@{
     Layout = "~/Views/Shared/_WelcomeLayout.cshtml";
     ViewData["Title"] = "Qeydiyyat";
 }
+
+
+<style>
+    #formTabs .nav-link.active {
+        background-color: #007bff !important; /* Primary rengini burada belirtiyoruz */
+        color: white !important; /* Yazı rengini beyaz yapıyoruz */
+    }
+</style>
 <div class="card-body p-4">
 
     <div class="text-center w-75 m-auto">
@@ -10,13 +17,13 @@
         <p class="text-muted mb-4">Sağlamlığınızı buludlara qaldırın</p>
     </div>
     <div class="alert alert-danger" id="alert" hidden role="alert"></div>
-    <form action="#">
+    @*     <form action="#">
 
         <div class="mb-3">
-            <label for="emailaddress" class="form-label">Mobil nömrə</label>
+            <label for="mobileNumber" class="form-label">Mobil nömrə</label>
 
             <div class="form-group">
-                <input type="text" class="masked-phone form-control" data-phonemask="+994 (__) ___-__-__" id="mobileNumber" name="mobileNumber" placeholder="+994" />
+                <input type="tel" class="masked-phone form-control" data-phonemask="+994 (__) ___-__-__" id="mobileNumber" name="mobileNumber" placeholder="+994" />
             </div>
         </div>
 
@@ -26,62 +33,156 @@
             <button class="btn btn-primary" type="button" onclick="sendOtpToRegister()" id="nextButton"> Növbəti </button>
         </div>
 
-    </form>
+    </form> *@
+
+
+    <ul class="nav nav-pills nav-justified" id="formTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a class="nav-link  active" id="phone-tab" data-toggle="tab" href="#phone" role="tab" aria-controls="phone" aria-selected="true">Telefon Nömrəsi</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="email-tab" data-toggle="tab" href="#email" role="tab" aria-controls="email" aria-selected="false">Elektron Poçt</a>
+        </li>
+    </ul>
+
+    <!-- Tab Content -->
+    <div class="tab-content mt-4" id="formTabsContent">
+        <!-- Telefon Numarası Tab -->
+        <div class="tab-pane fade show active" id="phone" role="tabpanel" aria-labelledby="phone-tab">
+            <form action="#" id="phoneForm">
+                <div class="mb-3">
+                    @* <label for="mobileNumber" class="form-label">Mobil Nömrə</label> *@
+                    <input type="tel" class="masked-phone form-control" data-phonemask="+994 (__) ___-__-__" id="mobileNumber" name="mobileNumber" placeholder="+994" />
+                </div>
+                <div class="mb-3 mb-0 text-center">
+                    <button class="btn btn-primary" type="button" onclick="sendOtpToRegister(event)" id="nextButton"> Növbəti </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- E-posta Tab -->
+        <div class="tab-pane fade" id="email" role="tabpanel" aria-labelledby="email-tab">
+            <form action="#" id="emailForm">
+                <div class="mb-3">
+                    @* <label for="email" class="form-label">E-posta</label> *@
+                    <input type="email" class="form-control" id="emailInput" name="email" placeholder="Email daxil edin" />
+                </div>
+                <div class="mb-3 mb-0 text-center">
+                    <button class="btn btn-primary" type="button" onclick="sendEmailOtpToRegister(event)" id="nextEmailButton"> Növbəti </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
 </div> <!-- end card-body -->
 
-@section Scripts{
+
+<script>
+
+</script>
+@section Scripts {
     <script src="~/js/phone-mask-min.js"></script>
 
     <script>
-        function setCursorToLastPlaceholder(input) {
-            const placeholder = input.value;
-            const cursorPos = placeholder.indexOf('_');
+          function setCursorToLastPlaceholder(input) {
+              const placeholder = input.value;
+              const cursorPos = placeholder.indexOf('_');
 
-            input.focus();
+              input.focus();
 
-            input.setSelectionRange(cursorPos, cursorPos);
-        }
+              input.setSelectionRange(cursorPos, cursorPos);
+          }
 
-        document.getElementById('mobileNumber').addEventListener('click', function () {
-            setCursorToLastPlaceholder(this);
-        });
+          document.getElementById('mobileNumber').addEventListener('click', function () {
+              setCursorToLastPlaceholder(this);
+          });
+
+        function sendOtpToRegister(event) {
+            event.preventDefault();
+          var phone = $("#mobileNumber").val();
+          let formattedPhone = phone
+              .replace(/\+994\s*\(/, '')
+              .replace(/\)\s*/, '')
+              .replace(/[\s-]/g, '');
+          var alertBox = $("#alert");
+          var btn = $("#nextButton");
+
+          if (!formattedPhone) {
+          alertBox.text("Zəhmət olmasa nömrənizi daxil edin").removeAttr('hidden');
+          return;
+          }
+
+          btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Yüklənir...');
+
+          $.ajax({
+          url: '@Url.Action("SendOtpForUserRegistration", "Registration")', // Change the URL to your actual endpoint
+          type: 'POST',
+             data: { content: formattedPhone, type:1},
+          success: function (response) {
+          if (response.success) {
+          alertBox.text("OTP uğurla göndərildi").removeClass('alert-danger').addClass('alert-success').removeAttr('hidden');
+          location.href = "/Registration/Step2"
+          } else {
+          alertBox.text(response.message).removeClass('alert-success').addClass('alert-danger').removeAttr('hidden');
+          }
+          btn.prop('disabled', false).html('Növbəti');
+          },
+          error: function () {
+          alertBox.text("Server səhvi, yenidən cəhd edin").removeClass('alert-success').addClass('alert-danger').removeAttr('hidden');
+          btn.prop('disabled', false).html('Növbəti');
+          }
+          });
+          }
 
 
-    function sendOtpToRegister() {
-    var phone = $("#mobileNumber").val();
-    let formattedPhone = phone
-        .replace(/\+994\s*\(/, '')
-        .replace(/\)\s*/, '')
-        .replace(/[\s-]/g, '');
-    var alertBox = $("#alert");
-    var btn = $("#nextButton");
+         function sendEmailOtpToRegister(event) {
+            event.preventDefault();
 
-    if (!formattedPhone) {
-    alertBox.text("Zəhmət olmasa nömrənizi daxil edin").removeAttr('hidden');
-    return;
-    }
+           var email = $("#emailInput").val();
+            var alertBox = $("#alert");
+           var btn = $("#nextEmailButton");
+            console.log(email)
 
-    btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Yüklənir...');
+            // E-posta doğrulamak için RegEx
+            var emailPattern = /^[a-zA-Z0-9._-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 
-    $.ajax({
-    url: '@Url.Action("SendOtpForUserRegistration", "Registration")', // Change the URL to your actual endpoint
-    type: 'POST',
-        data: { phone: formattedPhone },
-    success: function (response) {
-    if (response.success) {
-    alertBox.text("OTP uğurla göndərildi").removeClass('alert-danger').addClass('alert-success').removeAttr('hidden');
-    location.href = "/Registration/Step2"
-    } else {
-    alertBox.text(response.message).removeClass('alert-success').addClass('alert-danger').removeAttr('hidden');
-    }
-    btn.prop('disabled', false).html('Növbəti');
-    },
-    error: function () {
-    alertBox.text("Server səhvi, yenidən cəhd edin").removeClass('alert-success').addClass('alert-danger').removeAttr('hidden');
-    btn.prop('disabled', false).html('Növbəti');
-    }
-    });
-    }
+               if (!email) {
+                   alertBox.text("Zəhmət olmasa e-poçt ünvanınızı daxil edin").removeAttr('hidden');
+                   return;
+               }
+
+               if (!emailPattern.test(email)) {
+                   alertBox.text("Daxil etdiyiniz e-poçt ünvanı düzgün deyil").removeAttr('hidden');
+                   return;
+               }
+
+               // E-posta geçerli, işlemi burada yapabilirsiniz.
+               // alertBox.text("E-poçt ünvanı düzgün!").addAttr('hidden');
+              alertBox.text("E-poçt ünvanı düzgün!").attr('hidden', true);
+
+
+              btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Yüklənir...');
+
+               $.ajax({
+               url: '@Url.Action("SendOtpForUserRegistration", "Registration")', // Change the URL to your actual endpoint
+               type: 'POST',
+                   data: { content: email,type:2 },
+               success: function (response) {
+               if (response.success) {
+               alertBox.text("OTP uğurla göndərildi").removeClass('alert-danger').addClass('alert-success').removeAttr('hidden');
+               location.href = "/Registration/Step2"
+               } else {
+               alertBox.text(response.message).removeClass('alert-success').addClass('alert-danger').removeAttr('hidden');
+               }
+               btn.prop('disabled', false).html('Növbəti');
+               },
+               error: function () {
+               alertBox.text("Server səhvi, yenidən cəhd edin").removeClass('alert-success').addClass('alert-danger').removeAttr('hidden');
+               btn.prop('disabled', false).html('Növbəti');
+               }
+               });
+           }
+
     </script>
 
 
