@@ -32,7 +32,7 @@ namespace Medicloud.BLL.Service
 			//_nUserRepository = new UserRepository()
 		}
 
-		public  UserDTO SignIn(string mobileNumber, string pass)
+		public  UserDTO SignIn(string content, string pass,int type)
 		{
 
 			//long formattedPhone = regexPhone(phone);
@@ -44,7 +44,7 @@ namespace Medicloud.BLL.Service
 			try
 			{
 				UserRepo personalDAO = new UserRepo(_connectionString);
-				status.personal = personalDAO.GetUser(mobileNumber, pass);
+				status.personal = personalDAO.GetUser(content, pass,type);
 				//status.personal = await _nUserRepository.GetUser(mobileNumber, pass);
 
 				OrganizationRepo organizationDAO = new OrganizationRepo(_connectionString);
@@ -305,14 +305,14 @@ namespace Medicloud.BLL.Service
 					// Optionally send the SMS
 					if (type==1)
 					{
-                        //_communicationService.sendSMS($"OTP: {randomCode}", phone);
-                        Console.WriteLine("OTP:" + randomCode);
+						_communicationService.sendSMS($"OTP: {randomCode}", content);
+						Console.WriteLine("OTP:" + randomCode);
                         result.Success = true;
                         result.Message = "OTP kod göndərildi";
                     }
 					else if(type==2)
 					{
-						//await _communicationService.sendMail($"OTP: {randomCode}", content);
+						await _communicationService.sendMail($"OTP: {randomCode}", content);
 						Console.WriteLine("OTP:" + randomCode);
                         result.Success = true;
                         result.Message = "OTP kod göndərildi";
@@ -342,12 +342,22 @@ namespace Medicloud.BLL.Service
 			return result;
 		}
 
-		public OtpResult SendRecoveryOtpForUser(string phone)
+		public async Task<OtpResult> SendRecoveryOtpForUser(string content,int type)
 		{
-			var result = new OtpResult();
-			var userStatus = _userRepository.GetUserByPhone(phone);
+            User userStatus = null;
+            var result = new OtpResult();
+            if (type==1)
+            {
+                userStatus = _userRepository.GetUserByPhone(content);
 
-			if (userStatus == null)
+            }
+            else if (type==2)
+            {
+                userStatus = _userRepository.GetUserByEmail(content);
+
+            }
+
+            if (userStatus == null)
 			{
 				result.Message = "Hesabınız tapılmadı.";
 				return result;
@@ -370,12 +380,33 @@ namespace Medicloud.BLL.Service
 
 					if (otpWasSet > 0)
 					{
-						// Optionally send the SMS
-						//_communicationService.sendSMS($"OTP: {randomCode}", phone);
-						Console.WriteLine("OTP:" + randomCode);
-						result.Success = true;
-						result.Message = "OTP successfully sent.";
-					}
+                        //// Optionally send the SMS
+                        ////_communicationService.sendSMS($"OTP: {randomCode}", phone);
+                        //Console.WriteLine("OTP:" + randomCode);
+                        //result.Success = true;
+                        //result.Message = "OTP successfully sent.";
+
+                        if (type==1)
+                        {
+							_communicationService.sendSMS($"OTP: {randomCode}", content);
+							Console.WriteLine("OTP:" + randomCode);
+                            result.Success = true;
+                            result.Message = "OTP kod göndərildi";
+                        }
+                        else if (type==2)
+                        {
+							await _communicationService.sendMail($"OTP: {randomCode}", content);
+							Console.WriteLine("OTP:" + randomCode);
+                            result.Success = true;
+                            result.Message = "OTP kod göndərildi";
+                        }
+                        else
+                        {
+                            result.Success = false;
+                            result.Message = "Xəta baş verdi. Zəhmət olmasa biraz sonra təkrar cəhd edin";
+                            return result;
+                        }
+                    }
 					else
 					{
 						result.Success = false;
@@ -441,13 +472,23 @@ namespace Medicloud.BLL.Service
 
 		}
 
-		public bool UpdatePassword(string otpCode, string phone, string pwd)
+		public bool UpdatePassword(string otpCode, string content, string pwd,int type)
 		{
-			if (CheckRecoveryOtpHash(phone, otpCode))
+			if (CheckRecoveryOtpHash(content, otpCode,type))
 			{
-				var user = _userRepository.GetUserByPhone(phone);
+				User user = null;
+				if(type == 1)
+				{
+                    user = _userRepository.GetUserByPhone(content);
 
-				if (user == null)
+                }
+				else if (type==2)
+				{
+                    user = _userRepository.GetUserByEmail(content);
+
+                }
+
+                if (user == null)
 				{
 					throw new Exception("Hesab tapılmadı.");
 				}
@@ -497,13 +538,13 @@ namespace Medicloud.BLL.Service
 			return false;
 		}
 
-		public bool CheckRecoveryOtpHash(string phone, string providedOtp)
+		public bool CheckRecoveryOtpHash(string content, string providedOtp,int type)
 		{
-			if (!string.IsNullOrEmpty(phone) || !string.IsNullOrEmpty(providedOtp))
-			{
+            if (!string.IsNullOrEmpty(content) && !string.IsNullOrEmpty(providedOtp) && (type>0 && type<3))
+            {
 				var providedOtpHash = sha256(providedOtp);
 
-				var otpData = _userRepository.GetRecoveryOtpData(phone);
+				var otpData = _userRepository.GetRecoveryOtpData(content,type);
 
 				if (otpData == providedOtpHash)
 				{

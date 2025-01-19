@@ -150,29 +150,40 @@ namespace Medicloud.DAL.Repository
             return refererList;
         }
 
-        public User GetUser(string mobileNumber, string pass)
+        public User GetUser(string content, string pass,int type)
         {
             User user = new User();
+
+            string condition = "";
+            if (type==1)
+            {
+                condition="u.mobile = @content";
+            }
+            else if (type==2)
+            {
+                condition="u.email = @content";
+            }
+            else return user;
             try
             {
                 using (MySqlConnection connection = new MySqlConnection(_connectionString))
                 {
 
                     connection.Open();
-                    using (MySqlCommand com = new MySqlCommand(@"SELECT 
+                    using (MySqlCommand com = new MySqlCommand(@$"SELECT 
     u.*
 FROM 
     users u
 WHERE 
     u.pwd = SHA2(@pass, 256) 
-    AND u.mobile = @mobileNumber 
+    AND {condition}
     AND u.isActive = 1 
     AND u.isRegistered = 1;
 ", connection))
                     {
 
                         com.Parameters.AddWithValue("@pass", pass);
-                        com.Parameters.AddWithValue("@mobileNumber", mobileNumber);
+                        com.Parameters.AddWithValue("@content", content);
                         using (MySqlDataReader reader = com.ExecuteReader())
                         {
                             if (reader.HasRows)
@@ -686,20 +697,30 @@ WHERE
             return otpHash;
         }
 
-        public string GetRecoveryOtpData(string phone)
+        public string GetRecoveryOtpData(string content,int type)
         {
             string otpHash = string.Empty;
+            string condition = "";
+            if (type==1)
+            {
+                condition="mobile = @content";
+            }
+            else if (type==2)
+            {
+                condition="email = @content";
 
+            }
+            else return otpHash;
             try
             {
                 using (MySqlConnection connection = new MySqlConnection(_connectionString))
                 {
                     connection.Open();
 
-                    var query = "SELECT recovery_otp, recovery_otp_send_date FROM users WHERE mobile = @mobile";
+                    var query = $"SELECT recovery_otp, recovery_otp_send_date FROM users WHERE {condition} ";
                     using (MySqlCommand com = new MySqlCommand(query, connection))
                     {
-                        com.Parameters.AddWithValue("@mobile", phone);
+                        com.Parameters.AddWithValue("@content", content);
 
                         using (var reader = com.ExecuteReader())
                         {

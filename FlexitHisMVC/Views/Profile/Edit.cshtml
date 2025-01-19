@@ -63,26 +63,79 @@
             <form method="post" id="updateForm" asp-controller="Profile" asp-action="UpdateProfile">
                 <ul class="list-group list-group-flush rounded">
 
-                    <li class="list-group-item"><strong>Ad:</strong> @Model.name</li>
-                    <li class="list-group-item"><strong>Soyad:</strong> @Model.surname</li>
-                    <li class="list-group-item"><strong>Ata adı:</strong> @Model.father</li>
-                    <li class="list-group-item"><strong>Fin:</strong> @Model.fin</li>
-                    <li class="list-group-item"><strong>Seriya nömrəsi:</strong> @Model.passportSerialNum</li>
+                    @* <li class="list-group-item"><strong>Ad:</strong> @Model.name</li> *@
+
+
+                    <li class="list-group-item parent-editable">
+                        <strong>Ad:</strong>
+                        <span class="display text-break">@Model.name</span>
+                        <input type="text" class="form-control editable" name="name" value="@Model.name" style="display:none;" />
+                        <button type="button" class="btn  btn-sm position-absolute edit-btn" style="top: 0; right: 0;">
+                            <i class="ri-pencil-fill"></i>
+                        </button>
+
+                    </li>
+                    @* <li class="list-group-item"><strong>Soyad:</strong> @Model.surname</li> *@
+
+                    <li class="list-group-item parent-editable">
+                        <strong>Soyad:</strong>
+                        <span class="display text-break">@Model.surname</span>
+                        <input type="text" class="form-control editable" name="surname" value="@Model.surname" style="display:none;" />
+                        <button type="button" class="btn  btn-sm position-absolute edit-btn" style="top: 0; right: 0;">
+                            <i class="ri-pencil-fill"></i>
+                        </button>
+
+                    </li>
+                    @* <li class="list-group-item"><strong>Ata adı:</strong> @Model.father</li> *@
+                    <li class="list-group-item parent-editable">
+                        <strong>Ata adı:</strong>
+                        <span class="display text-break">@Model.father</span>
+                        <input type="text" class="form-control editable" name="father" value="@Model.father" style="display:none;" />
+                        <button type="button" class="btn  btn-sm position-absolute edit-btn" style="top: 0; right: 0;">
+                            <i class="ri-pencil-fill"></i>
+                        </button>
+
+                    </li>
+
+                    @* <li class="list-group-item"><strong>Fin:</strong> @Model.fin</li> *@
+
+                    <li class="list-group-item parent-editable">
+                        <strong>Fin:</strong>
+                        <span class="display text-break">@Model.fin</span>
+                        <input type="text" class="form-control editable" name="fin" value="@Model.fin" style="display:none;" />
+                        <button type="button" class="btn  btn-sm position-absolute edit-btn" style="top: 0; right: 0;">
+                            <i class="ri-pencil-fill"></i>
+                        </button>
+
+                    </li>
+                    @* <li class="list-group-item"><strong>Seriya nömrəsi:</strong> @Model.passportSerialNum</li> *@
+
+                    <li class="list-group-item parent-editable">
+                        <strong>Seriya nömrəsi:</strong>
+                        <span class="display text-break">@Model.passportSerialNum</span>
+                        <input type="text" class="form-control editable" name="passportSerialNum" value="@Model.passportSerialNum" style="display:none;" />
+                        <button type="button" class="btn  btn-sm position-absolute edit-btn" style="top: 0; right: 0;">
+                            <i class="ri-pencil-fill"></i>
+                        </button>
+
+                    </li>
 
                     <li class="list-group-item"><strong>Doğum tarixi:</strong> @Model.bDate</li>
 
                     <li class="list-group-item"><strong>Telefon:</strong> @Model.mobile</li>
-                    @* <li class="list-group-item"><strong>Elektron poçt:</strong> @Model.email</li> *@
-                    <li class="list-group-item parent-editable">
+                    <li class="list-group-item"><strong>Elektron poçt:</strong> @Model.email</li>
+
+
+@*                     <li class="list-group-item parent-editable">
                         <strong>Elektron poçt:</strong>
                         <span class="display text-break">@Model.email</span>
-                        <input type="text" class="form-control editable" name="ipTel" value="@Model.email" style="display:none;" />
+                        <input type="text" class="form-control editable" name="email" value="@Model.email" style="display:none;" />
                         <button type="button" class="btn  btn-sm position-absolute edit-btn" style="top: 0; right: 0;">
                             <i class="ri-pencil-fill"></i>
 
                         </button>
 
-                    </li>
+                    </li> *@
 
                 </ul>
             </form>

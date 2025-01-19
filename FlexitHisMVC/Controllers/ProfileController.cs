@@ -6,6 +6,7 @@ using Medicloud.Models.DTO;
 using Medicloud.Models.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -79,7 +80,16 @@ namespace Medicloud.Controllers
             return View(user);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> UpdateProfile([FromForm] string name,string surname,string father,string fin, string passportSerialNum)
+        {
+            //Console.WriteLine($"emailll {email}");
 
+            var userID = int.Parse(User.FindFirst("ID")?.Value);
+
+            int updated = personalDAO.UpdateUser(userID, name:name,surname:surname,father:father,fin:fin,passportSerialNum:passportSerialNum);
+            return RedirectToAction("Edit");
+        }
 
         public async Task<IActionResult> UpdateProfileImage([FromForm] IFormFile profilePicture, string existingPhotoPath)
         {
