@@ -171,9 +171,12 @@ namespace Medicloud.DAL.Repository
 
                     connection.Open();
                     using (MySqlCommand com = new MySqlCommand(@$"SELECT 
-    u.*
+    u.*,
+    up.expire_date as subscription_expire_date
 FROM 
     users u
+LEFT JOIN 
+    user_plans up ON u.id = up.user_id AND up.isActive = 1
 WHERE 
     u.pwd = SHA2(@pass, 256) 
     AND {condition}
@@ -201,6 +204,7 @@ WHERE
                                     user.isManager = reader["isManager"] == DBNull.Value ? false : Convert.ToBoolean(reader["isManager"]);
                                     user.isUser = reader["isUser"] == DBNull.Value ? false : Convert.ToBoolean(reader["isUser"]);
                                     user.isDr = reader["isDr"] == DBNull.Value ? false : Convert.ToBoolean(reader["isDr"]);
+                                    user.subscription_expire_date = reader["subscription_expire_date"] == DBNull.Value ? null : Convert.ToDateTime(reader["subscription_expire_date"]);
                                 }
 
                                 connection.Close();
