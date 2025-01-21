@@ -9,6 +9,7 @@ using System;
 using System.Text;
 using static System.Net.WebRequestMethods;
 using System.Xml.Linq;
+using Medicloud.DAL.DAO;
 
 namespace Medicloud.DAL.Repository.Userr
 {
@@ -20,6 +21,29 @@ namespace Medicloud.DAL.Repository.Userr
 		{
 			_unitOfWork = unitOfWork;
 		}
+
+        public async Task<int> AddUser(UserDAO dao)
+        {
+            string AddSql = $@"
+			INSERT INTO users
+            (name,surname,father,username,bDate,mobile,email,passportSerialNum,fin,pwd,image_path)
+			VALUES (@{nameof(UserDAO.name)},
+            @{nameof(UserDAO.surname)},
+            @{nameof(UserDAO.father)},
+            @{nameof(UserDAO.username)},
+            @{nameof(UserDAO.bDate)},
+            @{nameof(UserDAO.mobile)},
+            @{nameof(UserDAO.email)},
+            @{nameof(UserDAO.passportSerialNum)},
+            @{nameof(UserDAO.fin)},
+            @{nameof(UserDAO.pwd)},
+            @{nameof(UserDAO.imagePath)});
+
+			SELECT LAST_INSERT_ID();";
+            var con = _unitOfWork.GetConnection();
+            var newUserId = await con.QuerySingleOrDefaultAsync<int>(AddSql, dao);
+            return newUserId;
+        }
 
 		public async Task<User> GetUser(string mobileNumber, string pass)
 		{
@@ -33,11 +57,11 @@ namespace Medicloud.DAL.Repository.Userr
 				AND u.isActive = 1 
 				AND u.isRegistered = 1;
 		";
-			using var con=_unitOfWork.BeginConnection();
-			var result=await con.QuerySingleOrDefaultAsync<User>(query, new { MobileNumber =mobileNumber,Pass=pass});
+			using var con = _unitOfWork.BeginConnection();
+			var result = await con.QuerySingleOrDefaultAsync<User>(query, new { MobileNumber = mobileNumber, Pass = pass });
 			return result;
 
-
+		}
 
 		public async Task<User> GetUserById(string mobileNumber, string pass)
 		{
@@ -56,7 +80,23 @@ namespace Medicloud.DAL.Repository.Userr
 			return result;
 		}
 
-		public async Task<int> GetUserIdByPhoneNumber(string mobileNumber)
+        public async Task<UserDAO> GetUserById(int id)
+        {
+            string query = @"SELECT 
+		    u.*
+			FROM 
+			    users u
+			WHERE 
+				u.id = @Id 
+				AND u.isActive = 1 
+				AND u.isRegistered = 1;
+		";
+            var con = _unitOfWork.GetConnection();
+            var result = await con.QuerySingleOrDefaultAsync<UserDAO>(query, new { Id=id});
+            return result;
+        }
+
+        public async Task<int> GetUserIdByPhoneNumber(string mobileNumber)
 		{
 			string query = @"SELECT 
 		    u.id
@@ -70,7 +110,21 @@ namespace Medicloud.DAL.Repository.Userr
 			return result;
 		}
 
-		public async Task<int> UpdateUserAsync(UpdateUserDTO userDTO)
+        public async Task<int> GetUserIdByEmail(string email)
+        {
+            string query = @"SELECT 
+		    u.id
+			FROM 
+			    users u
+			WHERE 
+				u.email = @Email;
+		";
+            var con = _unitOfWork.GetConnection();
+            var result = await con.QuerySingleOrDefaultAsync<int>(query, new { Email = email });
+            return result;
+        }
+
+        public async Task<int> UpdateUserAsync(UpdateUserDTO userDTO)
 		{
 
 			var query = new StringBuilder("UPDATE users SET ");

@@ -146,17 +146,17 @@
             <li class="dropdown">
                 <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="index.html#" role="button" aria-haspopup="false" aria-expanded="false">
                     @*<img src="/assets/images/flags/Azerbaijan.svg" alt="user-image" class="me-0 me-sm-1" height="12">*@
-                    @{ 
+@*                     @{ 
                         var selectedOrganization = string.IsNullOrEmpty(@ViewBag.SelectedOrganization as string) ? " " : @ViewBag.SelectedOrganization;
-                    }
+                    } *@
                     <span class="align-middle d-inline"> </span>
-                    <i class="mdi mdi-chevron-down d-inline align-middle">@selectedOrganization</i>
+                    @* <i class="mdi mdi-chevron-down d-inline align-middle">@selectedOrganization</i> *@
                 </a>
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated">
-                    @foreach (var item in Model.organizations)
+@*                     @foreach (var item in Model.organizations)
                     {
                         <a class="dropdown-item" id="@item.organizationID" onclick="UpdateOrganizationSelection('@item.organizationID','@item.organizationName')">@item.organizationName</a>
-                    }
+                    } *@
                     <!-- Dynamically populated items will be added here -->
                 </div>
             </li>
@@ -256,27 +256,27 @@
 
 
 
-                                var roleIds = Model.Roles.Select(a => a.id);
-                                if (roleIds.Contains(2))
-                                {
-                                    @:Admin
-                                }
-                                else if (roleIds.Contains(3))
-                                {
+                                // var roleIds = Model.Roles.Select(a => a.id);
+                                // if (roleIds.Contains(2))
+                                // {
+                                //     @:Admin
+                                // }
+                                // else if (roleIds.Contains(3))
+                                // {
 
-                                    @:İnzibatçı
+                                //     @:İnzibatçı
 
-                                }
-                                else if (roleIds.Contains(4))
-                                {
+                                // }
+                                // else if (roleIds.Contains(4))
+                                // {
 
-                                    @:Həkim
+                                //     @:Həkim
 
-                                }
-                                else if (roleIds.Contains(6))
-                                {
-                                    @:İstifadəçi
-                                }
+                                // }
+                                // else if (roleIds.Contains(6))
+                                // {
+                                //     @:İstifadəçi
+                                // }
                             }
                         </h6>
                     </span>

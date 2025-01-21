@@ -79,19 +79,19 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 
                // Получаем ключи всех сессий
-               var sessionKeys = context.HttpContext.Session.Keys;
+               //var sessionKeys = context.HttpContext.Session.Keys;
 
-                // Проверяем, есть ли сессии, начинающиеся на Medicloud_
-                var hasMedicloudSession = sessionKeys.Any(key => key.StartsWith("Medicloud_"));
+               // // Проверяем, есть ли сессии, начинающиеся на Medicloud_
+               // var hasMedicloudSession = sessionKeys.Any(key => key.StartsWith("Medicloud_"));
 
-                if (!hasMedicloudSession)
-                {
-                    // Если сессий Medicloud_ нет, очищаем cookie аутентификации и выполняем перенаправление на страницу выхода
-                    context.HttpContext.Response.Cookies.Delete(CookieAuthenticationDefaults.AuthenticationScheme);
-                    context.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-                    context.Response.Redirect("/Login/Index");
+               // if (!hasMedicloudSession)
+               // {
+               //     // Если сессий Medicloud_ нет, очищаем cookie аутентификации и выполняем перенаправление на страницу выхода
+               //     context.HttpContext.Response.Cookies.Delete(CookieAuthenticationDefaults.AuthenticationScheme);
+               //     context.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+               //     context.Response.Redirect("/Login/Index");
                   
-                }
+               // }
 
               
                
@@ -139,11 +139,11 @@ app.Use(async (context, next) =>
     if (context.User.Identity.IsAuthenticated)
     {
         var planExpiryDateString = context.Session.GetString("Medicloud_UserPlanExpireDate");
-        
+
         if (string.IsNullOrEmpty(planExpiryDateString) || !DateTime.TryParse(planExpiryDateString, out var planExpiryDate) || DateTime.Now > planExpiryDate)
         {
             var path = context.Request.Path.Value.ToLower();
-        
+
             if (path != "/" && !path.StartsWith("/home") && !path.StartsWith("/profile") && !path.StartsWith("/pricing") && !path.StartsWith("/payment") && !path.StartsWith("/login"))
             {
                 context.Response.Redirect("/Pricing");

@@ -1,4 +1,5 @@
 ﻿using Medicloud.BLL.Models;
+using Medicloud.DAL.DAO;
 using Medicloud.DAL.Infrastructure.Abstract;
 using Medicloud.DAL.Repository.Userr;
 using Medicloud.Models.DTO;
@@ -17,9 +18,39 @@ namespace Medicloud.BLL.Services.User
 			_userRepository = userRepository;
 		}
 
-		public Task<UserDTO> SignInAsync(string mobile, string password)
+        public async Task<UserDAO> GetUserById(int id)
+        {
+			using var con =  _unitOfWork.BeginConnection();
+			return await _userRepository.GetUserById(id);
+        }
+
+        public async Task<UserDAO> SignInAsync(string contact,int contactType, string password)
 		{
-			throw new NotImplementedException();
+			int userId;
+			using var con=_unitOfWork.BeginConnection();
+			switch (contactType)
+			{
+				case 1:userId = await _userRepository.GetUserIdByPhoneNumber(contact);
+					break;
+				case 2: userId=await _userRepository.GetUserIdByEmail(contact);
+					break ;
+				default:
+					userId=0;
+					break;
+			}
+			if (userId>0)
+			{
+				var user=await _userRepository.GetUserById(userId);
+				if(user!=null)
+				{
+					var hashedPassword = sha256(password);
+					if (user.pwd==hashedPassword)
+					{
+						return user;
+					}
+				}
+			}
+			return null;
 		}
 
 		public async Task<int> UpdateUserAsync(string phoneNumber ,UpdateUserDTO userDTO)
