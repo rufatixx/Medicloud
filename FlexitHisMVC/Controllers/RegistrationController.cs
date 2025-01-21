@@ -1,26 +1,35 @@
 ﻿
+using Medicloud.BLL.DTO;
 using Medicloud.BLL.Service;
+using Medicloud.BLL.Services.OTP;
 using Medicloud.BLL.Services.User;
+using Medicloud.BLL.Utils;
+using Medicloud.DAL.DAO;
 using Medicloud.DAL.Repository;
 using Medicloud.Data;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Cryptography;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Medicloud.Controllers
 {
-   
-    public class RegistrationController : Controller
-    {
-        private readonly string _connectionString;
-        public IConfiguration Configuration;
-        private readonly IWebHostEnvironment _hostingEnvironment;
+
+	public class RegistrationController : Controller
+	{
+		private readonly string _connectionString;
+		public IConfiguration Configuration;
+		private readonly IWebHostEnvironment _hostingEnvironment;
 		UserService userService;
-        OrganizationService organizationService;
-        private readonly SpecialityService _specialityService;
+		OrganizationService organizationService;
+		private readonly SpecialityService _specialityService;
 		private readonly INUserService _userService;
-		public RegistrationController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, SpecialityService specialityService, INUserService nuserService)
+		private readonly IOtpService _otpService;
+		private readonly HashHelper _hashHelper;
+		private readonly CommunicationService _communicationService;
+		public RegistrationController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, SpecialityService specialityService, INUserService nuserService, IOtpService otpService)
 		{
 			Configuration = configuration;
 			_connectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
@@ -28,168 +37,242 @@ namespace Medicloud.Controllers
 			organizationService = new OrganizationService(_connectionString);
 			_specialityService = specialityService;
 			_userService = nuserService;
+			_otpService = otpService;
+			_hashHelper = new HashHelper();
+			_communicationService=new CommunicationService(_connectionString);
 		}
 		// GET: /<controller>/
 		public IActionResult Index()
-        {
-            return View();
-        }
+		{
+			return View();
+		}
 
 
-        public IActionResult Step2()
-        {
-            if (HttpContext.Session.GetString("registrationPhone") != null)
-            {
-                return View();
-            }
-            else
-            {
-                return RedirectToAction("Index", "Registration");
-            }
-        }
+		public IActionResult Step2()
+		{
+			string otpIdString = HttpContext.Session.GetString("registrationOtpId");
+			string userIdString = HttpContext.Session.GetString("newUserId");
 
-        public IActionResult Step3()
-        {
-            if (HttpContext.Session.GetString("registrationPhone") != null)
-            {
-                ViewBag.specialities = _specialityService.GetSpecialities();
-                return View();
-            }
-            else
-            {
-                return RedirectToAction("Index", "Registration");
-            }
-        }
+			if (!string.IsNullOrWhiteSpace(otpIdString) && !string.IsNullOrWhiteSpace(userIdString))
+			{
+				return View();
+			}
+			else
+			{
+				return RedirectToAction("Index", "Registration");
+			}
+		}
 
-        public IActionResult Success()
-        {
-            if (HttpContext.Session.GetString("registrationPhone") != null)
-            {
-                return View();
-            }
-            else
-            {
-                return RedirectToAction("Index", "Registration");
-            }
-        }
-
-
-        [HttpPost]
-        public IActionResult SendOtpForUserRegistration(string phone)
-        {
-
-            try
-            {
-
-                var result = userService.SendOtpForUserRegistration(phone);
-
-                if (result.Success)
-                {
-                    HttpContext.Session.SetString("registrationPhone", phone);
-                    return Json(new { success = true, message = result.Message });
-                }
-                else
-                {
-                    return Json(new { success = false, message = result.Message });
-                }
-
-
-
-            }
-            catch (Exception ex)
-            {
-                // Handle the exception and return an appropriate response
-                return StatusCode(StatusCodes.Status500InternalServerError, "Sorğunu emal edərkən xəta baş verdi.");
-            }
-
-
-
-        }
-
-        [HttpPost]
-        public IActionResult CheckForOTP(string otpCode)
-        {
-
-            try
-            {
-                var phone = HttpContext.Session.GetString("registrationPhone");
-                var result = userService.CheckOtpHash(phone, otpCode);
-
-                if (result)
-                {
-                    HttpContext.Session.SetString("registrationOtpCode", otpCode);
-                    return Json(new { success = true, message = "OK" });
-                }
-                else
-                {
-                    return Json(new { success = false, message = "OTP kod yalnışdır" });
-                }
-
-
-
-            }
-            catch (Exception ex)
-            {
-                // Handle the exception and return an appropriate response
-                return StatusCode(StatusCodes.Status500InternalServerError, "Sorğunu emal edərkən xəta baş verdi.");
-            }
-
-
-
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> AddUser(IFormFile profileImage, string name, string surname, string father, int specialityID, string fin, string bDate, string pwd)
-        {
-
-
-			var otpCode = HttpContext.Session.GetString("registrationOtpCode");
-            var phone = HttpContext.Session.GetString("registrationPhone");
-			string relativeFilePath = "";
-            if (userService.CheckOtpHash(phone, otpCode))
-            {
-				if (profileImage != null && profileImage.Length > 0)
-				{
-					string fileExtension = Path.GetExtension(profileImage.FileName);
-
-					string fileName = Guid.NewGuid().ToString() + fileExtension;
-					var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "user_images", fileName);
-					relativeFilePath = "/user_images/" + fileName;
-					using (var stream = new FileStream(filePath, FileMode.Create))
-					{
-						await profileImage.CopyToAsync(stream);
-					}
-				}
-
-
-				//var newUserID = userService.AddUser(phone, name, surname, father, specialityID, fin: fin, bDate: bDate, pwd: pwd, "", 4, relativeFilePath);
-				int userId = await _userService.UpdateUserAsync(phone, new()
-				{
-					name = name,
-					surname = surname,
-					father = father,
-					specialityID = specialityID,
-					fin = fin,
-					bDate = bDate,
-					pwd = pwd
-
-				});
-				if (userId>0)
-				{
-					HttpContext.Session.Remove("recoveryOtpCode");
-					HttpContext.Session.Remove("recoveryPhone");
-
-					return Ok();
-				}
+		public IActionResult Step3()
+		{
+			if (HttpContext.Session.GetString("registrationOtpId") != null && HttpContext.Session.GetString("newUserId") != null)
+			{
+				//ViewBag.specialities = _specialityService.GetSpecialities();
+				return View();
+			}
+			else
+			{
+				return RedirectToAction("Index", "Registration");
 
 			}
-         
-            return BadRequest();
+		}
 
-        }
+		public IActionResult Success()
+		{
+			if (HttpContext.Session.GetString("registrationOtpId") != null && HttpContext.Session.GetString("newUserId") != null)
+			{
+				HttpContext.Session.Remove("registrationOtpId");
+				HttpContext.Session.Remove("newUserId");
+				return View();
+			}
+			else
+			{
+				return RedirectToAction("Index", "Registration");
+			}
+		}
+
+
+		[HttpPost]
+		public async Task<IActionResult> SendOtpForUserRegistration(string content, int type)
+		{
+
+			try
+			{
+				if (type == 0 || string.IsNullOrEmpty(content))
+				{
+					throw new Exception();
+				}
+				var otpResult = new OtpResult();
+				var dao = new UserDAO();
+				UserDAO existUser = null;
+				switch (type)
+				{
+					case 1:
+						dao.mobile = content;
+						existUser = await _userService.GetUserByPhoneNumber(content);
+						break;
+					case 2:
+						dao.email = content;
+						existUser = await _userService.GetUserByEmail(content);
+						break;
+					default:
+						break;
+				}
+				var otpCode = _hashHelper.GenerateOtp();
+				if (existUser != null)
+				{
+					if (existUser.isRegistered)
+					{
+						otpResult.Success = false;
+						otpResult.HasExistOtp = false;
+						otpResult.Message = "İstifadəçi mövcuddur";
+						return Json(otpResult);
+
+					}
+					var existOtp = await _otpService.GetActiveOtpByUserId(existUser.id);
+					HttpContext.Session.SetString("newUserId", existUser.id.ToString());
+					if (existOtp != null)
+					{
+						HttpContext.Session.SetString("registrationOtpId", existOtp.id.ToString());
+						otpResult.Success = true;
+						otpResult.HasExistOtp = true;
+						otpResult.Message = "Aktiv OTP mövcuddur";
+					}
+					else
+					{
+						int otpId = await _otpService.CreateOtp(type, existUser.id, otpCode);
+						HttpContext.Session.SetString("registrationOtpId", otpId.ToString());
+						otpResult.Success = true;
+						otpResult.HasExistOtp = false;
+						otpResult.Message = "OTP kod göndərildi";
+						Console.WriteLine(otpCode);
+					}
+
+				}
+				else
+				{
+					int newUserId = await _userService.AddUser(dao);
+					int otpId = await _otpService.CreateOtp(type, newUserId, otpCode);
+
+					HttpContext.Session.SetString("newUserId", newUserId.ToString());
+					HttpContext.Session.SetString("registrationOtpId", otpId.ToString());
+					otpResult.Success = true;
+					otpResult.HasExistOtp = false;
+					otpResult.Message = "OTP kod göndərildi";
+					Console.WriteLine(otpCode);
+
+				}
+
+				return Json(otpResult);
+
+
+			}
+			catch (Exception ex)
+			{
+				// Handle the exception and return an appropriate response
+				return StatusCode(StatusCodes.Status500InternalServerError, "Sorğunu emal edərkən xəta baş verdi.");
+			}
 
 
 
-    }
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> CheckForOTP(string otpCode)
+		{
+
+			try
+			{
+				string otpIdString = HttpContext.Session.GetString("registrationOtpId");
+				string userIdString = HttpContext.Session.GetString("newUserId");
+
+				if (string.IsNullOrWhiteSpace(otpCode) || string.IsNullOrWhiteSpace(otpIdString) || string.IsNullOrWhiteSpace(userIdString))
+				{
+					Console.WriteLine($"");
+					return Json(new { success = false, message = "Xəta baş verdi" });
+
+				}
+
+
+				int otpId = int.Parse(otpIdString);
+				int userId = int.Parse(userIdString);
+				bool result = await _otpService.CheckOtp(_hashHelper.HashOtp(otpCode), userId);
+
+
+				if (result)
+				{
+					return Json(new { success = true, message = "OK" });
+				}
+				else
+				{
+					return Json(new { success = false, message = "OTP kod yalnışdır" });
+				}
+
+
+
+			}
+			catch (Exception ex)
+			{
+				return StatusCode(StatusCodes.Status500InternalServerError, "Sorğunu emal edərkən xəta baş verdi.");
+			}
+
+
+
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> AddUser(IFormFile profileImage, string name, string surname, string father, int specialityID, string fin, string bDate, string pwd)
+		{
+
+			string otpIdString = HttpContext.Session.GetString("registrationOtpId");
+			string userIdString = HttpContext.Session.GetString("newUserId");
+			int otpId = int.Parse(otpIdString);
+			int newUserId = int.Parse(userIdString);
+			if (string.IsNullOrEmpty(otpIdString) || string.IsNullOrEmpty(userIdString))
+			{
+				return BadRequest();
+
+			}
+			string relativeFilePath = "";
+
+			if (profileImage != null && profileImage.Length > 0)
+			{
+				string fileExtension = Path.GetExtension(profileImage.FileName);
+
+				string fileName = Guid.NewGuid().ToString() + fileExtension;
+				var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "user_images", fileName);
+				relativeFilePath = "/user_images/" + fileName;
+				using (var stream = new FileStream(filePath, FileMode.Create))
+				{
+					await profileImage.CopyToAsync(stream);
+				}
+			}
+
+			int userId = await _userService.UpdateUserAsync(new()
+			{
+				id = newUserId,
+				name = name,
+				surname = surname,
+				father = father,
+				fin = fin,
+				bDate = bDate,
+				pwd = _hashHelper.sha256(pwd),
+				isRegistered = true
+
+			});
+			if (userId > 0)
+			{
+				return Ok();
+			}
+
+
+
+			return BadRequest();
+
+		}
+
+
+
+	}
 }
 

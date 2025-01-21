@@ -8,7 +8,7 @@
         <p class="text-muted mb-4">Sağlamlığınızı buludlara qaldırın</p>
     </div>
     <div class="alert alert-danger" id="alert" style="display:none" role="alert"></div>
-    <form id="addUserForm" class="needs-validation" novalidate>
+    <form id="updatePasswordForm" class="needs-validation" novalidate>
         <div class="mb-3">
             <label for="pwd" class="form-label">Şifrə</label>
             <div class="input-group has-validation">
@@ -22,7 +22,7 @@
             </div>
         </div>
         <div class="mb-3 mb-0 text-center">
-            <button class="btn btn-primary" type="button" onclick="updatePass(event)" id="nextButton"> Növbəti </button>
+            <button class="btn btn-primary" type="submit" id="nextButton"> Növbəti </button>
         </div>
     </form>
 </div> <!-- end card-body -->
@@ -46,12 +46,12 @@
             }, false);
         })();
 
-        async function updatePass(event) {
+        $('#updatePasswordForm').on('submit', function (event) {
             event.preventDefault();
 
-            if ($('#addUserForm')[0].checkValidity() === false) {
+            if ($('#updatePasswordForm')[0].checkValidity() === false) {
                 event.stopPropagation();
-                $('#addUserForm').addClass('was-validated');
+                $('#updatePasswordForm').addClass('was-validated');
                 return;
             }
 
@@ -69,12 +69,12 @@
                 url: '@Url.Action("UpdatePass", "Recovery")',
                 method: 'POST',
                 data: params,
-                success: function(result) {
+                success: function (result) {
                     console.log('Password updated successfully:', result);
                     window.location.href = "@Url.Action("Success", "Recovery")";
                     btn.prop('disabled', false).html('Növbəti');
                 },
-                error: function(xhr) {
+                error: function (xhr) {
                     if (xhr.status === 400) {
                         var errorResult = xhr;
                         console.log('Error updating password:', errorResult);
@@ -86,6 +86,6 @@
                     btn.prop('disabled', false).html('Növbəti');
                 }
             });
-        }
+        });
     </script>
 }

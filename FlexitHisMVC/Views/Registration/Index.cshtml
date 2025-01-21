@@ -10,78 +10,170 @@
         <p class="text-muted mb-4">Sağlamlığınızı buludlara qaldırın</p>
     </div>
     <div class="alert alert-danger" id="alert" hidden role="alert"></div>
-    <form action="#">
 
-        <div class="mb-3">
-            <label for="emailaddress" class="form-label">Mobil nömrə</label>
+    <form action="#" id="registerForm" autocomplete="off">
 
-            <div class="form-group">
-                <input type="text" class="masked-phone form-control" data-phonemask="+994 (__) ___-__-__" id="mobileNumber" name="mobileNumber" placeholder="+994" />
+        <ul class="nav nav-pills nav-justified" id="formTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link  active" id="phone-tab" data-toggle="tab" href="#phone" role="tab" aria-controls="phone" aria-selected="true">Telefon Nömrəsi</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="email-tab" data-toggle="tab" href="#email" role="tab" aria-controls="email" aria-selected="false">Elektron Poçt</a>
+            </li>
+        </ul>
+
+
+        <div class="tab-content mt-4" id="formTabsContent">
+            <div class="tab-pane fade show active" id="phone" role="tabpanel" aria-labelledby="phone-tab">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">+994</span>
+                    <input class="form-control" type="tel" id="mobileNumber" placeholder="nömrənizi daxil edin">
+                </div>
+            </div>
+
+
+            <div class="tab-pane fade" id="email" role="tabpanel" aria-labelledby="email-tab">
+                <div class="mb-3">
+                    <input type="email" class="form-control" id="emailInput" name="email" placeholder="Email daxil edin" />
+                </div>
             </div>
         </div>
 
-
-
         <div class="mb-3 mb-0 text-center">
-            <button class="btn btn-primary" type="button" onclick="sendOtpToRegister()" id="nextButton"> Növbəti </button>
+            <button class="btn btn-primary" type="submit" id="nextButton"> Növbəti</button>
         </div>
 
+
     </form>
+
 </div> <!-- end card-body -->
 
 @section Scripts{
-    <script src="~/js/phone-mask-min.js"></script>
+    @*<script src="~/js/phone-mask-min.js"></script>*@
 
     <script>
-        function setCursorToLastPlaceholder(input) {
-            const placeholder = input.value;
-            const cursorPos = placeholder.indexOf('_');
+    $('#mobileNumber').on('input', function() {
+       var inputVal = $(this).val();
 
-            input.focus();
+        var numericVal = inputVal.replace(/\D/g, '');
+        if (numericVal.length > 9) {
+            numericVal = numericVal.slice(0, 9);
+        }
+        $(this).val(numericVal);
+    });
 
-            input.setSelectionRange(cursorPos, cursorPos);
+
+     //function handleLoginSuccess(data, statusCode) {
+     //    $('#signInButton').prop('disabled', false).text('Daxil ol');
+     //    $('#alert').attr("hidden",true);
+
+     //    console.log(statusCode)
+     //    if (statusCode === 200) {
+     //            window.location.replace("/Home/Index");
+
+     //        // if (typeof (Storage) !== "undefined") {
+     //        //     localStorage.json = JSON.stringify(data);
+     //        //     window.location.replace("/Home/Index");
+     //        // } else {
+     //        //     showError('Brauzerinizi yeniləyin, dəstəklənmir');
+     //        // }
+     //    } else {
+     //        showError('İstifadəçi mövcud deyil');
+     //    }
+     //}
+
+     //function handleLoginError(statusCode) {
+     //    $('#signInButton').prop('disabled', false).text('Daxil ol');
+     //    if (statusCode === 401) {
+     //        showError('İstifadəçi mövcud deyil');
+     //    } else {
+     //        showError('Xəta, internetə bağlı olduğunuzdan əmin olun');
+     //    }
+     //}
+
+     function showError(message) {
+
+         $('#alert').text(message).removeAttr("hidden");
+         $('#nextButton').prop('disabled', false).text('Növbəti');
+
+     }
+        var alertBox = $("#alert");
+        var btn = $("#nextButton");
+
+    $('#registerForm').on('submit', function(event) {
+     event.preventDefault();
+     var activeTab = $('.nav-link.active');
+     let inputContent;
+     let type;
+
+     if (activeTab.attr('id') === 'phone-tab') {
+         var mobileNumber = $('#mobileNumber').val();
+
+             var regex = /^\d{9}$/;
+
+          if (!mobileNumber) {
+                 showError("Telefon nömrəsini daxil edin.");
+                 return;
+              }
+           if (!regex.test(mobileNumber)) {
+
+                showError("Xahiş olunur nömrənizin düzgünlüyünə diqqət edəsiniz!");
+             return;
+          }
+
+         inputContent=mobileNumber;
+         type=1;
+
+     } else if (activeTab.attr('id') === 'email-tab') {
+         var email = $('#emailInput').val();
+         var emailPattern = /^[a-zA-Z0-9._-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+
+        if (!email) {
+             showError('E-poçt ünvanınızı daxil edin');
+            return;
+        }
+        if (!emailPattern.test(email)) {
+             showError('Xahiş olunur emailin düzgünlüyünə diqqət edəsiniz!');
+            return;
         }
 
-        document.getElementById('mobileNumber').addEventListener('click', function () {
-            setCursorToLastPlaceholder(this);
-        });
+
+         inputContent=email;
+         type=2;
+        }
 
 
-    function sendOtpToRegister() {
-    var phone = $("#mobileNumber").val();
-    let formattedPhone = phone
-        .replace(/\+994\s*\(/, '')
-        .replace(/\)\s*/, '')
-        .replace(/[\s-]/g, '');
-    var alertBox = $("#alert");
-    var btn = $("#nextButton");
+        // Disable button and show loading state
+        $('#nextButton').prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" id="signInSpinner"></span> Yüklənir...');
 
-    if (!formattedPhone) {
-    alertBox.text("Zəhmət olmasa nömrənizi daxil edin").removeAttr('hidden');
-    return;
-    }
+       $.ajax({
+            url: '@Url.Action("SendOtpForUserRegistration", "Registration")', // Change the URL to your actual endpoint
+           type: 'POST',
+           data: { content: inputContent, type: type },
+           success: function (response) {
+               console.log(response)
+               console.log(response.success)
 
-    btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Yüklənir...');
 
-    $.ajax({
-    url: '@Url.Action("SendOtpForUserRegistration", "Registration")', // Change the URL to your actual endpoint
-    type: 'POST',
-        data: { phone: formattedPhone },
-    success: function (response) {
-    if (response.success) {
-    alertBox.text("OTP uğurla göndərildi").removeClass('alert-danger').addClass('alert-success').removeAttr('hidden');
-    location.href = "/Registration/Step2"
-    } else {
-    alertBox.text(response.message).removeClass('alert-success').addClass('alert-danger').removeAttr('hidden');
-    }
-    btn.prop('disabled', false).html('Növbəti');
-    },
-    error: function () {
-    alertBox.text("Server səhvi, yenidən cəhd edin").removeClass('alert-success').addClass('alert-danger').removeAttr('hidden');
-    btn.prop('disabled', false).html('Növbəti');
-    }
-    });
-    }
+             if (response.success==true) {
+
+                    alertBox.text("OTP uğurla göndərildi").removeClass('alert-danger').addClass('alert-success').removeAttr('hidden');
+                    location.href = "/Registration/Step2"
+
+            } else {
+                     alertBox.text(response.message).removeClass('alert-success').addClass('alert-danger').removeAttr('hidden');
+            }
+                btn.prop('disabled', false).html('Növbəti');
+            },
+            error: function () {
+                alertBox.text("Server səhvi, yenidən cəhd edin").removeClass('alert-success').addClass('alert-danger').removeAttr('hidden');
+                btn.prop('disabled', false).html('Növbəti');
+            }
+          });
+
+});
+
+
     </script>
 
 

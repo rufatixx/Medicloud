@@ -5,6 +5,7 @@ namespace Medicloud.BLL.DTO
     {
         public bool Success { get; set; }
         public string Message { get; set; }
-    }
+		public bool HasExistOtp { get; set; }
+	}
 }
 

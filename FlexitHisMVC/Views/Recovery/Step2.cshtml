@@ -3,6 +3,28 @@
     Layout = "~/Views/Shared/_WelcomeLayout.cshtml";
     ViewData["Title"] = "Hesabın bərpası";
 }
+<style>
+    .input {
+        width: 40px;
+        border: none;
+        border-bottom: 3px solid rgba(0, 0, 0, 0.5);
+        margin: 0 10px;
+        text-align: center;
+        font-size: 36px;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+
+        .input:focus {
+            border-bottom: 3px solid rgb(0, 173, 239);
+            outline: none;
+        }
+
+        .input:nth-child(1) {
+            cursor: pointer;
+            pointer-events: all;
+        }
+</style>
 <div class="card-body p-4">
 
     <div class="text-center w-75 m-auto">
@@ -10,28 +32,52 @@
         <p class="text-muted mb-4">Sağlamlığınızı buludlara qaldırın</p>
     </div>
     <div class="alert alert-danger" id="alert" hidden role="alert"></div>
-    <form action="#">
+    @*<form action="#">
+
+
+            <div class="mb-3">
+                <label for="password" class="form-label">4 rəqəmli kod</label>
+                <div class="input-group input-group-merge">
+                    <input type="number" id="otpBox" class="form-control" placeholder="Kodu daxil edin" maxlength="4">
+
+                </div>
+            </div>
+
+
+
+            <div class="mb-3 mb-0 text-center">
+                <button class="btn btn-primary" type="button" onclick="checkOtp()" id="nextButton"> Növbəti </button>
+            </div>
+
+        </form>*@
+    <form action="#" id="otpForm">
 
 
         <div class="mb-3">
             <label for="password" class="form-label">4 rəqəmli kod</label>
-            <div class="input-group input-group-merge">
-                <input type="number" id="otpBox" class="form-control" placeholder="Kodu daxil edin" maxlength="4">
-
+            <div id="inputs" class="d-flex justify-content-center">
+                <input class="input" type="text"
+                       inputmode="numeric" maxlength="1" />
+                <input class="input" type="text"
+                       inputmode="numeric" maxlength="1" />
+                <input class="input" type="text"
+                       inputmode="numeric" maxlength="1" />
+                <input class="input" type="text"
+                       inputmode="numeric" maxlength="1" />
             </div>
         </div>
 
 
 
         <div class="mb-3 mb-0 text-center">
-            <button class="btn btn-primary" type="button" onclick="checkOtp()" id="nextButton"> Növbəti </button>
+            <button class="btn btn-primary" type="submit" id="nextButton"> Növbəti </button>
         </div>
 
     </form>
 </div> <!-- end card-body -->
 @section Scripts{
     <script>
-    function checkOtp() {
+        @*function checkOtp() {
         var otpCode = $("#otpBox").val();
         var alertBox = $("#alert");
         var btn = $("#nextButton");
@@ -61,7 +107,86 @@
             }
 
         });
-    }
+    }*@
+        function getOtpCode() {
+            const inputs = document.querySelectorAll("#inputs .input");
+            let otpCode = '';
+
+            inputs.forEach(input => {
+                otpCode += input.value;
+            });
+
+            return otpCode;
+        }
+
+        const inputs = document.getElementById("inputs");
+
+        inputs.addEventListener("input", function (e) {
+            const target = e.target;
+            const val = target.value;
+
+            if (isNaN(val)) {
+                target.value = "";
+                return;
+            }
+
+            if (val != "") {
+                const next = target.nextElementSibling;
+                if (next) {
+                    next.focus();
+                }
+            }
+        });
+
+        inputs.addEventListener("keyup", function (e) {
+            const target = e.target;
+            const key = e.key.toLowerCase();
+
+            if (key == "backspace" || key == "delete") {
+                target.value = "";
+                const prev = target.previousElementSibling;
+                if (prev) {
+                    prev.focus();
+                }
+                return;
+            }
+        });
+
+
+        $('#otpForm').on('submit', function (event) {
+            event.preventDefault();
+            var otpCode = getOtpCode();
+            var alertBox = $("#alert");
+
+            var btn = $("#nextButton");
+            btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Yüklənir...');
+
+            if (!otpCode) {
+                alertBox.text("Zəhmət olmasa kodu daxil edin").removeAttr('hidden');
+                btn.prop('disabled', false).html('Növbəti');
+                return;
+            }
+
+            $.ajax({
+                url: '@Url.Action("CheckForRecoveryOTP", "Recovery")', // Change the URL to your actual endpoint
+                type: 'POST',
+                data: { otpCode: otpCode },
+                success: function (response) {
+                    if (response.success) {
+
+                        location.href = "/Recovery/Step3"
+                    } else {
+                        alertBox.text(response.message).removeClass('alert-success').addClass('alert-danger').removeAttr('hidden');
+                    }
+
+                    btn.prop('disabled', false).html('Növbəti');
+                },
+                error: function () {
+                    alertBox.text("Server xətası, yenidən cəhd edin").removeClass('alert-success').addClass('alert-danger').removeAttr('hidden');
+                    btn.prop('disabled', false).html('Növbəti');
+                }
+            });
+        });
     </script>
 
 

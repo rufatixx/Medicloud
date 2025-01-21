@@ -72,7 +72,7 @@
                                         <div class="position-relative border-bottom text-center mb-2 mb-sm-0 justify-content-center">
                                             <img id="profileImage" src="/res/user.svg"
                                                  alt="Profile Image" class="rounded-circle mb-1" width="150" height="150" style="object-fit:cover;">
-                                            <input type="file" id="profilePicture" name="profilePicture" accept="image/*" class="d-none" required onchange="previewProfilePicture(event)">
+                                            <input type="file" id="profilePicture" name="profilePicture" accept="image/*" class="d-none" onchange="previewProfilePicture(event)">
                                             <div class="invalid-feedback">
                                                 Zəhmət olmasa, profil şəkli əlavə edin.
                                             </div>
@@ -153,37 +153,37 @@
                                     </div>
                                 </div>
 
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <div class="form-check">
-                                            <input type="checkbox" style="cursor:pointer;" class="form-check-input" id="specialistCheckbox">
-                                            <label class="form-check-label" style="cursor:pointer;" for="specialistCheckbox">Peşəkar</label>
-                                        </div>
-                                    </div>
-
-                                    @if (ViewBag.specialities != null)
-                                    {
-                                        <div class="mb-3 col-md-6" id="specialityContent" style="display:none;">
-                                            <label for="specialityDropdown" class="form-label">İxtisas</label>
-                                            <select class="form-control" id="specialityDropdown">
-                                                <option value="">İxtisas seçin...</option>
-                                                @{
-                                                    foreach (var item in ViewBag.specialities)
-                                                    {
-                                                        <option value="@item.id">@item.name</option>
-                                                    }
-                                                }
-                                            </select>
-                                            <div class="invalid-feedback">
-                                                Zəhmət olmasa, ixtisas seçin.
+                                @*<div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <div class="form-check">
+                                                <input type="checkbox" style="cursor:pointer;" class="form-check-input" id="specialistCheckbox">
+                                                <label class="form-check-label" style="cursor:pointer;" for="specialistCheckbox">Peşəkar</label>
                                             </div>
                                         </div>
-                                    }
 
-                                </div>
+                                        @if (ViewBag.specialities != null)
+                                        {
+                                            <div class="mb-3 col-md-6" id="specialityContent" style="display:none;">
+                                                <label for="specialityDropdown" class="form-label">İxtisas</label>
+                                                <select class="form-control" id="specialityDropdown">
+                                                    <option value="">İxtisas seçin...</option>
+                                                    @{
+                                                        foreach (var item in ViewBag.specialities)
+                                                        {
+                                                            <option value="@item.id">@item.name</option>
+                                                        }
+                                                    }
+                                                </select>
+                                                <div class="invalid-feedback">
+                                                    Zəhmət olmasa, ixtisas seçin.
+                                                </div>
+                                            </div>
+                                        }
+
+                                    </div>*@
 
                                 <div class="mb-3 mb-0 text-center">
-                                    <button class="btn btn-primary" type="button" onclick="signUp(event)"> Növbəti </button>
+                                    <button class="btn btn-primary" type="submit"> Növbəti </button>
                                 </div>
                             </form>
                         </div> <!-- end card-body -->
@@ -285,76 +285,77 @@
         }
     });
 
-    async function signUp(event) {
-         event.preventDefault();
-    const form = $('#addUserForm')[0];
 
-    if (form.checkValidity() === false) {
-        event.stopPropagation();
-        $('#addUserForm').addClass('was-validated');
-        return;
-    }
+    $('#addUserForm').on('submit', function (event) {
+        event.preventDefault();
+        const form = $('#addUserForm')[0];
 
-    // Get form field values
-    const organizationName = $('#organizationName').val();
-    const name = $('#name').val();
-    const surname = $('#surname').val();
-    const father = $('#father').val();
-    const specialityID = $('#specialityDropdown').val();
-    const fin = $('#fin').val();
-    const bDate = $('#bDate').val();
-    const pwd = $('#pwd').val();
-    const picture = $('#profilePicture')[0].files[0];  // Get the file from the input
-    var btn = $("#nextButton");
-    btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Yüklənir...');
+        if (form.checkValidity() === false) {
+            event.stopPropagation();
+            $('#addUserForm').addClass('was-validated');
+            return;
+        }
 
-    // Prepare FormData
-    const formData = new FormData();
-    formData.append('organizationName', organizationName);
-    formData.append('name', name);
-    formData.append('surname', surname);
-    formData.append('father', father);
-    formData.append('specialityID', specialityID);
-    formData.append('fin', fin);
-    formData.append('bDate', bDate);
-    formData.append('pwd', pwd);
+        // Get form field values
+        const organizationName = $('#organizationName').val();
+        const name = $('#name').val();
+        const surname = $('#surname').val();
+        const father = $('#father').val();
+        const specialityID = $('#specialityDropdown').val();
+        const fin = $('#fin').val();
+        const bDate = $('#bDate').val();
+        const pwd = $('#pwd').val();
+        const picture = $('#profilePicture')[0].files[0];  // Get the file from the input
+        var btn = $("#nextButton");
+        btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Yüklənir...');
 
-    if (picture) {
-        formData.append('profileImage', picture);  // Append the image file
-    }
+        // Prepare FormData
+        const formData = new FormData();
+        formData.append('organizationName', organizationName);
+        formData.append('name', name);
+        formData.append('surname', surname);
+        formData.append('father', father);
+        formData.append('specialityID', specialityID);
+        formData.append('fin', fin);
+        formData.append('bDate', bDate);
+        formData.append('pwd', pwd);
 
-    console.log("Form data:", formData);
+        if (picture) {
+            formData.append('profileImage', picture);  // Append the image file
+        }
 
-    try {
-        $.ajax({
-            url: '@Url.Action("AddUser","Registration")',
-            method: 'POST',
-            data: formData,
-            processData: false,  // Don't process the data
-            contentType: false,  // Don't set content type (FormData will handle it)
-            success: function (result) {
-                console.log('User added successfully:', result);
-                window.location.href = "/Registration/Success";
-                btn.prop('disabled', false).html('Növbəti');
-            },
-            error: function (xhr) {
-                if (xhr.status === 400) {
-                    var errorResult = xhr.responseJSON;
-                    console.error('Error adding user:', errorResult);
-                    $('#alert').text('İstifadəçi əlavə edilərkən xəta baş verdi: ' + (errorResult.message || xhr.statusText)).show();
-                } else {
-                    console.error('Error adding user:', xhr.statusText);
-                    $('#alert').text('İstifadəçi əlavə edilərkən xəta baş verdi').show();
+        console.log("Form data:", formData);
+
+        try {
+            $.ajax({
+                url: '@Url.Action("AddUser","Registration")',
+                method: 'POST',
+                data: formData,
+                processData: false,  // Don't process the data
+                contentType: false,  // Don't set content type (FormData will handle it)
+                success: function (result) {
+                    console.log('User added successfully:', result);
+                    window.location.href = "/Registration/Success";
+                    btn.prop('disabled', false).html('Növbəti');
+                },
+                error: function (xhr) {
+                    if (xhr.status === 400) {
+                        var errorResult = xhr.responseJSON;
+                        console.error('Error adding user:', errorResult);
+                        $('#alert').text('İstifadəçi əlavə edilərkən xəta baş verdi: ' + (errorResult.message || xhr.statusText)).show();
+                    } else {
+                        console.error('Error adding user:', xhr.statusText);
+                        $('#alert').text('İstifadəçi əlavə edilərkən xəta baş verdi').show();
+                    }
+                    btn.prop('disabled', false).html('Növbəti');
                 }
-                btn.prop('disabled', false).html('Növbəti');
-            }
-        });
-    } catch (error) {
-        console.error('Error:', error);
-        $('#alert').text('Error adding user').show();
-    }
+            });
+        } catch (error) {
+            console.error('Error:', error);
+            $('#alert').text('Error adding user').show();
+        }
 
-    }
+    });
 
 
 

@@ -39,7 +39,7 @@
 
         <div class="mb-3">
             <label for="password" class="form-label">4 rəqəmli kod</label>
-            <div id="inputs" class="d-flex justify-content-center" >
+            <div id="inputs" class="d-flex justify-content-center">
                 <input class="input" type="text"
                        inputmode="numeric" maxlength="1" />
                 <input class="input" type="text"
@@ -114,10 +114,12 @@
         var btn = $("#nextButton");
         btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Yüklənir...');
 
-        if (!otpCode) {
+        if (!otpCode || otpCode.length<4) {
             alertBox.text("Zəhmət olmasa kodu daxil edin").removeAttr('hidden');
+            btn.prop('disabled', false).html('Növbəti');
             return;
         }
+
 
         $.ajax({
             url: '@Url.Action("CheckForOTP", "Registration")', // Change the URL to your actual endpoint

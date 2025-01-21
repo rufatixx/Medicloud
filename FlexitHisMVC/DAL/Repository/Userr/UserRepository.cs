@@ -26,7 +26,7 @@ namespace Medicloud.DAL.Repository.Userr
         {
             string AddSql = $@"
 			INSERT INTO users
-            (name,surname,father,username,bDate,mobile,email,passportSerialNum,fin,pwd,image_path)
+            (name,surname,father,username,bDate,mobile,email,passportSerialNum,fin,pwd,imagePath)
 			VALUES (@{nameof(UserDAO.name)},
             @{nameof(UserDAO.surname)},
             @{nameof(UserDAO.father)},
@@ -87,9 +87,7 @@ namespace Medicloud.DAL.Repository.Userr
 			FROM 
 			    users u
 			WHERE 
-				u.id = @Id 
-				AND u.isActive = 1 
-				AND u.isRegistered = 1;
+				u.id = @Id;
 		";
             var con = _unitOfWork.GetConnection();
             var result = await con.QuerySingleOrDefaultAsync<UserDAO>(query, new { Id=id});
@@ -190,9 +188,6 @@ namespace Medicloud.DAL.Repository.Userr
 				query.Append("image_path = @imagePath, ");
 				parameters.Add("@imagePath", userDTO.imagePath);
 			}
-			query.Append("otp_sent_date = @otp_sent_date, ");
-			parameters.Add("@otp_sent_date", DateTime.Now);
-
 
 			// Remove the last comma and space
 			if (parameters.ParameterNames.Count() > 0)
@@ -201,10 +196,10 @@ namespace Medicloud.DAL.Repository.Userr
 			}
 
 			query.Append(" WHERE id = @userID");
-			parameters.Add("@userID", userDTO.ID);
-			using var con = _unitOfWork.BeginConnection();
+			parameters.Add("@userId", userDTO.id);
+			var con = _unitOfWork.GetConnection();
 			await con.ExecuteAsync(query.ToString(),parameters);
-			return userDTO.ID;
+			return userDTO.id;
 		}
 
 

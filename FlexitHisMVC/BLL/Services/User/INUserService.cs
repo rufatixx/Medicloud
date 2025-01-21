@@ -8,6 +8,9 @@ namespace Medicloud.BLL.Services.User
 	{
 		Task<UserDAO> SignInAsync(string contact,int contactType,string password);
 		Task<UserDAO> GetUserById(int id);
-		Task<int> UpdateUserAsync(string phoneNumber, UpdateUserDTO userDTO);
+		Task<UserDAO> GetUserByPhoneNumber(string phoneNumber);
+		Task<UserDAO> GetUserByEmail(string email);
+		Task<int> UpdateUserAsync(UpdateUserDTO userDTO);
+		Task<int> AddUser(UserDAO dao);
 	}
 }
