@@ -124,24 +124,24 @@ namespace Medicloud.Controllers
 
             ResponseDTO<UserDTO> response = new ResponseDTO<UserDTO>();
             response.data = new List<UserDTO>();
-            //response.data.Add(obj);
+			//response.data.Add(obj);
 
 
-            //HttpContext.Session.SetInt32("userid", obj.personal.ID);
+			//HttpContext.Session.SetInt32("userid", obj.personal.ID);
+
+			HttpContext.Session.SetString("Medicloud_UserPlanExpireDate", DateTime.Now.AddDays(10).ToString());
 
 
+			//userService.SaveSession(HttpContext, "Medicloud_userID", user.id.ToString());
+			//if (obj.organizations!=null && obj.organizations.Count>0)
+			//{
+			//    userService.SaveSession(HttpContext, "Medicloud_organizationID", obj.organizations[0].organizationID.ToString());
+			//    userService.SaveSession(HttpContext, "Medicloud_organizationName", obj.organizations[0].organizationName.ToString());
 
-
-            //userService.SaveSession(HttpContext, "Medicloud_userID", user.id.ToString());
-            //if (obj.organizations!=null && obj.organizations.Count>0)
-            //{
-            //    userService.SaveSession(HttpContext, "Medicloud_organizationID", obj.organizations[0].organizationID.ToString());
-            //    userService.SaveSession(HttpContext, "Medicloud_organizationName", obj.organizations[0].organizationName.ToString());
-
-            //}
-            //userService.SaveSession(HttpContext, "Medicloud_UserPlanExpireDate", obj.personal.subscription_expire_date.ToString());
-            //userService.SaveSession(HttpContext, "Medicloud_UserPlanExpireDate", DateTime.Now.AddDays(10).ToString());
-            return Ok();
+			//}
+			//userService.SaveSession(HttpContext, "Medicloud_UserPlanExpireDate", obj.personal.subscription_expire_date.ToString());
+			//userService.SaveSession(HttpContext, );
+			return Ok();
             //}
             //else
             //{

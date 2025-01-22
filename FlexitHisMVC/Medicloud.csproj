@@ -54,13 +54,10 @@
     <None Remove="Views\Profile\" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="BLL\Services\Organization\" />
     <Folder Include="BLL\Services\Role\" />
     <Folder Include="wwwroot\js\menu\" />
     <Folder Include="wwwroot\js\new_patient\" />
-    <Folder Include="Areas\" />
-    <Folder Include="Areas\Admin\" />
-    <Folder Include="Areas\Admin\Controllers\" />
-    <Folder Include="Areas\Admin\Views\" />
     <Folder Include="wwwroot\js\admin\departments\" />
     <Folder Include="Areas\Admin\Views\Personal\" />
     <Folder Include="Areas\Admin\ViewComponents\" />
@@ -71,7 +68,6 @@
     <Folder Include="wwwroot\res\admin\" />
     <Folder Include="wwwroot\res\brand\" />
     <Folder Include="Areas\Admin\Views\Services\" />
-    <Folder Include="Areas\Admin\Views\Shared\" />
     <Folder Include="Areas\Admin\Views\Shared\Components\" />
     <Folder Include="wwwroot\js\kassa\" />
     <Folder Include="wwwroot\res\login\" />

@@ -2,15 +2,19 @@
 using FlexitHisCore.Models;
 using Medicloud.BLL.Service;
 using Medicloud.BLL.Services.Abstract;
+using Medicloud.BLL.Services.Category;
 using Medicloud.BLL.Services.Concrete;
 using Medicloud.BLL.Services.OTP;
 using Medicloud.BLL.Services.User;
 using Medicloud.DAL.Infrastructure.Abstract;
 using Medicloud.DAL.Infrastructure.Concrete;
 using Medicloud.DAL.Repository.Abstract;
+using Medicloud.DAL.Repository.Category;
 using Medicloud.DAL.Repository.Concrete;
+using Medicloud.DAL.Repository.Organizationn;
 using Medicloud.DAL.Repository.OTP;
 using Medicloud.DAL.Repository.Role;
+using Medicloud.DAL.Repository.Staff;
 using Medicloud.DAL.Repository.Userr;
 using Medicloud.Data;
 using Microsoft.AspNetCore.Authentication;
@@ -116,6 +120,13 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<INUserService, NUserService>();
 builder.Services.AddScoped<IOtpService, OtpService>();
 builder.Services.AddScoped<IOTPRepository, OTPRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IStaffRepository, StaffRepository>();
+builder.Services.AddScoped<IOrganizationRepository, OrganizationRepository>();
+//builder.Services.AddScoped<Iorganiz, OrganizationRepository>();
+
+builder.Services.AddScoped<IOrganizationCategoryRelRepository, OrganizationCategoryRelRepository>();
 var app = builder.Build();
 
 app.UseSession();
@@ -138,25 +149,25 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.Use(async (context, next) =>
-{
-    if (context.User.Identity.IsAuthenticated)
-    {
-        var planExpiryDateString = context.Session.GetString("Medicloud_UserPlanExpireDate");
+//app.Use(async (context, next) =>
+//{
+//    if (context.User.Identity.IsAuthenticated)
+//    {
+//        var planExpiryDateString = context.Session.GetString("Medicloud_UserPlanExpireDate");
 
-        if (string.IsNullOrEmpty(planExpiryDateString) || !DateTime.TryParse(planExpiryDateString, out var planExpiryDate) || DateTime.Now > planExpiryDate)
-        {
-            var path = context.Request.Path.Value.ToLower();
+//        if (string.IsNullOrEmpty(planExpiryDateString) || !DateTime.TryParse(planExpiryDateString, out var planExpiryDate) || DateTime.Now > planExpiryDate)
+//        {
+//            var path = context.Request.Path.Value.ToLower();
 
-            if (path != "/" && !path.StartsWith("/home") && !path.StartsWith("/profile") && !path.StartsWith("/pricing") && !path.StartsWith("/payment") && !path.StartsWith("/login"))
-            {
-                context.Response.Redirect("/Pricing");
-                return;
-            }
-        }
-    }
-    await next();
-});
+//            if (path != "/" && !path.StartsWith("/home") && !path.StartsWith("/profile") && !path.StartsWith("/pricing") && !path.StartsWith("/payment") && !path.StartsWith("/login"))
+//            {
+//                context.Response.Redirect("/Pricing");
+//                return;
+//            }
+//        }
+//    }
+//    await next();
+//});
 
 //app.MapAreaControllerRoute(
 //    name: "Admin",

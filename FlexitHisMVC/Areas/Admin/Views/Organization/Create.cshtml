@@ -1,0 +1,59 @@
+﻿
+
+
+
+
+<div class="container">
+    <form id="addOrganizationForm">
+
+
+    </form>
+    <div class="row">
+        <div id="map" style="height: 400px;"></div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+<script>
+
+
+    var baku = [40.4093, 49.8671];
+
+
+    var map = L.map('map').setView(baku, 12);  
+
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+
+    var marker = L.marker(baku).addTo(map);
+    marker.bindPopup("<b>Bakı</b><br>Azərbaycanın paytaxtı.").openPopup();
+
+
+    L.Control.geocoder().addTo(map);
+
+
+    map.on('click', function (e) {
+        var lat = e.latlng.lat;
+        var lng = e.latlng.lng;
+        var apiUrl = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`;
+
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                var address = data.display_name;  // Adres bilgisi
+                alert("Seçilən Konum: " + lat + ", " + lng + "\nAdres: " + address);
+            })
+            .catch(error => {
+                console.error("Adres alınırken bir hata oluştu: ", error);
+            });
+    });
+
+
+</script>
