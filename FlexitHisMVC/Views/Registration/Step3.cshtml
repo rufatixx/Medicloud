@@ -1,23 +1,50 @@
 ﻿@{
-    Layout = null;
+    Layout = "_WelcomeLayout";
     ViewData["Title"] = "Qeydiyyat";
 }
 
+<div class="card-body p-2">
 
-<!DOCTYPE html>
+    <div class="text-center w-75 m-auto">
+        <h4 class="text-dark-50 text-center pb-0 fw-bold">Hesab yarat</h4>
+        <p class="text-muted mb-4">Sağlamlığınızı buludlara qaldırın</p>
+    </div>
+    <div class="alert alert-danger" id="alert" hidden role="alert"></div>
+
+    <form id="addUserForm" >
+
+        <div class="card-body">
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="name" placeholder="Ad">
+                <label for="floatingInput">Ad</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="surname" placeholder="Soyad">
+                <label for="floatingInput">Soyad</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="password" class="form-control" id="pwd" placeholder="Şifrə">
+                <label for="floatingInput">Şifrə</label>
+            </div>
+
+
+            <div class="mb-3 mb-0 text-center">
+                <button class="btn btn-primary" type="submit" id="nextButton"> Növbəti</button>
+            </div>
+        </div>
+    </form>
+
+</div> <!-- end card-body -->
+<!--<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Medicloud - @ViewData["Title"] </title>
-
-
-    <!-- App css -->
-    <link href="/assets/css/app-saas.min.css" rel="stylesheet" type="text/css" id="app-style" />
-
-
-    <!-- Icons css -->
-    <link href="/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <title>Medicloud - @ViewData["Title"] </title>-->
+<!-- App css -->
+<!--<link href="/assets/css/app-saas.min.css" rel="stylesheet" type="text/css" id="app-style" />-->
+<!-- Icons css -->
+<!--<link href="/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
 
     <link rel="apple-touch-icon" sizes="180x180" href="~/res/brand/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="~/res/brand/favicon-32x32.png">
@@ -39,219 +66,173 @@
                 <circle style="fill: rgba(6,147,227, 0.5); " cx='400' cy='400' r='100' />
             </g>
         </svg>
-    </div>
-
-
-    <div class="account-pages pt-2 pt-sm-5 pb-4 pb-sm-5 position-relative">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-xxl-8 col-lg-9">
-                    <div class="card">
-                        <div class="row justify-content-center">
-                            <div class="col-7 text-center row">
-                                <div class="card-header pb-0 text-center ">
-                                    <a href="/">
-                                        <img src="/assets/images/mc_logo_inline.svg" alt="logo">
-                                    </a>
-                                </div>
+    </div>-->
+@*<div class="account-pages pt-2 pt-sm-5 pb-4 pb-sm-5 position-relative">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xxl-8 col-lg-9">
+                <div class="card">
+                    <div class="row justify-content-center">
+                        <div class="col-7 text-center row">
+                            <div class="card-header pb-0 text-center ">
+                                <a href="/">
+                                    <img src="/assets/images/mc_logo_inline.svg" alt="logo">
+                                </a>
                             </div>
                         </div>
-                        <!-- Logo -->
-
-
-
-                        <div class="card-body p-4">
-                            <div class="text-center w-75 m-auto">
-                                <h4 class="text-dark-50 text-center pb-0 fw-bold">Hesab yarat</h4>
-                                <p class="text-muted mb-4">Sağlamlığınızı buludlara qaldırın</p>
-                            </div>
-                            <div class="alert alert-danger" id="alert" hidden role="alert"></div>
-                            <form id="addUserForm" class="needs-validation" novalidate>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="position-relative border-bottom text-center mb-2 mb-sm-0 justify-content-center">
-                                            <img id="profileImage" src="/res/user.svg"
-                                                 alt="Profile Image" class="rounded-circle mb-1" width="150" height="150" style="object-fit:cover;">
-                                            <input type="file" id="profilePicture" name="profilePicture" accept="image/*" class="d-none" onchange="previewProfilePicture(event)">
-                                            <div class="invalid-feedback">
-                                                Zəhmət olmasa, profil şəkli əlavə edin.
-                                            </div>
-                                            <button type="button" class="btn btn-light btn-sm position-absolute mb-1" style="bottom: 0; right: 0; border-radius: 50%;" onclick="changePicture(event)">
-                                                <i class="ri-pencil-fill"></i>
-                                            </button>
-                                        </div>
-
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="name" class="form-label">Ad</label>
-                                            <div class="input-group has-validation">
-                                                <input type="text" id="name" class="form-control" placeholder="Adı daxil edin" required>
-                                                <div class="invalid-feedback">
-                                                    Zəhmət olmasa, adınızı daxil edin.
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="surname" class="form-label">Soyad</label>
-                                            <div class="input-group has-validation">
-                                                <input type="text" id="surname" class="form-control" placeholder="Soyadı daxil edin" required>
-                                                <div class="invalid-feedback">
-                                                    Zəhmət olmasa, soyadınızı daxil edin.
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="row">
-                                    <div class="mb-3 col-md-6">
-                                        <label for="father" class="form-label">Ata adı</label>
-                                        <div class="input-group has-validation">
-                                            <input type="text" id="father" class="form-control" placeholder="Ata adı daxil edin" required>
-                                            <div class="invalid-feedback">
-                                                Zəhmət olmasa, ata adınızı daxil edin.
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="mb-3 col-md-6">
-                                        <label for="fin" class="form-label">FİN</label>
-                                        <div class="input-group has-validation">
-                                            <input type="text" id="fin" class="form-control" autocomplete="off" placeholder="FİN daxil edin" required>
-                                            <div class="invalid-feedback">
-                                                Zəhmət olmasa, FİN daxil edin.
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="mb-3 col-md-6">
-                                        <label for="bDate" class="form-label">Doğum tarixi</label>
-                                        <div class="input-group has-validation">
-                                            <input type="date" id="bDate" class="form-control" placeholder="B Date daxil edin" required>
-                                            <div class="invalid-feedback">
-                                                Zəhmət olmasa, doğum tarixinizi daxil edin.
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="mb-3 col-md-6">
-                                        <label for="pwd" class="form-label">Şifrə</label>
-                                        <div class="input-group has-validation">
-                                            <input type="password" id="pwd" class="form-control" autocomplete="off" placeholder="Şifrəni daxil edin" required>
-
-                                            <div class="input-group-text" data-password="false">
-                                                <span class="password-eye"></span>
-                                            </div>
-
-                                            <div class="invalid-feedback">
-                                                Zəhmət olmasa, şifrənizi daxil edin.
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                @*<div class="row mb-3">
-                                        <div class="col-md-6">
-                                            <div class="form-check">
-                                                <input type="checkbox" style="cursor:pointer;" class="form-check-input" id="specialistCheckbox">
-                                                <label class="form-check-label" style="cursor:pointer;" for="specialistCheckbox">Peşəkar</label>
-                                            </div>
-                                        </div>
-
-                                        @if (ViewBag.specialities != null)
-                                        {
-                                            <div class="mb-3 col-md-6" id="specialityContent" style="display:none;">
-                                                <label for="specialityDropdown" class="form-label">İxtisas</label>
-                                                <select class="form-control" id="specialityDropdown">
-                                                    <option value="">İxtisas seçin...</option>
-                                                    @{
-                                                        foreach (var item in ViewBag.specialities)
-                                                        {
-                                                            <option value="@item.id">@item.name</option>
-                                                        }
-                                                    }
-                                                </select>
-                                                <div class="invalid-feedback">
-                                                    Zəhmət olmasa, ixtisas seçin.
-                                                </div>
-                                            </div>
-                                        }
-
-                                    </div>*@
-
-                                <div class="mb-3 mb-0 text-center">
-                                    <button class="btn btn-primary" type="submit"> Növbəti </button>
-                                </div>
-                            </form>
-                        </div> <!-- end card-body -->
-
-                    </div>
-                    <!-- end card -->
-
-                    <div class="row mt-3">
-                        <div class="col-12 text-center">
-                            @{
-                                var controllerName = ViewContext.RouteData.Values["controller"]?.ToString();
-                            }
-                            <p class="text-muted">
-                                @if (controllerName == "Registration")
-                                {
-                                    @:Hesabınız var? <a href="@Url.Action("Index", "Login")" class="text-muted ms-1"><b>Daxil olun</b></a>
-                                }
-                                else if (controllerName == "Recovery")
-                                {
-                                    @:Hesabınız yoxdur? <a href="@Url.Action("Index", "Registration")" class="text-muted ms-1"><b>Qeydiyyat</b></a>
-                                }
-                                else
-                                {
-                                    @:Hesabınız yoxdur? <a href="@Url.Action("Index", "Registration")" class="text-muted ms-1"><b>Qeydiyyat</b></a>
-                                }
-                            </p>
-                        </div> <!-- end col -->
-                    </div>
-                    <!-- end row -->
-
-                </div> <!-- end col -->
-            </div>
-            <!-- end row -->
-        </div>
-        <!-- end container -->
+                    </div>*@
+<!-- Logo -->
+<!--<div class="card-body p-4">
+    <div class="text-center w-75 m-auto">
+        <h4 class="text-dark-50 text-center pb-0 fw-bold">Hesab yarat</h4>
+        <p class="text-muted mb-4">Sağlamlığınızı buludlara qaldırın</p>
     </div>
+    <div class="alert alert-danger" id="alert" hidden role="alert"></div>
+    <form id="addUserForm" class="needs-validation" novalidate>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="position-relative border-bottom text-center mb-2 mb-sm-0 justify-content-center">
+                    <img id="profileImage" src="/res/user.svg"
+                         alt="Profile Image" class="rounded-circle mb-1" width="150" height="150" style="object-fit:cover;">
+                    <input type="file" id="profilePicture" name="profilePicture" accept="image/*" class="d-none" onchange="previewProfilePicture(event)">
+                    <div class="invalid-feedback">
+                        Zəhmət olmasa, profil şəkli əlavə edin.
+                    </div>
+                    <button type="button" class="btn btn-light btn-sm position-absolute mb-1" style="bottom: 0; right: 0; border-radius: 50%;" onclick="changePicture(event)">
+                        <i class="ri-pencil-fill"></i>
+                    </button>
+                </div>
 
-    @*<div class="mb-3 col-md-6">
-            <label for="organizationName" class="form-label">İşlədiyiniz müəssisə</label>
-            <div class="input-group has-validation">
-                <input type="text" id="organizationName" class="form-control" placeholder="Daxil edin" required>
-                <div class="invalid-feedback">
-                    Zəhmət olmasa, işlədiyiniz müəssisəni daxil edin.
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Ad</label>
+                    <div class="input-group has-validation">
+                        <input type="text" id="name" class="form-control" placeholder="Adı daxil edin" required>
+                        <div class="invalid-feedback">
+                            Zəhmət olmasa, adınızı daxil edin.
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="surname" class="form-label">Soyad</label>
+                    <div class="input-group has-validation">
+                        <input type="text" id="surname" class="form-control" placeholder="Soyadı daxil edin" required>
+                        <div class="invalid-feedback">
+                            Zəhmət olmasa, soyadınızı daxil edin.
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>*@
+
+        </div>
+        <div class="row">
+            <div class="mb-3 col-md-6">
+                <label for="father" class="form-label">Ata adı</label>
+                <div class="input-group has-validation">
+                    <input type="text" id="father" class="form-control" placeholder="Ata adı daxil edin" required>
+                    <div class="invalid-feedback">
+                        Zəhmət olmasa, ata adınızı daxil edin.
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3 col-md-6">
+                <label for="fin" class="form-label">FİN</label>
+                <div class="input-group has-validation">
+                    <input type="text" id="fin" class="form-control" autocomplete="off" placeholder="FİN daxil edin" required>
+                    <div class="invalid-feedback">
+                        Zəhmət olmasa, FİN daxil edin.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="mb-3 col-md-6">
+                <label for="bDate" class="form-label">Doğum tarixi</label>
+                <div class="input-group has-validation">
+                    <input type="date" id="bDate" class="form-control" placeholder="B Date daxil edin" required>
+                    <div class="invalid-feedback">
+                        Zəhmət olmasa, doğum tarixinizi daxil edin.
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="mb-3 col-md-6">
+                <label for="pwd" class="form-label">Şifrə</label>
+                <div class="input-group has-validation">
+                    <input type="password" id="pwd" class="form-control" autocomplete="off" placeholder="Şifrəni daxil edin" required>
+
+                    <div class="input-group-text" data-password="false">
+                        <span class="password-eye"></span>
+                    </div>
+
+                    <div class="invalid-feedback">
+                        Zəhmət olmasa, şifrənizi daxil edin.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-3 mb-0 text-center">
+            <button class="btn btn-primary" type="submit"> Növbəti </button>
+        </div>
+    </form>
+</div>-->
+ <!-- end card-body -->
+<!--</div>-->
+<!-- end card -->
+@*<div class="row mt-3">
+    <div class="col-12 text-center">
+        @{
+            var controllerName = ViewContext.RouteData.Values["controller"]?.ToString();
+        }
+        <p class="text-muted">
+            @if (controllerName == "Registration")
+            {
+                @:Hesabınız var? <a href="@Url.Action("Index", "Login")" class="text-muted ms-1"><b>Daxil olun</b></a>
+            }
+            else if (controllerName == "Recovery")
+            {
+                @:Hesabınız yoxdur? <a href="@Url.Action("Index", "Registration")" class="text-muted ms-1"><b>Qeydiyyat</b></a>
+            }
+            else
+            {
+                @:Hesabınız yoxdur? <a href="@Url.Action("Index", "Registration")" class="text-muted ms-1"><b>Qeydiyyat</b></a>
+            }
+        </p>*@
+<!--</div>--> <!-- end col -->
+<!--</div>-->
+<!-- end row -->
+<!--</div>--> <!-- end col -->
+<!--</div>-->
+<!-- end row -->
+@*</div>*@
+<!-- end container -->
+@*</div>
 
     <footer class="footer footer-alt">
         2021 -
         <script>document.write(new Date().getFullYear())</script> © Flexit - Medicloud.az
-    </footer>
+    </footer>*@
 
 
 
 
 
-    <!-- Vendor js -->
-    <script src="/assets/js/vendor.min.js"></script>
+<!-- Vendor js -->
+@*<script src="/assets/js/vendor.min.js"></script>*@
 
-    <!-- App js -->
-    <script src="/assets/js/app.min.js"></script>
+<!-- App js -->
+@*<script src="/assets/js/app.min.js"></script>
 
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 
-    <script src="~/js/router.js"></script>
-</body>
-</html>
+    <script src="~/js/router.js"></script>*@
+@*</body>
+    </html>*@
 
 <script>
 
@@ -261,9 +242,9 @@
         //document.getElementById("profileImage").src = '/res/user.svg';
     }
 
-    $('#profilePicture').on('change', function (event) {
-        previewProfilePicture(event)
-    });
+    //$('#profilePicture').on('change', function (event) {
+    //    previewProfilePicture(event)
+    //});
     function previewProfilePicture(event) {
         const file = event.target.files[0];
         const reader = new FileReader();
@@ -273,17 +254,17 @@
         reader.readAsDataURL(file);
     }
 
-    $('#specialistCheckbox').on('change', function () {
-        //console.log('checked')
-        if ($(this).is(':checked')) {
-            $('#specialityContent').show();
-            $('#specialityDropdown').prop('required',true);
-        } else {
-            $('#specialityContent').hide();
-            $('#specialityDropdown').prop('required', false);
+    //$('#specialistCheckbox').on('change', function () {
+    //    //console.log('checked')
+    //    if ($(this).is(':checked')) {
+    //        $('#specialityContent').show();
+    //        $('#specialityDropdown').prop('required',true);
+    //    } else {
+    //        $('#specialityContent').hide();
+    //        $('#specialityDropdown').prop('required', false);
 
-        }
-    });
+    //    }
+    //});
 
 
     $('#addUserForm').on('submit', function (event) {
@@ -297,32 +278,32 @@
         }
 
         // Get form field values
-        const organizationName = $('#organizationName').val();
+        //const organizationName = $('#organizationName').val();
         const name = $('#name').val();
         const surname = $('#surname').val();
-        const father = $('#father').val();
-        const specialityID = $('#specialityDropdown').val();
-        const fin = $('#fin').val();
-        const bDate = $('#bDate').val();
+        //const father = $('#father').val();
+        //const specialityID = $('#specialityDropdown').val();
+        //const fin = $('#fin').val();
+        //const bDate = $('#bDate').val();
         const pwd = $('#pwd').val();
-        const picture = $('#profilePicture')[0].files[0];  // Get the file from the input
+        //const picture = $('#profilePicture')[0].files[0];  // Get the file from the input
         var btn = $("#nextButton");
         btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Yüklənir...');
 
         // Prepare FormData
         const formData = new FormData();
-        formData.append('organizationName', organizationName);
+        //formData.append('organizationName', organizationName);
         formData.append('name', name);
         formData.append('surname', surname);
-        formData.append('father', father);
-        formData.append('specialityID', specialityID);
-        formData.append('fin', fin);
-        formData.append('bDate', bDate);
+        //formData.append('father', father);
+        //formData.append('specialityID', specialityID);
+        //formData.append('fin', fin);
+        //formData.append('bDate', bDate);
         formData.append('pwd', pwd);
 
-        if (picture) {
-            formData.append('profileImage', picture);  // Append the image file
-        }
+        //if (picture) {
+        //    formData.append('profileImage', picture);  // Append the image file
+        //}
 
         console.log("Form data:", formData);
 

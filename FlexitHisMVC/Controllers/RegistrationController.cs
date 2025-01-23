@@ -42,8 +42,9 @@ namespace Medicloud.Controllers
 			_communicationService=new CommunicationService(_connectionString);
 		}
 		// GET: /<controller>/
-		public IActionResult Index()
+		public IActionResult Index(bool forBusiness=false)
 		{
+			HttpContext.Session.SetString("ForBusiness", forBusiness.ToString());
 			return View();
 		}
 

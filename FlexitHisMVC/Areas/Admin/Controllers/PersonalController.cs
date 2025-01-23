@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FlexitHisCore;
+﻿
 using Medicloud.Areas.Admin.Model;
 using Medicloud.BLL.Service;
 using Medicloud.DAL.Repository;
@@ -56,7 +52,8 @@ namespace Medicloud.Areas.Admin.Controllers
 			response.personalList = personalRepo.GetUserList(organizationId);
 			foreach (var user in response.personalList)
 			{
-				user.roles = await _roleRepository.GetUserRoles(organizationId, user.ID);
+				//user.roles = await _roleRepository.GetUserRoles(organizationId, user.ID);
+				user.roles = new();
 			}
 			response.specialityList = specialityRepo.GetSpecialities();
 			response.organizationList = organizationService.GetAllOrganizations();

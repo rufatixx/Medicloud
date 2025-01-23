@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Medicloud - @ViewData["Title"] </title>
+
+
+    <!-- App css -->
+    <link href="/assets/css/app-saas.min.css" rel="stylesheet" type="text/css" id="app-style" />
+
+
+    <!-- Icons css -->
+    <link href="/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+
+    <link rel="apple-touch-icon" sizes="180x180" href="~/res/brand/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="~/res/brand/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/res/brand/favicon-16x16.png">
+    <link rel="manifest" href="~/res/brand/site.webmanifest">
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <style>
+
+
+
+        #formTabs .nav-link.active {
+            background-color: #007bff !important; /* Primary rengini burada belirtiyoruz */
+            color: white !important; /* Yazı rengini beyaz yapıyoruz */
+        }
+    </style>
+</head>
+<body class="authentication-bg ">
+
+    @*<div class="bg-image"></div>*@
+    <div class="position-absolute start-0 end-0 start-0 bottom-0 w-100 h-100">
+        <svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%' viewBox='0 0 800 800'>
+            <g fill-opacity='0.22'>
+                <circle style="fill: rgba(6,147,227, 0.1); " cx='400' cy='400' r='600' />
+                <circle style="fill: rgba(6,147,227, 0.2);" cx='400' cy='400' r='500' />
+                <circle style="fill: rgba(6,147,227, 0.3); " cx='400' cy='400' r='300' />
+                <circle style="fill: rgba(6,147,227, 0.4); " cx='400' cy='400' r='200' />
+                <circle style="fill: rgba(6,147,227, 0.5); " cx='400' cy='400' r='100' />
+            </g>
+        </svg>
+    </div>
+
+
+    <div class="account-pages pt-2 pt-sm-5 pb-4 pb-sm-5 position-relative">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xxl-4 col-lg-5">
+                    <div class="card">
+
+                        <!-- Logo -->
+                        <div class="card-header pb-0 text-center ">
+                            <a href="/">
+                                <img src="/assets/images/mc_logo_inline.svg" alt="logo">
+                            </a>
+                        </div>
+
+                        @RenderBody()
+                    </div>
+                    <!-- end card -->
+
+                    <div class="row mt-3">
+                        <div class="col-12 text-center">
+                            @{
+                            var controllerName = ViewContext.RouteData.Values["controller"]?.ToString();
+                            }
+                            <p class="text-muted">
+                                @if (controllerName == "Registration")
+                                {
+                                @:Hesabınız var? <a href="@Url.Action(" Index", "Login" )" class="text-muted ms-1"><b>Daxil olun</b></a>
+                                }
+                                else if (controllerName == "Recovery")
+                                {
+                                @:Hesabınız yoxdur? <a href="@Url.Action(" Index", "Registration" )" class="text-muted ms-1"><b>Qeydiyyat</b></a>
+                                }
+                                else
+                                {
+                                @:Hesabınız yoxdur? <a href="@Url.Action(" Index", "Registration" )" class="text-muted ms-1"><b>Qeydiyyat</b></a>
+                                }
+                            </p>
+                        </div> <!-- end col -->
+                    </div>
+                    <!-- end row -->
+
+                </div> <!-- end col -->
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- end container -->
+    </div>
+
+
+
+    <footer class="footer footer-alt">
+        2021 -
+        <script>document.write(new Date().getFullYear())</script> © Flexit - Medicloud.az
+    </footer>
+
+    @*<footer class="border-top footer mt-auto">
+        <div class="container-fluid  ">
+            <div class="row">
+                <div class="col-6 text-left mt-2 d-none d-md-block ">
+                    &copy;
+                    <script>document.write(new Date().getFullYear())</script> Medicloud. Bütün hüquqlar qorunur
+                </div>
+                <div class="col-6 text-right d-flex  d-none d-md-block">
+                    <label class="mr-2 mt-2">Site by </label>
+                    <img class="img-fluid" src="/res/flexit_logo.svg" />
+                </div>
+                <div class="col-12  d-block d-md-none mb-3">
+                    &copy;
+                    <script>document.write(new Date().getFullYear())</script> Medicloud. Bütün hüquqlar qorunur
+                </div>
+
+            </div>
+        </div>
+    </footer>*@
+
+    @*<footer class="border-top footer text-muted d-flex align-items-center">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-6 text-left">
+                    &copy;
+                    <script>document.write(new Date().getFullYear())</script> Medicloud. Bütün hüquqlar qorunur
+                </div>
+                <div class="col-6 text-right d-flex justify-content-end">
+                    <label class="mr-2 mt-2">Site by </label>
+                    <img class="img-fluid" src="./res/flexit_logo.svg" />
+                </div>
+            </div>
+        </div>
+    </footer>*@
+
+
+    @*
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>*@
+
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery/dist/jquery.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+
+    <!-- Vendor js -->
+    <script src="/assets/js/vendor.min.js"></script>
+
+    <!-- App js -->
+    <script src="/assets/js/app.min.js"></script>
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+
+    <script src="~/js/router.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

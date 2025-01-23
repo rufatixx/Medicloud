@@ -1,9 +1,6 @@
-﻿using System;
-using crypto;
+﻿
 using MySql.Data.MySqlClient;
-using System.Configuration;
 using FlexitHisCore.Models;
-using System.Collections.Generic;
 
 namespace Medicloud.Models.Repository
 {

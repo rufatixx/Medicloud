@@ -52,7 +52,7 @@ namespace Medicloud.ViewComponents
 				}
 			}
 			var roles = await _roleRepository.GetUserRoles(orgId, userID);
-			user.roles = roles;
+			user.roles = new();
 			return View(user);
 		}
 

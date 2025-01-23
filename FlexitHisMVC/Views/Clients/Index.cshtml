@@ -4,7 +4,7 @@
 }
 
 @using Medicloud.Models.Domain;
-@model List<PatientDocDTO>
+@model List<PatientCardDTO>
 <div class="row">
     <div class="col-12">
         <div class="page-title-box">
@@ -77,11 +77,11 @@
 
                                                     <td>@age</td>
                                                 }
-                                                <td onclick="event.stopPropagation()">
+                                                @*<td onclick="event.stopPropagation()">
                                                     <a href="@Url.Action("Index", "Prescriptions", new { area = "", patientFullName = $"{item.name} {item.surname}", patientID = item.ID })">
                                                      aktiv kart sayı: @item.totalCardNumbers
                                                     </a>
-                                                </td>
+                                                </td>*@
                                                 @*<td style="float: right">
                                                         <a href="patient-edit.php?patient_id=61294">
                                                             <button type="button" class="btn btn-light btn-sm edit-button" data-id="1"><i class="far fa-edit"></i></button>

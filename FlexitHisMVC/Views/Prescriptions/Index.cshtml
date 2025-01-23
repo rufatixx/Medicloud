@@ -16,7 +16,7 @@
 
 
 @using Medicloud.Models.Domain;
-@model List<PatientDocDTO>
+@model List<PatientCardDTO>
 
 
 <div class="row">
@@ -80,7 +80,7 @@
                                                                         <tr class="odd">
                                                                             <th class="text-muted dtr-control" tabindex="0">@rowNumber</th>
                                                                             <td>@item.name @item.surname</td>
-                                                                            <td>@item.cDate.ToString("dd.MM.yyyy")</td>
+                                                                            @*<td>@item.cDate.ToString("dd.MM.yyyy")</td>*@
 
 
                                                                             <td>
@@ -89,14 +89,14 @@
                                                                                 </a>
                                                                             </td>
                                                                             <td>
-                                                                                <a href="@Url.Action("Index", "Services", new { area = "",cardId=$"{@item.patientCardID}"})">
+                                                                                @*<a href="@Url.Action("Index", "Services", new { area = "",cardId=$"{@item.patientCardID}"})">
                                                                                     № @item.patientCardID
-                                                                                </a>
+                                                                                </a>*@
                                                                             </td>
                                                                             <td>
-                                                                                <span class="badge @(item.finished == 1 ? "bg-danger" : "bg-success")">
+                                                                                @*<span class="badge @(item.finished == 1 ? "bg-danger" : "bg-success")">
                                                                                     @(item.finished == 1 ? "Ödənilib və bağlanıb" : "Aktiv")
-                                                                                </span>
+                                                                                </span>*@
                                                                                
                                                                             </td>
                                                                             @*<td style="float: right">

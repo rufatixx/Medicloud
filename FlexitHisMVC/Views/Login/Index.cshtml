@@ -44,7 +44,7 @@
             </div>
         </div>
 
-        <div class="mb-3">
+        <div class="mb-3" id="passwordContent" style="display:none;">
             <a href="@Url.Action("Index","Recovery")" class="text-muted float-end"><small>Şifrənizi unutmusuz?</small></a>
             <label for="password" class="form-label">Şifrə</label>
             <div class="input-group input-group-merge">
@@ -54,8 +54,11 @@
                 </div>
             </div>
         </div>
-        <div class="mb-3 mb-0 text-center">
+        <div class="mb-3 mb-0 text-center" id="signInContent" style="display:none;">
             <button class="btn btn-primary" type="submit" id="signInButton"> Daxil ol </button>
+        </div>
+        <div class="mb-3 mb-0 text-center" id="nextContent">
+            <button class="btn btn-primary" type="button" id="nextButton"> Növbəti</button>
         </div>
         @*<div class="mb-3 mb-3">
                 <div class="form-check">
@@ -71,7 +74,7 @@
 @section Scripts {
     @* <script src="~/js/phone-mask-min.js"></script> *@
 
-    <script>
+<script>
         $(document).ready(function () {
 
                $('#mobileNumber').on('input', function() {
@@ -113,12 +116,80 @@
                     }
                 }
 
-                function showError(message) {
+                function showError(message,buttonId,text) {
 
                     $('#alert').text(message).removeAttr("hidden");
-                    $('#signInButton').prop('disabled', false).text('Daxil ol');
+                    $('#' + buttonId).prop('disabled', false).text(text); 
 
+            }
+            $('#nextButton').on('click', function (event) {
+                event.preventDefault();
+                var activeTab = $('.nav-link.active');
+                let inputContent;
+                let type;
+
+                if (activeTab.attr('id') === 'phone-tab') {
+                    var mobileNumber = $('#mobileNumber').val();
+
+                    // let formattedNumber = mobileNumber
+                    //     .replace(/\+994\s*\(/, '')
+                    //     .replace(/\)\s*/, '')
+                    //     .replace(/[\s-]/g, '');
+                    var regex = /^\d{9}$/;
+
+                    if (!mobileNumber) {
+                        showError("Telefon nömrəsini daxil edin.",'nextButton','Növbəti');
+                        return;
+                    }
+                    if (!regex.test(mobileNumber)) {
+
+                        showError("Xahiş olunur nömrənizin düzgünlüyünə diqqət edəsiniz!",'nextButton', 'Növbəti');
+                        return;
+                    }
+
+                    inputContent = mobileNumber;
+                    type = 1;
+
+                } else if (activeTab.attr('id') === 'email-tab') {
+                    var email = $('#emailInput').val();
+                    var emailPattern = /^[a-zA-Z0-9._-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+
+                    if (!email) {
+                        showError('E-poçt ünvanınızı daxil edin', 'nextButton', 'Növbəti');
+                        return;
+                    }
+                    if (!emailPattern.test(email)) {
+                        showError('Xahiş olunur emailin düzgünlüyünə diqqət edəsiniz!', 'nextButton', 'Növbəti');
+                        return;
+                    }
+
+
+                    inputContent = email;
+                    type = 2;
                 }
+                $('#nextButton').prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" id="signInSpinner"></span> Yüklənir...');
+
+                                $.ajax({
+                    type: 'POST',
+                    url : '@Url.Action("CheckUserExist", "Login")',
+                    data: { contact: inputContent,contactType:type },
+                    // dataType: 'json',
+                    success: function (data, status, xhr) {
+                        console.log(data,xhr)
+                        if (data == true) {
+                            $('#nextContent').hide();
+                            $('#signInContent').show();
+                            $('#passwordContent').show();
+                        }
+                        else {
+                            window.location.href='/registration/index'
+                        }
+                    },
+                    error: function (jqXhr, textStatus, errorMessage) {
+                        handleLoginError(jqXhr.status);
+                    }
+                });
+            });
 
 
                $('#loginForm').on('submit', function(event) {
@@ -137,12 +208,12 @@
                         var regex = /^\d{9}$/;
 
                      if (!mobileNumber) {
-                            showError("Telefon nömrəsini daxil edin.");
+                         showError("Telefon nömrəsini daxil edin.", 'signInButton', 'Daxil ol');
                             return;
                          }
                       if (!regex.test(mobileNumber)) {
 
-                           showError("Xahiş olunur nömrənizin düzgünlüyünə diqqət edəsiniz!");
+                          showError("Xahiş olunur nömrənizin düzgünlüyünə diqqət edəsiniz!", 'signInButton', 'Daxil ol');
                         return;
                      }
 
@@ -154,11 +225,11 @@
                     var emailPattern = /^[a-zA-Z0-9._-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 
                    if (!email) {
-                        showError('E-poçt ünvanınızı daxil edin');
+                       showError('E-poçt ünvanınızı daxil edin', 'signInButton', 'Daxil ol');
                        return;
                    }
                    if (!emailPattern.test(email)) {
-                        showError('Xahiş olunur emailin düzgünlüyünə diqqət edəsiniz!');
+                       showError('Xahiş olunur emailin düzgünlüyünə diqqət edəsiniz!', 'signInButton', 'Daxil ol');
                        return;
                    }
 
@@ -172,7 +243,7 @@
                 $('#signInButton').prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" id="signInSpinner"></span> Yüklənir...');
 
                 if (!password) {
-                    showError("Xahiş olunur daxil etdiyiniz məlumatların düzgünlüyünə diqqət edəsiniz!");
+                    showError("Xahiş olunur daxil etdiyiniz məlumatların düzgünlüyünə diqqət edəsiniz!", 'signInButton', 'Daxil ol');
                     return;
                 }
                 $.ajax({
@@ -191,5 +262,5 @@
                });
 
            });
-    </script>
+</script>
 }

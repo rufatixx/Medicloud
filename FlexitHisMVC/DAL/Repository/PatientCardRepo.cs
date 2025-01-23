@@ -1,11 +1,7 @@
-﻿using System;
-using crypto;
-using System.Configuration;
-using Medicloud.Models;
+﻿
 
 using MySql.Data.MySqlClient;
-using System.Collections.Generic;
-using Medicloud.Models.Domain;
+
 using Medicloud.Models.DTO;
 using System.Text;
 
@@ -530,227 +526,227 @@ GROUP BY
             return patientList;
         }
 
-        public List<PatientDocDTO> GetPatientsByDr(int docID)
+        public List<PatientCardDTO> GetPatientsByDr(int docID)
 
         {
 
-            List<PatientDocDTO> patientList = new List<PatientDocDTO>();
-            try
-            {
+			List<PatientCardDTO> patientList = new List<PatientCardDTO>();
+			//            try
+			//            {
 
-                using (MySqlConnection connection = new MySqlConnection(ConnectionString))
-                {
-
-
-                    connection.Open();
-
-                    using (MySqlCommand com = new MySqlCommand($@"SELECT a.id, a.patientID, a.serviceID,a.note, p.name, p.surname, p.father,p.clientPhone,p.bDate,p.genderID,p.fin
-FROM patient_card a
-INNER JOIN patients p ON a.patientID = p.id
-WHERE a.docID = @docID
-GROUP BY a.patientID
- ;", connection))
-                    {
-                        com.Parameters.AddWithValue("@docID", docID);
-                        MySqlDataReader reader = com.ExecuteReader();
-                        if (reader.HasRows)
-                        {
+			//                using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+			//                {
 
 
-                            while (reader.Read())
-                            {
+			//                    connection.Open();
 
-                                PatientDocDTO patient = new PatientDocDTO();
-                                patient.ID = Convert.ToInt64(reader["patientID"]);
-                                patient.name = reader["name"].ToString();
-                                patient.surname = reader["surname"].ToString();
-                                patient.father = reader["father"].ToString();
-                                patient.phone = Convert.ToInt64(reader["clientPhone"]);
-                                patient.bDate = Convert.ToDateTime(reader["bDate"]);
-                                patient.genderID = Convert.ToInt32(reader["genderID"]);
-                                patient.fin = reader["fin"].ToString();
-                                patient.note = reader["note"].ToString();
-
-
-                                patientList.Add(patient);
+			//                    using (MySqlCommand com = new MySqlCommand($@"SELECT a.id, a.patientID, a.serviceID,a.note, p.name, p.surname, p.father,p.clientPhone,p.bDate,p.genderID,p.fin
+			//FROM patient_card a
+			//INNER JOIN patients p ON a.patientID = p.id
+			//WHERE a.docID = @docID
+			//GROUP BY a.patientID
+			// ;", connection))
+			//                    {
+			//                        com.Parameters.AddWithValue("@docID", docID);
+			//                        MySqlDataReader reader = com.ExecuteReader();
+			//                        if (reader.HasRows)
+			//                        {
 
 
-                            }
-                            patientList.Reverse();
+			//                            while (reader.Read())
+			//                            {
+
+			//                                PatientCardDTO patient = new PatientCardDTO();
+			//                                patient.ID = Convert.ToInt64(reader["patientID"]);
+			//                                patient.name = reader["name"].ToString();
+			//                                patient.surname = reader["surname"].ToString();
+			//                                patient.father = reader["father"].ToString();
+			//                                patient.phone = Convert.ToInt64(reader["clientPhone"]);
+			//                                patient.bDate = Convert.ToDateTime(reader["bDate"]);
+			//                                patient.genderID = Convert.ToInt32(reader["genderID"]);
+			//                                patient.fin = reader["fin"].ToString();
+			//                                patient.note = reader["note"].ToString();
 
 
-                        }
-
-                    }
+			//                                patientList.Add(patient);
 
 
-                    connection.Close();
+			//                            }
+			//                            patientList.Reverse();
 
 
-                }
+			//                        }
 
-            }
-            catch (Exception ex)
-            {
-                StandardMessages.CallSerilog(ex);
-                Console.WriteLine(ex.Message);
-
-            }
+			//                    }
 
 
-            return patientList;
+			//                    connection.Close();
+
+
+			//                }
+
+			//            }
+			//            catch (Exception ex)
+			//            {
+			//                StandardMessages.CallSerilog(ex);
+			//                Console.WriteLine(ex.Message);
+
+			//            }
+
+
+			return patientList;
         }
 
-        public List<PatientDocDTO> GetPatientsByOrganization(int organizationID)
+        public List<PatientCardDTO> GetPatientsByOrganization(int organizationID)
 
         {
 
-            List<PatientDocDTO> patientList = new List<PatientDocDTO>();
-            try
-            {
+            List<PatientCardDTO> patientList = new List<PatientCardDTO>();
+//            try
+//            {
 
-                using (MySqlConnection connection = new MySqlConnection(ConnectionString))
-                {
-
-
-                    connection.Open();
-
-                    using (MySqlCommand com = new MySqlCommand($@"SELECT 
-    p.*,
-    COUNT(pc.id) AS totalCardNumbers,
-    MAX(pc.cDate) AS LatestCardDate -- Assuming cDate is the date of the card
-FROM 
-    patients p
-LEFT JOIN 
-    patient_card pc ON p.id = pc.patientID AND pc.finished = 0
-WHERE 
-    p.organizationID = @organizationID
-GROUP BY 
-    p.id
-ORDER BY 
-    LatestCardDate DESC
-", connection))
-                    {
-                        com.Parameters.AddWithValue("@organizationID", organizationID);
-                        MySqlDataReader reader = com.ExecuteReader();
-                        if (reader.HasRows)
-                        {
+//                using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+//                {
 
 
-                            while (reader.Read())
-                            {
+//                    connection.Open();
 
-                                PatientDocDTO patient = new PatientDocDTO();
-                                patient.ID = Convert.ToInt64(reader["id"]);
-                                patient.name = reader["name"].ToString();
-                                patient.surname = reader["surname"].ToString();
-                                patient.father = reader["father"].ToString();
-                                patient.phone = Convert.ToInt64(reader["clientPhone"]);
-                                patient.bDate = Convert.ToDateTime(reader["bDate"]);
-                                patient.genderID = Convert.ToInt32(reader["genderID"]);
-                                patient.totalCardNumbers = Convert.ToInt32(reader["totalCardNumbers"]);
-                                patient.fin = reader["fin"].ToString();
+//                    using (MySqlCommand com = new MySqlCommand($@"SELECT 
+//    p.*,
+//    COUNT(pc.id) AS totalCardNumbers,
+//    MAX(pc.cDate) AS LatestCardDate -- Assuming cDate is the date of the card
+//FROM 
+//    patients p
+//LEFT JOIN 
+//    patient_card pc ON p.id = pc.patientID AND pc.finished = 0
+//WHERE 
+//    p.organizationID = @organizationID
+//GROUP BY 
+//    p.id
+//ORDER BY 
+//    LatestCardDate DESC
+//", connection))
+//                    {
+//                        com.Parameters.AddWithValue("@organizationID", organizationID);
+//                        MySqlDataReader reader = com.ExecuteReader();
+//                        if (reader.HasRows)
+//                        {
+
+
+//                            while (reader.Read())
+//                            {
+
+//                                PatientCardDTO patient = new PatientCardDTO();
+//                                patient.ID = Convert.ToInt64(reader["id"]);
+//                                patient.name = reader["name"].ToString();
+//                                patient.surname = reader["surname"].ToString();
+//                                patient.father = reader["father"].ToString();
+//                                patient.phone = Convert.ToInt64(reader["clientPhone"]);
+//                                patient.bDate = Convert.ToDateTime(reader["bDate"]);
+//                                patient.genderID = Convert.ToInt32(reader["genderID"]);
+//                                patient.totalCardNumbers = Convert.ToInt32(reader["totalCardNumbers"]);
+//                                patient.fin = reader["fin"].ToString();
                               
 
 
-                                patientList.Add(patient);
+//                                patientList.Add(patient);
 
 
-                            }
-                            patientList.Reverse();
+//                            }
+//                            patientList.Reverse();
 
 
-                        }
+//                        }
 
-                    }
-
-
-                    connection.Close();
+//                    }
 
 
-                }
+//                    connection.Close();
 
-            }
-            catch (Exception ex)
-            {
-                StandardMessages.CallSerilog(ex);
-                Console.WriteLine(ex.Message);
 
-            }
+//                }
+
+//            }
+//            catch (Exception ex)
+//            {
+//                StandardMessages.CallSerilog(ex);
+//                Console.WriteLine(ex.Message);
+
+//            }
 
 
             return patientList;
         }
-        public List<PatientDocDTO> GetAllPatientsCards(long organizationID, long patientID)
+        public List<PatientCardDTO> GetAllPatientsCards(long organizationID, long patientID)
         {
-            List<PatientDocDTO> patientList = new List<PatientDocDTO>();
-            try
-            {
-                using (MySqlConnection connection = new MySqlConnection(ConnectionString))
-                {
-                    connection.Open();
+            List<PatientCardDTO> patientList = new List<PatientCardDTO>();
+//            try
+//            {
+//                using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+//                {
+//                    connection.Open();
 
-                    // Start building the base query
-                    var queryBuilder = new StringBuilder($@"
-SELECT a.id,a.cDate, a.patientID, a.serviceID, a.note, p.name, p.surname, p.father, p.clientPhone, p.bDate, p.genderID, p.fin
-FROM patient_card a
-INNER JOIN patients p ON a.patientID = p.id
-WHERE a.organizationID = @organizationID");
+//                    // Start building the base query
+//                    var queryBuilder = new StringBuilder($@"
+//SELECT a.id,a.cDate, a.patientID, a.serviceID, a.note, p.name, p.surname, p.father, p.clientPhone, p.bDate, p.genderID, p.fin
+//FROM patient_card a
+//INNER JOIN patients p ON a.patientID = p.id
+//WHERE a.organizationID = @organizationID");
 
-                    // Dynamically add patient condition if patientID is greater than 0
-                    if (patientID > 0)
-                    {
-                        queryBuilder.Append(" AND a.patientID = @patientID");
-                    }
+//                    // Dynamically add patient condition if patientID is greater than 0
+//                    if (patientID > 0)
+//                    {
+//                        queryBuilder.Append(" AND a.patientID = @patientID");
+//                    }
 
-                    using (MySqlCommand com = new MySqlCommand(queryBuilder.ToString(), connection))
-                    {
-                        com.Parameters.AddWithValue("@organizationID", organizationID);
-                        // Add the patientID parameter only if it's greater than 0
-                        if (patientID > 0)
-                        {
-                            com.Parameters.AddWithValue("@patientID", patientID);
-                        }
+//                    using (MySqlCommand com = new MySqlCommand(queryBuilder.ToString(), connection))
+//                    {
+//                        com.Parameters.AddWithValue("@organizationID", organizationID);
+//                        // Add the patientID parameter only if it's greater than 0
+//                        if (patientID > 0)
+//                        {
+//                            com.Parameters.AddWithValue("@patientID", patientID);
+//                        }
 
-                        using (MySqlDataReader reader = com.ExecuteReader())
-                        {
-                            if (reader.HasRows)
-                            {
-                                while (reader.Read())
-                                {
-                                    PatientDocDTO patient = new PatientDocDTO
-                                    {
-                                        ID = Convert.ToInt64(reader["patientID"]),
-                                        patientCardID = Convert.ToInt64(reader["id"]),
-                                        name = reader["name"].ToString(),
-                                        serviceID = Convert.ToInt64(reader["serviceID"]),
-                                        cDate = Convert.ToDateTime(reader["cDate"]),
-                                        surname = reader["surname"].ToString(),
-                                        father = reader["father"].ToString(),
-                                        phone = Convert.ToInt64(reader["clientPhone"]),
-                                        bDate = Convert.ToDateTime(reader["bDate"]),
-                                        genderID = Convert.ToInt32(reader["genderID"]),
-                                        fin = reader["fin"].ToString(),
-                                        note = reader["note"].ToString()
-                                    };
+//                        using (MySqlDataReader reader = com.ExecuteReader())
+//                        {
+//                            if (reader.HasRows)
+//                            {
+//                                while (reader.Read())
+//                                {
+//                                    PatientCardDTO patient = new PatientCardDTO
+//                                    {
+//                                        ID = Convert.ToInt64(reader["patientID"]),
+//                                        patientCardID = Convert.ToInt64(reader["id"]),
+//                                        name = reader["name"].ToString(),
+//                                        serviceID = Convert.ToInt64(reader["serviceID"]),
+//                                        cDate = Convert.ToDateTime(reader["cDate"]),
+//                                        surname = reader["surname"].ToString(),
+//                                        father = reader["father"].ToString(),
+//                                        phone = Convert.ToInt64(reader["clientPhone"]),
+//                                        bDate = Convert.ToDateTime(reader["bDate"]),
+//                                        genderID = Convert.ToInt32(reader["genderID"]),
+//                                        fin = reader["fin"].ToString(),
+//                                        note = reader["note"].ToString()
+//                                    };
 
-                                    patientList.Add(patient);
-                                }
+//                                    patientList.Add(patient);
+//                                }
 
-                                // It seems you're reversing the list at the end. If this is intended, keep it; otherwise, you may remove this line.
-                                patientList.Reverse();
-                            }
-                        }
-                    }
+//                                // It seems you're reversing the list at the end. If this is intended, keep it; otherwise, you may remove this line.
+//                                patientList.Reverse();
+//                            }
+//                        }
+//                    }
 
-                    connection.Close();
-                }
-            }
-            catch (Exception ex)
-            {
-                StandardMessages.CallSerilog(ex);
-                Console.WriteLine(ex.Message);
-            }
+//                    connection.Close();
+//                }
+//            }
+//            catch (Exception ex)
+//            {
+//                StandardMessages.CallSerilog(ex);
+//                Console.WriteLine(ex.Message);
+//            }
 
             return patientList;
         }

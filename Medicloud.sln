@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 25.0.1703.7
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113 d17.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Medicloud", "FlexitHisMVC\Medicloud.csproj", "{94E91CB4-7BC1-46BE-971E-169B5A29C9BE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Medicloud.WebUI", "FlexitHisMVC\Medicloud.WebUI.csproj", "{94E91CB4-7BC1-46BE-971E-169B5A29C9BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Medicloud.DAL", "FlexitHisDAL\Medicloud.DAL.csproj", "{0EC884B3-CAC0-42A4-A049-046B2AB7DCA1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Medicloud.BLL", "FlexitHisBLL\Medicloud.BLL.csproj", "{90CCD0E6-F8CE-4497-AFCD-E91477FCDE25}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{94E91CB4-7BC1-46BE-971E-169B5A29C9BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{94E91CB4-7BC1-46BE-971E-169B5A29C9BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{94E91CB4-7BC1-46BE-971E-169B5A29C9BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EC884B3-CAC0-42A4-A049-046B2AB7DCA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EC884B3-CAC0-42A4-A049-046B2AB7DCA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EC884B3-CAC0-42A4-A049-046B2AB7DCA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EC884B3-CAC0-42A4-A049-046B2AB7DCA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90CCD0E6-F8CE-4497-AFCD-E91477FCDE25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90CCD0E6-F8CE-4497-AFCD-E91477FCDE25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90CCD0E6-F8CE-4497-AFCD-E91477FCDE25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90CCD0E6-F8CE-4497-AFCD-E91477FCDE25}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

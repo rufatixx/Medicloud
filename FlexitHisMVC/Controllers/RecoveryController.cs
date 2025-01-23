@@ -5,13 +5,9 @@ using Medicloud.BLL.Services.OTP;
 using Medicloud.BLL.Services.User;
 using Medicloud.BLL.Utils;
 using Medicloud.DAL.DAO;
-using Medicloud.DAL.Repository;
-using Medicloud.Data;
-using Microsoft.AspNetCore.Authorization;
+
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.FileSystemGlobbing;
-using System.Xml.Linq;
-using System;
+
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
