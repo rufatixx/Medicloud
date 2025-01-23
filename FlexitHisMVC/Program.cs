@@ -1,4 +1,5 @@
 ﻿using System.Configuration;
+using System.Text;
 using Medicloud.BLL.Service;
 using Medicloud.BLL.Services.Category;
 using Medicloud.BLL.Services.OTP;
@@ -19,7 +20,9 @@ using Medicloud.DAL.Repository.Userr;
 using Medicloud.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -69,41 +72,76 @@ builder.Services.AddSession(options =>
     options.Cookie.MaxAge = TimeSpan.FromDays(30); // Make session cookie persistent for 30 days
 });
 
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
-    {
-        options.LoginPath = "/Login/Index";
-        options.ExpireTimeSpan = TimeSpan.FromDays(30); // Make sure this aligns with session cookie MaxAge
-        options.Cookie.HttpOnly = true;
-        options.SlidingExpiration = true; // Refreshes the expiration time if a request is made and more than half the ExpireTimeSpan has elapsed
 
-        // Добавляем обработку события перенаправления на страницу входа
-        options.Events = new CookieAuthenticationEvents
-        {
-            OnValidatePrincipal = async context =>
-                   {
+var key = Encoding.ASCII.GetBytes(builder.Configuration.GetSection("JwtSettings:SecretKey").Value);
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+	.AddJwtBearer(options =>
+	{
+		options.SaveToken = true;
+		options.TokenValidationParameters = new TokenValidationParameters
+		{
+			ValidateIssuerSigningKey = true,
+			IssuerSigningKey = new SymmetricSecurityKey(key),
+			ValidateIssuer = false,
+			ValidateAudience = false,
+		};
+		options.Events = new JwtBearerEvents
+		{
+			OnChallenge = context =>
+			{
+				
+				context.Response.Redirect("/Login/Index");
+				return Task.CompletedTask;
+			},
+			OnAuthenticationFailed = context =>
+			{
+		
+				return Task.CompletedTask;
+			},
+			OnTokenValidated = context =>
+			{
+
+				return Task.CompletedTask;
+			}
+		};
+	});
+
+//builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+//    .AddCookie(options =>
+//    {
+//        options.LoginPath = "/Login/Index";
+//        options.ExpireTimeSpan = TimeSpan.FromDays(30); // Make sure this aligns with session cookie MaxAge
+//        options.Cookie.HttpOnly = true;
+//        options.SlidingExpiration = true; // Refreshes the expiration time if a request is made and more than half the ExpireTimeSpan has elapsed
+
+//        // Добавляем обработку события перенаправления на страницу входа
+//        options.Events = new CookieAuthenticationEvents
+//        {
+//            OnValidatePrincipal = async context =>
+//                   {
 
 
-               // Получаем ключи всех сессий
-               //var sessionKeys = context.HttpContext.Session.Keys;
+//               // Получаем ключи всех сессий
+//               //var sessionKeys = context.HttpContext.Session.Keys;
 
-               // // Проверяем, есть ли сессии, начинающиеся на Medicloud_
-               // var hasMedicloudSession = sessionKeys.Any(key => key.StartsWith("Medicloud_"));
+//               // // Проверяем, есть ли сессии, начинающиеся на Medicloud_
+//               // var hasMedicloudSession = sessionKeys.Any(key => key.StartsWith("Medicloud_"));
 
-               // if (!hasMedicloudSession)
-               // {
-               //     // Если сессий Medicloud_ нет, очищаем cookie аутентификации и выполняем перенаправление на страницу выхода
-               //     context.HttpContext.Response.Cookies.Delete(CookieAuthenticationDefaults.AuthenticationScheme);
-               //     context.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-               //     context.Response.Redirect("/Login/Index");
-                  
-               // }
+//               // if (!hasMedicloudSession)
+//               // {
+//               //     // Если сессий Medicloud_ нет, очищаем cookie аутентификации и выполняем перенаправление на страницу выхода
+//               //     context.HttpContext.Response.Cookies.Delete(CookieAuthenticationDefaults.AuthenticationScheme);
+//               //     context.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+//               //     context.Response.Redirect("/Login/Index");
 
-              
-               
-            }
-        };
-    });
+//               // }
+
+
+
+//            }
+//        };
+//    });
 
 builder.Services.AddSwaggerGen();
 
@@ -182,7 +220,7 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
         name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}");
+        pattern: "{controller=Welcome}/{action=Index}/{id?}");
 
     // Map all API endpoints
     endpoints.MapControllers();

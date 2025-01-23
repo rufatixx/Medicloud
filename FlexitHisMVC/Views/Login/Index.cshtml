@@ -3,10 +3,13 @@
     ViewData["Title"] = "Giriş";
 }
 
+@model Medicloud.WebUI.ViewModels.LoginViewModel
+
 <div class="card-body p-4">
 
     <div class="text-center w-75 m-auto">
         <h4 class="text-dark-50 text-center pb-0 fw-bold">Xoş gəlmişsiniz!</h4>
+        <h4 class="text-dark-50 text-center pb-0 fw-bold">Daxil ol və ya Hesab yarat</h4>
         <p class="text-muted mb-4">Sağlamlığınızı buludlara qaldırın</p>
     </div>
     <div class="alert alert-danger" id="alert" hidden role="alert"></div>
@@ -39,7 +42,7 @@
             <div class="tab-pane fade" id="email" role="tabpanel" aria-labelledby="email-tab">
                 <div class="mb-3">
                     @* <label for="email" class="form-label">E-posta</label> *@
-                    <input type="email" class="form-control" id="emailInput" name="email" placeholder="Email daxil edin" />
+                    <input type="email" class="form-control" asp-for="Contact" id="emailInput" name="email" placeholder="Email daxil edin" />
                 </div>
             </div>
         </div>
