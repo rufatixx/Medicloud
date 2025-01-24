@@ -19,7 +19,12 @@ namespace Medicloud.Controllers
         // GET: /<controller>/
         public IActionResult Index()
         {
-            return View();
+			if (User.Identity.IsAuthenticated)
+			{
+				return RedirectToAction("Index", "Home");
+
+			}
+			return View();
           
         }
 

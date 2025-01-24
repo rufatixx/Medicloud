@@ -44,7 +44,7 @@ namespace Medicloud.ViewComponents
         {
 			int orgId = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
             //int userId = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID"));
-            int userId = int.Parse(HttpContext.User.FindFirst("ID").Value);
+            int userId = int.Parse(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
             UserDTO obj = new UserDTO();
             obj.personal = new User();

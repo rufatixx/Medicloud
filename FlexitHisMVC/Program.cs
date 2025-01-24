@@ -18,6 +18,7 @@ using Medicloud.DAL.Repository.Services;
 using Medicloud.DAL.Repository.Staff;
 using Medicloud.DAL.Repository.Userr;
 using Medicloud.Data;
+using Medicloud.WebUI.Middlewares;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -75,6 +76,56 @@ builder.Services.AddSession(options =>
 
 var key = Encoding.ASCII.GetBytes(builder.Configuration.GetSection("JwtSettings:SecretKey").Value);
 
+
+
+//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+//	.AddJwtBearer(options =>
+//	{
+//		options.SaveToken = true;
+//		options.TokenValidationParameters = new TokenValidationParameters
+//		{
+//			ValidateIssuerSigningKey = true,
+//			IssuerSigningKey = new SymmetricSecurityKey(key),
+//			ValidateIssuer = false,
+//			ValidateAudience = false
+//		};
+
+//		options.Events = new JwtBearerEvents
+//		{
+//			OnAuthenticationFailed = context =>
+//			{
+//				Console.WriteLine("Authentication failed: " + context.Exception.Message);
+//				var path = context.HttpContext.Request.Path;
+//				var isApiRequest = path.StartsWithSegments("/api", StringComparison.OrdinalIgnoreCase);
+
+//				var isAjaxRequest = context.HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest";
+
+//				if (isApiRequest)
+//				{
+//					Console.WriteLine("Authentication failed for an API request.");
+//				}
+//				else if (isAjaxRequest)
+//				{
+//					Console.WriteLine("Authentication failed for an AJAX request.");
+//				}
+//				else
+//				{
+//					Console.WriteLine("Authentication failed for a normal MVC request.");
+//					context.HttpContext.Response.Redirect("/Login/Index");
+//				}
+
+//				//Console.WriteLine("Authentication failed: " + context.Exception.Message);
+
+//				return Task.CompletedTask;
+//			},
+//			OnTokenValidated = context =>
+//			{
+//				//Console.WriteLine("Token is valid");
+
+//				return Task.CompletedTask;
+//			}
+//		};
+//	});
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 	.AddJwtBearer(options =>
 	{
@@ -84,24 +135,40 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 			ValidateIssuerSigningKey = true,
 			IssuerSigningKey = new SymmetricSecurityKey(key),
 			ValidateIssuer = false,
-			ValidateAudience = false,
+			ValidateAudience = false
 		};
+
 		options.Events = new JwtBearerEvents
 		{
-			OnChallenge = context =>
-			{
-				
-				context.Response.Redirect("/Login/Index");
-				return Task.CompletedTask;
-			},
 			OnAuthenticationFailed = context =>
 			{
-		
+				Console.WriteLine("Authentication failed: " + context.Exception.Message);
+
+				var path = context.HttpContext.Request.Path;
+				var isApiRequest = path.StartsWithSegments("/api", StringComparison.OrdinalIgnoreCase);
+				var isAjaxRequest = context.HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest";
+
+				if (isApiRequest)
+				{
+					Console.WriteLine("Authentication failed for an API request.");
+					context.HttpContext.Response.StatusCode = 401; // API istekleri için 401 dönülüyor
+				}
+				else if (isAjaxRequest)
+				{
+					Console.WriteLine("Authentication failed for an AJAX request.");
+					context.HttpContext.Response.StatusCode = 401; // AJAX istekleri için de 401 dönülüyor
+				}
+				else
+				{
+					Console.WriteLine("Authentication failed for a normal MVC request.");
+					context.HttpContext.Response.Redirect("/Login/Index"); // MVC istekleri için yönlendirme yapılır
+				}
+
 				return Task.CompletedTask;
 			},
 			OnTokenValidated = context =>
 			{
-
+				// Token geçerli olduğunda burada işlem yapılabilir
 				return Task.CompletedTask;
 			}
 		};
@@ -183,7 +250,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 
-
+app.UseMiddleware<JwtTokenMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
 

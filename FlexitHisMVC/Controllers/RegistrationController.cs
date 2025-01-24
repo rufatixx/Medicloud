@@ -7,9 +7,11 @@ using Medicloud.BLL.Utils;
 using Medicloud.DAL.DAO;
 using Medicloud.DAL.Repository;
 using Medicloud.Data;
+using Medicloud.WebUI.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Security.Cryptography;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -42,41 +44,126 @@ namespace Medicloud.Controllers
 			_communicationService=new CommunicationService(_connectionString);
 		}
 		// GET: /<controller>/
-		public IActionResult Index(bool forBusiness=false)
+		public async Task<IActionResult> Index()
 		{
-			HttpContext.Session.SetString("ForBusiness", forBusiness.ToString());
-			return View();
-		}
+			var vm = TempData["RegistrationModel"] != null ?
+				JsonConvert.DeserializeObject<RegistrationViewModel>(TempData["RegistrationModel"].ToString()) :
+				new RegistrationViewModel();
 
-
-		public IActionResult Step2()
-		{
-			string otpIdString = HttpContext.Session.GetString("registrationOtpId");
-			string userIdString = HttpContext.Session.GetString("newUserId");
-
-			if (!string.IsNullOrWhiteSpace(otpIdString) && !string.IsNullOrWhiteSpace(userIdString))
+			if (string.IsNullOrWhiteSpace(vm.PhoneNumber) && string.IsNullOrWhiteSpace(vm.Email))
 			{
-				return View();
+				return RedirectToAction("Index", "Login");
+
+			}
+			var otpModel = new OtpViewModel();
+			var dao = new UserDAO();
+			UserDAO existUser = null;
+			switch (vm.Type)
+			{
+				case 1:
+					dao.mobile = vm.PhoneNumber;
+					existUser = await _userService.GetUserByPhoneNumber(vm.PhoneNumber);
+					break;
+				case 2:
+					dao.email = vm.Email;
+					existUser = await _userService.GetUserByEmail(vm.Email);
+					break;
+				default:
+					break;
+			}
+			var otpCode = _hashHelper.GenerateOtp();
+			if (existUser != null)
+			{
+				otpModel.UserId = existUser.id;
+				var existOtp = await _otpService.GetActiveOtpByUserId(existUser.id);
+				if (existOtp != null)
+				{
+					otpModel.OtpId = existOtp.id;
+				}
+				else
+				{
+					int otpId = await _otpService.CreateOtp(vm.Type, existUser.id, otpCode);
+					Console.WriteLine(otpCode);
+				}
+
 			}
 			else
 			{
-				return RedirectToAction("Index", "Registration");
+				int newUserId = await _userService.AddUser(dao);
+				int otpId = await _otpService.CreateOtp(vm.Type, newUserId, otpCode);
+				Console.WriteLine(otpCode);
+
 			}
+			return View("Step2",otpModel);
 		}
 
-		public IActionResult Step3()
+
+		//public async Task<IActionResult> Step2(OtpViewModel vm)
+		//{
+
+		//	if (vm != null)
+		//	{
+		//		return View(vm);
+		//	}
+		//	return RedirectToAction("Login/Index");
+
+		//}
+
+		[HttpPost]
+		public async Task<IActionResult> Step2(OtpViewModel vm)
 		{
-			if (HttpContext.Session.GetString("registrationOtpId") != null && HttpContext.Session.GetString("newUserId") != null)
+			try
 			{
-				//ViewBag.specialities = _specialityService.GetSpecialities();
+				if (vm != null && !string.IsNullOrEmpty(vm.CheckOtpCode))
+				{
+					bool result = await _otpService.CheckOtp(_hashHelper.HashOtp(vm.CheckOtpCode), vm.UserId);
+					if (result)
+					{
+						return RedirectToAction("Success");
+					}
+					else
+					{
+						return View();
+					}
+				}
+
+				return View();
+				//string otpIdString = HttpContext.Session.GetString("registrationOtpId");
+				//string userIdString = HttpContext.Session.GetString("newUserId");
+
+				//if (string.IsNullOrWhiteSpace(vm.otpCode) || string.IsNullOrWhiteSpace(otpIdString) || string.IsNullOrWhiteSpace(userIdString))
+				//{
+				//	Console.WriteLine($"");
+				//	return Json(new { success = false, message = "Xəta baş verdi" });
+
+				//}
+
+
+				//int otpId = int.Parse(otpIdString);
+				//int userId = int.Parse(userIdString);
+
+
+				//if (result)
+				//{
+				//	return Json(new { success = true, message = "OK" });
+				//}
+				//else
+				//{
+				//	return Json(new { success = false, message = "OTP kod yalnışdır" });
+				//}
+
+
+
+			}
+			catch (Exception ex)
+			{
+				//return StatusCode(StatusCodes.Status500InternalServerError, "Sorğunu emal edərkən xəta baş verdi.");
+				Console.WriteLine("Sorğunu emal edərkən xəta baş verdi");
 				return View();
 			}
-			else
-			{
-				return RedirectToAction("Index", "Registration");
 
-			}
 		}
+
 
 		public IActionResult Success()
 		{
@@ -92,136 +179,109 @@ namespace Medicloud.Controllers
 			}
 		}
 
+		//public IActionResult Step3()
+		//{
+		//	//if (HttpContext.Session.GetString("registrationOtpId") != null && HttpContext.Session.GetString("newUserId") != null)
+		//	if (vm!=null)
+		//	{
+		//		//ViewBag.specialities = _specialityService.GetSpecialities();
+		//		return View(vm);
+		//	}
+		//	else
+		//	{
+		//		return RedirectToAction("Index", "Registration");
 
-		[HttpPost]
-		public async Task<IActionResult> SendOtpForUserRegistration(string content, int type)
-		{
+		//	}
+		//}
 
-			try
-			{
-				if (type == 0 || string.IsNullOrEmpty(content))
-				{
-					throw new Exception();
-				}
-				var otpResult = new OtpResult();
-				var dao = new UserDAO();
-				UserDAO existUser = null;
-				switch (type)
-				{
-					case 1:
-						dao.mobile = content;
-						existUser = await _userService.GetUserByPhoneNumber(content);
-						break;
-					case 2:
-						dao.email = content;
-						existUser = await _userService.GetUserByEmail(content);
-						break;
-					default:
-						break;
-				}
-				var otpCode = _hashHelper.GenerateOtp();
-				if (existUser != null)
-				{
-					if (existUser.isRegistered)
-					{
-						otpResult.Success = false;
-						otpResult.HasExistOtp = false;
-						otpResult.Message = "İstifadəçi mövcuddur";
-						return Json(otpResult);
+		//[HttpPost]
+		//public async Task<IActionResult> SendOtpForUserRegistration(string content, int type)
+		//{
 
-					}
-					var existOtp = await _otpService.GetActiveOtpByUserId(existUser.id);
-					HttpContext.Session.SetString("newUserId", existUser.id.ToString());
-					if (existOtp != null)
-					{
-						HttpContext.Session.SetString("registrationOtpId", existOtp.id.ToString());
-						otpResult.Success = true;
-						otpResult.HasExistOtp = true;
-						otpResult.Message = "Aktiv OTP mövcuddur";
-					}
-					else
-					{
-						int otpId = await _otpService.CreateOtp(type, existUser.id, otpCode);
-						HttpContext.Session.SetString("registrationOtpId", otpId.ToString());
-						otpResult.Success = true;
-						otpResult.HasExistOtp = false;
-						otpResult.Message = "OTP kod göndərildi";
-						Console.WriteLine(otpCode);
-					}
+		//	try
+		//	{
+		//		if (type == 0 || string.IsNullOrEmpty(content))
+		//		{
+		//			throw new Exception();
+		//		}
+		//		var otpResult = new OtpResult();
+		//		var dao = new UserDAO();
+		//		UserDAO existUser = null;
+		//		switch (type)
+		//		{
+		//			case 1:
+		//				dao.mobile = content;
+		//				existUser = await _userService.GetUserByPhoneNumber(content);
+		//				break;
+		//			case 2:
+		//				dao.email = content;
+		//				existUser = await _userService.GetUserByEmail(content);
+		//				break;
+		//			default:
+		//				break;
+		//		}
+		//		var otpCode = _hashHelper.GenerateOtp();
+		//		if (existUser != null)
+		//		{
+		//			if (existUser.isRegistered)
+		//			{
+		//				otpResult.Success = false;
+		//				otpResult.HasExistOtp = false;
+		//				otpResult.Message = "İstifadəçi mövcuddur";
+		//				return Json(otpResult);
 
-				}
-				else
-				{
-					int newUserId = await _userService.AddUser(dao);
-					int otpId = await _otpService.CreateOtp(type, newUserId, otpCode);
+		//			}
+		//			var existOtp = await _otpService.GetActiveOtpByUserId(existUser.id);
+		//			HttpContext.Session.SetString("newUserId", existUser.id.ToString());
+		//			if (existOtp != null)
+		//			{
+		//				HttpContext.Session.SetString("registrationOtpId", existOtp.id.ToString());
+		//				otpResult.Success = true;
+		//				otpResult.HasExistOtp = true;
+		//				otpResult.Message = "Aktiv OTP mövcuddur";
+		//			}
+		//			else
+		//			{
+		//				int otpId = await _otpService.CreateOtp(type, existUser.id, otpCode);
+		//				HttpContext.Session.SetString("registrationOtpId", otpId.ToString());
+		//				otpResult.Success = true;
+		//				otpResult.HasExistOtp = false;
+		//				otpResult.Message = "OTP kod göndərildi";
+		//				Console.WriteLine(otpCode);
+		//			}
 
-					HttpContext.Session.SetString("newUserId", newUserId.ToString());
-					HttpContext.Session.SetString("registrationOtpId", otpId.ToString());
-					otpResult.Success = true;
-					otpResult.HasExistOtp = false;
-					otpResult.Message = "OTP kod göndərildi";
-					Console.WriteLine(otpCode);
+		//		}
+		//		else
+		//		{
+		//			int newUserId = await _userService.AddUser(dao);
+		//			int otpId = await _otpService.CreateOtp(type, newUserId, otpCode);
 
-				}
+		//			HttpContext.Session.SetString("newUserId", newUserId.ToString());
+		//			HttpContext.Session.SetString("registrationOtpId", otpId.ToString());
+		//			otpResult.Success = true;
+		//			otpResult.HasExistOtp = false;
+		//			otpResult.Message = "OTP kod göndərildi";
+		//			Console.WriteLine(otpCode);
 
-				return Json(otpResult);
+		//		}
 
-
-			}
-			catch (Exception ex)
-			{
-				// Handle the exception and return an appropriate response
-				return StatusCode(StatusCodes.Status500InternalServerError, "Sorğunu emal edərkən xəta baş verdi.");
-			}
-
-
-
-		}
-
-		[HttpPost]
-		public async Task<IActionResult> CheckForOTP(string otpCode)
-		{
-
-			try
-			{
-				string otpIdString = HttpContext.Session.GetString("registrationOtpId");
-				string userIdString = HttpContext.Session.GetString("newUserId");
-
-				if (string.IsNullOrWhiteSpace(otpCode) || string.IsNullOrWhiteSpace(otpIdString) || string.IsNullOrWhiteSpace(userIdString))
-				{
-					Console.WriteLine($"");
-					return Json(new { success = false, message = "Xəta baş verdi" });
-
-				}
+		//		return Json(otpResult);
 
 
-				int otpId = int.Parse(otpIdString);
-				int userId = int.Parse(userIdString);
-				bool result = await _otpService.CheckOtp(_hashHelper.HashOtp(otpCode), userId);
-
-
-				if (result)
-				{
-					return Json(new { success = true, message = "OK" });
-				}
-				else
-				{
-					return Json(new { success = false, message = "OTP kod yalnışdır" });
-				}
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		// Handle the exception and return an appropriate response
+		//		return StatusCode(StatusCodes.Status500InternalServerError, "Sorğunu emal edərkən xəta baş verdi.");
+		//	}
 
 
 
-			}
-			catch (Exception ex)
-			{
-				return StatusCode(StatusCodes.Status500InternalServerError, "Sorğunu emal edərkən xəta baş verdi.");
-			}
+		//}
 
 
 
-		}
-
-		[HttpPost]
+			[HttpPost]
 		public async Task<IActionResult> AddUser(IFormFile profileImage, string name, string surname, string father, int specialityID, string fin, string bDate, string pwd)
 		{
 

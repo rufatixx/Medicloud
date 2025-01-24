@@ -13,7 +13,7 @@
         <p class="text-muted mb-4">Sağlamlığınızı buludlara qaldırın</p>
     </div>
     <div class="alert alert-danger" id="alert" hidden role="alert"></div>
-    <form action="#" id="loginForm" autocomplete="off">
+    <form id="loginForm" autocomplete="off" asp-action="SignIn" asp-controller="Login" method="post" enctype="multipart/form-data">
 
         <ul class="nav nav-pills nav-justified" id="formTabs" role="tablist">
             <li class="nav-item" role="presentation">
@@ -24,51 +24,51 @@
             </li>
         </ul>
 
-
         <div class="tab-content mt-4" id="formTabsContent">
             <div class="tab-pane fade show active" id="phone" role="tabpanel" aria-labelledby="phone-tab">
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon1">+994</span>
-                    <input class="form-control" type="tel" id="mobileNumber" placeholder="nömrənizi daxil edin">
+                    <input class="form-control" type="tel" asp-for="PhoneNumber" id="mobileNumber" placeholder="nömrənizi daxil edin">
                 </div>
-                @* <div class="mb-3"> *@
-
-                @* <label for="mobileNumber" class="form-label">Mobil Nömrə</label> *@
-                @* <input type="tel" class="masked-phone form-control" data-phonemask="+994 (__) ___-__-__" id="mobileNumber" name="mobileNumber" placeholder="+994" /> *@
-                @* </div> *@
             </div>
-
+            <input type="hidden" asp-for="Type" id="typeInput" />
 
             <div class="tab-pane fade" id="email" role="tabpanel" aria-labelledby="email-tab">
                 <div class="mb-3">
-                    @* <label for="email" class="form-label">E-posta</label> *@
-                    <input type="email" class="form-control" asp-for="Contact" id="emailInput" name="email" placeholder="Email daxil edin" />
+                    <input type="email" class="form-control" asp-for="Email" id="emailInput" name="email" placeholder="Email daxil edin" />
                 </div>
             </div>
         </div>
+        @if (Model!=null && Model.UserExist)
+        {
+            <div class="mb-3" id="passwordContent" >
+                <a href="@Url.Action("Index","Recovery")" class="text-muted float-end"><small>Şifrənizi unutmusuz?</small></a>
+                <label for="password" class="form-label">Şifrə</label>
+                <div class="input-group input-group-merge">
+                    <input type="password" id="passBox" class="form-control" asp-for="Password" placeholder="Şifrəni daxil edin">
+                    <div class="input-group-text" data-password="false">
+                        <span class="password-eye"></span>
+                    </div>
+                </div>
+            </div>
 
-        <div class="mb-3" id="passwordContent" style="display:none;">
-            <a href="@Url.Action("Index","Recovery")" class="text-muted float-end"><small>Şifrənizi unutmusuz?</small></a>
-            <label for="password" class="form-label">Şifrə</label>
-            <div class="input-group input-group-merge">
-                <input type="password" id="passBox" class="form-control" placeholder="Şifrəni daxil edin">
-                <div class="input-group-text" data-password="false">
-                    <span class="password-eye"></span>
-                </div>
+            <div class="mb-3 mb-0 text-center" id="signInContent">
+                <button class="btn btn-primary" type="submit" id="signInButton"> Daxil ol </button>
             </div>
-        </div>
-        <div class="mb-3 mb-0 text-center" id="signInContent" style="display:none;">
-            <button class="btn btn-primary" type="submit" id="signInButton"> Daxil ol </button>
-        </div>
-        <div class="mb-3 mb-0 text-center" id="nextContent">
-            <button class="btn btn-primary" type="button" id="nextButton"> Növbəti</button>
-        </div>
+        }
+        else
+        {
+            <div class="mb-3 mb-0 text-center" id="nextContent">
+                <button class="btn btn-primary" type="submit" id="nextButton"> Növbəti</button>
+            </div>
+        }
+
         @*<div class="mb-3 mb-3">
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="checkbox-signin" checked>
-                    <label class="form-check-label" for="checkbox-signin">Remember me</label>
-                </div>
-            </div>*@
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="checkbox-signin" checked>
+                <label class="form-check-label" for="checkbox-signin">Remember me</label>
+            </div>
+        </div>*@
 
 
 
@@ -77,7 +77,7 @@
 @section Scripts {
     @* <script src="~/js/phone-mask-min.js"></script> *@
 
-<script>
+    <script>
         $(document).ready(function () {
 
                $('#mobileNumber').on('input', function() {
@@ -89,6 +89,21 @@
                    }
                    $(this).val(numericVal);
                });
+
+            $('#loginForm').on('submit', function (event) {
+                event.preventDefault();
+
+                if ($('#phone-tab').hasClass('active')) {
+                    $('#emailInput').val('');
+                    $('#typeInput').val(1);
+                } else {
+                    $('#mobileNumber').val('');
+                    $('#typeInput').val(2);
+                }
+
+                // Formu gönder
+                this.submit();
+            });
 
 
                 function handleLoginSuccess(data, statusCode) {
@@ -122,10 +137,10 @@
                 function showError(message,buttonId,text) {
 
                     $('#alert').text(message).removeAttr("hidden");
-                    $('#' + buttonId).prop('disabled', false).text(text); 
+                    $('#' + buttonId).prop('disabled', false).text(text);
 
             }
-            $('#nextButton').on('click', function (event) {
+            @*$('#nextButton').on('click', function (event) {
                 event.preventDefault();
                 var activeTab = $('.nav-link.active');
                 let inputContent;
@@ -192,10 +207,10 @@
                         handleLoginError(jqXhr.status);
                     }
                 });
-            });
+            });*@
 
 
-               $('#loginForm').on('submit', function(event) {
+               @*$('#loginForm').on('submit', function(event) {
                 event.preventDefault();
                 var activeTab = $('.nav-link.active');
                 let inputContent;
@@ -262,8 +277,8 @@
                         handleLoginError(jqXhr.status);
                     }
                 });
-               });
+               });*@
 
            });
-</script>
+    </script>
 }

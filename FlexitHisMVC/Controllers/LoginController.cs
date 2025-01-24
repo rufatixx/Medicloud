@@ -1,13 +1,18 @@
-﻿using System.Security.Claims;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using Medicloud.BLL.DTO;
 using Medicloud.BLL.Service;
 using Medicloud.BLL.Services.User;
 using Medicloud.DAL.DAO;
 using Medicloud.Models;
 using Medicloud.Models.DTO;
+using Medicloud.WebUI.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -99,58 +104,152 @@ namespace Medicloud.Controllers
 
 
 		[HttpPost("[controller]/[action]")]
-		public async Task<IActionResult> SignInAsync(string contact, int contactType, string pass)
+		public async Task<IActionResult> SignIn(LoginViewModel vm)
 		{
-			var user = await _nUserService.SignInAsync(contact, contactType, pass);
+			if (User.Identity.IsAuthenticated)
+			{
+				return RedirectToAction("Index", "Home");
+
+			}
+			string contact=vm.Type==1?vm.PhoneNumber:vm.Email;
+
+			if (string.IsNullOrEmpty(vm.Password))
+			{
+				var otpResult = new OtpResult();
+				UserDAO existUser = null;
+				switch (vm.Type)
+				{
+					case 1:
+						existUser = await _nUserService.GetUserByPhoneNumber(contact);
+						break;
+					case 2:
+						existUser = await _nUserService.GetUserByEmail(contact);
+						break;
+					default:
+						break;
+				}
+				if (existUser == null)
+				{
+					var registerVM = new RegistrationViewModel
+					{
+						Email = vm.Email,
+						Type = vm.Type,
+						PhoneNumber = vm.PhoneNumber,
+					};
+					TempData["RegistrationModel"] = JsonConvert.SerializeObject(registerVM);
+					return RedirectToAction("Index", "Registration");
+				}
+				else
+				{
+					vm.UserExist = true;
+					return View("Index",vm);
+				}
+			}
+			var user = await _nUserService.SignInAsync(contact, vm.Type, vm.Password);
 			if (user == null)
 			{
-				return Unauthorized();
+				vm.UserExist=false;
+				vm.Password = "";
+				return View("Index", vm);
 			}
 
-			var claims = new List<Claim>
-				{
-					new Claim(ClaimTypes.Name, $"{user.name} {user.surname}"),
-					new Claim("ID",user.id.ToString())
-                    // Add additional claims as needed
-                };
+			var tokenHandler = new JwtSecurityTokenHandler();
 
-			var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-			var authProperties = new AuthenticationProperties
+			var key = Encoding.ASCII.GetBytes(Configuration.GetSection("JwtSettings:SecretKey").Value);
+			var tokenDescriptor = new SecurityTokenDescriptor
 			{
-				IsPersistent = true, // Remember the user across sessions
+				Subject = new ClaimsIdentity(new Claim[] {
+					new Claim(ClaimTypes.Name,$"{user.name} {user.surname}"),
+					new Claim(ClaimTypes.NameIdentifier,user.id.ToString())
+				}),
+				Expires = DateTime.Now.AddMinutes(30),
+				SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)
 			};
 
-			await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+			var token = tokenHandler.CreateToken(tokenDescriptor);
+			var tokenString = tokenHandler.WriteToken(token);
+			Response.Cookies.Append("JwtToken", tokenString, new CookieOptions
+			{
+				HttpOnly = true,
+				Secure=true,
+				SameSite = SameSiteMode.Strict, 
+				Expires = DateTime.Now.AddMinutes(30)
+			});
 
-
-			ResponseDTO<UserDTO> response = new ResponseDTO<UserDTO>();
-			response.data = new List<UserDTO>();
-			//response.data.Add(obj);
-
-
-			//HttpContext.Session.SetInt32("userid", obj.personal.ID);
-
-			HttpContext.Session.SetString("Medicloud_UserPlanExpireDate", DateTime.Now.AddDays(10).ToString());
-
-
-			//userService.SaveSession(HttpContext, "Medicloud_userID", user.id.ToString());
-			//if (obj.organizations!=null && obj.organizations.Count>0)
-			//{
-			//    userService.SaveSession(HttpContext, "Medicloud_organizationID", obj.organizations[0].organizationID.ToString());
-			//    userService.SaveSession(HttpContext, "Medicloud_organizationName", obj.organizations[0].organizationName.ToString());
-
-			//}
-			//userService.SaveSession(HttpContext, "Medicloud_UserPlanExpireDate", obj.personal.subscription_expire_date.ToString());
-			//userService.SaveSession(HttpContext, );
-			return Ok();
-			//}
-			//else
-			//{
-			//    return Unauthorized();
-			//}
+			return RedirectToAction("Index", "Home");
 
 		}
+
+
+		[HttpGet("[controller]/[action]")]
+		public async Task<IActionResult> PostLogin()
+		{
+			if (User.Identity.IsAuthenticated)
+			{
+				return RedirectToAction("Index", "Home");
+
+			}
+			else
+			{
+				return Unauthorized();
+
+			}
+		}
+
+
+		//[HttpPost("[controller]/[action]")]
+		//public async Task<IActionResult> SignInAsync(string contact, int contactType, string pass)
+		//{
+		//	var user = await _nUserService.SignInAsync(contact, contactType, pass);
+		//	if (user == null)
+		//	{
+		//		return Unauthorized();
+		//	}
+
+		//	var claims = new List<Claim>
+		//		{
+		//			new Claim(ClaimTypes.Name, $"{user.name} {user.surname}"),
+		//			new Claim("ID",user.id.ToString())
+		//                  // Add additional claims as needed
+		//              };
+
+		//	var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+		//	var authProperties = new AuthenticationProperties
+		//	{
+		//		IsPersistent = true, // Remember the user across sessions
+		//	};
+
+		//	await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+
+
+		//	ResponseDTO<UserDTO> response = new ResponseDTO<UserDTO>();
+		//	response.data = new List<UserDTO>();
+		//	//response.data.Add(obj);
+
+
+		//	//HttpContext.Session.SetInt32("userid", obj.personal.ID);
+
+		//	HttpContext.Session.SetString("Medicloud_UserPlanExpireDate", DateTime.Now.AddDays(10).ToString());
+
+
+		//	//userService.SaveSession(HttpContext, "Medicloud_userID", user.id.ToString());
+		//	//if (obj.organizations!=null && obj.organizations.Count>0)
+		//	//{
+		//	//    userService.SaveSession(HttpContext, "Medicloud_organizationID", obj.organizations[0].organizationID.ToString());
+		//	//    userService.SaveSession(HttpContext, "Medicloud_organizationName", obj.organizations[0].organizationName.ToString());
+
+		//	//}
+		//	//userService.SaveSession(HttpContext, "Medicloud_UserPlanExpireDate", obj.personal.subscription_expire_date.ToString());
+		//	//userService.SaveSession(HttpContext, );
+		//	return Ok();
+		//	//}
+		//	//else
+		//	//{
+		//	//    return Unauthorized();
+		//	//}
+
+		//}
 
 		[HttpPost("[controller]/[action]")]
 		public async Task<IActionResult> CheckUserExist(string contact,int contactType)
@@ -181,15 +280,20 @@ namespace Medicloud.Controllers
 		public async Task<IActionResult> LogoutAsync()
 		{
 
-			foreach (var cookie in Request.Cookies.Keys)
-			{
-				Response.Cookies.Delete(cookie);
-			}
+			//foreach (var cookie in Request.Cookies.Keys)
+			//{
+			//	Response.Cookies.Delete(cookie);
+			//}
 
-			await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+			//await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+			Response.Cookies.Delete("JwtToken");  
 			HttpContext.Session.Clear();
 
-			return Ok();
+
+			return RedirectToAction("Login/Index");
+
+			//return Ok();
 
 		}
 	}

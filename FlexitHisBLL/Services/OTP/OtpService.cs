@@ -20,7 +20,7 @@ namespace Medicloud.BLL.Services.OTP
 		}
 
 		public async Task<int> CreateOtp(int type,int userId,string otpCode)
-		{ 
+		{
 			var hashOtp = _hashHelper.HashOtp(otpCode);
 			var otpModel = new OTPCodeDAO()
 			{
