@@ -1,5 +1,75 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/_BusinessLayout.cshtml";
 }
+
+@model Medicloud.ViewModels.CreateOrganizationVM
+
+@{ 
+    var type = !string.IsNullOrEmpty(Model.StaffEmail) ? 2 : 1;
+}
+
+<div class="">
+    <div class="row  text-center justify-content-center mt-3">
+        <div class="">
+            <form id="step1Form" method="post" enctype="multipart/form-data" asp-action="step2" asp-controller="registration" asp-area="admin">
+                <div class="card-header  align-items-center">
+ 
+                    <button class="btn btn-sm">
+                        <img src="~/arrow.svg" />
+
+                    </button>
+
+  
+                    <div class="text-center">
+                        <h1>Özünüz haqqında</h1>
+                        <p>Bizə özünüz və biznesiniz haqqında məlumat verin</p>
+                    </div>
+                </div>
+                <div class="card-body ">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" asp-for="OrgName" id="floatingInput" placeholder="Ad">
+                        <label for="floatingInput">Biznesinizin adı</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" asp-for="StaffName" id="floatingInput" placeholder="Ad">
+                        <label for="floatingInput">İstifadəçi adı</label>
+                    </div>
+
+                    <ul class="nav nav-pills nav-justified" id="formTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link @((type == 1) ? "active" : "")" id="phone-tab" data-toggle="tab" href="#phone" role="tab" aria-controls="phone" aria-selected="true">Telefon Nömrəsi</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link @((type == 2) ? "active" : "")" id="email-tab" data-toggle="tab" href="#email" role="tab" aria-controls="email" aria-selected="false">Elektron Poçt</a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content mt-4" id="formTabsContent">
+                        <div class="tab-pane fade @((type == 1) ? "show active" : "")" id="phone" role="tabpanel" aria-labelledby="phone-tab">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1">+994</span>
+                                <input class="form-control" type="tel" id="mobileNumber" asp-for="StaffPhoneNumber" placeholder="nömrənizi daxil edin">
+                            </div>
+                        </div>
+
+
+                        <div class="tab-pane fade @((type == 2) ? "show active" : "")" id="email" role="tabpanel" aria-labelledby="email-tab">
+                            @*<div class="mb-3">
+                                    <input type="email" class="form-control" id="emailInput" name="email" placeholder="Email daxil edin" />
+                                </div>*@
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" asp-for="StaffEmail" id="floatingInput" placeholder="Ad">
+                                <label for="floatingInput">Elektron Poçt</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 mb-0 text-center">
+                        <button class="btn btn-primary" type="submit" id="nextButton"> Növbəti</button>
+                    </div>
+                </div>
+            </form>
+            @*</div>*@
+        </div>
+    </div>
+</div>

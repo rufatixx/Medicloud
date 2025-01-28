@@ -1,0 +1,62 @@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/_BusinessLayout.cshtml";
+}
+
+@model Medicloud.ViewModels.CreateOrganizationVM
+
+
+<div class="">
+    <div class="row  text-center justify-content-center ">
+        <div class="">
+            <form id="step1Form" method="post" enctype="multipart/form-data" asp-action="step4" asp-controller="registration" asp-area="admin">
+                <div class="card-header">
+
+                    <button class="btn btn-sm">
+                        <img src="~/arrow.svg" />
+
+                    </button>
+                    <div class="text-center">
+                        <h1>Harada işləyirsiniz?</h1>
+                        <p>Müştərilər sizə gəlir yoxsa siz onlara gedirsiz? və ya hər ikisi</p>
+                    </div>
+                </div>
+                <div class="card-body ">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-check text-start mb-2 pb-2 border-bottom">
+                                <input type="checkbox" style="cursor:pointer;" class="form-check-input" id="checkInputMyLocation">
+                                <label class="form-check-label d-block ms-2" style="cursor:pointer;" for="checkInputMyLocation">
+                                    <span class="d-block">Mənim məkanımda</span>
+                                    <span style="font-size:10px;">
+                                        Müştərilərim mənim yanıma gəlir.
+                                    </span>
+                                </label>
+                            </div>
+
+                        </div>
+                        <div class="col-12">
+                            <div class="form-check text-start mb-2 pb-2 border-bottom">
+                                <input type="checkbox" style="cursor:pointer;" class="form-check-input" id="checkInputClientLocation">
+                                <label class="form-check-label d-block ms-2" style="cursor:pointer;" for="checkInputClientLocation">
+
+                                    <span class="d-block">Müştərilərin məkanında</span>
+                                    <span style="font-size:10px;">
+                                        Xidmətlər müştərilərin məkanında həyata keçirilir
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="mb-3 mb-0 text-center">
+                    <button class="btn btn-primary" type="submit" id="nextButton"> Növbəti</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+

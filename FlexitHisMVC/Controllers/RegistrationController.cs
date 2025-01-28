@@ -91,6 +91,8 @@ namespace Medicloud.Controllers
 			{
 				int newUserId = await _userService.AddUser(dao);
 				int otpId = await _otpService.CreateOtp(vm.Type, newUserId, otpCode);
+				otpModel.OtpId=newUserId;
+				otpModel.UserId=newUserId;
 				Console.WriteLine(otpCode);
 
 			}
@@ -119,15 +121,17 @@ namespace Medicloud.Controllers
 					bool result = await _otpService.CheckOtp(_hashHelper.HashOtp(vm.CheckOtpCode), vm.UserId);
 					if (result)
 					{
-						return RedirectToAction("Success");
+						TempData["NewUserId"] = vm.UserId;
+						return RedirectToAction("Step3",new {userId=vm.UserId});
+						//return RedirectToAction("Success");
 					}
 					else
 					{
-						return View();
+						return View(vm);
 					}
 				}
 
-				return View();
+				return View(vm);
 				//string otpIdString = HttpContext.Session.GetString("registrationOtpId");
 				//string userIdString = HttpContext.Session.GetString("newUserId");
 
@@ -159,6 +163,7 @@ namespace Medicloud.Controllers
 			{
 				//return StatusCode(StatusCodes.Status500InternalServerError, "Sorğunu emal edərkən xəta baş verdi.");
 				Console.WriteLine("Sorğunu emal edərkən xəta baş verdi");
+				Console.WriteLine(ex.Message.ToString());
 				return View();
 			}
 
@@ -167,32 +172,69 @@ namespace Medicloud.Controllers
 
 		public IActionResult Success()
 		{
-			if (HttpContext.Session.GetString("registrationOtpId") != null && HttpContext.Session.GetString("newUserId") != null)
+			return View();
+
+			//if (HttpContext.Session.GetString("registrationOtpId") != null && HttpContext.Session.GetString("newUserId") != null)
+			//{
+			//	HttpContext.Session.Remove("registrationOtpId");
+			//	HttpContext.Session.Remove("newUserId");
+			//	return View();
+			//}
+			//else
+			//{
+			//	return RedirectToAction("Index", "Registration");
+			//}
+		}
+		[HttpGet]
+		public IActionResult Step3(int userId)
+		{
+			////if (HttpContext.Session.GetString("registrationOtpId") != null && HttpContext.Session.GetString("newUserId") != null)
+			if (userId>0)
 			{
-				HttpContext.Session.Remove("registrationOtpId");
-				HttpContext.Session.Remove("newUserId");
-				return View();
+				var vm=new RegistrationViewModel
+				{UserId = userId };
+				return View(vm);
+				//ViewBag.specialities = _specialityService.GetSpecialities();
+			}
+			else
+			{
+				return RedirectToAction("Index", "Login");
+
+			}
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Step3(RegistrationViewModel vm)
+		{
+			////if (HttpContext.Session.GetString("registrationOtpId") != null && HttpContext.Session.GetString("newUserId") != null)
+			if (vm !=null)
+			{
+				var dto = new UpdateUserDTO
+				{
+					name = vm.Name,
+					surname = vm.Surname,
+					pwd = _hashHelper.sha256(vm.Pwd),
+					isRegistered=true,
+					id=vm.UserId
+				};
+				var result=await _userService.UpdateUserAsync(dto);
+
+				if (result > 0)
+				{
+					return RedirectToAction("Success");
+
+				}
+				//ViewBag.specialities = _specialityService.GetSpecialities();
+				return View(vm);
 			}
 			else
 			{
 				return RedirectToAction("Index", "Registration");
+
 			}
 		}
 
-		//public IActionResult Step3()
-		//{
-		//	//if (HttpContext.Session.GetString("registrationOtpId") != null && HttpContext.Session.GetString("newUserId") != null)
-		//	if (vm!=null)
-		//	{
-		//		//ViewBag.specialities = _specialityService.GetSpecialities();
-		//		return View(vm);
-		//	}
-		//	else
-		//	{
-		//		return RedirectToAction("Index", "Registration");
 
-		//	}
-		//}
 
 		//[HttpPost]
 		//public async Task<IActionResult> SendOtpForUserRegistration(string content, int type)
@@ -281,7 +323,7 @@ namespace Medicloud.Controllers
 
 
 
-			[HttpPost]
+		[HttpPost]
 		public async Task<IActionResult> AddUser(IFormFile profileImage, string name, string surname, string father, int specialityID, string fin, string bDate, string pwd)
 		{
 

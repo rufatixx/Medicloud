@@ -1,0 +1,103 @@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/_BusinessLayout.cshtml";
+}
+
+@model Medicloud.ViewModels.CreateOrganizationVM
+
+
+<div class="">
+    <div class="row  text-center justify-content-center ">
+        <div class="">
+            <form id="step1Form" method="post" enctype="multipart/form-data" asp-action="step5" asp-controller="registration" asp-area="admin">
+                <div class="card-header">
+
+                    <button class="btn btn-sm">
+                        <img src="~/arrow.svg" />
+
+                    </button>
+                    <div class="text-center">
+                        <h1>Addressiniz</h1>
+                        <p>Müştərilər sizi harada tapa bilər?</p>
+                    </div>
+                </div>
+                <div class="card-body ">
+
+                    <div class="row">
+                        <div id="map" style="height: 400px;"></div>
+
+                    </div>
+                </div>
+
+                <div class="mb-3 mb-0 text-center">
+                    <button class="btn btn-primary" type="submit" id="nextButton"> Növbəti</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+<script>
+
+
+    var baku = [40.4093, 49.8671];
+
+
+    var map = L.map('map').setView(baku, 12);
+
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+
+    var marker = L.marker(baku).addTo(map);
+    marker.bindPopup("<b>Bakı</b><br>Azərbaycanın paytaxtı.").openPopup();
+
+
+    L.Control.geocoder().addTo(map);
+    var currentMarker = marker;
+
+    map.on('click', function (e) {
+        var lat = e.latlng.lat;
+        var lng = e.latlng.lng;
+        var apiUrl = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`;
+
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                var address = data.display_name; 
+                if (currentMarker) {
+                    map.removeLayer(currentMarker);
+                }
+                currentMarker = L.marker([lat, lng]).addTo(map);
+                currentMarker.bindPopup(address).openPopup();
+            })
+            .catch(error => {
+                console.error("Adres alınırken bir hata oluştu: ", error);
+            });
+    });
+
+
+    map.on('geocodingstart', function () {
+        // Arama yapıldığında önceki marker'ı kaldır
+        if (currentMarker) {
+            map.removeLayer(currentMarker);
+        }
+    });
+
+    map.on('geocodingfinish', function (event) {
+        var lat = event.geocode.center.lat;
+        var lng = event.geocode.center.lng;
+        var address = event.geocode.name;
+
+        // Yeni marker ekle
+        currentMarker = L.marker([lat, lng]).addTo(map);
+        currentMarker.bindPopup("<b>Seçilen Konum</b><br>" + address).openPopup();
+    });
+
+</script>

@@ -3,6 +3,8 @@
     ViewData["Title"] = "Qeydiyyat";
 }
 
+@model Medicloud.WebUI.ViewModels.RegistrationViewModel 
+
 <div class="card-body p-2">
 
     <div class="text-center w-75 m-auto">
@@ -11,21 +13,22 @@
     </div>
     <div class="alert alert-danger" id="alert" hidden role="alert"></div>
 
-    <form id="addUserForm" >
+    <form id="addUserForm" asp-action="Step3" method="post" enctype="multipart/form-data">
 
         <div class="card-body">
             <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="name" placeholder="Ad">
+                <input type="text" class="form-control" asp-for="Name" id="name" placeholder="Ad">
                 <label for="floatingInput">Ad</label>
             </div>
             <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="surname" placeholder="Soyad">
+                <input type="text" class="form-control" asp-for="Surname" id="surname" placeholder="Soyad">
                 <label for="floatingInput">Soyad</label>
             </div>
             <div class="form-floating mb-3">
-                <input type="password" class="form-control" id="pwd" placeholder="Şifrə">
+                <input type="password" class="form-control" asp-for="Pwd" id="pwd" placeholder="Şifrə">
                 <label for="floatingInput">Şifrə</label>
             </div>
+            <input type="hidden" asp-for="UserId" />
 
 
             <div class="mb-3 mb-0 text-center">
@@ -268,17 +271,17 @@
 
 
     $('#addUserForm').on('submit', function (event) {
-        event.preventDefault();
-        const form = $('#addUserForm')[0];
+        //event.preventDefault();
+        //const form = $('#addUserForm')[0];
 
-        if (form.checkValidity() === false) {
-            event.stopPropagation();
-            $('#addUserForm').addClass('was-validated');
-            return;
-        }
+        //if (form.checkValidity() === false) {
+        //    event.stopPropagation();
+        //    $('#addUserForm').addClass('was-validated');
+        //    return;
+        //}
 
         // Get form field values
-        //const organizationName = $('#organizationName').val();
+        @*//const organizationName = $('#organizationName').val();
         const name = $('#name').val();
         const surname = $('#surname').val();
         //const father = $('#father').val();
@@ -334,7 +337,7 @@
         } catch (error) {
             console.error('Error:', error);
             $('#alert').text('Error adding user').show();
-        }
+        }*@
 
     });
 

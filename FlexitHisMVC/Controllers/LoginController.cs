@@ -38,14 +38,14 @@ namespace Medicloud.Controllers
 
 
 		// GET: /<controller>/
-		public IActionResult Index()
+		public IActionResult Index(LoginViewModel vm=null)
 		{
 			if (User.Identity.IsAuthenticated)
 			{
 				return RedirectToAction("Index", "Home");
 			}
 
-			return View();
+			return View(vm);
 
 		}
 
@@ -128,7 +128,13 @@ namespace Medicloud.Controllers
 					default:
 						break;
 				}
-				if (existUser == null)
+				if (existUser != null && existUser.isRegistered==true)
+				{
+					vm.UserExist = true;
+					return View("Index", vm);
+
+				}
+				else
 				{
 					var registerVM = new RegistrationViewModel
 					{
@@ -138,11 +144,6 @@ namespace Medicloud.Controllers
 					};
 					TempData["RegistrationModel"] = JsonConvert.SerializeObject(registerVM);
 					return RedirectToAction("Index", "Registration");
-				}
-				else
-				{
-					vm.UserExist = true;
-					return View("Index",vm);
 				}
 			}
 			var user = await _nUserService.SignInAsync(contact, vm.Type, vm.Password);
@@ -276,9 +277,16 @@ namespace Medicloud.Controllers
 
 		}
 
-		[HttpPost("[controller]/[action]")]
-		public async Task<IActionResult> LogoutAsync()
+		[HttpGet("[controller]/[action]")]
+		public async Task<IActionResult> LogOut()
 		{
+
+
+			Response.Cookies.Delete("JwtToken");  
+			HttpContext.Session.Clear();
+
+
+			return RedirectToAction("Index");
 
 			//foreach (var cookie in Request.Cookies.Keys)
 			//{
@@ -286,13 +294,6 @@ namespace Medicloud.Controllers
 			//}
 
 			//await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-
-			Response.Cookies.Delete("JwtToken");  
-			HttpContext.Session.Clear();
-
-
-			return RedirectToAction("Login/Index");
-
 			//return Ok();
 
 		}

@@ -8,5 +8,6 @@
 		public string Name { get; set; }
 		public string Surname { get; set; }
 		public int UserId { get; set; }
+		public string Pwd { get; set; }
 	}
 }

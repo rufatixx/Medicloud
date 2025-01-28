@@ -27,6 +27,8 @@
         }
 </style>
 
+@*<h1>@Model.UserId</h1>*@
+
 <div class="card-body p-4">
 
     <div class="text-center w-75 m-auto">
@@ -51,6 +53,9 @@
             </div>
         </div>
         <input type="hidden" asp-for="CheckOtpCode" id="otpInput" />
+        <input type="hidden" asp-for="UserId"  />
+        <input type="hidden" asp-for="OtpId"  />
+
 
 
 
@@ -121,7 +126,7 @@
                 btn.prop('disabled', false).html('Növbəti');
                 return;
             }
-            $('#otpInput').val(otpCode
+            $('#otpInput').val(otpCode)
 
             // Formu gönder
             this.submit();
