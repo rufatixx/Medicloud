@@ -23,7 +23,7 @@ public class PriceGroupController : Controller
     private ServiceGroupsRepo sgRepo;
     private ServiceTypeRepo stRepo;
     private ServicesRepo sRepo;
-    private OrganizationService organizationService;
+    private OOrganizationService organizationService;
     private DepartmentsRepo departmentsRepo;
     //Communications communications;
     public PriceGroupController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
@@ -33,7 +33,7 @@ public class PriceGroupController : Controller
         _hostingEnvironment = hostingEnvironment;
         sgRepo = new ServiceGroupsRepo(_connectionString);
         sRepo = new ServicesRepo(_connectionString);
-        organizationService = new OrganizationService(_connectionString);
+        organizationService = new OOrganizationService(_connectionString);
         departmentsRepo = new DepartmentsRepo(_connectionString);
         stRepo = new ServiceTypeRepo(_connectionString);
         //communications = new Communications(Configuration, _hostingEnvironment);

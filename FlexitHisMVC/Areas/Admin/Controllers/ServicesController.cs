@@ -23,7 +23,7 @@ namespace Medicloud.Areas.Admin.Controllers
         private ServiceGroupsRepo sgRepo;
         private ServiceTypeRepo stRepo;
         private ServicesRepo sRepo;
-        private OrganizationService organizationService;
+        private OOrganizationService organizationService;
         private DepartmentsRepo departmentsRepo;
         //Communications communications;
         public ServicesController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
@@ -33,7 +33,7 @@ namespace Medicloud.Areas.Admin.Controllers
             _hostingEnvironment = hostingEnvironment;
             sgRepo = new ServiceGroupsRepo(ConnectionString);
             sRepo = new ServicesRepo(ConnectionString);
-            organizationService = new OrganizationService(ConnectionString);
+            organizationService = new OOrganizationService(ConnectionString);
             departmentsRepo = new DepartmentsRepo(ConnectionString);
             stRepo = new ServiceTypeRepo(ConnectionString);
             //communications = new Communications(Configuration, _hostingEnvironment);

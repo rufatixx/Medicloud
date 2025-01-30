@@ -24,7 +24,7 @@ namespace Medicloud.Areas.Admin.Controllers
         private readonly IWebHostEnvironment _hostingEnvironment;
         public IConfiguration Configuration;
         BuildingRepo buildingRepo ;
-        OrganizationService organizationService;
+        OOrganizationService organizationService;
         DepartmentsRepo departmentsRepo;
         DepartmentTypeRepo departmentTypeRepo;
 
@@ -35,7 +35,7 @@ namespace Medicloud.Areas.Admin.Controllers
             _connectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
             _hostingEnvironment = hostingEnvironment;
              buildingRepo = new BuildingRepo(_connectionString);
-             organizationService = new OrganizationService(_connectionString);
+             organizationService = new OOrganizationService(_connectionString);
             departmentsRepo = new DepartmentsRepo(_connectionString);
             departmentTypeRepo = new DepartmentTypeRepo(_connectionString);
             //communications = new Communications(Configuration, _hostingEnvironment);

@@ -12,6 +12,8 @@
 		public decimal longitude { get; set; }
 		public string? imagePath { get; set; }
 		public DateTime? cDate { get; set; }
+		public int ownerId { get; set; }
+		public int workPlaceType { get; set; }
 
 	}
 }

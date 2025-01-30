@@ -2,6 +2,7 @@
 using System.Text;
 using Medicloud.BLL.Service;
 using Medicloud.BLL.Services.Category;
+using Medicloud.BLL.Services.Organization;
 using Medicloud.BLL.Services.OTP;
 using Medicloud.BLL.Services.PatientCard;
 using Medicloud.BLL.Services.RequestType;
@@ -10,6 +11,7 @@ using Medicloud.BLL.Services.User;
 using Medicloud.DAL.Infrastructure.UnitOfWork;
 using Medicloud.DAL.Repository.Category;
 using Medicloud.DAL.Repository.Organizationn;
+using Medicloud.DAL.Repository.OrganizationTravelRel;
 using Medicloud.DAL.Repository.OTP;
 using Medicloud.DAL.Repository.PatientCard;
 using Medicloud.DAL.Repository.RequestType;
@@ -229,7 +231,8 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IStaffRepository, StaffRepository>();
 builder.Services.AddScoped<IOrganizationRepository, OrganizationRepository>();
-//builder.Services.AddScoped<Iorganiz, OrganizationRepository>();
+builder.Services.AddScoped<IOrganizationService, OrganizationService>();
+builder.Services.AddScoped<IOrganizationTravelRelRepository, OrganizationTravelRelRepository>();
 
 builder.Services.AddScoped<IOrganizationCategoryRelRepository, OrganizationCategoryRelRepository>();
 var app = builder.Build();

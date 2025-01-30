@@ -8,18 +8,20 @@
 <div class="">
     <div class="row  text-center justify-content-center ">
         <div class="">
-            <form id="step1Form" method="post" enctype="multipart/form-data" asp-action="step4" asp-controller="registration" asp-area="admin">
-                <div class="card-header">
+            <div class="card-header">
 
-                    <button class="btn btn-sm">
-                        <img src="~/arrow.svg" />
+                <button class="btn btn-sm">
+                    <img src="~/arrow.svg" />
 
-                    </button>
-                    <div class="text-center">
-                        <h1>Harada işləyirsiniz?</h1>
-                        <p>Müştərilər sizə gəlir yoxsa siz onlara gedirsiz? və ya hər ikisi</p>
-                    </div>
+                </button>
+                <div class="text-center">
+                    <h1>Harada işləyirsiniz?</h1>
+                    <p>Müştərilər sizə gəlir yoxsa siz onlara gedirsiz? və ya hər ikisi</p>
                 </div>
+            </div>
+            <form id="step3Form" method="post" enctype="multipart/form-data" asp-action="step4" asp-controller="registration" asp-area="admin">
+                <input type="hidden" asp-for="id" name="orgId" />
+                <input type="hidden" asp-for="WorkPlaceType" name="WorkPlaceType" id="workPlaceType" />
                 <div class="card-body ">
                     <div class="row">
                         <div class="col-12">
@@ -60,3 +62,25 @@
 </div>
 
 
+<script>$(document).ready(function() {
+
+        $('#step3Form').on('submit', function() {
+
+            var checkInputMyLocation = $('#checkInputMyLocation').is(':checked');
+            var checkInputClientLocation = $('#checkInputClientLocation').is(':checked');
+
+
+            var workPlaceTypeInput = $('#workPlaceType');
+
+            if (checkInputMyLocation && checkInputClientLocation) {
+
+                workPlaceTypeInput.val(3);
+            } else if (checkInputMyLocation) {
+                workPlaceTypeInput.val(1);
+            } else if (checkInputClientLocation) {
+                workPlaceTypeInput.val(2);
+            } else {
+                workPlaceTypeInput.val(0);
+            }
+        });
+    });</script>

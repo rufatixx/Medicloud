@@ -26,7 +26,7 @@ namespace Medicloud.Areas.Admin.Controllers
 		PersonalPageDTO response;
 		UserRepo personalRepo;
 		SpecialityRepo specialityRepo;
-		OrganizationService organizationService;
+		OOrganizationService organizationService;
 		public PersonalController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IRoleRepository roleRepository)
 		{
 			Configuration = configuration;
@@ -37,7 +37,7 @@ namespace Medicloud.Areas.Admin.Controllers
 			response = new PersonalPageDTO();
 			personalRepo = new UserRepo(_connectionString);
 			specialityRepo = new SpecialityRepo(_connectionString);
-			organizationService = new OrganizationService(_connectionString);
+			organizationService = new OOrganizationService(_connectionString);
 			_roleRepository = roleRepository;
 			//communications = new Communications(Configuration, _hostingEnvironment);
 		}

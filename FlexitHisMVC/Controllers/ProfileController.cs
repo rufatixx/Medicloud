@@ -22,7 +22,7 @@ namespace Medicloud.Controllers
         UserService userService;
         UserRepo personalDAO;
 		PlanRepository planRepository;
-        OrganizationService organizationService;
+        OOrganizationService organizationService;
         private ServicesRepo servicesRepo;
         public ProfileController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
         {
@@ -31,7 +31,7 @@ namespace Medicloud.Controllers
             _hostingEnvironment = hostingEnvironment;
             kassaRepo = new KassaRepo(_connectionString);
             personalDAO = new UserRepo(_connectionString);
-            organizationService = new OrganizationService(_connectionString);
+            organizationService = new OOrganizationService(_connectionString);
             userService = new UserService(_connectionString);
             servicesRepo = new ServicesRepo(_connectionString);
 			planRepository = new PlanRepository(_connectionString);

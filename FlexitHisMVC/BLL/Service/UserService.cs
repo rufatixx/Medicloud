@@ -17,7 +17,7 @@ namespace Medicloud.BLL.Service
 		PlanRepository _planRepository;
 		UserPlanRepo _userPlanRepo;
 		CommunicationService _communicationService;
-		OrganizationService _organizationService;
+		OOrganizationService _organizationService;
 
 		private readonly IUserRepository _nUserRepository;
 		public UserService(string conString)
@@ -26,7 +26,7 @@ namespace Medicloud.BLL.Service
 			_kassaRepo = new KassaRepo(_connectionString);
 			_userRepository = new UserRepo(_connectionString);
 			_communicationService = new CommunicationService(_connectionString);
-			_organizationService = new OrganizationService(conString);
+			_organizationService = new OOrganizationService(conString);
 			_planRepository = new PlanRepository(conString);
 			_userPlanRepo = new UserPlanRepo(conString);
 			//_nUserRepository = new UserRepository()

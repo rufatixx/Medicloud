@@ -3,12 +3,12 @@ using Medicloud.Models;
 
 namespace Medicloud.BLL.Service
 {
-    public class OrganizationService
+    public class OOrganizationService
     {
         private readonly string _connectionString;
         readonly OrganizationRepo _organizationRepo;
 
-        public OrganizationService(string conString)
+        public OOrganizationService(string conString)
         {
             _connectionString = conString;
             _organizationRepo = new OrganizationRepo(_connectionString);

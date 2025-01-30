@@ -1,4 +1,5 @@
 ﻿using Medicloud.DAL.DAO;
+using Medicloud.WebUI.Enums;
 
 namespace Medicloud.ViewModels
 {
@@ -9,10 +10,11 @@ namespace Medicloud.ViewModels
 		public string? StaffEmail { get; set; }
 		public string? StaffPhoneNumber { get; set; }
 		public string? OrgName { get; set; }
-		public string? OrgPhoneNumber { get; set; }
-		public string? OrgEmail { get; set; }
 		public string? OrgAddress {get; set;}
 		public int UserId { get; set; }
-		public List<CategoryDAO> categories { get; set; }
+		public List<int> SelectedCategories { get; set; }
+		public WorkPlaceType WorkPlaceType { get; set; }
+		public decimal latitude { get; set; }
+		public decimal longitude { get; set; }
 	}
 }

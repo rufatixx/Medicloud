@@ -1,67 +1,88 @@
-﻿@{
+﻿
+@{
     Layout = "~/Areas/Admin/Views/Shared/_BusinessLayout.cshtml";
 }
 
 @model Medicloud.ViewModels.CreateOrganizationVM
 
+@{
+    var type = !string.IsNullOrEmpty(Model.StaffEmail) ? 2 : 1;
+}
 
 <div class="">
-    <div class="row  text-center justify-content-center">
+    <div class="row  text-center justify-content-center mt-3">
         <div class="">
-            <form id="step1Form" method="post" enctype="multipart/form-data" asp-action="step3" asp-controller="registration" asp-area="admin">
-                <div class="card-header">
+            <form id="step2Form" method="post" enctype="multipart/form-data" asp-action="step3" asp-controller="registration" asp-area="admin">
+                <div class="card-header  align-items-center">
 
                     <button class="btn btn-sm">
                         <img src="~/arrow.svg" />
 
                     </button>
+
+
                     <div class="text-center">
-                        <h1>Biznesiniz nədir?</h1>
-                        <p>Biznesinizə uyğun olan kateqoriyanı seçin</p>
+                        <h1>Özünüz haqqında</h1>
+                        <p>Bizə özünüz və biznesiniz haqqında məlumat verin</p>
                     </div>
                 </div>
                 <div class="card-body ">
-                    <div class="row">
-                        @for (int i = 0; i < 6 && i < Model.categories.Count; i++)
-                        {
-                            var category = Model.categories[i];
-                            <div class="col-md-4">
-                                <div class="form-check mb-3">
-                                    <input type="checkbox" style="cursor:pointer;" class="form-check-input" id="checkInput@(category.id)">
-
-                                    <label class="form-check-label" style="cursor:pointer;" for="checkInput@(category.id)">
-                                        <img class="rounded-circle" style="object-fit:cover;" height="120" width="120" src="~/barbershop.jpg" />
-                                        <div >
-                                            @category.name
-                                        </div>
-   
-                                    </label>
-                                </div>
-
-                            </div>
-                        }
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" asp-for="OrgName" id="floatingInput" placeholder="Ad">
+                        <label for="floatingInput">Biznesinizin adı</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" asp-for="StaffName" id="floatingInput" placeholder="Ad">
+                        <label for="floatingInput">İstifadəçi adı</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" asp-for="StaffEmail" id="floatingInput" placeholder="Ad">
+                        <label for="floatingInput">Elektron Poçt</label>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">+994</span>
+                        <input class="form-control" type="tel" id="mobileNumber" asp-for="StaffPhoneNumber" placeholder="nömrənizi daxil edin">
                     </div>
 
+                    @for (int i = 0; i < Model.SelectedCategories.Count; i++)
+                    {
+                        <input type="hidden" name="SelectedCategories" value="@Model.SelectedCategories[i]" />
+                    }
+                    <!--<ul class="nav nav-pills nav-justified" id="formTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a class="nav-link @((type == 1) ? "active" : "")" id="phone-tab" data-toggle="tab" href="#phone" role="tab" aria-controls="phone" aria-selected="true">Telefon Nömrəsi</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link @((type == 2) ? "active" : "")" id="email-tab" data-toggle="tab" href="#email" role="tab" aria-controls="email" aria-selected="false">Elektron Poçt</a>
+        </li>
+    </ul>
 
-                    <div class="row">
-                        @foreach (var category in Model.categories.Skip(6))
-                        {
-                            <div class="col-12">
-                                <div class="form-check text-start mb-2">
-                                    <input type="checkbox" style="cursor:pointer;" class="form-check-input" id="checkInput@(category.id)">
-                                    <label class="form-check-label " style="cursor:pointer;" for="checkInput@(category.id)">@category.name</label>
-                                </div>
-                            </div>
-                        }
+    <div class="tab-content mt-4" id="formTabsContent">
+        <div class="tab-pane fade @((type == 1) ? "show active" : "")" id="phone" role="tabpanel" aria-labelledby="phone-tab">
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">+994</span>
+                <input class="form-control" type="tel" id="mobileNumber" asp-for="StaffPhoneNumber" placeholder="nömrənizi daxil edin">
+            </div>
+        </div>
+
+
+        <div class="tab-pane fade @((type == 2) ? "show active" : "")" id="email" role="tabpanel" aria-labelledby="email-tab">-->
+                    @*<div class="mb-3">
+            <input type="email" class="form-control" id="emailInput" name="email" placeholder="Email daxil edin" />
+        </div>*@
+                    <!--<div class="form-floating mb-3">
+                <input type="text" class="form-control" asp-for="StaffEmail" id="floatingInput" placeholder="Ad">
+                <label for="floatingInput">Elektron Poçt</label>
+            </div>
+        </div>
+    </div>-->
+
+                    <div class="mb-3 mb-0 text-center">
+                        <button class="btn btn-primary" type="submit" id="nextButton"> Növbəti</button>
                     </div>
-
                 </div>
-
-                <div class="mb-3 mb-0 text-center">
-                    <button class="btn btn-primary" type="submit" id="nextButton"> Növbəti</button>
-                </div>
-
             </form>
+            @*</div>*@
         </div>
     </div>
 </div>

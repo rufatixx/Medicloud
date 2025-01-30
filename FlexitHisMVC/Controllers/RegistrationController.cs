@@ -25,7 +25,7 @@ namespace Medicloud.Controllers
 		public IConfiguration Configuration;
 		private readonly IWebHostEnvironment _hostingEnvironment;
 		UserService userService;
-		OrganizationService organizationService;
+		OOrganizationService organizationService;
 		private readonly SpecialityService _specialityService;
 		private readonly INUserService _userService;
 		private readonly IOtpService _otpService;
@@ -36,7 +36,7 @@ namespace Medicloud.Controllers
 			Configuration = configuration;
 			_connectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
 			userService = new UserService(_connectionString);
-			organizationService = new OrganizationService(_connectionString);
+			organizationService = new OOrganizationService(_connectionString);
 			_specialityService = specialityService;
 			_userService = nuserService;
 			_otpService = otpService;
