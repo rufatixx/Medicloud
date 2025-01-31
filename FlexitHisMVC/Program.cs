@@ -7,6 +7,7 @@ using Medicloud.BLL.Services.OTP;
 using Medicloud.BLL.Services.PatientCard;
 using Medicloud.BLL.Services.RequestType;
 using Medicloud.BLL.Services.Services;
+using Medicloud.BLL.Services.Staff;
 using Medicloud.BLL.Services.User;
 using Medicloud.DAL.Infrastructure.UnitOfWork;
 using Medicloud.DAL.Repository.Category;
@@ -235,6 +236,8 @@ builder.Services.AddScoped<IOrganizationService, OrganizationService>();
 builder.Services.AddScoped<IOrganizationTravelRelRepository, OrganizationTravelRelRepository>();
 
 builder.Services.AddScoped<IOrganizationCategoryRelRepository, OrganizationCategoryRelRepository>();
+builder.Services.AddScoped<IStaffWorkHoursRepository, StaffWorkHoursRepository>();
+builder.Services.AddScoped<IStaffService, StaffService>();
 var app = builder.Build();
 
 app.UseSession();

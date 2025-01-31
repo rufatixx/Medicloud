@@ -105,6 +105,11 @@ namespace Medicloud.DAL.Repository.Organizationn
 				query.Append("ownerId = @ownerId, ");
 				parameters.Add("@ownerId", dao.ownerId);
 			}
+			if (dao.teamSizeId > 0)
+			{
+				query.Append("teamSizeId = @teamSizeId, ");
+				parameters.Add("@teamSizeId", dao.teamSizeId);
+			}
 			// Remove the last comma and space
 			if (parameters.ParameterNames.Count() > 0)
 			{

@@ -16,5 +16,9 @@ namespace Medicloud.ViewModels
 		public WorkPlaceType WorkPlaceType { get; set; }
 		public decimal latitude { get; set; }
 		public decimal longitude { get; set; }
+		public decimal TravelPrice { get; set; }
+		public short TravelPriceType { get; set; }
+		public int TravelDistance { get; set; }
+
 	}
 }

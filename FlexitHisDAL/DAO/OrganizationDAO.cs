@@ -14,6 +14,7 @@
 		public DateTime? cDate { get; set; }
 		public int ownerId { get; set; }
 		public int workPlaceType { get; set; }
+		public int teamSizeId { get; set; }
 
 	}
 }

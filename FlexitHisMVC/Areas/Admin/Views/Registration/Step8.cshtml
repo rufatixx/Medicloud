@@ -1,0 +1,325 @@
+﻿
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_BusinessLayout.cshtml";
+}
+
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+@model int 
+<style>
+    .form-switch {
+        cursor: pointer;
+    }
+
+        .form-switch input {
+            cursor: pointer
+</style>
+
+<h1>@Model</h1>
+
+<div class="">
+    <div class="row  text-center justify-content-center ">
+        <div class="">
+            <form id="step1Form" method="post" asp-action="step6" asp-controller="registration" asp-area="admin">
+
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <button class="btn btn-sm">
+                        <svg width="32px" height="32px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="#737373">
+                            <path fill="#737373" d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"></path>
+                            <path fill="#737373" d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"></path>
+                        </svg>
+                    </button>
+
+                    <div class="text-center flex-grow-1">
+                        <h1>İş saatlarınız</h1>
+                    </div>
+                </div>
+
+                <div class="card-body ">
+                    <div class="">
+
+                        <div class="row  form-switch align-items-center mb-3">
+                            <div class="col-2">
+                                <input class="form-check-input" checked type="checkbox" id="monday">
+                            </div>
+                            <div class="col-4 text-start">
+                                <label class="form-check-label">Bazar ertəsi</label>
+                            </div>
+
+                            <div class="col-3">
+                                <span class="text-muted">9:00 - 18:00</span>
+                            </div>
+                            <div class="col-3">
+                                <svg width="20px" height="20px" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#908e8e">
+                                    <path d="M9 5L16 12L9 19" stroke="#737373" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+
+                            </div>
+                        </div>
+
+                        <div class="row  form-switch align-items-center mb-3">
+                            <div class="col-2">
+                                <input class="form-check-input" checked type="checkbox" id="tuesday">
+                            </div>
+                            <div class="col-4 text-start">
+                                <label class="form-check-label">Çərşənbə axşamı</label>
+                            </div>
+
+                            <div class="col-3">
+                                <span class="text-muted">9:00 - 18:00</span>
+                            </div>
+                            <div class="col-3">
+                                <svg width="20px" height="20px" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#908e8e">
+                                    <path d="M9 5L16 12L9 19" stroke="#737373" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+
+                            </div>
+                        </div>
+
+                        <div class="row  form-switch align-items-center mb-3">
+                            <div class="col-2">
+                                <input class="form-check-input" checked type="checkbox" id="wednesday">
+                            </div>
+                            <div class="col-4 text-start">
+                                <label class="form-check-label">Çərşənbə</label>
+                            </div>
+
+                            <div class="col-3">
+                                <span class="text-muted">9:00 - 18:00</span>
+                            </div>
+                            <div class="col-3">
+                                <svg width="20px" height="20px" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#908e8e">
+                                    <path d="M9 5L16 12L9 19" stroke="#737373" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+
+                            </div>
+                        </div>
+
+                        <div class="row  form-switch align-items-center mb-3">
+                            <div class="col-2">
+                                <input class="form-check-input" checked type="checkbox" id="thursday">
+                            </div>
+                            <div class="col-4 text-start">
+                                <label class="form-check-label">Cümə axşamı</label>
+                            </div>
+
+                            <div class="col-3">
+                                <span class="text-muted">9:00 - 18:00</span>
+                            </div>
+                            <div class="col-3">
+                                <svg width="20px" height="20px" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#908e8e">
+                                    <path d="M9 5L16 12L9 19" stroke="#737373" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+
+                            </div>
+                        </div>
+
+                        <div class="row  form-switch align-items-center mb-3 item-row" data-day="Cümə" dataId="5">
+                            <div class="col-2">
+                                <input class="form-check-input toggle-checkbox" checked type="checkbox" id="friday">
+                            </div>
+                            <div class="col-4 text-start">
+                                <label class="form-check-label">Cümə</label>
+                            </div>
+
+                            <div class="col-3">
+                                <span class="text-muted" id="time-friday">9:00 - 18:00</span>
+                            </div>
+                            <div class="col-3">
+                                <btn class="btn btn-sm">
+                                    <svg width="20px" height="20px" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#908e8e">
+                                        <path d="M9 5L16 12L9 19" stroke="#737373" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                </btn>
+                            </div>
+                        </div>
+
+                        <div class="row  form-switch align-items-center mb-3 item-row" data-day="Şənbə" dataId="6">
+                            <div class="col-2">
+                                <input class="form-check-input toggle-checkbox" type="checkbox" id="saturday">
+                            </div>
+                            <div class="col-4 text-start">
+                                <label class="form-check-label">Şənbə</label>
+                            </div>
+
+                            <div class="col-3">
+                                <span class="text-muted" id="time-saturday">Bağlı</span>
+                            </div>
+                            <div class="col-3">
+                                <svg width="20px" height="20px" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#908e8e">
+                                    <path d="M9 5L16 12L9 19" stroke="#737373" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+
+                            </div>
+                        </div>
+
+                        <div class="row  form-switch align-items-center mb-3">
+                            <div class="col-2">
+                                <input class="form-check-input" type="checkbox" id="sunday">
+                            </div>
+                            <div class="col-4 text-start">
+                                <label class="form-check-label">Bazar</label>
+                            </div>
+
+                            <div class="col-3">
+                                <span class="text-muted">Bağlı</span>
+                            </div>
+                            <div class="col-3">
+                                <svg width="20px" height="20px" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#908e8e">
+                                    <path d="M9 5L16 12L9 19" stroke="#737373" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="mb-3 mb-0 text-center">
+                        <button class="btn btn-primary" type="submit" id="nextButton"> Növbəti</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editTimeModal" tabindex="-1" aria-labelledby="editTimeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editTimeModalLabel">Saatləri Dəyiş</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editTimeForm">
+                    <input type="hidden" id="selectedDay">
+                    <div class="row">
+                        <span class="col-4">İş saatları</span>
+                        <div class="col-4">
+                            <select id="startTimeSelect" class="form-select"></select>
+                        </div>
+                        <div class="col-4">
+                            <select id="endTimeSelect" class="form-select"></select>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary" id="saveTimeButton">Yadda saxla</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    const scheduleData = {
+        1: { start: "09:00", end: "18:00" },
+        2: { start: "09:00", end: "18:00" },
+        3: { start: "09:00", end: "18:00" },
+        4: { start: "09:00", end: "18:00" },
+        5: { start: "09:00", end: "18:00" },
+        6: { start: "", end: "" },
+        7: { start: "", end: "" },
+    };
+
+    let selectedDay;
+    
+
+    $(document).ready(function () {
+
+        function populateTimeOptions() {
+            const $startTimeSelect = $("#startTimeSelect");
+            const $endTimeSelect = $("#endTimeSelect");
+            $startTimeSelect.empty();
+            $endTimeSelect.empty();
+
+            let startHour = 0;
+            let endHour = 23;
+
+            for (let hour = startHour; hour <= endHour; hour++) {
+                for (let minute = 0; minute < 60; minute += 15) {
+                    const time = `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
+                    $startTimeSelect.append(`<option value="${time}">${time}</option>`);
+                    $endTimeSelect.append(`<option value="${time}">${time}</option>`);
+                }
+            }
+
+            // Default olarak 09:00 başlangıç ve 18:00 bitiş saati seçilsin
+            $startTimeSelect.val("09:00");
+            $endTimeSelect.val("18:00");
+        }
+
+
+        $("#startTimeSelect").on("change", function () {
+            const selectedTime = $(this).val();
+            const [selectedHour, selectedMinute] = selectedTime.split(":").map(Number);
+            const $endTimeSelect = $("#endTimeSelect");
+            $endTimeSelect.empty();
+
+            let endHour = 23;
+
+
+            if (selectedHour >= 23) {
+                endHour = selectedHour;
+            }
+
+            // Bitiş saati başlangıç saatinden başlayarak güncelleniyor
+            for (let hour = selectedHour; hour <= endHour; hour++) {
+                for (let minute = (hour === selectedHour ? selectedMinute + 15 : 0); minute < 60; minute += 15) {
+                    const time = `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
+
+                    // Eğer şu anki saat 18:00 ise, bunu değiştirmiyoruz
+                    if (time === "18:00") {
+                        $endTimeSelect.append(`<option value="${time}" selected>${time}</option>`);
+                    } else {
+                        $endTimeSelect.append(`<option value="${time}">${time}</option>`);
+                    }
+                }
+            }
+        });
+
+        // Checkbox değişimi sadece açık/kapalı yapar
+        $(".toggle-checkbox").on("click", function (event) {
+            event.stopPropagation(); // Checkbox tıklamasında row tıklamasını engelle
+            const day = $(this).attr("id");
+            const $timeLabel = $(`#time-${day}`);
+            if ($(this).is(":checked")) {
+                $timeLabel.text("00:00 - 23:59"); 
+            } else {
+                $timeLabel.text("Bağlı");
+            }
+        });
+
+        // Row'a tıklayınca modal açılır
+        $(".item-row").on("click", function () {
+            const day = $(this).data("day");
+            $("#selectedDay").val(day);
+            $("#editTimeModalLabel").text(`${day} Saatləri Dəyiş`);
+            populateTimeOptions();
+            $("#editTimeModal").modal("show");
+        });
+
+        // Modal'da saat kaydetme işlemi
+        $("#saveTimeButton").on("click", function () {
+            const day = $("#selectedDay").val();
+            const newTime = $("#dayTimeInput").val();
+            if (newTime) {
+                $(`#time-${day}`).text(newTime); // Yeni saati ilgili elemana yaz
+                $("#editTimeForm")[0].reset(); // Formu sıfırla
+                $("#editTimeModal").modal("hide"); // Modalı kapat
+            } else {
+                alert("Lütfen geçerli bir saat girin!");
+            }
+        });
+    });
+</script>
+

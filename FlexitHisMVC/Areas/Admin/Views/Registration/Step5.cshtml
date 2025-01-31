@@ -1,71 +1,4 @@
-﻿@*@{
-        Layout = "~/Areas/Admin/Views/Shared/_BusinessLayout.cshtml";
-    }
-
-    @model Medicloud.ViewModels.CreateOrganizationVM
-
-
-    <div class="">
-        <div class="row  text-center justify-content-center ">
-            <div class="">
-                <form id="previousForm" method="get" action="@Url.Action("Step3", "Registration", new { area = "admin" })">
-                    <div class="card-header">
-
-                        <button class="btn btn-sm">
-                            <img src="~/arrow.svg" />
-
-                        </button>
-                        <div class="text-center">
-                            <h1>Komandanız neçə nəfərdən ibarətdir?</h1>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-sm">
-                        <img src="~/arrow.svg" />
-                    </button>
-                </form>
-                <form id="" method="post" enctype="multipart/form-data" asp-action="step4" asp-controller="registration" asp-area="admin">
-
-                    <div class="card-body ">
-                        <div class="row">
-
-                            <div class="col-12">
-                                <div class="form-check text-start mb-2 pb-2 border-bottom">
-                                    <input type="radio" style="cursor:pointer;" class="form-check-input" id="checkInputTeamSize1" name="teamSize">
-                                    <label class="form-check-label d-block ms-2" style="cursor:pointer;" for="checkInputTeamSize1">Sadəcə mən</label>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-check text-start mb-2 pb-2 border-bottom">
-                                    <input type="radio" style="cursor:pointer;" class="form-check-input" id="checkInputTeamSize2" name="teamSize">
-                                    <label class="form-check-label d-block ms-2" style="cursor:pointer;" for="checkInputTeamSize2">2-3 nəfər</label>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-check text-start mb-2 pb-2 border-bottom">
-                                    <input type="radio" style="cursor:pointer;" class="form-check-input" id="checkInputTeamSize3" name="teamSize">
-                                    <label class="form-check-label d-block ms-2" style="cursor:pointer;" for="checkInputTeamSize3">4-6 nəfər</label>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-check text-start mb-2 pb-2 border-bottom">
-                                    <input type="radio" style="cursor:pointer;" class="form-check-input" id="checkInputTeamSize4" name="teamSize">
-                                    <label class="form-check-label d-block ms-2" style="cursor:pointer;" for="checkInputTeamSize4">6 nəfərdən çox</label>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="mb-3 mb-0 text-center">
-                        <button class="btn btn-primary" type="submit" id="nextButton"> Növbəti</button>
-                    </div>
-
-                </form>
-            </div>
-        </div>
-    </div>*@
-
-
+﻿
 @{
     Layout = "~/Areas/Admin/Views/Shared/_BusinessLayout.cshtml";
 }
@@ -76,7 +9,8 @@
 <div class="">
     <div class="row  text-center justify-content-center ">
         <div class="">
-            <form id="step1Form" method="post" enctype="multipart/form-data" asp-action="step5" asp-controller="registration" asp-area="admin">
+            <form id="step1Form" method="post"  asp-action="step6" asp-controller="registration" asp-area="admin">
+                <input type="hidden" asp-for="id" />
                 <div class="card-header">
 
                     <button class="btn btn-sm">
@@ -92,7 +26,7 @@
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <select class="form-select" id="priceType" aria-label="Floating label select example">
+                                <select class="form-select" id="priceType"  name="TravelPriceType" aria-label="Floating label select example">
                                     <option value="" selected>Seçin</option>
                                     <option value="1">Sabit</option>
                                     <option value="2">Dəyişir</option>
@@ -105,14 +39,14 @@
 
                         <div class="col-md-6">
                             <div class="form-floating mb-3">
-                                <input type="number" name="priceInput" class="form-control" step="0.01" min="0.00" value="0.00" placeholder="9.99" />
+                                <input type="number" name="TravelPrice"  class="form-control" step="0.01" min="0.00" value="0.00" placeholder="9.99" />
                                 <label for="priceInput">Qiymət(AZN)</label>
                             </div>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="form-floating">
-                            <select class="form-select" id="distance" aria-label="Floating label select example">
+                            <select class="form-select" id="distance" asp-for="TravelDistance" aria-label="Floating label select example">
                                 <option selected value="1">1</option>
                                 <option value="5">5</option>
                                 <option value="10">10</option>

@@ -1,6 +1,7 @@
 ﻿using Medicloud.BLL.DTO;
 using Medicloud.BLL.Services.Category;
 using Medicloud.BLL.Services.Organization;
+using Medicloud.BLL.Services.Staff;
 using Medicloud.BLL.Services.User;
 using Medicloud.DAL.DAO;
 using Medicloud.ViewModels;
@@ -17,11 +18,13 @@ namespace Medicloud.Areas.Admin.Controllers
 		private readonly INUserService _userService;
 		private readonly ICategoryService _categoryService;
 		private readonly IOrganizationService _organizationService;
-		public RegistrationController(INUserService userService, ICategoryService categoryService, IOrganizationService organizationService)
+		private readonly IStaffService _staffService;
+		public RegistrationController(INUserService userService, ICategoryService categoryService, IOrganizationService organizationService, IStaffService staffService)
 		{
 			_userService = userService;
 			_categoryService = categoryService;
 			_organizationService = organizationService;
+			_staffService = staffService;
 		}
 
 		public async Task<IActionResult> Index()
@@ -135,7 +138,7 @@ namespace Medicloud.Areas.Admin.Controllers
 				address=vm.OrgAddress,
 			};
 
-			var updated=_organizationService.UpdateAsync(updateDAO);
+			var updated=await _organizationService.UpdateAsync(updateDAO);
 			if(vm.WorkPlaceType==WorkPlaceType.ClientLocation || vm.WorkPlaceType == WorkPlaceType.Both)
 			{
 
@@ -143,26 +146,63 @@ namespace Medicloud.Areas.Admin.Controllers
 			}
 			else
 			{
-				return RedirectToAction("Step6", new { orgId = vm.id });
+				return RedirectToAction("Step7", new { orgId = vm.id });
 			}
 		}
+		[HttpPost]
+		public async Task<IActionResult> Step6(CreateOrganizationVM vm)
+		{
+			if(vm== null)
+			{
+				return RedirectToAction("Index");
+			}
+			var organizationTravelDAO = new OrganizationTravelDAO
+			{
+				organizationId = vm.id,
+				distance = vm.TravelDistance,
+				fee = vm.TravelPrice,
+				feeType = vm.TravelPriceType
+			};
+			var newOrgTravelId = await _organizationService.AddOrganizationTravel(organizationTravelDAO);
 
+			return RedirectToAction("Step7", new { orgId = vm.id });
+
+		}
 
 		[HttpGet]
-		public async Task<IActionResult> Step6(int orgId)
+		public async Task<IActionResult> Step7(int orgId)
 		{
+			var organization=await _organizationService.GetByIdAsync(orgId);
+			if (organization == null)
+			{
+				return RedirectToAction("Index");
+			}
 
+			var model = new CreateOrganizationVM
+			{
 
-			//var organization
-			//if ()
-			//{
-			//}
-			//else
-			//{
-			//	return RedirectToAction("Step6", new { orgId = vm.id });
-			//}
+			};
+			return View(organization.id);
 
-			return View();
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Step8(int orgId=0,int teamSize=0)
+		{
+			if (orgId == 0 || teamSize == 0)
+			{
+				return RedirectToAction("Index");
+			}
+			var updateDAO = new OrganizationDAO
+			{
+				teamSizeId = teamSize,
+				id = orgId,
+			};
+			bool isUpdated = await _organizationService.UpdateAsync(updateDAO);
+
+			var staff=await _staffService.GetOwnerStaffByOrganizationId(orgId);
+
+			return View(staff.id);
 
 		}
 	}

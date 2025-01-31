@@ -31,5 +31,13 @@ namespace Medicloud.DAL.Repository.Staff
 			var newId = await con.QuerySingleOrDefaultAsync<int>(AddSql, dao);
 			return newId;
 		}
+
+		public async Task<StaffDAO> GetOwnerStaffByOrganizationId(int organizationId)
+		{
+			string sql = @"SELECT * FROM staff WHERE permissionLevelId = 1 AND organizationId = @OrgId";
+			var con = _unitOfWork.GetConnection();
+			var result = await con.QuerySingleOrDefaultAsync<StaffDAO>(sql,new { OrgId = organizationId});
+			return result;
+		}
 	}
 }
