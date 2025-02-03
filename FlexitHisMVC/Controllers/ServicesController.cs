@@ -1,3 +1,5 @@
+using Medicloud.BLL.DTO;
+using Medicloud.BLL.Services.Services;
 using Medicloud.Data;
 using Medicloud.Models;
 using Medicloud.Models.Domain;
@@ -23,7 +25,8 @@ namespace Medicloud.Controllers
 		PatientDiagnoseRel patientDiagnoseRel;
 		ServicesRepo servicesRepo;
 		RequestTypeRepo requestTypeRepo;
-		public ServicesController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
+		private readonly IServicesService _servicesService;
+		public ServicesController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IServicesService servicesService)
 		{
 			Configuration = configuration;
 			ConnectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
@@ -33,8 +36,9 @@ namespace Medicloud.Controllers
 			patientCardRepo = new PatientCardRepo(ConnectionString);
 			patientCardServiceRelRepo = new PatientCardServiceRelRepo(ConnectionString);
 			patientDiagnoseRel = new PatientDiagnoseRel(ConnectionString);
-            servicesRepo = new ServicesRepo(ConnectionString);
-            requestTypeRepo = new RequestTypeRepo(ConnectionString);
+			servicesRepo = new ServicesRepo(ConnectionString);
+			requestTypeRepo = new RequestTypeRepo(ConnectionString);
+			_servicesService = servicesService;
 		}
 		// GET: /<controller>/
 		public IActionResult Index(int cardId)
@@ -66,35 +70,38 @@ namespace Medicloud.Controllers
 
         [HttpPost]
 
-        public IActionResult AddService(long cardID, int serviceID)
+        public async Task<IActionResult> AddService([FromBody] AddServiceDTO dto)
         {
-            if (User.Identity.IsAuthenticated)
-            {
+			//if (User.Identity.IsAuthenticated)
+			//{
 
-                try
-                {
-
-
-                    var userID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID"));
-                    var organizationID = Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID"));
-                    var serviceInserted = patientCardServiceRelRepo.InsertServiceToPatientCard(cardID, serviceID, 0, 0, userID);
-
-                    if (cardID == 0 || serviceInserted == false)
-                    {
-                        return BadRequest("Xəstə kartını daxil etmək mümkün olmadı.");
-                    }
+			//    try
+			//    {
 
 
+			//        var userID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID"));
+			//        var organizationID = Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID"));
+			//        var serviceInserted = patientCardServiceRelRepo.InsertServiceToPatientCard(cardID, serviceID, 0, 0, userID);
 
-                    return Ok(cardID);
-                }
-                catch (Exception ex)
-                {
-                    // Handle the exception and return an appropriate response
-                    return StatusCode(StatusCodes.Status500InternalServerError, "Sorğunu emal edərkən xəta baş verdi.");
-                }
-            }
-            return Unauthorized();
+			//        if (cardID == 0 || serviceInserted == false)
+			//        {
+			//            return BadRequest("Xəstə kartını daxil etmək mümkün olmadı.");
+			//        }
+
+
+
+			//        return Ok(cardID);
+			//    }
+			//    catch (Exception ex)
+			//    {
+			//        // Handle the exception and return an appropriate response
+			//        return StatusCode(StatusCodes.Status500InternalServerError, "Sorğunu emal edərkən xəta baş verdi.");
+			//    }
+			//}
+			//return Unauthorized();
+
+			int newId = await _servicesService.AddServiceAsync(dto);
+			return Ok(newId);
         }
 
 

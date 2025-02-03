@@ -14,13 +14,49 @@ namespace Medicloud.DAL.Repository.Services
             _unitOfWork=unitOfWork;
         }
 
-        public async Task<List<ServiceDAO>> GetServicesByOrganizationAsync(int organizationID)
+        public async Task<List<ServiceDAO>> GetServicesByOrganizationAsync(int organizationId)
         {
-            string query = @"SELECT * FROM services where organizationID=@organizationID and isActive=1 order by id desc;";
-            var con=_unitOfWork.GetConnection();
-            var result=(await con.QueryAsync<ServiceDAO>(query, new { organizationID })).ToList();
+			//string query = @"SELECT * FROM services where organizationID=@organizationID and isActive=1 order by id desc;";
+			string query = @"SELECT * 
+							FROM services s
+							LEFT JOIN organization_service_rel osr ON S.id = osr.Id
+							where osr.organizationId=@OrganizationId and isActive=1 order by osr.id desc;";
+
+			var con =_unitOfWork.GetConnection();
+            var result=(await con.QueryAsync<ServiceDAO>(query, new { OrganizationId=organizationId })).ToList();
             return result;
 
         }
-    }
+
+		public async Task<int> AddServiceAsync(ServiceDAO dao)
+		{
+			string AddSql = $@"
+			INSERT INTO services
+            (name,price,time,isMobile,typeId)
+			VALUES (@{nameof(ServiceDAO.name)},
+            @{nameof(ServiceDAO.price)},
+            @{nameof(ServiceDAO.time)},
+            @{nameof(ServiceDAO.isMobile)},
+            @{nameof(ServiceDAO.typeId)});
+
+			SELECT LAST_INSERT_ID();";
+			var con = _unitOfWork.GetConnection();
+			var newId = await con.QuerySingleOrDefaultAsync<int>(AddSql, dao);
+			return newId;
+		}
+
+		public async Task<bool> UpdateServiceAsync(ServiceDAO dao)
+		{
+			string sql = $@"
+			UPDATE services SET
+            name=@{nameof(ServiceDAO.name)},
+            price=@{nameof(ServiceDAO.price)},
+            time=@{nameof(ServiceDAO.time)},
+            isMobile=@{nameof(ServiceDAO.isMobile)},
+            typeId=@{nameof(ServiceDAO.typeId)}";
+			var con = _unitOfWork.GetConnection();
+			int result = await con.ExecuteAsync(sql, dao);
+			return result > 0;
+		}
+	}
 }

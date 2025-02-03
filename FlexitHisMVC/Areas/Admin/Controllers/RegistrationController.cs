@@ -1,6 +1,7 @@
 ﻿using Medicloud.BLL.DTO;
 using Medicloud.BLL.Services.Category;
 using Medicloud.BLL.Services.Organization;
+using Medicloud.BLL.Services.Services;
 using Medicloud.BLL.Services.Staff;
 using Medicloud.BLL.Services.User;
 using Medicloud.DAL.DAO;
@@ -19,12 +20,14 @@ namespace Medicloud.Areas.Admin.Controllers
 		private readonly ICategoryService _categoryService;
 		private readonly IOrganizationService _organizationService;
 		private readonly IStaffService _staffService;
-		public RegistrationController(INUserService userService, ICategoryService categoryService, IOrganizationService organizationService, IStaffService staffService)
+		private readonly IServicesService _servicesService;
+		public RegistrationController(INUserService userService, ICategoryService categoryService, IOrganizationService organizationService, IStaffService staffService, IServicesService servicesService)
 		{
 			_userService = userService;
 			_categoryService = categoryService;
 			_organizationService = organizationService;
 			_staffService = staffService;
+			_servicesService = servicesService;
 		}
 
 		public async Task<IActionResult> Index()
@@ -203,6 +206,33 @@ namespace Medicloud.Areas.Admin.Controllers
 			var staff=await _staffService.GetOwnerStaffByOrganizationId(orgId);
 			var staffWorkHours = await _staffService.GetWorkHours(staff.id);
 			return View(staffWorkHours);
+
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> Step9(int orgId = 29)
+		{
+			//if (orgId == 0 || teamSize == 0)
+			//{
+			//	return RedirectToAction("Index");
+			//}
+			//var updateDAO = new OrganizationDAO
+			//{
+			//	teamSizeId = teamSize,
+			//	id = orgId,
+			//};
+			//bool isUpdated = await _organizationService.UpdateAsync(updateDAO);
+
+			var data = await _servicesService.GetServiceTypes();
+			var services=await _servicesService.GetServicesByOrganizationAsync(orgId);
+			var vm = new CreateOrganizationVM
+			{
+				id = orgId,
+				ServiceTypes = data,
+				Services = services,
+				hasTravel = false
+			};
+			return View(vm);
 
 		}
 	}

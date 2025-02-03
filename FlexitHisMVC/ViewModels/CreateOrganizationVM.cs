@@ -1,4 +1,5 @@
-﻿using Medicloud.DAL.DAO;
+﻿using Medicloud.BLL.DTO;
+using Medicloud.DAL.DAO;
 using Medicloud.WebUI.Enums;
 
 namespace Medicloud.ViewModels
@@ -19,6 +20,10 @@ namespace Medicloud.ViewModels
 		public decimal TravelPrice { get; set; }
 		public short TravelPriceType { get; set; }
 		public int TravelDistance { get; set; }
+		public List<ServiceDAO> Services { get; set; }
+		public GetServiceTypesDTO ServiceTypes { get; set; }
+
+		public bool hasTravel  { get; set; }
 
 	}
 }

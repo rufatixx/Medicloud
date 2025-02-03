@@ -1,0 +1,275 @@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/_BusinessLayout.cshtml";
+}
+
+
+@*
+
+    @*
+        For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model Medicloud.ViewModels.CreateOrganizationVM 
+
+
+@{ 
+    var serviceTypes = Model.ServiceTypes.ServiceTypes;
+    var serviceTypeCategories = Model.ServiceTypes.ServiceTypeCategories;
+    var groupedCategories = serviceTypes
+    .GroupBy(type => type.typeCategoryId)
+    .ToList();
+}
+
+
+<div class="">
+    <div class="row  text-center justify-content-center ">
+        <div class="">
+            <form id="step1Form" method="post" asp-action="step10" asp-controller="registration" asp-area="admin">
+
+                <div class="card-header   align-items-center">
+
+                    <button class="btn btn-sm">
+                        <svg width="32px" height="32px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="#737373">
+                            <path fill="#737373" d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"></path>
+                            <path fill="#737373" d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"></path>
+                        </svg>
+                    </button>
+
+                    <div class="text-center flex-grow-1">
+                        <h4>Xidmətləri əlavə etməyə başlayın</h4>
+                        <p>İndi ən azı bir xidmət əlavə edin.Sonra daha çox əlavə edə, təfərrüatları redaktə edə və xidmətləri kateqoriyalara qruplaşdıra bilərsiniz</p>
+                    </div>
+                </div>
+
+                <div class="card-body ">
+                    @foreach (var service in Model.Services)
+                    {
+                        <div class="row  align-items-center mb-3">
+                            <div class="col-6 row align-items-center">
+                                <div class="col-4">
+                                    <btn class="btn btn-sm">
+                                        <svg width="20px" height="20px" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#908e8e">
+                                            <path d="M9 5L16 12L9 19" stroke="#737373" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                    </btn>
+                                </div>
+
+                                <div class="col-8 text-start">
+                                    <label class="form-check-label text-start" style="cursor:pointer;" >@service.name</label>
+
+                                </div>
+
+                            </div>
+                            <div class="col-6 row align-items-center item-row" >
+                                <div class="col-8">
+                                    <span class="text-muted" >@service.price</span>
+
+                                </div>
+                                <div class="col-4">
+                                    <btn class="btn btn-sm">
+                                        <svg width="20px" height="20px" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#908e8e">
+                                            <path d="M9 5L16 12L9 19" stroke="#737373" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                    </btn>
+                                </div>
+
+                            </div>
+                        </div>
+                    }
+
+                    @{
+                        var cultureInfo = new System.Globalization.CultureInfo("az-AZ");
+
+                    }
+                    <div class="text-start">
+                        <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addServiceModal" type="button">+ Xidmət əlavə et</button>
+                    </div>
+                </div>
+
+
+                <div class="mb-3 mb-0 text-center">
+                    <button class="btn btn-primary" type="submit" id="nextButton"> Növbəti</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addServiceModal" tabindex="-1" aria-labelledby="addServiceModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addServiceModalLabel">Xidmət əlavə et</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Xidmət haqqında əsas məlumatları daxil edin. Daha sonra redaktə edə bilərsiniz</p>
+                <form id="addServiceForm">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="name" placeholder="Ad" required>
+                        <label for="floatingInput">Xidmətin adı</label>
+                        <div class="invalid-feedback">
+                            Bu sahə doldurulmalıdır
+                        </div>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="form-floating col-11">
+                            <select class="form-select" id="serviceType" required>
+                                <option value="">Seçin</option>
+                                @foreach (var categoryGroup in groupedCategories)
+                                {
+                                    var categoryName = serviceTypeCategories.FirstOrDefault(c => c.id == categoryGroup.Key).name;
+                                    <optgroup label="@categoryName">
+                                        @foreach (var category in categoryGroup)
+                                        {
+                                            <option value="@category.id">
+                                                @category.name
+                                            </option>
+                                        }
+                                    </optgroup>
+                                }
+                            </select>
+                            <label for="floatingSelect">Xidmət növü</label>
+                            <div class="invalid-feedback">
+                                Bu sahə doldurulmalıdır
+                            </div>
+                        </div>
+                        <div class="col-1 ps-1">
+                            <img src="~/InfoOutlined.svg" alt="Info" style="cursor:pointer;" data-bs-toggle="tooltip" title="Xidmət növünün təyin edilməsi müştərilərə axtardıqlarını tapmağa kömək edir və həmçinin yeni müştərilərə sizi və xidmətlərinizi kəşf etməyə kömək edə bilər. Uyğun olan xidmət növünü tapa bilmirsinizsə, təyin edilməmişi seçə bilərsiniz, lakin  təyin olunmamış xidmətlərin axtarışda tapılma ehtimalı azdır." />
+                        </div>
+                    </div>
+                    <div class="bg-light p-1 mt-1">
+                        <div class="row mt-2 g-0 gx-1">
+                            <div class="col-md-6">
+
+                                <div class="form-floating">
+                                    <select class="form-select" id="hour" aria-label="Floating label select example" required>
+                                        @for (int i = 0; i < 24; i++)
+                                        {
+
+
+                                            if (i == 0)
+                                            {
+                                                <option value="@i" selected>@i s</option>
+
+                                            }
+                                            else
+                                            {
+
+                                                <option value="@i">@i s</option>
+
+                                            }
+                                        }
+                                    </select>
+                                    <label for="hour">Saat</label>
+                                    <div class="invalid-feedback">
+                                        Bu sahə doldurulmalıdır
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <select class="form-select" id="minute" aria-label="Floating label select example" required>
+                                        @for (int i = 0; i < 60; i += 5)
+                                        {
+
+
+                                            if (i == 15)
+                                            {
+                                                <option value="@i" selected>@i dəq</option>
+
+                                            }
+                                            else
+                                            {
+
+                                                <option value="@i">@i dəq</option>
+
+                                            }
+                                        }
+                                    </select>
+                                    <label for="floatingSelect">Dəqiqə</label>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="row  mt-2 g-0 gx-1 mb-1 align-items-center">
+
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="number" name="TravelPrice" id="price" class="form-control" step="0.01" min="0.01" value="0.00" placeholder="9.99" required />
+                                    <label for="priceInput">Qiymət(AZN)</label>
+                                    <div class="invalid-feedback">
+                                        Bu sahə doldurulmalıdır
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check text-start mb-2">
+                                    <input type="checkbox" style="cursor:pointer;" class="form-check-input" name="selectedCategories" value="" id="checkInputStart">
+                                    <label class="form-check-label " style="cursor:pointer;" for="checkInputStart">Başlayaraq</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @if (Model.hasTravel)
+                    {
+                        <div class="row align-items-center my-3 form-switch px-1">
+                            <div class="col-8 text-start">
+                                <label class="form-check-label" style="cursor:pointer;" for="mobileService">Mobil xidmət</label>
+                            </div>
+                            <div class="col-4 text-end">
+                                <input class="form-check-input toggle-checkbox" style="cursor:pointer;" type="checkbox" id="mobileService">
+                            </div>
+                        </div>
+
+                    }
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ləğv et</button>
+                <button type="button" class="btn btn-primary" id="saveButton">Yadda saxla</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{ 
+    <script>
+
+        const $form = $('#addServiceForm');
+        const $saveButton = $('#saveButton');
+        $('#addServiceModal').on('hidden.bs.modal', function () {
+            $form.removeClass('was-validated');
+            $form[0].reset();
+        });
+
+
+        $saveButton.on('click', function () {
+
+
+            var form = $form[0];
+            if (!form.checkValidity())
+                form.classList.add('was-validated');
+            else {
+                const data = {
+                    name: $('#name').val(),
+                    serviceType: $('#serviceType').val(),
+                    priceStart: $('#checkInputStart').val(),
+                    price: $('#price').val(),
+                    hour: $('#hour').val(),
+                    minute: $('#minute').val(),
+                };
+
+                console.log(data);
+            }
+        });
+
+
+    </script>
+}
