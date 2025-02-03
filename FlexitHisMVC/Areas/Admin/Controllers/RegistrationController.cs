@@ -180,29 +180,29 @@ namespace Medicloud.Areas.Admin.Controllers
 
 			var model = new CreateOrganizationVM
 			{
-
+				id=orgId,
 			};
 			return View(organization.id);
 
 		}
 
-		[HttpPost]
-		public async Task<IActionResult> Step8(int orgId=0,int teamSize=0)
+		[HttpGet]
+		public async Task<IActionResult> Step8(int orgId=29,int teamSize=0)
 		{
-			if (orgId == 0 || teamSize == 0)
-			{
-				return RedirectToAction("Index");
-			}
-			var updateDAO = new OrganizationDAO
-			{
-				teamSizeId = teamSize,
-				id = orgId,
-			};
-			bool isUpdated = await _organizationService.UpdateAsync(updateDAO);
+			//if (orgId == 0 || teamSize == 0)
+			//{
+			//	return RedirectToAction("Index");
+			//}
+			//var updateDAO = new OrganizationDAO
+			//{
+			//	teamSizeId = teamSize,
+			//	id = orgId,
+			//};
+			//bool isUpdated = await _organizationService.UpdateAsync(updateDAO);
 
 			var staff=await _staffService.GetOwnerStaffByOrganizationId(orgId);
-
-			return View(staff.id);
+			var staffWorkHours = await _staffService.GetWorkHours(staff.id);
+			return View(staffWorkHours);
 
 		}
 	}

@@ -1,4 +1,5 @@
-﻿
+﻿@using Medicloud.DAL.DAO
+
 @{
     Layout = "~/Areas/Admin/Views/Shared/_BusinessLayout.cshtml";
 }
@@ -11,7 +12,7 @@
 }
 
 
-@model int 
+@model List<StaffWorkHoursDAO>
 <style>
     .form-switch {
         cursor: pointer;
@@ -19,9 +20,10 @@
 
         .form-switch input {
             cursor: pointer
+        }
 </style>
 
-<h1>@Model</h1>
+
 
 <div class="">
     <div class="row  text-center justify-content-center ">
@@ -42,147 +44,86 @@
                 </div>
 
                 <div class="card-body ">
-                    <div class="">
 
-                        <div class="row  form-switch align-items-center mb-3">
-                            <div class="col-2">
-                                <input class="form-check-input" checked type="checkbox" id="monday">
-                            </div>
-                            <div class="col-4 text-start">
-                                <label class="form-check-label">Bazar ertəsi</label>
-                            </div>
 
-                            <div class="col-3">
-                                <span class="text-muted">9:00 - 18:00</span>
-                            </div>
-                            <div class="col-3">
-                                <svg width="20px" height="20px" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#908e8e">
-                                    <path d="M9 5L16 12L9 19" stroke="#737373" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
+                    @{
+                        var cultureInfo = new System.Globalization.CultureInfo("az-AZ");
+
+                    }
+                    @foreach (var item in Model)
+                    {
+                        var dayName = cultureInfo.DateTimeFormat.GetDayName((System.DayOfWeek)(item.dayOfWeek % 7));
+                        var capitalizedDayName = cultureInfo.TextInfo.ToTitleCase(dayName);
+                        string isChecked = "";
+                        string displayTime = "";
+                        string startTime = item.startTime?.ToString(@"hh\:mm")!;
+                        string endTime = item.endTime?.ToString(@"hh\:mm")!;
+                        if (item.startTime == null && item.endTime == null)
+                        {
+                            isChecked = "";
+                            displayTime = "Bağlı";
+                        }
+                        else
+                        {
+                            isChecked = "checked";
+                            displayTime = $"{startTime} - {endTime}";
+                        }
+                        <div class="row form-switch align-items-center mb-3">
+                            <div class="col-6 row align-items-center">
+                                <div class="col-4">
+                                    <input class="form-check-input toggle-checkbox" @isChecked type="checkbox" id="@item.id">
+
+                                </div>
+
+                                <div class="col-8 text-start">
+                                    <label class="form-check-label text-start" style="cursor:pointer;" for="@item.id">@capitalizedDayName</label>
+
+                                </div>
 
                             </div>
-                        </div>
+                            <div class="col-6 row align-items-center item-row" data-day="@capitalizedDayName" data-item-id="@item.id" data-start="@startTime" data-end="@endTime">
+                                <div class="col-8">
+                                    <span class="text-muted" id="time-@item.id">@displayTime</span>
 
-                        <div class="row  form-switch align-items-center mb-3">
-                            <div class="col-2">
-                                <input class="form-check-input" checked type="checkbox" id="tuesday">
-                            </div>
-                            <div class="col-4 text-start">
-                                <label class="form-check-label">Çərşənbə axşamı</label>
-                            </div>
-
-                            <div class="col-3">
-                                <span class="text-muted">9:00 - 18:00</span>
-                            </div>
-                            <div class="col-3">
-                                <svg width="20px" height="20px" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#908e8e">
-                                    <path d="M9 5L16 12L9 19" stroke="#737373" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-
-                            </div>
-                        </div>
-
-                        <div class="row  form-switch align-items-center mb-3">
-                            <div class="col-2">
-                                <input class="form-check-input" checked type="checkbox" id="wednesday">
-                            </div>
-                            <div class="col-4 text-start">
-                                <label class="form-check-label">Çərşənbə</label>
-                            </div>
-
-                            <div class="col-3">
-                                <span class="text-muted">9:00 - 18:00</span>
-                            </div>
-                            <div class="col-3">
-                                <svg width="20px" height="20px" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#908e8e">
-                                    <path d="M9 5L16 12L9 19" stroke="#737373" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
+                                </div>
+                                <div class="col-4">
+                                    <btn class="btn btn-sm">
+                                        <svg width="20px" height="20px" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#908e8e">
+                                            <path d="M9 5L16 12L9 19" stroke="#737373" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                    </btn>
+                                </div>
 
                             </div>
                         </div>
 
-                        <div class="row  form-switch align-items-center mb-3">
-                            <div class="col-2">
-                                <input class="form-check-input" checked type="checkbox" id="thursday">
-                            </div>
-                            <div class="col-4 text-start">
-                                <label class="form-check-label">Cümə axşamı</label>
-                            </div>
+                        @*  <div class="row form-switch align-items-center mb-3 item-row" data-day="@capitalizedDayName" data-item-id="@item.id" data-start="@startTime" data-end="@endTime">
+                                <div class="col-2">
+                                    <input class="form-check-input toggle-checkbox" @isChecked type="checkbox" id="checkbox-@item.id">
+                                </div>
+                                <div class="col-4 text-start">
+                                    <label class="form-check-label" for="checkbox-@item.id">@capitalizedDayName</label>
+                                </div>
 
-                            <div class="col-3">
-                                <span class="text-muted">9:00 - 18:00</span>
-                            </div>
-                            <div class="col-3">
-                                <svg width="20px" height="20px" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#908e8e">
-                                    <path d="M9 5L16 12L9 19" stroke="#737373" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
+                                <div class="col-3">
+                                    <span class="text-muted" id="time-@item.id">@displayTime</span>
+                                </div>
 
-                            </div>
-                        </div>
+                                <div class="col-3">
+                                    <btn class="btn btn-sm">
+                                        <svg width="20px" height="20px" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#908e8e">
+                                            <path d="M9 5L16 12L9 19" stroke="#737373" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                    </btn>
+                                </div>
+                            </div> *@
+                    }
 
-                        <div class="row  form-switch align-items-center mb-3 item-row" data-day="Cümə" dataId="5">
-                            <div class="col-2">
-                                <input class="form-check-input toggle-checkbox" checked type="checkbox" id="friday">
-                            </div>
-                            <div class="col-4 text-start">
-                                <label class="form-check-label">Cümə</label>
-                            </div>
-
-                            <div class="col-3">
-                                <span class="text-muted" id="time-friday">9:00 - 18:00</span>
-                            </div>
-                            <div class="col-3">
-                                <btn class="btn btn-sm">
-                                    <svg width="20px" height="20px" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#908e8e">
-                                        <path d="M9 5L16 12L9 19" stroke="#737373" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
-                                </btn>
-                            </div>
-                        </div>
-
-                        <div class="row  form-switch align-items-center mb-3 item-row" data-day="Şənbə" dataId="6">
-                            <div class="col-2">
-                                <input class="form-check-input toggle-checkbox" type="checkbox" id="saturday">
-                            </div>
-                            <div class="col-4 text-start">
-                                <label class="form-check-label">Şənbə</label>
-                            </div>
-
-                            <div class="col-3">
-                                <span class="text-muted" id="time-saturday">Bağlı</span>
-                            </div>
-                            <div class="col-3">
-                                <svg width="20px" height="20px" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#908e8e">
-                                    <path d="M9 5L16 12L9 19" stroke="#737373" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-
-                            </div>
-                        </div>
-
-                        <div class="row  form-switch align-items-center mb-3">
-                            <div class="col-2">
-                                <input class="form-check-input" type="checkbox" id="sunday">
-                            </div>
-                            <div class="col-4 text-start">
-                                <label class="form-check-label">Bazar</label>
-                            </div>
-
-                            <div class="col-3">
-                                <span class="text-muted">Bağlı</span>
-                            </div>
-                            <div class="col-3">
-                                <svg width="20px" height="20px" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#908e8e">
-                                    <path d="M9 5L16 12L9 19" stroke="#737373" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-
-                            </div>
-                        </div>
-                    </div>
+                </div>
 
 
-                    <div class="mb-3 mb-0 text-center">
-                        <button class="btn btn-primary" type="submit" id="nextButton"> Növbəti</button>
-                    </div>
+                <div class="mb-3 mb-0 text-center">
+                    <button class="btn btn-primary" type="submit" id="nextButton"> Növbəti</button>
                 </div>
             </form>
         </div>
@@ -193,7 +134,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editTimeModalLabel">Saatləri Dəyiş</h5>
+                <h5 class="modal-title" id="editTimeModalLabel"></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -208,9 +149,12 @@
                             <select id="endTimeSelect" class="form-select"></select>
                         </div>
                     </div>
+                    <div class="row" id="breaksContainer">
+                    </div>
 
                 </form>
             </div>
+            <button id="addBreakButton">Add break</button>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
                 <button type="button" class="btn btn-primary" id="saveTimeButton">Yadda saxla</button>
@@ -221,22 +165,15 @@
 
 
 <script>
-    const scheduleData = {
-        1: { start: "09:00", end: "18:00" },
-        2: { start: "09:00", end: "18:00" },
-        3: { start: "09:00", end: "18:00" },
-        4: { start: "09:00", end: "18:00" },
-        5: { start: "09:00", end: "18:00" },
-        6: { start: "", end: "" },
-        7: { start: "", end: "" },
-    };
 
-    let selectedDay;
-    
+    let selectedStart;
+    let selectedEnd;
+    let selectedId;
+
 
     $(document).ready(function () {
 
-        function populateTimeOptions() {
+        function populateTimeOptions(start,end) {
             const $startTimeSelect = $("#startTimeSelect");
             const $endTimeSelect = $("#endTimeSelect");
             $startTimeSelect.empty();
@@ -253,9 +190,8 @@
                 }
             }
 
-            // Default olarak 09:00 başlangıç ve 18:00 bitiş saati seçilsin
-            $startTimeSelect.val("09:00");
-            $endTimeSelect.val("18:00");
+            $startTimeSelect.val(start);
+            $endTimeSelect.val(end);
         }
 
 
@@ -272,41 +208,63 @@
                 endHour = selectedHour;
             }
 
-            // Bitiş saati başlangıç saatinden başlayarak güncelleniyor
             for (let hour = selectedHour; hour <= endHour; hour++) {
                 for (let minute = (hour === selectedHour ? selectedMinute + 15 : 0); minute < 60; minute += 15) {
                     const time = `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
-
                     // Eğer şu anki saat 18:00 ise, bunu değiştirmiyoruz
-                    if (time === "18:00") {
+                    if (time === selectedEnd) {
                         $endTimeSelect.append(`<option value="${time}" selected>${time}</option>`);
                     } else {
                         $endTimeSelect.append(`<option value="${time}">${time}</option>`);
                     }
                 }
             }
+
+            if (selectedEnd!==$endTimeSelect.val()) {
+                 selectedEnd = $endTimeSelect.val();
+             }
         });
 
-        // Checkbox değişimi sadece açık/kapalı yapar
+
+        $("#startTimeSelect").on("change", function (event) {
+            selectedStart=$(this).val();
+            console.log(selectedEnd)
+        });
+        $("#endTimeSelect").on("change", function (event) {
+            selectedEnd=$(this).val();
+            console.log(selectedEnd)
+        });
+
         $(".toggle-checkbox").on("click", function (event) {
+            console.log("Clciked")
             event.stopPropagation(); // Checkbox tıklamasında row tıklamasını engelle
-            const day = $(this).attr("id");
-            const $timeLabel = $(`#time-${day}`);
+            const id = $(this).attr("id");
+            const $timeLabel = $(`#time-${id}`);
+            const $itemRow = $(this).closest(".row").next(".item-row");
+            const start = $itemRow.data("start");
+            const end = $itemRow.data("end");
+
             if ($(this).is(":checked")) {
-                $timeLabel.text("00:00 - 23:59"); 
+                $timeLabel.text(`${start || '09:00'} - ${end || '18:00'}`);
             } else {
                 $timeLabel.text("Bağlı");
             }
         });
 
-        // Row'a tıklayınca modal açılır
-        $(".item-row").on("click", function () {
+
+       $(".item-row").on("click", function () {
+        const $checkbox = $(this).prev().find(".toggle-checkbox"); // Get the checkbox from the previous sibling (.col-6)
+        if ($checkbox.is(":checked")) { // Check if the checkbox is checked
             const day = $(this).data("day");
+            selectedStart = $(this).data("start") || '09:00';
+            selectedEnd = $(this).data("end") || '18:00';
             $("#selectedDay").val(day);
-            $("#editTimeModalLabel").text(`${day} Saatləri Dəyiş`);
-            populateTimeOptions();
+            $("#editTimeModalLabel").text(`${day}`);
+            populateTimeOptions(selectedStart, selectedEnd);
             $("#editTimeModal").modal("show");
+        }
         });
+
 
         // Modal'da saat kaydetme işlemi
         $("#saveTimeButton").on("click", function () {
@@ -320,6 +278,239 @@
                 alert("Lütfen geçerli bir saat girin!");
             }
         });
+
+    // const workHoursStart = 9 * 60; // 09:00 in minutes
+    // const workHoursEnd = 18 * 60; // 18:00 in minutes
+    // let breaks = [];
+
+
+    //     const breakStartSelect = document.getElementById("breakStart");
+    //     const breakEndSelect = document.getElementById("breakEnd");
+    //     const addBreakBtn = document.getElementById("addBreakButton");
+    //     const breaksContainer = document.getElementById("breaksContainer");
+
+    //     function updateBreakOptions() {
+    //         breakStartSelect.innerHTML = "";
+    //         breakEndSelect.innerHTML = "";
+
+    //         for (let minutes = workHoursStart; minutes < workHoursEnd; minutes += 15) {
+    //             if (!isTimeWithinBreaks(minutes)) {
+    //                 addOption(breakStartSelect, minutes);
+    //             }
+    //         }
+    //     }
+
+    //     function addOption(select, minutes) {
+    //         let option = document.createElement("option");
+    //         option.value = minutes;
+    //         option.textContent = formatTime(minutes);
+    //         select.appendChild(option);
+    //     }
+
+    //     function isTimeWithinBreaks(minutes) {
+    //         return breaks.some(([start, end]) => minutes >= start && minutes < end);
+    //     }
+
+    //     function formatTime(minutes) {
+    //         let hours = Math.floor(minutes / 60);
+    //         let mins = minutes % 60;
+    //         return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
+    //     }
+
+    //     function updateEndOptions() {
+    //         breakEndSelect.innerHTML = "";
+    //         let startTime = parseInt(breakStartSelect.value);
+
+    //         for (let minutes = startTime + 15; minutes <= workHoursEnd; minutes += 15) {
+    //             if (!isTimeWithinBreaks(minutes)) {
+    //                 addOption(breakEndSelect, minutes);
+    //             }
+    //         }
+    //     }
+
+    //     breakStartSelect.addEventListener("change", updateEndOptions);
+
+    //     addBreakBtn.addEventListener("click", function () {
+    //         let start = parseInt(breakStartSelect.value);
+    //         let end = parseInt(breakEndSelect.value);
+
+    //         if (start && end && start < end) {
+    //             breaks.push([start, end]);
+    //             let breakEntry = document.createElement("div");
+    //             breakEntry.textContent = `Mola: ${formatTime(start)} - ${formatTime(end)}`;
+    //             breaksContainer.appendChild(breakEntry);
+    //             updateBreakOptions();
+    //         }
+    //     });
+
+    //     updateBreakOptions();
+
+
+
+    let startTime='09:00';
+    let endTime='18:00';
+    let breaks = [{start:'09:15',end:''}];
+
+
+    function updateBreakOptions() {
+        const $breaksContainer = $("#breaksContainer");
+    
+        $breaksContainer.empty();
+
+        breaks.forEach((brk, index) => {
+            const breakHtml = `
+                <div class="row mb-2" data-index="${index}">
+                    <span class="col-4">Break ${index + 1}</span>
+                    <div class="col-3">
+                        <select class="form-select break-start" data-index="${index}">
+                        </select>
+                    </div>
+                    <div class="col-3">
+                        <select class="form-select break-end" data-index="${index}">
+                        </select>
+                    </div>
+                    <div class="col-2">
+                        <button class="btn btn-danger btn-sm remove-break" data-index="${index}">X</button>
+                    </div>
+                </div>
+            `;
+            $breaksContainer.append(breakHtml);
+        });
+
+        updateBreakTimes();
+    }
+
+    function updateBreakTimes() {
+        $(".break-start, .break-end").each(function () {
+            const $select = $(this);
+            const index = $select.data("index");
+            const isStartSelect = $select.hasClass("break-start");
+
+            $select.empty();
+
+            let startHour = parseInt(selectedStart.split(":")[0]);
+            let endHour = parseInt(selectedEnd.split(":")[0]);
+
+            breaks.forEach((brk, i) => {
+                if (i < index) {
+                    startHour = parseInt(brk.end.split(":")[0]);
+                }
+            });
+
+            for (let hour = startHour; hour <= endHour; hour++) {
+                for (let minute = 0; minute < 60; minute += 15) {
+                    const time = `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
+                    $select.append(`<option value="${time}">${time}</option>`);
+                }
+            }
+
+            if (isStartSelect) {
+                $select.val(breaks[index].start);
+            } else {
+                $select.val(breaks[index].end);
+            }
+        });
+    }
+
+    $("#addBreakButton").on("click", function () {
+        if (breaks.length === 0) {
+            breaks.push({ start: selectedStart, end: selectedEnd });
+        } else {
+            let lastBreakEnd = breaks[breaks.length - 1].end;
+            let newBreakStart = lastBreakEnd;
+            let newBreakEnd = selectedEnd;
+
+            breaks.push({ start: newBreakStart, end: newBreakEnd });
+        }
+
+        updateBreakOptions();
+    });
+
+    $(document).on("change", ".break-start, .break-end", function () {
+        const index = $(this).data("index");
+        const newValue = $(this).val();
+        const isStartSelect = $(this).hasClass("break-start");
+
+        if (isStartSelect) {
+            breaks[index].start = newValue;
+        } else {
+            breaks[index].end = newValue;
+        }
+
+        updateBreakTimes();
+    });
+
+    $(document).on("click", ".remove-break", function () {
+        const index = $(this).data("index");
+        breaks.splice(index, 1);
+        updateBreakOptions();
+    });
+
+        
+
+    // let breaksList=[];
+
+    // function renderBreaks() {
+    //     $("#breaksContainer").empty();
+    //     breaksList.forEach((breakItem, index) => {
+    //         $("#breaksContainer").append(`
+    //             <div class="row mb-2">
+    //                 <div class="col-4">Mola ${index + 1}</div>
+    //                 <div class="col-3">
+    //                     <select class="form-select break-start" data-index="${index}">
+    //                         ${generateTimeOptions(breakItem.start)}
+    //                     </select>
+    //                 </div>
+    //                 <div class="col-3">
+    //                     <select class="form-select break-end" data-index="${index}">
+    //                         ${generateTimeOptions(breakItem.end)}
+    //                     </select>
+    //                 </div>
+    //                 <div class="col-2">
+    //                     <button class="btn btn-danger btn-sm remove-break" data-index="${index}">X</button>
+    //                 </div>
+    //             </div>
+    //         `);
+    //     });
+    // }
+
+    // function generateTimeOptions(selectedTime) {
+    //     let options = "";
+    //     for (let hour = 0; hour <= 23; hour++) {
+    //         for (let minute = 0; minute < 60; minute += 15) {
+    //             const time = `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
+    //             options += `<option value="${time}" ${time === selectedTime ? "selected" : ""}>${time}</option>`;
+    //         }
+    //     }
+    //     return options;
+    // }
+
+    // $("#addBreakButton").on("click", function () {
+    //     breaksList.push({ start: selectedStart, end: selectedEnd });
+    //     renderBreaks();
+    // });
+
+    // $(document).on("change", ".break-start, .break-end", function () {
+    //     const index = $(this).data("index");
+    //     const newTime = $(this).val();
+    //     if ($(this).hasClass("break-start")) {
+    //         breaksList[index].start = newTime;
+    //     } else {
+    //         breaksList[index].end = newTime;
+    //     }
+    // });
+
+    // $(document).on("click", ".remove-break", function () {
+    //     const index = $(this).data("index");
+    //     breaksList.splice(index, 1);
+    //     renderBreaks();
+    // });
+
+
+
+
+
+
     });
 </script>
 

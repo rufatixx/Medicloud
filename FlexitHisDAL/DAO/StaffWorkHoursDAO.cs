@@ -11,7 +11,7 @@ namespace Medicloud.DAL.DAO
 		public int id { get; set; }
 		public int staffId { get; set; }
 		public int dayOfWeek { get; set; }
-		public string? startTime { get; set; }
-		public string? endTime { get; set; }
+		public TimeSpan? startTime { get; set; }
+		public TimeSpan? endTime { get; set; }
 	}
 }
