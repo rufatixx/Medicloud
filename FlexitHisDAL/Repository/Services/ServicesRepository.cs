@@ -32,12 +32,13 @@ namespace Medicloud.DAL.Repository.Services
 		{
 			string AddSql = $@"
 			INSERT INTO services
-            (name,price,time,isMobile,typeId)
+            (name,price,time,isMobile,typeId,isPriceStart)
 			VALUES (@{nameof(ServiceDAO.name)},
             @{nameof(ServiceDAO.price)},
             @{nameof(ServiceDAO.time)},
             @{nameof(ServiceDAO.isMobile)},
-            @{nameof(ServiceDAO.typeId)});
+            @{nameof(ServiceDAO.typeId)},
+            @{nameof(ServiceDAO.isPriceStart)});
 
 			SELECT LAST_INSERT_ID();";
 			var con = _unitOfWork.GetConnection();
@@ -53,6 +54,7 @@ namespace Medicloud.DAL.Repository.Services
             price=@{nameof(ServiceDAO.price)},
             time=@{nameof(ServiceDAO.time)},
             isMobile=@{nameof(ServiceDAO.isMobile)},
+            isPriceStart=@{nameof(ServiceDAO.isPriceStart)},
             typeId=@{nameof(ServiceDAO.typeId)}";
 			var con = _unitOfWork.GetConnection();
 			int result = await con.ExecuteAsync(sql, dao);

@@ -27,5 +27,6 @@ namespace Medicloud.DAL.DAO
 		public int time { get; set; }
 		public bool isMobile { get; set; }
 		public int typeId { get; set; }
+		public bool isPriceStart { get; set; }
 	}
 }

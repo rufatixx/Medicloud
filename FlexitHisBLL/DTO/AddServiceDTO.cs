@@ -12,6 +12,7 @@ namespace Medicloud.BLL.DTO
 		public decimal price { get; set; }
 		public int time { get; set; }
 		public bool isMobile { get; set; }
+		public bool isPriceStart { get; set; }
 		public int typeId { get; set; }
 		public int organizationId { get; set; }
 	}

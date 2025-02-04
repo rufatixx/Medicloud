@@ -51,6 +51,7 @@ namespace Medicloud.BLL.Services.Services
 				time = dto.time,
 				typeId = dto.typeId,
 				isMobile = dto.isMobile,
+				isPriceStart=dto.isPriceStart,
 			};
 			using var con=_unitOfWork.BeginConnection();
 			int newServiceId=await _servicesRepository.AddServiceAsync(service);
