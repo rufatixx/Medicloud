@@ -12,20 +12,21 @@
 <div class="">
     <div class="row  text-center justify-content-center mt-3">
         <div class="">
-            <form id="step2Form" method="post" enctype="multipart/form-data" asp-action="step3" asp-controller="registration" asp-area="admin">
-                <div class="card-header  align-items-center">
+            <div class="card-header   align-items-center">
 
-                    <button class="btn btn-sm">
-                        <img src="~/arrow.svg" />
+                <a class="btn btn-sm" asp-action="Index" asp-route-organizationId="@Model.id" asp-area="Admin">
+                    <svg width="32px" height="32px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="#737373">
+                        <path fill="#737373" d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"></path>
+                        <path fill="#737373" d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"></path>
+                    </svg>
+                </a>
 
-                    </button>
-
-
-                    <div class="text-center">
-                        <h1>Özünüz haqqında</h1>
-                        <p>Bizə özünüz və biznesiniz haqqında məlumat verin</p>
-                    </div>
+                <div class="text-center flex-grow-1">
+                    <h1>Özünüz haqqında</h1>
+                    <p>Bizə özünüz və biznesiniz haqqında məlumat verin</p>
                 </div>
+            </div>
+            <form id="step2Form" method="post" enctype="multipart/form-data" asp-action="step3" asp-controller="registration" asp-area="admin">
                 <div class="card-body ">
                     <div class="form-floating mb-3">
                         <input type="text" class="form-control" asp-for="OrgName" id="floatingInput" placeholder="Ad">
@@ -43,11 +44,15 @@
                         <span class="input-group-text" id="basic-addon1">+994</span>
                         <input class="form-control" type="tel" id="mobileNumber" asp-for="StaffPhoneNumber" placeholder="nömrənizi daxil edin">
                     </div>
-
-                    @for (int i = 0; i < Model.SelectedCategories.Count; i++)
+                    <input type="hidden" asp-for="id" />
+                    @if (Model.id == 0)
                     {
-                        <input type="hidden" name="SelectedCategories" value="@Model.SelectedCategories[i]" />
+                        @for (int i = 0; i < Model.SelectedCategories.Count; i++)
+                        {
+                            <input type="hidden" name="SelectedCategories" value="@Model.SelectedCategories[i]" />
+                        }
                     }
+
                     <!--<ul class="nav nav-pills nav-justified" id="formTabs" role="tablist">
         <li class="nav-item" role="presentation">
             <a class="nav-link @((type == 1) ? "active" : "")" id="phone-tab" data-toggle="tab" href="#phone" role="tab" aria-controls="phone" aria-selected="true">Telefon Nömrəsi</a>
@@ -68,7 +73,7 @@
 
         <div class="tab-pane fade @((type == 2) ? "show active" : "")" id="email" role="tabpanel" aria-labelledby="email-tab">-->
                     @*<div class="mb-3">
-            <input type="email" class="form-control" id="emailInput" name="email" placeholder="Email daxil edin" />
+        <input type="email" class="form-control" id="emailInput" name="email" placeholder="Email daxil edin" />
         </div>*@
                     <!--<div class="form-floating mb-3">
                 <input type="text" class="form-control" asp-for="StaffEmail" id="floatingInput" placeholder="Ad">

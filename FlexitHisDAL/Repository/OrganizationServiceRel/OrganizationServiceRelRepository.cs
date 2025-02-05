@@ -34,6 +34,7 @@ namespace Medicloud.DAL.Repository.OrganizationServiceRel
 
 		public async Task<bool> RemoveAsync(int organizationId, int serviceId)
 		{
+			Console.WriteLine($"org{organizationId}   {serviceId}");
 			string sql = $@"
 			UPDATE organization_service_rel SET isActive = 0
 			WHERE organizationId=@OrganizationId AND serviceId=@ServiceId";

@@ -20,7 +20,7 @@ namespace Medicloud.DAL.Repository.Services
 			string query = @"SELECT * 
 							FROM services s
 							LEFT JOIN organization_service_rel osr ON S.id = osr.Id
-							where osr.organizationId=@OrganizationId and isActive=1 order by osr.id desc;";
+							where osr.organizationId=@OrganizationId and osr.isActive=1 order by osr.id desc;";
 
 			var con =_unitOfWork.GetConnection();
             var result=(await con.QueryAsync<ServiceDAO>(query, new { OrganizationId=organizationId })).ToList();
@@ -59,6 +59,17 @@ namespace Medicloud.DAL.Repository.Services
 			var con = _unitOfWork.GetConnection();
 			int result = await con.ExecuteAsync(sql, dao);
 			return result > 0;
+		}
+
+		public async Task<ServiceDAO> GetServiceByIdAsync(int serviceId)
+		{
+			string query = @"SELECT * 
+							FROM services
+							WHERE id=@ServiceId";
+
+			var con = _unitOfWork.GetConnection();
+			var result = await con.QuerySingleOrDefaultAsync<ServiceDAO>(query, new { ServiceId = serviceId });
+			return result;
 		}
 	}
 }

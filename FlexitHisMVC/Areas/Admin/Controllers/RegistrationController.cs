@@ -5,10 +5,12 @@ using Medicloud.BLL.Services.Services;
 using Medicloud.BLL.Services.Staff;
 using Medicloud.BLL.Services.User;
 using Medicloud.DAL.DAO;
+using Medicloud.Models;
 using Medicloud.ViewModels;
 using Medicloud.WebUI.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace Medicloud.Areas.Admin.Controllers
 {
@@ -30,46 +32,141 @@ namespace Medicloud.Areas.Admin.Controllers
 			_servicesService = servicesService;
 		}
 
-		public async Task<IActionResult> Index()
+		public async Task<IActionResult> Index(int organizationId = 0)
 		{
-
 			var categories = await _categoryService.GetAll();
-			return View(categories);
-		}
-		[HttpPost]
-		public async Task<IActionResult> Step2(List<int>selectedCategories)
-		{
-			if (selectedCategories.Any())
+			var vm = new CreateOrganizationVM
 			{
-				//foreach (var category in selectedCategories)
-				//{
-				//	Console.WriteLine($"ct {category.ToString()}");
-				//}
+				Categories = categories,
+				SelectedCategories = new List<int>(),
+				id = organizationId
+			};
+
+			if (organizationId > 0)
+			{
+				var orgCategories = await _categoryService.GetByOrganizationId(organizationId);
+				vm.SelectedCategories = orgCategories.Select(c => c.id).ToList();
+			}
+			else
+			{
+
+				if (TempData["OrganizationVM"] != null)
+				{
+
+					var tempVm = JsonConvert.DeserializeObject<CreateOrganizationVM>(TempData["OrganizationVM"].ToString());
+					vm.SelectedCategories = tempVm?.SelectedCategories??new();
+				}
+			}
+			Console.WriteLine(vm.SelectedCategories.Count);
+			return View(vm);
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> Step2(int organizationId)
+		{
+			var vm = new CreateOrganizationVM
+			{
+				id = organizationId
+			};
+			if (organizationId == 0)
+			{
+				int userId = 187;
+				var user = await _userService.GetUserById(userId);
+
+				vm.UserId = userId;
+				vm.StaffName = $"{user.name}";
+				vm.StaffEmail = user.email ?? null;
+				vm.StaffPhoneNumber = user.mobile ?? null;
+				
+				if (TempData["OrganizationVM"] != null)
+				{
+					var tempVm = JsonConvert.DeserializeObject<CreateOrganizationVM>(TempData["OrganizationVM"].ToString());
+					TempData.Keep("OrganizationVM");
+					vm.SelectedCategories = tempVm.SelectedCategories ?? new();
+
+				}
+				return View(vm);
+			}
+
+
+
+			var organization = await _organizationService.GetByIdAsync(organizationId);
+			if (organization == null)
+			{
+				return RedirectToAction("Index", new { organizationId = vm.id });
+			}
+
+			vm.OrgName = organization.name;
+			var staff = await _staffService.GetOwnerStaffByOrganizationId(organization.id);
+			if (staff != null)
+			{
+				vm.UserId = staff.userId;
+				vm.StaffPhoneNumber = staff.phoneNumber;
+				vm.StaffEmail = staff.email;
+				vm.StaffName = staff.name;
+			}
+
+			vm.OrgName = organization.name;
+			return View(vm);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Step2(CreateOrganizationVM vm)
+		{
+			if (vm == null)
+			{
+				return RedirectToAction("Index");
+			}
+
+			if (vm.SelectedCategories != null && vm.SelectedCategories.Any())
+			{
 				int userId = 187;
 				if (userId == 0)
 				{
 					return RedirectToAction("Index", "Login");
 				}
-				var user = await _userService.GetUserById(userId);
 
-				var vm = new CreateOrganizationVM
+				if (vm.id > 0)
 				{
-					UserId = userId,
-					StaffName = $"{user.name}",
-					StaffEmail = user.email ?? null,
-					StaffPhoneNumber = user.mobile ?? null,
-					SelectedCategories = selectedCategories
+					int updatedCategories = await _organizationService.UpdateOrganizationCategories(vm.id, vm.SelectedCategories);
+					var organization = await _organizationService.GetByIdAsync(vm.id);
 
-				};
-				return View(vm);
+					if (organization == null)
+					{
+						return RedirectToAction("Index", new { organizationId = vm.id });
+					}
+				}
+
+				TempData["OrganizationVM"] = JsonConvert.SerializeObject(vm);
+				return RedirectToAction("Step2", new { organizationId = vm.id });
 			}
 			else
 			{
+				return RedirectToAction("Index", new { organizationId = vm.id });
+			}
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> Step3(int organizationId)
+		{
+
+			if (organizationId == 0)
+			{
 				return RedirectToAction("Index");
 			}
+			var vm = new CreateOrganizationVM
+			{
+				id = organizationId
+			};
+			var organization = await _organizationService.GetByIdAsync(organizationId);
+			if (organization == null)
+			{
+				return RedirectToAction("Step2", new { organizationId });
+			}
 
+				vm.WorkPlaceType = (WorkPlaceType)organization.workPlaceType;
 
-
+			return View(vm);
 		}
 
 		[HttpPost]
@@ -79,49 +176,126 @@ namespace Medicloud.Areas.Admin.Controllers
 			{
 				return RedirectToAction("Index");
 			}
-
-			var addDTO = new AddOrganizationDTO
+			Console.WriteLine(vm.id);
+			if (vm.id == 0)
 			{
-				SelectedCategories = vm.SelectedCategories,
-				StaffEmail = vm.StaffEmail,
-				StaffName = vm.StaffName,
-				StaffPhoneNumber = vm.StaffPhoneNumber,
-				Name = vm.OrgName,
-				UserId = vm.UserId
+				var addDTO = new AddOrganizationDTO
+				{
+					SelectedCategories = vm.SelectedCategories,
+					StaffEmail = vm.StaffEmail,
+					StaffName = vm.StaffName,
+					StaffPhoneNumber = vm.StaffPhoneNumber,
+					Name = vm.OrgName,
+					UserId = 187
+				};
+				int newOrgId = await _organizationService.AddAsync(addDTO);
+				if (newOrgId == 0)
+				{
+					RedirectToAction("Step2", new { selectedCategories = vm.SelectedCategories });
+				}
+				vm.id = newOrgId;
+			}
+			else
+			{
+				Console.WriteLine(vm.id);
+				var organization = await _organizationService.GetByIdAsync(vm.id);
+				if (organization == null)
+				{
+					return RedirectToAction("Step2", new { organizationId = vm.id });
+				}
+				if (organization != null)
+				{
+					vm.WorkPlaceType = (WorkPlaceType)organization.workPlaceType;
+				}
+			}
+			return RedirectToAction("Step3", new { organizationId = vm.id });
+
+			//return View(vm);
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> Step4(int organizationId)
+		{
+			if (organizationId == 0)
+			{
+				return RedirectToAction("Index");
+			}
+			var vm = new CreateOrganizationVM
+			{
+				id = organizationId
 			};
 
-			int newOrgId=await _organizationService.AddAsync(addDTO);
-			if(newOrgId == 0)
+			var organization = await _organizationService.GetByIdAsync(organizationId);
+			if (organization == null)
 			{
-				RedirectToAction("Step2",new {selectedCategories=vm.SelectedCategories});
+				RedirectToAction("Step2", new { organizationId });
 			}
-			vm.id=newOrgId;
+			if (organization != null)
+			{
+				vm.OrgAddress = organization.address;
+				vm.latitude = organization.latitude;
+				vm.longitude = organization.longitude;
+			}
 
 			return View(vm);
+
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Step4(int orgId=0,int workPlaceType=1)
+		public async Task<IActionResult> Step4(CreateOrganizationVM vm)
 		{
-			if (orgId == 0)
+			if (vm.id == 0)
 			{
 				return RedirectToAction("Index");
+			}
+			else
+			{
+
 			}
 
 			var updateDAO = new OrganizationDAO
 			{
-				id = orgId,
-				workPlaceType = workPlaceType
+				id = vm.id,
+				workPlaceType = (int)vm.WorkPlaceType,
 			};
 			bool isUpdated = await _organizationService.UpdateAsync(updateDAO);
-			var vm = new CreateOrganizationVM
-			{
-				id = orgId,
-				WorkPlaceType=(WorkPlaceType)workPlaceType
+			//var vm = new CreateOrganizationVM
+			//{
+			//	id = orgId,
+			//	WorkPlaceType=(WorkPlaceType)workPlaceType
 
-			};
-			return View(vm);
+			//};
+			return RedirectToAction("Step4", new { organizationId = vm.id });
+
 		}
+
+
+		[HttpGet]
+		public async Task<IActionResult> Step5(int organizationId)
+		{
+			if (organizationId == 0)
+			{
+				return RedirectToAction("Index");
+			}
+
+			var organization = await _organizationService.GetByIdAsync(organizationId);
+			if (organization == null)
+			{
+				return RedirectToAction("Step2", new { organizationId });
+			}
+			if (organization?.workPlaceType > 0 && (WorkPlaceType)organization.workPlaceType != WorkPlaceType.MyLocation)
+			{
+				var vm = new CreateOrganizationVM
+				{
+					id = organization.id,
+				};
+				return View(vm);
+			}
+
+			return RedirectToAction("Step7", new { organizationId });
+		}
+
+
 		[HttpPost]
 		public async Task<IActionResult> Step5(CreateOrganizationVM vm)
 		{
@@ -136,13 +310,13 @@ namespace Medicloud.Areas.Admin.Controllers
 			var updateDAO = new OrganizationDAO
 			{
 				id = vm.id,
-				latitude=vm.latitude,
-				longitude=vm.longitude,
-				address=vm.OrgAddress,
+				latitude = vm.latitude,
+				longitude = vm.longitude,
+				address = vm.OrgAddress,
 			};
 
-			var updated=await _organizationService.UpdateAsync(updateDAO);
-			if(vm.WorkPlaceType==WorkPlaceType.ClientLocation || vm.WorkPlaceType == WorkPlaceType.Both)
+			var updated = await _organizationService.UpdateAsync(updateDAO);
+			if (vm.WorkPlaceType == WorkPlaceType.ClientLocation || vm.WorkPlaceType == WorkPlaceType.Both)
 			{
 
 				return View(vm);
@@ -155,7 +329,7 @@ namespace Medicloud.Areas.Admin.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Step6(CreateOrganizationVM vm)
 		{
-			if(vm== null)
+			if (vm == null)
 			{
 				return RedirectToAction("Index");
 			}
@@ -175,7 +349,8 @@ namespace Medicloud.Areas.Admin.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Step7(int orgId)
 		{
-			var organization=await _organizationService.GetByIdAsync(orgId);
+
+			var organization = await _organizationService.GetByIdAsync(orgId);
 			if (organization == null)
 			{
 				return RedirectToAction("Index");
@@ -183,14 +358,14 @@ namespace Medicloud.Areas.Admin.Controllers
 
 			var model = new CreateOrganizationVM
 			{
-				id=orgId,
+				id = orgId,
 			};
-			return View(organization.id);
+			return View(model);
 
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> Step8(int orgId=29,int teamSize=0)
+		public async Task<IActionResult> Step8(int orgId = 29, int teamSize = 0)
 		{
 			//if (orgId == 0 || teamSize == 0)
 			//{
@@ -203,7 +378,7 @@ namespace Medicloud.Areas.Admin.Controllers
 			//};
 			//bool isUpdated = await _organizationService.UpdateAsync(updateDAO);
 
-			var staff=await _staffService.GetOwnerStaffByOrganizationId(orgId);
+			var staff = await _staffService.GetOwnerStaffByOrganizationId(orgId);
 			var staffWorkHours = await _staffService.GetWorkHours(staff.id);
 			return View(staffWorkHours);
 
@@ -212,19 +387,8 @@ namespace Medicloud.Areas.Admin.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Step9(int orgId = 29)
 		{
-			//if (orgId == 0 || teamSize == 0)
-			//{
-			//	return RedirectToAction("Index");
-			//}
-			//var updateDAO = new OrganizationDAO
-			//{
-			//	teamSizeId = teamSize,
-			//	id = orgId,
-			//};
-			//bool isUpdated = await _organizationService.UpdateAsync(updateDAO);
-
 			var data = await _servicesService.GetServiceTypes();
-			var services=await _servicesService.GetServicesByOrganizationAsync(orgId);
+			var services = await _servicesService.GetServicesByOrganizationAsync(orgId);
 			var vm = new CreateOrganizationVM
 			{
 				id = orgId,
@@ -235,5 +399,6 @@ namespace Medicloud.Areas.Admin.Controllers
 			return View(vm);
 
 		}
+
 	}
 }

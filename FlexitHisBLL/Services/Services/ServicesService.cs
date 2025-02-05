@@ -62,5 +62,38 @@ namespace Medicloud.BLL.Services.Services
 			});
 			return newServiceId;
 		}
+
+		public async Task<bool> RemoveServiceFromOrg(int organizationId, int serviceId)
+		{
+			using var con = _unitOfWork.BeginConnection();
+			bool deleted=await _organizationServiceRelRepository.RemoveAsync(organizationId, serviceId);
+			return deleted;
+		}
+
+		public async Task<ServiceDAO> GetServiceById(int serviceId)
+		{
+			using var con =_unitOfWork.BeginConnection();
+
+			var result = await _servicesRepository.GetServiceByIdAsync(serviceId);
+			return result;
+		}
+
+		public async Task<bool> UpdateService(AddServiceDTO dto)
+		{
+			var service = new ServiceDAO
+			{
+				id= dto.id,
+				name = dto.name,
+				price = dto.price,
+				time = dto.time,
+				typeId = dto.typeId,
+				isMobile = dto.isMobile,
+				isPriceStart = dto.isPriceStart,
+			};
+			using var con = _unitOfWork.BeginConnection();
+			bool updated = await _servicesRepository.UpdateServiceAsync(service);
+			return updated;
+		}
+
 	}
 }

@@ -7,6 +7,7 @@ namespace Medicloud.DAL.Repository.Services
         Task<List<ServiceDAO>> GetServicesByOrganizationAsync(int organizationID);
 		Task<int> AddServiceAsync(ServiceDAO dao);
 		Task<bool> UpdateServiceAsync(ServiceDAO dao);
+		Task<ServiceDAO> GetServiceByIdAsync(int serviceId);
 
 	}
 }

@@ -100,5 +100,40 @@ namespace Medicloud.BLL.Services.Organization
 			int result = await _organizationTravelRelRepository.AddAsync(dao);
 			return result;
 		}
+
+		public async Task<int> UpdateOrganizationCategories(int organizationId,List<int> selectedCategories)
+		{
+			using var con = _unitOfWork.BeginConnection();
+			var categories = await _organizationCategoryRelRepository.GetByOrganizationId(organizationId);
+
+			var currentCategoryIds = categories.Select(c => c.SecondModelId).ToList();
+
+
+			var addedCategories = selectedCategories.Except(currentCategoryIds).ToList();
+
+
+			var removedCategories = currentCategoryIds.Except(selectedCategories).ToList();
+
+
+			foreach (var categoryId in addedCategories)
+			{
+
+				await _organizationCategoryRelRepository.AddAsync(organizationId, categoryId);
+			}
+
+			foreach (var categoryId in removedCategories)
+			{
+
+				var relationToRemove = categories.FirstOrDefault(c => c.SecondModelId == categoryId);
+				if (relationToRemove != null)
+				{
+
+					await _organizationCategoryRelRepository.RemoveAsync(relationToRemove.id);
+				}
+			}
+
+			return addedCategories.Count + removedCategories.Count;
+		}
+
 	}
 }

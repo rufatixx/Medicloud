@@ -26,55 +26,51 @@
 <div class="">
     <div class="row  text-center justify-content-center ">
         <div class="">
+            <div class="card-header   align-items-center">
+
+                <button class="btn btn-sm">
+                    <svg width="32px" height="32px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="#737373">
+                        <path fill="#737373" d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"></path>
+                        <path fill="#737373" d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"></path>
+                    </svg>
+                </button>
+
+                <div class="text-center flex-grow-1">
+                    <h4>Xidmətləri əlavə etməyə başlayın</h4>
+                    <p>İndi ən azı bir xidmət əlavə edin.Sonra daha çox əlavə edə, təfərrüatları redaktə edə və xidmətləri kateqoriyalara qruplaşdıra bilərsiniz</p>
+                </div>
+            </div>
             <form id="step1Form" method="post" asp-action="step10" asp-controller="registration" asp-area="admin">
 
-                <div class="card-header   align-items-center">
-
-                    <button class="btn btn-sm">
-                        <svg width="32px" height="32px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="#737373">
-                            <path fill="#737373" d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"></path>
-                            <path fill="#737373" d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"></path>
-                        </svg>
-                    </button>
-
-                    <div class="text-center flex-grow-1">
-                        <h4>Xidmətləri əlavə etməyə başlayın</h4>
-                        <p>İndi ən azı bir xidmət əlavə edin.Sonra daha çox əlavə edə, təfərrüatları redaktə edə və xidmətləri kateqoriyalara qruplaşdıra bilərsiniz</p>
-                    </div>
-                </div>
-
                 <div class="card-body ">
-                    @{ 
+                    @{
                         int count = 0;
                     }
                     @foreach (var service in Model.Services)
-                        {
-                            count++;
+                    {
+                        count++;
                         <div class="row  align-items-center mb-3">
                             <div class="col-6 row align-items-center">
-                                @*<div class="col-1">
-         
-                                </div>*@
                                 <div class="col-4 d-flex align-items-center ">
-                                    <span>@count.</span>
-                                    <btn class="btn btn-sm">
+                                    @count.
+                                    <btn class="btn btn-sm remove-button" data-item-id="@service.id">
                                         <img src="~/fi_trash-2.svg" />
                                     </btn>
                                 </div>
 
                                 <div class="col-8 text-start">
-                                    <label class="form-check-label text-start" style="cursor:pointer;" >@service.name</label>
+                                    <label class="form-check-label text-start" style="cursor:pointer;">@service.name</label>
 
                                 </div>
 
                             </div>
-                            <div class="col-6 row align-items-center item-row" >
+                            <div class="col-6 row align-items-center item-row">
                                 <div class="col-8">
                                     <span class="text-muted">@service.price ₼</span>
 
                                 </div>
                                 <div class="col-4">
-                                    <btn class="btn btn-sm">
+                                    <btn class="btn btn-sm detail-button" data-item-id="@service.id">
                                         <svg width="20px" height="20px" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#908e8e">
                                             <path d="M9 5L16 12L9 19" stroke="#737373" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                         </svg>
@@ -103,15 +99,15 @@
     </div>
 </div>
 
-<div class="modal fade" id="addServiceModal" tabindex="-1" aria-labelledby="addServiceModalLabel" aria-hidden="true">
+<div class="modal fade" id="addServiceModal" tabindex="-1" aria-labelledby="serviceModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addServiceModalLabel">Xidmət əlavə et</h5>
+                <h5 class="modal-title" id="serviceModalLabel">Xidmət əlavə et</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>Xidmət haqqında əsas məlumatları daxil edin. Daha sonra redaktə edə bilərsiniz</p>
+                <p id="serviceModalAddText">Xidmət haqqında əsas məlumatları daxil edin. Daha sonra redaktə edə bilərsiniz</p>
                 <form id="addServiceForm">
                     <div class="form-floating mb-3">
                         <input type="text" class="form-control" id="name" placeholder="Ad" required>
@@ -256,11 +252,13 @@
         $('#addServiceModal').on('hidden.bs.modal', function () {
             $form.removeClass('was-validated');
             $form[0].reset();
+            $saveButton.data('action','add')
+            $('#serviceModalAddText').show();
+            $('#serviceModalLabel').text('Xidmət əlavə et');
         });
 
 
         $saveButton.on('click', function () {
-
 
             var form = $form[0];
             const totalMinute = (parseInt($('#hour').val()) * 60 + parseInt($('#minute').val()))
@@ -269,20 +267,16 @@
                 $('#hour').addClass('is-invalid');
                 $('#minute').addClass('is-invalid');
 
-                // Uyarı mesajı göster
-                //alert('Toplam süre 0 dakikadan büyük olmalıdır.');
-
-                // Form gönderilmesini engelle
                 return;
             } else {
-                // Geçerli olduğunda, invalid sınıfını kaldır
+
                 $('#hour').removeClass('is-invalid');
                 $('#minute').removeClass('is-invalid');
             }
-            if (!form.checkValidity()) 
+            if (!form.checkValidity())
                 form.classList.add('was-validated');
             else {
-
+                const action = $saveButton.data('action');
                 const data = {
                     name: $('#name').val(),
                     typeId: $('#serviceType').val(),
@@ -293,22 +287,107 @@
                 };
                 console.log(data);
 
-                $.ajax({
-                    url: `/Services/AddService`,
-                    type: 'POST',
-                    data: JSON.stringify(data),
-                    contentType: 'application/json',
-                    success: function (response) {
-                        location.reload();
-                    },
-                    error: function (xhr, status, error) {
-                        console.error(error);
-                    }
-                });
+                if (action === 'add') {
+                    $.ajax({
+                        url: `/Admin/Services/AddService`,
+                        type: 'POST',
+                        data: JSON.stringify(data),
+                        contentType: 'application/json',
+                        success: function (response) {
+                            location.reload();
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error);
+                        }
+                    });
+                }
+                else if (action === 'update') {
+                    data.id = $(this).data('item-id');
+                    $.ajax({
+                        url: `/Admin/Services/UpdateService`,
+                        type: 'POST',
+                        data: JSON.stringify(data),
+                        contentType: 'application/json',
+                        success: function (response) {
+                            location.reload();
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error);
+                        }
+                    });
+                }
+
+
 
             }
         });
+        $('.remove-button').on('click', function () {
+            const itemId = $(this).data('item-id');
+            console.log(itemId)
+            let orgId =@Model.id;
+            console.log(orgId)
+            $.ajax({
+                url: `/Admin/Services/RemoveService?organizationId=${orgId}&serviceId=${itemId}`,
+                type: 'POST',
+                contentType: 'application/json',
+                success: function (response) {
+                    location.reload();
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
 
+        });
+
+        $('.detail-button').on('click', function () {
+            const itemId = $(this).data('item-id');
+            $saveButton.data('action', 'update')
+            $saveButton.data('item-id', itemId)
+            console.log(itemId)
+            let orgId =@Model.id;
+            console.log(orgId)
+            $.ajax({
+                url: `/Admin/Services/GetService?serviceId=${itemId}`,
+                type: 'GET',
+                success: function (response) {
+                    console.log(response)
+                    const hours = Math.floor(response.time / 60);
+
+                    const minutes = response.time % 60;
+
+
+                    $('#name').val(response.name);
+                    $('#serviceType').val(response.typeId); 
+                    $('#hour').val(hours);
+                    $('#minute').val(minutes);
+                    $('#price').val(response.price.toFixed(2));
+
+
+                    if (response.isPriceStart) {
+                        $('#checkInputStart').prop('checked', true);
+                    } else {
+                        $('#checkInputStart').prop('checked', false);
+                    }
+
+
+                    if (response.hasMobileService) {
+                        $('#mobileService').prop('checked', true);
+                    } else {
+                        $('#mobileService').prop('checked', false);
+                    }
+
+                    $('#serviceModalAddText').hide();
+                    $('#serviceModalLabel').text('Detallar');
+                    $('#addServiceModal').modal('show');
+
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+
+        });
 
     </script>
 }

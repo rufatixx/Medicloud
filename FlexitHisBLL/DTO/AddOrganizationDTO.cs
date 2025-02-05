@@ -14,5 +14,6 @@ namespace Medicloud.BLL.DTO
 		public string StaffName { get; set; }
 		public string StaffEmail { get; set; }
 		public string StaffPhoneNumber { get; set; }
+		public int MyProperty { get; set; }
 	}
 }

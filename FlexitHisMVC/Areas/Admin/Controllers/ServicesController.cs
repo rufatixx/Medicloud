@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Medicloud.BLL.DTO;
 using Medicloud.BLL.Service;
+using Medicloud.BLL.Services.Services;
 using Medicloud.Data;
 using Medicloud.Models;
 using Medicloud.Models.Domain;
@@ -25,21 +27,24 @@ namespace Medicloud.Areas.Admin.Controllers
         private ServicesRepo sRepo;
         private OOrganizationService organizationService;
         private DepartmentsRepo departmentsRepo;
-        //Communications communications;
-        public ServicesController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
-        {
-            Configuration = configuration;
-            ConnectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
-            _hostingEnvironment = hostingEnvironment;
-            sgRepo = new ServiceGroupsRepo(ConnectionString);
-            sRepo = new ServicesRepo(ConnectionString);
-            organizationService = new OOrganizationService(ConnectionString);
-            departmentsRepo = new DepartmentsRepo(ConnectionString);
-            stRepo = new ServiceTypeRepo(ConnectionString);
-            //communications = new Communications(Configuration, _hostingEnvironment);
-        }
+		//Communications communications;
 
-        [Authorize]
+		private readonly IServicesService _servicesService;
+		public ServicesController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IServicesService servicesService)
+		{
+			Configuration = configuration;
+			ConnectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
+			_hostingEnvironment = hostingEnvironment;
+			sgRepo = new ServiceGroupsRepo(ConnectionString);
+			sRepo = new ServicesRepo(ConnectionString);
+			organizationService = new OOrganizationService(ConnectionString);
+			departmentsRepo = new DepartmentsRepo(ConnectionString);
+			stRepo = new ServiceTypeRepo(ConnectionString);
+			_servicesService = servicesService;
+			//communications = new Communications(Configuration, _hostingEnvironment);
+		}
+
+		[Authorize]
         // GET: /<controller>/
         public IActionResult Index()
         {
@@ -70,36 +75,79 @@ namespace Medicloud.Areas.Admin.Controllers
            
         }
 
-        [HttpPost]
-        public IActionResult UpdateService([FromBody] ServiceObj service)
-        {
-            if (User.Identity.IsAuthenticated)
-            {
-                // Update the service in the repository or database
-                int updateResult = sRepo.UpdateService(service);
 
-                if (updateResult > 0)
-                {
-                    return Ok(); // Return HTTP 200 OK if the update was successful
-                }
-                else if (updateResult == -1)
-                {
-                    // A matching record already exists
-                    // Return 409 Conflict status with an error message
-                    return StatusCode(409, "Xidmət artıq mövcuddur");
+		[HttpPost]
 
-                }
-                else
-                {
-                    return BadRequest("Xəta baş verdi"); // Return HTTP 400 Bad Request if the update failed
-                }
+		public async Task<IActionResult> RemoveService( int organizationId, int serviceId)
+		{
+
+			bool isRemoved = await _servicesService.RemoveServiceFromOrg(organizationId,serviceId);
+			return Ok(isRemoved);
+		}
+
+		[HttpGet]
+
+		public async Task<IActionResult> GetService(int serviceId)
+		{
+
+			var result=await _servicesService.GetServiceById(serviceId);
+			return Ok(result);
+		}
+
+
+		[HttpPost]
+
+		public async Task<IActionResult> AddService([FromBody] AddServiceDTO dto)
+		{
+
+			int newId = await _servicesService.AddServiceAsync(dto);
+			return Ok(newId);
+		}
+
+
+
+
+		[HttpPost]
+
+		public async Task<IActionResult> UpdateService([FromBody] AddServiceDTO dto)
+		{
+
+			bool updated = await _servicesService.UpdateService(dto);
+			return Ok(updated);
+		}
+
+
+
+		//[HttpPost]
+  //      public IActionResult UpdateService([FromBody] ServiceObj service)
+  //      {
+  //          if (User.Identity.IsAuthenticated)
+  //          {
+  //              // Update the service in the repository or database
+  //              int updateResult = sRepo.UpdateService(service);
+
+  //              if (updateResult > 0)
+  //              {
+  //                  return Ok(); // Return HTTP 200 OK if the update was successful
+  //              }
+  //              else if (updateResult == -1)
+  //              {
+  //                  // A matching record already exists
+  //                  // Return 409 Conflict status with an error message
+  //                  return StatusCode(409, "Xidmət artıq mövcuddur");
+
+  //              }
+  //              else
+  //              {
+  //                  return BadRequest("Xəta baş verdi"); // Return HTTP 400 Bad Request if the update failed
+  //              }
               
-            }
+  //          }
 
-            return Unauthorized();
+  //          return Unauthorized();
             
            
-        }
+  //      }
 
         public IActionResult GetDepartmentsInOrganization(int organizationID)
         {

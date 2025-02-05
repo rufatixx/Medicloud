@@ -8,6 +8,7 @@ namespace Medicloud.BLL.DTO
 {
 	public class AddServiceDTO
 	{
+		public int id { get; set; }
 		public string name { get; set; }
 		public decimal price { get; set; }
 		public int time { get; set; }

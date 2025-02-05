@@ -22,5 +22,11 @@ namespace Medicloud.BLL.Services.Category
 			using var con =  _unitOfWork.BeginConnection();
 			return await _categoryRepository.GetAll();
 		}
+
+		public async Task<List<CategoryDAO>> GetByOrganizationId(int organizationId)
+		{
+			using var con = _unitOfWork.BeginConnection();
+			return await _categoryRepository.GetByOrganizationId(organizationId);
+		}
 	}
 }

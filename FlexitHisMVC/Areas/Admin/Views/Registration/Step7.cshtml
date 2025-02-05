@@ -2,7 +2,7 @@
     Layout = "~/Areas/Admin/Views/Shared/_BusinessLayout.cshtml";
 }
 
-@model int
+@model Medicloud.ViewModels.CreateOrganizationVM
 
 
 <div class="">
@@ -26,7 +26,7 @@
             <form id="" method="post"  asp-action="step8" asp-controller="registration" asp-area="admin">
 
                 <div class="card-body ">
-                    <input type="hidden" asp-for="@Model" name="orgId" />
+                    <input type="hidden" asp-for="@Model.id" name="orgId" />
                     <div class="row">
                         <div class="col-12">
                             <div class="form-check text-start mb-2 pb-2 border-bottom">

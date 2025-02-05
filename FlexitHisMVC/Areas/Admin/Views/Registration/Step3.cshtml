@@ -8,25 +8,27 @@
 <div class="">
     <div class="row  text-center justify-content-center ">
         <div class="">
-            <div class="card-header">
+            <div class="card-header   align-items-center">
+                <a class="btn btn-sm" asp-action="Step2" asp-route-organizationId="@Model.id" asp-area="Admin">
+                    <svg width="32px" height="32px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="#737373">
+                        <path fill="#737373" d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"></path>
+                        <path fill="#737373" d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"></path>
+                    </svg>
+                </a>
 
-                <button class="btn btn-sm">
-                    <img src="~/arrow.svg" />
-
-                </button>
-                <div class="text-center">
+                <div class="text-center flex-grow-1">
                     <h1>Harada işləyirsiniz?</h1>
                     <p>Müştərilər sizə gəlir yoxsa siz onlara gedirsiz? və ya hər ikisi</p>
                 </div>
             </div>
             <form id="step3Form" method="post" enctype="multipart/form-data" asp-action="step4" asp-controller="registration" asp-area="admin">
-                <input type="hidden" asp-for="id" name="orgId" />
+                <input type="hidden" asp-for="id" />
                 <input type="hidden" asp-for="WorkPlaceType" name="WorkPlaceType" id="workPlaceType" />
                 <div class="card-body ">
                     <div class="row">
                         <div class="col-12">
                             <div class="form-check text-start mb-2 pb-2 border-bottom">
-                                <input type="checkbox" style="cursor:pointer;" class="form-check-input" id="checkInputMyLocation">
+                                <input type="checkbox" style="cursor:pointer;" @(Model.WorkPlaceType == Medicloud.WebUI.Enums.WorkPlaceType.MyLocation || Model.WorkPlaceType == Medicloud.WebUI.Enums.WorkPlaceType.Both ? "checked" : "") class="form-check-input" id="checkInputMyLocation">
                                 <label class="form-check-label d-block ms-2" style="cursor:pointer;" for="checkInputMyLocation">
                                     <span class="d-block">Mənim məkanımda</span>
                                     <span style="font-size:10px;">
@@ -38,7 +40,7 @@
                         </div>
                         <div class="col-12">
                             <div class="form-check text-start mb-2 pb-2 border-bottom">
-                                <input type="checkbox" style="cursor:pointer;" class="form-check-input" id="checkInputClientLocation">
+                                <input type="checkbox" style="cursor:pointer;" @(Model.WorkPlaceType == Medicloud.WebUI.Enums.WorkPlaceType.ClientLocation || Model.WorkPlaceType == Medicloud.WebUI.Enums.WorkPlaceType.Both ? "checked" : "") class="form-check-input" id="checkInputClientLocation">
                                 <label class="form-check-label d-block ms-2" style="cursor:pointer;" for="checkInputClientLocation">
 
                                     <span class="d-block">Müştərilərin məkanında</span>

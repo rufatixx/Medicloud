@@ -2,7 +2,7 @@
     Layout = "~/Areas/Admin/Views/Shared/_BusinessLayout.cshtml";
 }
 
-@model List<Medicloud.DAL.DAO.CategoryDAO>
+@model Medicloud.ViewModels.CreateOrganizationVM
 
 
 <div class="">
@@ -10,11 +10,12 @@
         <div class="">
             <form id="step1Form" method="post" enctype="multipart/form-data" asp-action="step2" asp-controller="registration" asp-area="admin">
                 <div class="card-header">
+                    <input type="hidden" asp-for="id" />
 
-                    <button class="btn btn-sm">
-                        <img src="~/arrow.svg" />
+                    @*<button class="btn btn-sm">
+            <img src="~/arrow.svg" />
 
-                    </button>
+        </button>*@
                     <div class="text-center">
                         <h1>Biznesiniz nədir?</h1>
                         <p>Biznesinizə uyğun olan kateqoriyanı seçin</p>
@@ -22,12 +23,15 @@
                 </div>
                 <div class="card-body ">
                     <div class="row">
-                        @for (int i = 0; i < 6 && i < Model.Count; i++)
+                        @for (int i = 0; i < 6 && i < Model.Categories.Count; i++)
                         {
-                            var category = Model[i];
+                            var category = Model.Categories[i];
                             <div class="col-md-4">
                                 <div class="form-check mb-3">
-                                    <input type="checkbox" style="cursor:pointer;" class="form-check-input" name="selectedCategories" value="@category.id" id="checkInput@(category.id)">
+                                    <input type="checkbox" style="cursor:pointer;" class="form-check-input" name="selectedCategories" value="@category.id"
+                                            @(Model.SelectedCategories.Contains(category.id) ? "checked" : "")
+
+                                           id="checkInput@(category.id)">
 
                                     <label class="form-check-label" style="cursor:pointer;" for="checkInput@(category.id)">
                                         <img class="rounded-circle" style="object-fit:cover;" height="120" width="120" src="~/barbershop.jpg" />
@@ -44,11 +48,12 @@
 
 
                     <div class="row">
-                        @foreach (var category in Model.Skip(6))
+                        @foreach (var category in Model.Categories.Skip(6))
                         {
                             <div class="col-12">
                                 <div class="form-check text-start mb-2">
-                                    <input type="checkbox" style="cursor:pointer;" class="form-check-input" name="selectedCategories" value="@category.id" id="checkInput@(category.id)">
+                                    <input type="checkbox" style="cursor:pointer;" class="form-check-input"  name="SelectedCategories" value="@category.id" id="checkInput@(category.id)"
+                                             @(Model.SelectedCategories.Contains(category.id) ? "checked" : "")>
                                     <label class="form-check-label " style="cursor:pointer;" for="checkInput@(category.id)">@category.name</label>
                                 </div>
                             </div>

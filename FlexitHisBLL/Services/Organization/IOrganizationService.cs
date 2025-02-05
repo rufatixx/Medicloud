@@ -14,5 +14,6 @@ namespace Medicloud.BLL.Services.Organization
 		Task<OrganizationDAO?> GetByIdAsync(int id);
 		Task<bool> UpdateAsync(OrganizationDAO dao);
 		Task<int>AddOrganizationTravel(OrganizationTravelDAO dao);
+		Task<int> UpdateOrganizationCategories(int organizationId, List<int> selectedCategories);
 	}
 }
