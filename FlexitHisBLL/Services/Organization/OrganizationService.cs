@@ -56,25 +56,25 @@ namespace Medicloud.BLL.Services.Organization
 				organizationId = newOrgId,
 				userId = dto.UserId,
 			};
-			//int staffId = await _staffRepository.AddAsync(staffDAO);
-			//TimeOnly defaultStartTime = new TimeOnly(9, 0);
-			//TimeOnly defaultEndTime = new TimeOnly(18, 0);
-			//var workHours = new List<StaffWorkHoursDAO>
-			//{
-			//	new StaffWorkHoursDAO { staffId = staffId, dayOfWeek = 1, startTime =defaultStartTime.ToString("HH:mm"), endTime = defaultEndTime.ToString("HH:mm") },
-			//	new StaffWorkHoursDAO { staffId = staffId, dayOfWeek = 2, startTime =defaultStartTime.ToString("HH:mm"), endTime = defaultEndTime.ToString("HH:mm") }, 
-			//    new StaffWorkHoursDAO { staffId = staffId, dayOfWeek = 3, startTime =defaultStartTime.ToString("HH:mm"), endTime = defaultEndTime.ToString("HH:mm") },  
-			//    new StaffWorkHoursDAO { staffId = staffId, dayOfWeek = 4, startTime =defaultStartTime.ToString("HH:mm"), endTime = defaultEndTime.ToString("HH:mm") }, 
-			//    new StaffWorkHoursDAO { staffId = staffId, dayOfWeek = 5, startTime =defaultStartTime.ToString("HH:mm"), endTime = defaultEndTime.ToString("HH:mm") }, 
+			int staffId = await _staffRepository.AddAsync(staffDAO);
+			TimeSpan defaultStartTime = new TimeOnly(9, 0).ToTimeSpan();
+			TimeSpan defaultEndTime = new TimeOnly(18, 0).ToTimeSpan();
+			var workHours = new List<StaffWorkHoursDAO>
+			{
+				new StaffWorkHoursDAO { staffId = staffId, dayOfWeek = 1, startTime =defaultStartTime, endTime = defaultEndTime },
+				new StaffWorkHoursDAO { staffId = staffId, dayOfWeek = 2, startTime =defaultStartTime, endTime = defaultEndTime }, 
+			    new StaffWorkHoursDAO { staffId = staffId, dayOfWeek = 3, startTime =defaultStartTime, endTime = defaultEndTime },  
+			    new StaffWorkHoursDAO { staffId = staffId, dayOfWeek = 4, startTime =defaultStartTime, endTime = defaultEndTime }, 
+			    new StaffWorkHoursDAO { staffId = staffId, dayOfWeek = 5, startTime =defaultStartTime, endTime = defaultEndTime }, 
 
-			//    new StaffWorkHoursDAO { staffId = staffId, dayOfWeek = 6, startTime = null, endTime = null },
-			//    new StaffWorkHoursDAO { staffId = staffId, dayOfWeek = 7, startTime = null, endTime = null }
-			//};
+			    new StaffWorkHoursDAO { staffId = staffId, dayOfWeek = 6, startTime = null, endTime = null },
+			    new StaffWorkHoursDAO { staffId = staffId, dayOfWeek = 7, startTime = null, endTime = null }
+			};
 
-			//foreach (var item in workHours)
-			//{
-			//	int newId=await _staffWorkHoursRepository.AddAsync(item);
-			//}
+			foreach (var item in workHours)
+			{
+				int newId=await _staffWorkHoursRepository.AddAsync(item);
+			}
 
 
 			return newOrgId;

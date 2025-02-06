@@ -54,7 +54,12 @@ namespace Medicloud.Areas.Admin.Controllers
 				{
 
 					var tempVm = JsonConvert.DeserializeObject<CreateOrganizationVM>(TempData["OrganizationVM"].ToString());
-					vm.SelectedCategories = tempVm?.SelectedCategories??new();
+					if (tempVm?.SelectedCategories != null)
+					{
+						vm.SelectedCategories= tempVm.SelectedCategories;
+					}
+					TempData.Keep("OrganizationVM");
+
 				}
 			}
 			Console.WriteLine(vm.SelectedCategories.Count);
@@ -82,7 +87,7 @@ namespace Medicloud.Areas.Admin.Controllers
 				{
 					var tempVm = JsonConvert.DeserializeObject<CreateOrganizationVM>(TempData["OrganizationVM"].ToString());
 					TempData.Keep("OrganizationVM");
-					vm.SelectedCategories = tempVm.SelectedCategories ?? new();
+					vm.SelectedCategories = tempVm.SelectedCategories??new();
 
 				}
 				return View(vm);
@@ -136,8 +141,11 @@ namespace Medicloud.Areas.Admin.Controllers
 						return RedirectToAction("Index", new { organizationId = vm.id });
 					}
 				}
+				else
+				{
+					TempData["OrganizationVM"] = JsonConvert.SerializeObject(vm);
+				}
 
-				TempData["OrganizationVM"] = JsonConvert.SerializeObject(vm);
 				return RedirectToAction("Step2", new { organizationId = vm.id });
 			}
 			else
@@ -177,6 +185,7 @@ namespace Medicloud.Areas.Admin.Controllers
 				return RedirectToAction("Index");
 			}
 			Console.WriteLine(vm.id);
+			TempData.Clear();
 			if (vm.id == 0)
 			{
 				var addDTO = new AddOrganizationDTO
@@ -210,7 +219,6 @@ namespace Medicloud.Areas.Admin.Controllers
 			}
 			return RedirectToAction("Step3", new { organizationId = vm.id });
 
-			//return View(vm);
 		}
 
 		[HttpGet]

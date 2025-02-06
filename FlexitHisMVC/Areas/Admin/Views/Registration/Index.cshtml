@@ -13,9 +13,9 @@
                     <input type="hidden" asp-for="id" />
 
                     @*<button class="btn btn-sm">
-            <img src="~/arrow.svg" />
+                            <img src="~/arrow.svg" />
 
-        </button>*@
+                        </button>*@
                     <div class="text-center">
                         <h1>Biznesiniz nədir?</h1>
                         <p>Biznesinizə uyğun olan kateqoriyanı seçin</p>
@@ -29,8 +29,7 @@
                             <div class="col-md-4">
                                 <div class="form-check mb-3">
                                     <input type="checkbox" style="cursor:pointer;" class="form-check-input" name="selectedCategories" value="@category.id"
-                                            @(Model.SelectedCategories.Contains(category.id) ? "checked" : "")
-
+                                           @(Model.SelectedCategories.Contains(category.id) ? "checked" : "")
                                            id="checkInput@(category.id)">
 
                                     <label class="form-check-label" style="cursor:pointer;" for="checkInput@(category.id)">
@@ -52,8 +51,8 @@
                         {
                             <div class="col-12">
                                 <div class="form-check text-start mb-2">
-                                    <input type="checkbox" style="cursor:pointer;" class="form-check-input"  name="SelectedCategories" value="@category.id" id="checkInput@(category.id)"
-                                             @(Model.SelectedCategories.Contains(category.id) ? "checked" : "")>
+                                    <input type="checkbox" style="cursor:pointer;" class="form-check-input" name="SelectedCategories" value="@category.id" id="checkInput@(category.id)"
+                                           @(Model.SelectedCategories.Contains(category.id) ? "checked" : "")>
                                     <label class="form-check-label " style="cursor:pointer;" for="checkInput@(category.id)">@category.name</label>
                                 </div>
                             </div>
@@ -70,3 +69,34 @@
         </div>
     </div>
 </div>
+
+@section Scripts{
+    <script>
+
+        const $form = $('#step1Form');
+        const $nextButton = $('#nextButton');
+
+        $form.on('submit', function (event) {
+            // Prevent the form from submitting immediately
+            event.preventDefault();
+
+            // Check if at least one checkbox is selected
+            const selectedCategories = $("input[name='selectedCategories']:checked");
+
+            if (selectedCategories.length === 0) {
+                // If no categories are selected, show an error message
+                alert("Zəhmət olmasa, ən azı bir kateqoriya seçin.");
+
+                // Optionally, you can focus on the first checkbox or give it a red border to highlight it
+                $("input[name='selectedCategories']").first().focus().css("border", "1px solid red");
+
+                return false; // Stop form submission
+            }
+
+            // If categories are selected, submit the form
+            $form.off('submit').submit();
+        });
+
+
+    </script>
+}
