@@ -55,7 +55,9 @@ namespace Medicloud.DAL.Repository.Services
             time=@{nameof(ServiceDAO.time)},
             isMobile=@{nameof(ServiceDAO.isMobile)},
             isPriceStart=@{nameof(ServiceDAO.isPriceStart)},
-            typeId=@{nameof(ServiceDAO.typeId)}";
+            typeId=@{nameof(ServiceDAO.typeId)}
+
+			WHERE id=@{nameof(ServiceDAO.id)}";
 			var con = _unitOfWork.GetConnection();
 			int result = await con.ExecuteAsync(sql, dao);
 			return result > 0;

@@ -4,12 +4,6 @@ using Medicloud.DAL.Infrastructure.UnitOfWork;
 using Medicloud.DAL.Repository.Organizationn;
 using Medicloud.DAL.Repository.OrganizationTravelRel;
 using Medicloud.DAL.Repository.Staff;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
 
 namespace Medicloud.BLL.Services.Organization
 {
@@ -98,6 +92,21 @@ namespace Medicloud.BLL.Services.Organization
 		{
 			using var con = _unitOfWork.BeginConnection();
 			int result = await _organizationTravelRelRepository.AddAsync(dao);
+			return result;
+		}
+
+
+		public async Task<OrganizationTravelDAO?> GetOrganizationTravel(int organizationId)
+		{
+			using var con = _unitOfWork.BeginConnection();
+			var result = await _organizationTravelRelRepository.GetByOrganizationIdAsync(organizationId);
+			return result;
+		}
+
+		public async Task<bool> UpdateOrganizationTravel(OrganizationTravelDAO dao)
+		{
+			using var con = _unitOfWork.BeginConnection();
+			bool result = await _organizationTravelRelRepository.UpdateAsync(dao);
 			return result;
 		}
 

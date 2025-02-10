@@ -22,13 +22,16 @@
                     </div>
                 </div>
                 <div class="card-body ">
+                    <div class="alert alert-danger" role="alert" id="errorMessage" style="display:none;">
+                        Zəhmət olmasa, ən azı bir kateqoriya seçin.
+                    </div>
                     <div class="row">
                         @for (int i = 0; i < 6 && i < Model.Categories.Count; i++)
                         {
                             var category = Model.Categories[i];
                             <div class="col-md-4">
                                 <div class="form-check mb-3">
-                                    <input type="checkbox" style="cursor:pointer;" class="form-check-input" name="selectedCategories" value="@category.id"
+                                    <input type="checkbox" style="cursor:pointer;" class="form-check-input" name="SelectedCategories" value="@category.id"
                                            @(Model.SelectedCategories.Contains(category.id) ? "checked" : "")
                                            id="checkInput@(category.id)">
 
@@ -73,28 +76,62 @@
 @section Scripts{
     <script>
 
+        //const $form = $('#step1Form');
+        //const $nextButton = $('#nextButton');
+
+        //$form.on('submit', function (event) {
+        //    // Prevent the form from submitting immediately
+        //    event.preventDefault();
+
+        //    // Check if at least one checkbox is selected
+        //    const selectedCategories = $("input[name='selectedCategories']:checked");
+
+        //    if (selectedCategories.length === 0) {
+        //        // If no categories are selected, show an error message
+        //        alert("Zəhmət olmasa, ən azı bir kateqoriya seçin.");
+
+        //        // Optionally, you can focus on the first checkbox or give it a red border to highlight it
+        //        $("input[name='selectedCategories']").first().focus().css("border", "1px solid red");
+
+        //        return false; // Stop form submission
+        //    }
+
+        //    // If categories are selected, submit the form
+        //    $form.off('submit').submit();
+        //});
+
+
         const $form = $('#step1Form');
         const $nextButton = $('#nextButton');
+        const $checkboxes = $("input[name='SelectedCategories']");
+        const $errorMessage = $("#errorMessage");
 
         $form.on('submit', function (event) {
             // Prevent the form from submitting immediately
             event.preventDefault();
 
             // Check if at least one checkbox is selected
-            const selectedCategories = $("input[name='selectedCategories']:checked");
+            const selectedCategories = $("input[name='SelectedCategories']:checked");
 
             if (selectedCategories.length === 0) {
                 // If no categories are selected, show an error message
-                alert("Zəhmət olmasa, ən azı bir kateqoriya seçin.");
+                $errorMessage.show();
 
-                // Optionally, you can focus on the first checkbox or give it a red border to highlight it
-                $("input[name='selectedCategories']").first().focus().css("border", "1px solid red");
+                // Apply red border to all checkboxes
+                $checkboxes.css("border", "1px solid red");
 
                 return false; // Stop form submission
             }
 
             // If categories are selected, submit the form
             $form.off('submit').submit();
+        });
+
+        // When any checkbox is changed, remove the red border from all checkboxes
+        $checkboxes.on('change', function () {
+            $checkboxes.css("border", "none");
+            $errorMessage.hide();
+
         });
 
 

@@ -9,24 +9,26 @@
 <div class="">
     <div class="row  text-center justify-content-center ">
         <div class="">
-            <form id="step1Form" method="post"  asp-action="step6" asp-controller="registration" asp-area="admin">
-                <input type="hidden" asp-for="id" />
-                <div class="card-header">
+            <div class="card-header   align-items-center">
+                <a class="btn btn-sm" asp-action="Step4" asp-route-organizationId="@Model.id" asp-area="Admin">
+                    <svg width="32px" height="32px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="#737373">
+                        <path fill="#737373" d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"></path>
+                        <path fill="#737373" d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"></path>
+                    </svg>
+                </a>
 
-                    <button class="btn btn-sm">
-                        <img src="~/arrow.svg" />
-
-                    </button>
-                    <div class="text-center">
-                        <h1>səyahət haqqı</h1>
-                        <p>səyahət haqqı</p>
-                    </div>
+                <div class="text-center flex-grow-1">
+                    <h1>Səyahət haqqı</h1>
                 </div>
+            </div>
+            <form id="step5Form" method="post" asp-action="step6" asp-controller="registration" asp-area="admin" novalidate>
+                <input type="hidden" asp-for="id" />
+                <input type="hidden" asp-for="TravelId" />
                 <div class="card-body ">
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <select class="form-select" id="priceType"  name="TravelPriceType" aria-label="Floating label select example">
+                                <select class="form-select" id="priceType" name="TravelPriceType" asp-for="TravelPriceType" aria-label="Floating label select example" required>
                                     <option value="" selected>Seçin</option>
                                     <option value="1">Sabit</option>
                                     <option value="2">Dəyişir</option>
@@ -34,19 +36,26 @@
                                     <option value="4">Başlayaraq</option>
                                 </select>
                                 <label for="floatingSelect">Yol haqqı</label>
+                                <div class="invalid-feedback">
+                                    Bu sahə doldurulmalıdır
+                                </div>
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-floating mb-3">
-                                <input type="number" name="TravelPrice"  class="form-control" step="0.01" min="0.00" value="0.00" placeholder="9.99" />
+
+                                <input type="number" value="@Model.TravelPrice.ToString("0.00")" name="TravelPrice"  class="form-control" step="0.01" min="0.01"  placeholder="9.99" required />
                                 <label for="priceInput">Qiymət(AZN)</label>
+                                <div class="invalid-feedback">
+                                    Bu sahə doldurulmalıdır
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="form-floating">
-                            <select class="form-select" id="distance" asp-for="TravelDistance" aria-label="Floating label select example">
+                            <select class="form-select" id="distance" asp-for="TravelDistance" aria-label="Floating label select example" required>
                                 <option selected value="1">1</option>
                                 <option value="5">5</option>
                                 <option value="10">10</option>
@@ -54,6 +63,9 @@
                                 <option value="20">20</option>
                             </select>
                             <label for="floatingSelect">Maksimum məsafə(km)</label>
+                            <div class="invalid-feedback">
+                                Bu sahə doldurulmalıdır
+                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -90,13 +102,14 @@
 
         function togglePriceInput() {
             var priceType = $('#priceType').val(); 
-
+            var travelPrice ='@Model.TravelPrice';
+            
             if (priceType == "2" || priceType == "3" || priceType == "") {
 
-                $('input[name="priceInput"]').prop('disabled', true);
+                $('input[name="TravelPrice"]').prop('disabled', true).val('0.00');
             } else {
 
-                $('input[name="priceInput"]').prop('disabled', false);
+                $('input[name="TravelPrice"]').prop('disabled', false).val(travelPrice);
             }
         }
     });
@@ -184,5 +197,16 @@
         map.setZoom(zoomLevel);
     }
 
+    $('#step5Form').on('submit', function (event) {
+        event.preventDefault(); 
+
+        var form = $(this)[0];
+        if (!form.checkValidity())
+            form.classList.add('was-validated');
+        else {
+
+            $(this).submit();
+        }
+    });
 
 </script>

@@ -6,5 +6,7 @@ namespace Medicloud.DAL.Repository.Staff
     {
 		Task<int> AddAsync(StaffDAO dao);
 		Task<StaffDAO> GetOwnerStaffByOrganizationId(int organizationId);
-    }
+		Task<bool> UpdateStaffAsync(StaffDAO dao);
+
+	}
 }

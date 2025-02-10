@@ -24,6 +24,8 @@ namespace Medicloud.ViewModels
 		public GetServiceTypesDTO ServiceTypes { get; set; }
 		public List<CategoryDAO> Categories { get; set; }
 		public bool hasTravel  { get; set; }
-
+		public int TeamSizeId { get; set; }
+		public int TravelId { get; set; }
+		public List<StaffWorkHoursDAO> WorkHours { get; set; }
 	}
 }

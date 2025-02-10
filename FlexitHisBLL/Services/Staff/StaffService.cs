@@ -32,8 +32,14 @@ namespace Medicloud.BLL.Services.Staff
 		public async Task<StaffDAO> GetOwnerStaffByOrganizationId(int organizationId)
 		{
 			using var con= _unitOfWork.BeginConnection();
-			var resul=await _staffRepository.GetOwnerStaffByOrganizationId(organizationId);
-			return resul;
+			var result=await _staffRepository.GetOwnerStaffByOrganizationId(organizationId);
+			return result;
+		}
+		public async Task<bool> UpdateStaffAsync(StaffDAO dao)
+		{
+			using var con = _unitOfWork.BeginConnection();
+			var result = await _staffRepository.UpdateStaffAsync(dao);
+			return result;
 		}
 	}
 }

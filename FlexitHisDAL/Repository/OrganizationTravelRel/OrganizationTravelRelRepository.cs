@@ -1,12 +1,6 @@
 ﻿using Dapper;
 using Medicloud.DAL.DAO;
 using Medicloud.DAL.Infrastructure.UnitOfWork;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Medicloud.DAL.Repository.OrganizationTravelRel
 {
 	public class OrganizationTravelRelRepository:IOrganizationTravelRelRepository
@@ -32,6 +26,28 @@ namespace Medicloud.DAL.Repository.OrganizationTravelRel
 			var con = _unitOfWork.GetConnection();
 			var newId = await con.QuerySingleOrDefaultAsync<int>(AddSql, dao);
 			return newId;
+		}
+		public async Task<OrganizationTravelDAO?> GetByOrganizationIdAsync(int id)
+		{
+			string sql = @"SELECT * FROM organization_travel_rel WHERE organizationId=@Id";
+			var con = _unitOfWork.GetConnection();
+			var result = await con.QuerySingleOrDefaultAsync<OrganizationTravelDAO>(sql, new { Id = id });
+			return result;
+		}
+
+		public async Task<bool> UpdateAsync(OrganizationTravelDAO dao)
+		{
+			string sql = $@"
+			UPDATE organization_travel_rel SET
+            organizationId=@{nameof(OrganizationTravelDAO.organizationId)},
+            distance=@{nameof(OrganizationTravelDAO.distance)},
+            fee=@{nameof(OrganizationTravelDAO.fee)},
+            feeType=@{nameof(OrganizationTravelDAO.feeType)}
+
+			WHERE id=@{nameof(OrganizationTravelDAO.id)}";
+			var con = _unitOfWork.GetConnection();
+			int result = await con.ExecuteAsync(sql, dao);
+			return result > 0;
 		}
 	}
 }

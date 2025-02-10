@@ -39,5 +39,20 @@ namespace Medicloud.DAL.Repository.Staff
 			var result = await con.QuerySingleOrDefaultAsync<StaffDAO>(sql,new { OrgId = organizationId});
 			return result;
 		}
+
+		public async Task<bool> UpdateStaffAsync(StaffDAO dao)
+		{
+			string sql = $@"
+			UPDATE staff SET
+            name=@{nameof(StaffDAO.name)},
+            phoneNumber=@{nameof(StaffDAO.phoneNumber)},
+            email=@{nameof(StaffDAO.email)},
+            permissionLevelId=@{nameof(StaffDAO.permissionLevelId)}
+
+			WHERE id= @{nameof(StaffDAO.id)}";
+			var con = _unitOfWork.GetConnection();
+			int result = await con.ExecuteAsync(sql, dao);
+			return result > 0;
+		}
 	}
 }

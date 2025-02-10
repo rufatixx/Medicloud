@@ -10,5 +10,7 @@ namespace Medicloud.DAL.Repository.OrganizationTravelRel
 	public interface IOrganizationTravelRelRepository
 	{
 		Task<int> AddAsync(OrganizationTravelDAO dao);
+		Task<OrganizationTravelDAO?> GetByOrganizationIdAsync(int id);
+		Task<bool> UpdateAsync(OrganizationTravelDAO dao);
 	}
 }

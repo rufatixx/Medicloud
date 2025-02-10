@@ -8,6 +8,7 @@ namespace Medicloud.DAL.DAO
 {
 	public class OrganizationTravelDAO
 	{
+		public int id { get; set; }
 		public int organizationId { get; set; }
 		public decimal fee { get; set; }
 		public decimal distance { get; set; }

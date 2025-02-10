@@ -26,23 +26,35 @@
                     <p>Bizə özünüz və biznesiniz haqqında məlumat verin</p>
                 </div>
             </div>
-            <form id="step2Form" method="post" enctype="multipart/form-data" asp-action="step3" asp-controller="registration" asp-area="admin">
+            <form id="step2Form" method="post" asp-action="step3" asp-controller="registration" asp-area="admin" novalidate >
                 <div class="card-body ">
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" asp-for="OrgName" id="floatingInput" placeholder="Ad">
+                        <input type="text" class="form-control" asp-for="OrgName"  id="floatingInput" placeholder="" required>
                         <label for="floatingInput">Biznesinizin adı</label>
+                        <div class="invalid-feedback">
+                            Bu sahə doldurulmalıdır
+                        </div>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" asp-for="StaffName" id="floatingInput" placeholder="Ad">
+                        <input type="text" class="form-control" asp-for="StaffName" id="floatingInput" placeholder="" required>
                         <label for="floatingInput">İstifadəçi adı</label>
+                        <div class="invalid-feedback">
+                            Bu sahə doldurulmalıdır
+                        </div>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" asp-for="StaffEmail" id="floatingInput" placeholder="Ad">
+                        <input type="text" class="form-control" asp-for="StaffEmail" id="floatingInput" placeholder="" required>
                         <label for="floatingInput">Elektron Poçt</label>
+                        <div class="invalid-feedback">
+                            Bu sahə doldurulmalıdır
+                        </div>
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1">+994</span>
-                        <input class="form-control" type="tel" id="mobileNumber" asp-for="StaffPhoneNumber" placeholder="nömrənizi daxil edin">
+                        <input class="form-control" type="tel" id="mobileNumber" asp-for="StaffPhoneNumber" placeholder="nömrənizi daxil edin" required>
+                        <div class="invalid-feedback">
+                            Bu sahə doldurulmalıdır
+                        </div>
                     </div>
                     <input type="hidden" asp-for="id" />
                     @if (Model.id == 0)
@@ -54,33 +66,33 @@
                     }
 
                     <!--<ul class="nav nav-pills nav-justified" id="formTabs" role="tablist">
-        <li class="nav-item" role="presentation">
-            <a class="nav-link @((type == 1) ? "active" : "")" id="phone-tab" data-toggle="tab" href="#phone" role="tab" aria-controls="phone" aria-selected="true">Telefon Nömrəsi</a>
-        </li>
-        <li class="nav-item" role="presentation">
-            <a class="nav-link @((type == 2) ? "active" : "")" id="email-tab" data-toggle="tab" href="#email" role="tab" aria-controls="email" aria-selected="false">Elektron Poçt</a>
-        </li>
-    </ul>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link @((type == 1) ? "active" : "")" id="phone-tab" data-toggle="tab" href="#phone" role="tab" aria-controls="phone" aria-selected="true">Telefon Nömrəsi</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link @((type == 2) ? "active" : "")" id="email-tab" data-toggle="tab" href="#email" role="tab" aria-controls="email" aria-selected="false">Elektron Poçt</a>
+                        </li>
+                    </ul>
 
-    <div class="tab-content mt-4" id="formTabsContent">
-        <div class="tab-pane fade @((type == 1) ? "show active" : "")" id="phone" role="tabpanel" aria-labelledby="phone-tab">
-            <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1">+994</span>
-                <input class="form-control" type="tel" id="mobileNumber" asp-for="StaffPhoneNumber" placeholder="nömrənizi daxil edin">
-            </div>
-        </div>
+                    <div class="tab-content mt-4" id="formTabsContent">
+                        <div class="tab-pane fade @((type == 1) ? "show active" : "")" id="phone" role="tabpanel" aria-labelledby="phone-tab">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1">+994</span>
+                                <input class="form-control" type="tel" id="mobileNumber" asp-for="StaffPhoneNumber" placeholder="nömrənizi daxil edin">
+                            </div>
+                        </div>
 
 
-        <div class="tab-pane fade @((type == 2) ? "show active" : "")" id="email" role="tabpanel" aria-labelledby="email-tab">-->
+                        <div class="tab-pane fade @((type == 2) ? "show active" : "")" id="email" role="tabpanel" aria-labelledby="email-tab">-->
                     @*<div class="mb-3">
-        <input type="email" class="form-control" id="emailInput" name="email" placeholder="Email daxil edin" />
-        </div>*@
+                        <input type="email" class="form-control" id="emailInput" name="email" placeholder="Email daxil edin" />
+                        </div>*@
                     <!--<div class="form-floating mb-3">
-                <input type="text" class="form-control" asp-for="StaffEmail" id="floatingInput" placeholder="Ad">
-                <label for="floatingInput">Elektron Poçt</label>
-            </div>
-        </div>
-    </div>-->
+                                <input type="text" class="form-control" asp-for="StaffEmail" id="floatingInput" placeholder="Ad">
+                                <label for="floatingInput">Elektron Poçt</label>
+                            </div>
+                        </div>
+                    </div>-->
 
                     <div class="mb-3 mb-0 text-center">
                         <button class="btn btn-primary" type="submit" id="nextButton"> Növbəti</button>
@@ -91,3 +103,101 @@
         </div>
     </div>
 </div>
+
+@section Scripts{
+    <script>
+
+
+        //$('#mobileNumber').on('input', function () {
+        //    var inputVal = $(this).val();
+
+        //    var numericVal = inputVal.replace(/\D/g, '');
+        //    if (numericVal.length > 9) {
+        //        numericVal = numericVal.slice(0, 9);
+        //    }
+        //    $(this).val(numericVal);
+        //});
+
+        //const $form = $('#step2Form');
+
+        //$form.on('submit', function (event) {
+        //    event.preventDefault();
+
+        //    var mobileNumber = $('#mobileNumber').val();
+
+        //    var regex = /^\d{9}$/;
+
+        //    var form = $form[0];
+
+
+        //    if (!form.checkValidity() || !mobileNumber || !regex.test(mobileNumber))
+        //        form.classList.add('was-validated');
+        //    else {
+        //        form.off('submit').submit();
+        //    }
+
+
+        //});
+
+
+        $('#mobileNumber').on('input', function () {
+            var inputVal = $(this).val();
+
+            // Remove non-numeric characters
+            var numericVal = inputVal.replace(/\D/g, '');
+
+            // Limit to 9 digits
+            if (numericVal.length > 9) {
+                numericVal = numericVal.slice(0, 9);
+            }
+
+            // Update the input field value
+            $(this).val(numericVal);
+        });
+
+        // Form submission handler
+        const $form = $('#step2Form');
+
+        $form.on('submit', function (event) {
+            event.preventDefault();
+
+            var mobileNumber = $('#mobileNumber').val();
+
+            // Regex to check if mobile number is exactly 9 digits
+            var regex = /^\d{9}$/;
+
+            var form = $form[0];
+
+            // Check form validity
+            if (!form.checkValidity()) {
+                // If form is invalid, apply Bootstrap 'was-validated' class to form
+                form.classList.add('was-validated');
+            } else {
+                // Validate the mobile number with the regex
+                if (!mobileNumber || !regex.test(mobileNumber)) {
+                    // Manually handle invalid mobile number
+                    $('#mobileNumber').addClass('is-invalid');
+                    // Optionally, show an error message
+                    $('#mobileNumber').next('.invalid-feedback').text('Nömrə düzgün daxil edilməyib, zəhmət olmasa 9 rəqəmli bir nömrə daxil edin.');
+                    form.classList.add('was-validated');
+                } else {
+                    // If everything is valid, allow the form to submit
+                    $form.off('submit').submit();
+                }
+            }
+        });
+
+        // Reset invalid classes when the mobile number is updated
+        $('#mobileNumber').on('input', function () {
+            if ($(this).hasClass('is-invalid')) {
+                $(this).removeClass('is-invalid');
+            }
+        });
+
+
+
+
+
+
+    </script>
+}

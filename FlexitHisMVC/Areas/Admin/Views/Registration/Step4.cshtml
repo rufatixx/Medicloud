@@ -4,48 +4,232 @@
 
 @model Medicloud.ViewModels.CreateOrganizationVM
 <div class="">
-        <div class="row  text-center justify-content-center ">
-            <div class="">
-                <form id="step4Form" method="post" enctype="multipart/form-data" asp-action="step5" asp-controller="registration" asp-area="admin">
-                    <div class="card-header">
-                        <input type="hidden"  asp-for="id"/>
-                        <input type="hidden"  asp-for="latitude" id="latInp"/>
-                        <input type="hidden"  asp-for="longitude" id="longInp"/>
-                        <input type="hidden"  asp-for="OrgAddress" id="addInp"/>
-                        <input type="hidden"  asp-for="WorkPlaceType" id="addInp"/>
-                        <button class="btn btn-sm">
-                            <img src="~/arrow.svg" />
+    <div class="row  text-center justify-content-center ">
+        <div class="">
+            <div class="card-header   align-items-center">
+                <a class="btn btn-sm" asp-action="Step3" asp-route-organizationId="@Model.id" asp-area="Admin">
+                    <svg width="32px" height="32px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="#737373">
+                        <path fill="#737373" d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"></path>
+                        <path fill="#737373" d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"></path>
+                    </svg>
+                </a>
 
-                        </button>
-                        <div class="text-center">
-                            <h1>Addressiniz</h1>
-                            <p>Müştərilər sizi harada tapa bilər?</p>
-                        </div>
-                    </div>
-                    <div class="card-body ">
-
-                        <div class="row">
-                            <div id="map" style="height: 400px;"></div>
-
-                        </div>
-                    </div>
-
-                    <div class="mb-3 mb-0 text-center">
-                        <button class="btn btn-primary" type="submit" id="nextButton"> Növbəti</button>
-                    </div>
-
-                </form>
+                <div class="text-center flex-grow-1">
+                    <h1>Ünvanınız</h1>
+                    <p>Müştərilər sizi harada tapa bilər?</p>
+                </div>
             </div>
+            <form id="step4Form" method="post" enctype="multipart/form-data" asp-action="step5" asp-controller="registration" asp-area="admin">
+                <input type="hidden" asp-for="id" />
+                <input type="hidden" asp-for="latitude" id="latInp" />
+                <input type="hidden" asp-for="longitude" id="longInp" />
+                <input type="hidden" asp-for="OrgAddress" id="addInp" />
+                <input type="hidden" asp-for="WorkPlaceType" id="addInp" />
+                <div class="card-body ">
+                    <div class="alert alert-danger" role="alert" id="errorMessage" style="display:none;">
+                        Zəhmət olmasa ünvanınızı daxil edin.
+                    </div>
+                    <div class="row">
+                        <div id="map" style="height: 400px;"></div>
+
+                    </div>
+                </div>
+
+                <div class="mb-3 mb-0 text-center">
+                    <button class="btn btn-primary" type="submit" id="nextButton"> Növbəti</button>
+                </div>
+
+            </form>
         </div>
     </div>
+</div>
 
 
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 
-    <script>
+<script>
+
+    const $form = $('#step4Form');
+    const $errorMessage = $("#errorMessage");
+    var modelLatitude = '@Model.latitude'; // Replace with your model's latitude value
+    var modelLongitude = '@Model.longitude'; // Replace with your model's longitude value
+    var modelAddress = '@Model.OrgAddress'; // Replace with your model's address value
+
+    // Default coordinates for Baku
+    var baku = [40.4093, 49.8671];
+
+    // If the model has valid latitude and longitude, use them
+    if (modelLatitude && modelLongitude && modelLatitude > 0 && modelLongitude>0) {
+        console.log(modelLatitude)
+        console.log(modelLongitude)
+        baku = [parseFloat(modelLatitude), parseFloat(modelLongitude)];
+    }
+
+    var map = L.map('map').setView(baku, 12);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+    var currentMarker;
+
+    // If an address is provided, set it as the initial marker's popup
+    if (modelAddress) {
+        console.log(modelAddress)
+        currentMarker = L.marker(baku).addTo(map);
+        currentMarker.bindPopup("<b>" + modelAddress + "</b>").openPopup();
+
+        map.setZoom(16);
+        map.panTo(baku);
+    }
+
+    // Geocoder search handling
+    L.Control.geocoder().addTo(map).on('markgeocode', function (e) {
+        var lat = e.geocode.center.lat;
+        var lng = e.geocode.center.lng;
+        var address = e.geocode.name;
+
+        // Remove the current marker if it exists
+        if (currentMarker) {
+            map.removeLayer(currentMarker);
+        }
+
+        // Add the new marker with the new address
+        currentMarker = L.marker([lat, lng]).addTo(map);
+        currentMarker.bindPopup(address).openPopup();
+
+        // Update the hidden input fields
+        $('#latInp').val(lat);
+        $('#longInp').val(lng);
+        $('#addInp').val(address);
+        $errorMessage.hide();
+
+        //console.log($('#latInp').val());
+        //console.log($('#longInp').val());
+        //console.log($('#addInp').val());
+    });
+
+    // Handle map click event to update the marker
+    map.on('click', function (e) {
+        var lat = e.latlng.lat;
+        var lng = e.latlng.lng;
+        var apiUrl = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`;
+
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                var address = data.display_name;
+
+                // Remove the current marker if it exists
+                if (currentMarker) {
+                    map.removeLayer(currentMarker);
+                }
+
+                // Add the new marker with the new address
+                currentMarker = L.marker([lat, lng]).addTo(map);
+                currentMarker.bindPopup(address).openPopup();
+
+                // Update the hidden input fields
+                $('#latInp').val(lat);
+                $('#longInp').val(lng);
+                $('#addInp').val(address);
+                $errorMessage.hide();
+
+                //console.log($('#latInp').val());
+                //console.log($('#longInp').val());
+                //console.log($('#addInp').val());
+            })
+            .catch(error => {
+                console.error("Error fetching address: ", error);
+            });
+    });
+
+
+
+
+    $form.on('submit', function (event) {
+        // Prevent the form from submitting immediately
+        event.preventDefault();
+
+
+
+        if (!$('#addInp').val() || !$('#longInp').val() || !$('#latInp').val()) {
+            $errorMessage.show();
+            return;
+        }
+
+        $form.off('submit').submit();
+    });
+
+
+        //var baku = [40.4093, 49.8671];
+
+        //var map = L.map('map').setView(baku, 12);
+
+        //L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+        //var marker = L.marker(baku).addTo(map);
+        //marker.bindPopup("<b>Bakı</b><br>Azərbaycanın paytaxtı.").openPopup();
+        //var currentMarker = marker;
+
+
+        //L.Control.geocoder().addTo(map).on('markgeocode', function (e) {
+        //    var lat = e.geocode.center.lat;
+        //    var lng = e.geocode.center.lng;
+        //    var address = e.geocode.name;
+
+        //    console.log(currentMarker)
+        //    if (currentMarker) {
+        //        map.removeLayer(currentMarker);
+        //    }
+
+
+        //    currentMarker = L.marker([lat, lng]).addTo(map);
+        //    currentMarker.bindPopup(address).openPopup();
+
+        //    $('#latInp').val(lat);
+        //    $('#longInp').val(lng);
+        //    $('#addInp').val(address);
+
+        //    console.log($('#latInp').val());
+        //    console.log($('#longInp').val());
+        //    console.log($('#addInp').val());
+        //});
+
+        //map.on('click', function (e) {
+        //    var lat = e.latlng.lat;
+        //    var lng = e.latlng.lng;
+        //    var apiUrl = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`;
+
+        //    fetch(apiUrl)
+        //        .then(response => response.json())
+        //        .then(data => {
+        //            var address = data.display_name;
+
+
+
+        //            if (currentMarker) {
+        //                map.removeLayer(currentMarker);
+        //            }
+
+
+        //            currentMarker = L.marker([lat, lng]).addTo(map);
+        //            currentMarker.bindPopup(address).openPopup();
+
+
+        //            $('#latInp').val(lat);
+        //            $('#longInp').val(lng);
+        //            $('#addInp').val(address);
+
+        //            console.log($('#latInp').val());
+        //            console.log($('#longInp').val());
+        //            console.log($('#addInp').val());
+        //        })
+        //        .catch(error => {
+        //            console.error("Adres alınırken bir hata oluştu: ", error);
+        //        });
+        //});
 
 
         //var baku = [40.4093, 49.8671];
@@ -214,79 +398,9 @@
         //});
 
 
-        var baku = [40.4093, 49.8671];
-
-        var map = L.map('map').setView(baku, 12);
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-
-        var marker = L.marker(baku).addTo(map);
-        marker.bindPopup("<b>Bakı</b><br>Azərbaycanın paytaxtı.").openPopup();
-        var currentMarker = marker; // İlk marker'ı tanımla
-
-        // Geocoder arama sonrasında işlem
-        L.Control.geocoder().addTo(map).on('markgeocode', function (e) {
-            var lat = e.geocode.center.lat;
-            var lng = e.geocode.center.lng;
-            var address = e.geocode.name;
-
-            console.log(currentMarker)
-            if (currentMarker) {
-                map.removeLayer(currentMarker);
-            }
-
-            // Yeni marker'ı ekle
-            currentMarker = L.marker([lat, lng]).addTo(map);
-            currentMarker.bindPopup(address).openPopup();
-
-            // Input alanlarını güncelle
-            $('#latInp').val(lat);
-            $('#longInp').val(lng);
-            $('#addInp').val(address);
-
-            console.log($('#latInp').val());
-            console.log($('#longInp').val());
-            console.log($('#addInp').val());
-        });
-
-        // Haritaya tıklama işlemi
-        map.on('click', function (e) {
-            var lat = e.latlng.lat;
-            var lng = e.latlng.lng;
-            var apiUrl = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`;
-
-            fetch(apiUrl)
-                .then(response => response.json())
-                .then(data => {
-                    var address = data.display_name;
-
-                    // Eğer currentMarker varsa, haritadan kaldır
-     
-                    if (currentMarker) {
-                        map.removeLayer(currentMarker);
-                    }
-
-                    // Yeni marker'ı ekle
-                    currentMarker = L.marker([lat, lng]).addTo(map);
-                    currentMarker.bindPopup(address).openPopup();
-
-                    // Input alanlarını güncelle
-                    $('#latInp').val(lat);
-                    $('#longInp').val(lng);
-                    $('#addInp').val(address);
-
-                    console.log($('#latInp').val());
-                    console.log($('#longInp').val());
-                    console.log($('#addInp').val());
-                })
-                .catch(error => {
-                    console.error("Adres alınırken bir hata oluştu: ", error);
-                });
-        });
 
 
-
-    </script>
+</script>
 
 
 
@@ -308,8 +422,8 @@
                 </div>
                 <div class="card-body">
                     <div class="row">-->
-                        <!-- Arama inputu ve dropdown için bir alan ekleyin -->
-                        <!--<div class="col-12 mb-3">
+<!-- Arama inputu ve dropdown için bir alan ekleyin -->
+<!--<div class="col-12 mb-3">
                             <input type="text" id="searchInput" class="form-control" placeholder="Adres arayın...">
                             <ul id="resultsDropdown" class="list-group" style="display: none; position: absolute; width: 100%; max-height: 200px; overflow-y: auto; background: white; border: 1px solid #ccc; z-index: 999;"></ul>
                         </div>
@@ -326,11 +440,10 @@
         </div>
     </div>
 </div>-->
-
 @*<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>*@
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>*@
 
 <script>
     //var baku = [40.4093, 49.8671];
@@ -342,7 +455,7 @@
     //var currentMarker = marker;
 
     // Geocoding arama fonksiyonu
-/*    var geocoder = new L.Control.Geocoder.Nominatim();*/
+    /*    var geocoder = new L.Control.Geocoder.Nominatim();*/
 
     //function searchLocation(query) {
     //    if (query.length > 3) {
