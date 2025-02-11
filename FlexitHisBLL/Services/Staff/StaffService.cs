@@ -1,4 +1,5 @@
-﻿using Medicloud.DAL.DAO;
+﻿using Medicloud.BLL.DTO;
+using Medicloud.DAL.DAO;
 using Medicloud.DAL.Infrastructure.UnitOfWork;
 using Medicloud.DAL.Repository.Staff;
 using System;
@@ -22,10 +23,23 @@ namespace Medicloud.BLL.Services.Staff
 			_staffRepository = staffRepository;
 		}
 
-		public async Task<List<StaffWorkHoursDAO>> GetWorkHours(int staffId)
+		public async Task<List<StaffWorkHoursDTO>> GetWorkHours(int staffId)
 		{
 			using var con =  _unitOfWork.BeginConnection();
-			var result = await _workHoursRepository.GetStaffWorkHours(staffId);
+			var workhours = await _workHoursRepository.GetStaffWorkHours(staffId);
+			var result=new List<StaffWorkHoursDTO>();
+			foreach (var item in workhours)
+			{
+				Console.WriteLine(item.id.ToString());
+				result.Add(new()
+				{
+					id=item.id,
+					startTime=item.startTime,
+					endTime=item.endTime,
+					dayOfWeek=item.dayOfWeek,
+					Breaks= await _workHoursRepository.GetStaffBreaksWithWorkHourId(item.id),
+				});
+			}
 			return result;
 		}
 

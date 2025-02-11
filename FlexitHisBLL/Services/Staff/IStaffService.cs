@@ -1,4 +1,5 @@
-﻿using Medicloud.DAL.DAO;
+﻿using Medicloud.BLL.DTO;
+using Medicloud.DAL.DAO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace Medicloud.BLL.Services.Staff
 {
 	public interface IStaffService
 	{
-		Task<List<StaffWorkHoursDAO>> GetWorkHours(int staffId);
+		Task<List<StaffWorkHoursDTO>> GetWorkHours(int staffId);
 		Task<StaffDAO> GetOwnerStaffByOrganizationId(int organizationId);
 		Task<bool> UpdateStaffAsync(StaffDAO dao);
 	}

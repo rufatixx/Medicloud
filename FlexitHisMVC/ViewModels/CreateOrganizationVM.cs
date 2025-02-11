@@ -26,6 +26,6 @@ namespace Medicloud.ViewModels
 		public bool hasTravel  { get; set; }
 		public int TeamSizeId { get; set; }
 		public int TravelId { get; set; }
-		public List<StaffWorkHoursDAO> WorkHours { get; set; }
+		public List<StaffWorkHoursDTO> WorkHours { get; set; }
 	}
 }

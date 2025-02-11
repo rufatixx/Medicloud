@@ -101,7 +101,7 @@
 
 
                 <div class="mb-3 mb-0 text-center">
-                    <a asp-action="Step9" asp-route-organizationId="@Model.id" asp-area="Admin" class="btn btn-primary"  id="nextButton"> Növbəti</a>
+                    <a asp-action="Step9" asp-route-organizationId="@Model.id" asp-area="Admin" class="btn btn-primary" id="nextButton"> Növbəti</a>
                 </div>
             </form>
         </div>
@@ -151,7 +151,7 @@
 
     $(document).ready(function () {
 
-        function populateTimeOptions(start,end) {
+        function populateTimeOptions(start, end) {
             const $startTimeSelect = $("#startTimeSelect");
             const $endTimeSelect = $("#endTimeSelect");
             $startTimeSelect.empty();
@@ -198,18 +198,18 @@
                 }
             }
 
-            if (selectedEnd!==$endTimeSelect.val()) {
-                 selectedEnd = $endTimeSelect.val();
-             }
+            if (selectedEnd !== $endTimeSelect.val()) {
+                selectedEnd = $endTimeSelect.val();
+            }
         });
 
 
         $("#startTimeSelect").on("change", function (event) {
-            selectedStart=$(this).val();
+            selectedStart = $(this).val();
             console.log(selectedEnd)
         });
         $("#endTimeSelect").on("change", function (event) {
-            selectedEnd=$(this).val();
+            selectedEnd = $(this).val();
             console.log(selectedEnd)
         });
 
@@ -230,17 +230,17 @@
         });
 
 
-       $(".item-row").on("click", function () {
-        const $checkbox = $(this).prev().find(".toggle-checkbox"); // Get the checkbox from the previous sibling (.col-6)
-        if ($checkbox.is(":checked")) { // Check if the checkbox is checked
-            const day = $(this).data("day");
-            selectedStart = $(this).data("start") || '09:00';
-            selectedEnd = $(this).data("end") || '18:00';
-            $("#selectedDay").val(day);
-            $("#editTimeModalLabel").text(`${day}`);
-            populateTimeOptions(selectedStart, selectedEnd);
-            $("#editTimeModal").modal("show");
-        }
+        $(".item-row").on("click", function () {
+            const $checkbox = $(this).prev().find(".toggle-checkbox"); // Get the checkbox from the previous sibling (.col-6)
+            if ($checkbox.is(":checked")) { // Check if the checkbox is checked
+                const day = $(this).data("day");
+                selectedStart = $(this).data("start") || '09:00';
+                selectedEnd = $(this).data("end") || '18:00';
+                $("#selectedDay").val(day);
+                $("#editTimeModalLabel").text(`${day}`);
+                populateTimeOptions(selectedStart, selectedEnd);
+                $("#editTimeModal").modal("show");
+            }
         });
 
 
@@ -257,238 +257,590 @@
             }
         });
 
-    // const workHoursStart = 9 * 60; // 09:00 in minutes
-    // const workHoursEnd = 18 * 60; // 18:00 in minutes
-    // let breaks = [];
-
-
-    //     const breakStartSelect = document.getElementById("breakStart");
-    //     const breakEndSelect = document.getElementById("breakEnd");
-    //     const addBreakBtn = document.getElementById("addBreakButton");
-    //     const breaksContainer = document.getElementById("breaksContainer");
-
-    //     function updateBreakOptions() {
-    //         breakStartSelect.innerHTML = "";
-    //         breakEndSelect.innerHTML = "";
-
-    //         for (let minutes = workHoursStart; minutes < workHoursEnd; minutes += 15) {
-    //             if (!isTimeWithinBreaks(minutes)) {
-    //                 addOption(breakStartSelect, minutes);
-    //             }
-    //         }
-    //     }
-
-    //     function addOption(select, minutes) {
-    //         let option = document.createElement("option");
-    //         option.value = minutes;
-    //         option.textContent = formatTime(minutes);
-    //         select.appendChild(option);
-    //     }
-
-    //     function isTimeWithinBreaks(minutes) {
-    //         return breaks.some(([start, end]) => minutes >= start && minutes < end);
-    //     }
-
-    //     function formatTime(minutes) {
-    //         let hours = Math.floor(minutes / 60);
-    //         let mins = minutes % 60;
-    //         return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
-    //     }
-
-    //     function updateEndOptions() {
-    //         breakEndSelect.innerHTML = "";
-    //         let startTime = parseInt(breakStartSelect.value);
-
-    //         for (let minutes = startTime + 15; minutes <= workHoursEnd; minutes += 15) {
-    //             if (!isTimeWithinBreaks(minutes)) {
-    //                 addOption(breakEndSelect, minutes);
-    //             }
-    //         }
-    //     }
-
-    //     breakStartSelect.addEventListener("change", updateEndOptions);
-
-    //     addBreakBtn.addEventListener("click", function () {
-    //         let start = parseInt(breakStartSelect.value);
-    //         let end = parseInt(breakEndSelect.value);
-
-    //         if (start && end && start < end) {
-    //             breaks.push([start, end]);
-    //             let breakEntry = document.createElement("div");
-    //             breakEntry.textContent = `Mola: ${formatTime(start)} - ${formatTime(end)}`;
-    //             breaksContainer.appendChild(breakEntry);
-    //             updateBreakOptions();
-    //         }
-    //     });
-
-    //     updateBreakOptions();
 
 
 
-    let startTime='09:00';
-    let endTime='18:00';
-    let breaks = [{start:'09:00',end:'09:05'}];
+        //let startTime = "09:00";
+        //let endTime = "18:00";
+        //let breaks = [{start:'10:10',end:'10:50'}];
+
+        //updateBreakOptions();
+
+        //function generateTimeOptions(start, end) {
+        //    const options = [];
+        //    let currentTime = new Date(`1970-01-01T${start}:00`);
+        //    const endTimeMoment = new Date(`1970-01-01T${end}:00`);
+
+        //    while (currentTime <= endTimeMoment) {
+        //        options.push(currentTime.toTimeString().substring(0, 5));
+        //        currentTime.setMinutes(currentTime.getMinutes() + 5);
+        //    }
+        //    return options;
+        //}
+
+        //function updateBreakOptions() {
+        //    const $breaksContainer = $("#breaksContainer");
+        //    $breaksContainer.empty();
+
+        //    breaks.forEach((brk, index) => {
+        //        const breakHtml = `
+        //    <div class="row mb-2" data-index="${index}">
+        //        <span class="col-4">Break ${index + 1}</span>
+        //        <div class="col-3">
+        //            <select class="form-select break-start" data-index="${index}">
+        //            </select>
+        //        </div>
+        //        <div class="col-3">
+        //            <select class="form-select break-end" data-index="${index}">
+        //            </select>
+        //        </div>
+        //        <div class="col-2">
+        //            <button class="btn btn-danger btn-sm remove-break" data-index="${index}">X</button>
+        //        </div>
+        //    </div>
+        //`;
+        //        $breaksContainer.append(breakHtml);
+        //    });
+
+        //    updateBreakTimes();
+        //}
 
 
-    function updateBreakOptions() {
-        const $breaksContainer = $("#breaksContainer");
-    
-        $breaksContainer.empty();
+        //function updateBreakTimes() {
+        //    $(".break-start").each((index, el) => {
+        //        const $startSelect = $(el);
+        //        const $endSelect = $(`.break-end[data-index="${index}"]`);
 
-        breaks.forEach((brk, index) => {
-            const breakHtml = `
-                <div class="row mb-2" data-index="${index}" data-id=${brk.id || 0}>
-                    <span class="col-4">Break ${index + 1}</span>
-                    <div class="col-3">
-                        <select class="form-select break-start" data-index="${index}">
-                        </select>
-                    </div>
-                    <div class="col-3">
-                        <select class="form-select break-end" data-index="${index}">
-                        </select>
-                    </div>
-                    <div class="col-2">
-                        <button class="btn btn-danger btn-sm remove-break" data-index="${index}">X</button>
-                    </div>
-                </div>
-            `;
-            $breaksContainer.append(breakHtml);
-        });
+        //        const previousStart = breaks[index]?.start || startTime;
+        //        const previousEnd = breaks[index]?.end || endTime;
 
-        updateBreakTimes();
-    }
+        //        let availableTimes = generateTimeOptions(startTime, endTime);
 
-    function updateBreakTimes() {
-        $(".break-start, .break-end").each(function () {
-            const $select = $(this);
-            const index = $select.data("index");
-            const isStartSelect = $select.hasClass("break-start");
+        //        // Önceki break'lerin zamanlarını engelle
+        //        breaks.forEach((brk, i) => {
+        //            if (i !== index) {
+        //                availableTimes = availableTimes.filter(time => !(time >= brk.start && time <= brk.end));
+        //            }
+        //        });
 
-            $select.empty();
+        //        // Başlangıç dropdown'unu güncelle
+        //        $startSelect.empty();
+        //        availableTimes.forEach(option => {
+        //            $startSelect.append(new Option(option, option, false, option === previousStart));
+        //        });
 
-            let startHour = parseInt(selectedStart.split(":")[0]);
-            let endHour = parseInt(selectedEnd.split(":")[0]);
+        //        const selectedStartTime = $startSelect.val() || availableTimes[0];
 
-            breaks.forEach((brk, i) => {
-                if (i < index) {
-                    startHour = parseInt(brk.end.split(":")[0]);
-                }
+        //        let availableEndTimes = availableTimes.filter(time => time > selectedStartTime);
+
+        //        // Bitiş dropdown'unu güncelle
+        //        $endSelect.empty();
+        //        availableEndTimes.forEach(option => {
+        //            $endSelect.append(new Option(option, option, false, option === previousEnd));
+        //        });
+
+        //        breaks[index].start = $startSelect.val();
+        //        breaks[index].end = $endSelect.val();
+        //    });
+        //}
+
+        //function addBreak() {
+        //    const lastBreak = breaks.length > 0 ? breaks[breaks.length - 1] : null;
+
+        //    let newStartTime = lastBreak ? lastBreak.end : startTime;
+        //    let availableTimes = generateTimeOptions(newStartTime, endTime);
+
+        //    // Mevcut molaların zaman aralıklarını engelle
+        //    breaks.forEach(brk => {
+        //        availableTimes = availableTimes.filter(time => !(time >= brk.start && time <= brk.end));
+        //    });
+
+        //    if (availableTimes.length < 2) return;
+
+        //    const newBreak = {
+        //        start: availableTimes[0],
+        //        end: availableTimes[1]
+        //    };
+
+        //    breaks.push(newBreak);
+        //    updateBreakOptions();
+        //}
+
+        //function removeBreak(index) {
+        //    breaks.splice(index, 1);
+        //    updateBreakOptions();
+        //}
+
+        //// Event Listeners
+        //$(document).on("click", ".remove-break", function () {
+        //    const index = $(this).data("index");
+        //    removeBreak(index);
+        //});
+
+
+        //$(document).on("change", ".break-start", function () {
+        //    const index = $(this).data("index");
+        //    breaks[index].start = $(this).val();
+
+        //    let availableEndTimes = generateTimeOptions(breaks[index].start, endTime).filter(time => time > breaks[index].start);
+        //    breaks[index].end = availableEndTimes[0] || breaks[index].start;
+        //    console.log(breaks)
+        //    updateBreakOptions();
+        //});
+
+        //$(document).on("change", ".break-end", function () {
+        //    const index = $(this).data("index");
+        //    breaks[index].end = $(this).val();
+        //    updateBreakOptions();
+        //});
+
+        //$("#addBreakButton").on("click", function () {
+        //    addBreak();
+        //});
+
+        let startTime = selectedStart;
+        let endTime = selectedEnd;
+        let breaks = [];
+
+        console.log(selectedStart)
+        console.log(selectedEnd)
+
+        updateBreakOptions();
+
+        function generateTimeOptions(start, end) {
+            const options = [];
+            let currentTime = new Date(`1970-01-01T${start}:00`);
+            const endTimeMoment = new Date(`1970-01-01T${end}:00`);
+
+            while (currentTime <= endTimeMoment) {
+                options.push(currentTime.toTimeString().substring(0, 5));
+                currentTime.setMinutes(currentTime.getMinutes() + 5);
+            }
+            return options;
+        }
+
+        function updateBreakOptions() {
+            const $breaksContainer = $("#breaksContainer");
+            $breaksContainer.empty();
+
+            breaks.forEach((brk, index) => {
+                const breakHtml =
+                    `<div class="row mb-2" data-index="${index}">
+            <span class="col-4">Break ${index + 1}</span>
+            <div class="col-3">
+                <select class="form-select break-start" data-index="${index}">
+                </select>
+            </div>
+            <div class="col-3">
+                <select class="form-select break-end" data-index="${index}">
+                </select>
+            </div>
+            <div class="col-2">
+                <button class="btn btn-danger btn-sm remove-break" data-index="${index}">X</button>
+            </div>
+        </div>`;
+                $breaksContainer.append(breakHtml);
             });
 
-            for (let hour = startHour; hour <= endHour; hour++) {
-                for (let minute = 0; minute < 60; minute += 15) {
-                    const time = `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
-                    $select.append(`<option value="${time}">${time}</option>`);
-                }
-            }
+            updateBreakTimes();
+        }
 
-            if (isStartSelect) {
-                $select.val(breaks[index].start);
-            } else {
-                $select.val(breaks[index].end);
-            }
+        function updateBreakTimes() {
+            $(".break-start").each((index, el) => {
+                const $startSelect = $(el);
+                const $endSelect = $(`.break-end[data-index="${index}"]`);
+
+                const previousStart = breaks[index]?.start || startTime;
+                const previousEnd = breaks[index]?.end || endTime;
+
+                let availableTimes = generateTimeOptions(startTime, endTime);
+
+                // Önceki ve sonraki break'lerin zamanlarını engelle
+                breaks.forEach((brk, i) => {
+                    if (i !== index) {
+                        availableTimes = availableTimes.filter(time => !(time >= brk.start && time <= brk.end));
+                    }
+                });
+
+                // Başlangıç dropdown'unu güncelle
+                $startSelect.empty();
+                availableTimes.forEach(option => {
+                    $startSelect.append(new Option(option, option, false, option === previousStart));
+                });
+
+                const selectedStartTime = $startSelect.val() || availableTimes[0];
+
+                let availableEndTimes = availableTimes.filter(time => time > selectedStartTime);
+
+                // Bitiş dropdown'unu güncelle
+                $endSelect.empty();
+                availableEndTimes.forEach(option => {
+                    $endSelect.append(new Option(option, option, false, option === previousEnd));
+                });
+
+                breaks[index].start = $startSelect.val();
+                breaks[index].end = $endSelect.val();
+            });
+        }
+
+
+        //function updateBreakTimes() {
+        //    $(".break-start").each((index, el) => {
+        //        const $startSelect = $(el);
+        //        const $endSelect = $(`.break-end[data-index="${index}"]`);
+
+        //        const previousStart = breaks[index]?.start || startTime;
+        //        const previousEnd = breaks[index]?.end || endTime;
+
+        //        let availableTimes = generateTimeOptions(startTime, endTime);
+
+        //        // Mevcut molaların zaman aralıklarını engelle
+        //        breaks.forEach((brk, i) => {
+        //            if (i !== index) {
+        //                availableTimes = availableTimes.filter(time => !(time >= brk.start && time < brk.end));
+        //            }
+        //        });
+
+        //        // Başlangıç dropdown'unu güncelle
+        //        $startSelect.empty();
+        //        availableTimes.forEach(option => {
+        //            $startSelect.append(new Option(option, option, false, option === previousStart));
+        //        });
+
+        //        const selectedStartTime = $startSelect.val() || availableTimes[0];
+
+        //        // Mevcut başlangıç saatinden itibaren ilk çakışan saate kadar olanları al
+        //        let availableEndTimes = generateTimeOptions(selectedStartTime, endTime)
+        //            .filter(time => time > selectedStartTime)
+        //            .filter(time => {
+        //                return !breaks.some((brk, i) => i !== index && time >= brk.start && time < brk.end);
+        //            });
+
+        //        // Bitiş dropdown'unu güncelle
+        //        $endSelect.empty();
+        //        availableEndTimes.forEach(option => {
+        //            $endSelect.append(new Option(option, option, false, option === previousEnd));
+        //        });
+
+        //        breaks[index].start = $startSelect.val();
+        //        breaks[index].end = $endSelect.val();
+        //    });
+        //}
+
+        function addBreak() {
+            const lastBreak = breaks.length > 0 ? breaks[breaks.length - 1] : null;
+
+            let newStartTime = lastBreak ? lastBreak.end : startTime;
+            let availableTimes = generateTimeOptions(newStartTime, endTime);
+
+            // Mevcut molaların zaman aralıklarını engelle
+            breaks.forEach(brk => {
+                availableTimes = availableTimes.filter(time => !(time >= brk.start && time <= brk.end));
+            });
+
+            if (availableTimes.length < 2) return;
+
+            const newBreak = {
+                start: availableTimes[0],
+                end: availableTimes[1]
+            };
+
+            breaks.push(newBreak);
+            updateBreakOptions();
+        }
+
+        function removeBreak(index) {
+            breaks.splice(index, 1);
+            updateBreakOptions();
+        }
+
+        // Event Listeners
+        $(document).on("click", ".remove-break", function () {
+            const index = $(this).data("index");
+            removeBreak(index);
         });
-    }
 
-    $("#addBreakButton").on("click", function () {
-        if (breaks.length === 0) {
-            breaks.push({ start: selectedStart, end: selectedEnd });
-        } else {
-            let lastBreakEnd = breaks[breaks.length - 1].end;
-            let newBreakStart = lastBreakEnd;
-            let newBreakEnd = selectedEnd;
+        $(document).on("change", ".break-start", function () {
+            const index = $(this).data("index");
+            breaks[index].start = $(this).val();
 
-            breaks.push({ start: newBreakStart, end: newBreakEnd });
-        }
+            let availableEndTimes = generateTimeOptions(breaks[index].start, endTime).filter(time => time > breaks[index].start);
+            breaks[index].end = availableEndTimes[0] || breaks[index].start;
+            updateBreakOptions();
+        });
 
-        updateBreakOptions();
-    });
+        $(document).on("change", ".break-end", function () {
+            const index = $(this).data("index");
+            breaks[index].end = $(this).val();
+            updateBreakOptions();
+        });
 
-    $(document).on("change", ".break-start, .break-end", function () {
-        const index = $(this).data("index");
-        const newValue = $(this).val();
-        const isStartSelect = $(this).hasClass("break-start");
+        $("#addBreakButton").on("click", function () {
+            addBreak();
+        });
 
-        if (isStartSelect) {
-            breaks[index].start = newValue;
-        } else {
-            breaks[index].end = newValue;
-        }
+        //let startTime = "09:00";
+        //let endTime = "18:00";
+        //let breaks = [];
 
-        updateBreakTimes();
-    });
+        //updateBreakOptions();
 
-    $(document).on("click", ".remove-break", function () {
-        const index = $(this).data("index");
-        breaks.splice(index, 1);
-        updateBreakOptions();
-    });
+        //function generateTimeOptions(start, end) {
+        //    const options = [];
+        //    let currentTime = new Date(`1970-01-01T${start}:00`);
+        //    const endTimeMoment = new Date(`1970-01-01T${end}:00`);
 
-        
+        //    while (currentTime <= endTimeMoment) {
+        //        options.push(currentTime.toTimeString().substring(0, 5));
+        //        currentTime.setMinutes(currentTime.getMinutes() + 5);
+        //    }
+        //    return options;
+        //}
 
-    // let breaksList=[];
+        //function updateBreakOptions() {
+        //    const $breaksContainer = $("#breaksContainer");
+        //    $breaksContainer.empty();
 
-    // function renderBreaks() {
-    //     $("#breaksContainer").empty();
-    //     breaksList.forEach((breakItem, index) => {
-    //         $("#breaksContainer").append(`
-    //             <div class="row mb-2">
-    //                 <div class="col-4">Mola ${index + 1}</div>
-    //                 <div class="col-3">
-    //                     <select class="form-select break-start" data-index="${index}">
-    //                         ${generateTimeOptions(breakItem.start)}
-    //                     </select>
-    //                 </div>
-    //                 <div class="col-3">
-    //                     <select class="form-select break-end" data-index="${index}">
-    //                         ${generateTimeOptions(breakItem.end)}
-    //                     </select>
-    //                 </div>
-    //                 <div class="col-2">
-    //                     <button class="btn btn-danger btn-sm remove-break" data-index="${index}">X</button>
-    //                 </div>
-    //             </div>
-    //         `);
-    //     });
-    // }
+        //    breaks.forEach((brk, index) => {
+        //        const breakHtml = `
+        //<div class="row mb-2" data-index="${index}">
+        //    <span class="col-4">Break ${index + 1}</span>
+        //    <div class="col-3">
+        //        <select class="form-select break-start" data-index="${index}">
+        //        </select>
+        //    </div>
+        //    <div class="col-3">
+        //        <select class="form-select break-end" data-index="${index}">
+        //        </select>
+        //    </div>
+        //    <div class="col-2">
+        //        <button class="btn btn-danger btn-sm remove-break" data-index="${index}">X</button>
+        //    </div>
+        //</div>
+        //`;
+        //        $breaksContainer.append(breakHtml);
+        //    });
 
-    // function generateTimeOptions(selectedTime) {
-    //     let options = "";
-    //     for (let hour = 0; hour <= 23; hour++) {
-    //         for (let minute = 0; minute < 60; minute += 15) {
-    //             const time = `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
-    //             options += `<option value="${time}" ${time === selectedTime ? "selected" : ""}>${time}</option>`;
-    //         }
-    //     }
-    //     return options;
-    // }
+        //    updateBreakTimes();
+        //}
 
-    // $("#addBreakButton").on("click", function () {
-    //     breaksList.push({ start: selectedStart, end: selectedEnd });
-    //     renderBreaks();
-    // });
+        //function updateBreakTimes() {
+        //    $(".break-start").each((index, el) => {
+        //        const $startSelect = $(el);
+        //        const $endSelect = $(`.break-end[data-index="${index}"]`);
 
-    // $(document).on("change", ".break-start, .break-end", function () {
-    //     const index = $(this).data("index");
-    //     const newTime = $(this).val();
-    //     if ($(this).hasClass("break-start")) {
-    //         breaksList[index].start = newTime;
-    //     } else {
-    //         breaksList[index].end = newTime;
-    //     }
-    // });
+        //        let availableTimes = generateTimeOptions(startTime, endTime);
 
-    // $(document).on("click", ".remove-break", function () {
-    //     const index = $(this).data("index");
-    //     breaksList.splice(index, 1);
-    //     renderBreaks();
-    // });
+        //        // Önceki ve sonraki break'leri dikkate alarak seçenekleri kısıtlayalım
+        //        const prevBreakEnd = index > 0 ? breaks[index - 1].end : startTime;
+        //        const nextBreakStart = index < breaks.length - 1 ? breaks[index + 1].start : endTime;
+
+        //        availableTimes = availableTimes.filter(time => time >= prevBreakEnd && time < nextBreakStart);
+
+        //        $startSelect.empty();
+        //        availableTimes.forEach(option => {
+        //            $startSelect.append(new Option(option, option, false, option === breaks[index]?.start));
+        //        });
+
+        //        const selectedStartTime = $startSelect.val() || availableTimes[0];
+
+        //        let availableEndTimes = generateTimeOptions(selectedStartTime, endTime)
+        //            .filter(time => time > selectedStartTime && time <= nextBreakStart);
+
+        //        $endSelect.empty();
+        //        availableEndTimes.forEach(option => {
+        //            $endSelect.append(new Option(option, option, false, option === breaks[index]?.end));
+        //        });
+
+        //        breaks[index].start = $startSelect.val();
+        //        breaks[index].end = $endSelect.val();
+        //    });
+        //}
+
+        //function addBreak() {
+        //    let availableTimes = generateTimeOptions(startTime, endTime);
+
+        //    breaks.forEach(brk => {
+        //        availableTimes = availableTimes.filter(time => time < brk.start || time >= brk.end);
+        //    });
+
+        //    if (availableTimes.length < 2) return;
+
+        //    const newBreak = {
+        //        start: availableTimes[0],
+        //        end: availableTimes[1]
+        //    };
+
+        //    breaks.push(newBreak);
+        //    updateBreakOptions();
+        //}
+
+        //function removeBreak(index) {
+        //    breaks.splice(index, 1);
+        //    updateBreakOptions();
+        //}
+
+        //// Event Listeners
+        //$(document).on("click", ".remove-break", function () {
+        //    const index = $(this).data("index");
+        //    removeBreak(index);
+        //});
+
+        //$(document).on("change", ".break-start", function () {
+        //    const index = $(this).data("index");
+        //    breaks[index].start = $(this).val();
+
+        //    let availableEndTimes = generateTimeOptions(breaks[index].start, endTime)
+        //        .filter(time => time > breaks[index].start && (index === breaks.length - 1 || time <= breaks[index + 1].start));
+
+        //    breaks[index].end = availableEndTimes[0] || breaks[index].start;
+        //    updateBreakOptions();
+        //});
+
+        //$(document).on("change", ".break-end", function () {
+        //    const index = $(this).data("index");
+        //    breaks[index].end = $(this).val();
+        //    updateBreakOptions();
+        //});
+
+        //$("#addBreakButton").on("click", function () {
+        //    addBreak();
+        //});
 
 
 
+        //let startTime = "09:00";
+        //let endTime = "18:00";
+        //let breaks = [{ start: "10:10", end: "10:50" }];
 
+        //updateBreakOptions();
 
+        //function generateTimeOptions(start, end) {
+        //    const options = [];
+        //    let currentTime = new Date(`1970-01-01T${start}:00`);
+        //    const endTimeMoment = new Date(`1970-01-01T${end}:00`);
 
+        //    while (currentTime <= endTimeMoment) {
+        //        options.push(currentTime.toTimeString().substring(0, 5));
+        //        currentTime.setMinutes(currentTime.getMinutes() + 5);
+        //    }
+        //    return options;
+        //}
+
+        //function updateBreakOptions() {
+        //    const $breaksContainer = $("#breaksContainer");
+        //    $breaksContainer.empty();
+
+        //    breaks.forEach((brk, index) => {
+        //        const breakHtml = `
+        //<div class="row mb-2" data-index="${index}">
+        //    <span class="col-4">Break ${index + 1}</span>
+        //    <div class="col-3">
+        //        <select class="form-select break-start" data-index="${index}"></select>
+        //    </div>
+        //    <div class="col-3">
+        //        <select class="form-select break-end" data-index="${index}"></select>
+        //    </div>
+        //    <div class="col-2">
+        //        <button class="btn btn-danger btn-sm remove-break" data-index="${index}">X</button>
+        //    </div>
+        //</div>`;
+        //        $breaksContainer.append(breakHtml);
+        //    });
+
+        //    updateBreakTimes();
+        //}
+
+        //function updateBreakTimes() {
+        //    $(".break-start").each((index, el) => {
+        //        const $startSelect = $(el);
+        //        const $endSelect = $(`.break-end[data-index="${index}"]`);
+
+        //        const previousStart = breaks[index]?.start || startTime;
+        //        const previousEnd = breaks[index]?.end || endTime;
+
+        //        let availableTimes = generateTimeOptions(startTime, endTime);
+
+        //        // Önceki ve sonraki molaları kontrol ederek kullanılabilir zamanları belirle
+        //        breaks.forEach((brk, i) => {
+        //            if (i !== index) {
+        //                availableTimes = availableTimes.filter(time => !(time >= brk.start && time < brk.end));
+        //            }
+        //        });
+
+        //        // Başlangıç dropdown'unu güncelle
+        //        $startSelect.empty();
+        //        availableTimes.forEach(option => {
+        //            $startSelect.append(new Option(option, option, false, option === previousStart));
+        //        });
+
+        //        const selectedStartTime = $startSelect.val() || availableTimes[0];
+
+        //        // Mevcut başlangıç zamanına göre uygun bitiş saatlerini belirle
+        //        let availableEndTimes = availableTimes.filter(time => time > selectedStartTime);
+
+        //        // Bitiş dropdown'unu güncelle
+        //        $endSelect.empty();
+        //        availableEndTimes.forEach(option => {
+        //            $endSelect.append(new Option(option, option, false, option === previousEnd));
+        //        });
+
+        //        breaks[index].start = $startSelect.val();
+        //        breaks[index].end = $endSelect.val();
+        //    });
+        //}
+
+        //function addBreak() {
+        //    const lastBreak = breaks.length > 0 ? breaks[breaks.length - 1] : null;
+        //    let newStartTime = lastBreak ? lastBreak.end : startTime;
+        //    let availableTimes = generateTimeOptions(newStartTime, endTime);
+
+        //    // Mevcut molaların zaman aralıklarını engelle
+        //    breaks.forEach(brk => {
+        //        availableTimes = availableTimes.filter(time => !(time >= brk.start && time < brk.end));
+        //    });
+
+        //    if (availableTimes.length < 2) return;
+
+        //    const newBreak = {
+        //        start: availableTimes[0],
+        //        end: availableTimes[1]
+        //    };
+
+        //    breaks.push(newBreak);
+        //    updateBreakOptions();
+        //}
+
+        //function removeBreak(index) {
+        //    breaks.splice(index, 1);
+        //    updateBreakOptions();
+        //}
+
+        //// Event Listeners
+        //$(document).on("click", ".remove-break", function () {
+        //    const index = $(this).data("index");
+        //    removeBreak(index);
+        //});
+
+        //$(document).on("change", ".break-start", function () {
+        //    const index = $(this).data("index");
+        //    breaks[index].start = $(this).val();
+
+        //    let availableEndTimes = generateTimeOptions(breaks[index].start, endTime).filter(time => time > breaks[index].start);
+        //    breaks[index].end = availableEndTimes[0] || breaks[index].start;
+
+        //    updateBreakOptions();
+        //});
+
+        //$(document).on("change", ".break-end", function () {
+        //    const index = $(this).data("index");
+        //    breaks[index].end = $(this).val();
+        //    updateBreakOptions();
+        //});
+
+        //$("#addBreakButton").on("click", function () {
+        //    addBreak();
+        //});
     });
 </script>
 
