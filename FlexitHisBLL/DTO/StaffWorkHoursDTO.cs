@@ -19,4 +19,16 @@ namespace Medicloud.BLL.DTO
 		public TimeSpan? start{ get; set; }
 		public TimeSpan? end { get; set; }
 	}
+
+    public class UpdateStaffWorkHourDTO
+    {
+        public int staffId { get; set; }
+        public TimeSpan? startTime { get; set; }
+        public TimeSpan? endTime { get; set; }
+        public List<StaffBreakDTO> Breaks { get; set; }
+        public List<int> OpenedDays { get; set; }
+        public List<int> ClosedDays { get; set; }
+        public List<int> SelectedDays { get; set; }
+
+    }
 }

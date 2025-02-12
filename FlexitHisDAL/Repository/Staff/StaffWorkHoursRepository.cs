@@ -56,7 +56,16 @@ namespace Medicloud.DAL.Repository.Staff
 			return result.ToList();
 		}
 
-		public async Task<int> AddBreakAsync(StaffBreakDAO dao)
+        public async Task<StaffWorkHoursDAO> GetStaffWorkHourById(int id)
+        {
+            string sql = "SELECT * FROM staff_work_hours WHERE id = @Id";
+
+            var con = _unitOfWork.GetConnection();
+            var result = await con.QuerySingleOrDefaultAsync<StaffWorkHoursDAO>(sql, new { Id = id });
+            return result;
+        }
+
+        public async Task<int> AddBreakAsync(StaffBreakDAO dao)
 		{
 			string AddSql = $@"
 			INSERT INTO staff_breaks
@@ -73,7 +82,7 @@ namespace Medicloud.DAL.Repository.Staff
 
 		public async Task<List<StaffBreakDAO>> GetStaffBreaksWithWorkHourId(int workHourId)
 		{
-			string sql = "SELECT * FROM staff_breaks WHERE staffWorkHourId = @WorkHourId";
+			string sql = "SELECT * FROM staff_breaks WHERE staffWorkHourId = @WorkHourId AND isActive=1";
 
 			var con = _unitOfWork.GetConnection();
 			var result = await con.QueryAsync<StaffBreakDAO>(sql, new { WorkHourId = workHourId });

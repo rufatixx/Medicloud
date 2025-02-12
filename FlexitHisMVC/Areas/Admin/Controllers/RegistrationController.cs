@@ -424,6 +424,7 @@ namespace Medicloud.Areas.Admin.Controllers
 			{
 				id = organizationId,
 				WorkHours = staffWorkHours,
+				StaffId = staff.id,
 			};
 			return View(vm);
 

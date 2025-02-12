@@ -27,5 +27,6 @@ namespace Medicloud.ViewModels
 		public int TeamSizeId { get; set; }
 		public int TravelId { get; set; }
 		public List<StaffWorkHoursDTO> WorkHours { get; set; }
-	}
+        public int StaffId { get; set; }
+    }
 }

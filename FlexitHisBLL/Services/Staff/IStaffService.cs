@@ -13,5 +13,6 @@ namespace Medicloud.BLL.Services.Staff
 		Task<List<StaffWorkHoursDTO>> GetWorkHours(int staffId);
 		Task<StaffDAO> GetOwnerStaffByOrganizationId(int organizationId);
 		Task<bool> UpdateStaffAsync(StaffDAO dao);
+		Task<bool> UpdateStaffWorkHours(UpdateStaffWorkHourDTO dto);
 	}
 }

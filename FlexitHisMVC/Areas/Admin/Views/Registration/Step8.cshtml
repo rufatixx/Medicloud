@@ -22,7 +22,10 @@
             cursor: pointer
         }
 </style>
+@{
+    var cultureInfo = new System.Globalization.CultureInfo("az-AZ");
 
+}
 
 
 <div class="">
@@ -45,18 +48,17 @@
                 <div class="card-body ">
 
 
-                    @{
-                        var cultureInfo = new System.Globalization.CultureInfo("az-AZ");
 
-                    }
                     @foreach (var item in Model.WorkHours)
                     {
+
                         var dayName = cultureInfo.DateTimeFormat.GetDayName((System.DayOfWeek)(item.dayOfWeek % 7));
                         var capitalizedDayName = cultureInfo.TextInfo.ToTitleCase(dayName);
                         string isChecked = "";
                         string displayTime = "";
                         string startTime = item.startTime?.ToString(@"hh\:mm")!;
                         string endTime = item.endTime?.ToString(@"hh\:mm")!;
+                        var breakData = Json.Serialize(item.Breaks.Select(a => new { start = a.startTime?.ToString(@"hh\:mm"), end = a.endTime?.ToString(@"hh\:mm") }));
                         if (item.startTime == null && item.endTime == null)
                         {
                             isChecked = "";
@@ -70,7 +72,7 @@
                         <div class="row form-switch align-items-center mb-3">
                             <div class="col-6 row align-items-center">
                                 <div class="col-4">
-                                    <input class="form-check-input toggle-checkbox" @isChecked type="checkbox" id="@item.id">
+                                    <input class="form-check-input toggle-checkbox" data-day-number="@item.dayOfWeek" @isChecked type="checkbox" id="@item.id">
 
                                 </div>
 
@@ -80,12 +82,18 @@
                                 </div>
 
                             </div>
-                            <div class="col-6 row align-items-center item-row" data-day="@capitalizedDayName" data-item-id="@item.id" data-start="@startTime" data-end="@endTime">
-                                <div class="col-8">
+                            <div class="col-6 row align-items-center item-row" data-day="@capitalizedDayName" data-breaks='@breakData' data-id="@item.id" data-day-number="@item.dayOfWeek" data-item-id="@item.id" data-start="@startTime" data-end="@endTime">
+                                <div class="col-10">
                                     <span class="text-muted" id="time-@item.id">@displayTime</span>
-
+                                    @foreach (var br in item.Breaks)
+                                    {
+                                        <div >
+                                            @* <span class="col-4"></span> *@
+                                            <span style="font-size:12px;font-weight:500;" >Fasilə @br.startTime?.ToString(@"hh\:mm") - @br.endTime?.ToString(@"hh\:mm")</span>
+                                        </div>
+                                    }
                                 </div>
-                                <div class="col-4">
+                                <div class="col-2">
                                     <btn class="btn btn-sm">
                                         <svg width="20px" height="20px" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#908e8e">
                                             <path d="M9 5L16 12L9 19" stroke="#737373" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -116,9 +124,9 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="editTimeForm">
+                <form id="editTimeForm" style="min-height:250px;">
                     <input type="hidden" id="selectedDay">
-                    <div class="row">
+                    <div class="row align-items-center">
                         <span class="col-4">İş saatları</span>
                         <div class="col-4">
                             <select id="startTimeSelect" class="form-select"></select>
@@ -127,14 +135,20 @@
                             <select id="endTimeSelect" class="form-select"></select>
                         </div>
                     </div>
-                    <div class="row" id="breaksContainer">
+                    <div class="row mt-2 align-items-center" id="breaksContent">
+                        <span class="col-4">Fasilə</span>
+                        <div class="col-8" id="breaksContainer">
+                        </div>
                     </div>
 
                 </form>
+
+                <button class="btn btn-light" id="addBreakButton">+ Fasilə əlavə et</button>
+
             </div>
-            <button id="addBreakButton">Add break</button>
+
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ləğv et</button>
                 <button type="button" class="btn btn-primary" id="saveTimeButton">Yadda saxla</button>
             </div>
         </div>
@@ -142,15 +156,58 @@
 </div>
 
 
+<div class="modal fade" id="copyTimeModal" tabindex="-1" aria-labelledby="copyTimeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header align-items-start">
+                <div class="text-center px-2">
+                    <h3 class="modal-title">İş saatlarınız kopyalansın?</h3>
+                    <p>Müəyyən edilmiş iş saatlarını digər günlərə tətbiq etmək istəryirsinizsə siyahıdan günləri seçin</p>
+                </div>
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @{
+                    var weekdata = Model.WorkHours.Select(w => new { id = w.id, day = w.dayOfWeek }).ToList();
+
+                    foreach (var item in Model.WorkHours)
+                    {
+                        var dayName = cultureInfo.DateTimeFormat.GetDayName((System.DayOfWeek)(item.dayOfWeek % 7));
+                        var capitalizedDayName = cultureInfo.TextInfo.ToTitleCase(dayName);
+                        <div class="col-12">
+                            <div class="form-check text-start mb-2">
+                                <input type="checkbox" style="cursor:pointer;" class="form-check-input" data-id="@item.id" id="copyCheckInput@(item.id)">
+                                <label class="form-check-label " style="cursor:pointer;" for="copyCheckInput@(item.id)">@capitalizedDayName</label>
+                            </div>
+                        </div>
+
+                    }
+                    // for (int i = 1; i <= Model.; i++)
+                    // {
+
+                    // }
+                }
+
+            </div>
+
+            <div class="modal-footer">
+                @* <button type="button" id="noButton" class="btn btn-secondary">Xeyr</button> *@
+                <button type="button" class="btn btn-primary" id="saveButton">Davam et</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 
     let selectedStart;
     let selectedEnd;
     let selectedId;
-
-
+    let selectedDay;
+    let closedDays=[];
+    let openedDays=[];
     $(document).ready(function () {
-
         function populateTimeOptions(start, end) {
             const $startTimeSelect = $("#startTimeSelect");
             const $endTimeSelect = $("#endTimeSelect");
@@ -221,11 +278,13 @@
             const $itemRow = $(this).closest(".row").next(".item-row");
             const start = $itemRow.data("start");
             const end = $itemRow.data("end");
+            const dayNumber = $itemRow.data("day-number");
 
             if ($(this).is(":checked")) {
                 $timeLabel.text(`${start || '09:00'} - ${end || '18:00'}`);
             } else {
                 $timeLabel.text("Bağlı");
+
             }
         });
 
@@ -236,9 +295,18 @@
                 const day = $(this).data("day");
                 selectedStart = $(this).data("start") || '09:00';
                 selectedEnd = $(this).data("end") || '18:00';
+                selectedId=$(this).data("id");
+                selectedDay=$(this).data("id");
+                console.log(selectedStart)
+                console.log(selectedEnd)
                 $("#selectedDay").val(day);
                 $("#editTimeModalLabel").text(`${day}`);
                 populateTimeOptions(selectedStart, selectedEnd);
+                let itemBreaks=$(this).data('breaks');
+                console.log(itemBreaks)
+                breaks = itemBreaks;
+                updateBreakOptions();
+                console.log(breaks)
                 $("#editTimeModal").modal("show");
             }
         });
@@ -247,18 +315,76 @@
         // Modal'da saat kaydetme işlemi
         $("#saveTimeButton").on("click", function () {
             const day = $("#selectedDay").val();
-            const newTime = $("#dayTimeInput").val();
-            if (newTime) {
-                $(`#time-${day}`).text(newTime); // Yeni saati ilgili elemana yaz
-                $("#editTimeForm")[0].reset(); // Formu sıfırla
-                $("#editTimeModal").modal("hide"); // Modalı kapat
+            if (selectedStart && selectedEnd && selectedId) {
+                $("#editTimeModal").modal("hide");
+                    $("#copyCheckInput" + selectedDay).prop("checked", true).prop('disabled',true);
+                $("#copyTimeModal").modal("show");
+
             } else {
-                alert("Lütfen geçerli bir saat girin!");
+                alert("Xəta baş verdi");
             }
         });
 
+        $("#saveButton").on("click", function () {
+
+             var selectedDays = [];
+             closedDays=[];
+             openedDays=[];
+             $('input[id^="copyCheckInput"]:checked').each(function() {
+                 // Store the id or value of each checked checkbox (you can change this depending on your need)
+                 selectedDays.push($(this).data('id')); // Collect the id of the checked checkboxes
+                 // Or if you want to collect the day number, you can extract the number from the id
+                 // checkedDays.push($(this).attr('id').replace('copyCheckInput', '')); // This would give you the number (1 to 7)
+             });
+
+             $('.toggle-checkbox').each(function() {
+                let dayId = $(this).attr('id');
+                if ($(this).prop('checked')) {
+                    openedDays.push(dayId);
+                } else {
+
+                    closedDays.push(dayId);
+                }
+            });
+
+            let data={
+                selectedId:selectedId,
+                startTime:selectedStart,
+                endTime:selectedEnd,
+                breaks:breaks,
+                selectedDays:selectedDays,
+                closedDays:closedDays,
+                openedDays:openedDays
+            }
 
 
+
+            console.log(data)
+
+            $.ajax({
+               url: `/Admin/Staff/UpdateStaffWorkHours`,
+               type: 'POST',
+               data: JSON.stringify(data),
+               contentType: 'application/json',
+               success: function (response) {
+                   location.reload();
+               },
+               error: function (xhr, status, error) {
+                   console.error(error);
+               }
+            });
+        });
+
+        $('#copyTimeModal').on('hidden.bs.modal', function () {
+        // Reset only the checkboxes with 'id' starting with 'copyCheckInput'
+            $('input[id^="copyCheckInput"]').prop('checked', false).prop('disabled',false); // Uncheck only those checkboxes
+        });
+
+         $('#editTimeModal').on('hidden.bs.modal', function () {
+            // Reset only the checkboxes with 'id' starting with 'copyCheckInput'
+            closedDays=[];
+            openedDays=[];
+        });
 
         //let startTime = "09:00";
         //let endTime = "18:00";
@@ -398,12 +524,8 @@
         //    addBreak();
         //});
 
-        let startTime = selectedStart;
-        let endTime = selectedEnd;
         let breaks = [];
 
-        console.log(selectedStart)
-        console.log(selectedEnd)
 
         updateBreakOptions();
 
@@ -423,15 +545,20 @@
             const $breaksContainer = $("#breaksContainer");
             $breaksContainer.empty();
 
+            if(breaks.length==0){
+                $("#breaksContent").hide();
+            }
+            else{
+               $("#breaksContent").show();
+            }
             breaks.forEach((brk, index) => {
                 const breakHtml =
-                    `<div class="row mb-2" data-index="${index}">
-            <span class="col-4">Break ${index + 1}</span>
-            <div class="col-3">
+                    `<div class="row mb-2 align-items-center" data-index="${index}">
+            <div class="col-5">
                 <select class="form-select break-start" data-index="${index}">
                 </select>
             </div>
-            <div class="col-3">
+            <div class="col-5">
                 <select class="form-select break-end" data-index="${index}">
                 </select>
             </div>
@@ -450,10 +577,10 @@
                 const $startSelect = $(el);
                 const $endSelect = $(`.break-end[data-index="${index}"]`);
 
-                const previousStart = breaks[index]?.start || startTime;
-                const previousEnd = breaks[index]?.end || endTime;
+                const previousStart = breaks[index]?.start || selectedStart;
+                const previousEnd = breaks[index]?.end || selectedEnd;
 
-                let availableTimes = generateTimeOptions(startTime, endTime);
+                let availableTimes = generateTimeOptions(selectedStart, selectedEnd);
 
                 // Önceki ve sonraki break'lerin zamanlarını engelle
                 breaks.forEach((brk, i) => {
@@ -484,7 +611,63 @@
         }
 
 
-        //function updateBreakTimes() {
+
+        function addBreak() {
+            const lastBreak = breaks.length > 0 ? breaks[breaks.length - 1] : null;
+
+            let newStartTime = lastBreak ? lastBreak.end : selectedStart;
+            let availableTimes = generateTimeOptions(newStartTime, selectedEnd);
+
+            // Mevcut molaların zaman aralıklarını engelle
+            breaks.forEach(brk => {
+                availableTimes = availableTimes.filter(time => !(time >= brk.start && time <= brk.end));
+            });
+
+            if (availableTimes.length < 2) return;
+
+            const newBreak = {
+                start: availableTimes[0],
+                end: availableTimes[1]
+            };
+
+            breaks.push(newBreak);
+            updateBreakOptions();
+        }
+
+        function removeBreak(index) {
+            breaks.splice(index, 1);
+            updateBreakOptions();
+        }
+
+        // Event Listeners
+        $(document).on("click", ".remove-break", function () {
+            const index = $(this).data("index");
+            removeBreak(index);
+        });
+
+        $(document).on("change", ".break-start", function () {
+            const index = $(this).data("index");
+            breaks[index].start = $(this).val();
+
+            let availableEndTimes = generateTimeOptions(breaks[index].start, selectedEnd).filter(time => time > breaks[index].start);
+            breaks[index].end = availableEndTimes[0] || breaks[index].start;
+            updateBreakOptions();
+        });
+
+        $(document).on("change", ".break-end", function () {
+            const index = $(this).data("index");
+            breaks[index].end = $(this).val();
+            updateBreakOptions();
+        });
+
+        $("#addBreakButton").on("click", function () {
+            addBreak();
+        });
+
+
+
+
+                //function updateBreakTimes() {
         //    $(".break-start").each((index, el) => {
         //        const $startSelect = $(el);
         //        const $endSelect = $(`.break-end[data-index="${index}"]`);
@@ -526,58 +709,6 @@
         //        breaks[index].end = $endSelect.val();
         //    });
         //}
-
-        function addBreak() {
-            const lastBreak = breaks.length > 0 ? breaks[breaks.length - 1] : null;
-
-            let newStartTime = lastBreak ? lastBreak.end : startTime;
-            let availableTimes = generateTimeOptions(newStartTime, endTime);
-
-            // Mevcut molaların zaman aralıklarını engelle
-            breaks.forEach(brk => {
-                availableTimes = availableTimes.filter(time => !(time >= brk.start && time <= brk.end));
-            });
-
-            if (availableTimes.length < 2) return;
-
-            const newBreak = {
-                start: availableTimes[0],
-                end: availableTimes[1]
-            };
-
-            breaks.push(newBreak);
-            updateBreakOptions();
-        }
-
-        function removeBreak(index) {
-            breaks.splice(index, 1);
-            updateBreakOptions();
-        }
-
-        // Event Listeners
-        $(document).on("click", ".remove-break", function () {
-            const index = $(this).data("index");
-            removeBreak(index);
-        });
-
-        $(document).on("change", ".break-start", function () {
-            const index = $(this).data("index");
-            breaks[index].start = $(this).val();
-
-            let availableEndTimes = generateTimeOptions(breaks[index].start, endTime).filter(time => time > breaks[index].start);
-            breaks[index].end = availableEndTimes[0] || breaks[index].start;
-            updateBreakOptions();
-        });
-
-        $(document).on("change", ".break-end", function () {
-            const index = $(this).data("index");
-            breaks[index].end = $(this).val();
-            updateBreakOptions();
-        });
-
-        $("#addBreakButton").on("click", function () {
-            addBreak();
-        });
 
         //let startTime = "09:00";
         //let endTime = "18:00";
