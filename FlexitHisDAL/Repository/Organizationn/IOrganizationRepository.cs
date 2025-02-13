@@ -7,5 +7,6 @@ namespace Medicloud.DAL.Repository.Organizationn
 		Task<int> AddAsync(OrganizationDAO dAO);
 		Task<OrganizationDAO?> GetByIdAsync(int id);
 		Task<bool>UpdateAsync(OrganizationDAO dao);
+		Task RegisterOrganization(int id);
 	}
 }

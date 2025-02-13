@@ -45,6 +45,16 @@ namespace Medicloud.DAL.Repository.Organizationn
 			return result;
 		}
 
+
+
+		public async Task RegisterOrganization(int id)
+		{
+			string sql = $@"
+			UPDATE organizations SET isRegistered=1 WHERE id= @Id";
+			var con = _unitOfWork.GetConnection();
+			int result = await con.ExecuteAsync(sql, new { Id = id });
+		}
+
 		public async Task<bool> UpdateAsync(OrganizationDAO dao)
 		{
 			var query = new StringBuilder("UPDATE organizations SET ");
@@ -110,6 +120,7 @@ namespace Medicloud.DAL.Repository.Organizationn
 				query.Append("teamSizeId = @teamSizeId, ");
 				parameters.Add("@teamSizeId", dao.teamSizeId);
 			}
+
 			// Remove the last comma and space
 			if (parameters.ParameterNames.Count() > 0)
 			{

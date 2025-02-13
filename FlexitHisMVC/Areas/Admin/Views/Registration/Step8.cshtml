@@ -32,12 +32,6 @@
     <div class="row  text-center justify-content-center ">
         <div class="">
             <div class="card-header   align-items-center">
-                <a class="btn btn-sm" asp-action="Step7" asp-route-organizationId="@Model.id" asp-area="Admin">
-                    <svg width="32px" height="32px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="#737373">
-                        <path fill="#737373" d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"></path>
-                        <path fill="#737373" d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"></path>
-                    </svg>
-                </a>
 
                 <div class="text-center flex-grow-1">
                     <h1>İş saatlarınız</h1>
@@ -108,7 +102,14 @@
                 </div>
 
 
-                <div class="mb-3 mb-0 text-center">
+                <div class="mb-3 mb-0 d-flex justify-content-around text-center">
+                    <a class="btn btn-sm" asp-action="Step7" asp-route-organizationId="@Model.id" asp-area="Admin">
+                        <svg width="32px" height="32px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="#737373">
+                            <path fill="#737373" d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"></path>
+                            <path fill="#737373" d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"></path>
+                        </svg>
+                    </a>
+
                     <a asp-action="Step9" asp-route-organizationId="@Model.id" asp-area="Admin" class="btn btn-primary" id="nextButton"> Növbəti</a>
                 </div>
             </form>
