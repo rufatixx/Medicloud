@@ -234,17 +234,17 @@
                     <span class="account-user-avatar">
                         @{
                             var imageSrc = "/res/user.svg";
-                            if (!string.IsNullOrEmpty(Model.personal.imagePath))
-                            {
-                                var filePath = Model.personal.imagePath.Replace("\\", "/");
-                                imageSrc = filePath;
+                            //if (!string.IsNullOrEmpty(Model.personal.imagePath))
+                            //{
+                            //    var filePath = Model.personal.imagePath.Replace("\\", "/");
+                            //    imageSrc = filePath;
 
-                            }
+                            //}
                         }
                         <img src="@imageSrc" alt="user-image" style="object-fit:cover;" width="32" class="rounded-circle">
                     </span>
                     <span class="d-lg-flex flex-column gap-1 d-none">
-                        <h5 class="my-0 fullName">@Model.personal.name @Model.personal.surname</h5>
+                        <h5 class="my-0 fullName">Model.personal.name Model.personal.surname</h5>
                         <h6 class="my-0 fw-normal userType">
 
                             @{

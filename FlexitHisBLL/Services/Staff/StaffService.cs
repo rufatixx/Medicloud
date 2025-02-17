@@ -30,7 +30,7 @@ namespace Medicloud.BLL.Services.Staff
             var result = new List<StaffWorkHoursDTO>();
             foreach (var item in workhours)
             {
-                Console.WriteLine(item.id.ToString());
+                //Console.WriteLine(item.id.ToString());
                 result.Add(new()
                 {
                     id=item.id,
@@ -61,20 +61,17 @@ namespace Medicloud.BLL.Services.Staff
             using var con = _unitOfWork.BeginConnection();
             bool result = false;
             if (dto == null) return false;
-            if (dto.SelectedDays?.Count > 0)
+            if (dto.ClosedDays?.Count > 0)
             {
                 foreach (var dayId in dto.ClosedDays)
                 {
-                    //bool workHourUpdate = await _workHoursRepository.UpdateAsync(new
-                    //{
-
-                    //})
                     result =await _workHoursRepository.UpdateAsync(new()
                     {
                         id=dayId,
                         startTime=null,
                         endTime=null,
                     });
+					await _workHoursRepository.RemoveAllBreaksByWorkHourIdAsync(dayId);
 
                 }
             }
@@ -137,9 +134,9 @@ namespace Medicloud.BLL.Services.Staff
             }
             if (dto.OpenedDays?.Count > 0)
             {
-                foreach (var dayId in dto.SelectedDays)
+                foreach (var dayId in dto.OpenedDays)
                 {
-                    if (dto.SelectedDays.Contains(dayId)) continue;
+                    if (dto.SelectedDays != null && dto.SelectedDays.Contains(dayId)) continue;
                     var day = await _workHoursRepository.GetStaffWorkHourById(dayId);
                     if (day.startTime== null|| day.endTime ==null)
                     {

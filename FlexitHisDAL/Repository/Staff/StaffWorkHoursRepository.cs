@@ -110,5 +110,13 @@ namespace Medicloud.DAL.Repository.Staff
 			int result = await con.ExecuteAsync(sql, dao);
 			return result > 0;
 		}
+
+		public async Task<bool> RemoveAllBreaksByWorkHourIdAsync(int id)
+		{
+			string sql = "UPDATE staff_breaks SET isActive=0 WHERE staffWorkHourId=@Id";
+			var con = _unitOfWork.GetConnection();
+			int result = await con.ExecuteAsync(sql, new { Id = id });
+			return result > 0;
+		}
 	}
 }

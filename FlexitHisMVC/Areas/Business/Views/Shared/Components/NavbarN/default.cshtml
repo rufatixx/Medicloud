@@ -1,0 +1,286 @@
+﻿
+
+<style>
+    /*         #menu-accordion > .card {
+                                                                                                                           backdrop-filter: blur(24.6px);
+                                                                                                                           border-radius: 0;
+                                                                                                                           transition: all 0.3s ease;
+                                                                                                                           height: 645px;
+                                                                                                                           overflow: hidden;
+                                                                                                                       } */
+
+
+
+
+    #menu-accordion {
+        width: 100%;
+        padding: 0;
+        height: 75vh;
+    }
+
+
+    .col-1-header {
+        cursor: pointer;
+    }
+
+
+    #menu-accordion li, .accordion a {
+        color: white;
+    }
+
+    #menu-accordion li {
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+        #menu-accordion li:hover {
+            opacity: .7;
+            transition: 0.2s ease;
+        }
+
+
+    .menu-glassmorphism {
+        /*        background: rgba(255, 255, 255, 0.2);
+                                                       backdrop-filter: blur(10px);
+                                                       -webkit-backdrop-filter: blur(10px);
+                                                       border: 1px solid rgba(0, 21, 74, 0.1);
+                                                       border-radius: 10px;*/
+    }
+
+    .vertical-text {
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+    }
+
+    .accordion-container {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+        overflow: hidden;
+        border: none;
+    }
+
+    .choice {
+        width: 10%;
+        height: 75vh;
+        /* height: 645px; */
+
+        transition: 0.2s ease;
+        overflow: hidden;
+        margin: 0;
+        border-radius: 0;
+    }
+
+    .col-7-header h4 {
+        font-size: 24px;
+        font-weight: 600;
+    }
+
+    .col-1-header h4 {
+        font-size: 15px;
+        font-weight: 500;
+    }
+
+    .choice.expanded {
+        width: 50%;
+    }
+
+
+    /*     #accordionMobile .accordion-button::after {
+                               display: none;
+                           }
+                        */
+
+    .accordion-button-second {
+        background: transparent;
+        border: none;
+        box-shadow: none;
+        padding: 0;
+        color: white;
+        font-size: 15px;
+    }
+
+        .accordion-button-second:focus {
+            box-shadow: none;
+        }
+
+    /*        .accordion-button::after {
+                                                       color:white !important;
+                                                   }
+                                           */
+    /*     .accordion-button::after {
+                               color: red;
+                               border-color: red;
+                               fill: white;
+                           } */
+
+    .accordion-button::before {
+        color: white;
+    }
+
+    .accordion-button:not(.collapsed)::before {
+        color: white;
+    }
+
+    .accordion-item-second {
+        border: none;
+        background: transparent;
+    }
+
+    .accordion-body-second {
+        padding: 0;
+    }
+
+    .accordion-button:after {
+        content: '';
+        background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"%3E%3Cpath fill="white" fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"%3E%3C/path%3E%3C/svg%3E');
+    }
+    /*    .accordion-button:not(.collapsed):after {
+        content: '';
+        background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"%3E%3Cpath fill="white" fill-rule="evenodd" d="M1.646 11.854a.5.5 0 0 1 .708 0L8 5.707l5.646 6.147a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1-.708 0l-6 6a.5.5 0 0 1 0-.708z"%3E%3C/path%3E%3C/svg%3E');
+        transform:rotate(180deg);
+    }*/
+
+    .accordion-button {
+        padding: 10px 0 10px 0 !important;
+    }
+
+    /*    .menu-sub-button{
+        border-bottom:2px solid white;
+    }*/
+
+    .menu-sub-button:focus {
+        box-shadow: none;
+    }
+
+
+
+    .accordion-collapse.show {
+        /*overflow:hidden;*/
+    }
+
+
+    /*    .accordion-collapse > ul {
+        overflow: auto;
+        max-height: 200px !important;
+        height: 200px !important;
+        padding:10px;
+    }*/
+</style>
+
+
+
+
+<header class="border-0 fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-light  rounded-0 p-3 bg-primary" style="">
+        <div class="d-flex align-items-center justify-content-between mx-2 w-100">
+
+            <!-- Logo and Menu Dropdown -->
+            <a class="navbar-brand d-flex align-items-center" href="@Url.Action("Index","Home")">
+                <img src="/assets/images/mc_logo_inline.svg" height="30" alt="Logo" class="object-fit-contain" />
+            </a>
+
+
+            <!-- Navbar right side -->
+            <div class="d-flex align-items-center ms-auto">
+                <!-- Notifications Dropdown -->
+                <div class="dropdown">
+                    <button class="btn btn-sm text-white position-relative" type="button" id="notificationsButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        @*<i class="ti ti-bell-ringing" style="font-size: 18px;"></i>
+
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+
+                            <span class="visually-hidden"></span>
+                        </span>
+                        <div class="notification rounded-circle d-flex align-items-center justify-content-center" style="position: absolute; top: -10%; right: -10%; height: 20px; width: 20px; background-color: rgba(239, 51, 64, 1); color: white; font-size: 12px;">
+
+                        </div>*@
+
+
+
+
+                    </button>
+
+                    @*                     <ul class="dropdown-menu dropdown-menu-end  mt-4" aria-labelledby="dropdownButton1" style="min-width: 300px; max-height: 400px; overflow-y: auto;">
+                        <li class="p-3">
+                        <div class="d-flex justify-content-between">
+                        <h5 class="mb-0">Bildirişlər</h5>
+                        <span onclick="window.location.href='/Notification'" class="badge bg-primary rounded-pill cursor-pointer">@Model.unread_notification_count yeni</span>
+                        </div>
+                        <a class="small-text" href="/Notification">Hamısı></a>
+                        </li>
+                        <li>
+                        <div class="dropdown-divider"></div>
+                        </li>
+                        @foreach (var item in Model.notifications)
+                        {
+                        <li class="cursor-pointer" onclick="window.location.href='/Notification?id=@item.id'" )">
+                        <a class="dropdown-item d-flex align-items-center position-relative" @*href="/Notification?id=@item.id'">
+                        <div class="text-wrap">
+                        <h6 class="mb-0">@item.title</h6>
+                        <small>@item.description</small>
+                        <div>@item.relative_time</div>
+                        <span class="status-dot bg-primary @(item.is_read==1?"d-none":"") " style="width: 10px; height: 10px; border-radius: 50%; margin-right: 8px; position:absolute;top:50%;right:5%;"></span>
+                        </div>
+                        </a>@**@
+
+                    <div class="dropdown-menu dropdown-menu-end  mt-4" aria-labelledby="dropdownButton1">
+
+
+                        <ul style="min-width: 300px; max-height: 400px; overflow-y: auto;">
+
+                            @*<li class="p-3">
+                                    <div class="d-flex justify-content-between">
+                                        <h5 class="mb-0">Bildirişlər</h5>
+                                        @if (Model.unread_notification_count > 0)
+                                        {
+                                            <span onclick="window.location.href='/Notification'" class="badge bg-primary rounded-pill cursor-pointer">@Model.unread_notification_count yeni</span>
+                                        }
+                                    </div>
+
+                                </li>*@
+                            <li>
+                                <div class="dropdown-divider"></div>
+                            </li>
+                            @*@foreach (var item in Model.notifications)
+                                {
+
+                                    var itemLink = string.IsNullOrEmpty(item.link) ? $"/Notification?id={item.id}" : item.link;
+
+                                    <li class="cursor-pointer notification-item" data-item-link="@itemLink" data-item-id="@item.id" )">
+                                        <a class="dropdown-item d-flex align-items-center position-relative">
+                                            <div class="text-wrap">
+                                                <h6 class="mb-0">@item.title</h6>
+                                                <small>@item.description</small>
+                                                <div>@item.relative_time</div>
+                                                <span class="status-dot bg-primary @(item.is_read==1?"d-none":"") " style="width: 10px; height: 10px; border-radius: 50%; margin-right: 8px; position:absolute;top:50%;right:5%;"></span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                }*@
+                            @*@if (Model.notifications.Count == 0)
+                                {
+                                    <li class="cursor-pointer notification-item">
+                                        <p class="text-center">Bildirişiniz yoxdur</p>
+                                    </li>
+                                }*@
+                        </ul>
+                        <div class="text-center ">
+                            <a style="color:#124EA7;" class="" href="/Notification">Hamısı</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+
+
+
+
+
+

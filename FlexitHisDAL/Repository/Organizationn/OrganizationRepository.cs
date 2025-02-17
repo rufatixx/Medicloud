@@ -121,6 +121,12 @@ namespace Medicloud.DAL.Repository.Organizationn
 				parameters.Add("@teamSizeId", dao.teamSizeId);
 			}
 
+			if (dao.isRegistered)
+			{
+				query.Append("isRegistered = @isRegistered, ");
+				parameters.Add("@isRegistered", 1);
+			}
+
 			// Remove the last comma and space
 			if (parameters.ParameterNames.Count() > 0)
 			{

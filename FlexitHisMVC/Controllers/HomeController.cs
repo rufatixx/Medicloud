@@ -31,7 +31,8 @@ namespace Medicloud.Controllers
         public IActionResult Index()
         {
 
-            var viewModel = new HomePageViewModel
+
+			var viewModel = new HomePageViewModel
             {
                 patientStatisticsDTO = patientRepo.GetPatientStatistics(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"))),
                 patientCardStatisticsDTO = patientCardRepo.GetPatientCardStatistics(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"))),

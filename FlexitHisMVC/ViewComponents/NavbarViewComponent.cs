@@ -42,17 +42,26 @@ namespace Medicloud.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync(/* параметры, если необходимы */)
         {
-			int orgId = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
-            //int userId = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID"));
-            int userId = int.Parse(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+			//int orgId = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
+			//int userId = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID"));
 
-            UserDTO obj = new UserDTO();
-            obj.personal = new User();
-            obj.organizations = new List<Organization>();
-            obj.kassaList = new List<Kassa>();
-            var user=await _userService.GetUserById(userId);
-            obj.personal.name=user.name;
-            obj.personal.surname=user.surname;
+			//var orgIdString = HttpContext.Session.GetString("CurrentOrganization");
+			//int currentOrganizationId = int.Parse(orgIdString);
+			//int userId = int.Parse(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+			//if (currentOrganizationId > 0)
+			//{
+
+			//}
+
+
+   //         UserDTO obj = new UserDTO();
+   //         obj.personal = new User();
+   //         obj.organizations = new List<Organization>();
+   //         obj.kassaList = new List<Kassa>();
+   //         var user=await _userService.GetUserById(userId);
+   //         obj.personal.name=user.name;
+            //obj.personal.surname=user.surname;
             //obj.personal = personalDAO.GetUserByID(userId);
 			//if (!string.IsNullOrEmpty(obj.personal.imagePath))
 			//{
@@ -70,7 +79,8 @@ namespace Medicloud.ViewComponents
 
 
 			//ViewBag.SelectedOrganization = HttpContext.Session.GetString("Medicloud_organizationName");
-            return View(obj);
+            //return View(obj);
+            return View(new UserDTO());
         }
     }
 }

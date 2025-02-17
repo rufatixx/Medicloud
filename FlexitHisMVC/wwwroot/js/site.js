@@ -3,3 +3,28 @@
 
 // Write your JavaScript code.
 
+function showLoading() {
+	$('#loadingModal').show();
+
+}
+function hideLoading() {
+	$('#loadingModal').hide();
+}
+
+
+window.addEventListener('beforeunload', function (event) {
+
+	showLoading();
+
+});
+
+//$(window).on("pageshow", function (event) {
+//	if (event.originalEvent.persisted) {
+//		hideLoading();
+//	}
+//});
+
+window.onpopstate = function () {
+	hideLoading();
+	console.log("heree popstate")
+};

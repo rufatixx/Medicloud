@@ -9,6 +9,7 @@ namespace Medicloud.DAL.Repository.Staff
 		Task<List<StaffWorkHoursDAO>> GetStaffWorkHours(int staffId);
 		Task<int> AddBreakAsync(StaffBreakDAO dao);
 		Task<bool> RemoveBreakAsync(int id);
+		Task<bool> RemoveAllBreaksByWorkHourIdAsync(int id);
 		Task<bool> UpdateBreakAsync(StaffBreakDAO dao);
 		Task<List<StaffBreakDAO>> GetStaffBreaksWithWorkHourId(int workHourId);
 		Task<StaffWorkHoursDAO> GetStaffWorkHourById(int id);

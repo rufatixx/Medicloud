@@ -2,6 +2,7 @@
 using Medicloud.DAL.DAO;
 using Medicloud.DAL.Infrastructure.UnitOfWork;
 using Medicloud.DAL.Repository.Organizationn;
+using Medicloud.DAL.Repository.OrganizationPlan;
 using Medicloud.DAL.Repository.OrganizationTravelRel;
 using Medicloud.DAL.Repository.Staff;
 
@@ -15,7 +16,8 @@ namespace Medicloud.BLL.Services.Organization
 		private readonly IOrganizationCategoryRelRepository _organizationCategoryRelRepository;
 		private readonly IOrganizationTravelRelRepository _organizationTravelRelRepository;
 		private readonly IStaffWorkHoursRepository _staffWorkHoursRepository;
-		public OrganizationService(IUnitOfWork unitOfWork, IOrganizationRepository organizationRepository, IStaffRepository staffRepository, IOrganizationCategoryRelRepository organizationCategoryRelRepository, IOrganizationTravelRelRepository organizationTravelRelRepository, IStaffWorkHoursRepository staffWorkHoursRepository)
+		private readonly IOrganizationPlanRepository _organizationPlanRepository;
+		public OrganizationService(IUnitOfWork unitOfWork, IOrganizationRepository organizationRepository, IStaffRepository staffRepository, IOrganizationCategoryRelRepository organizationCategoryRelRepository, IOrganizationTravelRelRepository organizationTravelRelRepository, IStaffWorkHoursRepository staffWorkHoursRepository, IOrganizationPlanRepository organizationPlanRepository)
 		{
 			_unitOfWork = unitOfWork;
 			_organizationRepository = organizationRepository;
@@ -23,6 +25,7 @@ namespace Medicloud.BLL.Services.Organization
 			_organizationCategoryRelRepository = organizationCategoryRelRepository;
 			_organizationTravelRelRepository = organizationTravelRelRepository;
 			_staffWorkHoursRepository = staffWorkHoursRepository;
+			_organizationPlanRepository = organizationPlanRepository;
 		}
 
 		public async Task<int> AddAsync(AddOrganizationDTO dto)
@@ -144,5 +147,25 @@ namespace Medicloud.BLL.Services.Organization
 			return addedCategories.Count + removedCategories.Count;
 		}
 
+		public async Task<int> AddOrganizationPlanAsync(OrganizationPlanDAO dao)
+		{
+			using var con=_unitOfWork.BeginConnection();
+			int newPlanId=await _organizationPlanRepository.AddAsync(dao);
+			if (newPlanId > 0)
+			{
+				await _organizationRepository.UpdateAsync(new()
+				{
+					id = dao.organizationId,
+					isRegistered = true,
+				});
+			}
+			return newPlanId;
+		}
+
+		public async Task<List<OrganizationPlanDAO>> GetPlansByOrganizationId(int organizationId)
+		{
+			using var con=_unitOfWork.BeginConnection();
+			return await _organizationPlanRepository.GetPlansByOrganizationId(organizationId);
+		}
 	}
 }

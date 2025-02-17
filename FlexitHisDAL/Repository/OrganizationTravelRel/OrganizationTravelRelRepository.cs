@@ -35,6 +35,7 @@ namespace Medicloud.DAL.Repository.OrganizationTravelRel
 			return result;
 		}
 
+
 		public async Task<bool> UpdateAsync(OrganizationTravelDAO dao)
 		{
 			string sql = $@"
