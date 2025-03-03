@@ -10,7 +10,8 @@
     @*<link rel="shortcut icon" type="image/png" href="../assets/images/logos/favicon.ico" />*@
     <link rel="shortcut icon" type="image/png" href="../images/logo.png" />
 
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
+    @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">*@
+    <link rel="stylesheet" href="~/libn/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="~/css/site.css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
@@ -47,9 +48,9 @@
 
         .sidebar {
             position: fixed;
-            top: 82.75px;
+            top: 71.75px;
             width: 256px;
-            height: calc(100vh - 82.75px);
+            height: calc(100vh - 71.75px);
             font-family: "Inter", sans-serif;
             font-weight: 500;
             color: #fff;
@@ -370,7 +371,7 @@
 </head>
 
 <body style="background: #F8F8F8;">
-   @await Component.InvokeAsync("NavbarN")
+    @await Component.InvokeAsync("NavbarN")
 
     @*<div class="sidebar d-md-none">
         @await Component.InvokeAsync("SidebarN")
@@ -401,30 +402,30 @@
             </div>
         </div>
     </div>
-    <div id="infoModal" class="modal fade" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header justify-content-end pb-0">
+    @*<div id="infoModal" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header justify-content-end pb-0">
 
-                    <button type="button" class="btn-sm border-0 rounded-5 align-self-end" data-bs-dismiss="modal" aria-label="Close">
-                        <img src="~/assets/images/svgs/XIcon.svg" />
-                    </button>
+                        <button type="button" class="btn-sm border-0 rounded-5 align-self-end" data-bs-dismiss="modal" aria-label="Close">
+                            <img src="~/assets/images/svgs/XIcon.svg" />
+                        </button>
 
-                </div>
-                <div class="modal-body d-flex align-items-center  pt-0 px-4">
-                    <div style="background-color: #F5F5F5" class="me-3">
-                        <img src="~/assets/images/svgs/MarkIcon.svg" />
                     </div>
-                    <p id="infoText" style="color: #101828;font-size:18px; margin:0"></p>
-                </div>
-                <div class="modal-footer">
+                    <div class="modal-body d-flex align-items-center  pt-0 px-4">
+                        <div style="background-color: #F5F5F5" class="me-3">
+                            <img src="~/assets/images/svgs/MarkIcon.svg" />
+                        </div>
+                        <p id="infoText" style="color: #101828;font-size:18px; margin:0"></p>
+                    </div>
+                    <div class="modal-footer">
 
-                    <button style="width:47%; " type="button" class="btn btn-primary p-2" data-bs-dismiss="modal">Bağla</button>
+                        <button style="width:47%; " type="button" class="btn btn-primary p-2" data-bs-dismiss="modal">Bağla</button>
 
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </div>*@
     @*<script src="~/assets/libs/jquery/dist/jquery.min.js"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
         <script src="~/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -432,10 +433,12 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
         <script src="~/assets/js/layout.js"></script>*@
-    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
+
     <script src="~/lib/jquery/dist/jquery.js" asp-append-version="true"></script>
     <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+
+    <script src="~/libn/bootstrap/js/bootstrap.bundle.js" asp-append-version="true"></script>
+    <script src="~/libn/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
 
     <script src="~/js/site.js" asp-append-version="true"></script>
 

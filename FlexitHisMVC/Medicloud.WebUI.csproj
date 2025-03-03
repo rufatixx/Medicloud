@@ -57,6 +57,7 @@
     <Folder Include="wwwroot\js\menu\" />
     <Folder Include="wwwroot\js\new_patient\" />
     <Folder Include="wwwroot\js\admin\departments\" />
+    <Folder Include="wwwroot\libn\" />
     <Folder Include="wwwroot\user_images\" />
     <Folder Include="wwwroot\res\kassa\" />
     <Folder Include="wwwroot\res\admin\" />

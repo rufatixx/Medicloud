@@ -100,6 +100,11 @@ namespace Medicloud.DAL.Repository.Organizationn
 				query.Append("imagePath = @imagePath, ");
 				parameters.Add("@imagePath", dao.imagePath);
 			}
+			if (!string.IsNullOrEmpty(dao.coverPath))
+			{
+				query.Append("coverPath = @coverPath, ");
+				parameters.Add("@coverPath", dao.coverPath);
+			}
 			if (dao.cDate.HasValue)
 			{
 				query.Append("cDate = @cDate, ");
@@ -132,9 +137,10 @@ namespace Medicloud.DAL.Repository.Organizationn
 			{
 				query.Length -= 2;
 			}
-
 			query.Append(" WHERE id = @Id");
 			parameters.Add("@Id", dao.id);
+
+			Console.WriteLine(query);
 			var con = _unitOfWork.GetConnection();
 			var result=await con.ExecuteAsync(query.ToString(), parameters);
 			return result>0;

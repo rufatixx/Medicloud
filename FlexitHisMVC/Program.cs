@@ -1,7 +1,7 @@
-﻿using System.Configuration;
-using System.Text;
+﻿using System.Text;
 using Medicloud.BLL.Service;
 using Medicloud.BLL.Services.Category;
+using Medicloud.BLL.Services.FileUpload;
 using Medicloud.BLL.Services.Organization;
 using Medicloud.BLL.Services.OrganizationTravel;
 using Medicloud.BLL.Services.OTP;
@@ -25,10 +25,7 @@ using Medicloud.DAL.Repository.Staff;
 using Medicloud.DAL.Repository.Userr;
 using Medicloud.Data;
 using Medicloud.WebUI.Middlewares;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -245,6 +242,7 @@ builder.Services.AddScoped<IServiceTypeRepository, ServiceTypeRepository>();
 builder.Services.AddScoped<IOrganizationServiceRelRepository, OrganizationServiceRelRepository>();
 builder.Services.AddScoped<IOrganizationPlanRepository,OrganizationPlanRepository>();
 builder.Services.AddScoped<IOrganizationTravelService,OrganizationTravelService>();
+builder.Services.AddScoped<IFileUploadService, FileUploadService>();
 var app = builder.Build();
 
 app.UseSession();

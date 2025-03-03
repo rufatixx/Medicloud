@@ -1,4 +1,5 @@
 ﻿using Medicloud.BLL.DTO;
+using Medicloud.BLL.Services.FileUpload;
 using Medicloud.DAL.DAO;
 using Medicloud.DAL.Infrastructure.UnitOfWork;
 using Medicloud.DAL.Repository.Organizationn;
@@ -17,6 +18,7 @@ namespace Medicloud.BLL.Services.Organization
 		private readonly IOrganizationTravelRelRepository _organizationTravelRelRepository;
 		private readonly IStaffWorkHoursRepository _staffWorkHoursRepository;
 		private readonly IOrganizationPlanRepository _organizationPlanRepository;
+		private readonly IFileUploadService _fileUploadService;
 		public OrganizationService(IUnitOfWork unitOfWork, IOrganizationRepository organizationRepository, IStaffRepository staffRepository, IOrganizationCategoryRelRepository organizationCategoryRelRepository, IOrganizationTravelRelRepository organizationTravelRelRepository, IStaffWorkHoursRepository staffWorkHoursRepository, IOrganizationPlanRepository organizationPlanRepository)
 		{
 			_unitOfWork = unitOfWork;

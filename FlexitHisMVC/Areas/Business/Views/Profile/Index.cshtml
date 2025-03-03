@@ -1,0 +1,193 @@
+﻿@model Medicloud.WebUI.Areas.Business.ViewModels.BusinessProfileVM
+@{
+
+}
+<style>
+    .bg-blue-purple-gradient {
+        background: linear-gradient(to right, #7bb7ff, #d4f2ff); /* Pastel blue to pastel purple */
+    }
+</style>
+
+
+<!-- Start Content-->
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card rounded-4" style="background-image: url('@Url.Content(Model.CoverSrc)');  background-size: cover; background-position:center;height:360px;width:100%;">
+                <div class="card-body d-flex flex-column justify-content-between">
+                    <div class="row align-items-center">
+                        <div class="col-6 d-flex ">
+                            <form method="post" class="" enctype="multipart/form-data" asp-controller="Profile" asp-action="UpdateCoverPhoto" id="coverPhotoForm">
+                                <div class="mt-sm-0 mt-3 text-sm-end">
+
+                                    <button id="changeCoverPhoto" type="button" class="btn btn-light btn-sm ">
+                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M7.99976 13.332H13.9997" stroke="#667085" stroke-width="1.66678" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M10.9998 2.33218C11.265 2.06697 11.6247 1.91797 11.9998 1.91797C12.1855 1.91797 12.3694 1.95455 12.541 2.02562C12.7125 2.09669 12.8684 2.20086 12.9998 2.33218C13.1311 2.4635 13.2352 2.61941 13.3063 2.79099C13.3774 2.96257 13.414 3.14647 13.414 3.33218C13.414 3.5179 13.3774 3.7018 13.3063 3.87338C13.2352 4.04496 13.1311 4.20086 12.9998 4.33218L4.66642 12.6655L1.99976 13.3322L2.66642 10.6655L10.9998 2.33218Z" stroke="#667085" stroke-width="1.66678" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                    </button>
+                                    <input type="hidden" name="existingPhotoPath" value="@Model.CoverPath" />
+                                    <input type="file" id="coverPhoto" name="coverPhoto" accept="image/*" class="d-none">
+                                    <input type="hidden" id="" name="organizationId" value="@Model.Id">
+                                </div>
+                            </form>
+
+                        </div>
+                        <div class="col-6 d-flex justify-content-end">
+                            <div class="text-center me-2">
+                                <button type="button" class="btn btn-light mr-2">
+                                    <svg height="18" width="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" fill="none">
+                                        <path fill="#5A6A85" fill-rule="evenodd" d="M3.415 10.242c-.067-.086-.13-.167-.186-.242a16.806 16.806 0 011.803-2.025C6.429 6.648 8.187 5.5 10 5.5c1.813 0 3.57 1.148 4.968 2.475A16.816 16.816 0 0116.771 10a16.9 16.9 0 01-1.803 2.025C13.57 13.352 11.813 14.5 10 14.5c-1.813 0-3.57-1.148-4.968-2.475a16.799 16.799 0 01-1.617-1.783zm15.423-.788L18 10l.838.546-.002.003-.003.004-.01.016-.037.054a17.123 17.123 0 01-.628.854 18.805 18.805 0 01-1.812 1.998C14.848 14.898 12.606 16.5 10 16.5s-4.848-1.602-6.346-3.025a18.806 18.806 0 01-2.44-2.852 6.01 6.01 0 01-.037-.054l-.01-.016-.003-.004-.001-.002c0-.001-.001-.001.837-.547l-.838-.546.002-.003.003-.004.01-.016a6.84 6.84 0 01.17-.245 18.804 18.804 0 012.308-2.66C5.151 5.1 7.394 3.499 10 3.499s4.848 1.602 6.346 3.025a18.803 18.803 0 012.44 2.852l.037.054.01.016.003.004.001.002zM18 10l.838-.546.355.546-.355.546L18 10zM1.162 9.454L2 10l-.838.546L.807 10l.355-.546zM9 10a1 1 0 112 0 1 1 0 01-2 0zm1-3a3 3 0 100 6 3 3 0 000-6z"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="text-center">
+                                <button type="button" class="btn btn-light">
+                                    <i class="mdi mdi-account-edit me-1"></i> Biznesini Paylaş
+                                </button>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            @{
+                                var imageSrc = "/place.jpg";
+                                if (!string.IsNullOrEmpty(Model.LogoSrc))
+                                {
+                                    imageSrc = Model.LogoSrc;
+                                }
+                            }
+                            <form method="post" class="text-center" enctype="multipart/form-data" asp-controller="Profile" asp-action="UpdateLogoPhoto" id="logoPhotoForm">
+                                <div class="position-relative">
+                                    <img src="@imageSrc" width="100" style="object-fit:cover;" alt="" class="rounded-circle img-thumbnail">
+                                    <button type="button" class="btn btn-light btn-sm position-absolute" style="bottom: 0; right: 0; border-radius: 50%;" id="changeLogoPhoto">
+                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M7.99976 13.332H13.9997" stroke="#667085" stroke-width="1.66678" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M10.9998 2.33218C11.265 2.06697 11.6247 1.91797 11.9998 1.91797C12.1855 1.91797 12.3694 1.95455 12.541 2.02562C12.7125 2.09669 12.8684 2.20086 12.9998 2.33218C13.1311 2.4635 13.2352 2.61941 13.3063 2.79099C13.3774 2.96257 13.414 3.14647 13.414 3.33218C13.414 3.5179 13.3774 3.7018 13.3063 3.87338C13.2352 4.04496 13.1311 4.20086 12.9998 4.33218L4.66642 12.6655L1.99976 13.3322L2.66642 10.6655L10.9998 2.33218Z" stroke="#667085" stroke-width="1.66678" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+
+                                    </button>
+                                </div>
+
+                                <input type="hidden" id="photoPath" name="existingPhotoPath" value="@Model.LogoPath" />
+                                <input type="file" id="logoPhoto" name="logoPhoto" accept="image/*" class="d-none">
+                                <input type="hidden" id="" name="organizationId" value="@Model.Id">
+                            </form>
+                        </div>
+                        <div class="col">
+                            <div>
+                                <h4 class="mt-1 mb-1 text-white">@Model.Name</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- end col-->
+    </div>
+    <!-- end row -->
+    <!-- end row -->
+
+</div> <!-- container -->
+
+<div class="modal fade" id="serviceModal" tabindex="-1" aria-labelledby="serviceModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="serviceModalLabel">Xidmətin yenilənməsi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <div class="modal-body">
+                <form id="updateServiceForm">
+                    <div class="form-group mb-3">
+                        <label for="serviceName">Xidmətin adı</label>
+                        <input type="text" class="form-control" id="selectedServiceName" name="name" placeholder="">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="servicePrice">Qiymət</label>
+                        <input type="number" step="0.01" class="form-control" id="selectedServicePrice" name="price" placeholder="">
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <button type="submit" class="btn btn-primary col-5" id="updateServiceBtn">Yenilə</button>
+                        <button type="button" class="btn btn-danger col-5" id="deleteServiceBtn">Sil</button>
+                        <button type="button" class="btn btn-success col-5" id="addServiceBtn">Əlavə et</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="updateUserModal" tabindex="-1" aria-labelledby="serviceModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="serviceModalLabel">Məlumatların yenilənməsi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <div class="modal-body">
+                <form id="updateUserForm">
+                    <div class="form-group mb-3">
+                        <label for="name">Adınız</label>
+                        <input type="text" class="form-control" id="name" placeholder="">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="surname">Soyadınız</label>
+                        <input type="text" class="form-control" id="surname" placeholder="">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="name">Ata adı</label>
+                        <input type="text" class="form-control" id="father" placeholder="">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="name">Elektron poçt</label>
+                        <input type="text" class="form-control" id="email" placeholder="">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="name">Mobil nömrəniz</label>
+                        <input type="text" class="form-control" id="mobile" placeholder="">
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <button type="button" class="btn btn-primary col-5">Yenilə</button>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+
+    <script>
+
+        $('#changeCoverPhoto').on('click', function () {
+            $('#coverPhoto').click();
+        });
+
+        $('#coverPhoto').on('change', function () {
+            $('#coverPhotoForm').submit();
+        });
+
+        $('#coverPhotoForm').submit(function (e) {
+            showLoading();
+        });
+        $('#changeLogoPhoto').on('click', function () {
+            $('#logoPhoto').click();
+        });
+
+        $('#logoPhoto').on('change', function () {
+            $('#logoPhotoForm').submit();
+        });
+
+        $('#logoPhotoForm').submit(function (e) {
+            showLoading();
+        });
+    </script>
+
+
+}

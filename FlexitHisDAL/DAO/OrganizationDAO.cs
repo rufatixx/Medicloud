@@ -11,6 +11,7 @@
 		public decimal latitude { get; set; }
 		public decimal longitude { get; set; }
 		public string? imagePath { get; set; }
+		public string? coverPath { get; set; }
 		public DateTime? cDate { get; set; }
 		public int ownerId { get; set; }
 		public int workPlaceType { get; set; }
