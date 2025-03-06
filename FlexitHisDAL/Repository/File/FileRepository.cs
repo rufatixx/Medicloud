@@ -5,7 +5,7 @@ using Medicloud.DAL.Infrastructure.UnitOfWork;
 
 namespace Medicloud.DAL.Repository.File
 {
-	internal class FileRepository:IFileRepository
+	public class FileRepository:IFileRepository
 	{
 		private readonly IUnitOfWork _unitOfWork;
 

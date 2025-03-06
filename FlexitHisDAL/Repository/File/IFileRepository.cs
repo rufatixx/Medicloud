@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Medicloud.DAL.Repository.File
 {
-	internal interface IFileRepository
+	public interface IFileRepository
 	{
 		Task<int> AddFileAsync(FileDAO fileDao);
 		Task DeleteFileAsync(int id);

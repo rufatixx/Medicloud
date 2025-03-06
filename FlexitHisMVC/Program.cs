@@ -12,6 +12,7 @@ using Medicloud.BLL.Services.Staff;
 using Medicloud.BLL.Services.User;
 using Medicloud.DAL.Infrastructure.UnitOfWork;
 using Medicloud.DAL.Repository.Category;
+using Medicloud.DAL.Repository.File;
 using Medicloud.DAL.Repository.Organizationn;
 using Medicloud.DAL.Repository.OrganizationPlan;
 using Medicloud.DAL.Repository.OrganizationServiceRel;
@@ -243,6 +244,7 @@ builder.Services.AddScoped<IOrganizationServiceRelRepository, OrganizationServic
 builder.Services.AddScoped<IOrganizationPlanRepository,OrganizationPlanRepository>();
 builder.Services.AddScoped<IOrganizationTravelService,OrganizationTravelService>();
 builder.Services.AddScoped<IFileUploadService, FileUploadService>();
+builder.Services.AddScoped<IFileRepository, FileRepository>();
 var app = builder.Build();
 
 app.UseSession();
