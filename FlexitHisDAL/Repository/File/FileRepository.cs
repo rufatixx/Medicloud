@@ -17,7 +17,7 @@ namespace Medicloud.DAL.Repository.File
 		public async Task<int> AddFileAsync(FileDAO fileDao)
 		{
 			string AddSql = $@"
-			INSERT INTO organizations
+			INSERT INTO files
             (fileName,filePath)
 			VALUES (@{nameof(FileDAO.fileName)},
             @{nameof(FileDAO.filePath)});

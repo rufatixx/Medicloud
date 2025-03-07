@@ -3,6 +3,7 @@ using Medicloud.BLL.Service;
 using Medicloud.BLL.Services.Category;
 using Medicloud.BLL.Services.FileUpload;
 using Medicloud.BLL.Services.Organization;
+using Medicloud.BLL.Services.OrganizationPhoto;
 using Medicloud.BLL.Services.OrganizationTravel;
 using Medicloud.BLL.Services.OTP;
 using Medicloud.BLL.Services.PatientCard;
@@ -14,6 +15,7 @@ using Medicloud.DAL.Infrastructure.UnitOfWork;
 using Medicloud.DAL.Repository.Category;
 using Medicloud.DAL.Repository.File;
 using Medicloud.DAL.Repository.Organizationn;
+using Medicloud.DAL.Repository.OrganizationPhoto;
 using Medicloud.DAL.Repository.OrganizationPlan;
 using Medicloud.DAL.Repository.OrganizationServiceRel;
 using Medicloud.DAL.Repository.OrganizationTravelRel;
@@ -245,6 +247,8 @@ builder.Services.AddScoped<IOrganizationPlanRepository,OrganizationPlanRepositor
 builder.Services.AddScoped<IOrganizationTravelService,OrganizationTravelService>();
 builder.Services.AddScoped<IFileUploadService, FileUploadService>();
 builder.Services.AddScoped<IFileRepository, FileRepository>();
+builder.Services.AddScoped<IOrganizationPhotoRepository, OrganizationPhotoRepository>();
+builder.Services.AddScoped<IOrganizationPhotoService, OrganizationPhotoService>();
 var app = builder.Build();
 
 app.UseSession();

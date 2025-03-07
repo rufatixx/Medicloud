@@ -40,17 +40,36 @@
                                 imageSrc = Model.LogoSrc;
                             }
                         }
-                        <form method="post" class="text-center" enctype="multipart/form-data" asp-controller="Profile" asp-action="UpdateLogoPhoto" id="logoPhotoForm">
-                            <div class="position-relative">
-                                <img src="@imageSrc" width="100" style="object-fit:cover;" alt="" class="rounded-circle img-thumbnail">
-                                <button type="button" class="btn btn-light btn-sm position-absolute" style="bottom: 0; right: 0; border-radius: 50%;" id="changeLogoPhoto">
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M7.99976 13.332H13.9997" stroke="#667085" stroke-width="1.66678" stroke-linecap="round" stroke-linejoin="round" />
-                                        <path d="M10.9998 2.33218C11.265 2.06697 11.6247 1.91797 11.9998 1.91797C12.1855 1.91797 12.3694 1.95455 12.541 2.02562C12.7125 2.09669 12.8684 2.20086 12.9998 2.33218C13.1311 2.4635 13.2352 2.61941 13.3063 2.79099C13.3774 2.96257 13.414 3.14647 13.414 3.33218C13.414 3.5179 13.3774 3.7018 13.3063 3.87338C13.2352 4.04496 13.1311 4.20086 12.9998 4.33218L4.66642 12.6655L1.99976 13.3322L2.66642 10.6655L10.9998 2.33218Z" stroke="#667085" stroke-width="1.66678" stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
 
-                                </button>
-                            </div>
+                        <form method="post" class="text-center" enctype="multipart/form-data" asp-controller="Profile" asp-action="UpdateLogoPhoto" id="logoPhotoForm">
+                            @if (string.IsNullOrEmpty(Model.LogoSrc))
+                            @*@if (true)*@
+                            {
+                                <div class="d-flex justify-content-center">
+
+                                    <div class="file-upload d-flex justify-content-center align-items-center px-4 py-3  rounded-pill" style="width:120px; border-style:dashed">
+                                        <i class="ti ti-cloud-upload fs-8 mb-2"></i>
+                                        <p class="mb-0">Loqo əlavə et</p>
+                                        <input id="fileInput1" accept="image/*" type="file">
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="position-relative d-inline-block">
+                                    <img src="@imageSrc" width="120" height="120" style="object-fit:cover;" alt="" class="rounded-circle">
+                                    <button type="button" class="btn btn-light btn-sm position-absolute" data-item-id="" style="bottom: 0; right: 0; border-radius: 50%;" id="changeLogoPhoto">
+                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M7.99976 13.332H13.9997" stroke="#667085" stroke-width="1.66678" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M10.9998 2.33218C11.265 2.06697 11.6247 1.91797 11.9998 1.91797C12.1855 1.91797 12.3694 1.95455 12.541 2.02562C12.7125 2.09669 12.8684 2.20086 12.9998 2.33218C13.1311 2.4635 13.2352 2.61941 13.3063 2.79099C13.3774 2.96257 13.414 3.14647 13.414 3.33218C13.414 3.5179 13.3774 3.7018 13.3063 3.87338C13.2352 4.04496 13.1311 4.20086 12.9998 4.33218L4.66642 12.6655L1.99976 13.3322L2.66642 10.6655L10.9998 2.33218Z" stroke="#667085" stroke-width="1.66678" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+
+                                    </button>
+                                </div>
+                                <input id="fileInput1" type="file" accept="image/*" class="d-none">
+
+                            }
+
 
                             <input type="hidden" id="photoPath" name="existingPhotoPath" value="@Model.LogoPath" />
                             <input type="file" id="logoPhoto" name="logoPhoto" accept="image/*" class="d-none">
@@ -73,19 +92,37 @@
                             }
                         }
 
+
                         <form method="post" class="" enctype="multipart/form-data" asp-controller="Profile" asp-action="UpdateCoverPhoto" id="coverPhotoForm">
-                            <div class="mt-sm-0 mt-3 text-sm-end">
-                                <img src="@coverSrc" style="object-fit:cover;" alt="" class="img-thumbnail">
-                                <button id="changeCoverPhoto" type="button" class="btn btn-light btn-sm ">
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M7.99976 13.332H13.9997" stroke="#667085" stroke-width="1.66678" stroke-linecap="round" stroke-linejoin="round" />
-                                        <path d="M10.9998 2.33218C11.265 2.06697 11.6247 1.91797 11.9998 1.91797C12.1855 1.91797 12.3694 1.95455 12.541 2.02562C12.7125 2.09669 12.8684 2.20086 12.9998 2.33218C13.1311 2.4635 13.2352 2.61941 13.3063 2.79099C13.3774 2.96257 13.414 3.14647 13.414 3.33218C13.414 3.5179 13.3774 3.7018 13.3063 3.87338C13.2352 4.04496 13.1311 4.20086 12.9998 4.33218L4.66642 12.6655L1.99976 13.3322L2.66642 10.6655L10.9998 2.33218Z" stroke="#667085" stroke-width="1.66678" stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
-                                </button>
-                                <input type="hidden" name="existingPhotoPath" value="@Model.CoverPath" />
-                                <input type="file" id="coverPhoto" name="coverPhoto" accept="image/*" class="d-none">
-                                <input type="hidden" id="" name="organizationId" value="@Model.Id">
-                            </div>
+                            @if (string.IsNullOrEmpty(Model.CoverSrc))
+                            {
+                                <div class="file-upload d-flex justify-content-center align-items-center p-4 mb-3" style="border-style:dashed">
+                                    <i class="ti ti-cloud-upload fs-8 mb-2"></i>
+                                    <p class="mb-0 ms-2">Örtuk şəkli əlavə et</p>
+                                    <input id="fileInput2" accept="image/*" type="file">
+                                </div>
+
+                            }
+                            else
+                            {
+
+                                <div class="mt-sm-0 mt-3 text-sm-end position-relative">
+
+                                    <img src="@coverSrc" style="object-fit:cover;" alt="" class="img-fluid">
+                                    <button id="changeCoverPhoto" type="button" class="btn btn-light btn-sm position-absolute rounded" style="top: 10px; right: 10px;">
+                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M7.99976 13.332H13.9997" stroke="#667085" stroke-width="1.66678" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M10.9998 2.33218C11.265 2.06697 11.6247 1.91797 11.9998 1.91797C12.1855 1.91797 12.3694 1.95455 12.541 2.02562C12.7125 2.09669 12.8684 2.20086 12.9998 2.33218C13.1311 2.4635 13.2352 2.61941 13.3063 2.79099C13.3774 2.96257 13.414 3.14647 13.414 3.33218C13.414 3.5179 13.3774 3.7018 13.3063 3.87338C13.2352 4.04496 13.1311 4.20086 12.9998 4.33218L4.66642 12.6655L1.99976 13.3322L2.66642 10.6655L10.9998 2.33218Z" stroke="#667085" stroke-width="1.66678" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                    </button>
+                                    <input type="hidden" name="existingPhotoPath" value="@Model.CoverPath" />
+                                    <input type="file" id="coverPhoto" name="coverPhoto" accept="image/*" class="d-none">
+                                    <input type="hidden" id="" name="organizationId" value="@Model.Id">
+                                </div>
+                                <input id="fileInput2" class="d-none" accept="image/*" type="file">
+
+                            }
+
                         </form>
                     </div>
 
@@ -106,129 +143,186 @@
                                 coverSrc = Model.CoverSrc;
                             }
                         }
-                        <div class="file-upload d-flex justify-content-center align-items-center p-4 mb-3" style="border-style:dashed">
-                            <i class="ti ti-cloud-upload fs-8 mb-2"></i>
-                            <p class="mb-0 ms-2">Sürüşdür və ya seç</p>
-                            <input id="fileInput" type="file" multiple>
-                        </div>
-                        <form method="post" class="" enctype="multipart/form-data" asp-controller="Profile" asp-action="UpdateCoverPhoto" id="coverPhotoForm">
-                            <div class="mt-sm-0 mt-3 text-sm-end">
-                                <img src="@coverSrc" style="object-fit:cover;" alt="" class="img-thumbnail">
-                                <button id="changeCoverPhoto" type="button" class="btn btn-light btn-sm ">
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M7.99976 13.332H13.9997" stroke="#667085" stroke-width="1.66678" stroke-linecap="round" stroke-linejoin="round" />
-                                        <path d="M10.9998 2.33218C11.265 2.06697 11.6247 1.91797 11.9998 1.91797C12.1855 1.91797 12.3694 1.95455 12.541 2.02562C12.7125 2.09669 12.8684 2.20086 12.9998 2.33218C13.1311 2.4635 13.2352 2.61941 13.3063 2.79099C13.3774 2.96257 13.414 3.14647 13.414 3.33218C13.414 3.5179 13.3774 3.7018 13.3063 3.87338C13.2352 4.04496 13.1311 4.20086 12.9998 4.33218L4.66642 12.6655L1.99976 13.3322L2.66642 10.6655L10.9998 2.33218Z" stroke="#667085" stroke-width="1.66678" stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
-                                </button>
-                                <input type="hidden" name="existingPhotoPath" value="@Model.CoverPath" />
-                                <input type="file" id="coverPhoto" name="coverPhoto" accept="image/*" class="d-none">
-                                <input type="hidden" id="" name="organizationId" value="@Model.Id">
+
+
+                        @if (Model.WorkImages != null && Model.WorkImages.Count > 0)
+                        {
+                            <div class="row">
+
+                                <form method="post" class="" enctype="multipart/form-data" asp-controller="Profile" asp-action="UploadWorkPhoto" id="uploadPhotoForm">
+
+                                    <div class="mt-sm-0 mt-3 text-sm-end">
+                                        <div class="file-upload d-flex justify-content-center align-items-center p-4 mb-3" style="border-style:dashed">
+                                            <i class="ti ti-cloud-upload fs-8 mb-2"></i>
+                                            <p class="mb-0 ms-2">Media əlavə et</p>
+                                            <input id="fileInput3" accept="image/*" type="file">
+                                        </div>
+                                        <input type="file" id="uploadPhoto" name="workPhoto" accept="image/*" class="d-none">
+                                        <input type="hidden" id="" name="organizationId" value="@Model.Id">
+                                    </div>
+                                </form>
                             </div>
-                        </form>
+                            <div class="row">
+                                @foreach (var item in Model.WorkImages)
+                                {
+                                    <div class="col-4 mb-3">
+                                        <img src="@item.Src" style="object-fit:cover; height:120px;" alt="" class="img-fluid w-100">
+
+                                    </div>
+                                }
+
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="row">
+                                <div class="col-4">
+                                    <form method="post" enctype="multipart/form-data" asp-controller="Profile" asp-action="UploadWorkPhoto" id="uploadPhotoForm">
+
+                                        <div class="mt-sm-0 mt-3 text-sm-end">
+                                            <div class="file-upload d-flex justify-content-center align-items-center p-4 mb-3" style="border-style:dashed">
+                                                <i class="ti ti-cloud-upload fs-8 mb-2"></i>
+                                                <p class="mb-0 ms-2">Media əlavə et</p>
+                                                <input id="fileInput3" accept="image/*" type="file">
+                                            </div>
+                                            <input type="file" id="uploadPhoto" name="workPhoto" accept="image/*" class="d-none">
+                                            <input type="hidden" id="" name="organizationId" value="@Model.Id">
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                        }
+
+
+
                     </div>
 
                 </div>
             </div>
         </div>
 
-        @*<div class="col-12">
-                <div class="card rounded-4" style="background-image: url('@Url.Content(Model.CoverSrc)');  background-size: cover; background-position:center;height:360px;width:100%;">
-                    <div class="card-body d-flex flex-column justify-content-between">
-                        <div class="row align-items-center">
-                            <div class="col-6 d-flex ">
 
-
-                            </div>
-                            <div class="col-6 d-flex justify-content-end">
-                                <div class="text-center me-2">
-                                    <button type="button" class="btn btn-light mr-2">
-                                        <svg height="18" width="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" fill="none">
-                                            <path fill="#5A6A85" fill-rule="evenodd" d="M3.415 10.242c-.067-.086-.13-.167-.186-.242a16.806 16.806 0 011.803-2.025C6.429 6.648 8.187 5.5 10 5.5c1.813 0 3.57 1.148 4.968 2.475A16.816 16.816 0 0116.771 10a16.9 16.9 0 01-1.803 2.025C13.57 13.352 11.813 14.5 10 14.5c-1.813 0-3.57-1.148-4.968-2.475a16.799 16.799 0 01-1.617-1.783zm15.423-.788L18 10l.838.546-.002.003-.003.004-.01.016-.037.054a17.123 17.123 0 01-.628.854 18.805 18.805 0 01-1.812 1.998C14.848 14.898 12.606 16.5 10 16.5s-4.848-1.602-6.346-3.025a18.806 18.806 0 01-2.44-2.852 6.01 6.01 0 01-.037-.054l-.01-.016-.003-.004-.001-.002c0-.001-.001-.001.837-.547l-.838-.546.002-.003.003-.004.01-.016a6.84 6.84 0 01.17-.245 18.804 18.804 0 012.308-2.66C5.151 5.1 7.394 3.499 10 3.499s4.848 1.602 6.346 3.025a18.803 18.803 0 012.44 2.852l.037.054.01.016.003.004.001.002zM18 10l.838-.546.355.546-.355.546L18 10zM1.162 9.454L2 10l-.838.546L.807 10l.355-.546zM9 10a1 1 0 112 0 1 1 0 01-2 0zm1-3a3 3 0 100 6 3 3 0 000-6z"></path>
-                                        </svg>
-                                    </button>
-                                </div>
-                                <div class="text-center">
-                                    <button type="button" class="btn btn-light">
-                                        <i class="mdi mdi-account-edit me-1"></i> Biznesini Paylaş
-                                    </button>
-                                </div>
-
-
-                            </div>
-                        </div>
-                        <div class="row align-items-center">
-                            <div class="col-auto">
-                                @{
-                                    var imageSrc = "/place.jpg";
-                                    if (!string.IsNullOrEmpty(Model.LogoSrc))
-                                    {
-                                        imageSrc = Model.LogoSrc;
-                                    }
-                                }
-                                <form method="post" class="text-center" enctype="multipart/form-data" asp-controller="Profile" asp-action="UpdateLogoPhoto" id="logoPhotoForm">
-                                    <div class="position-relative">
-                                        <img src="@imageSrc" width="100" style="object-fit:cover;" alt="" class="rounded-circle img-thumbnail">
-                                        <button type="button" class="btn btn-light btn-sm position-absolute" style="bottom: 0; right: 0; border-radius: 50%;" id="changeLogoPhoto">
-                                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M7.99976 13.332H13.9997" stroke="#667085" stroke-width="1.66678" stroke-linecap="round" stroke-linejoin="round" />
-                                                <path d="M10.9998 2.33218C11.265 2.06697 11.6247 1.91797 11.9998 1.91797C12.1855 1.91797 12.3694 1.95455 12.541 2.02562C12.7125 2.09669 12.8684 2.20086 12.9998 2.33218C13.1311 2.4635 13.2352 2.61941 13.3063 2.79099C13.3774 2.96257 13.414 3.14647 13.414 3.33218C13.414 3.5179 13.3774 3.7018 13.3063 3.87338C13.2352 4.04496 13.1311 4.20086 12.9998 4.33218L4.66642 12.6655L1.99976 13.3322L2.66642 10.6655L10.9998 2.33218Z" stroke="#667085" stroke-width="1.66678" stroke-linecap="round" stroke-linejoin="round" />
-                                            </svg>
-
-                                        </button>
-                                    </div>
-
-                                    <input type="hidden" id="photoPath" name="existingPhotoPath" value="@Model.LogoPath" />
-                                    <input type="file" id="logoPhoto" name="logoPhoto" accept="image/*" class="d-none">
-                                    <input type="hidden" id="" name="organizationId" value="@Model.Id">
-                                </form>
-                            </div>
-                            <div class="col">
-                                <div>
-                                    <h4 class="mt-1 mb-1 text-white">@Model.Name</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>*@
     </div>
 </div>
 
+@await Component.InvokeAsync("PhotoSave")
+
+
+<div class="modal fade" id="actionModal"  tabindex="-1" aria-labelledby="actionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content d-flex flex-column">
+            @*<div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>*@
+            <div class="modal-body  text-center">
+                <div class="mb-3">
+                    <button id="uploadButton" class="btn btn-primary w-100">Dəyiş</button>
+                </div>
+                <div class="mb-3">
+                    <button id="deleteButton" class="btn btn-danger w-100">Sil</button>
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-outline-dark w-100"  data-bs-dismiss="modal" aria-label="Close">Ləğv et</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts{
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet">
 
+    <!-- Cropper.js JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+    <script src="~/js/photoSave.js"></script>
     <script>
 
         $('#changeCoverPhoto').on('click', function () {
-            $('#coverPhoto').click();
-        });
+            $('#actionModal').data('type', 'cover');
+            $('#uploadButton').text('Ortük şəklini dəyiş');
+            $('#deleteButton').text('Ortük şəklini sil');
+            $('#actionModal').modal('show');
 
-        $('#coverPhoto').on('change', function () {
-            $('#coverPhotoForm').submit();
-        });
-
-        $('#fileInput').on('change', function (e) {
-            console.log(e.target.files)
-            //console.log(files)
-            $(this)[0].files = files;
 
         });
+
+        //$('#coverPhoto').on('change', function () {
+        //    $('#coverPhotoForm').submit();
+        //});
+
+
+        $('#changeLogoPhoto').on('click', function () {
+            //$('#fileInput1').click();
+            $('#actionModal').data('type', 'logo');
+            $('#uploadButton').text('Loqonu dəyiş');
+            $('#deleteButton').text('Loqonu sil');
+
+            $('#actionModal').modal('show');
+        });
+
+
+        $('#deleteButton').on('click', function () {
+            var action = $('#actionModal').data('type');
+            if (action === 'logo') {
+
+            }
+            else if (action === 'cover') {
+
+            }
+        })
+        $('#uploadButton').on('click', function () {
+            var action = $('#actionModal').data('type');
+            if (action === 'logo') {
+                $('#fileInput1').click();
+                $('#actionModal').modal('hide');
+
+
+            }
+            else if (action === 'cover') {
+                $('#fileInput2').click();
+                $('#actionModal').modal('hide');
+
+            }
+        })
+        //$('#logoPhoto').on('change', function () {
+        //    $('#logoPhotoForm').submit();
+        //});
+
+        //$('#logoPhotoForm').submit(function (e) {
+        //    console.log('#fileInput2'.val())
+        //    console.log('#logoPhoto'.val())
+        //    //showLoading();
+        //});
+        createFileUploadInstance('fileInput1', 'logoPhotoForm', 'logoPhoto');
+        createFileUploadInstance('fileInput2', 'coverPhotoForm', 'coverPhoto');
+        createFileUploadInstance('fileInput3', 'uploadPhotoForm', 'uploadPhoto');
+
+
+
+
+        //$('#fileInput').on('change', function (e) {
+        //    console.log(e.target.files)
+        //    //console.log(files)
+        //    $(this)[0].files = files;
+
+        //});
 
 
         // for multiple files
 
         //$('#fileInput').on('change', function (e) {
         //    console.log('Dosya inputu ile seçildi:', e.target);
-        //    var inputFiles = e.target.files; 
+        //    var inputFiles = e.target.files;
         //    console.log(inputFiles);
 
- 
-        //    var allFiles = new DataTransfer(); 
 
-          
+        //    var allFiles = new DataTransfer();
+
+
         //    if (window.droppedFiles) {
         //        for (let i = 0; i < window.droppedFiles.length; i++) {
-        //            allFiles.items.add(window.droppedFiles[i]); 
+        //            allFiles.items.add(window.droppedFiles[i]);
         //        }
         //    }
 
@@ -236,20 +330,20 @@
         //        allFiles.items.add(inputFiles[i]);
         //    }
 
-        //    console.log(allFiles.files); 
+        //    console.log(allFiles.files);
         //    window.droppedFiles = allFiles.files;
         //});
 
         //// Sürükle bırak ile dosyalar bırakıldığında
         //$('#fileInput').on('dragover', function (e) {
-        //    e.preventDefault(); 
+        //    e.preventDefault();
         //});
 
         //$('#fileInput').on('drop', function (e) {
         //    e.preventDefault();
         //    console.log('Sürükle ve bırak ile dosyalar alındı:', e.originalEvent);
 
-        //    var droppedFiles = e.originalEvent.dataTransfer.files; 
+        //    var droppedFiles = e.originalEvent.dataTransfer.files;
         //    console.log(droppedFiles);
 
         //    var allFiles = new DataTransfer();
@@ -263,24 +357,77 @@
         //        allFiles.items.add(droppedFiles[i]);
         //    }
 
-        //    console.log(allFiles.files); 
-        //    window.droppedFiles = allFiles.files; 
+        //    console.log(allFiles.files);
+        //    window.droppedFiles = allFiles.files;
         //});
 
-        $('#coverPhotoForm').submit(function (e) {
-            showLoading();
-        });
-        $('#changeLogoPhoto').on('click', function () {
-            $('#logoPhoto').click();
-        });
+        //var $image = $('#image');
+        //var cropper;
 
-        $('#logoPhoto').on('change', function () {
-            $('#logoPhotoForm').submit();
-        });
+        //// Resim Yükleme İşlemi
+        //$('#imageInput').on('change', function (event) {
+        //    var reader = new FileReader();
+        //    reader.onload = function (event) {
+        //        // Yüklenen resmin URL'sini ayarla
+        //        $image.attr('src', event.target.result);
 
-        $('#logoPhotoForm').submit(function (e) {
-            showLoading();
-        });
+        //        // Eğer daha önce bir cropper varsa, onu kaldır
+        //        if (cropper) {
+        //            cropper.destroy();
+        //        }
+
+        //        // Yeni Cropper.js nesnesi oluştur
+        //        cropper = new Cropper($image[0], {
+        //            aspectRatio: 1, // Oranını belirleyin (1:1 kare)
+        //            viewMode: 1,    // Görünüm modu
+        //            autoCropArea: 0.65, // Otomatik kırpma alanı
+        //            responsive: true,
+        //            zoomable: true,
+        //            rotatable: true
+        //        });
+        //    };
+
+        //    reader.readAsDataURL(this.files[0]);
+        //});
+
+
+        //$('#cropButton').on('click', function () {
+        //    var canvas;
+
+        //    // Kırpılan resmin canvas'ını al
+        //    if (cropper) {
+        //        canvas = cropper.getCroppedCanvas();
+
+        //        $('#croppedImage').attr('src', canvas.toDataURL());
+        //    }
+        //});
+
+        //$('#resetButton').on('click', function () {
+        //    if (cropper) {
+        //        cropper.reset();
+        //    }
+        //});
+
+
+        //$('#uploadButton').on('click', function () {
+        //    var canvas = cropper.getCroppedCanvas();
+        //    var imageData = canvas.toDataURL();
+
+        //    $.ajax({
+        //        url: '/Home/UploadCroppedImage',
+        //        type: 'POST',
+        //        data: {
+        //            imageData: imageData
+        //        },
+        //        success: function (response) {
+        //            console.log('Resim başarıyla yüklendi.');
+        //        },
+        //        error: function (error) {
+        //            console.error('Resim yükleme başarısız oldu.', error);
+        //        }
+        //    });
+        //});
+
     </script>
 
 

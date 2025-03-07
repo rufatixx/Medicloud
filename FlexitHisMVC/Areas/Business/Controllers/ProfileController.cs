@@ -1,5 +1,7 @@
-﻿using Medicloud.BLL.Services.FileUpload;
+﻿using Medicloud.BLL.DTO;
+using Medicloud.BLL.Services.FileUpload;
 using Medicloud.BLL.Services.Organization;
+using Medicloud.BLL.Services.OrganizationPhoto;
 using Medicloud.Models;
 using Medicloud.WebUI.Areas.Business.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -12,10 +14,12 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 	{
 		private readonly IOrganizationService _organizationService;
 		private readonly IFileUploadService _fileUploadService;
-		public ProfileController(IOrganizationService organizationService, IFileUploadService uploadService)
+		private readonly IOrganizationPhotoService _organizationPhotoService;
+		public ProfileController(IOrganizationService organizationService, IFileUploadService uploadService, IOrganizationPhotoService organizationPhotoService)
 		{
 			_organizationService = organizationService;
 			_fileUploadService = uploadService;
+			_organizationPhotoService = organizationPhotoService;
 		}
 
 		public async Task<IActionResult> Index()
@@ -61,14 +65,8 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> UpdateCoverPhoto([FromForm] IFormFile coverPhoto, string existingPhotoPath,int organizationId)
+		public async Task<IActionResult> UpdateCoverPhoto([FromForm] IFormFile coverPhoto,int organizationId)
 		{
-
-			if (!string.IsNullOrEmpty(existingPhotoPath))
-			{
-				bool deleteFile = _fileUploadService.DeleteFile(existingPhotoPath);
-
-			}
 
 			string filePath = null;
 			byte[] file;
@@ -97,7 +95,48 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 				});
 			}
 
-			return RedirectToAction("Index");
+			return RedirectToAction("ProfileImages");
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> UploadWorkPhoto([FromForm] IFormFile workPhoto, int organizationId)
+		{
+			Console.WriteLine(organizationId);
+			Console.WriteLine("Work");
+			Console.WriteLine(workPhoto?.Name);
+
+			string filePath = null;
+			byte[] file;
+			string fileExtension;
+			if (workPhoto != null && workPhoto.Length != 0)
+			{
+				using (var memoryStream = new MemoryStream())
+				{
+					await workPhoto.CopyToAsync(memoryStream);
+
+					file = memoryStream.ToArray();
+				}
+				fileExtension = Path.GetExtension(workPhoto.FileName)?.ToLower();
+
+				if (string.IsNullOrEmpty(fileExtension))
+				{
+					return BadRequest("Invalid file extension.");
+				}
+				var fileName = Guid.NewGuid().ToString();
+				filePath = $"OrganizationImages/organization_{fileName}{fileExtension}";
+				bool uploaded = _fileUploadService.UploadFile(file, filePath);
+				if (uploaded)
+				{
+					await _organizationPhotoService.AddAsync(organizationId, new()
+					{
+						filePath = filePath,
+						fileName = fileName,
+					});
+				}
+			}
+
+			return RedirectToAction("ProfileImages");
+
 		}
 
 		public async Task<IActionResult> ProfileImages()
@@ -125,11 +164,27 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 				string fileExtension = Path.GetExtension(organization.imagePath)?.ToLower();
 				logoSrc = $"data:image/{fileExtension};base64,{base64String}";
 			}
+
 			if (coverFile != null && coverFile.Length > 0)
 			{
 				var base64String = Convert.ToBase64String(coverFile);
 				string fileExtension = Path.GetExtension(organization.coverPath)?.ToLower();
 				coverSrc = $"data:image/{fileExtension};base64,{base64String}";
+			}
+			var workPhotos = await _organizationPhotoService.GetByOrganizationId(41);
+			if(workPhotos!=null)
+			{
+				foreach (var item in workPhotos)
+				{
+					var itemFile= _fileUploadService.DownloadFile(item.filePath);
+					if(itemFile!=null && itemFile.Length>0)
+					{
+						var base64String = Convert.ToBase64String(itemFile);
+						string fileExtension = Path.GetExtension(item.filePath)?.ToLower();
+						item.Src = $"data:image/{fileExtension};base64,{base64String}";
+					}
+
+				}
 			}
 			var vm = new BusinessProfileVM
 			{
@@ -137,6 +192,7 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 				Name = organization.name,
 				LogoSrc = logoSrc,
 				CoverSrc = coverSrc,
+				WorkImages = workPhotos,
 			};
 
 			return View(vm);
@@ -145,6 +201,7 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 		[HttpPost]
 		public async Task<IActionResult> UpdateLogoPhoto([FromForm] IFormFile logoPhoto, string existingPhotoPath, int organizationId)
 		{
+
 
 			if (!string.IsNullOrEmpty(existingPhotoPath))
 			{
@@ -185,7 +242,8 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 				});
 			}
 
-			return RedirectToAction("Index");
+			return RedirectToAction("ProfileImages");
+
 		}
 	}
 }

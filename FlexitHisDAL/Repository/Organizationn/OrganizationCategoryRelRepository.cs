@@ -25,7 +25,7 @@ namespace Medicloud.DAL.Repository.Organizationn
 
 		public async Task<List<TempRelDAO>> GetByOrganizationId(int organizationId)
 		{
-			string query = @"SELECT ocr.id, 
+			string query = @"SELECT ocr.id,
 							ocr.organization_id as FirstModelId,
 							ocr.category_id as SecondModelId
 							FROM organization_category_rel ocr
