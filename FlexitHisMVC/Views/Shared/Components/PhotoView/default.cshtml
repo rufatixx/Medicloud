@@ -1,0 +1,82 @@
+﻿@*<div class="modal fade " id="photoViewModal" tabindex="-1" aria-labelledby="projectModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-fullscreen">
+            <div class="modal-content" id="documentContent">
+                <div class="modal-header d-flex justify-content-between border-bottom">
+                    <h5 class="modal-title" id="photoShowModalLabel"></h5>
+
+
+                    <div class="d-flex align-items-center">
+                        <div class="dropdown">
+                            <button class="btn btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                ...
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Paylaş</a></li>
+                                <li><a class="dropdown-item" href="#">Örtük şəkli et</a></li>
+                                <li><a class="dropdown-item" href="#">Sil</a></li>
+                            </ul>
+                        </div>
+
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                    </div>
+
+                </div>
+                <div class="modal-body">
+
+                    <div class="">
+                        <div class="row text-center justify-content-center">
+                            <div class="col-md-8 d-flex justify-content-center">
+                                <img id="showImage" src="" alt="" style="max-width: 100%; max-height:80vh;" />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+
+<div class="modal fade" id="photoViewModal" tabindex="-1" aria-labelledby="projectModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-fullscreen">
+        <div class="modal-content" id="documentContent">
+            <div class="modal-header d-flex justify-content-between border-bottom">
+                <h5 class="modal-title" id="photoViewModalLabel"></h5>
+                <div class="d-flex align-items-center">
+                    <div class="dropdown">
+                            <button class="btn btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                ...
+                            </button>
+                            <ul class="dropdown-menu px-2">
+                                <li class="shareBtn"><button class="btn w-100 btn-light mb-2" >Paylaş</button></li>
+                                <li id="coverBtn"><button class="btn w-100 btn-primary mb-2" >Örtük şəkli et</button></li>
+                                <li id="deleteBtn"><button class="btn w-100 btn-danger mb-2" >Sil</button></li>
+                            </ul>
+                        </div>
+
+
+
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+            </div>
+            <div class="modal-body bg-dark">
+                <div id="carouselExample" class="carousel slide">
+                    <div class="carousel-inner">
+
+                    </div>
+
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

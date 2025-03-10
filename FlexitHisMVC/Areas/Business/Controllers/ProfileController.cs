@@ -65,9 +65,14 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> UpdateCoverPhoto([FromForm] IFormFile coverPhoto,int organizationId)
+		public async Task<IActionResult> UpdateCoverPhoto([FromForm] IFormFile coverPhoto, string existingPhotoPath, int organizationId)
 		{
 
+			if (!string.IsNullOrEmpty(existingPhotoPath))
+			{
+				bool deleteFile = _fileUploadService.DeleteFile(existingPhotoPath);
+
+			}
 			string filePath = null;
 			byte[] file;
 			string fileExtension;
@@ -193,6 +198,8 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 				LogoSrc = logoSrc,
 				CoverSrc = coverSrc,
 				WorkImages = workPhotos,
+				CoverPath=organization.coverPath,
+				LogoPath=organization.imagePath
 			};
 
 			return View(vm);
@@ -245,6 +252,8 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 			return RedirectToAction("ProfileImages");
 
 		}
+
+
 	}
 }
 

@@ -40,7 +40,7 @@ namespace Medicloud.DAL.Repository.File
 
 		public async Task DeleteFileAsync(int id)
 		{
-			string _removeFileSql = $@"UPDATE files SET is_active=0 WHERE id=@Id;";
+			string _removeFileSql = $@"UPDATE files SET isActive=0 WHERE id=@Id;";
 			var con = _unitOfWork.GetConnection();
 			var transaction = _unitOfWork.GetTransaction();
 			if (transaction != null)

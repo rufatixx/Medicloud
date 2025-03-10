@@ -23,6 +23,7 @@
 </style>
 
 <div class="container-fluid">
+
     <h1>Profil şəkilləri</h1>
     <div class="row">
         <div class="col-8 row">
@@ -94,9 +95,13 @@
 
 
                         <form method="post" class="" enctype="multipart/form-data" asp-controller="Profile" asp-action="UpdateCoverPhoto" id="coverPhotoForm">
+                            <input type="file" id="coverPhoto" name="coverPhoto" accept="image/*" class="d-none">
+                            <input type="hidden" id="" name="organizationId" value="@Model.Id">
+
                             @if (string.IsNullOrEmpty(Model.CoverSrc))
                             {
                                 <div class="file-upload d-flex justify-content-center align-items-center p-4 mb-3" style="border-style:dashed">
+
                                     <i class="ti ti-cloud-upload fs-8 mb-2"></i>
                                     <p class="mb-0 ms-2">Örtuk şəkli əlavə et</p>
                                     <input id="fileInput2" accept="image/*" type="file">
@@ -108,7 +113,7 @@
 
                                 <div class="mt-sm-0 mt-3 text-sm-end position-relative">
 
-                                    <img src="@coverSrc" style="object-fit:cover;" alt="" class="img-fluid">
+                                    <img src="@coverSrc" data-title="Örtük şəkli" data-src="@coverSrc" style="object-fit:cover; cursor:pointer;" alt="" class="img-fluid img-item">
                                     <button id="changeCoverPhoto" type="button" class="btn btn-light btn-sm position-absolute rounded" style="top: 10px; right: 10px;">
                                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M7.99976 13.332H13.9997" stroke="#667085" stroke-width="1.66678" stroke-linecap="round" stroke-linejoin="round" />
@@ -116,8 +121,6 @@
                                         </svg>
                                     </button>
                                     <input type="hidden" name="existingPhotoPath" value="@Model.CoverPath" />
-                                    <input type="file" id="coverPhoto" name="coverPhoto" accept="image/*" class="d-none">
-                                    <input type="hidden" id="" name="organizationId" value="@Model.Id">
                                 </div>
                                 <input id="fileInput2" class="d-none" accept="image/*" type="file">
 
@@ -166,7 +169,7 @@
                                 @foreach (var item in Model.WorkImages)
                                 {
                                     <div class="col-4 mb-3">
-                                        <img src="@item.Src" style="object-fit:cover; height:120px;" alt="" class="img-fluid w-100">
+                                        <img src="@item.Src" data-src="@item.Src" style="object-fit:cover; height:120px; cursor:pointer;" data-item-id="@item.id" alt="" class="img-fluid w-100 cursor-pointer img-item multiple">
 
                                     </div>
                                 }
@@ -201,20 +204,19 @@
                 </div>
             </div>
         </div>
-
-
     </div>
 </div>
 
 @await Component.InvokeAsync("PhotoSave")
+@await Component.InvokeAsync("PhotoView")
 
 
-<div class="modal fade" id="actionModal"  tabindex="-1" aria-labelledby="actionModalLabel" aria-hidden="true">
+<div class="modal fade" id="actionModal" tabindex="-1" aria-labelledby="actionModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content d-flex flex-column">
             @*<div class="modal-header">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>*@
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>*@
             <div class="modal-body  text-center">
                 <div class="mb-3">
                     <button id="uploadButton" class="btn btn-primary w-100">Dəyiş</button>
@@ -223,7 +225,7 @@
                     <button id="deleteButton" class="btn btn-danger w-100">Sil</button>
                 </div>
                 <div class="mb-3">
-                    <button class="btn btn-outline-dark w-100"  data-bs-dismiss="modal" aria-label="Close">Ləğv et</button>
+                    <button class="btn btn-outline-dark w-100" data-bs-dismiss="modal" aria-label="Close">Ləğv et</button>
                 </div>
             </div>
         </div>
@@ -247,9 +249,6 @@
 
         });
 
-        //$('#coverPhoto').on('change', function () {
-        //    $('#coverPhotoForm').submit();
-        //});
 
 
         $('#changeLogoPhoto').on('click', function () {
@@ -265,9 +264,11 @@
         $('#deleteButton').on('click', function () {
             var action = $('#actionModal').data('type');
             if (action === 'logo') {
+                $('#logoPhotoForm').submit();
 
             }
             else if (action === 'cover') {
+                $('#coverPhotoForm').submit();
 
             }
         })
@@ -285,30 +286,129 @@
 
             }
         })
-        //$('#logoPhoto').on('change', function () {
-        //    $('#logoPhotoForm').submit();
-        //});
 
-        //$('#logoPhotoForm').submit(function (e) {
-        //    console.log('#fileInput2'.val())
-        //    console.log('#logoPhoto'.val())
-        //    //showLoading();
-        //});
         createFileUploadInstance('fileInput1', 'logoPhotoForm', 'logoPhoto');
         createFileUploadInstance('fileInput2', 'coverPhotoForm', 'coverPhoto');
         createFileUploadInstance('fileInput3', 'uploadPhotoForm', 'uploadPhoto');
 
+        $('.img-item').on('click', function () {
+            var selectedImages = [];
+            var modalTitle = '';
+            var totalImages = 0;
+
+            if ($(this).hasClass('multiple')) {
+
+                $('.img-item.multiple').each(function () {
+                    selectedImages.push({
+                        src: $(this).attr('data-src'),
+                        itemId: $(this).attr('data-item-id')
+                    });
+                });
+                $('#coverBtn').show();
+
+                modalTitle = '1 /  ' + selectedImages.length;
+                totalImages = selectedImages.length;
+                $('#photoViewModal').data('type', 'workImage');
+            } else {
+
+                selectedImages.push({
+                    src: $(this).attr('data-src'),
+                    itemId: $(this).attr('data-item-id')
+                });
+                modalTitle = $(this).attr('data-title') || '';
+                totalImages = 1;
+                $('#coverBtn').hide();
+                $('#photoViewModal').data('type', 'cover');
+            }
 
 
+            $('#carouselExample .carousel-inner').empty();
 
-        //$('#fileInput').on('change', function (e) {
-        //    console.log(e.target.files)
-        //    //console.log(files)
-        //    $(this)[0].files = files;
+            selectedImages.forEach(function (image, index) {
+                var activeClass = index === 0 ? 'active' : '';
+                var itemIdContent = image.itemId ? `data-item-id=${image.itemId}`:''
+                $('#carouselExample .carousel-inner').append(
+                    '<div class="carousel-item ' + activeClass + '">' +
+                    '<img src="' + image.src + '" class="d-block mx-auto" style="height:80vh;" alt="Image ' + (index + 1) + '" ' + itemIdContent + '>' +
+                    '</div>'
+                );
+            });
 
-        //});
+            if (selectedImages.length === 1) {
+                $('#carouselExample .carousel-control-prev, #carouselExample .carousel-control-next').hide();
+            } else {
+                $('#carouselExample .carousel-control-prev, #carouselExample .carousel-control-next').show();
+            }
+
+            $('#photoViewModalLabel').text(modalTitle);
+
+            // Modali göster
+            $('#photoViewModal').modal('show');
+
+            // Carousel kaydırıldığında aktif resmin ID'sini modal başlığında güncelle
+            $('#carouselExample').on('slid.bs.carousel', function () {
+                var currentIndex = $('#carouselExample .carousel-item.active').index() + 1;
+                $('#photoViewModalLabel').text(' ' + currentIndex + ' / ' + totalImages);
+            });
+        });
+
+        $('#deleteBtn').on('click', function () {
+            var currentImage = $('#carouselExample .carousel-item.active img');
+            var itemId = currentImage.data('item-id'); 
+            if (itemId) {
+                showLoading();
+                $.ajax({
+                    url: '@Url.Action("DeleteFile", "File")',
+                    type: 'POST',
+                    data: { fileId: itemId },
+                    success: function () {
+                        window.location.reload();
+
+                    },
+                    error: function (e) {
+                        hideLoading();
+                        console.log(e)
+
+                    }
+                });
+            }
+            else {
+                $('#coverPhotoForm').submit();
+            }
+        });
 
 
+        $('#coverBtn').on('click', function () {
+            var currentImage = $('#carouselExample .carousel-item.active img');
+            var itemId = currentImage.data('item-id'); 
+
+            var imageData = currentImage.attr('src');
+            var imageType = imageData.split(';')[0].split(':')[1];
+
+            // Convert the base64 image data to a Blob
+            var byteString = atob(imageData.split(',')[1]);
+            var arrayBuffer = new ArrayBuffer(byteString.length);
+            var uintArray = new Uint8Array(arrayBuffer);
+
+            for (var i = 0; i < byteString.length; i++) {
+                uintArray[i] = byteString.charCodeAt(i);
+            }
+
+            // Create a Blob from the byte array with the appropriate MIME type
+            var blob = new Blob([arrayBuffer], { type: imageType });
+
+            // Create a new File object from the Blob
+            var file = new File([blob], "img." + imageType.split('/')[1], { type: imageType });
+
+            // Append the file to the 'logoPhoto' file input
+            var fileInput = $('#coverPhoto')[0];
+            var dataTransfer = new DataTransfer(); // Create a new DataTransfer object
+            dataTransfer.items.add(file);  // Add the file to the DataTransfer object
+            fileInput.files = dataTransfer.files; // Assign the files to the input
+
+            // Optionally, you can submit the form here if you want to submit it directly
+             $('#coverPhotoForm').submit(); // Uncomment if you want to submit the form automatically
+        });
         // for multiple files
 
         //$('#fileInput').on('change', function (e) {

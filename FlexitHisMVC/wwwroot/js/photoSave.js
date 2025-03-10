@@ -162,18 +162,8 @@ $('#savePhotoButton').on('click', function () {
 	if (cropper) {
 		canvas = cropper.getCroppedCanvas();
 
-		// Kırpılan resmin base64 formatındaki verisini al
 		var imageData = canvas.toDataURL();
 
-		// Form verilerini dinamik olarak göndermek
-		//$('#' + currentFormId + ' #imageData' + currentInputId.slice(-1)).val(imageData);
-		console.log($('#' + currentOutputId));
-		console.log(imageData);
-		//$('#' + currentOutputId).val(imageData);
-
-		// Formu gönderiyoruz
-
-		// Modal'ı kapat
 
 
 		var imageType = imageData.split(';')[0].split(':')[1];
@@ -199,14 +189,7 @@ $('#savePhotoButton').on('click', function () {
 		dataTransfer.items.add(file);  // Add the file to the DataTransfer object
 		fileInput.files = dataTransfer.files; // Assign the files to the input
 
-		//// Optionally, update the preview image in the UI
-		//var reader = new FileReader();
-		//reader.onload = function (e) {
-		//	$('#currentLogoPhoto').attr('src', e.target.result);
-		//};
-		//reader.readAsDataURL(file);
 
-		// Finally, submit the form
 		$('#' + currentFormId).submit();
 
 		$('#photoModal').modal('hide');

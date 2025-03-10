@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using Medicloud.BLL.Service;
 using Medicloud.BLL.Services.Category;
+using Medicloud.BLL.Services.File;
 using Medicloud.BLL.Services.FileUpload;
 using Medicloud.BLL.Services.Organization;
 using Medicloud.BLL.Services.OrganizationPhoto;
@@ -249,6 +250,7 @@ builder.Services.AddScoped<IFileUploadService, FileUploadService>();
 builder.Services.AddScoped<IFileRepository, FileRepository>();
 builder.Services.AddScoped<IOrganizationPhotoRepository, OrganizationPhotoRepository>();
 builder.Services.AddScoped<IOrganizationPhotoService, OrganizationPhotoService>();
+builder.Services.AddScoped<IFileService, FileService>();
 var app = builder.Build();
 
 app.UseSession();
