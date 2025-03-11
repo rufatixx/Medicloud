@@ -10,12 +10,14 @@
 
 
 <!-- Start Content-->
-<div class="container-fluid">
+<div class="px-2">
 
     <div class="row">
-        <div class="col-12">
-            <div class="card rounded-4" style="background-image: url('@Url.Content(Model.CoverSrc)');  background-size: cover; background-position:center;height:360px;width:100%;">
-                <div class="card-body d-flex flex-column justify-content-between">
+        <div class="col-md-6">
+            <div class="card rounded-4 position-relative" style="background-image: url('@Url.Content(Model.CoverSrc)');  background-size: cover; background-position:center;height:360px;width:100%;">
+                <div class="rounded-4" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.1);"></div>
+
+                <div class="card-body d-flex flex-column pb-3 justify-content-between position-relative">
                     <div class="row align-items-center">
                         <div class="col-6 d-flex ">
                             <a href="@Url.Action("ProfileImages","Profile")" id="changeCoverPhoto" type="button" class="btn btn-light btn-sm ">
@@ -52,22 +54,13 @@
                                     imageSrc = Model.LogoSrc;
                                 }
                             }
-                            <form method="post" class="text-center" enctype="multipart/form-data" asp-controller="Profile" asp-action="UpdateLogoPhoto" id="logoPhotoForm">
-                                <div class="position-relative">
-                                    <img src="@imageSrc" width="100" style="object-fit:cover;" alt="" class="rounded-circle img-thumbnail">
-                                    <button type="button" class="btn btn-light btn-sm position-absolute" style="bottom: 0; right: 0; border-radius: 50%;" id="changeLogoPhoto">
-                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M7.99976 13.332H13.9997" stroke="#667085" stroke-width="1.66678" stroke-linecap="round" stroke-linejoin="round" />
-                                            <path d="M10.9998 2.33218C11.265 2.06697 11.6247 1.91797 11.9998 1.91797C12.1855 1.91797 12.3694 1.95455 12.541 2.02562C12.7125 2.09669 12.8684 2.20086 12.9998 2.33218C13.1311 2.4635 13.2352 2.61941 13.3063 2.79099C13.3774 2.96257 13.414 3.14647 13.414 3.33218C13.414 3.5179 13.3774 3.7018 13.3063 3.87338C13.2352 4.04496 13.1311 4.20086 12.9998 4.33218L4.66642 12.6655L1.99976 13.3322L2.66642 10.6655L10.9998 2.33218Z" stroke="#667085" stroke-width="1.66678" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
+                            <div class="position-relative">
+                                <img src="@imageSrc" width="115" height="135" style="object-fit:cover;" alt="" class="rounded-circle img-thumbnail ">
+                                <div class="bg-white align-items-center d-flex position-absolute rounded" style="bottom: -10px; left: 30%;">
+                                    <span class="p-1">* N/A</span>
 
-                                    </button>
                                 </div>
-
-                                <input type="hidden" id="photoPath" name="existingPhotoPath" value="@Model.LogoPath" />
-                                <input type="file" id="logoPhoto" name="logoPhoto" accept="image/*" class="d-none">
-                                <input type="hidden" id="" name="organizationId" value="@Model.Id">
-                            </form>
+                            </div>
                         </div>
                         <div class="col">
                             <div>
@@ -77,6 +70,47 @@
                     </div>
                 </div>
             </div>
+            <div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <h4>Portfel</h4>
+                    <h6>
+                        Daha çox
+                        <svg width="14" height="14" viewBox="0 0 6 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path opacity="1" fill-rule="evenodd" clip-rule="evenodd" d="M4.94754 6.0009L0.449735 1.46527C0.11683 1.12914 0.11683 0.587019 0.449734 0.250891C0.608361 0.0903187 0.824727 9.26364e-07 1.0504 9.165e-07C1.27607 9.06636e-07 1.49244 0.0903186 1.65107 0.250891L6.74953 5.39281C7.08349 5.72857 7.08349 6.27143 6.74953 6.60719L1.65128 11.7491C1.49244 11.9097 1.27607 12 1.0504 12C0.824728 12 0.608361 11.9097 0.449523 11.7491C0.116831 11.4129 0.116831 10.8708 0.449946 10.5347L4.94754 6.0009Z" fill="currentColor" fill-opacity="" />
+                        </svg>
+                    </h6>
+                </div>
+                <div class="mb-3">
+                    <p>Bacarıqlarınızı nümayiş etdirmək və özünüzü digərlərindən fərqləndirmək üçün Portfelinizdən istifadə edin.</p>
+
+                    <form method="post" enctype="multipart/form-data" asp-controller="Portfolio" asp-action="AddPortfolioPhoto" id="addPortfolioForm">
+
+                        <div class="mt-sm-0 mt-3 text-sm-end">
+                            <input type="file" id="portfolioPhoto" name="photo" accept="image/*" class="d-none">
+                            <input type="hidden" id="" name="organizationId" value="@Model.Id">
+                        </div>
+                    </form>
+                    <button id="addPortfolioBtn" class="btn border">
+                        + Əlavə et
+                    </button>
+                </div>
+                @if (Model.portfolios != null)
+                {
+                    <div class="row" onclick="window.location.href='@Url.Action("Index","Portfolio")'">
+                        @foreach (var item in Model.portfolios)
+                        {
+                            <div class="col-4 mb-3">
+                                @*<h1>@item.file.fileName</h1>*@
+                                <img src="@item.file.Src" data-src="@item.file.Src" style="object-fit:cover; height:120px; cursor:pointer;" data-item-id="@item.id" alt="" class="img-fluid w-100 cursor-pointer img-item multiple">
+
+                            </div>
+
+                        }
+                    </div>
+                }
+
+
+            </div>
         </div> <!-- end col-->
     </div>
     <!-- end row -->
@@ -84,82 +118,27 @@
 
 </div> <!-- container -->
 
-<div class="modal fade" id="serviceModal" tabindex="-1" aria-labelledby="serviceModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="serviceModalLabel">Xidmətin yenilənməsi</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-            </div>
-            <div class="modal-body">
-                <form id="updateServiceForm">
-                    <div class="form-group mb-3">
-                        <label for="serviceName">Xidmətin adı</label>
-                        <input type="text" class="form-control" id="selectedServiceName" name="name" placeholder="">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="servicePrice">Qiymət</label>
-                        <input type="number" step="0.01" class="form-control" id="selectedServicePrice" name="price" placeholder="">
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <button type="submit" class="btn btn-primary col-5" id="updateServiceBtn">Yenilə</button>
-                        <button type="button" class="btn btn-danger col-5" id="deleteServiceBtn">Sil</button>
-                        <button type="button" class="btn btn-success col-5" id="addServiceBtn">Əlavə et</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 
-<div class="modal fade" id="updateUserModal" tabindex="-1" aria-labelledby="serviceModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="serviceModalLabel">Məlumatların yenilənməsi</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-            </div>
-            <div class="modal-body">
-                <form id="updateUserForm">
-                    <div class="form-group mb-3">
-                        <label for="name">Adınız</label>
-                        <input type="text" class="form-control" id="name" placeholder="">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="surname">Soyadınız</label>
-                        <input type="text" class="form-control" id="surname" placeholder="">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="name">Ata adı</label>
-                        <input type="text" class="form-control" id="father" placeholder="">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="name">Elektron poçt</label>
-                        <input type="text" class="form-control" id="email" placeholder="">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="name">Mobil nömrəniz</label>
-                        <input type="text" class="form-control" id="mobile" placeholder="">
-                    </div>
+@await Component.InvokeAsync("PhotoSave")
 
-                    <div class="d-flex justify-content-between">
-                        <button type="button" class="btn btn-primary col-5">Yenilə</button>
 
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 @section Scripts{
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet">
 
+    <!-- Cropper.js JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+    <script src="~/js/photoSave.js"></script>
     <script>
 
-        $('#changeCoverPhoto').on('click', function () {
-            $('#coverPhoto').click();
+        $('#addPortfolioBtn').on('click', function () {
+            $('#portfolioPhoto').click();
         });
+
+        createFileUploadInstance('portfolioPhoto', 'addPortfolioForm', 'portfolioPhoto');
+
+
 
         $('#coverPhoto').on('change', function () {
             $('#coverPhotoForm').submit();
@@ -183,3 +162,71 @@
 
 
 }
+
+@*<div class="modal fade" id="serviceModal" tabindex="-1" aria-labelledby="serviceModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="serviceModalLabel">Xidmətin yenilənməsi</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="updateServiceForm">
+                        <div class="form-group mb-3">
+                            <label for="serviceName">Xidmətin adı</label>
+                            <input type="text" class="form-control" id="selectedServiceName" name="name" placeholder="">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="servicePrice">Qiymət</label>
+                            <input type="number" step="0.01" class="form-control" id="selectedServicePrice" name="price" placeholder="">
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-primary col-5" id="updateServiceBtn">Yenilə</button>
+                            <button type="button" class="btn btn-danger col-5" id="deleteServiceBtn">Sil</button>
+                            <button type="button" class="btn btn-success col-5" id="addServiceBtn">Əlavə et</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="updateUserModal" tabindex="-1" aria-labelledby="serviceModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="serviceModalLabel">Məlumatların yenilənməsi</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="updateUserForm">
+                        <div class="form-group mb-3">
+                            <label for="name">Adınız</label>
+                            <input type="text" class="form-control" id="name" placeholder="">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="surname">Soyadınız</label>
+                            <input type="text" class="form-control" id="surname" placeholder="">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="name">Ata adı</label>
+                            <input type="text" class="form-control" id="father" placeholder="">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="name">Elektron poçt</label>
+                            <input type="text" class="form-control" id="email" placeholder="">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="name">Mobil nömrəniz</label>
+                            <input type="text" class="form-control" id="mobile" placeholder="">
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <button type="button" class="btn btn-primary col-5">Yenilə</button>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>*@

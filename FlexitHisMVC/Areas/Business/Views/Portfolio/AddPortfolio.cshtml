@@ -1,0 +1,80 @@
+﻿@model Medicloud.WebUI.Areas.Business.ViewModels.AddPortfolioViewModel
+
+
+<div class="px-3">
+    <div class="col-md-6 row">
+        <form method="post" class="text-center" enctype="multipart/form-data" asp-controller="Profile" asp-action="AddPortfolio" id="addPortfolioForm">
+
+            <div class="d-flex justify-content-between px-0 mb-2">
+                <div class="d-flex align-items-center">
+                    <a class="btn btn-sm ps-0" asp-action="" asp-controller="" asp-route-organizationId="" asp-area="">
+                        <svg width="32px" height="32px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="#737373">
+                            <path fill="#737373" d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"></path>
+                            <path fill="#737373" d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"></path>
+                        </svg>
+                    </a>
+                    <h2 class="ms-2 text-muted">Təsvir əlavə et</h2>
+                </div>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end align-items-center">
+                    <h6 style="color: #6F7482" class="m-0" id="managerName"></h6>
+                    <button type="button" id="cancelButton" class="btn border r-2">Ləğv et</button>
+                    <button  class="btn btn-primary">Yadda saxla</button>
+                </div>
+            </div>
+            <div class="d-flex card">
+
+                <div class="card-body ">
+
+                    @if (!string.IsNullOrEmpty(Model.photoSrc))
+                    {
+
+                        var imageSrc = "";
+                        if (!string.IsNullOrEmpty(Model.photoSrc))
+                        {
+                            imageSrc = Model.photoSrc;
+                        }
+
+
+
+                        <div class="text-start mb-3">
+                            <img src="@imageSrc" style="object-fit:cover;" alt="" class="img-fluid w-75">
+                        </div>
+                        <input type="hidden" id="" name="fileId" value="@Model.extension">
+                        <input type="hidden" id="" name="organizationId" value="@Model.organizationId">
+                        <input type="hidden" id="" name="photo" value="@Model.photo">
+                        <input type="hidden" id="" name="extension" value="@Model.extension">
+
+
+                        <div class="text-start mb-3">
+                            <label for="projectTitle" class="form-label">
+                                Təsvir əlavə et
+                            </label>
+                            <textarea type="text" rows="3" style="resize:none" class="form-control" draggable="false" value="" maxlength="500" name="description" placeholder="Mətn"></textarea>
+                        </div>
+                        <div class="row text-start">
+                            <label for="projectTitle" class="form-label">
+                                Kateqoriya Seç
+                            </label>
+                            @foreach (var category in Model.Categories)
+                            {
+                                <div class="col-12">
+                                    <div class="form-check text-start mb-2">
+                                        <input type="checkbox" style="cursor:pointer;" class="form-check-input" name="selectedCategoryIds" value="@category.id" id="checkInput@(category.id)" checked>
+                                        <label class="form-check-label " style="cursor:pointer;" for="checkInput@(category.id)">@category.name</label>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <h6>Xəta baş verdi</h6>
+                    }
+                </div>
+
+            </div>
+        </form>
+
+    </div>
+
+</div>

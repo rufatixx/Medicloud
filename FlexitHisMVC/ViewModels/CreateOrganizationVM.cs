@@ -22,7 +22,7 @@ namespace Medicloud.ViewModels
 		public int TravelDistance { get; set; }
 		public List<ServiceDAO> Services { get; set; }
 		public GetServiceTypesDTO ServiceTypes { get; set; }
-		public List<CategoryDAO> Categories { get; set; }
+		public List<TempDTO> Categories { get; set; }
 		public bool hasTravel  { get; set; }
 		public int TeamSizeId { get; set; }
 		public int TravelId { get; set; }

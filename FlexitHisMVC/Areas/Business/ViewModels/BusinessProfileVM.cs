@@ -13,5 +13,6 @@ namespace Medicloud.WebUI.Areas.Business.ViewModels
 		public FileDTO Logo { get; set; }
 		public FileDTO Cover { get; set; }
 		public List<FileDTO> WorkImages { get; set; }
+		public List<PortfolioDTO> portfolios { get; set; }
 	}
 }

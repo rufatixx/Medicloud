@@ -1,5 +1,6 @@
 ﻿
 
+using Medicloud.BLL.DTO;
 using Medicloud.DAL.DAO;
 using Medicloud.DAL.Infrastructure.UnitOfWork;
 using Medicloud.DAL.Repository.Category;
@@ -17,16 +18,42 @@ namespace Medicloud.BLL.Services.Category
 			_categoryRepository = categoryRepository;
 		}
 
-		public async Task<List<CategoryDAO>> GetAll()
+		public async Task<List<TempDTO>> GetAll()
 		{
 			using var con =  _unitOfWork.BeginConnection();
-			return await _categoryRepository.GetAll();
+			var data =await _categoryRepository.GetAll();
+			var result=new List<TempDTO>();
+			if(data != null)
+			{
+				foreach(var item in data)
+				{
+					result.Add(new () 
+					{ 
+						id = item.id,
+						name = item.name 
+					});
+				}
+			}
+			return result;
 		}
 
-		public async Task<List<CategoryDAO>> GetByOrganizationId(int organizationId)
+		public async Task<List<TempDTO>> GetByOrganizationId(int organizationId)
 		{
 			using var con = _unitOfWork.BeginConnection();
-			return await _categoryRepository.GetByOrganizationId(organizationId);
+			var data= await _categoryRepository.GetByOrganizationId(organizationId);
+			var result = new List<TempDTO>();
+			if (data != null)
+			{
+				foreach (var item in data)
+				{
+					result.Add(new()
+					{
+						id = item.id,
+						name = item.name
+					});
+				}
+			}
+			return result;
 		}
 	}
 }

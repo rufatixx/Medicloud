@@ -7,7 +7,6 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 	public class FileController : Controller
 	{
 		private readonly IFileService _fileService;
-
 		public FileController(IFileService fileService)
 		{
 			_fileService = fileService;

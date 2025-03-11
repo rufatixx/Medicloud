@@ -1,7 +1,10 @@
 ﻿using Medicloud.BLL.DTO;
+using Medicloud.BLL.Services.Category;
+using Medicloud.BLL.Services.File;
 using Medicloud.BLL.Services.FileUpload;
 using Medicloud.BLL.Services.Organization;
 using Medicloud.BLL.Services.OrganizationPhoto;
+using Medicloud.BLL.Services.Portfolio;
 using Medicloud.Models;
 using Medicloud.WebUI.Areas.Business.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -15,25 +18,32 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 		private readonly IOrganizationService _organizationService;
 		private readonly IFileUploadService _fileUploadService;
 		private readonly IOrganizationPhotoService _organizationPhotoService;
-		public ProfileController(IOrganizationService organizationService, IFileUploadService uploadService, IOrganizationPhotoService organizationPhotoService)
+		private readonly IPortfolioService _portfolioService;
+		private readonly IFileService _fileService;
+		private readonly ICategoryService _categoryService;
+		public ProfileController(IOrganizationService organizationService, IFileUploadService uploadService, IOrganizationPhotoService organizationPhotoService, IPortfolioService portfolioService, IFileService fileService, ICategoryService categoryService)
 		{
 			_organizationService = organizationService;
 			_fileUploadService = uploadService;
 			_organizationPhotoService = organizationPhotoService;
+			_portfolioService = portfolioService;
+			_fileService = fileService;
+			_categoryService = categoryService;
 		}
 
 		public async Task<IActionResult> Index()
 		{
 			var organization = await _organizationService.GetByIdAsync(41);
+			var portfolios = await _portfolioService.GetPortfolioByOrganizationIdAsync(41);
 			byte[] file = null;
 			byte[] coverFile = null;
 			if (!string.IsNullOrWhiteSpace(organization.imagePath))
 			{
-				file = _fileUploadService.DownloadFile(organization.imagePath);
+				file = await  _fileUploadService.DownloadFile(organization.imagePath);
 			}
 			if (!string.IsNullOrWhiteSpace(organization.coverPath))
 			{
-				coverFile = _fileUploadService.DownloadFile(organization.coverPath);
+				coverFile = await _fileUploadService.DownloadFile(organization.coverPath);
 			}
 			string logoSrc = "";
 			string coverSrc = "";
@@ -55,12 +65,13 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 			}
 			var vm = new BusinessProfileVM
 			{
-				Id=41,
+				Id = 41,
 				Name = organization.name,
-				LogoSrc=logoSrc,
-				CoverSrc=coverSrc,
+				LogoSrc = logoSrc,
+				CoverSrc = coverSrc,
+				portfolios = portfolios,
 			};
-			
+
 			return View(vm);
 		}
 
@@ -151,11 +162,11 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 			byte[] coverFile = null;
 			if (!string.IsNullOrWhiteSpace(organization.imagePath))
 			{
-				file = _fileUploadService.DownloadFile(organization.imagePath);
+				file =await _fileUploadService.DownloadFile(organization.imagePath);
 			}
 			if (!string.IsNullOrWhiteSpace(organization.coverPath))
 			{
-				coverFile = _fileUploadService.DownloadFile(organization.coverPath);
+				coverFile =await _fileUploadService.DownloadFile(organization.coverPath);
 			}
 			string logoSrc = "";
 			string coverSrc = "";
@@ -177,12 +188,12 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 				coverSrc = $"data:image/{fileExtension};base64,{base64String}";
 			}
 			var workPhotos = await _organizationPhotoService.GetByOrganizationId(41);
-			if(workPhotos!=null)
+			if (workPhotos != null)
 			{
 				foreach (var item in workPhotos)
 				{
-					var itemFile= _fileUploadService.DownloadFile(item.filePath);
-					if(itemFile!=null && itemFile.Length>0)
+					var itemFile =await _fileUploadService.DownloadFile(item.filePath);
+					if (itemFile != null && itemFile.Length > 0)
 					{
 						var base64String = Convert.ToBase64String(itemFile);
 						string fileExtension = Path.GetExtension(item.filePath)?.ToLower();
@@ -198,8 +209,8 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 				LogoSrc = logoSrc,
 				CoverSrc = coverSrc,
 				WorkImages = workPhotos,
-				CoverPath=organization.coverPath,
-				LogoPath=organization.imagePath
+				CoverPath = organization.coverPath,
+				LogoPath = organization.imagePath
 			};
 
 			return View(vm);
@@ -253,6 +264,8 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 
 		}
 
+
+		
 
 	}
 }

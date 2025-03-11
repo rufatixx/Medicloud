@@ -1,12 +1,12 @@
 ﻿
-using Medicloud.DAL.DAO;
+using Medicloud.BLL.DTO;
 
 namespace Medicloud.BLL.Services.Category
 {
     public interface ICategoryService
     {
-		Task<List<CategoryDAO>> GetAll();
-		Task<List<CategoryDAO>> GetByOrganizationId(int organizationId);
+		Task<List<TempDTO>> GetAll();
+		Task<List<TempDTO>> GetByOrganizationId(int organizationId);
 
 	}
 }

@@ -10,7 +10,7 @@ namespace Medicloud.BLL.Services.FileUpload
 		private readonly string _ftpPath;
 		private readonly string _username;
 		private readonly string _password;
-		private static readonly SemaphoreSlim _semaphore = new SemaphoreSlim(2); // Max 2 concurrent connections
+		private static readonly SemaphoreSlim _semaphore = new SemaphoreSlim(5); // Max 2 concurrent connections
 
 		public FileUploadService(IConfiguration configuration)
 		{
@@ -97,38 +97,76 @@ namespace Medicloud.BLL.Services.FileUpload
 				_semaphore.Release();
 			}
 		}
-		public byte[] DownloadFile(string filePath)
+		//public byte[] DownloadFile(string filePath)
+		//{
+		//	filePath = $"/MedicloudV2/{filePath}";
+
+		//	_semaphore.Wait();
+		//	try
+		//	{
+
+		//		using (var client = new FtpClient(_ftpPath))
+		//		{
+		//			client.Credentials = new System.Net.NetworkCredential(_username, _password);
+		//			client.Connect();
+		//			if (client.FileExists(filePath))
+		//			{
+		//				client.DownloadBytes(out byte[] fileBytes, filePath);
+		//				return fileBytes;
+		//			}
+		//			else
+		//			{
+		//				return Array.Empty<byte>();
+		//			}
+		//		}
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		Console.WriteLine($"Error during file download: {ex.Message}");
+
+		//		return Array.Empty<byte>();
+		//	}
+		//	finally
+		//	{
+		//		_semaphore.Release();
+		//	}
+		//}
+
+		public async Task<byte[]> DownloadFile(string filePath)
 		{
 			filePath = $"/MedicloudV2/{filePath}";
 
-			_semaphore.Wait();
+			await _semaphore.WaitAsync(); 
 			try
 			{
-
-				using (var client = new FtpClient(_ftpPath))
+	
+				return await Task.Run(() =>
 				{
-					client.Credentials = new System.Net.NetworkCredential(_username, _password);
-					client.Connect();
-					if (client.FileExists(filePath))
+					using (var client = new FtpClient(_ftpPath))
 					{
-						client.DownloadBytes(out byte[] fileBytes, filePath);
-						return fileBytes;
+						client.Credentials = new System.Net.NetworkCredential(_username, _password);
+						client.Connect();
+
+						if (client.FileExists(filePath))
+						{
+							client.DownloadBytes(out byte[] fileBytes, filePath);
+							return fileBytes;
+						}
+						else
+						{
+							return Array.Empty<byte>();
+						}
 					}
-					else
-					{
-						return Array.Empty<byte>();
-					}
-				}
+				});
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine($"Error during file download: {ex.Message}");
-
 				return Array.Empty<byte>();
 			}
 			finally
 			{
-				_semaphore.Release();
+				_semaphore.Release();  
 			}
 		}
 	}
