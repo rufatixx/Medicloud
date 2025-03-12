@@ -132,7 +132,7 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 				file = Convert.FromBase64String(vm.photo);
 				var fileName = Guid.NewGuid().ToString();
 				filePath = $"PortfolioImages/organization_{vm.organizationId}_{fileName}{vm.extension}";
-				bool uploaded = _fileUploadService.UploadFile(file, filePath);
+				bool uploaded =await _fileUploadService.UploadFileAsync(file, filePath,true);
 				if (uploaded)
 				{
 					int newId = await _portfolioService.AddPortfolioAsync(new()

@@ -17,7 +17,7 @@
                 <div class="mb-3">
                     <p>Bacarıqlarınızı nümayiş etdirmək və özünüzü digərlərindən fərqləndirmək üçün Portfelinizdən istifadə edin.</p>
 
-                    <form method="post" enctype="multipart/form-data" asp-controller="Profile" asp-action="AddPortfolioPhoto" id="addPortfolioForm">
+                    <form method="post" enctype="multipart/form-data" asp-controller="Portfolio" asp-action="AddPortfolioPhoto" id="addPortfolioForm">
 
                         <div class="mt-sm-0 mt-3 text-sm-end">
                             <input type="file" id="portfolioPhoto" name="photo" accept="image/*" class="d-none">
@@ -34,8 +34,7 @@
                         @foreach (var item in Model.portfolios)
                         {
                             <div class="col-4 mb-3">
-                                <img src="@item.file.Src" data-src="@item.file.Src" style="object-fit:cover; height:120px; cursor:pointer;" data-item-id="@item.id" alt="" class="img-fluid w-100 cursor-pointer img-item multiple">
-
+                                <img src="@Url.Action("GetImage", "File", new {area="", id=item.fileId})" style="object-fit:cover; height:120px; cursor:pointer;" data-item-id="@item.id" alt="" class="img-fluid w-100 cursor-pointer img-item multiple border">
                             </div>
 
                         }
@@ -50,3 +49,26 @@
     <!-- end row -->
 
 </div> <!-- container -->
+
+
+
+@await Component.InvokeAsync("PhotoSave")
+
+
+
+
+@section Scripts{
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet">
+
+    <!-- Cropper.js JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+    <script src="~/js/photoSave.js"></script>
+    <script>
+
+        $('#addPortfolioBtn').on('click', function () {
+            $('#portfolioPhoto').click();
+        });
+
+        createFileUploadInstance('portfolioPhoto', 'addPortfolioForm', 'portfolioPhoto');
+    </script>
+}

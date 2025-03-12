@@ -19,7 +19,7 @@ namespace Medicloud.DAL.Repository.Organizationn
 		{
 			string AddSql = $@"
 			INSERT INTO organizations
-            (name,phoneNumber,email,website,address,latitude,longitude,imagePath,cDate,ownerId)
+            (name,phoneNumber,email,website,address,latitude,longitude,logoId,cDate,ownerId)
 			VALUES (@{nameof(OrganizationDAO.name)},
             @{nameof(OrganizationDAO.phoneNumber)},
             @{nameof(OrganizationDAO.email)},
@@ -27,7 +27,7 @@ namespace Medicloud.DAL.Repository.Organizationn
             @{nameof(OrganizationDAO.address)},
             @{nameof(OrganizationDAO.latitude)},
             @{nameof(OrganizationDAO.longitude)},
-            @{nameof(OrganizationDAO.imagePath)},
+            @{nameof(OrganizationDAO.logoId)},
             @{nameof(OrganizationDAO.cDate)},
             @{nameof(OrganizationDAO.ownerId)});
 
@@ -95,15 +95,15 @@ namespace Medicloud.DAL.Repository.Organizationn
 				query.Append("latitude = @latitude, ");
 				parameters.Add("@latitude", dao.latitude);
 			}
-			if (!string.IsNullOrEmpty(dao.imagePath))
+			if (dao.logoId>0 )
 			{
-				query.Append("imagePath = @imagePath, ");
-				parameters.Add("@imagePath", dao.imagePath);
+				query.Append("logoId = @logoId, ");
+				parameters.Add("@logoId", dao.logoId);
 			}
-			if (!string.IsNullOrEmpty(dao.coverPath))
+			if (dao.coverId > 0)
 			{
-				query.Append("coverPath = @coverPath, ");
-				parameters.Add("@coverPath", dao.coverPath);
+				query.Append("coverId = @coverId, ");
+				parameters.Add("@coverId", dao.coverId);
 			}
 			if (dao.cDate.HasValue)
 			{
@@ -131,7 +131,26 @@ namespace Medicloud.DAL.Repository.Organizationn
 				query.Append("isRegistered = @isRegistered, ");
 				parameters.Add("@isRegistered", 1);
 			}
-
+			if (!string.IsNullOrEmpty(dao.insLink))
+			{
+				query.Append("insLink = @insLink, ");
+				parameters.Add("@insLink", dao.insLink);
+			}
+			if (!string.IsNullOrEmpty(dao.fbLink))
+			{
+				query.Append("fbLink = @fbLink, ");
+				parameters.Add("@fbLink", dao.fbLink);
+			}
+			if (!string.IsNullOrEmpty(dao.onlineShopLink))
+			{
+				query.Append("onlineShopLink = @onlineShopLink, ");
+				parameters.Add("@onlineShopLink", dao.onlineShopLink);
+			}
+			if (!string.IsNullOrEmpty(dao.description))
+			{
+				query.Append("description = @description, ");
+				parameters.Add("@description", dao.description);
+			}
 			// Remove the last comma and space
 			if (parameters.ParameterNames.Count() > 0)
 			{
@@ -144,6 +163,18 @@ namespace Medicloud.DAL.Repository.Organizationn
 			var con = _unitOfWork.GetConnection();
 			var result=await con.ExecuteAsync(query.ToString(), parameters);
 			return result>0;
+		}
+
+		public async Task UpdateLogoId(int organizationId, int logoId)
+		{
+			var con=_unitOfWork.GetConnection();
+			await con.ExecuteAsync(@"UPDATE organizations SET logoId=@LogoId WHERE id=@OrganizationId", new { OrganizationId = organizationId, LogoId = logoId });
+		}
+
+		public async Task UpdateCoverId(int organizationId, int coverId)
+		{
+			var con = _unitOfWork.GetConnection();
+			await con.ExecuteAsync(@"UPDATE organizations SET coverId=@CoverId WHERE id=@OrganizationId", new { OrganizationId = organizationId, CoverId = coverId });
 		}
 	}
 }

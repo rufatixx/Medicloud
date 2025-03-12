@@ -10,12 +10,16 @@
 		public string? email { get; set; }
 		public decimal latitude { get; set; }
 		public decimal longitude { get; set; }
-		public string? imagePath { get; set; }
-		public string? coverPath { get; set; }
+		public int logoId { get; set; }
+		public int coverId { get; set; }
 		public DateTime? cDate { get; set; }
 		public int ownerId { get; set; }
 		public int workPlaceType { get; set; }
 		public int teamSizeId { get; set; }
 		public bool isRegistered { get; set; }
+		public string insLink { get; set; }
+		public string fbLink { get; set; }
+		public string onlineShopLink { get; set; }
+		public string description { get; set; }
 	}
 }

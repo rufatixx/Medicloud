@@ -3,9 +3,9 @@ namespace Medicloud.BLL.Services.FileUpload
 {
 	public interface IFileUploadService
 	{
-		bool UploadFile(byte[] fileBytes, string filePath);
+		Task<bool> UploadFileAsync(byte[] fileBytes, string filePath,bool isImage=false);
 		//byte[] DownloadFile(string filePath);
-		Task<byte[]> DownloadFile(string filePath);
+		Task<byte[]> DownloadFileAsync(string filePath);
 		public bool DeleteFile(string filePath);
 	}
 }

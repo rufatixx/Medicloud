@@ -14,7 +14,7 @@
 
     <div class="row">
         <div class="col-md-6">
-            <div class="card rounded-4 position-relative" style="background-image: url('@Url.Content(Model.CoverSrc)');  background-size: cover; background-position:center;height:360px;width:100%;">
+            <div class="card rounded-4 position-relative" style="background-image: url('@Url.Action("GetImage", "File", new {area="", id=Model.CoverId})');  background-size: cover; background-position:center;height:360px;width:100%;">
                 <div class="rounded-4" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.1);"></div>
 
                 <div class="card-body d-flex flex-column pb-3 justify-content-between position-relative">
@@ -37,8 +37,16 @@
                                 </button>
                             </div>
                             <div class="text-center">
-                                <button type="button" class="btn btn-light">
-                                    <i class="mdi mdi-account-edit me-1"></i> Biznesini Paylaş
+                                <button type="button" class="btn btn-light d-flex align-items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-qr-code" viewBox="0 0 16 16">
+                                        <path d="M2 2h2v2H2z" />
+                                        <path d="M6 0v6H0V0zM5 1H1v4h4zM4 12H2v2h2z" />
+                                        <path d="M6 10v6H0v-6zm-5 1v4h4v-4zm11-9h2v2h-2z" />
+                                        <path d="M10 0v6h6V0zm5 1v4h-4V1zM8 1V0h1v2H8v2H7V1zm0 5V4h1v2zM6 8V7h1V6h1v2h1V7h5v1h-4v1H7V8zm0 0v1H2V8H1v1H0V7h3v1zm10 1h-1V7h1zm-1 0h-1v2h2v-1h-1zm-4 0h2v1h-1v1h-1zm2 3v-1h-1v1h-1v1H9v1h3v-2zm0 0h3v1h-2v1h-1zm-4-1v1h1v-2H7v1z" />
+                                        <path d="M7 12h1v3h4v1H7zm9 2v2h-3v-1h2v-1z" />
+                                    </svg>
+                                    <span class="ms-2" >Biznesini Paylaş</span">
+
                                 </button>
                             </div>
 
@@ -49,13 +57,14 @@
                         <div class="col-auto">
                             @{
                                 var imageSrc = "/place.jpg";
-                                if (!string.IsNullOrEmpty(Model.LogoSrc))
+                                if (Model.LogoId > 0)
                                 {
-                                    imageSrc = Model.LogoSrc;
+                                    imageSrc = Url.Action("GetImage", "File", new { id = Model.LogoId, area = "" });
                                 }
                             }
                             <div class="position-relative">
-                                <img src="@imageSrc" width="115" height="135" style="object-fit:cover;" alt="" class="rounded-circle img-thumbnail ">
+                                <img src="@imageSrc" width="115" height="135" style="object-fit:cover;" alt="" class="rounded-circle img-thumbnail">
+                                @*<img src="@Url.Action("GetImage", "File", new {id=6,area=""})" width="115" height="135" style="object-fit:cover;" alt="" class="rounded-circle img-thumbnail ">*@
                                 <div class="bg-white align-items-center d-flex position-absolute rounded" style="bottom: -10px; left: 30%;">
                                     <span class="p-1">* N/A</span>
 
@@ -73,7 +82,7 @@
             <div>
                 <div class="d-flex justify-content-between align-items-center">
                     <h4>Portfel</h4>
-                    <h6>
+                    <h6 style="cursor:pointer;" onclick="window.location.href='@Url.Action("Index","Portfolio")'">
                         Daha çox
                         <svg width="14" height="14" viewBox="0 0 6 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path opacity="1" fill-rule="evenodd" clip-rule="evenodd" d="M4.94754 6.0009L0.449735 1.46527C0.11683 1.12914 0.11683 0.587019 0.449734 0.250891C0.608361 0.0903187 0.824727 9.26364e-07 1.0504 9.165e-07C1.27607 9.06636e-07 1.49244 0.0903186 1.65107 0.250891L6.74953 5.39281C7.08349 5.72857 7.08349 6.27143 6.74953 6.60719L1.65128 11.7491C1.49244 11.9097 1.27607 12 1.0504 12C0.824728 12 0.608361 11.9097 0.449523 11.7491C0.116831 11.4129 0.116831 10.8708 0.449946 10.5347L4.94754 6.0009Z" fill="currentColor" fill-opacity="" />
@@ -96,18 +105,35 @@
                 </div>
                 @if (Model.portfolios != null)
                 {
-                    <div class="row" onclick="window.location.href='@Url.Action("Index","Portfolio")'">
+                    <div class="row " onclick="window.location.href='@Url.Action("Index","Portfolio")'">
                         @foreach (var item in Model.portfolios)
                         {
-                            <div class="col-4 mb-3">
-                                @*<h1>@item.file.fileName</h1>*@
-                                <img src="@item.file.Src" data-src="@item.file.Src" style="object-fit:cover; height:120px; cursor:pointer;" data-item-id="@item.id" alt="" class="img-fluid w-100 cursor-pointer img-item multiple">
+                            <div class="col-3 mb-3">
+                                <img src="@Url.Action("GetImage", "File", new {area="", id=item.fileId})" style="object-fit:cover; height:140px; cursor:pointer;" data-item-id="@item.id" alt="" class="img-fluid w-100 cursor-pointer img-item multiple border">
 
                             </div>
 
                         }
                     </div>
                 }
+
+
+            </div>
+            <div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <h4>Son Rəylər</h4>
+                </div>
+                <div class="d-flex align-items-center">
+                    <div class="me-2">
+                        <img src="@Url.Action("GetImage", "File", new {area="", id=18})" style="object-fit:cover; height:80px; cursor:pointer;" data-item-id="" alt="" class="img-fluid w-100 cursor-pointer img-item multiple border" />
+
+                    </div>
+                    <div>
+                        <span>Hələ heç bir rəy yoxdur...</span>
+                        <p class="mb-0">Müştərilərinizin işinizi tanıtmalarına imkan verin. Onları təcrübələrini paylaşmağa və rəylər yazmağa təşviq edin.</p>
+                    </div>
+                </div>
+
 
 
             </div>
@@ -121,7 +147,25 @@
 
 @await Component.InvokeAsync("PhotoSave")
 
+<div class="modal fade " id="" tabindex="-1" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" id="documentContent">
+            <div class="modal-header d-flex justify-content-between border-bottom">
+                <h5 class="modal-title" id="documentModalLabel">Profilinizi Paylaşın</h5>
 
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+            </div>
+            <div class="modal-body">
+                <div class="">
+                    <h4 class="text-center">Profil Linki</h4>
+                    <p class="badge bg-primary">profillinki</p>
+                    <p>Bəzi müştərilərinizin sizinlə birbaşa görüş təyin etməsi üçün profil linkinizi sosial mediada, mətn vasitəsilə və ya birbaşa mesajla paylaşın.a</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 @section Scripts{

@@ -44,7 +44,7 @@ namespace Medicloud.DAL.Repository.Portfolio
 
 		public async Task<List<PortfolioDAO>> GetByOrganizationIdAsync(int organizationId)
 		{
-			string sql = @"SELECT * FROM portfolios WHERE organizationId=@OrganizationId";
+			string sql = @"SELECT * FROM portfolios WHERE organizationId=@OrganizationId AND isActive=1";
 			var con = _unitOfWork.GetConnection();
 			var result = await con.QueryAsync<PortfolioDAO>(sql, new { OrganizationId = organizationId });
 			return result.ToList();

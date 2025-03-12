@@ -50,13 +50,13 @@ namespace Medicloud.BLL.Services.Portfolio
 				foreach( var item in data)
 				{
 					var file=await _fileRepository.GetFileByIdAsync(item.fileId);
-					var fileData =await _fileUploadService.DownloadFile(file.filePath);
-					var fileExtension=Path.GetExtension(file.filePath);
+					//var fileData =await _fileUploadService.DownloadFile(file.filePath);
+					//var fileExtension=Path.GetExtension(file.filePath);
 					var fileDTO = new FileDTO() {
 						fileName = file.fileName,
 						filePath = file.filePath,
 						id = file.id,
-						Src = $"data:image/{fileExtension};base64,{Convert.ToBase64String(fileData)}"
+						//Src = $"data:image/{fileExtension};base64,{Convert.ToBase64String(fileData)}"
 					};
 
 					var dto = new PortfolioDTO

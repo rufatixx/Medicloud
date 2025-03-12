@@ -1,0 +1,92 @@
+﻿@model Medicloud.BLL.DTO.UpdateOrganizationDTO
+
+<div class="px-3">
+    <div class="col-md-6 row">
+        <form method="post" class="text-center" enctype="multipart/form-data" asp-controller="Settings" asp-action="Details" id="">
+
+            <div class="d-flex justify-content-between px-0 mb-2">
+                <div class="d-flex align-items-center">
+                    <a class="btn btn-sm ps-0" asp-action="" asp-controller="" asp-route-organizationId="" asp-area="">
+                        <svg width="32px" height="32px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="#737373">
+                            <path fill="#737373" d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"></path>
+                            <path fill="#737373" d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"></path>
+                        </svg>
+                    </a>
+                    <h2 class="ms-2 text-muted">Biznes adı & məlumatları</h2>
+                </div>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end align-items-center">
+                    <h6 style="color: #6F7482" class="m-0" id="managerName"></h6>
+                    <button class="btn btn-primary">Yadda saxla</button>
+                </div>
+            </div>
+
+            <div class="d-flex row bg-white p-2" >
+                <div class="col-md-6">
+                    <label class="form-label text-muted">Ümumi məlumat</label>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" asp-for="Name" id="" placeholder="" required>
+                        <label for="floatingInput">Biznesinizin adı</label>
+                        <div class="invalid-feedback">
+                            Bu sahə doldurulmalıdır
+                        </div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" asp-for="StaffPhoneNumber" id="" placeholder="" required>
+                        <label for="floatingInput">Telefon nömrəsi</label>
+                        <div class="invalid-feedback">
+                            Bu sahə doldurulmalıdır
+                        </div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" asp-for="StaffEmail" id="" placeholder="" disabled>
+                        <label for="floatingInput">Biznes sahibinin emaili </label>
+                        <div class="invalid-feedback">
+                            Bu sahə doldurulmalıdır
+                        </div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <textarea type="text" rows="3" style="resize:none" class="form-control" draggable="false" value="" maxlength="500" name="description" placeholder="Mətn"></textarea>
+                        <label for="floatingInput">Biznesiniz haqqında qısa təsvir</label>
+                        <div class="invalid-feedback">
+                            Bu sahə doldurulmalıdır
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label text-muted">Sosial Media</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">IN</span>
+                        <input class="form-control py-3" type="text" id="" asp-for="ILink" placeholder="Instagram" required>
+                        <div class="invalid-feedback">
+                            Bu sahə doldurulmalıdır
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">FB</span>
+                        <input class="form-control py-3" type="text" id="" asp-for="FbLink" placeholder="Facebook" required>
+                        <div class="invalid-feedback">
+                            Bu sahə doldurulmalıdır
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">W</span>
+                        <input class="form-control py-3" type="text" id="" asp-for="WebLink" placeholder="Web sayt" required>
+                        <div class="invalid-feedback">
+                            Bu sahə doldurulmalıdır
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">O</span>
+                        <input class="form-control py-3" type="text" id="" asp-for="OnlineShopLink" placeholder="Onlayn mağaza" required>
+                        <div class="invalid-feedback">
+                            Bu sahə doldurulmalıdır
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+
+    </div>
+
+</div>

@@ -1,6 +1,7 @@
 ﻿
 using FluentFTP;
 using FluentFTP.Helpers;
+using Medicloud.BLL.Services.ImageProcessing;
 using Microsoft.Extensions.Configuration;
 
 namespace Medicloud.BLL.Services.FileUpload
@@ -9,19 +10,25 @@ namespace Medicloud.BLL.Services.FileUpload
 	{
 		private readonly string _ftpPath;
 		private readonly string _username;
-		private readonly string _password;
-		private static readonly SemaphoreSlim _semaphore = new SemaphoreSlim(5); // Max 2 concurrent connections
+		private readonly string _password;	
+		private readonly IImageProcessingService _imageProcessingService;
+		private static readonly SemaphoreSlim _semaphore = new SemaphoreSlim(5); // Max 5 concurrent connections
 
-		public FileUploadService(IConfiguration configuration)
+		public FileUploadService(IConfiguration configuration, IImageProcessingService imageProcessingService)
 		{
 			_ftpPath = configuration["FtpSettings:Url"];
 			_username = configuration["FtpSettings:Username"];
 			_password = configuration["FtpSettings:Password"];
+			_imageProcessingService = imageProcessingService;
 		}
 
 
-		public bool UploadFile(byte[] fileBytes, string filePath)
+		public async Task<bool> UploadFileAsync(byte[] fileBytes, string filePath,bool isImage=false)
 		{
+			if (isImage)
+			{
+				fileBytes=await _imageProcessingService.ResizeImageTo720pAsync(fileBytes);
+			}
 			filePath = $"/MedicloudV2/{filePath}";
 
 			_semaphore.Wait();
@@ -132,7 +139,7 @@ namespace Medicloud.BLL.Services.FileUpload
 		//	}
 		//}
 
-		public async Task<byte[]> DownloadFile(string filePath)
+		public async Task<byte[]> DownloadFileAsync(string filePath)
 		{
 			filePath = $"/MedicloudV2/{filePath}";
 

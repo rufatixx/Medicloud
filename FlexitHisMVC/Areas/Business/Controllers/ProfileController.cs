@@ -5,11 +5,10 @@ using Medicloud.BLL.Services.FileUpload;
 using Medicloud.BLL.Services.Organization;
 using Medicloud.BLL.Services.OrganizationPhoto;
 using Medicloud.BLL.Services.Portfolio;
+using Medicloud.BLL.Services.Staff;
 using Medicloud.Models;
 using Medicloud.WebUI.Areas.Business.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
-
 namespace Medicloud.WebUI.Areas.Business.Controllers
 {
 	[Area("Business")]
@@ -21,7 +20,8 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 		private readonly IPortfolioService _portfolioService;
 		private readonly IFileService _fileService;
 		private readonly ICategoryService _categoryService;
-		public ProfileController(IOrganizationService organizationService, IFileUploadService uploadService, IOrganizationPhotoService organizationPhotoService, IPortfolioService portfolioService, IFileService fileService, ICategoryService categoryService)
+		private readonly IStaffService _staffService;
+		public ProfileController(IOrganizationService organizationService, IFileUploadService uploadService, IOrganizationPhotoService organizationPhotoService, IPortfolioService portfolioService, IFileService fileService, ICategoryService categoryService, IStaffService staffService)
 		{
 			_organizationService = organizationService;
 			_fileUploadService = uploadService;
@@ -29,6 +29,7 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 			_portfolioService = portfolioService;
 			_fileService = fileService;
 			_categoryService = categoryService;
+			_staffService = staffService;
 		}
 
 		public async Task<IActionResult> Index()
@@ -37,51 +38,31 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 			var portfolios = await _portfolioService.GetPortfolioByOrganizationIdAsync(41);
 			byte[] file = null;
 			byte[] coverFile = null;
-			if (!string.IsNullOrWhiteSpace(organization.imagePath))
-			{
-				file = await  _fileUploadService.DownloadFile(organization.imagePath);
-			}
-			if (!string.IsNullOrWhiteSpace(organization.coverPath))
-			{
-				coverFile = await _fileUploadService.DownloadFile(organization.coverPath);
-			}
-			string logoSrc = "";
-			string coverSrc = "";
-			if (file != null && file.Length > 0)
-			{
-				var base64String = Convert.ToBase64String(file);
-				//if (base64String == userImage)
-				//{
-				//	userImage = null;
-				//}
-				string fileExtension = Path.GetExtension(organization.imagePath)?.ToLower();
-				logoSrc = $"data:image/{fileExtension};base64,{base64String}";
-			}
-			if (coverFile != null && coverFile.Length > 0)
-			{
-				var base64String = Convert.ToBase64String(coverFile);
-				string fileExtension = Path.GetExtension(organization.coverPath)?.ToLower();
-				coverSrc = $"data:image/{fileExtension};base64,{base64String}";
-			}
 			var vm = new BusinessProfileVM
 			{
 				Id = 41,
 				Name = organization.name,
-				LogoSrc = logoSrc,
-				CoverSrc = coverSrc,
 				portfolios = portfolios,
+				LogoId = organization.logoId,
+				CoverId = organization.coverId,
 			};
 
 			return View(vm);
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> UpdateCoverPhoto([FromForm] IFormFile coverPhoto, string existingPhotoPath, int organizationId)
+		public async Task<IActionResult> UpdateCoverPhoto([FromForm] IFormFile coverPhoto, int existingCoverId, int organizationId)
 		{
 
-			if (!string.IsNullOrEmpty(existingPhotoPath))
+
+			if (existingCoverId > 0)
 			{
-				bool deleteFile = _fileUploadService.DeleteFile(existingPhotoPath);
+				var existFile = await _fileService.GetById(existingCoverId);
+				if (existFile != null)
+				{
+					bool deleteFile = _fileUploadService.DeleteFile(existFile.filePath);
+					await _organizationService.UpdateCover(null, organizationId);
+				}
 
 			}
 			string filePath = null;
@@ -101,26 +82,58 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 				{
 					return BadRequest("Invalid file extension.");
 				}
-
-				filePath = $"OrganizationImages/organization_{Guid.NewGuid().ToString()}{fileExtension}";
-				bool uploaded = _fileUploadService.UploadFile(file, filePath);
-				await _organizationService.UpdateAsync(new()
+				string fileName = $"organization_{Guid.NewGuid().ToString()}";
+				filePath = $"OrganizationImages/{fileName}{fileExtension}";
+				bool uploaded = await _fileUploadService.UploadFileAsync(file, filePath, true);
+				if (uploaded)
 				{
-					coverPath = filePath,
-					id = organizationId,
-				});
+					await _organizationService.UpdateCover(new()
+					{
+						fileName = fileName,
+						filePath = filePath,
+					}, organizationId);
+				}
+
 			}
 
 			return RedirectToAction("ProfileImages");
 		}
 
 		[HttpPost]
+		public async Task<IActionResult> UpdateCover(int existFileId, int organizationId)
+		{
+			var file = await _fileService.GetById(existFileId);
+
+			if (file != null)
+			{
+				var fileData = await _fileUploadService.DownloadFileAsync(file.filePath);
+				if (fileData != null)
+				{
+					string fileExtension = Path.GetExtension(file.fileName)?.ToLower();
+					string fileName = $"organization_{Guid.NewGuid().ToString()}";
+					string filePath = $"OrganizationImages/{fileName}{fileExtension}";
+					bool uploaded = await _fileUploadService.UploadFileAsync(fileData, filePath, true);
+					if (uploaded)
+					{
+						await _organizationService.UpdateCover(new()
+						{
+							fileName = fileName,
+							filePath = filePath,
+						}, organizationId);
+					}
+
+				}
+
+
+			}
+
+
+			return Ok();
+		}
+
+		[HttpPost]
 		public async Task<IActionResult> UploadWorkPhoto([FromForm] IFormFile workPhoto, int organizationId)
 		{
-			Console.WriteLine(organizationId);
-			Console.WriteLine("Work");
-			Console.WriteLine(workPhoto?.Name);
-
 			string filePath = null;
 			byte[] file;
 			string fileExtension;
@@ -140,7 +153,7 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 				}
 				var fileName = Guid.NewGuid().ToString();
 				filePath = $"OrganizationImages/organization_{fileName}{fileExtension}";
-				bool uploaded = _fileUploadService.UploadFile(file, filePath);
+				bool uploaded = await _fileUploadService.UploadFileAsync(file, filePath, true);
 				if (uploaded)
 				{
 					await _organizationPhotoService.AddAsync(organizationId, new()
@@ -158,72 +171,34 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 		public async Task<IActionResult> ProfileImages()
 		{
 			var organization = await _organizationService.GetByIdAsync(41);
-			byte[] file = null;
-			byte[] coverFile = null;
-			if (!string.IsNullOrWhiteSpace(organization.imagePath))
-			{
-				file =await _fileUploadService.DownloadFile(organization.imagePath);
-			}
-			if (!string.IsNullOrWhiteSpace(organization.coverPath))
-			{
-				coverFile =await _fileUploadService.DownloadFile(organization.coverPath);
-			}
-			string logoSrc = "";
-			string coverSrc = "";
-			if (file != null && file.Length > 0)
-			{
-				var base64String = Convert.ToBase64String(file);
-				//if (base64String == userImage)
-				//{
-				//	userImage = null;
-				//}
-				string fileExtension = Path.GetExtension(organization.imagePath)?.ToLower();
-				logoSrc = $"data:image/{fileExtension};base64,{base64String}";
-			}
 
-			if (coverFile != null && coverFile.Length > 0)
-			{
-				var base64String = Convert.ToBase64String(coverFile);
-				string fileExtension = Path.GetExtension(organization.coverPath)?.ToLower();
-				coverSrc = $"data:image/{fileExtension};base64,{base64String}";
-			}
 			var workPhotos = await _organizationPhotoService.GetByOrganizationId(41);
-			if (workPhotos != null)
-			{
-				foreach (var item in workPhotos)
-				{
-					var itemFile =await _fileUploadService.DownloadFile(item.filePath);
-					if (itemFile != null && itemFile.Length > 0)
-					{
-						var base64String = Convert.ToBase64String(itemFile);
-						string fileExtension = Path.GetExtension(item.filePath)?.ToLower();
-						item.Src = $"data:image/{fileExtension};base64,{base64String}";
-					}
-
-				}
-			}
 			var vm = new BusinessProfileVM
 			{
 				Id = 41,
 				Name = organization.name,
-				LogoSrc = logoSrc,
-				CoverSrc = coverSrc,
 				WorkImages = workPhotos,
-				CoverPath = organization.coverPath,
-				LogoPath = organization.imagePath
+				LogoId = organization.logoId,
+				CoverId = organization.coverId,
 			};
 
 			return View(vm);
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> UpdateLogoPhoto([FromForm] IFormFile logoPhoto, string existingPhotoPath, int organizationId)
+		public async Task<IActionResult> UpdateLogoPhoto([FromForm] IFormFile logoPhoto, int existingLogoId, int organizationId)
 		{
 
 
-			if (!string.IsNullOrEmpty(existingPhotoPath))
+			if (existingLogoId > 0)
 			{
-				bool deleteFile = _fileUploadService.DeleteFile(existingPhotoPath);
+				var existFile = await _fileService.GetById(existingLogoId);
+				if (existFile != null)
+				{
+					bool deleteFile = _fileUploadService.DeleteFile(existFile.filePath);
+
+				}
+				await _organizationService.UpdateLogo(null, organizationId);
 
 			}
 			if (organizationId == 0)
@@ -246,18 +221,22 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 				}
 				fileExtension = Path.GetExtension(logoPhoto.FileName)?.ToLower();
 
+
 				if (string.IsNullOrEmpty(fileExtension))
 				{
 					return BadRequest("Invalid file extension.");
 				}
 
-				filePath = $"OrganizationImages/organization_{Guid.NewGuid().ToString()}{fileExtension}";
-				bool uploaded = _fileUploadService.UploadFile(file, filePath);
-				await _organizationService.UpdateAsync(new()
-				{
-					imagePath = filePath,
-					id = organizationId,
-				});
+				string fileName = $"organization_{Guid.NewGuid().ToString()}";
+				filePath = $"OrganizationImages/{fileName}{fileExtension}";
+				bool uploaded = await _fileUploadService.UploadFileAsync(file, filePath, true);
+				if (uploaded)
+					await _organizationService.UpdateLogo(new()
+					{
+						filePath = filePath,
+						fileName = fileName,
+					}, organizationId);
+
 			}
 
 			return RedirectToAction("ProfileImages");
@@ -265,7 +244,23 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 		}
 
 
-		
+		public async Task<IActionResult> Info()
+		{
+			var organization = await _organizationService.GetByIdAsync(41);
+			var ownerStaff = await _staffService.GetOwnerStaffByOrganizationId(41);
+			var portfolios = await _portfolioService.GetPortfolioByOrganizationIdAsync(41);
+			byte[] file = null;
+			byte[] coverFile = null;
+			var vm = new UpdateOrganizationDTO
+			{
+				Id = 41,
+				Name = organization.name,
+				StaffPhoneNumber = ownerStaff.phoneNumber,
+				StaffEmail=ownerStaff.email,
+			};
+
+			return View(vm);
+		}
 
 	}
 }

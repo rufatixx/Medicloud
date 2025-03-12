@@ -44,19 +44,14 @@
                     <div class="card-body">
                         @{
                             var imageSrc = "/place.jpg";
-                            if (!string.IsNullOrEmpty(Model.LogoSrc))
-                            {
-                                imageSrc = Model.LogoSrc;
-                            }
                         }
 
                         <form method="post" class="text-center" enctype="multipart/form-data" asp-controller="Profile" asp-action="UpdateLogoPhoto" id="logoPhotoForm">
-                            @if (string.IsNullOrEmpty(Model.LogoSrc))
-                            @*@if (true)*@
+                            @if (Model.LogoId == 0)
                             {
                                 <div class="d-flex justify-content-center">
 
-                                    <div class="file-upload d-flex justify-content-center align-items-center px-4 py-3  rounded-pill" style="width:120px; border-style:dashed">
+                                    <div class="file-upload d-flex justify-content-center align-items-center px-4 py-3  rounded-pill" style="width:100px; border-style:dashed">
                                         <i class="ti ti-cloud-upload fs-8 mb-2"></i>
                                         <p class="mb-0">Loqo əlavə et</p>
                                         <input id="fileInput1" accept="image/*" type="file">
@@ -65,8 +60,13 @@
                             }
                             else
                             {
-                                <div class="position-relative d-inline-block">
-                                    <img src="@imageSrc" width="120" height="120" style="object-fit:cover;" alt="" class="rounded-circle">
+                                imageSrc = Url.Action("GetImage", "File", new { id = Model.LogoId, area = "" }); ;
+                                <div class="position-relative d-inline-block image-container">
+                                    <div class="loading-spinner" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: block;">
+                                        <div class="spinner-border text-primary" style="width: 5rem; height: 5rem;" role="status">
+                                        </div>
+                                    </div>
+                                    <img src="@imageSrc" width="120" height="120" style="object-fit:cover;" alt="" class="rounded-circle img-item">
                                     <button type="button" class="btn btn-light btn-sm position-absolute" data-item-id="" style="bottom: 0; right: 0; border-radius: 50%;" id="changeLogoPhoto">
                                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M7.99976 13.332H13.9997" stroke="#667085" stroke-width="1.66678" stroke-linecap="round" stroke-linejoin="round" />
@@ -80,7 +80,7 @@
                             }
 
 
-                            <input type="hidden" id="photoPath" name="existingPhotoPath" value="@Model.LogoPath" />
+                            <input type="hidden" name="existingLogoId" value="@Model.LogoId" />
                             <input type="file" id="logoPhoto" name="logoPhoto" accept="image/*" class="d-none">
                             <input type="hidden" id="" name="organizationId" value="@Model.Id">
                         </form>
@@ -95,9 +95,9 @@
                     <div class="card-body">
                         @{
                             var coverSrc = "/place.jpg";
-                            if (!string.IsNullOrEmpty(Model.CoverSrc))
+                            if (Model.LogoId > 0)
                             {
-                                coverSrc = Model.CoverSrc;
+                                coverSrc = Url.Action("GetImage", "File", new { id = Model.CoverId, area = "" }); ;
                             }
                         }
 
@@ -106,7 +106,7 @@
                             <input type="file" id="coverPhoto" name="coverPhoto" accept="image/*" class="d-none">
                             <input type="hidden" id="" name="organizationId" value="@Model.Id">
 
-                            @if (string.IsNullOrEmpty(Model.CoverSrc))
+                            @if (Model.CoverId == 0)
                             {
                                 <div class="file-upload d-flex justify-content-center align-items-center p-5 mb-3" style="border-style:dashed">
 
@@ -119,16 +119,19 @@
                             else
                             {
 
-                                <div class="mt-sm-0 mt-3 text-sm-end position-relative">
-
-                                    <img src="@coverSrc" data-title="Örtük şəkli" data-src="@coverSrc" style="object-fit:cover; cursor:pointer;" alt="" class="img-fluid img-item">
+                                <div class="mt-sm-0 mt-3 text-sm-end position-relative image-container" style="min-height:200px;">
+                                    <div class="loading-spinner" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: block;">
+                                        <div class="spinner-border text-primary" style="width: 5rem; height: 5rem;" role="status">
+                                        </div>
+                                    </div>
+                                    <img src="@Url.Action("GetImage", "File", new {area="", id=Model.CoverId})" data-title="Örtük şəkli" data-src="@coverSrc" style="object-fit:cover; cursor:pointer;" alt="" class="img-fluid img-item">
                                     <button id="changeCoverPhoto" type="button" class="btn btn-light btn-sm position-absolute rounded" style="top: 10px; right: 10px;">
                                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M7.99976 13.332H13.9997" stroke="#667085" stroke-width="1.66678" stroke-linecap="round" stroke-linejoin="round" />
                                             <path d="M10.9998 2.33218C11.265 2.06697 11.6247 1.91797 11.9998 1.91797C12.1855 1.91797 12.3694 1.95455 12.541 2.02562C12.7125 2.09669 12.8684 2.20086 12.9998 2.33218C13.1311 2.4635 13.2352 2.61941 13.3063 2.79099C13.3774 2.96257 13.414 3.14647 13.414 3.33218C13.414 3.5179 13.3774 3.7018 13.3063 3.87338C13.2352 4.04496 13.1311 4.20086 12.9998 4.33218L4.66642 12.6655L1.99976 13.3322L2.66642 10.6655L10.9998 2.33218Z" stroke="#667085" stroke-width="1.66678" stroke-linecap="round" stroke-linejoin="round" />
                                         </svg>
                                     </button>
-                                    <input type="hidden" name="existingPhotoPath" value="@Model.CoverPath" />
+                                    <input type="hidden" name="existingCoverId" value="@Model.CoverId" />
                                 </div>
                                 <input id="fileInput2" class="d-none" accept="image/*" type="file">
 
@@ -147,13 +150,6 @@
                         <span class="text-muted" style="font-size:12px;">Müştərilərə hələ qapıdan içəri keçmədən əvvəl məkanınıza bir baxış təqdim edin.</span>
                     </div>
                     <div class="card-body">
-                        @{
-                            var src = "/place.jpg";
-                            if (!string.IsNullOrEmpty(Model.CoverSrc))
-                            {
-                                coverSrc = Model.CoverSrc;
-                            }
-                        }
 
 
                         @if (Model.WorkImages != null && Model.WorkImages.Count > 0)
@@ -177,9 +173,18 @@
                                 @foreach (var item in Model.WorkImages)
                                 {
                                     <div class="col-4 mb-3">
+                                        <div class="image-container" style="position: relative;">
+                                            <div class="loading-spinner" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: block;">
+                                                <div class="spinner-border text-primary" style="width: 5rem; height: 5rem;" role="status">
+                                                </div>
+                                            </div>
 
-                                        <img src="@item.filePath" data-src="@item.Src" style="object-fit:cover; height:120px; cursor:pointer;" data-item-id="@item.id" alt="" class="img-fluid w-100 cursor-pointer img-item multiple">
-
+                                            <img src="@Url.Action("GetImage", "File", new {area="", id=item.id})"
+                                                 data-src="@Url.Action("GetImage", "File", new {area="", id=item.id})"
+                                                 style="object-fit:cover; height:120px; cursor:pointer;"
+                                                 data-item-id="@item.id" alt=""
+                                                 class="img-fluid w-100 cursor-pointer img-item multiple">
+                                        </div>
                                     </div>
                                 }
 
@@ -258,6 +263,19 @@
 
         });
 
+        $('img.img-item').each(function () {
+            var $img = $(this);
+
+            $img.on('load', function () {
+                var $spinner = $img.closest('.image-container').find('.loading-spinner');
+                $spinner.hide();
+            });
+
+
+            if ($img[0].complete) {
+                $img.trigger('load');
+            }
+        });
 
 
         $('#changeLogoPhoto').on('click', function () {
@@ -301,6 +319,10 @@
         createFileUploadInstance('fileInput3', 'uploadPhotoForm', 'uploadPhoto');
 
         $('.img-item').on('click', function () {
+
+            if (!$(this).attr('data-src')) {
+                return;
+            }
             var selectedImages = [];
             var modalTitle = '';
             var totalImages = 0;
@@ -363,7 +385,7 @@
 
         $('#deleteBtn').on('click', function () {
             var currentImage = $('#carouselExample .carousel-item.active img');
-            var itemId = currentImage.data('item-id'); 
+            var itemId = currentImage.data('item-id');
             if (itemId) {
                 showLoading();
                 $.ajax({
@@ -389,34 +411,55 @@
 
         $('#coverBtn').on('click', function () {
             var currentImage = $('#carouselExample .carousel-item.active img');
-            var itemId = currentImage.data('item-id'); 
+            var itemId = currentImage.data('item-id');
+            console.log(itemId);
 
-            var imageData = currentImage.attr('src');
-            var imageType = imageData.split(';')[0].split(':')[1];
+            if (itemId) {
+                showLoading();
+                $.ajax({
+                    url: '@Url.Action("UpdateCover", "Profile")',
+                    type: 'POST',
+                    data: { existFileId: itemId,organizationId:@Model.Id },
+                    success: function () {
+                        window.location.reload();
 
-            // Convert the base64 image data to a Blob
-            var byteString = atob(imageData.split(',')[1]);
-            var arrayBuffer = new ArrayBuffer(byteString.length);
-            var uintArray = new Uint8Array(arrayBuffer);
+                    },
+                    error: function (e) {
+                        hideLoading();
+                        console.log(e)
 
-            for (var i = 0; i < byteString.length; i++) {
-                uintArray[i] = byteString.charCodeAt(i);
+                    }
+                });
             }
 
-            // Create a Blob from the byte array with the appropriate MIME type
-            var blob = new Blob([arrayBuffer], { type: imageType });
+            //var imageData = currentImage.attr('src');
+            //console.log(imageData);
 
-            // Create a new File object from the Blob
-            var file = new File([blob], "img." + imageType.split('/')[1], { type: imageType });
+            //var imageType = imageData.split(';')[0].split(':')[1];
 
-            // Append the file to the 'logoPhoto' file input
-            var fileInput = $('#coverPhoto')[0];
-            var dataTransfer = new DataTransfer(); // Create a new DataTransfer object
-            dataTransfer.items.add(file);  // Add the file to the DataTransfer object
-            fileInput.files = dataTransfer.files; // Assign the files to the input
+            //// Convert the base64 image data to a Blob
+            //var byteString = atob(imageData.split(',')[1]);
+            //var arrayBuffer = new ArrayBuffer(byteString.length);
+            //var uintArray = new Uint8Array(arrayBuffer);
 
-            // Optionally, you can submit the form here if you want to submit it directly
-             $('#coverPhotoForm').submit(); // Uncomment if you want to submit the form automatically
+            //for (var i = 0; i < byteString.length; i++) {
+            //    uintArray[i] = byteString.charCodeAt(i);
+            //}
+
+            //// Create a Blob from the byte array with the appropriate MIME type
+            //var blob = new Blob([arrayBuffer], { type: imageType });
+
+            //// Create a new File object from the Blob
+            //var file = new File([blob], "img." + imageType.split('/')[1], { type: imageType });
+
+            //// Append the file to the 'logoPhoto' file input
+            //var fileInput = $('#coverPhoto')[0];
+            //var dataTransfer = new DataTransfer(); // Create a new DataTransfer object
+            //dataTransfer.items.add(file);  // Add the file to the DataTransfer object
+            //fileInput.files = dataTransfer.files; // Assign the files to the input
+
+            //// Optionally, you can submit the form here if you want to submit it directly
+            // $('#coverPhotoForm').submit(); // Uncomment if you want to submit the form automatically
         });
         // for multiple files
 

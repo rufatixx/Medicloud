@@ -1,9 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Medicloud.BLL.Services.Organization;
+using Medicloud.WebUI.Areas.Business.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Medicloud.WebUI.Areas.Business.ViewComponents
 {
 	public class SidebarViewComponent:ViewComponent
 	{
+		private readonly IOrganizationService _organizationService;
+
+		public SidebarViewComponent(IOrganizationService organizationService)
+		{
+			_organizationService = organizationService;
+		}
+
 		public async Task<IViewComponentResult> InvokeAsync()
 		{
 
@@ -33,17 +42,14 @@ namespace Medicloud.WebUI.Areas.Business.ViewComponents
 			//	string fileExtension = Path.GetExtension(user.photo_path)?.ToLower();
 			//	imageSrc = $"data:image/{fileExtension};base64,{base64String}";
 			//}
+			var organization = await _organizationService.GetByIdAsync(41);
 
-			//var model = new SidebarViewModel
-			//{
-			//	userFullname = $"{user?.name} {user?.surname}" ?? "",
-			//	userPosition = $"{user?.position}" ?? "",
-			//	photoPath = imageSrc,
-			//	userModules = userModuleEnums,
-			//	sidebar_state = "sidebarState",
-			//	moduls = userModuls,
-			//};
-			return View();
+			var vm = new SidebarViewModel
+			{
+				OrganizationName=organization.name,
+				LogoId=organization.logoId,
+			};
+			return View(vm);
 		}
 
 
