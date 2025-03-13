@@ -6,5 +6,6 @@ namespace Medicloud.DAL.Repository.Category
     {
 		Task<List<CategoryDAO>> GetAll();
 		Task<List<CategoryDAO>> GetByOrganizationId(int organizationId);
+		Task<CategoryDAO> GetById(int id);
     }
 }

@@ -16,6 +16,7 @@ using Medicloud.BLL.Services.Staff;
 using Medicloud.BLL.Services.User;
 using Medicloud.DAL.Infrastructure.UnitOfWork;
 using Medicloud.DAL.Repository.Category;
+using Medicloud.DAL.Repository.Comment;
 using Medicloud.DAL.Repository.File;
 using Medicloud.DAL.Repository.Organizationn;
 using Medicloud.DAL.Repository.OrganizationPhoto;
@@ -257,6 +258,7 @@ builder.Services.AddScoped<IFileService, FileService>();
 builder.Services.AddScoped<IPortfolioRepository, PortfolioRepository>();
 builder.Services.AddScoped<IPortfolioService, PortfolioService>();
 builder.Services.AddScoped<IImageProcessingService, ImageProcessingService>();
+builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 var app = builder.Build();
 
 app.UseSession();

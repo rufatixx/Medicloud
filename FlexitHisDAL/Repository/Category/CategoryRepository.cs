@@ -32,5 +32,16 @@ namespace Medicloud.DAL.Repository.Category
 			var result = await con.QueryAsync<CategoryDAO>(query,new { OrganizationId=organizationId});
 			return result.ToList();
 		}
+
+		public async Task<CategoryDAO> GetById(int id)
+		{
+			string query = @"SELECT c.* 
+							FROM categories c
+							WHERE c.id=@Id";
+
+			var con = _unitOfWork.GetConnection();
+			var result = await con.QuerySingleOrDefaultAsync<CategoryDAO>(query, new { Id = id });
+			return result;
+		}
 	}
 }

@@ -54,31 +54,10 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 				vm.extension = fileExtension;
 				vm.organizationId = organizationId;
 				vm.photoSrc = $"data:image/{fileExtension};base64,{base64String}";
-
+				vm.selectedCategoryIds = new();
 				var categories = await _categoryService.GetByOrganizationId(organizationId);
 				vm.Categories = categories;
 				return View("AddPortfolio", vm);
-
-				//if (string.IsNullOrEmpty(fileExtension))
-				//{
-				//	return BadRequest("Invalid file extension.");
-				//}
-
-				//string fileName = Guid.NewGuid().ToString();
-				//filePath = $"PortfolioImages/organization{organizationId}_{fileName}{fileExtension}";
-				//bool uploaded = _fileUploadService.UploadFile(file, filePath);
-				//if (uploaded)
-				//{
-				//	//int newFileId = await _fileService.AddAsync(new()
-				//	//{
-				//	//	fileName = fileName,
-				//	//	filePath = filePath,
-				//	//});
-				//	//TempData["FileId"] = newFileId;
-				//	//TempData["OrganizationId"] = organizationId;
-				//	//return RedirectToAction("AddPortfolio");
-
-				//}
 
 			}
 
@@ -88,36 +67,27 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 
 		}
 
-		//[HttpGet]
-		//public async Task<IActionResult> AddPortfolio()
-		//{
-		//	var vm = new AddPortfolioViewModel();
-		//	//int fileId = (int)TempData["FileId"];
-		//	int fileId = 4;
-		//	var file = await _fileService.GetById(fileId);
-		//	if (file != null)
-		//	{
-		//		var fileData = _fileUploadService.DownloadFile(file.filePath);
-		//		if (fileData != null)
-		//		{
-		//			Console.WriteLine(fileData.Length);
-		//			var extension = Path.GetExtension(file.fileName)?.ToLower();
-		//			var base64String = Convert.ToBase64String(fileData);
+		[HttpGet]
+		public async Task<IActionResult> AddPortfolio(int id)
+		{
+			var portfolio = await _portfolioService.GetPortfolioByIdAsync(id);
+			List<int> CategoryIds = portfolio.categoryIds.Split(',').Select(c => int.Parse(c)).ToList();
 
-		//			//organizationId = (int)TempData["OrganizationId"],
-		//			vm.organizationId = 41;
-		//			vm.photo = base64String;
-		//			vm.photoSrc = $"data:image/{extension};base64,{base64String}";
-		//			var categories = await _categoryService.GetByOrganizationId(41);
-		//			vm.Categories = categories;
-		//		}
-		//	}
+			var vm = new AddPortfolioViewModel()
+			{
+				id = portfolio.id,
+				description = portfolio.description,
+				photoSrc = Url.Action("GetImage", "File", new { area = "", id = portfolio.fileId }),
+				Categories = await _categoryService.GetByOrganizationId(41),
+				selectedCategoryIds = portfolio.categoryIds.Split(',').Select(c => int.Parse(c)).ToList() ?? new(),
+				isEdit = true,
+				organizationId = portfolio.organizationId,
 
+			};
 
+			return View(vm);
 
-		//	return View(vm);
-
-		//}
+		}
 
 		[HttpPost]
 		public async Task<IActionResult> AddPortfolio(AddPortfolioViewModel vm)
@@ -127,30 +97,52 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 			string filePath = null;
 			byte[] file;
 			string fileExtension;
-			if (vm.photo != null && vm.photo.Length != 0)
+			if (!vm.isEdit)
 			{
-				file = Convert.FromBase64String(vm.photo);
-				var fileName = Guid.NewGuid().ToString();
-				filePath = $"PortfolioImages/organization_{vm.organizationId}_{fileName}{vm.extension}";
-				bool uploaded =await _fileUploadService.UploadFileAsync(file, filePath,true);
-				if (uploaded)
+				if (vm.photo != null && vm.photo.Length != 0)
 				{
-					int newId = await _portfolioService.AddPortfolioAsync(new()
+					file = Convert.FromBase64String(vm.photo);
+					var fileName = Guid.NewGuid().ToString();
+					filePath = $"PortfolioImages/organization_{vm.organizationId}_{fileName}{vm.extension}";
+					bool uploaded = await _fileUploadService.UploadFileAsync(file, filePath, true);
+					if (uploaded)
 					{
-						file = new()
+						int newId = await _portfolioService.AddPortfolioAsync(new()
 						{
-							filePath = filePath,
-							fileName = fileName,
-						},
-						description = vm.description,
-						organizationId = vm.organizationId,
-						categoryIds = string.Join(",", vm.selectedCategoryIds)
+							file = new()
+							{
+								filePath = filePath,
+								fileName = fileName,
+							},
+							description = vm.description,
+							organizationId = vm.organizationId,
+							categoryIds = string.Join(",", vm.selectedCategoryIds ?? new())
 
-					});
+						});
+					}
 				}
 			}
+			else
+			{
+				await _portfolioService.UpdateAsync(new()
+				{
+					categoryIds = string.Join(',', vm.selectedCategoryIds??new()),
+					id = vm.id,
+					description = vm.description,
+				});
+			}
+
 
 			return RedirectToAction("Index");
+
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> DeletePortfolio(int id)
+		{
+			await _portfolioService.DeleteAsync(id);
+
+			return Ok();
 
 		}
 	}

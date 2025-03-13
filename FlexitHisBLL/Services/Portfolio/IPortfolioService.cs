@@ -6,5 +6,8 @@ namespace Medicloud.BLL.Services.Portfolio
 	{
 		Task<int> AddPortfolioAsync(PortfolioDTO dto);
 		Task<List<PortfolioDTO>> GetPortfolioByOrganizationIdAsync(int organizationId);
+		Task<PortfolioDTO> GetPortfolioByIdAsync(int id);
+		Task UpdateAsync(PortfolioDTO dto);
+		Task DeleteAsync(int id);
 	}
 }

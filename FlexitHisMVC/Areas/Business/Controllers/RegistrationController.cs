@@ -230,8 +230,8 @@ namespace Medicloud.Areas.Business.Controllers
 				bool isUpdated = await _staffService.UpdateStaffAsync(dao);
 				await _organizationService.UpdateAsync(new()
 				{
-					id = vm.id,
-					name = vm.OrgName
+					Id = vm.id,
+					Name = vm.OrgName
 				});
 
 				vm.WorkPlaceType = (WorkPlaceType)organization.workPlaceType;
@@ -277,12 +277,11 @@ namespace Medicloud.Areas.Business.Controllers
 				return RedirectToAction("Index");
 			}
 
-			var updateDAO = new OrganizationDAO
+			bool isUpdated = await _organizationService.UpdateAsync(new()
 			{
-				id = vm.id,
-				workPlaceType = (int)vm.WorkPlaceType,
-			};
-			bool isUpdated = await _organizationService.UpdateAsync(updateDAO);
+				Id = vm.id,
+				WorkPlaceType = (int)vm.WorkPlaceType,
+			});
 
 			return RedirectToAction("Step4", new { organizationId = vm.id });
 
@@ -353,15 +352,14 @@ namespace Medicloud.Areas.Business.Controllers
 			Console.WriteLine($"long {vm.latitude.ToString()}");
 			Console.WriteLine($"add {vm.OrgAddress?.ToString()}");
 			Console.WriteLine($"add {vm.WorkPlaceType.ToString()}");
-			var updateDAO = new OrganizationDAO
-			{
-				id = vm.id,
-				latitude = vm.latitude,
-				longitude = vm.longitude,
-				address = vm.OrgAddress,
-			};
 
-			var updated = await _organizationService.UpdateAsync(updateDAO);
+			var updated = await _organizationService.UpdateAsync(new()
+			{
+				Id = vm.id,
+				Latitude = vm.latitude,
+				Longitude = vm.longitude,
+				Address = vm.OrgAddress,
+			});
 			return RedirectToAction("WorkPlaceTypeSwitch", new { organizationId = vm.id });
 
 		}
@@ -444,12 +442,11 @@ namespace Medicloud.Areas.Business.Controllers
 			{
 				return RedirectToAction("Index");
 			}
-			var updateDAO = new OrganizationDAO
+			bool isUpdated = await _organizationService.UpdateAsync(new()
 			{
-				teamSizeId = vm.TeamSizeId,
-				id = vm.id,
-			};
-			bool isUpdated = await _organizationService.UpdateAsync(updateDAO);
+				Id=vm.id,
+				TeamSizeId=vm.TeamSizeId,
+			});
 			return RedirectToAction("Step8", new { organizationId = vm.id });
 
 		}

@@ -88,10 +88,25 @@ namespace Medicloud.BLL.Services.Organization
 			return result;
 		}
 
-		public async Task<bool> UpdateAsync(OrganizationDAO dao)
+		public async Task<bool> UpdateAsync(UpdateOrganizationDTO dto)
 		{
 			using var con = _unitOfWork.BeginConnection();
-			var result = await _organizationRepository.UpdateAsync(dao);
+			var result = await _organizationRepository.UpdateAsync(new()
+			{
+				id=dto.Id,
+				name = dto.Name,
+				workPlaceType=dto.WorkPlaceType,
+				latitude=dto.Latitude,
+				longitude=dto.Longitude,
+				address=dto.Address,
+				teamSizeId=dto.TeamSizeId,
+				description=dto.Description,
+				fbLink=dto.FbLink,
+				website=dto.WebLink,
+				onlineShopLink=dto.OnlineShopLink,
+				insLink=dto.ILink,
+
+			});
 			return result;
 		}
 

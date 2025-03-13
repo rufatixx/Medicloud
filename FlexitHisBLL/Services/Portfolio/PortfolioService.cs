@@ -2,6 +2,7 @@
 using Medicloud.BLL.Services.FileUpload;
 using Medicloud.DAL.DAO;
 using Medicloud.DAL.Infrastructure.UnitOfWork;
+using Medicloud.DAL.Repository.Category;
 using Medicloud.DAL.Repository.File;
 using Medicloud.DAL.Repository.Portfolio;
 
@@ -13,12 +14,14 @@ namespace Medicloud.BLL.Services.Portfolio
 		private readonly IPortfolioRepository _portfolioRepository;
 		private readonly IFileUploadService _fileUploadService;
 		private readonly IFileRepository _fileRepository;
-		public PortfolioService(IUnitOfWork unitOfWork, IPortfolioRepository portfolioRepository, IFileUploadService fileUploadService, IFileRepository fileRepository)
+		private readonly ICategoryRepository _categoryRepository;
+		public PortfolioService(IUnitOfWork unitOfWork, IPortfolioRepository portfolioRepository, IFileUploadService fileUploadService, IFileRepository fileRepository, ICategoryRepository categoryRepository)
 		{
 			_unitOfWork = unitOfWork;
 			_portfolioRepository = portfolioRepository;
 			_fileUploadService = fileUploadService;
 			_fileRepository = fileRepository;
+			_categoryRepository = categoryRepository;
 		}
 
 		public async Task<int> AddPortfolioAsync(PortfolioDTO dto)
@@ -71,6 +74,58 @@ namespace Medicloud.BLL.Services.Portfolio
 				}
 			}
 			return result;
+		}
+
+		public async Task UpdateAsync(PortfolioDTO dto)
+		{
+			using var con = _unitOfWork.BeginConnection();
+			var exist = await _portfolioRepository.GetByIdAsync(dto.id);
+			if (dto.description != exist.description)
+			{
+				await _portfolioRepository.UpdateAsync(new()
+				{
+					id = dto.id,
+					description = dto.description,
+				});
+			}
+			if(dto.categoryIds != exist.categoryIds)
+			{
+				var existingCategoryIds = exist.categoryIds.Split(',').Select(int.Parse).ToList(); 
+				var newCategoryIds = dto.categoryIds.Split(',').Select(int.Parse).ToList();
+
+				var categoriesToRemove = existingCategoryIds.Except(newCategoryIds).ToList(); 
+				var categoriesToAdd = newCategoryIds.Except(existingCategoryIds).ToList();
+				await _portfolioRepository.RemoveCategoriesFromPortfolio(dto.id, categoriesToRemove);
+
+				foreach (var categoryId in categoriesToAdd)
+				{
+					await _portfolioRepository.AddCategoryToPortfolio(dto.id, categoryId); 
+				}
+			}
+
+		}
+
+		public async Task<PortfolioDTO> GetPortfolioByIdAsync(int id)
+		{
+			using var con=_unitOfWork.BeginConnection();
+			var data = await _portfolioRepository.GetByIdAsync(id);
+			var result = new PortfolioDTO();
+			if(data != null)
+			{
+				result.description = data.description;
+				result.categoryIds = data.categoryIds;
+				result.organizationId = data.organizationId;
+				result.id = data.id;
+				result.fileId = data.fileId;
+			}
+			return result;
+		}
+
+		public async Task DeleteAsync(int id)
+		{
+			using var con = _unitOfWork.BeginConnection();
+
+			await _portfolioRepository.DeleteAsync(id);
 		}
 	}
 }

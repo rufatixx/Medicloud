@@ -8,6 +8,7 @@ using Medicloud.BLL.Services.Portfolio;
 using Medicloud.BLL.Services.Staff;
 using Medicloud.Models;
 using Medicloud.WebUI.Areas.Business.ViewModels;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 namespace Medicloud.WebUI.Areas.Business.Controllers
 {
@@ -46,6 +47,7 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 				LogoId = organization.logoId,
 				CoverId = organization.coverId,
 			};
+
 
 			return View(vm);
 		}
@@ -170,6 +172,8 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 
 		public async Task<IActionResult> ProfileImages()
 		{
+			string beforeUrl = Request.Headers["Referer"].ToString();
+			ViewBag.BeforeUrl = beforeUrl;
 			var organization = await _organizationService.GetByIdAsync(41);
 
 			var workPhotos = await _organizationPhotoService.GetByOrganizationId(41);
@@ -257,9 +261,25 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 				Name = organization.name,
 				StaffPhoneNumber = ownerStaff.phoneNumber,
 				StaffEmail=ownerStaff.email,
+				OnlineShopLink=organization.onlineShopLink,
+				Description = organization.description,
+				FbLink=organization.fbLink,
+				ILink=organization.insLink,
+				WebLink=organization.website,
+
 			};
 
 			return View(vm);
+		}
+
+
+
+		[HttpPost]
+		public async Task<IActionResult> UpdateInfo([FromForm] UpdateOrganizationDTO dto)
+		{
+			bool updated=await _organizationService.UpdateAsync(dto);
+			return RedirectToAction("Info");
+
 		}
 
 	}

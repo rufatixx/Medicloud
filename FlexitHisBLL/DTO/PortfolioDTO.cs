@@ -11,5 +11,7 @@ namespace Medicloud.BLL.DTO
 		public  List<TempDTO>categories { get; set; }
 		public bool isActive { get; set; }
 		public string categoryIds  { get; set; }
+		public List<CommentDTO> Comments { get; set; }
+		public List<TempDTO> Categories { get; set; }
 	}
 }
