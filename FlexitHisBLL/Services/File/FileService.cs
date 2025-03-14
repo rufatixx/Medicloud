@@ -23,10 +23,10 @@ namespace Medicloud.BLL.Services.File
 			var result=await _fileRepository.GetFileByIdAsync(id);
 			return new()
 			{
-				id = result.id,
-				fileName = result.fileName,
-				filePath = result.filePath,
-				isActive = result.isActive
+				id = result?.id??0,
+				fileName = result?.fileName,
+				filePath = result?.filePath,
+				isActive = result?.isActive??false
 			};
 		}
 

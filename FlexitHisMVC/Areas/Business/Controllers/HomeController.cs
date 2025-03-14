@@ -9,8 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Medicloud.Areas.Business.Controllers
 {
-    //[Authorize]
-    [Area("Business")]
+	[Authorize]
+	[Area("Business")]
     public class HomeController : Controller
     {
         private readonly IWebHostEnvironment _hostingEnvironment;

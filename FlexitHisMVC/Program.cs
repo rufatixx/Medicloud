@@ -89,53 +89,7 @@ var key = Encoding.ASCII.GetBytes(builder.Configuration.GetSection("JwtSettings:
 
 
 
-//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-//	.AddJwtBearer(options =>
-//	{
-//		options.SaveToken = true;
-//		options.TokenValidationParameters = new TokenValidationParameters
-//		{
-//			ValidateIssuerSigningKey = true,
-//			IssuerSigningKey = new SymmetricSecurityKey(key),
-//			ValidateIssuer = false,
-//			ValidateAudience = false
-//		};
 
-//		options.Events = new JwtBearerEvents
-//		{
-//			OnAuthenticationFailed = context =>
-//			{
-//				Console.WriteLine("Authentication failed: " + context.Exception.Message);
-//				var path = context.HttpContext.Request.Path;
-//				var isApiRequest = path.StartsWithSegments("/api", StringComparison.OrdinalIgnoreCase);
-
-//				var isAjaxRequest = context.HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest";
-
-//				if (isApiRequest)
-//				{
-//					Console.WriteLine("Authentication failed for an API request.");
-//				}
-//				else if (isAjaxRequest)
-//				{
-//					Console.WriteLine("Authentication failed for an AJAX request.");
-//				}
-//				else
-//				{
-//					Console.WriteLine("Authentication failed for a normal MVC request.");
-//					context.HttpContext.Response.Redirect("/Login/Index");
-//				}
-
-//				//Console.WriteLine("Authentication failed: " + context.Exception.Message);
-
-//				return Task.CompletedTask;
-//			},
-//			OnTokenValidated = context =>
-//			{
-//				//Console.WriteLine("Token is valid");
-
-//				return Task.CompletedTask;
-//			}
-//		};
 //	});
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 	.AddJwtBearer(options =>
@@ -151,7 +105,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 		options.Events = new JwtBearerEvents
 		{
-			OnAuthenticationFailed = context =>
+			OnAuthenticationFailed =   context =>
 			{
 				Console.WriteLine("Authentication failed: " + context.Exception.Message);
 
@@ -161,65 +115,37 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 				if (isApiRequest)
 				{
-					Console.WriteLine("Authentication failed for an API request.");
-					context.HttpContext.Response.StatusCode = 401; // API istekleri için 401 dönülüyor
+					//Console.WriteLine("Authentication failed for an API request.");
+					context.HttpContext.Response.StatusCode = 401;
 				}
 				else if (isAjaxRequest)
 				{
-					Console.WriteLine("Authentication failed for an AJAX request.");
-					context.HttpContext.Response.StatusCode = 401; // AJAX istekleri için de 401 dönülüyor
+					//Console.WriteLine("Authentication failed for an AJAX request.");
+					context.HttpContext.Response.StatusCode = 401;
 				}
 				else
 				{
-					Console.WriteLine("Authentication failed for a normal MVC request.");
-					context.HttpContext.Response.Redirect("/Login/Index"); // MVC istekleri için yönlendirme yapılır
+					//Console.WriteLine("Authentication failed for a normal MVC request.");
+					context.HttpContext.Response.Redirect("/Login/Index", permanent: false);
+					return Task.CompletedTask;
 				}
 
-				return Task.CompletedTask;
+				return  Task.CompletedTask;
 			},
 			OnTokenValidated = context =>
 			{
-				// Token geçerli olduğunda burada işlem yapılabilir
 				return Task.CompletedTask;
 			}
 		};
 	});
 
-//builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-//    .AddCookie(options =>
-//    {
-//        options.LoginPath = "/Login/Index";
-//        options.ExpireTimeSpan = TimeSpan.FromDays(30); // Make sure this aligns with session cookie MaxAge
-//        options.Cookie.HttpOnly = true;
-//        options.SlidingExpiration = true; // Refreshes the expiration time if a request is made and more than half the ExpireTimeSpan has elapsed
-
-//        // Добавляем обработку события перенаправления на страницу входа
-//        options.Events = new CookieAuthenticationEvents
-//        {
-//            OnValidatePrincipal = async context =>
-//                   {
-
-
-//               // Получаем ключи всех сессий
-//               //var sessionKeys = context.HttpContext.Session.Keys;
-
-//               // // Проверяем, есть ли сессии, начинающиеся на Medicloud_
-//               // var hasMedicloudSession = sessionKeys.Any(key => key.StartsWith("Medicloud_"));
-
-//               // if (!hasMedicloudSession)
-//               // {
-//               //     // Если сессий Medicloud_ нет, очищаем cookie аутентификации и выполняем перенаправление на страницу выхода
-//               //     context.HttpContext.Response.Cookies.Delete(CookieAuthenticationDefaults.AuthenticationScheme);
-//               //     context.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-//               //     context.Response.Redirect("/Login/Index");
-
-//               // }
 
 
 
-//            }
-//        };
-//    });
+
+
+
+
 
 builder.Services.AddSwaggerGen();
 
@@ -279,37 +205,64 @@ app.UseRouting();
 
 app.UseMiddleware<JwtTokenMiddleware>();
 app.UseAuthentication();
+
+
+app.Use(async (context, next) =>
+{
+	await next();
+
+	// Check if the response status is 401 (Unauthorized)
+	if (context.Response.StatusCode == 401)
+	{
+		var path = context.Request.Path;
+		var isApiRequest = path.StartsWithSegments("/api", StringComparison.OrdinalIgnoreCase);
+		var isAjaxRequest = context.Request.Headers["X-Requested-With"] == "XMLHttpRequest";
+
+		if (isApiRequest || isAjaxRequest)
+		{
+			// For API or AJAX requests, return custom JSON error
+			context.Response.ContentType = "application/json";
+			await context.Response.WriteAsJsonAsync(new { message = "Unauthorized access - Token is invalid or expired." });
+		}
+		else
+		{
+			// Redirect to login for MVC requests
+			context.Response.Redirect("/Login/Index");
+		}
+	}
+});
 app.UseAuthorization();
 
 //app.Use(async (context, next) =>
 //{
-//    if (context.User.Identity.IsAuthenticated)
-//    {
-//        var planExpiryDateString = context.Session.GetString("Medicloud_UserPlanExpireDate");
+//	if (context.User.Identity.IsAuthenticated)
+//	{
+//		var planExpiryDateString = context.Session.GetString("Medicloud_UserPlanExpireDate");
 
-//        if (string.IsNullOrEmpty(planExpiryDateString) || !DateTime.TryParse(planExpiryDateString, out var planExpiryDate) || DateTime.Now > planExpiryDate)
-//        {
-//            var path = context.Request.Path.Value.ToLower();
+//		if (string.IsNullOrEmpty(planExpiryDateString) || !DateTime.TryParse(planExpiryDateString, out var planExpiryDate) || DateTime.Now > planExpiryDate)
+//		{
+//			var path = context.Request.Path.Value.ToLower();
 
-//            if (path != "/" && !path.StartsWith("/home") && !path.StartsWith("/profile") && !path.StartsWith("/pricing") && !path.StartsWith("/payment") && !path.StartsWith("/login"))
-//            {
-//                context.Response.Redirect("/Pricing");
-//                return;
-//            }
-//        }
-//    }
-//    await next();
+//			if (path != "/" && !path.StartsWith("/home") && !path.StartsWith("/profile") && !path.StartsWith("/pricing") && !path.StartsWith("/payment") && !path.StartsWith("/login"))
+//			{
+//				context.Response.Redirect("/Pricing");
+//				return;
+//			}
+//		}
+//	}
+//	await next();
 //});
 
 //app.MapAreaControllerRoute(
-//    name: "Admin",
-//    areaName: "Admin",
-//    pattern: "Admin/{controller=Home}/{action=Index}"
+//	name: "Admin",
+//	areaName: "Admin",
+//	pattern: "Admin/{controller=Home}/{action=Index}"
 //);
 app.MapControllerRoute(
         name: "areaRoute",
         pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
     );
+
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(

@@ -59,32 +59,36 @@ namespace Medicloud.WebUI.Controllers
 		public async Task<IActionResult> GetImage(int id)
 		{
 			var file = await _fileService.GetById(id);
-			string filePath = $"/{file.filePath}";
-			var fileBytes = await _fileUploadService.DownloadFileAsync(filePath);
-
-			if (fileBytes != null && fileBytes.Length > 0)
+			if (file != null && file.id>0)
 			{
-				var fileExtension = Path.GetExtension(filePath).ToLower();
-				var fileName = $"{file.fileName}";
+				string filePath = $"/{file.filePath}";
+				var fileBytes = await _fileUploadService.DownloadFileAsync(filePath);
 
-				string contentType = "application/octet-stream";
-
-				switch (fileExtension)
+				if (fileBytes != null && fileBytes.Length > 0)
 				{
-					case ".jpg":
-					case ".jpeg":
-						contentType = "image/jpeg";
-						break;
-					case ".png":
-						contentType = "image/png";
-						break;
-					case ".gif":
-						contentType = "image/gif";
-						break;
-				}
+					var fileExtension = Path.GetExtension(filePath).ToLower();
+					var fileName = $"{file.fileName}";
 
-				return File(fileBytes, contentType);
+					string contentType = "application/octet-stream";
+
+					switch (fileExtension)
+					{
+						case ".jpg":
+						case ".jpeg":
+							contentType = "image/jpeg";
+							break;
+						case ".png":
+							contentType = "image/png";
+							break;
+						case ".gif":
+							contentType = "image/gif";
+							break;
+					}
+
+					return File(fileBytes, contentType);
+				}
 			}
+
 			return NotFound("Şəkil tapılmadı");
 
 		}

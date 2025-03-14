@@ -6,12 +6,13 @@ using Medicloud.BLL.Services.Organization;
 using Medicloud.BLL.Services.OrganizationPhoto;
 using Medicloud.BLL.Services.Portfolio;
 using Medicloud.BLL.Services.Staff;
-using Medicloud.Models;
 using Medicloud.WebUI.Areas.Business.ViewModels;
-using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 namespace Medicloud.WebUI.Areas.Business.Controllers
 {
+	[Authorize]
 	[Area("Business")]
 	public class ProfileController : Controller
 	{
@@ -35,13 +36,32 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 
 		public async Task<IActionResult> Index()
 		{
-			var organization = await _organizationService.GetByIdAsync(41);
-			var portfolios = await _portfolioService.GetPortfolioByOrganizationIdAsync(41);
+			int activeOrganizationId = HttpContext.Session.GetInt32("activeOrgId") ?? 0;
+			if(activeOrganizationId == 0)
+			{
+				int userId = int.Parse(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+				var organizations = await _organizationService.GetUserOrganizations(userId);
+				if (organizations != null && organizations.Count > 0)
+				{
+					var active = organizations.Last();
+					HttpContext.Session.SetInt32("activeOrgId", active.Id);
+
+				}
+
+			}
+			if (activeOrganizationId == 0)
+			{
+				return RedirectToAction("Index", "Registration", new { area = "business" });
+
+			}
+			var organization = await _organizationService.GetByIdAsync(activeOrganizationId);
+			var portfolios = await _portfolioService.GetPortfolioByOrganizationIdAsync(activeOrganizationId);
 			byte[] file = null;
 			byte[] coverFile = null;
 			var vm = new BusinessProfileVM
 			{
-				Id = 41,
+				Id = activeOrganizationId,
 				Name = organization.name,
 				portfolios = portfolios,
 				LogoId = organization.logoId,
@@ -172,14 +192,22 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 
 		public async Task<IActionResult> ProfileImages()
 		{
+			int activeOrganizationId = HttpContext.Session.GetInt32("activeOrgId") ?? 0;
 			string beforeUrl = Request.Headers["Referer"].ToString();
-			ViewBag.BeforeUrl = beforeUrl;
-			var organization = await _organizationService.GetByIdAsync(41);
+			string currentUrl = Request.Path.ToString();
+			Console.WriteLine(currentUrl);
+			Console.WriteLine(beforeUrl);
+			if (!beforeUrl.ToLower().Contains(currentUrl.ToLower()))
+			{
+				ViewBag.BeforeUrl = beforeUrl;
+			}
 
-			var workPhotos = await _organizationPhotoService.GetByOrganizationId(41);
+			var organization = await _organizationService.GetByIdAsync(activeOrganizationId);
+
+			var workPhotos = await _organizationPhotoService.GetByOrganizationId(activeOrganizationId);
 			var vm = new BusinessProfileVM
 			{
-				Id = 41,
+				Id = activeOrganizationId,
 				Name = organization.name,
 				WorkImages = workPhotos,
 				LogoId = organization.logoId,
@@ -250,14 +278,17 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 
 		public async Task<IActionResult> Info()
 		{
-			var organization = await _organizationService.GetByIdAsync(41);
-			var ownerStaff = await _staffService.GetOwnerStaffByOrganizationId(41);
-			var portfolios = await _portfolioService.GetPortfolioByOrganizationIdAsync(41);
+			int activeOrganizationId = HttpContext.Session.GetInt32("activeOrgId") ?? 0;
+
+
+			var organization = await _organizationService.GetByIdAsync(activeOrganizationId);
+			var ownerStaff = await _staffService.GetOwnerStaffByOrganizationId(activeOrganizationId);
+			var portfolios = await _portfolioService.GetPortfolioByOrganizationIdAsync(activeOrganizationId);
 			byte[] file = null;
 			byte[] coverFile = null;
 			var vm = new UpdateOrganizationDTO
 			{
-				Id = 41,
+				Id = activeOrganizationId,
 				Name = organization.name,
 				StaffPhoneNumber = ownerStaff.phoneNumber,
 				StaffEmail=ownerStaff.email,

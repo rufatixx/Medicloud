@@ -224,5 +224,26 @@ namespace Medicloud.BLL.Services.Organization
 			using var con = _unitOfWork.BeginConnection();
 			await _organizationRepository.UpdateCoverId(organizationId, fileId);
 		}
+
+		public async Task<List<OrganizationDTO>> GetUserOrganizations(int userId)
+		{
+			using var con= _unitOfWork.BeginConnection();
+			var data = await _organizationRepository.GetUserOrganizations(userId);
+			var result = new List<OrganizationDTO>();
+			if (data != null)
+			{
+				foreach (var item in data)
+				{
+					result.Add(new()
+					{
+						Id = item.id,
+						Name = item.name,
+						StaffName = item.staffName,
+						LogoId=item.logoId
+					});
+				}
+			}
+			return result;
+		}
 	}
 }

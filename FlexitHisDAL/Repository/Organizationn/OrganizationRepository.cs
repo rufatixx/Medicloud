@@ -176,5 +176,17 @@ namespace Medicloud.DAL.Repository.Organizationn
 			var con = _unitOfWork.GetConnection();
 			await con.ExecuteAsync(@"UPDATE organizations SET coverId=@CoverId WHERE id=@OrganizationId", new { OrganizationId = organizationId, CoverId = coverId });
 		}
+
+		public async Task<List<OrganizationDAO>> GetUserOrganizations(int userId)
+		{
+			string sql = @"SELECT o.id,o.name,o.logoId ,s.name AS staffName
+						FROM organizations o
+						LEFT JOIN staff s ON s.organizationId=o.id AND s.isActive=1
+						WHERE o.isRegistered=1 AND s.userId=@UserId";
+
+			var con = _unitOfWork.GetConnection();
+			var result=await con.QueryAsync<OrganizationDAO>(sql,new {UserId=userId});
+			return result.ToList();
+		}
 	}
 }

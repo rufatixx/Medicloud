@@ -1,8 +1,10 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Medicloud.BLL.DTO;
 using Medicloud.BLL.Service;
+using Medicloud.BLL.Services.Organization;
 using Medicloud.BLL.Services.User;
 using Medicloud.DAL.DAO;
 using Medicloud.Models;
@@ -10,6 +12,7 @@ using Medicloud.Models.DTO;
 using Medicloud.WebUI.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
@@ -27,22 +30,24 @@ namespace Medicloud.Controllers
 		private readonly IWebHostEnvironment _hostingEnvironment;
 		UserService userService;
 		private readonly INUserService _nUserService;
-		public LoginController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, INUserService userService)
+		private readonly IOrganizationService _organizationService;
+		public LoginController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, INUserService userService, IOrganizationService organizationService)
 		{
 			Configuration = configuration;
 			_connectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
 			_hostingEnvironment = hostingEnvironment;
 			//userService = new UserService(_connectionString);
 			_nUserService = userService;
+			_organizationService = organizationService;
 		}
 
 
 		// GET: /<controller>/
-		public IActionResult Index(LoginViewModel vm=null)
+		public IActionResult Index(LoginViewModel vm = null)
 		{
 			if (User.Identity.IsAuthenticated)
 			{
-				return RedirectToAction("Index", "Home");
+				return RedirectToAction("Index", "Profile", new { area = "business" });
 			}
 
 			return View(vm);
@@ -111,7 +116,7 @@ namespace Medicloud.Controllers
 				return RedirectToAction("Index", "Home");
 
 			}
-			string contact=vm.Type==1?vm.PhoneNumber:vm.Email;
+			string contact = vm.Type == 1 ? vm.PhoneNumber : vm.Email;
 
 			if (string.IsNullOrEmpty(vm.Password))
 			{
@@ -128,7 +133,7 @@ namespace Medicloud.Controllers
 					default:
 						break;
 				}
-				if (existUser != null && existUser.isRegistered==true)
+				if (existUser != null && existUser.isRegistered == true)
 				{
 					vm.UserExist = true;
 					return View("Index", vm);
@@ -149,8 +154,9 @@ namespace Medicloud.Controllers
 			var user = await _nUserService.SignInAsync(contact, vm.Type, vm.Password);
 			if (user == null)
 			{
-				vm.UserExist=false;
+				vm.UserExist = true;
 				vm.Password = "";
+				vm.errorMessage = "İstifadəçi məlumarları yanlışdır";
 				return View("Index", vm);
 			}
 
@@ -163,7 +169,7 @@ namespace Medicloud.Controllers
 					new Claim(ClaimTypes.Name,$"{user.name} {user.surname}"),
 					new Claim(ClaimTypes.NameIdentifier,user.id.ToString())
 				}),
-				Expires = DateTime.Now.AddMinutes(30),
+				Expires = DateTime.Now.AddMinutes(60),
 				SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)
 			};
 
@@ -172,29 +178,27 @@ namespace Medicloud.Controllers
 			Response.Cookies.Append("JwtToken", tokenString, new CookieOptions
 			{
 				HttpOnly = true,
-				Secure=true,
-				SameSite = SameSiteMode.Strict, 
-				Expires = DateTime.Now.AddMinutes(30)
+				Secure = true,
+				SameSite = SameSiteMode.Strict,
+				Expires = DateTime.Now.AddMinutes(60)
 			});
-
-			return RedirectToAction("Index", "Home");
+			return RedirectToAction("Index", "Profile", new { area = "business" });
 
 		}
 
+		//[HttpGet("[controller]/[action]")]
+		//public async Task<IActionResult> PostLogin()
+		//{
+		//	Console.WriteLine("hereee");
+		//	return RedirectToAction("Index", "Home", new { area = "business" });
+		//}
 
-		[HttpGet("[controller]/[action]")]
-		public async Task<IActionResult> PostLogin()
+		[HttpPost("[controller]/[action]")]
+		[Authorize]
+		public async Task<IActionResult> ChangeOrg(int organizationId)
 		{
-			if (User.Identity.IsAuthenticated)
-			{
-				return RedirectToAction("Index", "Home");
-
-			}
-			else
-			{
-				return Unauthorized();
-
-			}
+			HttpContext.Session.SetInt32("activeOrgId", organizationId);
+			return RedirectToAction("Index", "Profile", new { area = "business" });
 		}
 
 
@@ -253,7 +257,7 @@ namespace Medicloud.Controllers
 		//}
 
 		[HttpPost("[controller]/[action]")]
-		public async Task<IActionResult> CheckUserExist(string contact,int contactType)
+		public async Task<IActionResult> CheckUserExist(string contact, int contactType)
 		{
 			if (contactType == 0 || string.IsNullOrEmpty(contact))
 			{
@@ -282,7 +286,7 @@ namespace Medicloud.Controllers
 		{
 
 
-			Response.Cookies.Delete("JwtToken");  
+			Response.Cookies.Delete("JwtToken");
 			HttpContext.Session.Clear();
 
 

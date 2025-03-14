@@ -17,5 +17,6 @@ namespace Medicloud.BLL.Services.Organization
 		Task UpdateLogo(FileDTO file, int organizationId);
 		Task UpdateCover(FileDTO file, int organizationId);
 		Task UpdateCoverId(int fileId, int organizationId);
+		Task<List<OrganizationDTO>> GetUserOrganizations(int userId);
 	}
 }

@@ -1,6 +1,4 @@
-﻿
-
-using Medicloud.DAL.DAO;
+﻿using Medicloud.DAL.DAO;
 
 namespace Medicloud.DAL.Repository.Comment
 {

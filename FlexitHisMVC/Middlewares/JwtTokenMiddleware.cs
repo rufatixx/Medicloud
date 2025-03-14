@@ -22,6 +22,9 @@
 			{
 				context.Request.Headers["Authorization"] = $"Bearer ";
 			}
+
+
+
 			//var path = context.Request.Path;
 			//var isApiRequest = path.StartsWithSegments("/api", StringComparison.OrdinalIgnoreCase);
 

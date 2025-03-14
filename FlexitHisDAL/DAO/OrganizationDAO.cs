@@ -21,5 +21,6 @@
 		public string fbLink { get; set; }
 		public string onlineShopLink { get; set; }
 		public string description { get; set; }
+		public string staffName { get; set; }
 	}
 }

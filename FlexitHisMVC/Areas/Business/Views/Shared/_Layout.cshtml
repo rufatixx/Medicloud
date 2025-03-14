@@ -34,7 +34,7 @@
 
 
         .card {
-            cursor:pointer;
+            cursor: pointer;
         }
 
         .main-content {
@@ -433,12 +433,13 @@
         <script src="~/assets/js/layout.js"></script>*@
 
 
+
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    @*<script src="~/libn/bootstrap/js/bootstrap.min.js"></script>*@
 
-    <script src="~/libn/bootstrap/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    @*<script src="~/libn/bootstrap/js/bootstrap.bundle.min.js" ></script>*@
+    @*<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>*@
+    <script src="~/libn/bootstrap/js/bootstrap.bundle.min.js" ></script>
 
     <script src="~/js/site.js"></script>
 
@@ -536,6 +537,17 @@
                 //showLoading();
             });
 
+
+
+            $('.org-item').on('click', function () {
+                let id = $(this).data('id');
+
+                console.log('clicked id ',id)
+                if (id) {
+                    $('#orgInput').val(id);
+                    $('#changeOrgForm').submit();
+                }
+            });
 
             window.onpopstate = function () {
                 hideLoading();

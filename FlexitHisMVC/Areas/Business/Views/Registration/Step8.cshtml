@@ -392,16 +392,17 @@
 
 
             console.log(data)
-
+            showLoading();
             $.ajax({
                 url: `/Business/Staff/UpdateStaffWorkHours`,
                type: 'POST',
                data: JSON.stringify(data),
                contentType: 'application/json',
-               success: function (response) {
+                success: function (response) {
                    location.reload();
                },
-               error: function (xhr, status, error) {
+                error: function (xhr, status, error) {
+                    hideLoading();
                    console.error(error);
                }
             });

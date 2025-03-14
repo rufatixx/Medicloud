@@ -1,4 +1,4 @@
-﻿
+﻿@model Medicloud.WebUI.Areas.Business.ViewModels.NavbarViewModel
 
 <style>
     /*         #menu-accordion > .card {
@@ -184,19 +184,40 @@
 
 
             <!-- Navbar right side -->
-            <div class="d-flex align-items-center ms-auto">
+            <div class="d-flex align-items-center text-white dropdown-toggle ms-auto">
+                <div class="dropdown">
+                    <div class="d-flex  align-items-center " style="cursor:pointer" data-bs-toggle="dropdown" aria-expanded="false">
+                        @{
+                            var imageSrc = "/res/user.svg";
+                        }
+                        <img src="@imageSrc" class="rounded-circle mb-2 mx-3" style="width:50px;height:50px; object-fit:cover;" alt="Profile Image">
+                        <div>
+                            <h6 class="text-white mb-0" style="font-size:14px;">@Model.UserEmail</h6>
+                        </div>
+                    </div>
+                    <ul class="dropdown-menu w-100 ">
+                        <li>
+
+                            <a asp-controller="Login" asp-action="Logout" class ="dropdown-item ">
+                                Çıxış
+                            </a>
+                        </li>
+                        
+
+                    </ul>
+                </div>
                 <!-- Notifications Dropdown -->
                 <div class="dropdown">
                     <button class="btn btn-sm text-white position-relative" type="button" id="notificationsButton" data-bs-toggle="dropdown" aria-expanded="false">
                         @*<i class="ti ti-bell-ringing" style="font-size: 18px;"></i>
 
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
 
-                            <span class="visually-hidden"></span>
-                        </span>
-                        <div class="notification rounded-circle d-flex align-items-center justify-content-center" style="position: absolute; top: -10%; right: -10%; height: 20px; width: 20px; background-color: rgba(239, 51, 64, 1); color: white; font-size: 12px;">
+                                <span class="visually-hidden"></span>
+                            </span>
+                            <div class="notification rounded-circle d-flex align-items-center justify-content-center" style="position: absolute; top: -10%; right: -10%; height: 20px; width: 20px; background-color: rgba(239, 51, 64, 1); color: white; font-size: 12px;">
 
-                        </div>*@
+                            </div>*@
 
 
 

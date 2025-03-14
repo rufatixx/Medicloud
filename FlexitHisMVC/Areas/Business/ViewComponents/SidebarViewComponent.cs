@@ -1,6 +1,8 @@
 ﻿using Medicloud.BLL.Services.Organization;
 using Medicloud.WebUI.Areas.Business.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Security.Claims;
 
 namespace Medicloud.WebUI.Areas.Business.ViewComponents
 {
@@ -16,6 +18,31 @@ namespace Medicloud.WebUI.Areas.Business.ViewComponents
 		public async Task<IViewComponentResult> InvokeAsync()
 		{
 
+
+
+			int activeOrganizationId = HttpContext.Session.GetInt32("activeOrgId") ?? 0;
+
+			int userId = int.Parse(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+			var organizations = await _organizationService.GetUserOrganizations(userId);
+
+			//Console.WriteLine(activeOrganizationId);
+			var activeOrg=organizations.FirstOrDefault(o=>o.Id == activeOrganizationId);
+
+			var vm = new SidebarViewModel
+			{
+				Organizations=organizations.Where(o=>o.Id!=activeOrganizationId).ToList(),
+				ActiveId=activeOrganizationId,
+				OrganizationName=activeOrg?.Name,
+				LogoId = activeOrg?.LogoId??0,
+				StaffName = activeOrg?.StaffName,
+			};
+			return View(vm);
+
+			//if (organizations != null && organizations.Count > 0)
+			//{
+			//	var active =activeOrganizationId>0?organizations.First(o=>o.Id==activeOrganizationId): organizations.Last();
+			//	//HttpContext.Session.SetInt32("activeOrgId", active.Id);
+			//}
 			//var userIdClaim = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 			//int userId = 0;
 			//if (userIdClaim != null)
@@ -42,14 +69,6 @@ namespace Medicloud.WebUI.Areas.Business.ViewComponents
 			//	string fileExtension = Path.GetExtension(user.photo_path)?.ToLower();
 			//	imageSrc = $"data:image/{fileExtension};base64,{base64String}";
 			//}
-			var organization = await _organizationService.GetByIdAsync(41);
-
-			var vm = new SidebarViewModel
-			{
-				OrganizationName=organization.name,
-				LogoId=organization.logoId,
-			};
-			return View(vm);
 		}
 
 

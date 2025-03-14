@@ -8,13 +8,15 @@ using Medicloud.BLL.Services.User;
 using Medicloud.DAL.DAO;
 using Medicloud.ViewModels;
 using Medicloud.WebUI.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Security.Claims;
 
 namespace Medicloud.Areas.Business.Controllers
 {
+	[Authorize]
 	[Area("Business")]
-	//[Authorize]
 	public class RegistrationController : Controller
 	{
 		private readonly INUserService _userService;
@@ -63,20 +65,21 @@ namespace Medicloud.Areas.Business.Controllers
 
 				}
 			}
-			Console.WriteLine(vm.SelectedCategories.Count);
 			return View(vm);
 		}
 
 		[HttpGet]
 		public async Task<IActionResult> Step2(int organizationId)
 		{
+			int userId = int.Parse(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+			//int userId = 187;
 			var vm = new CreateOrganizationVM
 			{
 				id = organizationId
 			};
 			if (organizationId == 0)
 			{
-				int userId = 187;
+
 				var user = await _userService.GetUserById(userId);
 
 				vm.UserId = userId;
@@ -119,6 +122,8 @@ namespace Medicloud.Areas.Business.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Step2(CreateOrganizationVM vm)
 		{
+			int userId = int.Parse(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
 			if (vm == null)
 			{
 				return RedirectToAction("Index");
@@ -126,7 +131,8 @@ namespace Medicloud.Areas.Business.Controllers
 
 			if (vm.SelectedCategories != null && vm.SelectedCategories.Any())
 			{
-				int userId = 187;
+				//int userId = 187;
+
 				if (userId == 0)
 				{
 					return RedirectToAction("Index", "Login");
@@ -181,11 +187,13 @@ namespace Medicloud.Areas.Business.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Step3(CreateOrganizationVM vm)
 		{
+			int userId = int.Parse(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
 			if (vm == null)
 			{
 				return RedirectToAction("Index");
 			}
-			Console.WriteLine(vm.id);
+			//Console.WriteLine(vm.id);
 			TempData.Clear();
 			if (vm.id == 0)
 			{
@@ -196,7 +204,7 @@ namespace Medicloud.Areas.Business.Controllers
 					StaffName = vm.StaffName,
 					StaffPhoneNumber = vm.StaffPhoneNumber,
 					Name = vm.OrgName,
-					UserId = 187
+					UserId = userId,
 				};
 				int newOrgId = await _organizationService.AddAsync(addDTO);
 				if (newOrgId == 0)
@@ -209,7 +217,7 @@ namespace Medicloud.Areas.Business.Controllers
 			{
 
 
-				Console.WriteLine(vm.id);
+				//Console.WriteLine(vm.id);
 				var organization = await _organizationService.GetByIdAsync(vm.id);
 				if (organization == null || organization.isRegistered)
 				{
@@ -517,7 +525,7 @@ namespace Medicloud.Areas.Business.Controllers
 			});
 			if (newPlanId > 0)
 			{
-				HttpContext.Session.SetString("CurrentOrganization", organizationId.ToString());
+				HttpContext.Session.SetInt32("activeOrgId", organizationId);
 				return View();
 			}
 			return RedirectToAction("Step9", new { organizationId });

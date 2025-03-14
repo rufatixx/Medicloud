@@ -5,8 +5,8 @@
 
 @model Medicloud.WebUI.ViewModels.LoginViewModel
 
-@{ 
-    
+@{
+
 }
 
 <div class="card-body p-4">
@@ -16,7 +16,6 @@
         <h4 class="text-dark-50 text-center pb-0 fw-bold">Daxil ol və ya Hesab yarat</h4>
         <p class="text-muted mb-4">Sağlamlığınızı buludlara qaldırın</p>
     </div>
-    <h1>@Model.Type</h1>
     <div class="alert alert-danger" id="alert" hidden role="alert"></div>
     <form id="loginForm" autocomplete="off" asp-action="SignIn" asp-controller="Login" method="post" enctype="multipart/form-data">
 
@@ -47,6 +46,9 @@
         </div>
         @if (Model != null && Model.UserExist)
         {
+
+
+
             <div class="mb-3" id="passwordContent">
                 <a href="@Url.Action("Index","Recovery")" class="text-muted float-end"><small>Şifrənizi unutmusuz?</small></a>
                 <label for="password" class="form-label">Şifrə</label>
@@ -57,7 +59,12 @@
                     </div>
                 </div>
             </div>
-
+            @if (!string.IsNullOrEmpty(Model.errorMessage))
+            {
+                <div class="alert alert-danger"  role="alert">
+                    @Model.errorMessage
+                </div>
+            }
             <div class="mb-3 mb-0 text-center" id="signInContent">
                 <button class="btn btn-primary" type="submit" id="signInButton"> Daxil ol </button>
             </div>
@@ -70,11 +77,11 @@
         }
 
         @*<div class="mb-3 mb-3">
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="checkbox-signin" checked>
-                    <label class="form-check-label" for="checkbox-signin">Remember me</label>
-                </div>
-            </div>*@
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="checkbox-signin" checked>
+                <label class="form-check-label" for="checkbox-signin">Remember me</label>
+            </div>
+        </div>*@
 
 
 

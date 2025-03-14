@@ -10,5 +10,6 @@ namespace Medicloud.DAL.Repository.Organizationn
 		Task RegisterOrganization(int id);
 		Task UpdateLogoId(int organizationId, int logoId);
 		Task UpdateCoverId(int organizationId, int coverId);
+		Task<List<OrganizationDAO>> GetUserOrganizations(int userId);
 	}
 }

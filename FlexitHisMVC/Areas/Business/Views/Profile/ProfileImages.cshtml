@@ -25,7 +25,7 @@
 <div class="container-fluid">
     <div class="d-flex align-items-center">
         @{ 
-            string backUrl = ViewBag.BeforeUrl??"/Profile/Index";
+            string backUrl = ViewBag.BeforeUrl??"/Business/Profile/Index";
         }
         <a class="btn btn-sm ps-0" href="@backUrl">
             <svg width="32px" height="32px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="#737373">
@@ -37,8 +37,8 @@
     </div>
 
     <div class="row">
-        <div class="col-8 row">
-            <div class="col-5">
+        <div class="col-md-8 row">
+            <div class="col-md-5">
                 <div class="d-flex card">
                     <div class="card-header pt-3 border-0 bg-white">
                         <h6 class="mb-0">Loqo</h6>
@@ -127,7 +127,7 @@
                                         <div class="spinner-border text-primary" style="width: 5rem; height: 5rem;" role="status">
                                         </div>
                                     </div>
-                                    <img src="@Url.Action("GetImage", "File", new {area="", id=Model.CoverId})" data-title="Örtük şəkli" data-src="@coverSrc" style="object-fit:cover; cursor:pointer;" alt="" class="img-fluid img-item">
+                                    <img src="@Url.Action("GetImage", "File", new {area="", id=Model.CoverId})" data-title="Örtük şəkli" data-src="@Url.Action("GetImage", "File", new {area="", id=Model.CoverId})" style="object-fit:cover; cursor:pointer;" alt="" class="img-fluid img-item">
                                     <button id="changeCoverPhoto" type="button" class="btn btn-light btn-sm position-absolute rounded" style="top: 10px; right: 10px;">
                                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M7.99976 13.332H13.9997" stroke="#667085" stroke-width="1.66678" stroke-linecap="round" stroke-linejoin="round" />
@@ -146,7 +146,7 @@
                 </div>
 
             </div>
-            <div class="col-7">
+            <div class="col-md-7">
                 <div class="d-flex card">
                     <div class="card-header pt-3 border-0 bg-white">
                         <h6 class="mb-0">İş yeri şəkilləri</h6>
@@ -392,7 +392,7 @@
             if (itemId) {
                 showLoading();
                 $.ajax({
-                    url: '@Url.Action("DeleteFile", "File")',
+                    url: '@Url.Action("DeleteFile", "File", new {area=""})',
                     type: 'POST',
                     data: { fileId: itemId },
                     success: function () {
