@@ -21,10 +21,9 @@ namespace Medicloud.WebUI.Areas.Business.ViewComponents
 
 
 			int activeOrganizationId = HttpContext.Session.GetInt32("activeOrgId") ?? 0;
-
 			int userId = int.Parse(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
 			var organizations = await _organizationService.GetUserOrganizations(userId);
-
+			Console.WriteLine(organizations.Count);
 			//Console.WriteLine(activeOrganizationId);
 			var activeOrg=organizations.FirstOrDefault(o=>o.Id == activeOrganizationId);
 

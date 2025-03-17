@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using Medicloud.BLL.Service;
 using Medicloud.BLL.Services.Category;
+using Medicloud.BLL.Services.Comment;
 using Medicloud.BLL.Services.File;
 using Medicloud.BLL.Services.FileUpload;
 using Medicloud.BLL.Services.ImageProcessing;
@@ -151,6 +152,7 @@ builder.Services.AddSwaggerGen();
 
 var con= builder.Configuration.GetConnectionString("DefaultConnectionString");
 builder.Services.AddScoped<IUnitOfWork>(provider => new UnitOfWork(con));
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IServicesRepository, ServicesRepository>();
 builder.Services.AddScoped<IServicesService, ServicesService>();
 builder.Services.AddScoped<IRequestTypeRepository, RequestTypeRepository>();
@@ -185,6 +187,7 @@ builder.Services.AddScoped<IPortfolioRepository, PortfolioRepository>();
 builder.Services.AddScoped<IPortfolioService, PortfolioService>();
 builder.Services.AddScoped<IImageProcessingService, ImageProcessingService>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+builder.Services.AddScoped<ICommentService, CommentService>();
 var app = builder.Build();
 
 app.UseSession();

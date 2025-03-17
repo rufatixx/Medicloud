@@ -7,19 +7,6 @@
                     <button id="deletePortfolio" class="btn text-nowrap btn-danger me-2">Sil</button>
                     <button class="btn text-nowrap btn-light me-2">Paylaş</button>
                     <button id="editPortfolio" class="btn text-nowrap btn-primary me-2">Redaktə et</button>
-                    @*<div class="dropdown">
-                        <button class="btn btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            ...
-                        </button>
-                        <ul class="dropdown-menu px-2">
-                            <li class="shareBtn"><button class="btn w-100 btn-light mb-2">Paylaş</button></li>
-                            <li id="coverBtn"><button class="btn w-100 btn-primary mb-2">Örtük şəkli et</button></li>
-                            <li id="deleteBtn"><button class="btn w-100 btn-danger mb-2">Sil</button></li>
-                        </ul>
-                    </div>*@
-
-
-
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
             </div>
@@ -46,12 +33,12 @@
                             <path d="M14.5 2h-13l-.5.5v9l.5.5H4v2.5l.854.354L7.707 12H14.5l.5-.5v-9l-.5-.5zm-.5 9H7.5l-.354.146L5 13.293V11.5l-.5-.5H2V3h12v8z" />
                         </svg>
 
-                        <span>0</span>
+                        <span id="commentCount" >0</span>
                     </div>
                     <div class="overflow-auto" style="height:60vh;" id="commentsContainer">
 
                     </div>
-                    <div class="border-top pt-2 ">
+                    <div class="border-top pt-2 overflow-auto" style="max-height:20vh;"  id="replyContainer">
                         <div class="form-floating mb-3 text-muted">
                             <textarea class="form-control" id="portfolioCommentInput" style="resize:none; height: 80px;" maxlength="500" name="description" placeholder="Şərh əlavə edin"></textarea>
                             <label for="description">Şərh əlavə edin</label>

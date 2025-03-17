@@ -31,10 +31,9 @@ namespace Medicloud.WebUI.Areas.Business.ViewComponents
 			//	HttpContext.Session.SetInt32("activeOrgId", active.Id);
 
 			//}
-			Console.WriteLine(user.mobile);
 			var vm = new NavbarViewModel
 			{
-				UserEmail = string.IsNullOrEmpty(user.email)?user.mobile:user.email,
+				UserEmail = string.IsNullOrEmpty(user?.email)?user?.mobile:user?.email,
 				UserId = userId,
 			};
 			return View(vm);

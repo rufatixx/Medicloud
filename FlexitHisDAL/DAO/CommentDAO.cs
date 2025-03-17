@@ -8,5 +8,7 @@ namespace Medicloud.DAL.DAO
 		public string description { get; set; }
 		public DateTime cDate { get; set; }
 		public bool isActive { get; set; }
+		public string Username { get; set; }
+		public int parentId { get; set; }
 	}
 }

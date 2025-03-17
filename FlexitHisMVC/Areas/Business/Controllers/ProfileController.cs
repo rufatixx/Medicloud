@@ -36,20 +36,19 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 
 		public async Task<IActionResult> Index()
 		{
+			int userId = int.Parse(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
 			int activeOrganizationId = HttpContext.Session.GetInt32("activeOrgId") ?? 0;
-			if(activeOrganizationId == 0)
+			if (activeOrganizationId == 0)
 			{
-				int userId = int.Parse(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
-
 				var organizations = await _organizationService.GetUserOrganizations(userId);
 				if (organizations != null && organizations.Count > 0)
 				{
 					var active = organizations.Last();
-					HttpContext.Session.SetInt32("activeOrgId", active.Id);
-
+					activeOrganizationId = active.Id;
+					HttpContext.Session.SetInt32("activeOrgId", activeOrganizationId);
 				}
-
 			}
+
 			if (activeOrganizationId == 0)
 			{
 				return RedirectToAction("Index", "Registration", new { area = "business" });

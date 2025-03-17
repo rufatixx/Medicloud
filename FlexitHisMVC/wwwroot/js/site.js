@@ -18,6 +18,23 @@ window.addEventListener('beforeunload', function (event) {
 
 });
 
+
+function formatCustomDateTime(dateString) {
+	const date = new Date(dateString);
+	const day = date.getDate();
+	const monthNames = [
+		"yanvar", "fevral", "mart", "aprel", "may", "iyun",
+		"iyul", "avqust", "sentyabr", "oktyabr", "noyabr", "dekabr"
+	];
+	const month = monthNames[date.getMonth()];
+	const year = date.getFullYear();
+
+	const hours = date.getHours().toString().padStart(2, '0');
+	const minutes = date.getMinutes().toString().padStart(2, '0');
+	const seconds = date.getSeconds().toString().padStart(2, '0');
+
+	return `${day} ${month} ${year} ${hours}:${minutes}:${seconds}`;
+}
 //$(window).on("pageshow", function (event) {
 //	if (event.originalEvent.persisted) {
 //		hideLoading();

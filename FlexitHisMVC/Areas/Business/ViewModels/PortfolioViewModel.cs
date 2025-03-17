@@ -6,6 +6,6 @@ namespace Medicloud.WebUI.Areas.Business.ViewModels
 	{
 		public int organizationId { get; set; }
 		public List<PortfolioDTO> portfolios { get; set; }
-
+		public int UserId { get; set; }
 	}
 }

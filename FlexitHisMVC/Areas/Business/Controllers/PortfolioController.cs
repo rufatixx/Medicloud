@@ -3,11 +3,13 @@ using Medicloud.BLL.Services.Category;
 using Medicloud.BLL.Services.FileUpload;
 using Medicloud.BLL.Services.Portfolio;
 using Medicloud.WebUI.Areas.Business.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Medicloud.WebUI.Areas.Business.Controllers
 {
 	[Area("Business")]
+	[Authorize]
 	public class PortfolioController : Controller
 	{
 		private readonly IPortfolioService _portfolioService;
@@ -22,10 +24,11 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 
 		public async Task<IActionResult> Index()
 		{
-			var portfolios = await _portfolioService.GetPortfolioByOrganizationIdAsync(41);
+			int activeOrganizationId = HttpContext.Session.GetInt32("activeOrgId") ?? 0;
+			var portfolios = await _portfolioService.GetPortfolioByOrganizationIdAsync(activeOrganizationId);
 			var vm = new PortfolioViewModel()
 			{
-				organizationId = 41,
+				organizationId = activeOrganizationId,
 				portfolios = portfolios
 			};
 			return View(vm);
