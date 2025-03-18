@@ -17,10 +17,10 @@ namespace Medicloud.BLL.Services.Organization
 		private readonly IStaffRepository _staffRepository;
 		private readonly IOrganizationCategoryRelRepository _organizationCategoryRelRepository;
 		private readonly IOrganizationTravelRelRepository _organizationTravelRelRepository;
-		private readonly IStaffWorkHoursRepository _staffWorkHoursRepository;
+		private readonly IWorkHoursRepository _staffWorkHoursRepository;
 		private readonly IOrganizationPlanRepository _organizationPlanRepository;
 		private readonly IFileRepository _fileRepository;
-		public OrganizationService(IUnitOfWork unitOfWork, IOrganizationRepository organizationRepository, IStaffRepository staffRepository, IOrganizationCategoryRelRepository organizationCategoryRelRepository, IOrganizationTravelRelRepository organizationTravelRelRepository, IStaffWorkHoursRepository staffWorkHoursRepository, IOrganizationPlanRepository organizationPlanRepository, IFileRepository fileRepository)
+		public OrganizationService(IUnitOfWork unitOfWork, IOrganizationRepository organizationRepository, IStaffRepository staffRepository, IOrganizationCategoryRelRepository organizationCategoryRelRepository, IOrganizationTravelRelRepository organizationTravelRelRepository, IWorkHoursRepository staffWorkHoursRepository, IOrganizationPlanRepository organizationPlanRepository, IFileRepository fileRepository)
 		{
 			_unitOfWork = unitOfWork;
 			_organizationRepository = organizationRepository;

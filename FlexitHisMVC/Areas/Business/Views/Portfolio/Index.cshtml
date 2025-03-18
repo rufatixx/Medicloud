@@ -33,7 +33,7 @@
                     <div class="row">
                         @foreach (var item in Model.portfolios)
                         {
-                            <div class="col-3 mb-3 portfolio-item" data-description="@item.description" data-item-id="@item.id" data-comments="@Json.Serialize(item.Comments)">
+                            <div class="col-md-3 col-8 mb-3 portfolio-item"  data-description="@item.description" data-item-id="@item.id" data-comments="@Json.Serialize(item.Comments)">
                                 <img src="@Url.Action("GetImage", "File", new {area="", id=item.fileId})" style="object-fit:cover; height:120px; cursor:pointer;" data-item-id="@item.id" alt="" class="img-fluid w-100 cursor-pointer img-item multiple border">
                             </div>
                         }
@@ -90,46 +90,6 @@
 
         createFileUploadInstance('portfolioPhoto', 'addPortfolioForm', 'portfolioPhoto');
 
-
-
-        //$('.portfolio-item').on('click', function () {
-
-        //    if (!$(this).attr('data-src')) {
-        //        return;
-        //    }
-        //    var selectedImages = [];
-        //    var modalTitle = '';
-        //    var totalImages = 0;
-
-
-
-        //    selectedImages.forEach(function (image, index) {
-        //        var activeClass = index === 0 ? 'active' : '';
-        //        var itemIdContent = image.itemId ? `data-item-id=${image.itemId}` : ''
-        //        $('#carouselExample .carousel-inner').append(
-        //            '<div class="carousel-item ' + activeClass + '">' +
-        //            '<img src="' + image.src + '" class="d-block mx-auto" style="height:80vh;" alt="Image ' + (index + 1) + '" ' + itemIdContent + '>' +
-        //            '</div>'
-        //        );
-        //    });
-
-        //    if (selectedImages.length === 1) {
-        //        $('#carouselExample .carousel-control-prev, #carouselExample .carousel-control-next').hide();
-        //    } else {
-        //        $('#carouselExample .carousel-control-prev, #carouselExample .carousel-control-next').show();
-        //    }
-
-
-        //    //
-        //    $('#portfolioViewModal').modal('show');
-
-        //    // Carousel kaydırıldığında aktif resmin ID'sini modal başlığında güncelle
-        //    $('#carouselExample').on('slid.bs.carousel', function () {
-        //        var currentIndex = $('#carouselExample .carousel-item.active').index() + 1;
-        //        $('#portfolioViewModalLabel').text(' ' + currentIndex + ' / ' + totalImages);
-        //    });
-        //});
-
         var portfolioData = [];
         $('.portfolio-item').each(function () {
             var itemId = $(this).attr('data-item-id');
@@ -137,216 +97,140 @@
             var imgSrc = $(this).find('img').attr('src');
             var comments = JSON.parse($(this).attr('data-comments'));
 
-            // Verileri portfolioData dizisine ekle
             portfolioData.push({
                 itemId: itemId,
                 imgSrc: imgSrc,
                 comments: comments
             });
 
-            // Carousel'e her bir resmi ekle
-            var activeClass = portfolioData.length === 1 ? 'active' : ''; // İlk item aktif olacak
+            var activeClass = portfolioData.length === 1 ? 'active' : '';
             var itemIdContent = itemId ? `data-item-id=${itemId}` : '';
             var descriptionContent = description ? `<div class="carousel-caption d-none d-md-inline text-white" style="background-color: rgba(0, 0, 0, 0.3);">
                                             <span>${description}</span>
                                         </div>` : '';
 
 
-            //$('#carouselExample .carousel-inner').append(
-            //    '<div class="carousel-item ' + activeClass + '">' +
-            //    '<img src="' + imgSrc + '" class="d-block mx-auto mt-3" style="height:80vh;" alt="Image ' + portfolioData.length + '" ' + itemIdContent + '>' +
-            //    '<div class="carousel-caption d-none d-md-inline text-white" style=" background-color: rgba(0, 0, 0, 0.3);">' +
-            //    '   <span>Description</span>' +
-            //    '</div>' +
-            //    '</div>'
-            //);
             $('#carouselExample .carousel-inner').append(
                 `<div ${itemIdContent} class="carousel-item  ${activeClass}">
-                <img src="${imgSrc}" class="d-block mx-auto mt-3 w-75" style="height:80vh;" alt="Image '${ portfolioData.length}'" ' ${itemIdContent}>
+                <img src="${imgSrc}" style="object-fit:cover;" class="d-block mx-auto mt-3 w-md-75" style="height:80vh;" alt="Image '${ portfolioData.length}'" ' ${itemIdContent}>
                 ${descriptionContent}
                 </div>`
             );
+            if (portfolioData.length === 1) {
+                $('#carouselExample .carousel-control-prev, #carouselExample .carousel-control-next').hide();
+            } else {
+                $('#carouselExample .carousel-control-prev, #carouselExample .carousel-control-next').show();
+            }
+
         });
 
-        // Modalda yorumları da ekle
-        //portfolioData.forEach(function (data) {
-        //    $('#commentsContainer').append(
-        //        '<div class="comment" data-item-id="' + data.itemId + '"><strong>' + data.comments.author + ':</strong> ' + data.comments.text + '</div>'
-        //    );
-        //});
-
-        // Her portfolio item'ına tıklama olayını ekle
         $('.portfolio-item').on('click', function () {
             var clickedItemId = $(this).attr('data-item-id');
 
-            // Carousel içinde tıklanan item'ı bulup aktif yap
             var itemIndex = portfolioData.findIndex(function (item) {
                 return item.itemId === clickedItemId;
             });
 
-            //// Carousel'i güncelle
-            //$('#carouselExample').carousel(itemIndex);
 
-            $('#carouselExample').carousel('pause'); // Kaymayı durdur
+            $('#carouselExample').carousel('pause'); 
 
-            // Tıklanan öğeyi aktif yap
             $('#carouselExample .carousel-item').removeClass('active');
             $('#carouselExample .carousel-item').eq(itemIndex).addClass('active');
 
-            // Yorumları temizle ve sadece tıklanan item'a ait yorumları ekle
             var clickedItem = portfolioData[itemIndex];
             fetchComments(clickedItemId);
-           @*$.ajax({
-                url :'@Url.Action("GetPortfolioComments", "Comment", new { area = "", id = "__id__" })'.replace('__id__', clickedItemId),
-                success: function (result) {
-                    console.log(result)
-                    $('#commentCount').text(result.length)
-                    result.forEach(function (comment) {
-                        let commentHtml =
-                            `<div class="comment mt-3 p-2 border-bottom" id="comment-${comment.id}">
-                                 <div class="d-flex">
-                                     <div class="d-flex flex-column justify-content-center align-items-center flex-shrink-0 me-3 rounded-pill"
-                                          style="width: 50px; height: 50px; background-color: #E9ECEF;">
-                                         <h6 class="text-dark mb-0">${comment.userName.charAt(0).toUpperCase()}</h6>
-                                     </div>
-                                     <div class="flex-grow-1 text-start">
-                                         <h6 class="text-dark mb-0">${comment.userName}</h6>
-                                         <div class="text-muted small">
-                                             <span>${formatCustomDateTime(comment.cDate)}</span>
-                                         </div>
-                                     </div>
-                                     <div class="dropdown">
-                                         <button class="btn btn-sm" data-bs-toggle="dropdown" aria-expanded="false">...</button>
-                                             <ul class="dropdown-menu p-2">
-                                                <li><button class="btn w-100 btn-light mb-2 replyComment" data-comment-id="${comment.id}" data-author-name="${comment.userName}" >Cavabla</button></li>
-                                                ${comment.isAuthor ? `
-                                                <li><button class="btn w-100 text-nowrap btn-primary mb-2 editComment" data-comment-id="${comment.id}">Redaktə et</button></li>
-                                                <li><button  class="btn w-100 text-nowrap btn-danger deleteComment" data-comment-id="${comment.id}">Sil</button></li>
-                                                ` : ''}
-                                            </ul>
-                                     </div>
-                                 </div>
-                                 <span class="text-muted small">${comment.description}</span>
-                                 <div class="replies-container d-none" id="replies-${comment.id}" >
-                                 </div>
-
-                                 ${comment.replies && comment.replies.length > 0 ? `
-                                 <button class="btn btn-sm btn-link toggle-replies" data-target="#replies-${comment.id}">
-                                     <i class="bi bi-arrow-down-circle"></i> Cavabları göstər
-                                 </button>` : ''}
-                                   </div>`;
-
-                            $('#commentsContainer').append(commentHtml);
-                            if (comment.replies && comment.replies.length > 0) {
-                                comment.replies.forEach(function (reply) {
-                                    let replyHtml = `
-                                         <div class="reply mt-2 ms-4 p-2 border-bottom">
-                                             <div class="d-flex">
-                                                 <div class="d-flex flex-column justify-content-center align-items-center flex-shrink-0 me-3 rounded-pill"
-                                                      style="width: 40px; height: 40px; background-color: #E9ECEF;">
-                                                     <h6 class="text-dark mb-0">${reply.userName.charAt(0).toUpperCase()}</h6>
-                                                 </div>
-                                                 <div class="flex-grow-1 text-start">
-                                                     <h6 class="text-dark mb-0">${reply.userName}</h6>
-                                                     <div class="text-muted small">
-                                                         <span>${formatCustomDateTime(reply.cDate)}</span>
-                                                     </div>
-                                                 </div>
-                                             </div>
-                                             <span class="text-muted small">${reply.description}</span>
-                                         </div>
-                                        `;
-
-                                    $(`#replies-${comment.id}`).append(replyHtml);
-                                });
-                            }
-                    });
-                },
-                error: function (e) {
-                    hideLoading();
-                    console.log(e)
-
-                }
-            });*@
-
-
+          
             $('#portfolioViewModal').modal('show');
         });
 
 
         function fetchComments(itemId) {
             $('#commentsContainer').empty();
-        $.ajax({
-            url: '@Url.Action("GetPortfolioComments", "Comment", new { area = "", id = "__id__" })'.replace('__id__', itemId),
-            success: function (result) {
-                console.log(result);
-                $('#commentCount').text(result.length);
-                result.forEach(function (comment) {
-                    let commentHtml =
-                        `<div class="comment mt-3 p-2 border-bottom" id="comment-${comment.id}">
-                            <div class="d-flex">
-                                <div class="d-flex flex-column justify-content-center align-items-center flex-shrink-0 me-3 rounded-pill"
-                                    style="width: 50px; height: 50px; background-color: #E9ECEF;">
-                                    <h6 class="text-dark mb-0">${comment.userName.charAt(0).toUpperCase()}</h6>
-                                </div>
-                                <div class="flex-grow-1 text-start">
-                                    <h6 class="text-dark mb-0">${comment.userName}</h6>
-                                    <div class="text-muted small">
-                                        <span>${formatCustomDateTime(comment.cDate)}</span>
+            $('#commentsLoading').show();
+            $.ajax({
+                url: '@Url.Action("GetPortfolioComments", "Comment", new { area = "", id = "__id__" })'.replace('__id__', itemId),
+                success: function (result) {
+                    console.log(result);
+                    $('#commentCount').text(result.length);
+                    result.forEach(function (comment) {
+                        let commentHtml =
+                            `<div class="comment mt-3 p-2 border-bottom" id="comment-${comment.id}">
+                                <div class="d-flex">
+                                    <div class="d-flex flex-column justify-content-center align-items-center flex-shrink-0 me-3 rounded-pill"
+                                        style="width: 50px; height: 50px; background-color: #E9ECEF;">
+                                        <h6 class="text-dark mb-0">${comment.userName.charAt(0).toUpperCase()}</h6>
+                                    </div>
+                                    <div class="flex-grow-1 text-start">
+                                        <h6 class="text-dark mb-0">${comment.userName}</h6>
+                                        <div class="text-muted small">
+                                            <span>${formatCustomDateTime(comment.cDate)}</span>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown">
+                                        <button class="btn btn-sm" data-bs-toggle="dropdown" aria-expanded="false">...</button>
+                                        <ul class="dropdown-menu p-2">
+                                            <li><button class="btn w-100 btn-light mb-2 replyComment" data-comment-id="${comment.id}" data-author-name="${comment.userName}">Cavabla</button></li>
+                                            ${comment.isAuthor ? `
+                                            <li><button class="btn w-100 text-nowrap btn-primary mb-2 editComment" data-comment-id="${comment.id}">Redaktə et</button></li>
+                                            <li><button class="btn w-100 text-nowrap btn-danger deleteComment" data-comment-id="${comment.id}">Sil</button></li>
+                                            ` : ''}
+                                        </ul>
                                     </div>
                                 </div>
-                                <div class="dropdown">
-                                    <button class="btn btn-sm" data-bs-toggle="dropdown" aria-expanded="false">...</button>
-                                    <ul class="dropdown-menu p-2">
-                                        <li><button class="btn w-100 btn-light mb-2 replyComment" data-comment-id="${comment.id}" data-author-name="${comment.userName}">Cavabla</button></li>
-                                        ${comment.isAuthor ? `
-                                        <li><button class="btn w-100 text-nowrap btn-primary mb-2 editComment" data-comment-id="${comment.id}">Redaktə et</button></li>
-                                        <li><button class="btn w-100 text-nowrap btn-danger deleteComment" data-comment-id="${comment.id}">Sil</button></li>
-                                        ` : ''}
-                                    </ul>
+                                <span class="text-muted small text-break" id="comment-description-${comment.id}">${comment.description}</span>
+                                <div class="replies-container d-none" id="replies-${comment.id}">
                                 </div>
-                            </div>
-                            <span class="text-muted small">${comment.description}</span>
-                            <div class="replies-container d-none" id="replies-${comment.id}">
-                            </div>
 
-                            ${comment.replies && comment.replies.length > 0 ? `
-                            <button class="btn btn-sm btn-link toggle-replies" data-target="#replies-${comment.id}">
-                                <i class="bi bi-arrow-down-circle"></i> Cavabları göstər
-                            </button>` : ''}
-                        </div>`;
+                                ${comment.replies && comment.replies.length > 0 ? `
+                                <button class="btn btn-sm btn-link toggle-replies" data-target="#replies-${comment.id}">
+                                    <i class="bi bi-arrow-down-circle"></i> Cavabları göstər
+                                </button>` : ''}
+                            </div>`;
 
-                    $('#commentsContainer').append(commentHtml);
-                    if (comment.replies && comment.replies.length > 0) {
-                        comment.replies.forEach(function (reply) {
-                            let replyHtml = `
-                                <div class="reply mt-2 ms-4 p-2 border-bottom">
-                                    <div class="d-flex">
-                                        <div class="d-flex flex-column justify-content-center align-items-center flex-shrink-0 me-3 rounded-pill"
-                                             style="width: 40px; height: 40px; background-color: #E9ECEF;">
-                                            <h6 class="text-dark mb-0">${reply.userName.charAt(0).toUpperCase()}</h6>
-                                        </div>
-                                        <div class="flex-grow-1 text-start">
-                                            <h6 class="text-dark mb-0">${reply.userName}</h6>
-                                            <div class="text-muted small">
-                                                <span>${formatCustomDateTime(reply.cDate)}</span>
+                        $('#commentsContainer').append(commentHtml);
+                        if (comment.replies && comment.replies.length > 0) {
+                            comment.replies.forEach(function (reply) {
+                                let replyHtml = `
+                                    <div class="reply mt-2 ms-4 p-2 border-bottom">
+                                        <div class="d-flex">
+                                            <div class="d-flex flex-column justify-content-center align-items-center flex-shrink-0 me-3 rounded-pill"
+                                                 style="width: 40px; height: 40px; background-color: #E9ECEF;">
+                                                <h6 class="text-dark mb-0">${reply.userName.charAt(0).toUpperCase()}</h6>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <span class="text-muted small">${reply.description}</span>
-                                </div>
-                            `;
+                                            <div class="flex-grow-1 text-start">
+                                                <h6 class="text-dark mb-0">${reply.userName}</h6>
+                                                <div class="text-muted small">
+                                                    <span>${formatCustomDateTime(reply.cDate)}</span>
+                                                </div>
+                                            </div>
+                                             <div class="dropdown">
+                                                 <button class="btn btn-sm" data-bs-toggle="dropdown" aria-expanded="false">...</button>
+                                                 <ul class="dropdown-menu p-2">
 
-                            $(`#replies-${comment.id}`).append(replyHtml);
-                        });
-                    }
-                });
-            },
-            error: function (e) {
-                console.log(e);
-            }
-        });
-}
+                                                     ${reply.isAuthor ? `
+                                                     <li><button class="btn w-100 text-nowrap btn-primary mb-2 editComment" data-comment-id="${reply.id}">Redaktə et</button></li>
+                                                     <li><button class="btn w-100 text-nowrap btn-danger deleteComment" data-comment-id="${reply.id}">Sil</button></li>
+                                                     ` : ''}
+                                                 </ul>
+                                             </div>
+                                        </div>
+                                        <span class="text-muted small" id="comment-description-${reply.id}">${reply.description}</span>
+                                    </div>
+                                `;
+
+                                $(`#replies-${comment.id}`).append(replyHtml);
+                            });
+                        }
+                    });
+                    $('#commentsLoading').hide();
+                },
+                error: function (e) {
+                    console.log(e);
+                }
+            });
+
+
+        }
 
         $(document).on('click', '.toggle-replies', function () {
             var target = $(this).data('target');
@@ -371,30 +255,55 @@
 
         $('#deletePortfolio').on('click', function () {
             $('#actionModalTitle').text('Silmək istədiyinizə əminisiniz?');
-
+            $('#actionModal').data('action', 'portfolio');
             $('#actionModal').modal('show');
 
 
 
         });
         $('#deleteButton').on('click', function () {
+            let action = $('#actionModal').data('action');
             let activeItemId = GetActiveItemId();
-            if (activeItemId) {
-                showLoading();
-                $.ajax({
-                    url: '@Url.Action("DeletePortfolio", "Portfolio")',
-                    type: 'POST',
-                    data: { id: activeItemId },
-                    success: function () {
-                        window.location.reload();
-                    },
-                    error: function (e) {
-                        hideLoading();
-                        console.log(e)
 
-                    }
-                });
+            if (action === 'portfolio') {
+                if (activeItemId) {
+                    showLoading();
+                    $.ajax({
+                        url: '@Url.Action("DeletePortfolio", "Portfolio")',
+                        type: 'POST',
+                        data: { id: activeItemId },
+                        success: function () {
+                            window.location.reload();
+                        },
+                        error: function (e) {
+                            hideLoading();
+                            console.log(e)
+
+                        }
+                    });
+                }
             }
+            else if (action === 'comment') {
+                let itemId = $('#actionModal').data('item-id');
+                if (itemId) {
+                    $.ajax({
+                        url: '@Url.Action("DeleteComment", "Comment",new {area=""})',
+                        type: 'POST',
+                        data: { id: itemId },
+                        success: function () {
+                            fetchComments(activeItemId);
+                             $('#actionModal').modal('hide');
+
+                        },
+                        error: function (e) {
+                            hideLoading();
+                            console.log(e)
+
+                        }
+                    });
+                }
+            }
+
         });
 
 
@@ -427,42 +336,86 @@
 
         });
 
+        $(document).on('click', '.editComment', function () {
+            let commentId = $(this).data('comment-id');
+            const commentDescription = $(`#comment-description-${commentId}`).text();
+
+            $('#portfolioCommentInput').val(commentDescription).data('edit-comment', commentId)
+            $('#portfolioCommentLabel').text('Redaktə et')
+            $('#portfolioCommentButton').text('Yadda saxla').prop('disabled', false)
+            $('#portfolioCommentRemoveButton').show();
+
+
+        });
+
+        $(document).on('click', '.deleteComment', function () {
+            let commentId = $(this).data('comment-id');
+            $('#actionModalTitle').text('Silmək istədiyinizə əminisiniz?');
+
+            $('#actionModal').data('action', 'comment');
+            $('#actionModal').data('item-id', commentId);
+            $('#actionModal').modal('show');
+        });
+
         $(document).on('click', '#removeReply', function () {
             $('#portfolioCommentInput').data('reply-comment', 0);
 
-            console.log("hereee")
 
         })
 
         $('#portfolioCommentButton').on('click', function () {
+            let action = 'AddComment';
+            let activeId = GetActiveItemId();
             let data = {
-                portfolioId: GetActiveItemId(),
+                portfolioId: activeId,
                 description: $('#portfolioCommentInput').val()
             }
             let replyCommentId = $('#portfolioCommentInput').data('reply-comment');
             if (replyCommentId > 0) {
                 data.ParentId = replyCommentId;
             }
-            console.log(data);
 
+            let editCommentId = $('#portfolioCommentInput').data('edit-comment');
+            if (editCommentId > 0) {
+                data.id = editCommentId;
+                action='UpdateComment'
+            }
              showLoading();
              $.ajax({
-                 url: '@Url.Action("AddComment", "Comment", new {area=""})',
+                 url: '@Url.Action("__ACTION__", "Comment", new {area=""})'.replace("__ACTION__", action),
                  type: 'POST',
                  contentType: 'application/json',
                  data: JSON.stringify(data),
                  success: function () {
-                     window.location.reload();
+                     fetchComments(activeId);
+                     $('#portfolioCommentInput').data('reply-comment','');
+                     resetReplySection() 
+                     hideLoading();
+
                  },
                  error: function (e) {
-                     hideLoading();
                      console.log(e)
+                     hideLoading();
+
                  }
+
              });
+
 
 
         });
 
+        $('#portfolioCommentRemoveButton').on('click', function () {
+            resetReplySection() 
+        });
+
+
+        function resetReplySection() {
+            $('#portfolioCommentInput').val('').data('edit-comment', '')
+            $('#portfolioCommentLabel').text('Şərh əlavə edin')
+            $('#portfolioCommentButton').text('Göndər').prop('disabled', true)
+            $('#portfolioCommentRemoveButton').hide();
+        }
 
         $('#carouselExample').on('slid.bs.carousel', function () {
             fetchComments(GetActiveItemId());

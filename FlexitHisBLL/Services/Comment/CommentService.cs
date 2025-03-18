@@ -85,5 +85,21 @@ namespace Medicloud.BLL.Services.Comment
 			}
 			return result;
 		}
+
+		public async Task DeleteCommentAsync(int id)
+		{
+			using var con= _unitOfWork.BeginConnection();
+			await _commentRepository.DeleteAsync(id);
+		}
+
+		public async Task UpdateCommentAsync(AddPortfoliioCommentDTO dto)
+		{
+			using var con = _unitOfWork.BeginConnection();
+			await _commentRepository.UpdateAsync(new()
+			{
+				description= dto.Description,
+				id= dto.Id,
+			});
+		}
 	}
 }

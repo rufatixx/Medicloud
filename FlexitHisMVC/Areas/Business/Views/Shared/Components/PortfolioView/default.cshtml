@@ -13,7 +13,7 @@
             <div class="modal-body row">
                 <div class="col-md-9 bg-dark">
                     <div id="carouselExample" class="carousel" data-ride="false">
-                        <div class="carousel-inner">
+                        <div class="carousel-inner overflow-auto">
 
                         </div>
 
@@ -27,23 +27,29 @@
                         </button>
                     </div>
                 </div>
-                <div class="col-md-3 ">
+                <div class="col-md-3 position-relative">
+                    <div class="loading-spinner" id="commentsLoading" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: none;">
+                        <div class="spinner-border text-primary" style="width: 5rem; height: 5rem;" role="status">
+                        </div>
+                    </div>
                     <div class="border-bottom pb-2">
                         <svg width="25" height="25" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="rgb(33 37 41 / 75%)">
                             <path d="M14.5 2h-13l-.5.5v9l.5.5H4v2.5l.854.354L7.707 12H14.5l.5-.5v-9l-.5-.5zm-.5 9H7.5l-.354.146L5 13.293V11.5l-.5-.5H2V3h12v8z" />
                         </svg>
 
-                        <span id="commentCount" >0</span>
+                        <span id="commentCount">0</span>
                     </div>
                     <div class="overflow-auto" style="height:60vh;" id="commentsContainer">
 
                     </div>
-                    <div class="border-top pt-2 overflow-auto" style="max-height:20vh;"  id="replyContainer">
+                    <div class="border-top pt-2 overflow-auto" style="max-height:20vh;" id="replyContainer">
                         <div class="form-floating mb-3 text-muted">
                             <textarea class="form-control" id="portfolioCommentInput" style="resize:none; height: 80px;" maxlength="500" name="description" placeholder="Şərh əlavə edin"></textarea>
-                            <label for="description">Şərh əlavə edin</label>
+                            <label id="portfolioCommentLabel" for="portfolioCommentInput">Şərh əlavə edin</label>
                         </div>
                         <div>
+                            <button id="portfolioCommentRemoveButton" style="display:none;" class="btn btn-danger w-100 mb-2">Ləğv et</button>
+
                             <button id="portfolioCommentButton" disabled class="btn btn-primary w-100">Göndər</button>
                         </div>
                     </div>

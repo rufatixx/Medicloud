@@ -69,5 +69,19 @@ namespace Medicloud.DAL.Repository.Comment
 			var data = await con.QueryAsync<CommentDAO>(sql, new { Id = id });
 			return data.ToList();
 		}
+
+		public async Task DeleteAsync(int id)
+		{
+			var sql = @"UPDATE comments SET isActive = 0 WHERE id=@Id";
+			var con = _unitOfWork.GetConnection();
+			await con.QueryAsync(sql, new { Id = id });
+		}
+
+		public async Task UpdateAsync(CommentDAO dao)
+		{
+			var sql = @"UPDATE comments SET description = @Description WHERE id=@Id";
+			var con = _unitOfWork.GetConnection();
+			await con.QueryAsync(sql, new { Id = dao.id, Description=dao.description });
+		}
 	}
 }

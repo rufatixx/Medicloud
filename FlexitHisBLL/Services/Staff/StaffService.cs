@@ -13,10 +13,10 @@ namespace Medicloud.BLL.Services.Staff
     public class StaffService : IStaffService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IStaffWorkHoursRepository _workHoursRepository;
+        private readonly IWorkHoursRepository _workHoursRepository;
         private readonly IStaffRepository _staffRepository;
 
-        public StaffService(IUnitOfWork unitOfWork, IStaffWorkHoursRepository workHoursRepository, IStaffRepository staffRepository)
+        public StaffService(IUnitOfWork unitOfWork, IWorkHoursRepository workHoursRepository, IStaffRepository staffRepository)
         {
             _unitOfWork = unitOfWork;
             _workHoursRepository = workHoursRepository;

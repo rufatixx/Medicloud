@@ -12,9 +12,10 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
         {
             _staffService=staffService;
         }
-
-        public IActionResult Index()
+		
+        public async Task<IActionResult> Index()
         {
+
             return View();
         }
 

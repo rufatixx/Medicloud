@@ -1,12 +1,12 @@
 ﻿using Medicloud.DAL.DAO;
 
-namespace Medicloud.DAL.Repository.Staff
+namespace Medicloud.DAL.Repository.WorkHour
 {
 	public interface IWorkHoursRepository
 	{
-		Task<int> AddAsync(StaffWorkHoursDAO dao);
-		Task<bool> UpdateAsync(StaffWorkHoursDAO dao);
-		Task<List<StaffWorkHoursDAO>> GetStaffWorkHours(int staffId);
+		Task<int> AddAsync(WorkHourDAO dao);
+		Task<bool> UpdateAsync(WorkHourDAO dao);
+		Task<List<WorkHourDAO>> GetStaffWorkHours(int staffId);
 		Task<int> AddBreakAsync(StaffBreakDAO dao);
 		Task<bool> RemoveBreakAsync(int id);
 		Task<bool> RemoveAllBreaksByWorkHourIdAsync(int id);

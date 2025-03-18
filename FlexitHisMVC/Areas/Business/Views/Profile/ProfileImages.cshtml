@@ -24,8 +24,8 @@
 
 <div class="container-fluid">
     <div class="d-flex align-items-center">
-        @{ 
-            string backUrl = ViewBag.BeforeUrl??"/Business/Profile/Index";
+        @{
+            string backUrl = ViewBag.BeforeUrl ?? "/Business/Profile/Index";
         }
         <a class="btn btn-sm ps-0" href="@backUrl">
             <svg width="32px" height="32px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="#737373">
@@ -321,6 +321,55 @@
         createFileUploadInstance('fileInput2', 'coverPhotoForm', 'coverPhoto');
         createFileUploadInstance('fileInput3', 'uploadPhotoForm', 'uploadPhoto');
 
+        //var portfolioData = [];
+        //$('.portfolio-item').each(function () {
+        //    var itemId = $(this).attr('data-item-id');
+        //    var description = $(this).attr('data-description');
+        //    var imgSrc = $(this).find('img').attr('src');
+        //    var comments = JSON.parse($(this).attr('data-comments'));
+
+        //    portfolioData.push({
+        //        itemId: itemId,
+        //        imgSrc: imgSrc,
+        //        comments: comments
+        //    });
+
+        //    var activeClass = portfolioData.length === 1 ? 'active' : '';
+        //    var itemIdContent = itemId ? `data-item-id=${itemId}` : '';
+        //    var descriptionContent = description ? `<div class="carousel-caption d-none d-md-inline text-white" style="background-color: rgba(0, 0, 0, 0.3);">
+        //                              <span>${description}</span>
+        //                          </div>` : '';
+
+
+        //    $('#carouselExample .carousel-inner').append(
+        //        `<div ${itemIdContent} class="carousel-item  ${activeClass}">
+        //  <img src="${imgSrc}" class="d-block mx-auto mt-3 w-75" style="height:80vh;" alt="Image '${portfolioData.length}'" ' ${itemIdContent}>
+        //  ${descriptionContent}
+        //  </div>`
+        //    );
+        //});
+
+        //$('.portfolio-item').on('click', function () {
+        //    var clickedItemId = $(this).attr('data-item-id');
+
+        //    var itemIndex = portfolioData.findIndex(function (item) {
+        //        return item.itemId === clickedItemId;
+        //    });
+
+
+        //    $('#carouselExample').carousel('pause');
+
+        //    $('#carouselExample .carousel-item').removeClass('active');
+        //    $('#carouselExample .carousel-item').eq(itemIndex).addClass('active');
+
+        //    var clickedItem = portfolioData[itemIndex];
+        //    fetchComments(clickedItemId);
+
+        //    $('#portfolioViewModal').modal('show');
+        //});
+
+        let imageData = [];
+
         $('.img-item').on('click', function () {
 
             if (!$(this).attr('data-src')) {
@@ -329,7 +378,7 @@
             var selectedImages = [];
             var modalTitle = '';
             var totalImages = 0;
-
+            let selectedId = $(this).attr('data-item-id');
             if ($(this).hasClass('multiple')) {
 
                 $('.img-item.multiple').each(function () {
@@ -340,8 +389,7 @@
                 });
                 $('#coverBtn').show();
 
-                modalTitle = '1 /  ' + selectedImages.length;
-                totalImages = selectedImages.length;
+
                 $('#photoViewModal').data('type', 'workImage');
             } else {
 
@@ -350,21 +398,19 @@
                     itemId: $(this).attr('data-item-id')
                 });
                 modalTitle = $(this).attr('data-title') || '';
-                totalImages = 1;
                 $('#coverBtn').hide();
                 $('#photoViewModal').data('type', 'cover');
             }
 
 
             $('#carouselExample .carousel-inner').empty();
-
             selectedImages.forEach(function (image, index) {
-                var activeClass = index === 0 ? 'active' : '';
+                var activeClass = image.itemId == selectedId ? 'active' : '';
                 var itemIdContent = image.itemId ? `data-item-id=${image.itemId}`:''
                 $('#carouselExample .carousel-inner').append(
-                    '<div class="carousel-item ' + activeClass + '">' +
-                    '<img src="' + image.src + '" class="d-block mx-auto" style="height:80vh;" alt="Image ' + (index + 1) + '" ' + itemIdContent + '>' +
-                    '</div>'
+                    `<div class="carousel-item  ${activeClass}">
+                      <img src="${image.src}" class="d-block mx-auto" style="height:80vh;" alt="Image${(index + 1)}" ${itemIdContent}>
+                    </div>`
                 );
             });
 
@@ -376,13 +422,19 @@
 
             $('#photoViewModalLabel').text(modalTitle);
 
-            // Modali göster
+
+             $('#carouselExample').carousel('pause');
+
+            var currentIndex = $('#carouselExample .carousel-item.active').index() + 1;
+            $('#photoViewModalLabel').text(' ' + currentIndex + ' / ' + selectedImages.length);
+
             $('#photoViewModal').modal('show');
 
-            // Carousel kaydırıldığında aktif resmin ID'sini modal başlığında güncelle
+
+
             $('#carouselExample').on('slid.bs.carousel', function () {
                 var currentIndex = $('#carouselExample .carousel-item.active').index() + 1;
-                $('#photoViewModalLabel').text(' ' + currentIndex + ' / ' + totalImages);
+                $('#photoViewModalLabel').text(' ' + currentIndex + ' / ' + selectedImages.length);
             });
         });
 

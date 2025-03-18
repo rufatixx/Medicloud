@@ -37,7 +37,6 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 		[HttpPost]
 		public async Task<IActionResult> AddPortfolioPhoto([FromForm] IFormFile photo, int organizationId)
 		{
-			Console.WriteLine(organizationId);
 			var vm = new AddPortfolioViewModel();
 
 			string filePath = null;

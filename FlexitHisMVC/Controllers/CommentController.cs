@@ -18,18 +18,35 @@ namespace Medicloud.WebUI.Controllers
 		[HttpPost]
 		public async Task<IActionResult> AddComment([FromBody]AddPortfoliioCommentDTO dto)
 		{
-			Console.WriteLine(dto.Description);
+
 			int userId = int.Parse(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
 			dto.UserId = userId;
 			int result=await _commentService.AddPortfolioCommentAsync(dto);
 			return Ok(result);
 		}
-		
+
+		[HttpPost]
+		public async Task<IActionResult> UpdateComment([FromBody] AddPortfoliioCommentDTO dto)
+		{
+			int userId = int.Parse(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+			dto.UserId = userId;
+			await _commentService.UpdateCommentAsync(dto);
+			return Ok();
+		}
+
 		public async Task<IActionResult> GetPortfolioComments(int id)
 		{
 			var result = await _commentService.GetPortfolioCommentAsync(id);
 
 			return Ok(result);
+		}
+		[HttpPost]
+		public async Task<IActionResult> DeleteComment(int id)
+		{
+			await _commentService.DeleteCommentAsync(id);
+
+			return Ok();
+
 		}
 	}
 }

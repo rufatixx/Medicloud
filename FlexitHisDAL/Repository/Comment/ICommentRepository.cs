@@ -8,5 +8,7 @@ namespace Medicloud.DAL.Repository.Comment
 		Task<int> AddPortfolioCommentAsync(TempRelDAO tempRelDAO);
 		Task<List<CommentDAO>> GetPortfolioCommentAsync(int id);
 		Task<List<CommentDAO>>GetCommentReplies(int id);
+		Task DeleteAsync(int id);
+		Task UpdateAsync(CommentDAO dao);
 	}
 }

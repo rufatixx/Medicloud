@@ -1,7 +1,13 @@
 ﻿using Dapper;
 using Medicloud.DAL.DAO;
 using Medicloud.DAL.Infrastructure.UnitOfWork;
-namespace Medicloud.DAL.Repository.Staff
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Medicloud.DAL.Repository.WorkHour
 {
 	public class WorkHoursRepository:IWorkHoursRepository
 	{
@@ -12,15 +18,14 @@ namespace Medicloud.DAL.Repository.Staff
 			_unitOfWork = unitOfWork;
 		}
 
-		public async Task<int> AddAsync(StaffWorkHoursDAO dao)
+		public async Task<int> AddAsync(WorkHourDAO dao)
 		{
 			string AddSql = $@"
-			INSERT INTO staff_work_hours
-            (staffId,dayOfWeek,startTime,endTime)
-			VALUES (@{nameof(StaffWorkHoursDAO.staffId)},
-            @{nameof(StaffWorkHoursDAO.dayOfWeek)},
-            @{nameof(StaffWorkHoursDAO.startTime)},
-            @{nameof(StaffWorkHoursDAO.endTime)});
+			INSERT INTO work_hours
+            (dayOfWeek,startTime,endTime)
+			VALUES (@{nameof(WorkHourDAO.dayOfWeek)},
+            @{nameof(WorkHourDAO.startTime)},
+            @{nameof(WorkHourDAO.endTime)});
 
 			SELECT LAST_INSERT_ID();";
 			var con = _unitOfWork.GetConnection();
@@ -28,25 +33,25 @@ namespace Medicloud.DAL.Repository.Staff
 			return newId;
 		}
 
-		public async Task<bool> UpdateAsync(StaffWorkHoursDAO dao)
+		public async Task<bool> UpdateAsync(WorkHourDAO dao)
 		{
 			string sql = $@"
-			UPDATE staff_work_hours SET
-            startTime=@{nameof(StaffWorkHoursDAO.startTime)},
-            endTime=@{nameof(StaffWorkHoursDAO.endTime)}
+			UPDATE work_hours SET
+            startTime=@{nameof(WorkHourDAO.startTime)},
+            endTime=@{nameof(WorkHourDAO.endTime)}
 
-			WHERE id=@{nameof(StaffWorkHoursDAO.id)}";
+			WHERE id=@{nameof(WorkHourDAO.id)}";
 			var con = _unitOfWork.GetConnection();
 			int result = await con.ExecuteAsync(sql, dao);
 			return result > 0;
 		}
 
-		public async Task<List<StaffWorkHoursDAO>> GetStaffWorkHours(int staffId)
+		public async Task<List<WorkHourDAO>> GetStaffWorkHours(int staffId)
 		{
-			string sql = "SELECT * FROM staff_work_hours WHERE staffId = @StaffId";
+			string sql = "SELECT * FROM work_hours WHERE staffId = @StaffId";
 
 			var con= _unitOfWork.GetConnection();
-			var result = await con.QueryAsync<StaffWorkHoursDAO>(sql,new {StaffId=staffId});
+			var result = await con.QueryAsync<WorkHourDAO>(sql,new {StaffId=staffId});
 			return result.ToList();
 		}
 

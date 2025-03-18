@@ -172,7 +172,7 @@ builder.Services.AddScoped<IOrganizationService, OrganizationService>();
 builder.Services.AddScoped<IOrganizationTravelRelRepository, OrganizationTravelRelRepository>();
 
 builder.Services.AddScoped<IOrganizationCategoryRelRepository, OrganizationCategoryRelRepository>();
-builder.Services.AddScoped<IStaffWorkHoursRepository, StaffWorkHoursRepository>();
+builder.Services.AddScoped<IWorkHoursRepository, WorkHoursRepository>();
 builder.Services.AddScoped<IStaffService, StaffService>();
 builder.Services.AddScoped<IServiceTypeRepository, ServiceTypeRepository>();
 builder.Services.AddScoped<IOrganizationServiceRelRepository, OrganizationServiceRelRepository>();
