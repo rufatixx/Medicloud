@@ -289,7 +289,7 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 			{
 				Id = activeOrganizationId,
 				Name = organization.name,
-				StaffPhoneNumber = ownerStaff.phoneNumber,
+				PhoneNumber = organization.phoneNumber,
 				StaffEmail=ownerStaff.email,
 				OnlineShopLink=organization.onlineShopLink,
 				Description = organization.description,
@@ -298,7 +298,6 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 				WebLink=organization.website,
 
 			};
-
 			return View(vm);
 		}
 

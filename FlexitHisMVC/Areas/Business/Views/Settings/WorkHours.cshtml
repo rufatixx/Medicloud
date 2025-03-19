@@ -1,6 +1,4 @@
-﻿@using Medicloud.DAL.DAO
-
-@model Medicloud.ViewModels.CreateOrganizationVM
+﻿@model Medicloud.ViewModels.CreateOrganizationVM
 <style>
     .form-switch {
         cursor: pointer;
@@ -15,19 +13,31 @@
 
 }
 
+<div class="px-3">
+    <div class="col-md-6 row">
+        <form id="workHourForm" asp-route-organizationId="@Model.id" method="post" asp-action="UpdateWorkHours" asp-controller="Settings" asp-area="Business">
 
-<div class="">
-    <div class="row  text-center justify-content-center ">
-        <div class="">
-            <div class="card-header   align-items-center">
-
-                <div class="text-center flex-grow-1">
-                    <h1>İş saatlarınız</h1>
+            <input type="hidden" asp-for="@Model.id" />
+            <div class="d-flex justify-content-between px-0 mb-3">
+                <div class="d-flex align-items-center">
+                    <a class="btn btn-sm ps-0" asp-action="Details" asp-controller="Settings" asp-area="Business">
+                        <svg width="32px" height="32px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="#737373">
+                            <path fill="#737373" d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"></path>
+                            <path fill="#737373" d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"></path>
+                        </svg>
+                    </a>
+                    <h2 class="ms-2 text-muted">İş saatları</h2>
+                </div>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end align-items-center">
+                    <h6 style="color: #6F7482" class="m-0" id="managerName"></h6>
+                    <button class="btn btn-primary">Yadda saxla</button>
                 </div>
             </div>
-            <form id="step8Form" asp-route-organizationId="@Model.id" method="post" asp-action="step9" asp-controller="registration" asp-area="Business">
+            <div class="card border-0">
 
-                <div class="card-body ">
+
+
+                <div class="card-body rounded bg-white">
                     <input type="hidden" id="closedDays" name="ClosedDays" />
                     <input type="hidden" id="openedDays" name="OpenedDays" />
                     <input type="hidden" asp-for="id" />
@@ -42,7 +52,7 @@
                         string displayTime = "";
                         string startTime = item.startTime?.ToString(@"hh\:mm")!;
                         string endTime = item.endTime?.ToString(@"hh\:mm")!;
-                        var breakData = Json.Serialize(item.Breaks.Select(a => new { start = a.startTime?.ToString(@"hh\:mm"), end = a.endTime?.ToString(@"hh\:mm") }));
+                        var breakData = Json.Serialize(item.Breaks.Select(a => new { start = a.start?.ToString(@"hh\:mm"), end = a.end?.ToString(@"hh\:mm") }));
                         if (item.startTime == null && item.endTime == null)
                         {
                             isChecked = "";
@@ -71,8 +81,8 @@
                                     <span class="text-muted" id="time-@item.id">@displayTime</span>
                                     @foreach (var br in item.Breaks)
                                     {
-                                        <div class="break" data-start="@br.startTime" data-end="@br.endTime">
-                                            <span style="font-size:12px;font-weight:500;">Fasilə @br.startTime?.ToString(@"hh\:mm") - @br.endTime?.ToString(@"hh\:mm")</span>
+                                        <div class="break" data-start="@br.start" data-end="@br.end">
+                                            <span style="font-size:12px;font-weight:500;">Fasilə @br.start?.ToString(@"hh\:mm") - @br.end?.ToString(@"hh\:mm")</span>
                                         </div>
                                     }
                                 </div>
@@ -89,21 +99,9 @@
                     }
 
                 </div>
+            </div>
+        </form>
 
-
-                <div class="mb-3 d-flex justify-content-around align-items-center">
-                    <a class="btn btn-sm" asp-action="Step7" asp-route-organizationId="@Model.id" asp-area="Business">
-                        <svg width="32px" height="32px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="#737373">
-                            <path fill="#737373" d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"></path>
-                            <path fill="#737373" d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"></path>
-                        </svg>
-                    </a>
-
-                    @*<a asp-action="Step9" asp-route-organizationId="@Model.id" asp-area="Admin" class="btn btn-primary" id="nextButton"> Növbəti</a>*@
-                    <button class="btn btn-primary" id="nextButton"> Növbəti</button>
-                </div>
-            </form>
-        </div>
     </div>
 </div>
 
@@ -190,366 +188,370 @@
     </div>
 </div>
 
-<script>
-
-    let selectedStart;
-    let selectedEnd;
-    let selectedId;
-    let selectedDay;
-    let closedDays=[];
-    let openedDays=[];
-    $(document).ready(function () {
-        function populateTimeOptions(start, end) {
-            const $startTimeSelect = $("#startTimeSelect");
-            const $endTimeSelect = $("#endTimeSelect");
-            $startTimeSelect.empty();
-            $endTimeSelect.empty();
-
-            let startHour = 0;
-            let endHour = 23;
-
-            for (let hour = startHour; hour <= endHour; hour++) {
-                for (let minute = 0; minute < 60; minute += 15) {
-                    const time = `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
-                    $startTimeSelect.append(`<option value="${time}">${time}</option>`);
-                    $endTimeSelect.append(`<option value="${time}">${time}</option>`);
-                }
-            }
-
-            $startTimeSelect.val(start);
-            $endTimeSelect.val(end);
-        }
+@section Scripts{
 
 
-        $("#startTimeSelect").on("change", function () {
-            const selectedTime = $(this).val();
-            const [selectedHour, selectedMinute] = selectedTime.split(":").map(Number);
-            const $endTimeSelect = $("#endTimeSelect");
-            $endTimeSelect.empty();
+    <script>
 
-            let endHour = 23;
+        let selectedStart;
+        let selectedEnd;
+        let selectedId;
+        let selectedDay;
+        let closedDays = [];
+        let openedDays = [];
+        $(document).ready(function () {
+            function populateTimeOptions(start, end) {
+                const $startTimeSelect = $("#startTimeSelect");
+                const $endTimeSelect = $("#endTimeSelect");
+                $startTimeSelect.empty();
+                $endTimeSelect.empty();
 
+                let startHour = 0;
+                let endHour = 23;
 
-            if (selectedHour >= 23) {
-                endHour = selectedHour;
-            }
-
-            for (let hour = selectedHour; hour <= endHour; hour++) {
-                for (let minute = (hour === selectedHour ? selectedMinute + 15 : 0); minute < 60; minute += 15) {
-                    const time = `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
-                    // Eğer şu anki saat 18:00 ise, bunu değiştirmiyoruz
-                    if (time === selectedEnd) {
-                        $endTimeSelect.append(`<option value="${time}" selected>${time}</option>`);
-                    } else {
+                for (let hour = startHour; hour <= endHour; hour++) {
+                    for (let minute = 0; minute < 60; minute += 15) {
+                        const time = `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
+                        $startTimeSelect.append(`<option value="${time}">${time}</option>`);
                         $endTimeSelect.append(`<option value="${time}">${time}</option>`);
                     }
                 }
+
+                $startTimeSelect.val(start);
+                $endTimeSelect.val(end);
             }
 
-            if (selectedEnd !== $endTimeSelect.val()) {
-                selectedEnd = $endTimeSelect.val();
-            }
-        });
+
+            $("#startTimeSelect").on("change", function () {
+                const selectedTime = $(this).val();
+                const [selectedHour, selectedMinute] = selectedTime.split(":").map(Number);
+                const $endTimeSelect = $("#endTimeSelect");
+                $endTimeSelect.empty();
+
+                let endHour = 23;
 
 
-        $("#startTimeSelect").on("change", function (event) {
-            selectedStart = $(this).val();
-            console.log(selectedEnd)
-        });
-        $("#endTimeSelect").on("change", function (event) {
-            selectedEnd = $(this).val();
-            console.log(selectedEnd)
-        });
+                if (selectedHour >= 23) {
+                    endHour = selectedHour;
+                }
 
-        $(".toggle-checkbox").on("click", function (event) {
-            console.log("Clciked")
-            event.stopPropagation(); // Checkbox tıklamasında row tıklamasını engelle
-            const id = $(this).attr("id");
-            const $timeLabel = $(`#time-${id}`);
-            const $itemRow = $(this).closest(".row").next(".item-row");
-            const start = $itemRow.data("start");
-            const end = $itemRow.data("end");
-            const dayNumber = $itemRow.data("day-number");
-            const breaks = $itemRow.data("breaks");
-            console.log(breaks)
-            if ($(this).is(":checked")) {
-                $timeLabel.text(`${start || '09:00'} - ${end || '18:00'}`);
-                breaks.forEach(function (breakData) {
-                    $itemRow.find(".col-10").append(`
-                <div class="break">
-                    <span style="font-size:12px;font-weight:500;">Fasilə ${breakData.start} - ${breakData.end}</span>
-                </div>
-            `);
-                });
-            } else {
-                $timeLabel.text("Bağlı");
-                $itemRow.find(".break").remove();
-            }
+                for (let hour = selectedHour; hour <= endHour; hour++) {
+                    for (let minute = (hour === selectedHour ? selectedMinute + 15 : 0); minute < 60; minute += 15) {
+                        const time = `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
+                        // Eğer şu anki saat 18:00 ise, bunu değiştirmiyoruz
+                        if (time === selectedEnd) {
+                            $endTimeSelect.append(`<option value="${time}" selected>${time}</option>`);
+                        } else {
+                            $endTimeSelect.append(`<option value="${time}">${time}</option>`);
+                        }
+                    }
+                }
 
-        });
+                if (selectedEnd !== $endTimeSelect.val()) {
+                    selectedEnd = $endTimeSelect.val();
+                }
+            });
 
 
-        $(".item-row").on("click", function () {
-            const $checkbox = $(this).prev().find(".toggle-checkbox"); // Get the checkbox from the previous sibling (.col-6)
-            if ($checkbox.is(":checked")) { // Check if the checkbox is checked
-                const day = $(this).data("day");
-                selectedStart = $(this).data("start") || '09:00';
-                selectedEnd = $(this).data("end") || '18:00';
-                selectedId=$(this).data("id");
-                selectedDay=$(this).data("id");
-                console.log(selectedStart)
+            $("#startTimeSelect").on("change", function (event) {
+                selectedStart = $(this).val();
                 console.log(selectedEnd)
-                $("#selectedDay").val(day);
-                $("#editTimeModalLabel").text(`${day}`);
-                populateTimeOptions(selectedStart, selectedEnd);
-                let itemBreaks=$(this).data('breaks');
-                console.log(itemBreaks)
-                breaks = itemBreaks;
-                updateBreakOptions();
+            });
+            $("#endTimeSelect").on("change", function (event) {
+                selectedEnd = $(this).val();
+                console.log(selectedEnd)
+            });
+
+            $(".toggle-checkbox").on("click", function (event) {
+                console.log("Clciked")
+                event.stopPropagation(); // Checkbox tıklamasında row tıklamasını engelle
+                const id = $(this).attr("id");
+                const $timeLabel = $(`#time-${id}`);
+                const $itemRow = $(this).closest(".row").next(".item-row");
+                const start = $itemRow.data("start");
+                const end = $itemRow.data("end");
+                const dayNumber = $itemRow.data("day-number");
+                const breaks = $itemRow.data("breaks");
                 console.log(breaks)
-                $("#editTimeModal").modal("show");
-            }
-        });
-
-
-        // Modal'da saat kaydetme işlemi
-        $("#saveTimeButton").on("click", function () {
-            const day = $("#selectedDay").val();
-            if (selectedStart && selectedEnd && selectedId) {
-                $("#editTimeModal").modal("hide");
-                    $("#copyCheckInput" + selectedDay).prop("checked", true).prop('disabled',true);
-                $("#copyTimeModal").modal("show");
-
-            } else {
-                alert("Xəta baş verdi");
-            }
-        });
-
-
-        $('#step8Form').on('submit', function (event) {
-            closedDays = [];
-            openedDays = [];
-            $('.toggle-checkbox').each(function () {
-                let dayId = $(this).attr('id');
-                if ($(this).prop('checked')) {
-                    openedDays.push(dayId);
+                if ($(this).is(":checked")) {
+                    $timeLabel.text(`${start || '09:00'} - ${end || '18:00'}`);
+                    breaks.forEach(function (breakData) {
+                        $itemRow.find(".col-10").append(`
+                    <div class="break">
+                        <span style="font-size:12px;font-weight:500;">Fasilə ${breakData.start} - ${breakData.end}</span>
+                    </div>
+                `);
+                    });
                 } else {
+                    $timeLabel.text("Bağlı");
+                    $itemRow.find(".break").remove();
+                }
 
-                    closedDays.push(dayId);
+            });
+
+
+            $(".item-row").on("click", function () {
+                const $checkbox = $(this).prev().find(".toggle-checkbox"); // Get the checkbox from the previous sibling (.col-6)
+                if ($checkbox.is(":checked")) { // Check if the checkbox is checked
+                    const day = $(this).data("day");
+                    selectedStart = $(this).data("start") || '09:00';
+                    selectedEnd = $(this).data("end") || '18:00';
+                    selectedId = $(this).data("id");
+                    selectedDay = $(this).data("id");
+                    console.log(selectedStart)
+                    console.log(selectedEnd)
+                    $("#selectedDay").val(day);
+                    $("#editTimeModalLabel").text(`${day}`);
+                    populateTimeOptions(selectedStart, selectedEnd);
+                    let itemBreaks = $(this).data('breaks');
+                    console.log(itemBreaks)
+                    breaks = itemBreaks;
+                    updateBreakOptions();
+                    console.log(breaks)
+                    $("#editTimeModal").modal("show");
                 }
             });
 
-            $('#openedDays').val(JSON.stringify(openedDays))
-            $('#closedDays').val(JSON.stringify(closedDays))
 
-            this.submit();
-        });
+            // Modal'da saat kaydetme işlemi
+            $("#saveTimeButton").on("click", function () {
+                const day = $("#selectedDay").val();
+                if (selectedStart && selectedEnd && selectedId) {
+                    $("#editTimeModal").modal("hide");
+                    $("#copyCheckInput" + selectedDay).prop("checked", true).prop('disabled', true);
+                    $("#copyTimeModal").modal("show");
 
-        $("#saveButton").on("click", function () {
-
-             var selectedDays = [];
-             closedDays=[];
-             openedDays=[];
-             $('input[id^="copyCheckInput"]:checked').each(function() {
-                 // Store the id or value of each checked checkbox (you can change this depending on your need)
-                 selectedDays.push($(this).data('id')); // Collect the id of the checked checkboxes
-                 // Or if you want to collect the day number, you can extract the number from the id
-                 // checkedDays.push($(this).attr('id').replace('copyCheckInput', '')); // This would give you the number (1 to 7)
-             });
-
-             $('.toggle-checkbox').each(function() {
-                let dayId = $(this).attr('id');
-                if ($(this).prop('checked')) {
-                    openedDays.push(dayId);
                 } else {
-
-                    closedDays.push(dayId);
+                    alert("Xəta baş verdi");
                 }
             });
 
-            let data={
-                selectedId:selectedId,
-                startTime:selectedStart,
-                endTime:selectedEnd,
-                breaks:breaks,
-                selectedDays:selectedDays,
-                closedDays:closedDays,
-                openedDays:openedDays
-            }
 
+            $('#workHourForm').on('submit', function (event) {
+                closedDays = [];
+                openedDays = [];
+                $('.toggle-checkbox').each(function () {
+                    let dayId = $(this).attr('id');
+                    if ($(this).prop('checked')) {
+                        openedDays.push(dayId);
+                    } else {
 
-
-            console.log(data)
-            showLoading();
-            $.ajax({
-                url: `/Business/Staff/UpdateStaffWorkHours`,
-               type: 'POST',
-               data: JSON.stringify(data),
-               contentType: 'application/json',
-                success: function (response) {
-                   location.reload();
-               },
-                error: function (xhr, status, error) {
-                    hideLoading();
-                   console.error(error);
-               }
-            });
-        });
-
-        $('#copyTimeModal').on('hidden.bs.modal', function () {
-        // Reset only the checkboxes with 'id' starting with 'copyCheckInput'
-            $('input[id^="copyCheckInput"]').prop('checked', false).prop('disabled',false); // Uncheck only those checkboxes
-        });
-
-         $('#editTimeModal').on('hidden.bs.modal', function () {
-            // Reset only the checkboxes with 'id' starting with 'copyCheckInput'
-            closedDays=[];
-            openedDays=[];
-         });
-
-
-
-        let breaks = [];
-
-
-        updateBreakOptions();
-
-        function generateTimeOptions(start, end) {
-            const options = [];
-            let currentTime = new Date(`1970-01-01T${start}:00`);
-            const endTimeMoment = new Date(`1970-01-01T${end}:00`);
-
-            while (currentTime <= endTimeMoment) {
-                options.push(currentTime.toTimeString().substring(0, 5));
-                currentTime.setMinutes(currentTime.getMinutes() + 5);
-            }
-            return options;
-        }
-
-        function updateBreakOptions() {
-            const $breaksContainer = $("#breaksContainer");
-            $breaksContainer.empty();
-
-            if(breaks.length==0){
-                $("#breaksContent").hide();
-            }
-            else{
-               $("#breaksContent").show();
-            }
-            breaks.forEach((brk, index) => {
-                const breakHtml =
-                    `<div class="row mb-2 align-items-center" data-index="${index}">
-            <div class="col-5">
-                <select class="form-select break-start" data-index="${index}">
-                </select>
-            </div>
-            <div class="col-5">
-                <select class="form-select break-end" data-index="${index}">
-                </select>
-            </div>
-            <div class="col-2">
-                <button class="btn btn-danger btn-sm remove-break" data-index="${index}">X</button>
-            </div>
-        </div>`;
-                $breaksContainer.append(breakHtml);
-            });
-
-            updateBreakTimes();
-        }
-
-        function updateBreakTimes() {
-            $(".break-start").each((index, el) => {
-                const $startSelect = $(el);
-                const $endSelect = $(`.break-end[data-index="${index}"]`);
-
-                const previousStart = breaks[index]?.start || selectedStart;
-                const previousEnd = breaks[index]?.end || selectedEnd;
-
-                let availableTimes = generateTimeOptions(selectedStart, selectedEnd);
-
-
-                breaks.forEach((brk, i) => {
-                    if (i !== index) {
-                        availableTimes = availableTimes.filter(time => !(time >= brk.start && time <= brk.end));
+                        closedDays.push(dayId);
                     }
                 });
 
+                $('#openedDays').val(JSON.stringify(openedDays))
+                $('#closedDays').val(JSON.stringify(closedDays))
 
-                $startSelect.empty();
-                availableTimes.forEach(option => {
-                    $startSelect.append(new Option(option, option, false, option === previousStart));
-                });
-
-                const selectedStartTime = $startSelect.val() || availableTimes[0];
-
-                let availableEndTimes = availableTimes.filter(time => time > selectedStartTime);
-
-
-                $endSelect.empty();
-                availableEndTimes.forEach(option => {
-                    $endSelect.append(new Option(option, option, false, option === previousEnd));
-                });
-
-                breaks[index].start = $startSelect.val();
-                breaks[index].end = $endSelect.val();
-            });
-        }
-
-
-
-        function addBreak() {
-            const lastBreak = breaks.length > 0 ? breaks[breaks.length - 1] : null;
-
-            let newStartTime = lastBreak ? lastBreak.end : selectedStart;
-            let availableTimes = generateTimeOptions(newStartTime, selectedEnd);
-
-            // Mevcut molaların zaman aralıklarını engelle
-            breaks.forEach(brk => {
-                availableTimes = availableTimes.filter(time => !(time >= brk.start && time <= brk.end));
+                this.submit();
             });
 
-            if (availableTimes.length < 2) return;
+            $("#saveButton").on("click", function () {
 
-            const newBreak = {
-                start: availableTimes[0],
-                end: availableTimes[1]
-            };
+                var selectedDays = [];
+                closedDays = [];
+                openedDays = [];
+                $('input[id^="copyCheckInput"]:checked').each(function () {
+                    // Store the id or value of each checked checkbox (you can change this depending on your need)
+                    selectedDays.push($(this).data('id')); // Collect the id of the checked checkboxes
+                    // Or if you want to collect the day number, you can extract the number from the id
+                    // checkedDays.push($(this).attr('id').replace('copyCheckInput', '')); // This would give you the number (1 to 7)
+                });
 
-            breaks.push(newBreak);
+                $('.toggle-checkbox').each(function () {
+                    let dayId = $(this).attr('id');
+                    if ($(this).prop('checked')) {
+                        openedDays.push(dayId);
+                    } else {
+
+                        closedDays.push(dayId);
+                    }
+                });
+
+                let data = {
+                    selectedId: selectedId,
+                    startTime: selectedStart,
+                    endTime: selectedEnd,
+                    breaks: breaks,
+                    selectedDays: selectedDays,
+                    closedDays: closedDays,
+                    openedDays: openedDays
+                }
+
+
+
+                console.log(data)
+                showLoading();
+                $.ajax({
+                    url: `/Business/WorkHour/UpdateWorkHours`,
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json',
+                    success: function (response) {
+                        location.reload();
+                    },
+                    error: function (xhr, status, error) {
+                        hideLoading();
+                        console.error(error);
+                    }
+                });
+            });
+
+            $('#copyTimeModal').on('hidden.bs.modal', function () {
+                // Reset only the checkboxes with 'id' starting with 'copyCheckInput'
+                $('input[id^="copyCheckInput"]').prop('checked', false).prop('disabled', false); // Uncheck only those checkboxes
+            });
+
+            $('#editTimeModal').on('hidden.bs.modal', function () {
+                // Reset only the checkboxes with 'id' starting with 'copyCheckInput'
+                closedDays = [];
+                openedDays = [];
+            });
+
+
+
+            let breaks = [];
+
+
             updateBreakOptions();
-        }
 
-        function removeBreak(index) {
-            breaks.splice(index, 1);
-            updateBreakOptions();
-        }
+            function generateTimeOptions(start, end) {
+                const options = [];
+                let currentTime = new Date(`1970-01-01T${start}:00`);
+                const endTimeMoment = new Date(`1970-01-01T${end}:00`);
 
-        // Event Listeners
-        $(document).on("click", ".remove-break", function () {
-            const index = $(this).data("index");
-            removeBreak(index);
+                while (currentTime <= endTimeMoment) {
+                    options.push(currentTime.toTimeString().substring(0, 5));
+                    currentTime.setMinutes(currentTime.getMinutes() + 5);
+                }
+                return options;
+            }
+
+            function updateBreakOptions() {
+                const $breaksContainer = $("#breaksContainer");
+                $breaksContainer.empty();
+
+                if (breaks.length == 0) {
+                    $("#breaksContent").hide();
+                }
+                else {
+                    $("#breaksContent").show();
+                }
+                breaks.forEach((brk, index) => {
+                    const breakHtml =
+                        `<div class="row mb-2 align-items-center" data-index="${index}">
+                <div class="col-5">
+                    <select class="form-select break-start" data-index="${index}">
+                    </select>
+                </div>
+                <div class="col-5">
+                    <select class="form-select break-end" data-index="${index}">
+                    </select>
+                </div>
+                <div class="col-2">
+                    <button class="btn btn-danger btn-sm remove-break" data-index="${index}">X</button>
+                </div>
+            </div>`;
+                    $breaksContainer.append(breakHtml);
+                });
+
+                updateBreakTimes();
+            }
+
+            function updateBreakTimes() {
+                $(".break-start").each((index, el) => {
+                    const $startSelect = $(el);
+                    const $endSelect = $(`.break-end[data-index="${index}"]`);
+
+                    const previousStart = breaks[index]?.start || selectedStart;
+                    const previousEnd = breaks[index]?.end || selectedEnd;
+
+                    let availableTimes = generateTimeOptions(selectedStart, selectedEnd);
+
+
+                    breaks.forEach((brk, i) => {
+                        if (i !== index) {
+                            availableTimes = availableTimes.filter(time => !(time >= brk.start && time <= brk.end));
+                        }
+                    });
+
+
+                    $startSelect.empty();
+                    availableTimes.forEach(option => {
+                        $startSelect.append(new Option(option, option, false, option === previousStart));
+                    });
+
+                    const selectedStartTime = $startSelect.val() || availableTimes[0];
+
+                    let availableEndTimes = availableTimes.filter(time => time > selectedStartTime);
+
+
+                    $endSelect.empty();
+                    availableEndTimes.forEach(option => {
+                        $endSelect.append(new Option(option, option, false, option === previousEnd));
+                    });
+
+                    breaks[index].start = $startSelect.val();
+                    breaks[index].end = $endSelect.val();
+                });
+            }
+
+
+
+            function addBreak() {
+                const lastBreak = breaks.length > 0 ? breaks[breaks.length - 1] : null;
+
+                let newStartTime = lastBreak ? lastBreak.end : selectedStart;
+                let availableTimes = generateTimeOptions(newStartTime, selectedEnd);
+
+                // Mevcut molaların zaman aralıklarını engelle
+                breaks.forEach(brk => {
+                    availableTimes = availableTimes.filter(time => !(time >= brk.start && time <= brk.end));
+                });
+
+                if (availableTimes.length < 2) return;
+
+                const newBreak = {
+                    start: availableTimes[0],
+                    end: availableTimes[1]
+                };
+
+                breaks.push(newBreak);
+                updateBreakOptions();
+            }
+
+            function removeBreak(index) {
+                breaks.splice(index, 1);
+                updateBreakOptions();
+            }
+
+            // Event Listeners
+            $(document).on("click", ".remove-break", function () {
+                const index = $(this).data("index");
+                removeBreak(index);
+            });
+
+            $(document).on("change", ".break-start", function () {
+                const index = $(this).data("index");
+                breaks[index].start = $(this).val();
+
+                let availableEndTimes = generateTimeOptions(breaks[index].start, selectedEnd).filter(time => time > breaks[index].start);
+                breaks[index].end = availableEndTimes[0] || breaks[index].start;
+                updateBreakOptions();
+            });
+
+            $(document).on("change", ".break-end", function () {
+                const index = $(this).data("index");
+                breaks[index].end = $(this).val();
+                updateBreakOptions();
+            });
+
+            $("#addBreakButton").on("click", function () {
+                addBreak();
+            });
+
+
         });
+    </script>
 
-        $(document).on("change", ".break-start", function () {
-            const index = $(this).data("index");
-            breaks[index].start = $(this).val();
-
-            let availableEndTimes = generateTimeOptions(breaks[index].start, selectedEnd).filter(time => time > breaks[index].start);
-            breaks[index].end = availableEndTimes[0] || breaks[index].start;
-            updateBreakOptions();
-        });
-
-        $(document).on("change", ".break-end", function () {
-            const index = $(this).data("index");
-            breaks[index].end = $(this).val();
-            updateBreakOptions();
-        });
-
-        $("#addBreakButton").on("click", function () {
-            addBreak();
-        });
-
-
-    });
-</script>
-
+}

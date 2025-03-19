@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using Medicloud.BLL.Service;
+using Medicloud.BLL.Services.AmenityService;
 using Medicloud.BLL.Services.Category;
 using Medicloud.BLL.Services.Comment;
 using Medicloud.BLL.Services.File;
@@ -15,7 +16,9 @@ using Medicloud.BLL.Services.RequestType;
 using Medicloud.BLL.Services.Services;
 using Medicloud.BLL.Services.Staff;
 using Medicloud.BLL.Services.User;
+using Medicloud.BLL.Services.WorkHours;
 using Medicloud.DAL.Infrastructure.UnitOfWork;
+using Medicloud.DAL.Repository.Amenity;
 using Medicloud.DAL.Repository.Category;
 using Medicloud.DAL.Repository.Comment;
 using Medicloud.DAL.Repository.File;
@@ -32,6 +35,7 @@ using Medicloud.DAL.Repository.Role;
 using Medicloud.DAL.Repository.Services;
 using Medicloud.DAL.Repository.Staff;
 using Medicloud.DAL.Repository.Userr;
+using Medicloud.DAL.Repository.WorkHour;
 using Medicloud.Data;
 using Medicloud.WebUI.Middlewares;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -173,6 +177,7 @@ builder.Services.AddScoped<IOrganizationTravelRelRepository, OrganizationTravelR
 
 builder.Services.AddScoped<IOrganizationCategoryRelRepository, OrganizationCategoryRelRepository>();
 builder.Services.AddScoped<IWorkHoursRepository, WorkHoursRepository>();
+builder.Services.AddScoped<IWorkHourService, WorkHourService>();
 builder.Services.AddScoped<IStaffService, StaffService>();
 builder.Services.AddScoped<IServiceTypeRepository, ServiceTypeRepository>();
 builder.Services.AddScoped<IOrganizationServiceRelRepository, OrganizationServiceRelRepository>();
@@ -188,6 +193,8 @@ builder.Services.AddScoped<IPortfolioService, PortfolioService>();
 builder.Services.AddScoped<IImageProcessingService, ImageProcessingService>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 builder.Services.AddScoped<ICommentService, CommentService>();
+builder.Services.AddScoped<IAmenityRepository, AmenityRepository>();
+builder.Services.AddScoped<IAmenityService, AmenityService>();
 var app = builder.Build();
 
 app.UseSession();

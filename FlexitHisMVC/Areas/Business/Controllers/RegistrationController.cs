@@ -5,6 +5,7 @@ using Medicloud.BLL.Services.OrganizationTravel;
 using Medicloud.BLL.Services.Services;
 using Medicloud.BLL.Services.Staff;
 using Medicloud.BLL.Services.User;
+using Medicloud.BLL.Services.WorkHours;
 using Medicloud.DAL.DAO;
 using Medicloud.ViewModels;
 using Medicloud.WebUI.Enums;
@@ -25,7 +26,8 @@ namespace Medicloud.Areas.Business.Controllers
 		private readonly IStaffService _staffService;
 		private readonly IServicesService _servicesService;
 		private readonly IOrganizationTravelService _organizationTravelService;
-		public RegistrationController(INUserService userService, ICategoryService categoryService, IOrganizationService organizationService, IStaffService staffService, IServicesService servicesService, IOrganizationTravelService organizationTravelService)
+		private readonly IWorkHourService _workHourService;
+		public RegistrationController(INUserService userService, ICategoryService categoryService, IOrganizationService organizationService, IStaffService staffService, IServicesService servicesService, IOrganizationTravelService organizationTravelService, IWorkHourService workHourService)
 		{
 			_userService = userService;
 			_categoryService = categoryService;
@@ -33,6 +35,7 @@ namespace Medicloud.Areas.Business.Controllers
 			_staffService = staffService;
 			_servicesService = servicesService;
 			_organizationTravelService = organizationTravelService;
+			_workHourService = workHourService;
 		}
 
 		public async Task<IActionResult> Index(int organizationId = 0)
@@ -72,7 +75,6 @@ namespace Medicloud.Areas.Business.Controllers
 		public async Task<IActionResult> Step2(int organizationId)
 		{
 			int userId = int.Parse(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
-			//int userId = 187;
 			var vm = new CreateOrganizationVM
 			{
 				id = organizationId
@@ -85,7 +87,6 @@ namespace Medicloud.Areas.Business.Controllers
 				vm.UserId = userId;
 				vm.StaffName = $"{user.name}";
 				vm.StaffEmail = user.email ?? null;
-				vm.StaffPhoneNumber = user.mobile ?? null;
 
 				if (TempData["OrganizationVM"] != null)
 				{
@@ -110,7 +111,7 @@ namespace Medicloud.Areas.Business.Controllers
 			if (staff != null)
 			{
 				vm.UserId = staff.userId;
-				vm.StaffPhoneNumber = staff.phoneNumber;
+				vm.PhoneNumber = organization.phoneNumber;
 				vm.StaffEmail = staff.email;
 				vm.StaffName = staff.name;
 			}
@@ -131,8 +132,6 @@ namespace Medicloud.Areas.Business.Controllers
 
 			if (vm.SelectedCategories != null && vm.SelectedCategories.Any())
 			{
-				//int userId = 187;
-
 				if (userId == 0)
 				{
 					return RedirectToAction("Index", "Login");
@@ -193,7 +192,6 @@ namespace Medicloud.Areas.Business.Controllers
 			{
 				return RedirectToAction("Index");
 			}
-			//Console.WriteLine(vm.id);
 			TempData.Clear();
 			if (vm.id == 0)
 			{
@@ -202,7 +200,7 @@ namespace Medicloud.Areas.Business.Controllers
 					SelectedCategories = vm.SelectedCategories,
 					StaffEmail = vm.StaffEmail,
 					StaffName = vm.StaffName,
-					StaffPhoneNumber = vm.StaffPhoneNumber,
+					PhoneNumber = vm.PhoneNumber,
 					Name = vm.OrgName,
 					UserId = userId,
 				};
@@ -215,9 +213,6 @@ namespace Medicloud.Areas.Business.Controllers
 			}
 			else
 			{
-
-
-				//Console.WriteLine(vm.id);
 				var organization = await _organizationService.GetByIdAsync(vm.id);
 				if (organization == null || organization.isRegistered)
 				{
@@ -231,7 +226,6 @@ namespace Medicloud.Areas.Business.Controllers
 					id = staff.id,
 					email = vm.StaffEmail,
 					name = vm.StaffName,
-					phoneNumber = vm.StaffPhoneNumber,
 					permissionLevelId = 1,
 				};
 
@@ -239,7 +233,8 @@ namespace Medicloud.Areas.Business.Controllers
 				await _organizationService.UpdateAsync(new()
 				{
 					Id = vm.id,
-					Name = vm.OrgName
+					Name = vm.OrgName,
+					PhoneNumber=vm.PhoneNumber
 				});
 
 				vm.WorkPlaceType = (WorkPlaceType)organization.workPlaceType;
@@ -356,10 +351,10 @@ namespace Medicloud.Areas.Business.Controllers
 			{
 				return RedirectToAction("Index");
 			}
-			Console.WriteLine($"long {vm.longitude.ToString()}");
-			Console.WriteLine($"long {vm.latitude.ToString()}");
-			Console.WriteLine($"add {vm.OrgAddress?.ToString()}");
-			Console.WriteLine($"add {vm.WorkPlaceType.ToString()}");
+			//Console.WriteLine($"long {vm.longitude.ToString()}");
+			//Console.WriteLine($"long {vm.latitude.ToString()}");
+			//Console.WriteLine($"add {vm.OrgAddress?.ToString()}");
+			//Console.WriteLine($"add {vm.WorkPlaceType.ToString()}");
 
 			var updated = await _organizationService.UpdateAsync(new()
 			{
@@ -431,11 +426,11 @@ namespace Medicloud.Areas.Business.Controllers
 				return RedirectToAction("Index");
 			}
 			var staff = await _staffService.GetOwnerStaffByOrganizationId(organizationId);
-			var staffWorkHours = await _staffService.GetWorkHours(staff.id);
+			var organizationWorkHours = await _workHourService.GetOrganizationWorkHours(organizationId);
 			var vm = new CreateOrganizationVM
 			{
 				id = organizationId,
-				WorkHours = staffWorkHours,
+				WorkHours = organizationWorkHours,
 				StaffId = staff.id,
 			};
 			return View(vm);
@@ -492,13 +487,13 @@ namespace Medicloud.Areas.Business.Controllers
 			Console.WriteLine(vm.ClosedDays);
 			var openedDaysList = JsonConvert.DeserializeObject<List<int>>(vm.OpenedDays);
 			var closedDaysList = JsonConvert.DeserializeObject<List<int>>(vm.ClosedDays);
-			var dto = new UpdateStaffWorkHourDTO
+			var dto = new UpdateWorkHourDTO
 			{
-				staffId = vm.StaffId,
 				ClosedDays = closedDaysList,
 				OpenedDays = openedDaysList
 			};
-			var updated=await _staffService.UpdateStaffWorkHours(dto);
+			//var updated=await _staffService.UpdateStaffWorkHours(dto);
+			var updated=await _workHourService.UpdateWorkHours(dto);
 			//var organization = await _organizationService.GetByIdAsync(organizationId);
 			//if (organization == null || organization.isRegistered)
 			//{

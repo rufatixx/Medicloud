@@ -1,9 +1,13 @@
-﻿using Medicloud.BLL.Services.Category;
+﻿using Medicloud.BLL.DTO;
+using Medicloud.BLL.Services.AmenityService;
+using Medicloud.BLL.Services.Category;
 using Medicloud.BLL.Services.Organization;
-using Medicloud.Models;
+using Medicloud.BLL.Services.Staff;
+using Medicloud.BLL.Services.WorkHours;
 using Medicloud.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace Medicloud.WebUI.Areas.Business.Controllers
 {
@@ -13,11 +17,16 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 	{
 		private readonly ICategoryService _categoryService;
 		private readonly IOrganizationService _organizationService;
-
-		public SettingsController(ICategoryService categoryService, IOrganizationService organizationService)
+		private readonly IWorkHourService _workHourService;
+		private readonly IStaffService _staffService;
+		private readonly IAmenityService _amenityService;
+		public SettingsController(ICategoryService categoryService, IOrganizationService organizationService, IWorkHourService workHourService, IStaffService staffService, IAmenityService amenityService)
 		{
 			_categoryService = categoryService;
 			_organizationService = organizationService;
+			_workHourService = workHourService;
+			_staffService = staffService;
+			_amenityService = amenityService;
 		}
 
 		public IActionResult Index()
@@ -60,22 +69,32 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 
 		public async Task<IActionResult> WorkHours()
 		{
-			//int activeOrganizationId = HttpContext.Session.GetInt32("activeOrgId") ?? 0;
+			int activeOrganizationId = HttpContext.Session.GetInt32("activeOrgId") ?? 0;
 
-			//var organization = await _organizationService.GetByIdAsync(activeOrganizationId);
-			//if (organization == null || organization.isRegistered)
-			//{
-			//	return RedirectToAction("Index");
-			//}
-			//var staff = await _staffService.GetOwnerStaffByOrganizationId(activeOrganizationId);
-			//var staffWorkHours = await _staffService.GetWorkHours(staff.id);
-			//var vm = new CreateOrganizationVM
-			//{
-			//	id = organizationId,
-			//	WorkHours = staffWorkHours,
-			//	StaffId = staff.id,
-			//};
-			return View();
+			var organization = await _organizationService.GetByIdAsync(activeOrganizationId);
+			var workHours = await _workHourService.GetOrganizationWorkHours(organization.id);
+			var vm = new CreateOrganizationVM
+			{
+				id = activeOrganizationId,
+				WorkHours = workHours,
+			};
+			return View(vm);
+		}
+
+
+		[HttpPost]
+		public async Task<IActionResult> UpdateWorkHours(CreateOrganizationVM vm)
+		{
+			var openedDaysList = JsonConvert.DeserializeObject<List<int>>(vm.OpenedDays);
+			var closedDaysList = JsonConvert.DeserializeObject<List<int>>(vm.ClosedDays);
+			var dto = new UpdateWorkHourDTO
+			{
+				ClosedDays = closedDaysList,
+				OpenedDays = openedDaysList
+			};
+			var updated = await _workHourService.UpdateWorkHours(dto);
+			return RedirectToAction("WorkHours");
+
 		}
 
 
@@ -95,6 +114,22 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 				vm.longitude = organization.longitude;
 			}
 			return View(vm);
+		}
+
+
+		public async Task<IActionResult> Amenities()
+		{
+			int activeOrganizationId = HttpContext.Session.GetInt32("activeOrgId") ?? 0;
+			var result=await _amenityService.GetOrganizationAmenitiesAsync(activeOrganizationId);
+			return View(result);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> UpdateAmenities(OrganizationAmenityDTO dto)
+		{
+			int activeOrganizationId = HttpContext.Session.GetInt32("activeOrgId") ?? 0;
+			await _amenityService.UpdateOrganizationAmenitiesAsync(dto);
+			return RedirectToAction("Amenities");
 		}
 	}
 }

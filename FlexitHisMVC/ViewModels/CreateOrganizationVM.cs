@@ -9,7 +9,7 @@ namespace Medicloud.ViewModels
 		public int id { get; set; }
 		public string? StaffName { get; set; }
 		public string? StaffEmail { get; set; }
-		public string? StaffPhoneNumber { get; set; }
+		public string? PhoneNumber { get; set; }
 		public string? OrgName { get; set; }
 		public string? OrgAddress {get; set;}
 		public int UserId { get; set; }
@@ -26,7 +26,7 @@ namespace Medicloud.ViewModels
 		public bool hasTravel  { get; set; }
 		public int TeamSizeId { get; set; }
 		public int TravelId { get; set; }
-		public List<StaffWorkHoursDTO> WorkHours { get; set; }
+		public List<WorkHourDTO> WorkHours { get; set; }
         public int StaffId { get; set; }
 		public string ClosedDays { get; set; }
 		public string OpenedDays { get; set; }

@@ -18,13 +18,5 @@ namespace Medicloud.WebUI.Areas.Business.Controllers
 
             return View();
         }
-
-        [HttpPost]
-        public async Task<IActionResult> UpdateStaffWorkHours([FromBody] UpdateStaffWorkHourDTO dto)
-        {
-            //int newId = await _staffService.UpdateStaffWorkHours(dto);
-            await _staffService.UpdateStaffWorkHours(dto);
-            return Ok();
-        }
     }
 }

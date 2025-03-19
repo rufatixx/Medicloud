@@ -8,8 +8,7 @@ namespace Medicloud.BLL.DTO
 		public int UserId { get; set; }
 		public string StaffName { get; set; }
 		public string StaffEmail { get; set; }
-		public string StaffPhoneNumber { get; set; }
-		public int MyProperty { get; set; }
+		public string PhoneNumber { get; set; }
 	}
 
 	public class UpdateOrganizationDTO
@@ -19,7 +18,7 @@ namespace Medicloud.BLL.DTO
 		public int UserId { get; set; }
 		public string? StaffName { get; set; }
 		public string? StaffEmail { get; set; }
-		public string? StaffPhoneNumber { get; set; }
+		public string? PhoneNumber { get; set; }
 		public string? FbLink { get; set; }
 		public string? ILink { get; set; }
 		public string? WebLink { get; set; }

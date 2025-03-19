@@ -7,6 +7,7 @@ using Medicloud.DAL.Repository.Organizationn;
 using Medicloud.DAL.Repository.OrganizationPlan;
 using Medicloud.DAL.Repository.OrganizationTravelRel;
 using Medicloud.DAL.Repository.Staff;
+using Medicloud.DAL.Repository.WorkHour;
 
 namespace Medicloud.BLL.Services.Organization
 {
@@ -17,7 +18,7 @@ namespace Medicloud.BLL.Services.Organization
 		private readonly IStaffRepository _staffRepository;
 		private readonly IOrganizationCategoryRelRepository _organizationCategoryRelRepository;
 		private readonly IOrganizationTravelRelRepository _organizationTravelRelRepository;
-		private readonly IWorkHoursRepository _staffWorkHoursRepository;
+		private readonly IWorkHoursRepository _workHoursRepository;
 		private readonly IOrganizationPlanRepository _organizationPlanRepository;
 		private readonly IFileRepository _fileRepository;
 		public OrganizationService(IUnitOfWork unitOfWork, IOrganizationRepository organizationRepository, IStaffRepository staffRepository, IOrganizationCategoryRelRepository organizationCategoryRelRepository, IOrganizationTravelRelRepository organizationTravelRelRepository, IWorkHoursRepository staffWorkHoursRepository, IOrganizationPlanRepository organizationPlanRepository, IFileRepository fileRepository)
@@ -27,7 +28,7 @@ namespace Medicloud.BLL.Services.Organization
 			_staffRepository = staffRepository;
 			_organizationCategoryRelRepository = organizationCategoryRelRepository;
 			_organizationTravelRelRepository = organizationTravelRelRepository;
-			_staffWorkHoursRepository = staffWorkHoursRepository;
+			_workHoursRepository = staffWorkHoursRepository;
 			_organizationPlanRepository = organizationPlanRepository;
 			_fileRepository = fileRepository;
 		}
@@ -37,7 +38,8 @@ namespace Medicloud.BLL.Services.Organization
 
 			var orgDAO = new OrganizationDAO
 			{
-				name = dto.Name
+				name = dto.Name,
+				phoneNumber = dto.PhoneNumber,
 			};
 			using var con = _unitOfWork.BeginConnection();
 			int newOrgId = await _organizationRepository.AddAsync(orgDAO);
@@ -52,7 +54,6 @@ namespace Medicloud.BLL.Services.Organization
 			{
 				name = dto.StaffName,
 				email = dto.StaffEmail,
-				phoneNumber = dto.StaffPhoneNumber,
 				permissionLevelId = 1,
 				organizationId = newOrgId,
 				userId = dto.UserId,
@@ -60,21 +61,26 @@ namespace Medicloud.BLL.Services.Organization
 			int staffId = await _staffRepository.AddAsync(staffDAO);
 			TimeSpan defaultStartTime = new TimeOnly(9, 0).ToTimeSpan();
 			TimeSpan defaultEndTime = new TimeOnly(18, 0).ToTimeSpan();
-			var workHours = new List<StaffWorkHoursDAO>
+			var workHours = new List<WorkHourDAO>
 			{
-				new StaffWorkHoursDAO { staffId = staffId, dayOfWeek = 1, startTime =defaultStartTime, endTime = defaultEndTime },
-				new StaffWorkHoursDAO { staffId = staffId, dayOfWeek = 2, startTime =defaultStartTime, endTime = defaultEndTime },
-				new StaffWorkHoursDAO { staffId = staffId, dayOfWeek = 3, startTime =defaultStartTime, endTime = defaultEndTime },
-				new StaffWorkHoursDAO { staffId = staffId, dayOfWeek = 4, startTime =defaultStartTime, endTime = defaultEndTime },
-				new StaffWorkHoursDAO { staffId = staffId, dayOfWeek = 5, startTime =defaultStartTime, endTime = defaultEndTime },
-
-				new StaffWorkHoursDAO { staffId = staffId, dayOfWeek = 6, startTime = null, endTime = null },
-				new StaffWorkHoursDAO { staffId = staffId, dayOfWeek = 7, startTime = null, endTime = null }
+				new WorkHourDAO { dayOfWeek = 1, startTime =defaultStartTime, endTime = defaultEndTime },
+				new WorkHourDAO { dayOfWeek = 2, startTime =defaultStartTime, endTime = defaultEndTime },
+				new WorkHourDAO { dayOfWeek = 3, startTime =defaultStartTime, endTime = defaultEndTime },
+				new WorkHourDAO { dayOfWeek = 4, startTime =defaultStartTime, endTime = defaultEndTime },
+				new WorkHourDAO { dayOfWeek = 5, startTime =defaultStartTime, endTime = defaultEndTime },				  
+				new WorkHourDAO { dayOfWeek = 6, startTime = null, endTime = null },
+				new WorkHourDAO { dayOfWeek = 7, startTime = null, endTime = null }
 			};
 
 			foreach (var item in workHours)
 			{
-				int newId = await _staffWorkHoursRepository.AddAsync(item);
+				int newWorkHourId = await _workHoursRepository.AddAsync(item);
+				int organizationWorkHourId=await _workHoursRepository.AddOrganizationWorkHourAsync(newOrgId, newWorkHourId);
+			}
+			foreach (var item in workHours)
+			{
+				int newWorkHourId = await _workHoursRepository.AddAsync(item);
+				int organizationWorkHourId = await _workHoursRepository.AddStaffWorkHourAsync(staffId, newWorkHourId);
 			}
 
 
@@ -105,6 +111,7 @@ namespace Medicloud.BLL.Services.Organization
 				website=dto.WebLink,
 				onlineShopLink=dto.OnlineShopLink,
 				insLink=dto.ILink,
+				phoneNumber=dto.PhoneNumber
 
 			});
 			return result;
