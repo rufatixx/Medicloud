@@ -64,7 +64,7 @@ builder.Services.AddSession(options =>
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/Login/Index";
+        options.LoginPath = "/Welcome/Index";
         options.ExpireTimeSpan = TimeSpan.FromDays(30); // Make sure this aligns with session cookie MaxAge
         options.Cookie.HttpOnly = true;
         options.SlidingExpiration = true; // Refreshes the expiration time if a request is made and more than half the ExpireTimeSpan has elapsed

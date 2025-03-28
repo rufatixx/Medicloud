@@ -198,8 +198,8 @@
                                 {
                                     <tr>
                                         <td>
-                                            <h5 class="font-14 my-1 fw-normal">@item.name</h5>
-                                            <span class="text-muted font-13">@item.lastPurchaseDate.ToString("dd MMMM yyyy")</span>
+                                            <h5 class="font-14 my-1 fw-normal">@item.service_name</h5>
+                                            <span class="text-muted font-13">@item.last_purchase_date.ToString("dd MMMM yyyy")</span>
                                         </td>
                                         <td>
                                             <h5 class="font-14 my-1 fw-normal">@item.price</h5>
@@ -249,7 +249,7 @@
                         {
                             var item = Model.top5sellingServiceStatistics[i];
                             <p>
-                                <i class="mdi mdi-square" style="color:@colors[i % colors.Length];"></i> @item.name
+                                <i class="mdi mdi-square" style="color:@colors[i % colors.Length];"></i> @item.service_name
                                 <span class="float-end">@item.amount AZN</span>
                             </p>
                         }
@@ -372,7 +372,7 @@
                 return colors[index % colors.length];
             }
 
-            var categories = @Html.Raw(Json.Serialize(Model.top5sellingServiceStatistics.Select(s => s.name).ToArray()));
+            var categories = @Html.Raw(Json.Serialize(Model.top5sellingServiceStatistics.Select(s => s.service_name).ToArray()));
              var seriesData = @Html.Raw(Json.Serialize(seriesData));
 
             // Convert strings to numbers in JavaScript

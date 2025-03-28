@@ -5,6 +5,13 @@
 <html lang="en">
 
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BKEQZ30QPK"></script>
+    <script>window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-BKEQZ30QPK');</script>
     <meta charset="utf-8" />
     <title>Medicloud @ViewData["Title"] </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,9 +19,9 @@
     <meta content="Flexit" name="author" />
 
     <!-- App favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="~/res/brand/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="~/res/brand/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="~/res/brand/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="~/assets/images/mc_logo.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="~/assets/images/mc_logo.svg">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/assets/images/mc_logo.svg">
     @*<link rel="shortcut icon" href="/favicon.ico">*@
 
     <!-- Daterangepicker css -->
@@ -32,6 +39,7 @@
     <!-- Icons css -->
     <link href="/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
 </head>
+
 
 <body>
     <!-- Begin page -->
@@ -67,7 +75,7 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-6">
-                            <script>document.write(new Date().getFullYear())</script> © Medicloud - medicloud.az 
+                            <script>document.write(new Date().getFullYear())</script> © Medicloud - medicloud.az
                         </div>
 
                         <div class="col-md-6">
@@ -75,10 +83,10 @@
                                 Dəstək üçün:
                                 <a href="tel:+994513210736">+994 51 321 07 36</a>
                                 @*<a href="javascript: void(0);">About</a>
-        <a href="javascript: void(0);">Support</a>
-        <a href="javascript: void(0);">Contact Us</a>*@
+                                    <a href="javascript: void(0);">Support</a>
+                                    <a href="javascript: void(0);">Contact Us</a>*@
                             </div>
-        </div>
+                        </div>
                     </div>
                 </div>
             </footer>
@@ -808,21 +816,21 @@
     </div>
     @*warning modal*@
     @*<div class="modal fade" id="warningModal" data-backdrop="static" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="warningTitle">Bildiriş</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-                </div>
-                <div class="modal-body">
-                    <p id="warningText">---</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" id="warningModalButton" data-dismiss="modal" style="display:none">Bağla</button>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="warningTitle">Bildiriş</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="warningText">---</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" id="warningModalButton" data-dismiss="modal" style="display:none">Bağla</button>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>*@
+        </div>*@
     <div id="warningModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">

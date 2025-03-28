@@ -94,8 +94,8 @@ namespace Medicloud.DAL.Repository
                             personal.isDr = reader["isDr"] == DBNull.Value ? false : Convert.ToBoolean(reader["isDr"]);
                             personal.isAdmin = reader["isAdmin"] == DBNull.Value ? false : Convert.ToBoolean(reader["isAdmin"]);
 							personal.isManager = reader["isManager"] == DBNull.Value ? false : Convert.ToBoolean(reader["isManager"]);
-
-							personalList.Add(personal);
+                            personal.imagePath = reader["image_path"] == DBNull.Value ? "" : reader["image_path"].ToString();
+                            personalList.Add(personal);
 
 
                         }

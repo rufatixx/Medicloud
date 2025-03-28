@@ -1,0 +1,93 @@
+﻿@{
+    ViewData["Title"] = "Create Organization";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h4 class="card-title text-center mb-4">Yeni müəssisə əlavə et</h4>
+
+                    <div id="alertPlaceholder"></div>
+
+                    <form id="createOrgForm">
+                        <div class="mb-3">
+                            <label for="organizationName" class="form-label">Müəssisə adı</label>
+                            <input type="text" class="form-control" id="organizationName" name="organizationName" required />
+                        </div>
+
+
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Yarat</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+    $("#createOrgForm").on("submit", function (e) {
+        showLoading();
+        e.preventDefault();
+
+        const organizationName = $("#organizationName").val();
+
+        $.ajax({
+            url: '@Url.Action("CreateOrganizationAjax", "CreateOrganization", new { area = "Admin" })',
+            type: 'POST',
+            data: { organizationName },
+            success: function (response) {
+                let alertHtml = `<div class="alert alert-${response.success ? "success" : "danger"} alert-dismissible fade show" role="alert">
+                    ${response.message}
+                </div>`;
+                $("#alertPlaceholder").html(alertHtml);
+
+                if (response.success) {
+                    // Hide the form
+                    $("#createOrgForm").hide();
+
+                    // Update selection
+                    if (typeof UpdateOrganizationSelection === "function") {
+                        UpdateOrganizationSelection(response.orgId, response.orgName);
+                    }
+
+                    // Countdown
+                    let seconds = 5;
+                    let countdownHtml = `
+                        <p class="text-center mt-3" id="redirectMessage">
+                            Ana səhifəyə yönləndirilirsiniz: <strong>${seconds}</strong>
+                        </p>
+                        <p class="text-center">
+                            <a href='@Url.Action("Index", "Home", new { area = "Admin" })' class="btn btn-sm btn-outline-primary">
+                               Bağla
+                            </a>
+                        </p>`;
+                    $("#alertPlaceholder").append(countdownHtml);
+
+                    let timer = setInterval(function () {
+                        seconds--;
+                        $("#redirectMessage strong").text(seconds);
+
+                        if (seconds === 0) {
+                            clearInterval(timer);
+                            window.location.href = '@Url.Action("Index", "Home", new { area = "Admin" })';
+                        }
+                    }, 1000);
+                }
+            },
+            error: function () {
+                $("#alertPlaceholder").html(`<div class="alert alert-danger">Xəta. Yenidən cəhd edin.</div>`);
+            },
+            complete: function (data) {
+                hideLoading();
+            }
+        });
+    });
+    </script>
+
+}

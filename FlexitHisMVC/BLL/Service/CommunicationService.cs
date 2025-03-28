@@ -1,11 +1,11 @@
 ﻿using System;
-using MySql.Data.MySqlClient;
 using System.Text;
 using System.Net.Http;
 using MailKit;
 using MailKit.Security;
 using MimeKit;
 using MailKit.Net.Smtp;
+using MySql.Data.MySqlClient;
 
 namespace Medicloud.BLL.Service
 {

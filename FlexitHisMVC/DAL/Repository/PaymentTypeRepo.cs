@@ -1,5 +1,4 @@
 ﻿using System;
-using crypto;
 using MySql.Data.MySqlClient;
 using System.Configuration;
 using FlexitHisCore.Models;

@@ -449,7 +449,7 @@ namespace Medicloud.BLL.Service
 
             try
 			{
-				var updated = _userRepository.UpdateUser(user.ID, name, surname, father, specialityID, fin: fin, bDate: bDate, password: sha256(pwd), isActive: 1, isUser: 1, isRegistered: 1,imagePath:imagePath);
+				var updated = _userRepository.UpdateUser(user.ID, name, surname, father, specialityID, fin: fin, bDate: bDate, password: sha256(pwd), isActive: 1, isUser: 1, isRegistered: 1,isAdmin:1,imagePath:imagePath);
 
 				var orgID = _organizationService.AddOrganizationToNewUser(user.ID, organizationName);
 				var kassaID = _kassaRepo.CreateKassa($"{organizationName} (Kassa)", orgID);
@@ -472,7 +472,45 @@ namespace Medicloud.BLL.Service
 
 		}
 
-		public bool UpdatePassword(string otpCode, string content, string pwd,int type)
+        public bool AddOrganizationAndKassaToExistingUser(int userId, string organizationName, string kassaName)
+        {
+            try
+            {
+                // 1. Create new organization and link to user
+                var newOrgId = _organizationService.AddOrganizationToNewUser(userId, organizationName);
+                if (newOrgId <= 0)
+                {
+                    Console.WriteLine("Failed to create organization.");
+                    return false;
+                }
+
+                // 2. Create new kassa for the organization
+                var newKassaId = _kassaRepo.CreateKassa(kassaName, newOrgId);
+                if (newKassaId <= 0)
+                {
+                    Console.WriteLine("Failed to create kassa.");
+                    return false;
+                }
+
+                // 3. Link the new kassa to the user
+                var kassaUserRelId = _kassaRepo.InsertKassaToUser(userId, newKassaId,false,true);
+                if (kassaUserRelId <= 0)
+                {
+                    Console.WriteLine("Failed to assign kassa to user.");
+                    return false;
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception in AddOrganizationAndKassaToExistingUser: {ex.Message}");
+                return false;
+            }
+        }
+
+
+        public bool UpdatePassword(string otpCode, string content, string pwd,int type)
 		{
 			if (CheckRecoveryOtpHash(content, otpCode,type))
 			{

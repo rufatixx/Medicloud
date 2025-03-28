@@ -52,6 +52,7 @@
     <None Remove="DAL\Entities\" />
     <None Remove="Views\Recovery\" />
     <None Remove="Views\Profile\" />
+    <None Remove="Areas\Admin\Views\CreateOrganization\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="BLL\Services\Role\" />
@@ -90,11 +91,12 @@
     <Folder Include="Views\Welcome\" />
     <Folder Include="wwwroot\welcome_files\" />
     <Folder Include="Views\Recovery\" />
+    <Folder Include="Areas\Admin\Views\CreateOrganization\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.1.35" />
     <PackageReference Include="MimeKit" Version="4.9.0" />
-    <PackageReference Include="MySql.Data" Version="8.0.31" />
+    <PackageReference Include="MySql.Data" Version="9.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Serilog.AspNetCore" Version="6.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />

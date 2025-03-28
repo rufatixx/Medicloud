@@ -30,6 +30,7 @@ namespace Medicloud.Controllers
 
         public IActionResult Index()
         {
+           
 
             var viewModel = new HomePageViewModel
             {
