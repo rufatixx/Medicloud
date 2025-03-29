@@ -170,8 +170,11 @@
     @*<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>*@
 
 
-
-
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery/dist/jquery.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.9/jquery.inputmask.min.js"></script>
     <!-- Vendor js -->
     <script src="/assets/js/vendor.min.js"></script>
 
@@ -180,6 +183,8 @@
 
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+
+
 
     <script src="~/js/router.js"></script>
     @await RenderSectionAsync("Scripts", required: false)

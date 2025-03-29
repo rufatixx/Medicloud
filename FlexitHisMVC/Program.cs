@@ -64,7 +64,7 @@ builder.Services.AddSession(options =>
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/Login/Index";
+        options.LoginPath = "/Welcome/Index";
         options.ExpireTimeSpan = TimeSpan.FromDays(30); // Make sure this aligns with session cookie MaxAge
         options.Cookie.HttpOnly = true;
         options.SlidingExpiration = true; // Refreshes the expiration time if a request is made and more than half the ExpireTimeSpan has elapsed
@@ -108,6 +108,7 @@ builder.Services.AddScoped<IRequestTypeService, RequestTypeService>();
 builder.Services.AddScoped<IPatientCardRepository, PatientCardRepository>();
 builder.Services.AddScoped<IPatientCardService, PatientCardService>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+builder.Services.AddScoped<IServicePriceGroupRepository, ServicePriceGroupRepository>();
 var app = builder.Build();
 
 app.UseSession();

@@ -6,6 +6,7 @@ using Medicloud.Models.DTO;
 using Medicloud.Models.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -57,6 +58,74 @@ namespace Medicloud.Controllers
             ViewBag.services = servicesRepo.GetServicesByOrganization(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")));
             return View();
         }
+
+
+        public IActionResult Edit()
+        {
+            var userID = User.FindFirst("ID")?.Value;
+
+            ViewBag.expiredDate = planRepository.GetUserPlanByUserId(Convert.ToInt32(userID)).expire_date;
+            var user = personalDAO.GetUserByID(Convert.ToInt32(userID));
+            if (!string.IsNullOrEmpty(user.imagePath))
+            {
+                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", user.imagePath.TrimStart('/'));
+                if (!System.IO.File.Exists(path))
+                {
+                    user.imagePath = "";
+                }
+            }
+            //ViewBag.userData =user;
+
+            ViewBag.services = servicesRepo.GetServicesByOrganization(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")));
+            return View(user);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateProfile([FromForm] string name,string surname,string father,string fin, string passportSerialNum)
+        {
+            //Console.WriteLine($"emailll {email}");
+
+            var userID = int.Parse(User.FindFirst("ID")?.Value);
+
+            int updated = personalDAO.UpdateUser(userID, name:name,surname:surname,father:father,fin:fin,passportSerialNum:passportSerialNum);
+            return RedirectToAction("Edit");
+        }
+
+        public async Task<IActionResult> UpdateProfileImage([FromForm] IFormFile profilePicture, string existingPhotoPath)
+        {
+            string relativeFilePath = "";
+
+            if (!string.IsNullOrEmpty(existingPhotoPath))
+            {
+                string existingPhotoFullPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", existingPhotoPath.TrimStart('/'));
+
+                // Check if the file exists before deleting it
+                if (System.IO.File.Exists(existingPhotoFullPath))
+                {
+                    // Delete the existing photo
+                    System.IO.File.Delete(existingPhotoFullPath);
+                }
+            }
+
+            if (profilePicture != null && profilePicture.Length > 0)
+            {
+                string fileExtension = Path.GetExtension(profilePicture.FileName);
+
+                string fileName = Guid.NewGuid().ToString() + fileExtension;
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "user_images", fileName);
+                relativeFilePath = "/user_images/" + fileName;
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await profilePicture.CopyToAsync(stream);
+                }
+            }
+
+            var userID = int.Parse(User.FindFirst("ID")?.Value);
+
+            int updated=personalDAO.UpdateUser(userID, imagePath: relativeFilePath);
+            return RedirectToAction("Edit");
+        }
+        
 
         [HttpPost]
         public IActionResult InsertService([FromBody] ServiceObj serviceObj)

@@ -13,18 +13,20 @@
                 <a href="javascript:window.print()">
                     <button type="button" class="btn btn-primary w-md bg-blue-light radius-10"><i class="ri-printer-line"></i>Çap et</button>
                 </a>
-                @if (ViewBag.cardID==0)
+                @if (ViewBag.cardID == 0)
                 {
                     <button type="reset" class="btn btn-primary w-md bg-blue radius-10" onclick=" $('#patientSearch').modal('show');">+ Yeni müayinə</button>
 
                 }
 
 
-                @if (ViewBag.cardID>0)
+                @if (ViewBag.cardID > 0)
                 {
+                    <a class="btn btn-primary" href="@Url.Action("Recipe", "Reception",new {cardID = ViewBag.cardID  })">Ödəniş çeki</a>
                     <button type="button" class="btn btn-primary" onclick="showAddServiceModal()">
                         + Yeni xidmət
                     </button>
+
                 }
 
             </div>

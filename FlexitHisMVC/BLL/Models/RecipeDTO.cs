@@ -13,9 +13,9 @@ namespace Medicloud.Models
         public string father { get; set; }
         public string phone { get; set; }
         public double price { get; set; }
-        public string serviceName { get; set; }
-        public string organizationName { get; set; }
-        public int isPaid { get; set; }
+        public string service_name { get; set; }
+        public string organization_name { get; set; }
+        public int is_paid { get; set; }
         public int finished { get; set; }
         public int quantity { get; set; }
     }

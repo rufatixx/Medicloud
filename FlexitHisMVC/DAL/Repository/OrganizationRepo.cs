@@ -117,6 +117,7 @@ namespace Medicloud.DAL.Repository
         }
         public long InsertOrganizationToUser( long userID, long organizationID)
         {
+			int roleId = 4;
             long lastID = 0;
             try
             {
@@ -128,10 +129,10 @@ namespace Medicloud.DAL.Repository
 
                     connection.Open();
 
-                    sql = @"Insert INTO user_organization_rel (organizationID,userID)
-SELECT @organizationID,@userID FROM DUAL
+                    sql = @"Insert INTO user_organization_rel (organizationID,userID,role_id)
+SELECT @organizationID,@userID,@RoleId FROM DUAL
 WHERE NOT EXISTS 
-  (SELECT * FROM user_organization_rel WHERE organizationID=@organizationID and userID=@userID )";
+  (SELECT * FROM user_organization_rel WHERE organizationID=@organizationID and userID=@userID  and role_id=@RoleId )";
 
 
 
@@ -139,6 +140,7 @@ WHERE NOT EXISTS
                     {
                         com.Parameters.AddWithValue("@organizationID", organizationID);
                         com.Parameters.AddWithValue("@userID", userID);
+                        com.Parameters.AddWithValue("@RoleId", roleId);
 
 
                          com.ExecuteNonQuery();

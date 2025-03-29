@@ -1,3 +1,4 @@
+using Medicloud.DAL.Repository.Abstract;
 using Medicloud.Data;
 using Medicloud.Models;
 using Medicloud.Models.Domain;
@@ -17,19 +18,19 @@ namespace Medicloud.Controllers
 		public IConfiguration Configuration;
 		private readonly IWebHostEnvironment _hostingEnvironment;
 		private PriceGroupCompanyRepository priceGroupCompanyRepository;
-		private ServicePriceGroupRepository servicePriceGroupRepository;
+		private IServicePriceGroupRepository _servicePriceGroupRepository;
 		PatientCardRepo patientCardRepo;
 		PatientCardServiceRelRepo patientCardServiceRelRepo;
 		PatientDiagnoseRel patientDiagnoseRel;
 		ServicesRepo servicesRepo;
 		RequestTypeRepo requestTypeRepo;
-		public ServicesController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
+		public ServicesController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IServicePriceGroupRepository servicePriceGroupRepository)
 		{
 			Configuration = configuration;
 			ConnectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
 			_hostingEnvironment = hostingEnvironment;
 			priceGroupCompanyRepository = new PriceGroupCompanyRepository(ConnectionString);
-			servicePriceGroupRepository = new ServicePriceGroupRepository(ConnectionString);
+            _servicePriceGroupRepository = servicePriceGroupRepository;
 			patientCardRepo = new PatientCardRepo(ConnectionString);
 			patientCardServiceRelRepo = new PatientCardServiceRelRepo(ConnectionString);
 			patientDiagnoseRel = new PatientDiagnoseRel(ConnectionString);

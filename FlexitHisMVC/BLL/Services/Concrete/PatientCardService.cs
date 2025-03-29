@@ -16,10 +16,10 @@ namespace Medicloud.BLL.Services.Concrete
             _repository=repository;
         }
 
-        public Task<List<PatientDocDTO>> GetAllPatientsCards(long organizationID, long patientID)
+        public async Task<List<PatientDocDTO>> GetAllPatientsCards(long organizationID, long patientID)
         {
             using var con = _unitOfWork.BeginConnection();
-            var result=_repository.GetAllPatientsCards(organizationID, patientID);
+            var result=await _repository.GetAllPatientsCards(organizationID, patientID);
             return result;
         }
     }

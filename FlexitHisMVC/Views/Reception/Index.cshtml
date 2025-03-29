@@ -9,15 +9,7 @@
     }
 </style>
 <div class="container ">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Qəbul</h2>
-        <a class="btn  input-group-text me-1" onclick=" $('#patientSearch').modal('show');"><i class="mdi mdi-account-search "></i> <span>Axtar düzəliş</span></a>
-        @*<a class="btn" onclick=" $('#patientSearch').modal('show');">
-                <span class="input-group-text bg-primary border-primary text-white mdi mdi-account-search-outline">
-                    Xəstə axtar
-                </span>
-            </a>*@
-    </div>
+   
     <!--<div class="row border-bottom">
         <div class="col-12">
             <div class="page-title-box">
@@ -46,19 +38,21 @@
         </div>
     </div>-->
 
-    <form class="needs-validation" novalidate id="form1">
-
+    <form class="needs-validation mt-3" novalidate id="form1">
+        
 
         <div class="row">
             <div class="col-12">
                 <div class="card">
 
-                    <div class="card-header">
-                        <h4>Müştəri məlumatları</h4>
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h4>Şəxsi məlumatlar</h4>
+                        <a class="btn shadow-lg input-group-text me-1" onclick=" $('#patientSearch').modal('show');"><i class="mdi mdi-account-search "></i> <span>Axtarış</span></a>
+
                     </div>
                     <div class="card-body">
                         <div class="form-group mb-3">
-                           
+
                             <!-- <h3 style="text-align:right; margin-right:2%"><span class="badge badge-secondary">Cəmi: ---</span></h1> -->
                             <div class="row">
 
@@ -162,8 +156,8 @@
 
                             <div class="row">
                                 <div class="col-md-12 text-right">
-                                    <button type="button" class="btn btn-danger " onclick="DeleteSelectedPatient()">temizle</button>
-                                    <button type="button" class="btn btn-success " onclick="DeleteSelectedPatient()">yenile</button>
+                                    <button type="button" class="btn btn-danger " onclick="DeleteSelectedPatient()">Xanaları təmizlə</button>
+                                    @*<button type="button" class="btn btn-success " onclick="DeleteSelectedPatient()">yenile</button>*@
                                 </div>
                             </div>
 
@@ -220,10 +214,10 @@
                                             <label class="form-label">Müraciyət növü</label>
                                             <select class="form-control" required id="requestType">
                                                 <!-- <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option> -->
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option> -->
                                             </select>
                                             <div class="valid-feedback">
                                                 Əla!
@@ -247,10 +241,10 @@
                                             <label class="form-label">Xidmət</label>
                                             <select class="form-control" required id="services" onchange="servicesChanged(this)">
                                                 <!-- <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option> -->
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option> -->
                                             </select>
                                             <div class="valid-feedback">
                                                 Əla!
@@ -261,21 +255,21 @@
                                         </div>
 
                                         <!--<div class="col-md-4">
-                                        <label for="exampleFormControlSelect1">Poliklinika</label>
-                                        <select class="form-control" required id="departments" onchange="depChanged(this)">-->
+                                    <label for="exampleFormControlSelect1">Poliklinika</label>
+                                    <select class="form-control" required id="departments" onchange="depChanged(this)">-->
                                         <!-- <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                        <option>5</option> -->
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option> -->
                                         <!--</select>
-                                            <div class="valid-feedback">
-                                                Əla!
-                                            </div>
-                                            <div class="invalid-feedback">
-                                                Boşluğu doldurun.
-                                            </div>
-                                        </div>-->
+                                        <div class="valid-feedback">
+                                            Əla!
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Boşluğu doldurun.
+                                        </div>
+                                    </div>-->
                                     </div>
                                 </div>
                                 <div class="form-group mb-3">
@@ -285,10 +279,10 @@
                                             <label class="form-label">Poliklinikada xidmət edən həkim</label>
                                             <select class="form-control" required id="doctors">
                                                 <!-- <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option> -->
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option> -->
                                             </select>
                                             <div class="valid-feedback">
                                                 Əla!
@@ -302,10 +296,10 @@
                                             <label class="form-label">Gödərən həkim</label>
                                             <select class="form-control" id="referer">
                                                 <!-- <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option> -->
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option> -->
                                             </select>
                                             <div class="valid-feedback">
                                                 Əla!
@@ -329,11 +323,11 @@
                                 </div>
 
                                 @*<div class="form-group">
-                                        <div class="row">
+                                    <div class="row">
 
 
-                                        </div>
-                                    </div>*@
+                                    </div>
+                                </div>*@
                                 <div class="form-group mb-3">
 
                                     <label class="form-label">Qeyd</label>

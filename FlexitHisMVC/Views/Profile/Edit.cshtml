@@ -1,0 +1,274 @@
+﻿@model User
+
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4 text-center">
+
+            <form method="post" class="text-center" enctype="multipart/form-data" asp-controller="Profile" asp-action="UpdateProfileImage" id="profilePictureForm">
+
+                @{
+                    var imageSrc = "/res/user.svg";
+                    string filePath = "";
+                    if (!string.IsNullOrEmpty(Model.imagePath))
+                    {
+                        filePath = Model.imagePath.Replace("\\", "/");
+                        imageSrc = filePath;
+
+                    }
+                }
+                <div class="position-relative border-bottom text-center mb-2 mb-sm-0 justify-content-center">
+                    @*                     <img id="profileImage" src="@imageSrc" ;
+                         alt="Profile Image" class="rounded-circle" width="150" height="150" style="object-fit:cover;">
+
+                    <button class="btn btn-light btn-sm position-absolute" style="bottom: 0; right: 0; border-radius: 50%;" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="ri-pencil-fill"></i>
+                    </button> *@
+
+
+                    <img id="profileImage" src="@imageSrc"
+                         alt="Profile Image" class="rounded-circle mb-1" width="150" height="150" style="object-fit:cover;">
+                    <input type="file" id="profilePicture" name="profilePicture" accept="image/*" class="d-none" required onchange="previewProfilePicture(event)">
+                    <div class="invalid-feedback">
+                        Zəhmət olmasa, profil şəkli əlavə edin.
+                    </div>
+                    <button type="button" class="btn btn-light btn-sm position-absolute mb-1" style="bottom: 0; right: 0; border-radius: 50%;" data-bs-toggle="dropdown" aria-expanded="false" @* onclick="changePicture(event)" *@>
+                        <i class="ri-pencil-fill"></i>
+                    </button>
+
+                    <ul class="dropdown-menu">
+
+                        <li>
+                            <button type="button" class="dropdown-item" id="changeProfilePicture">Şəkli dəyiş</button>
+                        </li>
+
+                        @if (!string.IsNullOrEmpty(filePath))
+                        {
+                            <li>
+                                <button type="button" class="dropdown-item" id="removeProfilePicture">Şəkli sil</button>
+                            </li>
+                        }
+
+
+
+                    </ul>
+                    <input type="hidden" id="photoPath" name="existingPhotoPath" value="@Model.imagePath" />
+                    <input type="file" id="profilePicture" name="profilePicture" accept="image/*" class="d-none">
+
+
+                </div>
+            </form>
+        </div>
+        <div class="col-md-8">
+            <form method="post" id="updateForm" asp-controller="Profile" asp-action="UpdateProfile">
+                <ul class="list-group list-group-flush rounded">
+
+                    @* <li class="list-group-item"><strong>Ad:</strong> @Model.name</li> *@
+
+
+                    <li class="list-group-item parent-editable">
+                        <strong>Ad:</strong>
+                        <span class="display text-break">@Model.name</span>
+                        <input type="text" class="form-control editable" name="name" value="@Model.name" style="display:none;" />
+                        <button type="button" class="btn  btn-sm position-absolute edit-btn" style="top: 0; right: 0;">
+                            <i class="ri-pencil-fill"></i>
+                        </button>
+
+                    </li>
+                    @* <li class="list-group-item"><strong>Soyad:</strong> @Model.surname</li> *@
+
+                    <li class="list-group-item parent-editable">
+                        <strong>Soyad:</strong>
+                        <span class="display text-break">@Model.surname</span>
+                        <input type="text" class="form-control editable" name="surname" value="@Model.surname" style="display:none;" />
+                        <button type="button" class="btn  btn-sm position-absolute edit-btn" style="top: 0; right: 0;">
+                            <i class="ri-pencil-fill"></i>
+                        </button>
+
+                    </li>
+                    @* <li class="list-group-item"><strong>Ata adı:</strong> @Model.father</li> *@
+                    <li class="list-group-item parent-editable">
+                        <strong>Ata adı:</strong>
+                        <span class="display text-break">@Model.father</span>
+                        <input type="text" class="form-control editable" name="father" value="@Model.father" style="display:none;" />
+                        <button type="button" class="btn  btn-sm position-absolute edit-btn" style="top: 0; right: 0;">
+                            <i class="ri-pencil-fill"></i>
+                        </button>
+
+                    </li>
+
+                    @* <li class="list-group-item"><strong>Fin:</strong> @Model.fin</li> *@
+
+                    <li class="list-group-item parent-editable">
+                        <strong>Fin:</strong>
+                        <span class="display text-break">@Model.fin</span>
+                        <input type="text" class="form-control editable" name="fin" value="@Model.fin" style="display:none;" />
+                        <button type="button" class="btn  btn-sm position-absolute edit-btn" style="top: 0; right: 0;">
+                            <i class="ri-pencil-fill"></i>
+                        </button>
+
+                    </li>
+                    @* <li class="list-group-item"><strong>Seriya nömrəsi:</strong> @Model.passportSerialNum</li> *@
+
+                    <li class="list-group-item parent-editable">
+                        <strong>Seriya nömrəsi:</strong>
+                        <span class="display text-break">@Model.passportSerialNum</span>
+                        <input type="text" class="form-control editable" name="passportSerialNum" value="@Model.passportSerialNum" style="display:none;" />
+                        <button type="button" class="btn  btn-sm position-absolute edit-btn" style="top: 0; right: 0;">
+                            <i class="ri-pencil-fill"></i>
+                        </button>
+
+                    </li>
+
+                    <li class="list-group-item"><strong>Doğum tarixi:</strong> @Model.bDate</li>
+
+                    <li class="list-group-item"><strong>Telefon:</strong> @Model.mobile</li>
+                    <li class="list-group-item"><strong>Elektron poçt:</strong> @Model.email</li>
+
+
+@*                     <li class="list-group-item parent-editable">
+                        <strong>Elektron poçt:</strong>
+                        <span class="display text-break">@Model.email</span>
+                        <input type="text" class="form-control editable" name="email" value="@Model.email" style="display:none;" />
+                        <button type="button" class="btn  btn-sm position-absolute edit-btn" style="top: 0; right: 0;">
+                            <i class="ri-pencil-fill"></i>
+
+                        </button>
+
+                    </li> *@
+
+                </ul>
+            </form>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" id="saveButton" class="btn btn-primary d-none mb-2 mt-5">Yadda saxla</button>
+        </div>
+
+    </div>
+</div>
+
+
+@section Scripts{
+
+<script>
+
+
+
+    function Edit(button) {
+           var parent = $(button).closest('.parent-editable');
+           var display = parent.find('.display');
+           var input = parent.find('.editable');
+
+           input.show().focus();
+           display.hide();
+
+           input.val(display.text());
+       }
+
+
+       function save(button) {
+           var parent = $(button).closest('.parent-editable');
+           var display = parent.find('.display');
+           var input = parent.find('.editable');
+
+           input.hide();
+           display.show();
+
+           display.text(input.val());
+       }
+
+
+       $('.editable').on('blur', function () {
+           save(this);
+       });
+
+
+       $('.edit-btn').on('click', function () {
+           Edit(this);
+       });
+
+       var originalValues = {};
+       var isChanged = false;
+
+
+       $('.parent-editable').each(function () {
+           var parent = $(this);
+           var inputs = parent.find('.editable');
+
+           inputs.each(function () {
+               var input = $(this);
+               var display = input.closest('.parent-editable').find('.display');
+               var originalValue = display.text();
+               var inputName = input.attr('name');
+
+               originalValues[inputName] = originalValue;
+           });
+       });
+
+
+       $('.editable').on('input', function () {
+           var input = $(this);
+           var parent = input.closest('.parent-editable');
+           var saveButton = parent.find('.save-btn');
+
+           var inputName = input.attr('name');
+           var originalValue = originalValues[inputName];
+           var currentValue = input.val();
+
+           if (originalValue !== currentValue) {
+               isChanged = true;
+           } else {
+               isChanged = $('.editable').toArray().some(function (inputElement) {
+                   var input = $(inputElement);
+                   var inputName = input.attr('name');
+                   return originalValues[inputName] !== input.val();
+               });
+           }
+           if (isChanged) {
+               showSaveButton();
+           } else {
+               hideSaveButton();
+           }
+       });
+
+       $('#saveButton').on('click', function () {
+           $('#updateForm').submit();
+       });
+
+
+       $('#changeProfilePicture').on('click', function () {
+        $('#profilePicture').click();
+       });
+
+       $('#profilePicture').on('change', function () {
+         $('#profilePictureForm').submit();
+       });
+
+
+       $('#removeProfilePicture').on('click', function () {
+
+           $('#profilePictureForm').submit();
+
+       });
+
+       $('#updateForm').submit(function (e) {
+             showLoading();
+       });
+
+       $('#profilePictureForm').submit(function (e) {
+                showLoading();
+      });
+
+
+
+        function showSaveButton() {
+            document.getElementById("saveButton").classList.remove("d-none");
+        }
+        function hideSaveButton() {
+            document.getElementById("saveButton").classList.add("d-none");
+        }
+
+</script>
+
+}

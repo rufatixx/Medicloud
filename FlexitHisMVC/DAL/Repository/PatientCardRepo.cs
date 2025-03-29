@@ -1,5 +1,4 @@
 ﻿using System;
-using crypto;
 using System.Configuration;
 using Medicloud.Models;
 
@@ -8,6 +7,7 @@ using System.Collections.Generic;
 using Medicloud.Models.Domain;
 using Medicloud.Models.DTO;
 using System.Text;
+using Dapper;
 
 namespace Medicloud.Models.Repository
 {
@@ -437,98 +437,54 @@ WHERE uhr.userID = @userID and pc.patientID = @patientID and finished= 0", conne
         }
 
         public List<RecipeDTO> GetUnpaidRecipe(long patientCardID)
-
         {
-
             List<RecipeDTO> patientList = new List<RecipeDTO>();
+
             try
             {
-
-                using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+                using (var connection = new MySqlConnection(ConnectionString))
                 {
-
-
                     connection.Open();
 
-                    using (MySqlCommand com = new MySqlCommand($@"
-SELECT 
-    a.serviceID,
-    COUNT(*) AS quantity,
-    MAX(a.patientCardID) AS patientCardID,
-    MAX(pk.finished) AS finished,
-    (SELECT name FROM patients WHERE id = pk.patientID) AS name,
-    (SELECT surname FROM patients WHERE id = pk.patientID) AS surname,
-    (SELECT father FROM patients WHERE id = pk.patientID) AS father,
-    (SELECT clientPhone FROM patients WHERE id = pk.patientID) AS phone_number,
-    (SELECT price FROM services WHERE id = a.serviceID) AS price,
-    (SELECT name FROM services WHERE id = a.serviceID) AS service_name,
-    (SELECT name FROM organizations WHERE id = hp.id) AS organization_name
-FROM 
-    patient_card_service_rel a 
-JOIN 
-    patient_card pk ON a.patientCardID = pk.id
-JOIN 
-    organizations hp ON pk.organizationID = hp.id
-WHERE 
-    patientCardID = @patientCardID AND pk.finished = 0 
-GROUP BY 
-    a.serviceID;
+                    string query = @"
+                SELECT 
+                    a.serviceID,
+                    COUNT(*) AS quantity,
+                    MAX(a.patientCardID) AS patientCardID,
+                    MAX(pk.finished) AS finished,
+                    (SELECT name FROM patients WHERE id = pk.patientID) AS name,
+                    (SELECT surname FROM patients WHERE id = pk.patientID) AS surname,
+                    (SELECT father FROM patients WHERE id = pk.patientID) AS father,
+                    (SELECT clientPhone FROM patients WHERE id = pk.patientID) AS phone_number,
+                    (SELECT price FROM services WHERE id = a.serviceID) AS price,
+                    (SELECT name FROM services WHERE id = a.serviceID) AS service_name,
+                    (SELECT name FROM organizations WHERE id = hp.id) AS organization_name,
+                    0 AS is_paid  -- Placeholder, since you don't select it from a table
+                FROM 
+                    patient_card_service_rel a 
+                JOIN 
+                    patient_card pk ON a.patientCardID = pk.id
+                JOIN 
+                    organizations hp ON pk.organizationID = hp.id
+                WHERE 
+                    patientCardID = @patientCardID AND pk.finished = 0 
+                GROUP BY 
+                    a.serviceID;
+            ";
 
-
-", connection))
-                    {
-                        com.Parameters.AddWithValue("@patientCardID", patientCardID);
-                        MySqlDataReader reader = com.ExecuteReader();
-                        if (reader.HasRows)
-                        {
-
-
-                            while (reader.Read())
-                            {
-
-                                RecipeDTO recipe = new RecipeDTO();
-                                recipe.serviceID = Convert.ToInt64(reader["serviceID"]);
-                                recipe.patientCardID = Convert.ToInt64(reader["patientCardID"]);
-                                recipe.finished = Convert.ToInt32(reader["finished"]);
-                                recipe.name = reader["name"].ToString();
-                                recipe.surname = reader["surname"].ToString();
-                                recipe.father = reader["father"].ToString();
-                                recipe.phone = reader["phone_number"].ToString();
-                                recipe.price = Convert.ToDouble(reader["price"]);
-                                recipe.serviceName = reader["service_name"].ToString();
-                                recipe.organizationName = reader["organization_name"].ToString();
-                                recipe.quantity = Convert.ToInt32(reader["quantity"]);
-                                recipe.isPaid = Convert.ToInt32(reader["is_paid"]);
-
-
-                                patientList.Add(recipe);
-
-
-                            }
-                            patientList.Reverse();
-
-
-                        }
-
-                    }
-
-
-                    connection.Close();
-
-
+                    patientList = connection.Query<RecipeDTO>(query, new { patientCardID }).ToList();
+                    patientList.Reverse();
                 }
-
             }
             catch (Exception ex)
             {
                 StandardMessages.CallSerilog(ex);
                 Console.WriteLine(ex.Message);
-
             }
-
 
             return patientList;
         }
+
 
         public List<PatientDocDTO> GetPatientsByDr(int docID)
 

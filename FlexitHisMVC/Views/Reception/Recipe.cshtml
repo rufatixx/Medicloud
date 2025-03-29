@@ -1,332 +1,158 @@
-﻿@model List<RecipeDTO>;
+﻿@model List<RecipeDTO>
+
 @{
+    ViewData["Title"] = "Ödəniş Çeki";
+    ViewData["BodyClass"] = "receipt-mode"; // For optional layout tweaks
     double totalPrice = 0;
-
 }
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,600&display=swap" rel="stylesheet">
+
+@section Styles {
     <style>
-        * {
-            box-sizing: border-box;
-            ;
-        }
-
-        html,
-        body,
-        div,
-        span,
-        applet,
-        object,
-        iframe,
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6,
-        p,
-        blockquote,
-        pre,
-        a,
-        abbr,
-        acronym,
-        address,
-        big,
-        cite,
-        code,
-        del,
-        dfn,
-        em,
-        font,
-        .primary- img,
-        ins,
-        kbd,
-        q,
-        s,
-        samp,
-        small,
-        strike,
-        strong,
-        sub,
-        sup,
-        tt,
-        var,
-        dl,
-        dt,
-        dd,
-        ol,
-        ul,
-        li,
-        fieldset,
-        form,
-        label,
-        legend,
-        table,
-        caption,
-        tbody,
-        tfoot,
-        thead,
-        tr,
-        th,
-        td {
-            margin: 0;
-            padding: 0;
-            border: 0;
-            outline: 0;
-            font-weight: inherit;
-            font-style: inherit;
-            font-size: 100%;
-            font-family: inherit;
-            vertical-align: baseline;
-            text-shadow: none;
-            list-style: none;
-        }
-            /* remember to define focus styles! */
-
-            a,
-            a:focus,
-            a:hover {
-                text-decoration: none;
-            }
-
-        :focus {
-            outline: 0;
-        }
-
-        body {
-            line-height: 1;
-            color: black;
-            background: white;
-            font-family: arial, sans-serif;
-        }
-
-        ol,
-        ul {
-            list-style: none;
-        }
-
-        table {
-            border-collapse: separate;
-            border-spacing: 0;
-        }
-
-        caption,
-        th,
-        td {
-            text-align: left;
-            font-weight: normal;
-        }
-
-        blockquote:before,
-        blockquote:after,
-        q:before,
-        q:after {
-            content: "";
-        }
-
-        blockquote,
-        q {
-            quotes: """";
-        }
-
-        img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-        }
-
-
-        input:focus {
-            outline: 0;
-            box-shadow: 0;
-        }
-
-        input[type=number]::-webkit-inner-spin-button,
-        input[type=number]::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            margin: 0;
-        }
-
-        .no-padding {
-            padding: 0;
-        }
-
-        .no-padding-right {
-            padding-right: 0;
-        }
-        /* Reset css styling end  */
-        /**************************************************************************************************************************************************************/
-        /* Reset css styling start  */
-        /* reset end */
-        * {
-            font-family: 'Open Sans', sans-serif;
+        .receipt-wrapper * {
             font-family: 'Poppins', sans-serif;
             font-weight: 400;
+            color: black;
         }
 
-        .container {
+        .receipt-wrapper .container {
             border: 0.5px solid #ebebeb;
             padding: 10px;
             max-width: 350px;
             margin: 40px auto;
+            background: white;
         }
 
-        .text-center {
-            text-align: center
+        .receipt-wrapper .text-center {
+            text-align: center;
         }
 
-        .float-right {
-            float: right
+        .receipt-wrapper .text-right {
+            text-align: right;
         }
 
-        .float-left {
-            float: left
-        }
-
-        .dark-background {
+        .receipt-wrapper .dark-background {
             background-color: #555;
+            color: white;
         }
 
-        .info-total-price {
+        .receipt-wrapper .info-total-price {
             font-weight: 500;
         }
 
-        .border-bottom {
+        .receipt-wrapper .border-bottom {
             border-bottom: 0.5px solid #ebebeb;
         }
 
-        .company-name {
+        .receipt-wrapper .company-name {
             font-weight: 600;
             padding-top: 20px;
             font-size: 21px;
             padding-bottom: 8px;
         }
 
-        p {
+        .receipt-wrapper p {
             padding-bottom: 5px;
             font-size: 16px;
         }
 
-        .bill {
-            padding-top: 12px;
-            letter-spacing: 2px;
-            ;
-        }
-
-        .main-body {
+        .receipt-wrapper .main-body {
             padding: 10px 0;
         }
 
-        .text-right {
-            text-align: right;
-        }
-
-        .sub-total td {
-            color: #FFFFFF;
-        }
-
-        .pad-l-5 {
-            padding-left: 5px
-        }
-
-        td {
+        .receipt-wrapper td {
             padding: 5px 0;
+            font-size: 15px;
         }
 
-        .total td:last-child,
-        .cartes td:last-child {
+        .receipt-wrapper .total td:last-child {
             font-size: 21px;
         }
 
-        .table1 tr:last-child td {
-            padding-top: 20px;
+        .receipt-wrapper .sub-total td {
+            color: #FFFFFF;
         }
 
-        .info-vat-table {
-            margin: 10px 0;
-            border: 1px solid #eeeeee;
-            padding: 5px;
+        .receipt-wrapper .info-graditude-text {
+            margin-top: 10px;
         }
 
-        .info-table-client {
-        }
-
-        .info-graditude-text {
-            margin: 10px 0;
-        }
-
-            .info-graditude-text h1 {
+            .receipt-wrapper .info-graditude-text h1 {
                 font-weight: 600;
+                font-size: 22px;
             }
 
-        .text-center {
-            text-align: center;
+        /* Optional: hide layout UI if you control it via class */
+        body.receipt-mode .navbar,
+        body.receipt-mode .footer,
+        body.receipt-mode .sidebar {
+            display: none !important;
         }
     </style>
-</head>
+}
 
-<body class="body">
-    <main>
-        <div class='container'>
-            <header class='text-center'>
-                <h3 class="company-name">@Model[0].organizationName</h3>
-                <p>Tarix: @DateTime.Now.ToString("dd.MM.yyyy")</p>
-                <p>Ödəniş Çeki</p>
+<div class="page-title-box">
+    <div class="page-title-right text-end">
+        <a href="javascript:window.print()">
+            <button type="button" class="btn btn-primary">
+                <i class="ri-printer-line"></i> Çap et
+            </button>
+        </a>
+    </div>
+    <h4 class="page-title">Ödəniş Çeki</h4>
+</div>
+<div class="receipt-wrapper">
 
-            </header>
-            <div class='main-body'>
 
-                <div class='info-item-list border-bottom'>
-                    <table class="table1" style="width:100%">
+    <div class="container">
+        <header class="text-center">
+            @if (Model != null && Model.Count > 0)
+            {
+                <h3 class="company-name">@Model[0].organization_name</h3>
+            }
+            else
+            {
+                <h3 class="company-name text-danger">Məlumat tapılmadı</h3>
+            }
 
-                        @foreach (var item in Model)
-                        {
-                            double itemTotalPrice = Convert.ToDouble(item.quantity * item.price);
-                            totalPrice += itemTotalPrice;
-                            <tr>
-                                <td>@item.serviceName</td>
-                                <td class="text-right">@item.quantity</td>
-                                <td class="text-right">@item.price AZN</td>
-                            </tr>
-                        }
-                        @{
-                            double edvAmount = Convert.ToDouble((totalPrice * 18) / 118); // Calculating ƏDV
-                        }
+            <p>Tarix: @DateTime.Now.ToString("dd.MM.yyyy")</p>
+            <p>Ödəniş Çeki</p>
+        </header>
 
-                       
-                       
-                        <tr class='dark-background sub-total'>
-                            <td class="pad-l-5">TOPLAM QİYMƏT</td>
-                            <td class="text-right " colspan="2">@totalPrice AZN</td>
+        <div class="main-body">
+            <div class="info-item-list border-bottom">
+                <table class="table1" style="width:100%">
+                    @foreach (var item in Model)
+                    {
+                        double itemTotalPrice = Convert.ToDouble(item.quantity * item.price);
+                        totalPrice += itemTotalPrice;
+                        <tr>
+                            <td>@item.service_name</td>
+                            <td class="text-right">@item.quantity</td>
+                            <td class="text-right">@item.price AZN</td>
                         </tr>
+                    }
+                    @{
+                        double edvAmount = Math.Round((totalPrice * 18) / 118, 2);
+                    }
 
-                        <tr class='total'>
-                            <td>ƏDV</td>
-                            <td></td>
-                            <td class='info-total-price text-right'>@edvAmount.ToString("F2") AZN</td>
-                        </tr>
-                       
-                    </table>
-                   
-                </div>
-               
-                <!--   End of Vat Table   -->
-                <footer class='info-client border-bottom'>
-                 
-                    <div class='info-graditude-text text-center'>
-                        <h1>MEDICLOUD</h1>
-                      
-                    </div>
-                </footer>
+                    <tr class="dark-background sub-total">
+                        <td class="pad-l-5">TOPLAM QİYMƏT</td>
+                        <td class="text-right" colspan="2">@totalPrice.ToString("F2") AZN</td>
+                    </tr>
+
+                    <tr class="total">
+                        <td>ƏDV</td>
+                        <td></td>
+                        <td class="info-total-price text-right">@edvAmount.ToString("F2") AZN</td>
+                    </tr>
+                </table>
             </div>
-        </div>
-    </main>
-</body>
 
-</html>
+            <footer class="info-client border-bottom">
+                <div class="info-graditude-text text-center">
+                    <h1>MEDICLOUD</h1>
+                </div>
+            </footer>
+        </div>
+    </div>
+</div>

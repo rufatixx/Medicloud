@@ -31,7 +31,7 @@ public class PlanRepository
 					plan = new Plan
 					{
 						id = Convert.ToInt32(reader["id"]),
-						duration = Convert.ToInt32(reader["id"]),
+						duration = Convert.ToInt32(reader["duration"]),
 						name = reader["name"].ToString(),
 						price = reader.GetDecimal("price")
 					};

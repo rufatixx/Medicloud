@@ -62,6 +62,7 @@ namespace Medicloud.ViewComponents
 
 
 			ViewBag.SelectedOrganization = HttpContext.Session.GetString("Medicloud_organizationName");
+			ViewBag.SelectedOrganizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
             return View(obj);
         }
     }

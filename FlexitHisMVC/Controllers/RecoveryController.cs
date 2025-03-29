@@ -32,7 +32,7 @@ namespace Medicloud.Controllers
         }
         public IActionResult Step2()
         {
-            if (HttpContext.Session.GetString("recoveryPhone") != null)
+            if (HttpContext.Session.GetString("recoveryPhone") != null || HttpContext.Session.GetString("recoveryEmail") != null)
             {
                 return View();
             }
@@ -44,7 +44,7 @@ namespace Medicloud.Controllers
 
         public IActionResult Step3()
         {
-            if (HttpContext.Session.GetString("recoveryPhone") != null)
+            if (HttpContext.Session.GetString("recoveryPhone") != null || HttpContext.Session.GetString("recoveryEmail") != null)
             {
 
                
@@ -59,10 +59,11 @@ namespace Medicloud.Controllers
 
         public IActionResult Success()
         {
-            if (HttpContext.Session.GetString("recoveryPhone") != null)
+            if (HttpContext.Session.GetString("recoveryPhone") != null || HttpContext.Session.GetString("recoveryEmail") != null)
             {
                 HttpContext.Session.Remove("recoveryOtpCode");
                 HttpContext.Session.Remove("recoveryPhone");
+                HttpContext.Session.Remove("recoveryEmail");
                 return View();
             }
             else
@@ -73,16 +74,27 @@ namespace Medicloud.Controllers
 
 
         [HttpPost]
-        public IActionResult SendRecoveryOtpForUser(string phone)
+        public async Task<IActionResult> SendRecoveryOtpForUser(string content,int type)
         {
-
+            if (type==0)
+            {
+                throw new Exception();
+            }
             try
             {
 
-                var result = userService.SendRecoveryOtpForUser(phone);
+                var result = await userService.SendRecoveryOtpForUser(content,type);
                 if (result.Success)
                 {
-                    HttpContext.Session.SetString("recoveryPhone", phone);
+                    if (type==1)
+                    {
+                        HttpContext.Session.SetString("recoveryPhone", content);
+                    }
+                    else if (type==2)
+                    {
+                        HttpContext.Session.SetString("recoveryEmail", content);
+
+                    }
                     return Json(new { success = true, message = result.Message });
                 }
                 else
@@ -110,7 +122,21 @@ namespace Medicloud.Controllers
             try
             {
                 var phone = HttpContext.Session.GetString("recoveryPhone");
-                var result = userService.CheckRecoveryOtpHash(phone, otpCode);
+                var email = HttpContext.Session.GetString("recoveryEmail");
+                bool result = false;
+                if (!string.IsNullOrEmpty(phone))
+                {
+                    result = userService.CheckRecoveryOtpHash(phone, otpCode, 1);
+                }
+                else if (!string.IsNullOrEmpty(email))
+                {
+                    result = userService.CheckRecoveryOtpHash(email, otpCode, 2);
+
+                }
+
+                //if (result)
+                //    var phone = HttpContext.Session.GetString("recoveryPhone");
+                //var result = userService.CheckRecoveryOtpHash(phone, otpCode);
 
                 if (result)
                 {
@@ -141,8 +167,19 @@ namespace Medicloud.Controllers
             try
             {
                 var otpCode = HttpContext.Session.GetString("recoveryOtpCode");
+                //var phone = HttpContext.Session.GetString("recoveryPhone");
                 var phone = HttpContext.Session.GetString("recoveryPhone");
-                userService.UpdatePassword(otpCode, phone, password);
+                var email = HttpContext.Session.GetString("recoveryEmail");
+                if (!string.IsNullOrEmpty(phone))
+                {
+                    userService.UpdatePassword(otpCode, phone, password,1);
+
+                }
+                else if (!string.IsNullOrEmpty(email))
+                {
+                    userService.UpdatePassword(otpCode, email, password,2);
+
+                }
 
 
                 return Ok();

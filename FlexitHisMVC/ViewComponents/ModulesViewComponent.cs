@@ -26,20 +26,34 @@ namespace Medicloud.ViewComponents
 
             {
                 case 1:
-                    module.name = "Şöbə";
+
+                    module.name = "Şöbələr";
                     module.url = "/Admin/Department";
                     module.img = "/res/admin/department.png";
                     submoduleList.Add(module);
 
-                    module.name = "Təşkilar";
+                    module.name = "Xidmətlər";
+                    module.url = "/Admin/Services";
+                    module.img = "/assets/images/mc_logo.svg";
+                    submoduleList.Add(module);
+
+                    module.name = "Təşkilatlar";
                     module.img = "/res/admin/company.png";
                     module.url = "/Admin/Company";
                     submoduleList.Add(module);
+
+                    module.name = "Qiymət qrupları";
+                    module.img = "/assets/images/mc_logo.svg";
+                    module.url = "/Admin/pricegroup";
+                    submoduleList.Add(module);
+
 
                     module.name = "Personal";
                     module.url = "/Admin/Personal";
                     module.img = "/res/admin/personal.png";
                     submoduleList.Add(module);
+
+                   
 
                     //module.name = "Səbəb tərifi";
                     //module.url = "/Admin/Personal";
@@ -69,7 +83,7 @@ namespace Medicloud.ViewComponents
                     //module.url = "/Admin";
                     //submoduleList.Add(module);
 
-              
+
                     break;
                 case 2:
                     break;

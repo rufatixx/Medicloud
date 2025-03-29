@@ -89,7 +89,10 @@ namespace Medicloud.Areas.Admin.Controllers
 		[HttpGet]
 		public IActionResult DepartmentsByOrganization(int organizationID)
 		{
-			if (User.Identity.IsAuthenticated)
+
+			organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
+
+            if (User.Identity.IsAuthenticated)
 			{
 				DepartmentsRepo departmentsRepo = new DepartmentsRepo(_connectionString);
 
@@ -157,7 +160,8 @@ namespace Medicloud.Areas.Admin.Controllers
 		[HttpPost]
 		public IActionResult AddOrganizationToUser(long userID, int organizationID)
 		{
-			if (User.Identity.IsAuthenticated)
+            organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
+            if (User.Identity.IsAuthenticated)
 			{
 				OrganizationRepo organization = new OrganizationRepo(_connectionString);
 
@@ -174,7 +178,8 @@ namespace Medicloud.Areas.Admin.Controllers
 		[HttpPost]
 		public IActionResult RemoveOrganizationFromUser(int userID, int organizationID)
 		{
-			if (User.Identity.IsAuthenticated)
+            organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
+            if (User.Identity.IsAuthenticated)
 			{
 				OrganizationRepo organization = new OrganizationRepo(_connectionString);
 
@@ -207,7 +212,8 @@ namespace Medicloud.Areas.Admin.Controllers
 		[HttpGet]
 		public IActionResult GetAllKassaByOrganization(int organizationID)
 		{
-			if (User.Identity.IsAuthenticated)
+            organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
+            if (User.Identity.IsAuthenticated)
 			{
 
 				KassaRepo kassaRepo = new KassaRepo(_connectionString);
@@ -224,7 +230,8 @@ namespace Medicloud.Areas.Admin.Controllers
 		[HttpGet]
 		public IActionResult GetUserKassaByOrganization(int organizationID, int userID)
 		{
-			if (User.Identity.IsAuthenticated)
+            organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
+            if (User.Identity.IsAuthenticated)
 			{
 
 				KassaRepo kassaRepo = new KassaRepo(_connectionString);
