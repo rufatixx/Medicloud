@@ -1,128 +1,137 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Qiymət qrupuna xidmətin əlavə edilməsi";
 }
 
-<h2>@ViewBag.Title</h2>
-<h3>Seçilmiş qrup: [ @((ViewBag.PriceGroup as PriceGroup)?.Name)]</h3>
-<div>
-    @Html.ActionLink("Qiymət qruplarına dön", "Index")
-</div>
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
+<div class="container mt-4">
+    <h2>@ViewBag.Title</h2>
+    <h4>Seçilmiş qrup: [ @((ViewBag.PriceGroup as PriceGroup)?.Name)]</h4>
 
-    <div class="form-horizontal">
-        <hr />
+    <div class="mb-3">
+        @Html.ActionLink("Qiymət qruplarına dön", "Index", null, new { @class = "btn btn-secondary" })
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        <!-- Filter button -->
-        <div class=" mb-3">
-            <button type="button" class="btn btn-primary filter-btn" data-show-all="false">Əlavə olunmuşları göstər</button>
-        </div>
+        <!-- Filter/search/add-all area -->
+        <div class="row mb-3">
+            <!-- 1) Service search -->
+            <div class="col-md-4">
+                <label for="serviceSearch" class="form-label">Xidmət axtarışı:</label>
+                <input type="text" id="serviceSearch" class="form-control" placeholder="Xidmət axtar..." />
+            </div>
 
-        <div class="form-group ">
-            <div class="row ">
-                <div class="col-9 border-end">
-                    <input type="text" id="serviceSearch" class="form-control" placeholder="Xidmət axtar..." />
+            <!-- 2) Percent + "Add All" button + Discount checkbox -->
+            <div class="col-md-4">
+                <label for="percent" class="form-label">Faiz (%):</label>
+                <div class="input-group mb-2">
+                    <input type="number" class="form-control" id="percent" placeholder="Faiz %" />
+                    <button type="button" class="btn btn-primary" onclick="addAllServicesToPriceGroupWithPrice()">Əlavə et</button>
                 </div>
-                <div class="col-auto ">
-
-                    <div class="input-group">
-                        <input type="number" class="form-control" id="percent" placeholder="Faiz %">
-                        
-                        <div class="input-group-append">
-                            <button type="button" class="btn btn-primary" onclick="addAllServicesToPriceGroupWithPrice()">Əlavə et</button>
-                        </div>
-
-                    </div>
-                    <div class="form-check ">
-                        <input class="form-check-input" type="checkbox" value="" id="isDiscount">
-                        <label class="form-check-label" for="flexCheckDefault">
-                            Endirim
-                        </label>
-                    </div>
-
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="isDiscount">
+                    <label class="form-check-label" for="isDiscount">Endirim</label>
                 </div>
+            </div>
+
+            <!-- 3) Filter button (to toggle "show only added" or "show all") -->
+            <div class="col-md-4 d-flex align-items-end">
+                <button type="button" class="btn btn-secondary filter-btn" data-show-all="false">
+                    Əlavə olunmuşları göstər
+                </button>
             </div>
         </div>
 
         <!-- Service table -->
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (dynamic service in ViewBag.Services)
-                {
-                    <tr class="service-row">
-                        <td>@service.name</td>
-                        <td>
-                            ₼
-
-                            @if (service.servicePriceID == 0)
-                            {
-                                @service.price
-                            }
-                            else
-                            {
-                                @service.newPrice
-                            }
-                        </td>
-                        <td>
-                            @if (service.servicePriceID == 0)
-                            {
-                                @using (Html.BeginForm("AddService", "PriceGroup", new { id = ViewBag.PriceGroup.ID }, FormMethod.Post))
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Xidmət</th>
+                        <th scope="col">Qiymət</th>
+                        <th scope="col">Əməliyyat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (dynamic service in ViewBag.Services)
+                    {
+                        <tr class="service-row">
+                            <td>@service.name</td>
+                            <td>
+                                ₼
+                                @if (service.servicePriceID == 0)
                                 {
-                                    <input type="hidden" name="serviceID" value="@service.ID" />
-                                    <div class="input-group">
-                                        <input type="text" name="price" class="form-control" value="@service.price" />
-                                        <div class="input-group-append">
+                                    @service.price
+                                }
+                                else
+                                {
+                                    @service.newPrice
+                                }
+                            </td>
+                            <td>
+                                @if (service.servicePriceID == 0)
+                                {
+                                    @using (Html.BeginForm("AddService", "PriceGroup", new { id = ViewBag.PriceGroup.ID }, FormMethod.Post))
+                                    {
+                                        <input type="hidden" name="serviceID" value="@service.ID" />
+                                        <div class="input-group">
+                                            <input type="text" name="price" class="form-control" value="@service.price" />
                                             <button type="submit" class="btn btn-primary">Əlavə et</button>
                                         </div>
-                                    </div>
+                                    }
                                 }
-                            }
-                            else
-                            {
-                                <a href="#" class="btn btn-success">Əlavə olunub</a>
-                            }
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+                                else
+                                {
+                                    <span class="btn btn-success disabled">Əlavə olunub</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
 
-
-    </div>
-}
-@section scripts {
+@section Scripts {
     <script>
+        // Add all services with percent
+        function addAllServicesToPriceGroupWithPrice() {
+            var priceGroupID = '@(ViewBag.PriceGroup?.ID)';
+            let percent = $('#percent').val();
+            let isDiscount = $('#isDiscount').prop('checked');
 
-    $(document).ready(function () {
-
-
-            // Initial state of the filter button
-            var showAll = true;
-
-            // Filter button click event
-            $('.filter-btn').on('click', function () {
-                // Toggle showAll flag
-                showAll = !showAll;
-
-                // Update button text
-                if (showAll) {
-                    $(this).text('Əlavə olunmuşları göstər');
-                } else {
-                    $(this).text('Hamısı');
+            $.ajax({
+                url: '@Url.Action("AddServicesToPriceGroup", "PriceGroup", new { Area = "Admin" })',
+                method: 'POST',
+                data: {
+                    percent: percent,
+                    priceGroupID: priceGroupID,
+                    isDiscount: isDiscount
+                },
+                success: function (data) {
+                    alert("Bütün xidmətlər əlavə olundu");
+                    // Optionally reload to reflect changes
+                    location.reload();
+                },
+                error: function (xhr, status, error) {
+                    alert(xhr.responseText);
                 }
+            });
+        }
 
-                // Toggle visibility of service rows based on showAll flag
+        $(document).ready(function () {
+            // Filter button toggles "show all" vs. "show only added"
+            var showAll = true;
+            $('.filter-btn').on('click', function () {
+                showAll = !showAll;
+                $(this).text(showAll ? 'Əlavə olunmuşları göstər' : 'Hamısı');
+
                 $('.service-row').each(function () {
+                    // If "showAll" is false, only show rows with ".btn-success"
                     if (showAll || $(this).find('.btn-success').length > 0) {
                         $(this).show();
                     } else {
@@ -130,12 +139,12 @@
                     }
                 });
             });
-});
-        $(document).ready(function () {
+
+            // Live search
             $('#serviceSearch').on('input', function () {
                 var searchText = $(this).val().toLowerCase();
                 $('.service-row').each(function () {
-                    var serviceName = $(this).find('td:first-child').text().toLowerCase();
+                    var serviceName = $(this).find('td:first').text().toLowerCase();
                     if (serviceName.includes(searchText)) {
                         $(this).show();
                     } else {
@@ -144,23 +153,5 @@
                 });
             });
         });
-        function addAllServicesToPriceGroupWithPrice() {
-            var priceGroupID= '@(ViewBag.PriceGroup?.ID)';
-            let percent = $('#percent').val();
-            let isDiscount = $('#isDiscount').prop('checked');
-            $.ajax({
-                url: @Url.Action("AddServicesToPriceGroup","Services", new {Area = "Admin"}),
-                method: 'POST',
-                data: { percent: percent, priceGroupID: priceGroupID, isDiscount: isDiscount },
-                success: function (data) {
-                    alert(data);
-                },
-                error: function (xhr, status, error) {
-                    alert(xhr.responseText);
-                }
-            });
-        }
-
-
     </script>
 }
