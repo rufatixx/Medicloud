@@ -108,6 +108,7 @@ builder.Services.AddScoped<IRequestTypeService, RequestTypeService>();
 builder.Services.AddScoped<IPatientCardRepository, PatientCardRepository>();
 builder.Services.AddScoped<IPatientCardService, PatientCardService>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+builder.Services.AddScoped<IServicePriceGroupRepository, ServicePriceGroupRepository>();
 var app = builder.Build();
 
 app.UseSession();

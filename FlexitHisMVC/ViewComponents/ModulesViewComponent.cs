@@ -42,6 +42,12 @@ namespace Medicloud.ViewComponents
                     module.url = "/Admin/Company";
                     submoduleList.Add(module);
 
+                    module.name = "Qiymət qrupları";
+                    module.img = "/assets/images/mc_logo.svg";
+                    module.url = "/Admin/pricegroup";
+                    submoduleList.Add(module);
+
+
                     module.name = "Personal";
                     module.url = "/Admin/Personal";
                     module.img = "/res/admin/personal.png";
