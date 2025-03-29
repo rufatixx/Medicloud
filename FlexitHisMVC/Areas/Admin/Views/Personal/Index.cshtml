@@ -2,7 +2,13 @@
 
 @{
     ViewData["Title"] = "- Personal";
-    var currentUser = Model.personalList[0];
+
+    var userId = User.FindFirst("ID")?.Value;
+    var currentUser = Model.personalList.FirstOrDefault(p => p.ID.ToString() == userId);
+
+
+
+
 }
 
 <!-- ================================================== -->

@@ -23,7 +23,7 @@ namespace Medicloud.DAL.Repository.Role
 					r.id AS id,
 					r.name AS name
                     FROM medicloud.user_organization_rel uhr
-					LEFT JOIN medicloud.roles r ON r.id = uhr.role_id 
+					inner JOIN medicloud.roles r ON r.id = uhr.role_id 
 					WHERE uhr.organizationID=@OrganizationId AND uhr.userID=@UserId AND uhr.is_active=1 ";
 
 			var result = await con.QueryAsync<RoleDTO>(sqlQuery, new { OrganizationId = organizationId, UserId = userId });
