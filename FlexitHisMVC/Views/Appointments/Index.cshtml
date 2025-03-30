@@ -109,11 +109,13 @@
     </div>
 </div>
 
+@await Component.InvokeAsync("AppointmentModal")
 
-@Html.Partial("_AppointmentModal")
 
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
+
+@*@Html.Partial("_AppointmentModal")*@
+
+<script>document.addEventListener('DOMContentLoaded', () => {
 
 
         const searchInput = document.getElementById('searchInput');
@@ -162,8 +164,7 @@
             }
         });
 
-    });
-</script>
+    });</script>
 
 
 @section Scripts {

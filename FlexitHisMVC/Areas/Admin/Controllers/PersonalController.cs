@@ -5,7 +5,10 @@ using System.Threading.Tasks;
 using FlexitHisCore;
 using Medicloud.Areas.Admin.Model;
 using Medicloud.BLL.Service;
+using Medicloud.BLL.Service.Organization;
+using Medicloud.BLL.Services;
 using Medicloud.DAL.Repository;
+using Medicloud.DAL.Repository.Kassa;
 using Medicloud.DAL.Repository.Role;
 using Medicloud.Data;
 using Medicloud.Models;
@@ -28,10 +31,11 @@ namespace Medicloud.Areas.Admin.Controllers
 		//Communications communications;
 
 		PersonalPageDTO response;
-		UserRepo personalRepo;
+		IUserService _userService;
 		SpecialityRepo specialityRepo;
-		OrganizationService organizationService;
-		public PersonalController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IRoleRepository roleRepository)
+        IOrganizationService _organizationService;
+        IKassaRepo _kassaRepo;
+		public PersonalController(IConfiguration configuration,IKassaRepo kassaRepo, IWebHostEnvironment hostingEnvironment, IRoleRepository roleRepository, IOrganizationService organizationService,IUserService userService)
 		{
 			Configuration = configuration;
 			_connectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
@@ -39,10 +43,11 @@ namespace Medicloud.Areas.Admin.Controllers
 
 
 			response = new PersonalPageDTO();
-			personalRepo = new UserRepo(_connectionString);
+			_userService = userService;
 			specialityRepo = new SpecialityRepo(_connectionString);
-			organizationService = new OrganizationService(_connectionString);
+			_organizationService = organizationService;
 			_roleRepository = roleRepository;
+			_kassaRepo = kassaRepo;
 			//communications = new Communications(Configuration, _hostingEnvironment);
 		}
 		[Authorize]
@@ -53,14 +58,24 @@ namespace Medicloud.Areas.Admin.Controllers
 
 			int organizationId = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
 
-			response.personalList = personalRepo.GetUserList(organizationId);
+			response.personalList = _userService.GetUserList(organizationId);
 			foreach (var user in response.personalList)
 			{
 				user.roles = await _roleRepository.GetUserRoles(organizationId, user.ID);
 			}
 			response.specialityList = specialityRepo.GetSpecialities();
-			response.organizationList = organizationService.GetAllOrganizations();
 
+            var userId = User.FindFirst("ID")?.Value;
+            var currentUser = response.personalList.FirstOrDefault(p => p.ID.ToString() == userId);
+
+			if (currentUser.roles.Select(r => r.id).Contains(2))
+			{
+				response.organizationList = _organizationService.GetAllOrganizations();
+			}
+			else if (currentUser.roles.Select(r => r.id).Contains(3))
+			{
+                response.organizationList = _organizationService.GetOrganizationListWhereUserIsManager(Convert.ToInt32(userId));
+            }
 			return View(response);
 
 
@@ -75,9 +90,9 @@ namespace Medicloud.Areas.Admin.Controllers
 		{
 			if (User.Identity.IsAuthenticated)
 			{
-				OrganizationRepo organizationRepo = new OrganizationRepo(_connectionString);
+				
 
-				return Ok(organizationRepo.GetOrganizationListByUser(personalID));
+				return Ok(_organizationService.GetOrganizationsByUser(personalID));
 
 			}
 
@@ -111,12 +126,12 @@ namespace Medicloud.Areas.Admin.Controllers
 		{
 			if (User.Identity.IsAuthenticated)
 			{
-				UserRepo personal = new UserRepo(_connectionString);
+			
 
 				int organizationId = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
 
 
-				long newUserID = personal.InsertUser(name, surname, father, specialityID, passportSerialNum, fin, phone, email, bDate, username, pwd, isActive: 1, isRegistered: 1);
+				long newUserID = _userService.InsertUser(name, surname, father, specialityID, passportSerialNum, fin, phone, email, bDate, username, pwd, isActive: 1, isRegistered: 1);
 
 
 				if (newUserID > 0)
@@ -157,15 +172,17 @@ namespace Medicloud.Areas.Admin.Controllers
 
 
 		}
+
+
 		[HttpPost]
 		public IActionResult AddOrganizationToUser(long userID, int organizationID)
 		{
-            organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
+            //organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
             if (User.Identity.IsAuthenticated)
 			{
-				OrganizationRepo organization = new OrganizationRepo(_connectionString);
+				
 
-				return Ok(organization.InsertOrganizationToUser(userID, organizationID));
+				return Ok(_organizationService.AddOrganizationToUser(userID, organizationID));
 
 			}
 
@@ -178,12 +195,12 @@ namespace Medicloud.Areas.Admin.Controllers
 		[HttpPost]
 		public IActionResult RemoveOrganizationFromUser(int userID, int organizationID)
 		{
-            organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
+            //organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
             if (User.Identity.IsAuthenticated)
 			{
-				OrganizationRepo organization = new OrganizationRepo(_connectionString);
+				
 
-				return Ok(organization.RemoveOrganizationFromUser(userID, organizationID));
+				return Ok(_organizationService.UnlinkOrganizationFromUser(userID, organizationID));
 
 			}
 
@@ -212,13 +229,13 @@ namespace Medicloud.Areas.Admin.Controllers
 		[HttpGet]
 		public IActionResult GetAllKassaByOrganization(int organizationID)
 		{
-            organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
+           
             if (User.Identity.IsAuthenticated)
 			{
 
-				KassaRepo kassaRepo = new KassaRepo(_connectionString);
+			
 
-				return Ok(kassaRepo.GetAllKassaListByOrganization(organizationID));
+				return Ok(_kassaRepo.GetAllKassaListByOrganization(organizationID));
 
 			}
 
@@ -230,13 +247,13 @@ namespace Medicloud.Areas.Admin.Controllers
 		[HttpGet]
 		public IActionResult GetUserKassaByOrganization(int organizationID, int userID)
 		{
-            organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
+           
             if (User.Identity.IsAuthenticated)
 			{
 
-				KassaRepo kassaRepo = new KassaRepo(_connectionString);
+			
 
-				return Ok(kassaRepo.GetUserKassaByOrganization(organizationID, userID));
+				return Ok(_kassaRepo.GetUserKassaByOrganization(organizationID, userID));
 
 			}
 
@@ -266,9 +283,9 @@ namespace Medicloud.Areas.Admin.Controllers
 		{
 			if (User.Identity.IsAuthenticated)
 			{
-				KassaRepo kassaRepo = new KassaRepo(_connectionString);
+				
 
-				return Ok(kassaRepo.InsertKassaToUser(userID, kassaID, read_only, full_access));
+				return Ok(_kassaRepo.InsertKassaToUser(userID, kassaID, read_only, full_access));
 
 			}
 
@@ -282,9 +299,9 @@ namespace Medicloud.Areas.Admin.Controllers
 		{
 			if (User.Identity.IsAuthenticated)
 			{
-				KassaRepo kassaRepo = new KassaRepo(_connectionString);
+			
 
-				return Ok(kassaRepo.RemoveKassaFromUser(userID, kassaID));
+				return Ok(_kassaRepo.RemoveKassaFromUser(userID, kassaID));
 
 			}
 
@@ -314,11 +331,11 @@ namespace Medicloud.Areas.Admin.Controllers
 		{
 			if (User.Identity.IsAuthenticated)
 			{
-				UserRepo user = new UserRepo(_connectionString);
+				
 
 				int organizationId = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
 
-				int result = user.UpdateUser(userID, name, surname, father, specialityID, passportSerialNum, fin, mobile, email, bDate, username);
+				long result = _userService.UpdateUser(userID, name, surname, father, specialityID, passportSerialNum, fin, mobile, email, bDate, username);
 				var userRoles = await _roleRepository.GetUserRoles(organizationId, userID);
 				if (isActive == 0)
 				{
@@ -375,9 +392,9 @@ namespace Medicloud.Areas.Admin.Controllers
 		{
 			if (User.Identity.IsAuthenticated)
 			{
-				UserRepo user = new UserRepo(_connectionString);
+				
 
-				return Ok(user.UpdateUserPwd(userID, pwd));
+				return Ok(_userService.UpdateUser(userID:userID,password: pwd));
 
 			}
 

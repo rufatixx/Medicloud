@@ -5,129 +5,137 @@
 
     var userId = User.FindFirst("ID")?.Value;
     var currentUser = Model.personalList.FirstOrDefault(p => p.ID.ToString() == userId);
-
-
-
-
 }
 
-<!-- ================================================== -->
-<!-- HEADER SECTION -->
-<!-- ================================================== -->
-<div class="row">
+
+<div class="row my-2">
     <div class="col-12">
-        <div class="page-title-box">
-            <div class="page-title-right">
-                <form class="d-flex">
-                    <button type="button" class="btn btn-primary" onclick="$('#addPersonal').modal('show')">+ Əlavə et</button>
-                </form>
-            </div>
-            <h4 class="page-title">Personal</h4>
+
+        <div class="d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">Personal</h4>
+            <button type="button" class="btn btn-primary" onclick="$('#addPersonal').modal('show')">
+                + Əlavə et
+            </button>
         </div>
+
     </div>
 </div>
 
-<!-- ================================================== -->
-<!-- MAIN CONTENT SECTION -->
-<!-- ================================================== -->
+<!-- ===================================
+     MAIN CONTENT
+     =================================== -->
+<!-- Main Content -->
 <div class="row">
-    <!-- PERSONAL LIST COLUMN -->
-    <div class="col-md-3">
-        <div class="card">
-            <div class="card-header bg-transparent">
-                Personal siyahısı
-                <div class="form-group float-right">
-                    <select class="form-control" required id="depIsActiveFilter" onchange="$('.depTypesInBuildingItem.active').click();">
-                        <option value="1">Aktiv</option>
-                        <option value="0">Deaktiv</option>
-                    </select>
-                </div>
+    <!-- LEFT COLUMN: Filter + Personal List -->
+    <div class="col-md-3 mb-3">
+        <div class="card shadow-sm h-100">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <strong>Personal siyahısı</strong>
+                <!-- Onchange => filterPersonalList() -->
+                <select class="form-select w-auto" required id="depIsActiveFilter" onchange="filterPersonalList()">
+                    <option value="1">Aktiv</option>
+                    <option value="0">Deaktiv</option>
+                </select>
             </div>
-            <div class="card-header">
+
+            <!-- We'll remove the server-side foreach -->
+            <div class="card-header bg-light">
                 <div class="row">
-                    <div class="col-6">Adı</div>
-                    <div class="col-6 text-right">İxtisas</div>
+                    <div class="col-6"><strong>Adı</strong></div>
+                    <div class="col-6 text-end"><strong>İxtisas</strong></div>
                 </div>
             </div>
-            <div class="list-group list-group-flush" style="max-height: 50vh; overflow-y: auto" id="depTypesInBuilding">
-                @foreach (var item in Model.personalList)
-                {
-                    <div class="list-group-item list-group-item-action personal-list" onclick='personalClicked(this, @Html.Raw(Json.Serialize(item)));'>
-                        <div class="row">
-                            <div class="col-6">@item.name @item.surname</div>
-                            <div class="col-6 text-right">@item.speciality.name</div>
-                        </div>
-                    </div>
-                }
+
+            <!-- This .list-group will be dynamically populated by JS -->
+            <div class="list-group list-group-flush" style="max-height: 50vh; overflow-y: auto"
+                 id="depTypesInBuilding">
             </div>
         </div>
     </div>
 
-    <!-- PERSONAL DETAILS COLUMN -->
+    <!-- RIGHT: PERSONAL DETAILS -->
     <div class="col-md-9">
-        <div class="card selectedDepCard">
-            <div class="card-header bg-transparent">
+        <div class="card shadow-sm">
+            <div class="card-header bg-light">
                 <ul class="nav nav-tabs card-header-tabs">
                     <li class="nav-item">
-                        <a class="nav-link active" id="generalSettingsButton" onclick="settingsBoxClicked(1)">Ümumi</a>
+                        <a class="nav-link active" id="generalSettingsButton" onclick="settingsBoxClicked(1)">
+                            Ümumi
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="positionSettingsButton" onclick="settingsBoxClicked(2)">Vəzifə yeri</a>
+                        <a class="nav-link" id="positionSettingsButton" onclick="settingsBoxClicked(2)">
+                            Vəzifə yeri
+                        </a>
                     </li>
                 </ul>
             </div>
-            <div class="card-body bg-transparent">
+
+            <div class="card-body">
                 <!-- GENERAL SETTINGS -->
                 <div id="generalSettings">
                     <ul class="nav nav-pills mb-3">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#">Əsas məlumatlar</a>
+                            <span class="nav-link active">Əsas məlumatlar</span>
                         </li>
                     </ul>
+
                     <div class="row mb-3">
-                        <div class="col-9">
-                            <!-- Personal Basic Information -->
-                            <div class="form-group mb-3">
-                                <div class="row">
+                        <div class="col-md-9">
+                            <!-- Row 1: Reg Code, Name, Surname -->
+                            <div class="mb-3">
+                                <div class="row gx-2 gy-2">
                                     <div class="col-md-4">
-                                        <label>Registr kodu</label>
-                                        <input type="text" class="form-control" id="reqCode" value="@currentUser.ID" disabled>
+                                        <label class="form-label">Registr kodu</label>
+                                        <input type="text" class="form-control" id="reqCode"
+                                               value="@currentUser.ID" disabled />
                                     </div>
                                     <div class="col-md-4">
-                                        <label>Ad</label>
-                                        <input type="text" class="form-control" id="name" value="@currentUser.name" placeholder="-">
+                                        <label class="form-label">Ad</label>
+                                        <input type="text" class="form-control" id="name"
+                                               value="@currentUser.name" placeholder="Ad" />
                                     </div>
                                     <div class="col-md-4">
-                                        <label>Soyad</label>
-                                        <input type="text" class="form-control" id="surname" value="@currentUser.surname" placeholder="00000">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group mb-3">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label>Ata adı</label>
-                                        <input type="text" class="form-control" id="father" value="@currentUser.father" placeholder="-">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label>ŞV Seriyası</label>
-                                        <input type="text" class="form-control" id="passportSerialNum" value="@currentUser.passportSerialNum" placeholder="-">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label>ŞV FİN</label>
-                                        <input type="text" class="form-control" id="passportFin" value="@currentUser.fin" placeholder="-">
+                                        <label class="form-label">Soyad</label>
+                                        <input type="text" class="form-control" id="surname"
+                                               value="@currentUser.surname" placeholder="Soyad" />
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group mb-3">
-                                <div class="row">
+
+                            <!-- Row 2: Father, PassportSerialNum, Fin -->
+                            <div class="mb-3">
+                                <div class="row gx-2 gy-2">
                                     <div class="col-md-4">
-                                        <label>Doğum tarixi</label>
-                                        <input type="date" class="form-control" id="bDate" value="@currentUser.passportSerialNum">
+                                        <label class="form-label">Ata adı</label>
+                                        <input type="text" class="form-control" id="father"
+                                               value="@currentUser.father" placeholder="Ata adı" />
                                     </div>
                                     <div class="col-md-4">
-                                        <label>İxtisas</label>
-                                        <select class="form-control" id="speciality">
+                                        <label class="form-label">ŞV Seriyası</label>
+                                        <input type="text" class="form-control" id="passportSerialNum"
+                                               value="@currentUser.passportSerialNum"
+                                               placeholder="ŞV Seriyası" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">ŞV FİN</label>
+                                        <input type="text" class="form-control" id="passportFin"
+                                               value="@currentUser.fin" placeholder="FİN" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Row 3: Birthday, Speciality, Mobile -->
+                            <div class="mb-3">
+                                <div class="row gx-2 gy-2">
+                                    <div class="col-md-4">
+                                        <label class="form-label">Doğum tarixi</label>
+                                        <input type="date" class="form-control" id="bDate"
+                                               value="@currentUser.passportSerialNum" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">İxtisas</label>
+                                        <select class="form-select" id="speciality">
                                             @foreach (var item in Model.specialityList)
                                             {
                                                 if (currentUser.speciality.id == item.id)
@@ -142,89 +150,126 @@
                                         </select>
                                     </div>
                                     <div class="col-md-4">
-                                        <label>Mobil nömrə</label>
-                                        <input type="text" class="form-control" id="mobile" value="@currentUser.mobile" placeholder="00000">
+                                        <label class="form-label">Mobil nömrə</label>
+                                        <input type="text" class="form-control" id="mobile"
+                                               value="@currentUser.mobile" placeholder="(050) ___ __ __" />
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <div class="row">
+
+                            <!-- Row 4: Email, Username -->
+                            <div class="mb-3">
+                                <div class="row gx-2 gy-2">
                                     <div class="col-md-6">
-                                        <label>E-poçt ünvanı</label>
-                                        <input type="text" class="form-control" value="@currentUser.email" id="email" placeholder="e-poçt">
+                                        <label class="form-label">E-poçt ünvanı</label>
+                                        <input type="text" class="form-control" id="email"
+                                               value="@currentUser.email" placeholder="e-poçt" />
                                     </div>
                                     <div class="col-md-6">
-                                        <label>İstifadəçi adı</label>
-                                        <input type="text" class="form-control" id="username" value="@currentUser.username" placeholder="Yoxdur">
+                                        <label class="form-label">İstifadəçi adı</label>
+                                        <input type="text" class="form-control" id="username"
+                                               value="@currentUser.username" placeholder="username" />
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <!-- Role Checkboxes -->
-                                    <div class="col-md-3 mb-2">
-                                        <input class="me-1" id="isActiveCheckBox" type="checkbox" @(currentUser.roles?.Count() > 0 ? "checked" : "")>
-                                        <label>Aktiv</label>
+
+                            <!-- Role Checkboxes -->
+                            <div class="mb-3">
+                                <div class="row gx-2 gy-2">
+                                    <div class="col-md-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="isActiveCheckBox"
+                                                   @(currentUser.roles?.Count() > 0 ? "checked" : "") />
+                                            <label class="form-check-label">Aktiv</label>
+                                        </div>
                                     </div>
-                                    <div class="col-md-3 mb-2">
-                                        <input class="me-1" id="isDrCheckBox" type="checkbox" @(currentUser.roles.Select(r => r.id).Contains(4) ? "checked" : "")>
-                                        <label>Həkim</label>
+
+                                    <div class="col-md-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="isDrCheckBox"
+                                                   @(currentUser.roles.Select(r => r.id).Contains(4) ? "checked" : "") />
+                                            <label class="form-check-label">Həkim</label>
+                                        </div>
                                     </div>
-                                    <div class="col-md-3 mb-2">
-                                        <input class="me-1" id="isUserCheckBox" type="checkbox" @(currentUser.roles.Select(r => r.id).Contains(6) ? "checked" : "")>
-                                        <label>İstifadəçi</label>
+
+                                    <div class="col-md-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="isUserCheckBox"
+                                                   @(currentUser.roles.Select(r => r.id).Contains(6) ? "checked" : "") />
+                                            <label class="form-check-label">İstifadəçi</label>
+                                        </div>
                                     </div>
+
                                     @if (currentUser.roles.Select(r => r.id).Contains(2))
                                     {
-                                        <div class="col-md-3" id="adminCheckbox">
-                                            <input class="me-1" id="isAdminCheckBox" type="checkbox" checked>
-                                            <label>Admin</label>
+                                        <div class="col-md-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="isAdminCheckBox"
+                                                       checked />
+                                                <label class="form-check-label">Admin</label>
+                                            </div>
                                         </div>
                                     }
-                                    <div class="col-md-3 mb-2">
-                                        <input class="me-1" id="isManagerCheckBox" type="checkbox" @(currentUser.roles.Select(r => r.id).Contains(3) ? "checked" : "")>
-                                        <label>İnzibatçı</label>
+
+                                    <div class="col-md-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="isManagerCheckBox"
+                                                   @(currentUser.roles.Select(r => r.id).Contains(3) ? "checked" : "") />
+                                            <label class="form-check-label">İnzibatçı</label>
+                                        </div>
                                     </div>
-                                    <div class="col-md-3 mb-2">
-                                        <input class="me-1" id="isCashierCheckBox" type="checkbox" @(currentUser.roles.Select(r => r.id).Contains(5) ? "checked" : "")>
-                                        <label>Kassir</label>
+
+                                    <div class="col-md-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="isCashierCheckBox"
+                                                   @(currentUser.roles.Select(r => r.id).Contains(5) ? "checked" : "") />
+                                            <label class="form-check-label">Kassir</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="isReceptionistCheckBox"
+                                                   @(currentUser.roles.Select(r => r.id).Contains(7) ? "checked" : "") />
+                                            <label class="form-check-label">Qeydiyyatcı</label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- Profile Image & Actions -->
-                        <div class="col-3">
 
+                        <!-- PROFILE IMAGE & ACTIONS -->
+                        <div class="col-md-3">
                             @{
                                 var imageSrc = "/res/user.svg";
                                 if (!string.IsNullOrEmpty(currentUser.imagePath as string))
                                 {
                                     var filePath = currentUser.imagePath.Replace("\\", "/");
                                     imageSrc = filePath;
-
                                 }
                             }
-                            <div class="form-group text-center">
-                                <img id="profilePic" src="@imageSrc" width="86" style="object-fit:cover;" alt="" class="rounded-circle mx-auto d-block img-fluid mb-2">
+                            <div class="text-center mb-3">
+                                <img id="profilePic" src="@imageSrc" width="86" style="object-fit:cover;"
+                                     alt="Profile" class="rounded-circle img-fluid mb-2" />
                             </div>
-                            @*<div class="">
-                                <img src="/res/user.svg" class="rounded mx-auto d-block img-fluid" style="width:120px; height:160px" alt="User Image">
-                            </div>*@
-                            <div class="form-group">
-                                <button type="button" class="form-control rounded text-white btn shadow-lg bg-secondary" onclick="$('#passChangeModal').modal('show')">Yeni şifrə</button>
+                            <div class="mb-2">
+                                <button type="button" class="btn btn-secondary w-100 shadow"
+                                        onclick="$('#passChangeModal').modal('show')">
+                                    Yeni şifrə
+                                </button>
                             </div>
-                            <div class="form-group">
-                                <button type="button" class="form-control btn text-info">Rəsmi imza</button>
+                            <div>
+                                <button type="button" class="btn btn-outline-info w-100">
+                                    Rəsmi imza (Tezlikə)
+                                </button>
                             </div>
                         </div>
                     </div>
-                    <!-- Save Button -->
-                    <div class="form-group border-top mt-3">
-                        <div class="row">
-                            <div class="col-md-12 text-right">
-                                <button type="button" class="btn text-info" onclick="updateUser()">Yadda saxla</button>
-                            </div>
-                        </div>
+
+                    <!-- SAVE BUTTON -->
+                    <div class="border-top pt-3 text-end">
+                        <button type="button" class="btn btn-info text-white" onclick="updateUser()">
+                            Yadda saxla
+                        </button>
                     </div>
                 </div>
 
@@ -238,481 +283,411 @@
                             <a class="nav-link" id="kassaTogle" onclick="KassaOrDepClicked(2)">Kassa</a>
                         </li>
                     </ul>
-                    @if (currentUser.roles.Select(r => r.id).Contains(2))
-                    {
-                        <div class="ml-3 mb-3">
-                            <label>Müəssisə</label>
-                            <div class="row">
-                                <div class="col-4">
-                                    <div class="dropdown">
-                                        <button class="btn btn-outline-dark dropdown-toggle w-100" type="button" id="userOrganizations" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                                        <div class="dropdown-menu">
-                                            <h6 class="dropdown-header">Əlavə olunmuş müəssisələr</h6>
-                                            <div id="userOrganizationsMenu"></div>
-                                        </div>
+
+                    <div class="ms-3 mb-3">
+                        <label class="form-label">Müəssisə</label>
+                        <div class="row gx-2 gy-2">
+                            <div class="col-4">
+                                <div class="dropdown">
+                                    <button class="btn btn-outline-dark dropdown-toggle w-100" type="button"
+                                            id="userOrganizations" data-bs-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="false">
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <h6 class="dropdown-header">Əlavə olunmuş müəssisələr</h6>
+                                        <div id="userOrganizationsMenu"></div>
                                     </div>
                                 </div>
+                            </div>
+                            @if (currentUser.roles.Select(r => r.id).Contains(3))
+                            {
                                 <div class="col-8">
-                                    <button type="button" class="btn btn-light" onclick="$('#addOrganization').modal('show');">
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                          <path fill-rule="evenodd" clip-rule="evenodd" d="M15 13H13V15C13 15.55 12.55 16 12 16C11.45 16 11 15.55 11 15V13H9C8.45 13 8 12.55 8 12C8 11.45 8.45 11 9 11H11V9C11 8.45 11.45 8 12 8C12.55 8 13 8.45 13 9V11H15C15.55 11 16 11.45 16 12C16 12.55 15.55 13 15 13ZM12 2C6.486 2 2 6.486 2 12C2 17.514 6.486 22 12 22C17.514 22 22 17.514 22 12C22 6.486 17.514 2 12 2Z" fill="#2AAEAD"></path>
-                                      </svg> müəssisə əlavə et
+                                    <button type="button" class="btn btn-light"
+                                            onclick="$('#addOrganization').modal('show');">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                             viewBox="0 0 24 24" fill="none">
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                  d="M15 13H13V15C13 15.55 12.55 16 12 16C11.45 16 11 15.55 11 15V13H9C8.45 13 8 12.55 8 12C8 11.45 8.45 11 9 11H11V9C11 8.45 11.45 8 12 8C12.55 8 13 8.45 13 9V11H15C15.55 11 16 11.45 16 12C16 12.55 15.55 13 15 13ZM12 2C6.486 2 2 6.486 2 12C2 17.514 6.486 22 12 22C17.514 22 22 17.514 22 12C22 6.486 17.514 2 12 2Z"
+                                                  fill="#2AAEAD"></path>
+                                        </svg>
+                                        müəssisə əlavə et
                                     </button>
                                 </div>
-                            </div>
-                        </div>
-                    }
-                    <!-- Departments and Kassas Lists -->
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="card border-light" id="userDepList">
-                                <div class="card-header">
-                                    <div class="row justify-content-end mb-1">
-                                        <div class="col-auto">
-                                            <button type="button" class="btn shadow-lg float-right" onclick="$('#addDepartment').modal('show');">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M15 13H13V15C13 15.55 12.55 16 12 16C11.45 16 11 15.55 11 15V13H9C8.45 13 8 12.55 8 12C8 11.45 8.45 11 9 11H11V9C11 8.45 11.45 8 12 8C12.55 8 13 8.45 13 9V11H15C15.55 11 16 11.45 16 12C16 12.55 15.55 13 15 13ZM12 2C6.486 2 2 6.486 2 12C2 17.514 6.486 22 12 22C17.514 22 22 17.514 22 12C22 6.486 17.514 2 12 2Z" fill="#2AAEAD"></path>
-                                                </svg>
-                                                Şöbə əlavə et
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-3">Şöbənin adı</div>
-                                        <div class="col-2">Tipi</div>
-                                        <div class="col-2">Gör</div>
-                                        <div class="col-3">Tam kontrol</div>
-                                        <div class="col-2">Sil</div>
-                                    </div>
-                                </div>
-                                <div class="list-group list-group-flush" style="max-height: 30vh; overflow-y: auto" id="depsInOrganizationByUser">
-                                    <!-- Filled dynamically -->
-                                </div>
-                            </div>
-                            <div class="card border-light" id="userKassaList" style="display:none">
-                                <div class="card-header">
-                                    <div class="row justify-content-end mb-1">
-                                        <div class="col-auto">
-                                            <button type="button" class="btn rounded shadow float-right" onclick="$('#addKassa').modal('show');">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M15 13H13V15C13 15.55 12.55 16 12 16C11.45 16 11 15.55 11 15V13H9C8.45 13 8 12.55 8 12C8 11.45 8.45 11 9 11H11V9C11 8.45 11.45 8 12 8C12.55 8 13 8.45 13 9V11H15C15.55 11 16 11.45 16 12C16 12.55 15.55 13 15 13ZM12 2C6.486 2 2 6.486 2 12C2 17.514 6.486 22 12 22C17.514 22 22 17.514 22 12C22 6.486 17.514 2 12 2Z" fill="#2AAEAD"></path>
-                                                </svg>
-                                                Kassa əlavə et
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-5">Kassa adı</div>
-                                        <div class="col-2">Gör</div>
-                                        <div class="col-3">Tam kontrol</div>
-                                        <div class="col-2">Sil</div>
-                                    </div>
-                                </div>
-                                <div class="list-group list-group-flush" style="max-height: 30vh; overflow-y: auto" id="kassaInOrganizationByUser">
-                                    <!-- Filled dynamically -->
-                                </div>
-                            </div>
+                            }
                         </div>
                     </div>
+
+                    <!-- DEPARTMENTS / KASSA LISTS -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card border-light mb-3" id="userDepList">
+                                <div class="card-header">
+                                    <div class="d-flex justify-content-end mb-2">
+                                        <button type="button" class="btn btn-sm btn-dark"
+                                                onclick="$('#addDepartment').modal('show');">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                 viewBox="0 0 24 24" fill="none">
+                                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                                      d="M15 13H13V15C13 15.55 12.55 16 12 16C11.45 16 11 15.55 11 15V13H9C8.45 13 8 12.55 8 12C8 11.45 8.45 11 9 11H11V9C11 8.45 11.45 8 12 8C12.55 8 13 8.45 13 9V11H15C15.55 11 16 11.45 16 12C16 12.55 15.55 13 15 13ZM12 2C6.486 2 2 6.486 2 12C2 17.514 6.486 22 12 22C17.514 22 22 17.514 22 12C22 6.486 17.514 2 12 2Z"
+                                                      fill="#2AAEAD"></path>
+                                            </svg>
+                                            Şöbə əlavə et
+                                        </button>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3"><strong>Şöbənin adı</strong></div>
+                                        <div class="col-2"><strong>Tipi</strong></div>
+                                        <div class="col-2"><strong>Gör</strong></div>
+                                        <div class="col-3"><strong>Tam kontrol</strong></div>
+                                        <div class="col-2"><strong>Sil</strong></div>
+                                    </div>
+                                </div>
+                                <div class="list-group list-group-flush" style="max-height: 30vh; overflow-y: auto"
+                                     id="depsInOrganizationByUser">
+                                    <!-- Filled by AJAX -->
+                                </div>
+                            </div>
+
+                            <div class="card border-light" id="userKassaList" style="display:none">
+                                <div class="card-header">
+                                    <div class="d-flex justify-content-end mb-2">
+                                        <button type="button" class="btn btn-sm btn-dark"
+                                                onclick="$('#addKassa').modal('show');">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                 viewBox="0 0 24 24" fill="none">
+                                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                                      d="M15 13H13V15C13 15.55 12.55 16 12 16C11.45 16 11 15.55 11 15V13H9C8.45 13 8 12.55 8 12C8 11.45 8.45 11 9 11H11V9C11 8.45 11.45 8 12 8C12.55 8 13 8.45 13 9V11H15C15.55 11 16 11.45 16 12C16 12.55 15.55 13 15 13ZM12 2C6.486 2 2 6.486 2 12C2 17.514 6.486 22 12 22C17.514 22 22 17.514 22 12C22 6.486 17.514 2 12 2Z"
+                                                      fill="#2AAEAD"></path>
+                                            </svg>
+                                            Kassa əlavə et
+                                        </button>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-5"><strong>Kassa adı</strong></div>
+                                        <div class="col-2"><strong>Gör</strong></div>
+                                        <div class="col-3"><strong>Tam kontrol</strong></div>
+                                        <div class="col-2"><strong>Sil</strong></div>
+                                    </div>
+                                </div>
+                                <div class="list-group list-group-flush" style="max-height: 30vh; overflow-y: auto"
+                                     id="kassaInOrganizationByUser">
+                                    <!-- Filled by AJAX -->
+                                </div>
+                            </div>
+                        </div><!-- col-12 -->
+                    </div><!-- row -->
+                </div><!-- positionSettings -->
+            </div><!-- card-body -->
+        </div><!-- card -->
+    </div><!-- col-md-9 -->
+</div><!-- row -->
+<!-- ================================================== -->
+<!-- ALL MODALS (Pass Change, Add Kassa, Dep, Org, etc.)
+     NOW UPDATED FOR BOOTSTRAP 5
+     ================================================== -->
+<!-- PASS CHANGE MODAL -->
+<div class="modal fade" id="passChangeModal" data-bs-backdrop="static" data-bs-keyboard="false"
+     tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center mb-3">
+                    <img src="/res/pencil.svg" />
+                </div>
+                <h6 class="text-center mb-3">İstifadəçi şifrəsinin sıfırlanması</h6>
+                <div class="mb-3">
+                    <label class="form-label">Yeni şifrə</label>
+                    <input class="form-control" placeholder="Yeni şifrə..." id="newPwd" />
+                </div>
+                <div class="text-center">
+                    <button type="button" class="btn btn-primary" onclick="updateUserPwd()">
+                        Yenilə
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- ================================================== -->
-<!-- MODAL DIALOGS SECTION -->
-<!-- ================================================== -->
-<!-- Pass Change Modal -->
-<div class="modal fade" id="passChangeModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<!-- ADD KASSA MODAL -->
+<div class="modal fade" id="addKassa" data-bs-backdrop="static" data-bs-keyboard="false"
+     tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-12 text-center">
-                                        <img src="/res/pencil.svg" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-12 text-center">
-                                        <h6>İstifadəçi şifrəsinin sıfırlanması</h6>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <label>Yeni şifrə</label>
-                                        <input class="form-control" placeholder="Şifrə..." id="newPwd" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-12 text-center">
-                                        <button type="button" class="btn btn-primary" onclick="updateUserPwd()">Yenilə</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                <div class="text-center mb-3">
+                    <img src="/res/pencil.svg" />
+                </div>
+                <h6 class="text-center mb-3">İstifadəçiyə kassa əlavə edilməsi</h6>
+                <div class="mb-3">
+                    <label class="form-label">Kassalar</label>
+                    <select class="form-select" required id="kassaInOrganization"></select>
+                </div>
+                <div class="mb-3">
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" id="kassaReadOnlyCheckBox">
+                        <label class="form-check-label">Gör</label>
                     </div>
-                </form>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="kassaFullKontrolCheckBox">
+                        <label class="form-check-label">Tam kontrol</label>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button type="button" class="btn btn-primary" onclick="addKassaToUser()">
+                        Əlavə et
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Add Kassa Modal -->
-<div class="modal fade" id="addKassa" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<!-- ADD DEPARTMENT MODAL -->
+<div class="modal fade" id="addDepartment" data-bs-backdrop="static" data-bs-keyboard="false"
+     tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-12 text-center">
-                                        <img src="/res/pencil.svg" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-12 text-center">
-                                        <h6>İstifadəçiyə kassa əlavə edilməsi</h6>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <label>Kassalar</label>
-                                        <select class="form-control dropdown" required id="kassaInOrganization"></select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-12" style="display:inline">
-                                        <input class="me-1" id="kassaReadOnlyCheckBox" type="checkbox" value="">
-                                        <label>Gör</label>
-                                    </div>
-                                    <div class="col-md-12" style="display:inline">
-                                        <input class="me-1" id="kassaFullKontrolCheckBox" type="checkbox" value="">
-                                        <label>Tam kontrol</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-12 text-center">
-                                        <button type="button" class="btn btn-primary" onclick="addKassaToUser()">Əlavə et</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                <div class="text-center mb-3">
+                    <img src="/res/pencil.svg" />
+                </div>
+                <h6 class="text-center mb-3">İstifadəçiyə şöbənin əlavə edilməsi</h6>
+                <div class="mb-3">
+                    <label class="form-label">Şöbələr</label>
+                    <select class="form-select" required id="depsInOrganization"></select>
+                </div>
+                <div class="mb-3">
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" id="depReadOnlyCheckBox">
+                        <label class="form-check-label">Gör</label>
                     </div>
-                </form>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="depFullControlCheckBox">
+                        <label class="form-check-label">Tam kontrol</label>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button type="button" class="btn btn-primary" onclick="addDepartmentToUser()">
+                        Əlavə et
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Add Department Modal -->
-<div class="modal fade" id="addDepartment" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<!-- ADD ORGANIZATION MODAL -->
+<div class="modal fade" id="addOrganization" data-bs-backdrop="static" data-bs-keyboard="false"
+     tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-12 text-center">
-                                        <img src="/res/pencil.svg" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-12 text-center">
-                                        <h6>İstifadəçiyə şöbənin əlavə edilməsi</h6>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <label>Şöbələr</label>
-                                        <select class="form-control dropdown" required id="depsInOrganization"></select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-12" style="display:inline">
-                                        <input class="me-1" id="depReadOnlyCheckBox" type="checkbox" value="">
-                                        <label>Gör</label>
-                                    </div>
-                                    <div class="col-md-12" style="display:inline">
-                                        <input class="me-1" id="depFullControlCheckBox" type="checkbox" value="">
-                                        <label>Tam kontrol</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-12 text-center">
-                                        <button type="button" class="btn btn-primary" onclick="addDepartmentToUser()">Əlavə et</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
+                <div class="text-center mb-3">
+                    <img src="/res/pencil.svg" />
+                </div>
+                <h6 class="text-center mb-3">İstifadəçiyə müəssisə əlavə edilməsi</h6>
+                <div class="mb-3">
+                    <label class="form-label">Müəssisələr</label>
+                    <select class="form-select" required id="allOrganizations">
+                        @foreach (var item in Model.organizationList)
+                        {
+                            <option value="@item.id">@item.organizationName</option>
+                        }
+                    </select>
+                </div>
+                <div class="text-center">
+                    <button type="button" class="btn btn-primary" onclick="addOrganizationToUser()">
+                        Əlavə et
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Add Organization Modal -->
-<div class="modal fade" id="addOrganization" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-12 text-center">
-                                        <img src="/res/pencil.svg" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-12 text-center">
-                                        <h6>İstifadəçiyə müəssisə əlavə edilməsi</h6>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <label>Müəssisələr</label>
-                                        <select class="form-control dropdown" required id="allOrganizations">
-                                            @foreach (var item in Model.organizationList)
-                                            {
-                                                <option value="@item.id">@item.organizationName</option>
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-12 text-center">
-                                        <button type="button" class="btn btn-primary" onclick="addOrganizationToUser()">Əlavə et</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Add Personal Modal -->
-<div class="modal fade" id="addPersonal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<!-- ADD PERSONAL MODAL -->
+<div class="modal fade" id="addPersonal" data-bs-backdrop="static" data-bs-keyboard="false"
+     tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-hidden="true"></button>
             </div>
             <div class="modal-body">
                 <form id="addPersonalForm" class="needs-validation container" novalidate>
                     <div class="row">
-                        <div class="col-md-12 mb-3">
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-12 text-center">
-                                        <img src="/res/user.svg" />
-                                    </div>
+                        <div class="col-md-12 mb-3 text-center">
+                            <img src="/res/user.svg" />
+                            <h3 class="mt-3">Personal əlavə edilməsi</h3>
+                        </div>
+
+                        <!-- Ad, Soyad -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Adı</label>
+                            <input type="text" class="form-control" required id="newUserName"
+                                   placeholder="Ad" />
+                            <div class="valid-feedback">Əla!</div>
+                            <div class="invalid-feedback">Boşluğu doldurun.</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Soyadı</label>
+                            <input type="text" class="form-control" required id="newUserSurname"
+                                   placeholder="Soyad" />
+                            <div class="valid-feedback">Əla!</div>
+                            <div class="invalid-feedback">Boşluğu doldurun.</div>
+                        </div>
+
+                        <!-- Father, BDate -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Ata adı</label>
+                            <input type="text" class="form-control" required id="newUserFather"
+                                   placeholder="Ata adı" />
+                            <div class="valid-feedback">Əla!</div>
+                            <div class="invalid-feedback">Boşluğu doldurun.</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Doğum tarixi</label>
+                            <input type="date" class="form-control" required id="newUserBDate" />
+                            <div class="valid-feedback">Əla!</div>
+                            <div class="invalid-feedback">Boşluğu doldurun.</div>
+                        </div>
+
+                        <!-- PassportSerialNo, Fin -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">ŞV seriyası</label>
+                            <input type="text" class="form-control" required id="newUserPassportSerialNo"
+                                   placeholder="ŞV seriyası" />
+                            <div class="valid-feedback">Əla!</div>
+                            <div class="invalid-feedback">Boşluğu doldurun.</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Fin No</label>
+                            <input type="text" class="form-control" required id="newUserFin"
+                                   placeholder="FIN" />
+                            <div class="valid-feedback">Əla!</div>
+                            <div class="invalid-feedback">Boşluğu doldurun.</div>
+                        </div>
+
+                        <!-- Phone, Email -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Mobil nömrə</label>
+                            <input type="text" class="form-control" required id="newUserMobile"
+                                   placeholder="(050) ___ __ __" />
+                            <div class="valid-feedback">Əla!</div>
+                            <div class="invalid-feedback">Boşluğu doldurun.</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Elektron poçt ünvanı</label>
+                            <input type="text" class="form-control" required id="newUserEmail"
+                                   placeholder="E-poçt" />
+                            <div class="valid-feedback">Əla!</div>
+                            <div class="invalid-feedback">Boşluğu doldurun.</div>
+                        </div>
+
+                        <!-- Roles -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Vəzifə</label>
+                            <div class="dropdown">
+                                <button class="btn btn-outline-dark dropdown-toggle w-100"
+                                        type="button" id="rolesDropdownMenuButton"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                    Seçin
+                                </button>
+                                <ul class="dropdown-menu" id="rolesSelectDropdownMenu"
+                                    aria-labelledby="rolesDropdownMenuButton"
+                                    style="min-width: 200px;">
+                                    <li>
+                                        <label class="dropdown-item">
+                                            <input type="checkbox" value="3"
+                                                   class="form-check-input me-2"> İnzibatçı
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label class="dropdown-item">
+                                            <input type="checkbox" value="4"
+                                                   class="form-check-input me-2"> Həkim
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label class="dropdown-item">
+                                            <input type="checkbox" value="5"
+                                                   class="form-check-input me-2"> Kassir
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label class="dropdown-item">
+                                            <input type="checkbox" value="7"
+                                                   class="form-check-input me-2"> Qeydiyyatcı
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label class="dropdown-item">
+                                            <input type="checkbox" value="6" checked
+                                                   class="form-check-input me-2"> İstifadəçi
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Speciality (only shown if '4' => Həkim) -->
+                        <div class="col-md-6 mb-3" id="newUserSpecialityContent" style="display:none;">
+                            <label class="form-label">İxtisas</label>
+                            <div class="dropdown">
+                                <button type="button" class="btn btn-outline-dark dropdown-toggle w-100"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="justify-content-end newUserSpeciality">Seçin...</span>
+                                </button>
+                                <div class="dropdown-menu">
+                                    @foreach (var item in Model.specialityList)
+                                    {
+                                        <a class="dropdown-item" id="@item.id"
+                                           onclick="$('.newUserSpeciality').text('@item.name'); $('.newUserSpeciality').attr('id','@item.id');">
+                                            @item.name
+                                        </a>
+                                    }
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-12 text-center">
-                                        <h3>Personal əlavə edilməsi</h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group mb-3">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label>Adı</label>
-                                        <input type="text" class="form-control" required id="newUserName" placeholder="Daxil edin">
-                                        <div class="valid-feedback">Əla!</div>
-                                        <div class="invalid-feedback">Boşluğu doldurun.</div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>Soyadı</label>
-                                        <input type="text" class="form-control" required id="newUserSurname" placeholder="Daxil edin">
-                                        <div class="valid-feedback">Əla!</div>
-                                        <div class="invalid-feedback">Boşluğu doldurun.</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group mb-3">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label>Ata adı</label>
-                                        <input type="text" class="form-control" required id="newUserFather" placeholder="Daxil edin">
-                                        <div class="valid-feedback">Əla!</div>
-                                        <div class="invalid-feedback">Boşluğu doldurun.</div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>Doğum tarixi</label>
-                                        <input type="date" class="form-control" required id="newUserBDate" placeholder="Daxil edin">
-                                        <div class="valid-feedback">Əla!</div>
-                                        <div class="invalid-feedback">Boşluğu doldurun.</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group mb-3">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label>ŞV seriyası</label>
-                                        <input type="text" class="form-control" required id="newUserPassportSerialNo" placeholder="Daxil edin">
-                                        <div class="valid-feedback">Əla!</div>
-                                        <div class="invalid-feedback">Boşluğu doldurun.</div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>Fin No</label>
-                                        <input type="text" class="form-control" required id="newUserFin" placeholder="Daxil edin">
-                                        <div class="valid-feedback">Əla!</div>
-                                        <div class="invalid-feedback">Boşluğu doldurun.</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group mb-3">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label>Mobil nömrə</label>
-                                        <input type="text" class="form-control" required id="newUserMobile" placeholder="Daxil edin">
-                                        <div class="valid-feedback">Əla!</div>
-                                        <div class="invalid-feedback">Boşluğu doldurun.</div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>Elektron poçt ünvanı</label>
-                                        <input type="text" class="form-control" required id="newUserEmail" placeholder="Daxil edin">
-                                        <div class="valid-feedback">Əla!</div>
-                                        <div class="invalid-feedback">Boşluğu doldurun.</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group mb-3">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label>Vəzifə</label>
-                                        <div class="dropdown">
-                                            <button class="btn btn-outline-dark dropdown-toggle w-100" type="button" id="rolesDropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                                Seçin
-                                            </button>
-                                            <ul class="dropdown-menu" id="rolesSelectDropdownMenu" aria-labelledby="rolesDropdownMenuButton">
-                                                <li>
-                                                    <label class="dropdown-item">
-                                                        <input type="checkbox" value="3" class="form-check-input me-2"> İnzibatçı
-                                                    </label>
-                                                </li>
-                                                <li>
-                                                    <label class="dropdown-item">
-                                                        <input type="checkbox" value="4" class="form-check-input me-2"> Həkim
-                                                    </label>
-                                                </li>
-                                                <li>
-                                                    <label class="dropdown-item">
-                                                        <input type="checkbox" value="5" class="form-check-input me-2"> Kassir
-                                                    </label>
-                                                </li>
-                                                <li>
-                                                    <label class="dropdown-item">
-                                                        <input type="checkbox" value="6" checked class="form-check-input me-2"> İstifadəçi
-                                                    </label>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6" id="newUserSpecialityContent" style="display:none;">
-                                        <label>İxtisas</label>
-                                        <div class="dropdown">
-                                            <button type="button" class="btn btn-outline-dark dropdown-toggle w-100" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <span class="justify-content-end newUserSpeciality">Seçin...</span>
-                                            </button>
-                                            <div class="dropdown-menu">
-                                                @foreach (var item in Model.specialityList)
-                                                {
-                                                    <a class="dropdown-item" id="@item.id" onclick="$('.newUserSpeciality').text('@item.name'); $('.newUserSpeciality').attr('id','@item.id');">@item.name</a>
-                                                }
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="container mt-5">
-                                <div class="form-group mb-3">
-                                    <div class="row align-items-center">
-                                        <div class="col-md-12">
-                                            <h3>İstifadəçi məlumatları</h3>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group mb-3">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>İstifadəçi adı</label>
-                                            <input type="text" class="form-control" id="newUserUsername" placeholder="Daxil edin">
-                                            <div class="valid-feedback">Əla!</div>
-                                            <div class="invalid-feedback">Boşluğu doldurun.</div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label>Şifrə</label>
-                                            <input type="text" class="form-control" id="newUserPwd" placeholder="Daxil edin" required>
-                                            <div class="valid-feedback">Əla!</div>
-                                            <div class="invalid-feedback">Boşluğu doldurun.</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group mb-3">
-                                    <div class="row">
-                                        <div class="col-md-12 text-center">
-                                            <button type="button" class="btn btn-primary" onclick="addPersonal()">Əlavə et</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        </div>
+
+                        <!-- Username & Password -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">İstifadəçi adı</label>
+                            <input type="text" class="form-control" id="newUserUsername"
+                                   placeholder="İstifadəçi adı" />
+                            <div class="valid-feedback">Əla!</div>
+                            <div class="invalid-feedback">Boşluğu doldurun.</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Şifrə</label>
+                            <input type="text" class="form-control" id="newUserPwd"
+                                   placeholder="Şifrə" required />
+                            <div class="valid-feedback">Əla!</div>
+                            <div class="invalid-feedback">Boşluğu doldurun.</div>
+                        </div>
+
+                        <div class="col-md-12 text-center mt-3">
+                            <button type="button" class="btn btn-primary" onclick="addPersonal()">
+                                Əlavə et
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -721,19 +696,21 @@
     </div>
 </div>
 
-<!-- ================================================== -->
-<!-- SYSTEM & WARNING MODALS (DUMMY) -->
-<!-- ================================================== -->
+<!-- SYSTEM & WARNING MODALS -->
 <div class="modal fade" id="systemModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="systemModalTitle"></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
             </div>
             <div class="modal-body" id="systemModalText"></div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="systemModalBtn" data-bs-dismiss="modal">OK</button>
+                <button type="button" class="btn btn-primary" id="systemModalBtn"
+                        data-bs-dismiss="modal">
+                    OK
+                </button>
             </div>
         </div>
     </div>
@@ -744,23 +721,28 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Warning</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
             </div>
             <div class="modal-body" id="warningText"></div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary"
+                        data-bs-dismiss="modal">
+                    Bağla
+                </button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- ================================================== -->
-<!-- CUSTOM STYLES -->
-<!-- ================================================== -->
+<!-- =========================================
+     CUSTOM STYLES
+     ========================================= -->
 <style>
     .nav-pills .nav-link.active {
         border-radius: 2rem;
         background-color: #2AAEAD;
+        color: #fff;
     }
 
     .nav-pills .nav-link {
@@ -769,7 +751,14 @@
         border: 1px solid #dee2e6 !important;
         color: #2AAEAD;
     }
+    /* Example: override .selectedDepCard if you want special styling */
+    .selectedDepCard {
+        border: 1px solid #dee2e6;
+    }
 </style>
+
+
+
 
 <!-- ================================================== -->
 <!-- SCRIPTS SECTION -->
@@ -780,6 +769,44 @@
         var selectedPersonalID = @Model.personalList[0].ID;
         getOrganizationsByUser(selectedPersonalID);
         var newPersonalIsUser = 0;
+                var allPersonals = @Html.Raw(Json.Serialize(Model.personalList));
+
+
+        // On page load, populate the list with the default filter ("Aktiv")
+        $(document).ready(function () {
+            filterPersonalList();
+        });
+
+        function filterPersonalList() {
+            // "1" => active, "0" => inactive
+            var filterVal = $("#depIsActiveFilter").val();
+            // Clear out the existing items
+            $("#depTypesInBuilding").empty();
+
+            // Loop through allPersonals
+            allPersonals.forEach(function (item) {
+                // Determine if item is "active" or "inactive"
+                // We'll say active if item.roles.length > 0
+                var isActive = (item.roles && item.roles.length > 0) ? 1 : 0;
+                // Compare to the filter
+                if (isActive.toString() === filterVal) {
+                    // Build the HTML
+                    var specialistName = item.speciality ? item.speciality.name : "";
+                    var rowHtml = `
+                        <div class="list-group-item list-group-item-action personal-list"
+                             onclick='personalClicked(this, ${JSON.stringify(item)})'>
+                            <div class="row">
+                                <div class="col-6">${item.name} ${item.surname}</div>
+                                <div class="col-6 text-end">${specialistName}</div>
+                            </div>
+                        </div>
+                    `;
+                    // Append to the list
+                    $("#depTypesInBuilding").append(rowHtml);
+                }
+            });
+        }
+
 
         function checkIsUserBox(state) {
             if ($(state).is(':checked')) {
@@ -813,6 +840,7 @@
             if ($("#isAdminCheckBox").prop('checked')) { selectedValues.push(2); }
             if ($("#isManagerCheckBox").prop('checked')) { selectedValues.push(3); }
             if ($("#isCashierCheckBox").prop('checked')) { selectedValues.push(5); }
+            if ($("#isReceptionistCheckBox").prop('checked')) { selectedValues.push(7); }
 
             $.post("@Url.Action("UpdateUser", "Personal", new { area = "Admin" })",
                 { userID: userID, mobile: mobile, email: email, username: username, bDate: bDate, passportSerialNum: passportSerialNum, fin: fin, specialityID: userSpecialityID, name: name, surname: surname, father: father, isActive: isActiveCheckBox, roleIds: selectedValues },
@@ -930,7 +958,9 @@
             updateCheckBoxStatus(2, "#isAdminCheckBox", roleIds);
             updateCheckBoxStatus(3, "#isManagerCheckBox", roleIds);
             updateCheckBoxStatus(4, "#isDrCheckBox", roleIds);
+            updateCheckBoxStatus(5, "#isCashierCheckBox", roleIds);
             updateCheckBoxStatus(6, "#isUserCheckBox", roleIds);
+            updateCheckBoxStatus(7, "#isReceptionistCheckBox", roleIds);
             getOrganizationsByUser(selectedPersonalID);
         }
 

@@ -15,11 +15,11 @@ namespace Medicloud.Data
             ConnectionString = conString;
         }
 
-        public List<DepartmentType> GetDepartmentTypes()
+        public List<DepartmentTypeDAO> GetDepartmentTypes()
 
         {
 
-            List <DepartmentType> depTypeList = new List<DepartmentType>();
+            List <DepartmentTypeDAO> depTypeList = new List<DepartmentTypeDAO>();
             try
             {
                 using (MySqlConnection connection = new MySqlConnection(ConnectionString))
@@ -39,7 +39,7 @@ namespace Medicloud.Data
                             while (reader.Read())
                             {
 
-                                DepartmentType departmentType = new DepartmentType();
+                                DepartmentTypeDAO departmentType = new DepartmentTypeDAO();
                                 departmentType.ID = Convert.ToInt64(reader["id"]);
                                 departmentType.name = reader["name"] == DBNull.Value ? "" : reader["name"].ToString();
                                 depTypeList.Add(departmentType);

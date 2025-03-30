@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Medicloud.BLL.Service;
+using Medicloud.BLL.Service.Organization;
 using Medicloud.Data;
 using Medicloud.Models;
 using Medicloud.Models.Domain;
@@ -23,17 +24,17 @@ namespace Medicloud.Areas.Admin.Controllers
         private ServiceGroupsRepo sgRepo;
         private ServiceTypeRepo stRepo;
         private ServicesRepo sRepo;
-        private OrganizationService organizationService;
+        private IOrganizationService _organizationService;
         private DepartmentsRepo departmentsRepo;
         //Communications communications;
-        public ServicesController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
+        public ServicesController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IOrganizationService organizationService)
         {
             Configuration = configuration;
             ConnectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
             _hostingEnvironment = hostingEnvironment;
             sgRepo = new ServiceGroupsRepo(ConnectionString);
             sRepo = new ServicesRepo(ConnectionString);
-            organizationService = new OrganizationService(ConnectionString);
+            _organizationService = organizationService;
             departmentsRepo = new DepartmentsRepo(ConnectionString);
             stRepo = new ServiceTypeRepo(ConnectionString);
             //communications = new Communications(Configuration, _hostingEnvironment);
@@ -47,7 +48,7 @@ namespace Medicloud.Areas.Admin.Controllers
             if (userID >0)
             {
                
-                return View(organizationService.GetOrganizationsByUser(userID));
+                return View(_organizationService.GetOrganizationsByUser(userID));
             }
             return NotFound();
          
@@ -105,7 +106,7 @@ namespace Medicloud.Areas.Admin.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                List<Department> departments = departmentsRepo.GetDepartmentsByOrganization(organizationID);
+                List<DepartmentDAO> departments = departmentsRepo.GetDepartmentsByOrganization(organizationID);
                 return Ok(departments);
             }
 
@@ -120,7 +121,7 @@ namespace Medicloud.Areas.Admin.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                List<Department> departments = departmentsRepo.GetDepartmentsInService(serviceID);
+                List<DepartmentDAO> departments = departmentsRepo.GetDepartmentsInService(serviceID);
                 return Ok(departments);
             }
 

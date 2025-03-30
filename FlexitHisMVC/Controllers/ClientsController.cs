@@ -37,6 +37,7 @@ namespace Medicloud.Controllers
         // GET: /<controller>/
         public IActionResult Index()
         {
+            
     
                 var response = patientCardRepo.GetPatientsByOrganization(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")));
 

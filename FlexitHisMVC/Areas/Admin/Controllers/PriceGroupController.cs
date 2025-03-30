@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Net;
 using Medicloud.BLL.Service;
+using Medicloud.BLL.Service.Organization;
 using Medicloud.Data;
 using Medicloud.Models;
 using Medicloud.Models.Repository;
@@ -23,17 +24,17 @@ public class PriceGroupController : Controller
     private ServiceGroupsRepo sgRepo;
     private ServiceTypeRepo stRepo;
     private ServicesRepo sRepo;
-    private OrganizationService organizationService;
+    private IOrganizationService _organizationService;
     private DepartmentsRepo departmentsRepo;
     //Communications communications;
-    public PriceGroupController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
+    public PriceGroupController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IOrganizationService organizationService)
     {
         Configuration = configuration;
         _connectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
         _hostingEnvironment = hostingEnvironment;
         sgRepo = new ServiceGroupsRepo(_connectionString);
         sRepo = new ServicesRepo(_connectionString);
-        organizationService = new OrganizationService(_connectionString);
+        _organizationService = organizationService;
         departmentsRepo = new DepartmentsRepo(_connectionString);
         stRepo = new ServiceTypeRepo(_connectionString);
         //communications = new Communications(Configuration, _hostingEnvironment);
@@ -390,8 +391,8 @@ public class PriceGroupController : Controller
      
             CompanyRepo select = new CompanyRepo(_connectionString);
             var list = select.GetActiveCompanies(organizationID);
-            ResponseDTO<Company> response = new ResponseDTO<Company>();
-            response.data = new List<Company>();
+            ResponseDTO<CompanyDAO> response = new ResponseDTO<CompanyDAO>();
+            response.data = new List<CompanyDAO>();
             response.data = list;
             return Ok(response);
 

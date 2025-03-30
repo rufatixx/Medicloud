@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using Medicloud.BLL.Service;
+using Medicloud.BLL.Services;
 using Medicloud.Models;
 using Medicloud.Models.DTO;
 using Microsoft.AspNetCore.Authentication;
@@ -17,14 +18,13 @@ namespace Medicloud.Controllers
         private readonly string _connectionString;
         public IConfiguration Configuration;
         private readonly IWebHostEnvironment _hostingEnvironment;
-        UserService userService;
-        public LoginController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
+        IUserService _userService;
+        public LoginController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IUserService userService)
         {
             Configuration = configuration;
             _connectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
             _hostingEnvironment = hostingEnvironment;
-            userService = new UserService(_connectionString);
-
+            _userService = userService;
         }
 
      
@@ -43,8 +43,8 @@ namespace Medicloud.Controllers
         [HttpPost("[controller]/[action]")]
         public async Task<IActionResult> SignInAsync(string content, string pass,int type)
         {
-            UserService login = new UserService(_connectionString);
-            var obj = login.SignIn(content, pass,type);
+          
+            var obj = _userService.SignIn(content, pass,type);
 
             if (obj.personal.ID > 0)
             {
@@ -75,10 +75,10 @@ namespace Medicloud.Controllers
 
                
 
-                userService.SaveSession(HttpContext, "Medicloud_userID", obj.personal.ID.ToString());
-                userService.SaveSession(HttpContext, "Medicloud_organizationID", obj.organizations[0].organizationID.ToString());
-                userService.SaveSession(HttpContext, "Medicloud_organizationName", obj.organizations[0].organizationName.ToString());
-                userService.SaveSession(HttpContext, "Medicloud_UserPlanExpireDate", obj.personal.subscription_expire_date.ToString());
+                _userService.SaveSession(HttpContext, "Medicloud_userID", obj.personal.ID.ToString());
+                _userService.SaveSession(HttpContext, "Medicloud_organizationID", obj.organizations[0].organizationID.ToString());
+                _userService.SaveSession(HttpContext, "Medicloud_organizationName", obj.organizations[0].organizationName.ToString());
+                _userService.SaveSession(HttpContext, "Medicloud_UserPlanExpireDate", obj.personal.subscription_expire_date.ToString());
                 //userService.SaveSession(HttpContext, "Medicloud_UserPlanExpireDate", DateTime.Now.AddDays(10).ToString());
                 return Ok(response);
             }

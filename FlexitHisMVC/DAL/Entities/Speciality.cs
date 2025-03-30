@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Medicloud.Models
+namespace Medicloud.DAL.Entities
 {
     public class Speciality
     {

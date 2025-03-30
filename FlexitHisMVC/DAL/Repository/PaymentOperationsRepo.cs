@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.Globalization;
-
+using Dapper;
 using Medicloud.Models.Domain;
 using Medicloud.Models.DTO;
 using MySql.Data.MySqlClient;
@@ -188,113 +188,87 @@ namespace Medicloud.Models.Repository
             return response;
         }
 
-
         public KassaDTO GetPaymentOperations(int userID, long kassaID)
-
         {
-            KassaDTO response = new KassaDTO();
-            response.recipeList = new List<Recipe>();
+            // Single query with two SELECT statements
+            var sql = @"
+        -- 1) Sum of all prices plus some 'id' from payment_operations
+        SELECT 
+            id,                 -- or use '@kassaID AS id' if you want the parameter here
+            SUM(price) AS kassaSum
+        FROM payment_operations
+        WHERE kassaID = @kassaID;
+
+        -- 2) All payment rows with joined columns
+        SELECT 
+            a.id,
+            a.price,
+            a.userID,
+            a.patientID,
+            a.payment_typeID,
+            a.cdate,
+            
+            pt.name AS pTypeName,
+            CONCAT(p.name, ' ', p.surname) AS patientFullName,
+            pot.name AS operationType,
+            CONCAT(u.name, ' ', u.surname) AS cashier
+        FROM payment_operations a
+        LEFT JOIN payment_type pt 
+               ON pt.id = a.payment_typeID
+        LEFT JOIN patients p 
+               ON p.id = a.patientID
+        LEFT JOIN payment_operation_type pot 
+               ON pot.id = a.paymentOperationType
+        LEFT JOIN users u 
+               ON u.id = a.userID
+        WHERE a.kassaID = @kassaID order by id desc
+    ";
 
             try
             {
-
-
-
-                using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+                using (var connection = new MySqlConnection(ConnectionString))
+                using (var multi = connection.QueryMultiple(sql, new { kassaID }))
                 {
+                    // 1) Read the first SELECT result into a single KassaDTO
+                    var kassa = multi.ReadSingleOrDefault<KassaDTO>();
 
-
-                    connection.Open();
-
-
-                    using (MySqlCommand com = new MySqlCommand($@"
-SELECT sum(price)as sumPrice FROM payment_operations where kassaID =@kassaID and userID = @userID;", connection))
+                    // If no rows returned at all, create a default KassaDTO
+                    if (kassa == null)
                     {
-                        com.Parameters.AddWithValue("@userID", userID);
-                        com.Parameters.AddWithValue("@kassaID", kassaID);
-                        MySqlDataReader reader = com.ExecuteReader();
-                        if (reader.HasRows)
+                        kassa = new KassaDTO
                         {
-
-
-                            while (reader.Read())
-                            {
-
-
-                              
-
-                                response.id = kassaID;
-
-                                response.kassaSum = Convert.ToDouble(reader["sumPrice"]);
-
-
-                               
-
-
-                            }
-
-
-                           
-                        }
-                       
-                    }
-                    connection.Close();
-                    connection.Open();
-                    using (MySqlCommand com = new MySqlCommand($@"
-SELECT *,(select name from payment_type where id = a.payment_typeID)as pTypeName,
-(SELECT CONCAT(name, ' ', surname) FROM patients WHERE id = a.patientID) AS patientFullName,
- (select name from payment_operation_type where id=a.paymentOperationType)as operationType
-FROM payment_operations a where kassaID =@kassaID and userID = @userID", connection))
-                    {
-                        com.Parameters.AddWithValue("@userID", userID);
-                        com.Parameters.AddWithValue("@kassaID", kassaID);
-
-                        MySqlDataReader reader = com.ExecuteReader();
-                        if (reader.HasRows)
-                        {
-
-
-                            while (reader.Read())
-                            {
-
-                                Recipe recipe = new Recipe();
-                                recipe.id = reader["id"] == DBNull.Value ? 0 : Convert.ToInt64(reader["id"]);
-                                recipe.patientID = reader["patientID"] == DBNull.Value ? 0 : Convert.ToInt64(reader["patientID"]);
-                                recipe.pTypeName = reader["pTypeName"] == DBNull.Value ? "" : reader["pTypeName"].ToString();
-                                recipe.patientFullName = reader["patientFullName"] == DBNull.Value ? "" : reader["patientFullName"].ToString();
-                                recipe.price = reader["price"] == DBNull.Value ? 0 : Convert.ToDouble(reader["price"]);
-                                recipe.userID = reader["userID"] == DBNull.Value ? 0 : Convert.ToInt64(reader["userID"]);
-                                recipe.cdate = Convert.ToDateTime(reader["cdate"]);
-
-                                response.recipeList.Add(recipe);
-
-
-                            }
-
-                            response.recipeList.Reverse();
-                           
-                        }
-                      
+                            id = 0,
+                            kassaSum = 0,
+                            recipeList = new List<Recipe>()
+                        };
                     }
 
+                    // 2) Read the second SELECT result into a list of RecipeDTO
+                    var recipes = multi.Read<Recipe>().ToList();
 
-                    connection.Close();
+                    // Attach the list to our KassaDTO
+                    kassa.recipeList = recipes;
 
+                    // (Optional) Reverse the list or use ORDER BY in SQL
+                    // recipes.Reverse();
 
+                    return kassa;
                 }
-
-
             }
             catch (Exception ex)
             {
-                //FlexitHis_API.StandardMessages.CallSerilog(ex);
                 Console.WriteLine(ex.Message);
-
+                // Return an empty or throw, depending on your logic
+                return new KassaDTO
+                {
+                    id = 0,
+                    kassaSum = 0,
+                    recipeList = new List<Recipe>()
+                };
             }
-
-
-            return response;
         }
+
+
 
         public PaymentOperationStatisticsDTO GetPaymentOperationsStatistics(long organizationID)
 

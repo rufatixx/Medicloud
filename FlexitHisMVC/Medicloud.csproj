@@ -53,6 +53,13 @@
     <None Remove="Views\Recovery\" />
     <None Remove="Views\Profile\" />
     <None Remove="Areas\Admin\Views\CreateOrganization\" />
+    <None Remove="Views\Shared\Components\AppointmentModal\" />
+    <None Remove="DAL\Repository\Kassa\" />
+    <None Remove="DAL\Repository\Organization\" />
+    <None Remove="BLL\Service\Organization\" />
+    <None Remove="DAL\Repository\Plan\" />
+    <None Remove="DAL\Repository\UserPlan\" />
+    <None Remove="BLL\Service\Communication\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="BLL\Services\Role\" />
@@ -92,6 +99,13 @@
     <Folder Include="wwwroot\welcome_files\" />
     <Folder Include="Views\Recovery\" />
     <Folder Include="Areas\Admin\Views\CreateOrganization\" />
+    <Folder Include="Views\Shared\Components\AppointmentModal\" />
+    <Folder Include="DAL\Repository\Kassa\" />
+    <Folder Include="DAL\Repository\Organization\" />
+    <Folder Include="BLL\Service\Organization\" />
+    <Folder Include="DAL\Repository\Plan\" />
+    <Folder Include="DAL\Repository\UserPlan\" />
+    <Folder Include="BLL\Service\Communication\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.1.35" />

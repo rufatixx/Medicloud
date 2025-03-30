@@ -1,0 +1,14 @@
+﻿namespace Medicloud.DAL.Entities;
+
+public class AppointmentDAO
+{
+    public int id { get; set; }
+    public int patient_id { get; set; }
+    public int service_id { get; set; }
+    public long organization_id { get; set; }
+    public DateTime start_date { get; set; }
+    public DateTime end_date { get; set; }
+    public bool is_active { get; set; }
+	public int user_id { get; set; }
+	public long? patient_phone { get; set; }
+}

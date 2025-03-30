@@ -1,17 +1,25 @@
-﻿using System.Configuration;
-using FlexitHisCore.Models;
-using Medicloud.BLL.Service;
+﻿using Medicloud.BLL.Service;
+using Medicloud.BLL.Service.Communication;
+
+using Medicloud.BLL.Service.Organization;
+using Medicloud.BLL.Services;
 using Medicloud.BLL.Services.Abstract;
 using Medicloud.BLL.Services.Concrete;
 using Medicloud.DAL.Infrastructure.Abstract;
 using Medicloud.DAL.Infrastructure.Concrete;
 using Medicloud.DAL.Repository.Abstract;
 using Medicloud.DAL.Repository.Concrete;
+using Medicloud.DAL.Repository.Kassa;
+using Medicloud.DAL.Repository.Organization;
+using Medicloud.DAL.Repository.Plan;
 using Medicloud.DAL.Repository.Role;
+using Medicloud.DAL.Repository.UserPlan;
+using Medicloud.DAL.Repository.Users;
 using Medicloud.Data;
+using Medicloud.Models.Repository;
+using Medicloud.Models.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -53,6 +61,18 @@ builder.Services.AddScoped(provider => new HttpClient());
 //    };
 
 //});
+
+// 1) Services and authentication setup
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Welcome/Index";
+        options.ExpireTimeSpan = TimeSpan.FromDays(30);
+        options.Cookie.HttpOnly = true;
+        options.SlidingExpiration = true;
+
+        // Remove or omit OnValidatePrincipal since we're doing checks in a pipeline step
+    });
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30); // Set the session timeout
@@ -61,41 +81,6 @@ builder.Services.AddSession(options =>
     options.Cookie.MaxAge = TimeSpan.FromDays(30); // Make session cookie persistent for 30 days
 });
 
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
-    {
-        options.LoginPath = "/Welcome/Index";
-        options.ExpireTimeSpan = TimeSpan.FromDays(30); // Make sure this aligns with session cookie MaxAge
-        options.Cookie.HttpOnly = true;
-        options.SlidingExpiration = true; // Refreshes the expiration time if a request is made and more than half the ExpireTimeSpan has elapsed
-
-        // Добавляем обработку события перенаправления на страницу входа
-        options.Events = new CookieAuthenticationEvents
-        {
-            OnValidatePrincipal = async context =>
-                   {
-
-
-               // Получаем ключи всех сессий
-               var sessionKeys = context.HttpContext.Session.Keys;
-
-                // Проверяем, есть ли сессии, начинающиеся на Medicloud_
-                var hasMedicloudSession = sessionKeys.Any(key => key.StartsWith("Medicloud_"));
-
-                if (!hasMedicloudSession)
-                {
-                    // Если сессий Medicloud_ нет, очищаем cookie аутентификации и выполняем перенаправление на страницу выхода
-                    context.HttpContext.Response.Cookies.Delete(CookieAuthenticationDefaults.AuthenticationScheme);
-                    context.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-                    context.Response.Redirect("/Login/Index");
-                  
-                }
-
-              
-               
-            }
-        };
-    });
 
 builder.Services.AddSwaggerGen();
 
@@ -109,6 +94,14 @@ builder.Services.AddScoped<IPatientCardRepository, PatientCardRepository>();
 builder.Services.AddScoped<IPatientCardService, PatientCardService>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IServicePriceGroupRepository, ServicePriceGroupRepository>();
+builder.Services.AddScoped<IOrganizationRepo, OrganizationRepo>();
+builder.Services.AddScoped<IOrganizationService, OrganizationService>();
+builder.Services.AddScoped<IPlanRepository, PlanRepository>();
+builder.Services.AddScoped<IUserPlanRepo, UserPlanRepo>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IKassaRepo, KassaRepo>();
+builder.Services.AddScoped<ICommunicationService, CommunicationService>();
 var app = builder.Build();
 
 app.UseSession();
@@ -133,15 +126,75 @@ app.UseAuthorization();
 
 app.Use(async (context, next) =>
 {
+    // 1) If request is for NoRoleView, skip checks so user can see the page
+    var path = context.Request.Path.Value?.ToLower() ?? "";
+  
+    if (path.StartsWith("/home/noroleview") ||
+        path.StartsWith("/login") ||
+        path.StartsWith("/profile")||
+        path.StartsWith("/home") ||
+                path.StartsWith("/pricing") ||
+                path.StartsWith("/payment") ||
+                path.StartsWith("/login")
+        )
+    {
+        await next();
+        return;
+    }
+
+
+    if (context.User.Identity?.IsAuthenticated == true)
+    {
+        // Check if session keys exist
+        var hasMedicloudSession = context.Session.Keys.Any(k => k.StartsWith("Medicloud_"));
+        if (!hasMedicloudSession)
+        {
+            // Sign out & redirect
+            context.Response.Cookies.Delete(CookieAuthenticationDefaults.AuthenticationScheme);
+            await context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            context.Response.Redirect("/Login/Index");
+            return;
+        }
+
+        // Check user roles
+        var userIDStr = context.User.Claims.FirstOrDefault(c => c.Type == "ID")?.Value ?? "0";
+        var userID = Convert.ToInt32(userIDStr);
+
+        var orgIDStr = context.Session.GetString("Medicloud_organizationID");
+        var organizationID = string.IsNullOrEmpty(orgIDStr) ? 0 : Convert.ToInt32(orgIDStr);
+
+        var roleRepo = context.RequestServices.GetRequiredService<IRoleRepository>();
+        var userRoles = await roleRepo.GetUserRoles(organizationID, userID);
+
+        if (!userRoles.Any())
+        {
+            // No roles => redirect to NoRoleView
+            context.Response.Redirect("/Home/NoRoleView");
+            return;
+        }
+    }
+
+    await next();
+});
+
+
+app.Use(async (context, next) =>
+{
     if (context.User.Identity.IsAuthenticated)
     {
         var planExpiryDateString = context.Session.GetString("Medicloud_UserPlanExpireDate");
-        
-        if (string.IsNullOrEmpty(planExpiryDateString) || !DateTime.TryParse(planExpiryDateString, out var planExpiryDate) || DateTime.Now > planExpiryDate)
+        if (string.IsNullOrEmpty(planExpiryDateString)
+            || !DateTime.TryParse(planExpiryDateString, out var planExpiryDate)
+            || DateTime.Now > planExpiryDate)
         {
             var path = context.Request.Path.Value.ToLower();
-        
-            if (path != "/" && !path.StartsWith("/home") && !path.StartsWith("/profile") && !path.StartsWith("/pricing") && !path.StartsWith("/payment") && !path.StartsWith("/login"))
+
+            if (path != "/" &&
+                !path.StartsWith("/home") &&
+                !path.StartsWith("/profile") &&
+                !path.StartsWith("/pricing") &&
+                !path.StartsWith("/payment") &&
+                !path.StartsWith("/login"))
             {
                 context.Response.Redirect("/Pricing");
                 return;
@@ -150,6 +203,7 @@ app.Use(async (context, next) =>
     }
     await next();
 });
+
 
 //app.MapAreaControllerRoute(
 //    name: "Admin",

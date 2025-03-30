@@ -12,12 +12,12 @@ namespace Medicloud.Models
         {
             ConnectionString = conString;
         }
-        public List<Building> GetBuildings(long organizationID)
+        public List<BuildingDAO> GetBuildings(long organizationID)
 
         {
 
             
-            List <Building> buildingList = new List<Building>();
+            List <BuildingDAO> buildingList = new List<BuildingDAO>();
             try
             {
                 using (MySqlConnection connection = new MySqlConnection(ConnectionString))
@@ -38,7 +38,7 @@ namespace Medicloud.Models
                             while (reader.Read())
                             {
 
-                                Building building = new Building();
+                                BuildingDAO building = new BuildingDAO();
                                 building.id = Convert.ToInt64(reader["id"]);
                                 building.name = reader["name"] == DBNull.Value ? "" : reader["name"].ToString();
                                 //department.typeID = Convert.ToInt64(reader["depTypeID"]);
@@ -75,12 +75,12 @@ namespace Medicloud.Models
 
             return buildingList;
         }
-        public List<Building> GetAllBuildings()
+        public List<BuildingDAO> GetAllBuildings()
 
         {
 
 
-            List<Building> buildingList = new List<Building>();
+            List<BuildingDAO> buildingList = new List<BuildingDAO>();
             try
             {
                 using (MySqlConnection connection = new MySqlConnection(ConnectionString))
@@ -101,7 +101,7 @@ namespace Medicloud.Models
                             while (reader.Read())
                             {
 
-                                Building building = new Building();
+                                BuildingDAO building = new BuildingDAO();
                                 building.id = Convert.ToInt64(reader["id"]);
                                 building.name = reader["name"] == DBNull.Value ? "" : reader["name"].ToString();
                                 building.organizationID = reader["organizationID"] == DBNull.Value ? 0 : Convert.ToInt32(reader["organizationID"]);

@@ -37,7 +37,7 @@ namespace Medicloud.Models.Repository
             SELECT s.id, s.name, s.price, s.organizationID, s.cDate, s.serviceGroupID, s.serviceTypeID, s.code, s.isActive, 
                    sg.name AS serviceGroup
             FROM services s
-            INNER JOIN service_group sg ON s.serviceGroupID = sg.id
+            left JOIN service_group sg ON s.serviceGroupID = sg.id
             WHERE s.organizationID = @organizationID";
 
                 var parameters = new DynamicParameters();
@@ -90,7 +90,7 @@ namespace Medicloud.Models.Repository
                     code = string.IsNullOrEmpty(service.code) ? null : service.code,
                     name = string.IsNullOrEmpty(service.name) ? null : service.name,
                     price = service.price,
-                    serviceGroupID = service.serviceGroupID,
+                    serviceGroupID = service.serviceGroupID ?? 0,
                     organizationID = service.organizationID,
                     serviceTypeID = service.serviceTypeID,
                     isActive = service.isActive

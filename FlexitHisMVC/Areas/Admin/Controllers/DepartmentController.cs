@@ -12,6 +12,7 @@ using Medicloud.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Medicloud.DAL.Repository;
 using Medicloud.BLL.Service;
+using Medicloud.BLL.Service.Organization;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -24,18 +25,18 @@ namespace Medicloud.Areas.Admin.Controllers
         private readonly IWebHostEnvironment _hostingEnvironment;
         public IConfiguration Configuration;
         BuildingRepo buildingRepo ;
-        OrganizationService organizationService;
+        IOrganizationService _organizationService;
         DepartmentsRepo departmentsRepo;
         DepartmentTypeRepo departmentTypeRepo;
 
         //Communications communications;
-        public DepartmentController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
+        public DepartmentController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IOrganizationService organizationService)
         {
             Configuration = configuration;
             _connectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
             _hostingEnvironment = hostingEnvironment;
              buildingRepo = new BuildingRepo(_connectionString);
-             organizationService = new OrganizationService(_connectionString);
+            _organizationService = organizationService;
             departmentsRepo = new DepartmentsRepo(_connectionString);
             departmentTypeRepo = new DepartmentTypeRepo(_connectionString);
             //communications = new Communications(Configuration, _hostingEnvironment);
@@ -55,7 +56,7 @@ namespace Medicloud.Areas.Admin.Controllers
             {
                 
                 dynamic obj = new System.Dynamic.ExpandoObject();
-                obj.organizations = organizationService.GetAllOrganizations();
+                obj.organizations = _organizationService.GetAllOrganizations();
                 obj.buildings = buildingRepo.GetAllBuildings();
                return Ok(obj);
 
@@ -75,8 +76,8 @@ namespace Medicloud.Areas.Admin.Controllers
                
                 var list = buildingRepo.GetBuildings(organizationID);
                 list.Reverse();
-                ResponseDTO<Building> response = new ResponseDTO<Building>();
-                response.data = new List<Building>();
+                ResponseDTO<BuildingDAO> response = new ResponseDTO<BuildingDAO>();
+                response.data = new List<BuildingDAO>();
                 response.data.AddRange(list);
                 return Ok(response);
 
@@ -98,8 +99,8 @@ namespace Medicloud.Areas.Admin.Controllers
                 var list = departmentTypeRepo.GetDepartmentTypes();
 
                 list.Reverse();
-                ResponseDTO<DepartmentType> response = new ResponseDTO<DepartmentType>();
-                response.data = new List<DepartmentType>();
+                ResponseDTO<DepartmentTypeDAO> response = new ResponseDTO<DepartmentTypeDAO>();
+                response.data = new List<DepartmentTypeDAO>();
                 response.data.AddRange(list);
                 return Ok(response);
 
@@ -112,15 +113,15 @@ namespace Medicloud.Areas.Admin.Controllers
 
         [HttpPost]
         [Route("admin/departments/getDepartmentsInfoByBuilding")]
-        public ActionResult<ResponseDTO<Department>> GetDepartmentsInfoByBuilding(int buildingID)
+        public ActionResult<ResponseDTO<DepartmentDAO>> GetDepartmentsInfoByBuilding(int buildingID)
         {
             if (User.Identity.IsAuthenticated)
             {
                 
                 var list = departmentsRepo.GetDepartmentsByBuilding(buildingID);
 
-                ResponseDTO<Department> response = new ResponseDTO<Department>();
-                response.data = new List<Department>();
+                ResponseDTO<DepartmentDAO> response = new ResponseDTO<DepartmentDAO>();
+                response.data = new List<DepartmentDAO>();
                 response.data.AddRange(list);
                 return Ok(response);
                 

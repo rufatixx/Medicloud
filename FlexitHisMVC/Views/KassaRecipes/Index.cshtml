@@ -43,6 +43,7 @@
                                     <th scope="col">Qəbz nömrəsi</th>
                                     <th scope="col">Məbləğ</th>
                                     <th scope="col">Ödəniş növü</th>
+                                    <th scope="col">Kassir</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -50,10 +51,11 @@
                                 {
                                     <tr>
                                         <td>@item.patientFullName</td>
-                                        <td>@item.cdate</td>
+                                        <td>@item.cdate.ToString("dd.MM.yyyy HH:mm")</td>
                                         <td>@item.id</td>
                                         <td>@item.price AZN</td>
                                         <td>@item.pTypeName</td>
+                                        <td>@item.cashier</td>
                                     </tr>
                                 }
                             </tbody>

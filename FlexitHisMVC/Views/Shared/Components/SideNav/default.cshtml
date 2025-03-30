@@ -1,4 +1,4 @@
-﻿@model User
+﻿@model Medicloud.DAL.Entities.UserDAO
 <div class="leftside-menu ">
 
     <!-- Brand Logo Light -->
@@ -35,7 +35,7 @@
     <div class="h-100" id="leftside-menu-container" data-simplebar>
         <!-- Leftbar User -->
         <div class="leftbar-user">
-            <a href="@Url.Action("Index","Profile")">
+            <a href="@Url.Action("Edit", "Profile")">
                 @{
                     var imageSrc = "/res/user.svg";
                     if (!string.IsNullOrEmpty(Model.imagePath))
@@ -56,164 +56,177 @@
             @*<li class="side-nav-title">Navigation</li>*@
 
             @*<li class="side-nav-item">
-            <a data-bs-toggle="collapse" href="index.html#sidebarDashboards" aria-expanded="false" aria-controls="sidebarDashboards" class="side-nav-link">
-                <i class="uil-home-alt"></i>
-                <span class="badge bg-success float-end">5</span>
-                <span> Dashboards </span>
-            </a>
-            <div class="collapse" id="sidebarDashboards">
-                <ul class="side-nav-second-level">
-                    <li>
-                        <a href="dashboard-analytics.html">Analytics</a>
-                    </li>
-                    <li>
-                        <a href="index.html">Ecommerce</a>
-                    </li>
-                    <li>
-                        <a href="dashboard-projects.html">Projects</a>
-                    </li>
-                    <li>
-                        <a href="dashboard-crm.html">CRM</a>
-                    </li>
-                    <li>
-                        <a href="dashboard-wallet.html">E-Wallet</a>
-                    </li>
-                </ul>
-            </div>
-        </li>*@
+                    <a data-bs-toggle="collapse" href="index.html#sidebarDashboards" aria-expanded="false" aria-controls="sidebarDashboards" class="side-nav-link">
+                        <i class="uil-home-alt"></i>
+                        <span class="badge bg-success float-end">5</span>
+                        <span> Dashboards </span>
+                    </a>
+                    <div class="collapse" id="sidebarDashboards">
+                        <ul class="side-nav-second-level">
+                            <li>
+                                <a href="dashboard-analytics.html">Analytics</a>
+                            </li>
+                            <li>
+                                <a href="index.html">Ecommerce</a>
+                            </li>
+                            <li>
+                                <a href="dashboard-projects.html">Projects</a>
+                            </li>
+                            <li>
+                                <a href="dashboard-crm.html">CRM</a>
+                            </li>
+                            <li>
+                                <a href="dashboard-wallet.html">E-Wallet</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>*@
 
             @*<li class="side-nav-title">Müəssisə</li>*@
 
             @*<li class="side-nav-item">
-            <a href="apps-calendar.html" class="side-nav-link">
-                <i class="uil-calender"></i>
-                <span> Calendar </span>
-            </a>
-        </li>
+                    <a href="apps-calendar.html" class="side-nav-link">
+                        <i class="uil-calender"></i>
+                        <span> Calendar </span>
+                    </a>
+                </li>
 
-        <li class="side-nav-item">
-            <a href="apps-chat.html" class="side-nav-link">
-                <i class="uil-comments-alt"></i>
-                <span> Chat </span>
-            </a>
-        </li>*@
-
-            @*<li class="side-nav-item">
-            <a data-bs-toggle="collapse" href="index.html#sidebarCrm" aria-expanded="false" aria-controls="sidebarCrm" class="side-nav-link">
-                <i class="uil uil-tachometer-fast"></i>
-                <span class="badge bg-danger text-white float-end">New</span>
-                <span> CRM </span>
-            </a>
-            <div class="collapse" id="sidebarCrm">
-                <ul class="side-nav-second-level">
-                    <li>
-                        <a href="crm-projects.html">Projects</a>
-                    </li>
-                    <li>
-                        <a href="crm-orders-list.html">Orders List</a>
-                    </li>
-                    <li>
-                        <a href="crm-clients.html">Clients</a>
-                    </li>
-                    <li>
-                        <a href="crm-management.html">Management</a>
-                    </li>
-                </ul>
-            </div>
-        </li>*@
+                <li class="side-nav-item">
+                    <a href="apps-chat.html" class="side-nav-link">
+                        <i class="uil-comments-alt"></i>
+                        <span> Chat </span>
+                    </a>
+                </li>*@
 
             @*<li class="side-nav-item">
-            <a data-bs-toggle="collapse" href="index.html#sidebarEcommerce" aria-expanded="false" aria-controls="sidebarEcommerce" class="side-nav-link">
-                <i class="uil-store"></i>
-                <span> Ecommerce </span>
-                <span class="menu-arrow"></span>
-            </a>
-            <div class="collapse" id="sidebarEcommerce">
-                <ul class="side-nav-second-level">
-                    <li>
-                        <a href="apps-ecommerce-products.html">Products</a>
-                    </li>
-                    <li>
-                        <a href="apps-ecommerce-products-details.html">Products Details</a>
-                    </li>
-                    <li>
-                        <a href="apps-ecommerce-orders.html">Orders</a>
-                    </li>
-                    <li>
-                        <a href="apps-ecommerce-orders-details.html">Order Details</a>
-                    </li>
-                    <li>
-                        <a href="apps-ecommerce-customers.html">Customers</a>
-                    </li>
-                    <li>
-                        <a href="apps-ecommerce-shopping-cart.html">Shopping Cart</a>
-                    </li>
-                    <li>
-                        <a href="apps-ecommerce-checkout.html">Checkout</a>
-                    </li>
-                    <li>
-                        <a href="apps-ecommerce-sellers.html">Sellers</a>
-                    </li>
-                </ul>
-            </div>
-        </li>
-
-        <li class="side-nav-item">
-            <a data-bs-toggle="collapse" href="index.html#sidebarEmail" aria-expanded="false" aria-controls="sidebarEmail" class="side-nav-link">
-                <i class="uil-envelope"></i>
-                <span> Email </span>
-                <span class="menu-arrow"></span>
-            </a>
-            <div class="collapse" id="sidebarEmail">
-                <ul class="side-nav-second-level">
-                    <li>
-                        <a href="apps-email-inbox.html">Inbox</a>
-                    </li>
-                    <li>
-                        <a href="apps-email-read.html">Read Email</a>
-                    </li>
-                </ul>
-            </div>
-        </li>*@
+                    <a data-bs-toggle="collapse" href="index.html#sidebarCrm" aria-expanded="false" aria-controls="sidebarCrm" class="side-nav-link">
+                        <i class="uil uil-tachometer-fast"></i>
+                        <span class="badge bg-danger text-white float-end">New</span>
+                        <span> CRM </span>
+                    </a>
+                    <div class="collapse" id="sidebarCrm">
+                        <ul class="side-nav-second-level">
+                            <li>
+                                <a href="crm-projects.html">Projects</a>
+                            </li>
+                            <li>
+                                <a href="crm-orders-list.html">Orders List</a>
+                            </li>
+                            <li>
+                                <a href="crm-clients.html">Clients</a>
+                            </li>
+                            <li>
+                                <a href="crm-management.html">Management</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>*@
 
             @*<li class="side-nav-item">
-            <a data-bs-toggle="collapse" href="index.html#sidebarProjects" aria-expanded="false" aria-controls="sidebarProjects" class="side-nav-link">
-                <i class="uil-briefcase"></i>
-                <span> Projects </span>
-                <span class="menu-arrow"></span>
-            </a>
-            <div class="collapse" id="sidebarProjects">
-                <ul class="side-nav-second-level">
-                    <li>
-                        <a href="apps-projects-list.html">List</a>
-                    </li>
-                    <li>
-                        <a href="apps-projects-details.html">Details</a>
-                    </li>
-                    <li>
-                        <a href="apps-projects-gantt.html">Gantt <span class="badge rounded-pill bg-light text-dark font-10 float-end">New</span></a>
-                    </li>
-                    <li>
-                        <a href="apps-projects-add.html">Create Project</a>
-                    </li>
-                </ul>
-            </div>
-        </li>*@
-            @if (Model.isUser)
+                    <a data-bs-toggle="collapse" href="index.html#sidebarEcommerce" aria-expanded="false" aria-controls="sidebarEcommerce" class="side-nav-link">
+                        <i class="uil-store"></i>
+                        <span> Ecommerce </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarEcommerce">
+                        <ul class="side-nav-second-level">
+                            <li>
+                                <a href="apps-ecommerce-products.html">Products</a>
+                            </li>
+                            <li>
+                                <a href="apps-ecommerce-products-details.html">Products Details</a>
+                            </li>
+                            <li>
+                                <a href="apps-ecommerce-orders.html">Orders</a>
+                            </li>
+                            <li>
+                                <a href="apps-ecommerce-orders-details.html">Order Details</a>
+                            </li>
+                            <li>
+                                <a href="apps-ecommerce-customers.html">Customers</a>
+                            </li>
+                            <li>
+                                <a href="apps-ecommerce-shopping-cart.html">Shopping Cart</a>
+                            </li>
+                            <li>
+                                <a href="apps-ecommerce-checkout.html">Checkout</a>
+                            </li>
+                            <li>
+                                <a href="apps-ecommerce-sellers.html">Sellers</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="side-nav-item">
+                    <a data-bs-toggle="collapse" href="index.html#sidebarEmail" aria-expanded="false" aria-controls="sidebarEmail" class="side-nav-link">
+                        <i class="uil-envelope"></i>
+                        <span> Email </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarEmail">
+                        <ul class="side-nav-second-level">
+                            <li>
+                                <a href="apps-email-inbox.html">Inbox</a>
+                            </li>
+                            <li>
+                                <a href="apps-email-read.html">Read Email</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>*@
+
+            @*<li class="side-nav-item">
+                    <a data-bs-toggle="collapse" href="index.html#sidebarProjects" aria-expanded="false" aria-controls="sidebarProjects" class="side-nav-link">
+                        <i class="uil-briefcase"></i>
+                        <span> Projects </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarProjects">
+                        <ul class="side-nav-second-level">
+                            <li>
+                                <a href="apps-projects-list.html">List</a>
+                            </li>
+                            <li>
+                                <a href="apps-projects-details.html">Details</a>
+                            </li>
+                            <li>
+                                <a href="apps-projects-gantt.html">Gantt <span class="badge rounded-pill bg-light text-dark font-10 float-end">New</span></a>
+                            </li>
+                            <li>
+                                <a href="apps-projects-add.html">Create Project</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>*@
+            @{
+                var roles = Model.roles.Select(r => r.id);
+
+            }
+            @if (roles.Any())
             {
-
                 <li class="side-nav-item">
                     <a href="@Url.Action("Index", "Home", new { area = "" })" class="side-nav-link">
                         <i class="ri-home-5-line"></i>
                         <span> Əsas səhifə </span>
                     </a>
                 </li>
+            }
+
+            @if (roles.Contains(7))
+            {
                 <li class="side-nav-item">
-                <a href="@Url.Action("index", "Reception", new { area = "" })" class="side-nav-link">
-                    <i class="uil-book-medical"></i>
-                    <span> Qəbul </span>
-                </a>
-            </li>
+                    <a href="@Url.Action("index", "Reception", new { area = "" })" class="side-nav-link">
+                        <i class="uil-book-medical"></i>
+                        <span> Qəbul </span>
+                    </a>
+                </li>
+            }
+            @if (roles.Contains(7) || roles.Contains(4))
+            {
+
+
+
                 <li class="side-nav-item">
                     <a href="@Url.Action("Index", "Clients", new { area = "" })" class="side-nav-link">
                         <i class="ri-heart-line"></i>
@@ -247,6 +260,23 @@
                 </li>
 
 
+
+
+
+            }
+            @if (roles.Contains(4))
+            {
+
+                <li class="side-nav-item">
+                    <a href="@Url.Action("Index", "policlinic", new { area = "" })" class="side-nav-link">
+                        <i class="uil-heart-medical"></i>
+                        <span> Kabinetim </span>
+                    </a>
+                </li>
+            }
+            @if (roles.Contains(5))
+
+            {
                 <li class="side-nav-item">
                     <a data-bs-toggle="collapse" href="index.html#sidebarTasks" aria-expanded="false" aria-controls="sidebarTasks" class="side-nav-link">
                         <i class="uil-money-stack"></i>
@@ -257,7 +287,6 @@
                         <ul class="side-nav-second-level">
                             <li>
                                 <a href="@Url.Action("index", "Kassa", new { area = "" })">Əsas</a>
-
 
                             </li>
 
@@ -270,25 +299,7 @@
 
             }
 
-            @*@if (Model.isDr)
-        {
-        <li class="side-nav-item">
-            <a href="@Url.Action("Index", "policlinic", new { area = "" })" class="side-nav-link">
-                <i class="uil-heart-medical"></i>
-                <span> Poliklinika </span>
-            </a>
-        </li>
-        }*@
-
-            @{
-                var roles = Model.roles.Select(r => r.id);
-                @*foreach (var item in roles)
-            {
-                <h1>@item</h1>
-            }*@
-            }
-
-            @if (roles.Contains(2) || roles.Contains(3) || roles.Contains(4))
+            @if (roles.Contains(2) || roles.Contains(3))
 
             {
                 <li class="side-nav-item">
@@ -303,355 +314,354 @@
 
 
                 <!--<li class="side-nav-item">
-                    <a data-bs-toggle="collapse" href="index.html#sidebarPages" aria-expanded="false" aria-controls="sidebarPages" class="side-nav-link">
-                        <i class="uil-copy-alt"></i>
-                        <span> İnformasiya idarəetmə </span>
-                        <span class="menu-arrow"></span>
-                    </a>
-                    <div class="collapse" id="sidebarPages">
-                        <ul class="side-nav-second-level">
-                            <li>
-                                <a href="@Url.Action("index", "department", new { area = "Admin" })">Əsas</a>
-                            </li>-->
-                            @*<li>
-                            <a href="@Url.Action("index", "department", new { area = "Admin" })">Şöbə</a>
-                        </li>
+                <a data-bs-toggle="collapse" href="index.html#sidebarPages" aria-expanded="false" aria-controls="sidebarPages" class="side-nav-link">
+                    <i class="uil-copy-alt"></i>
+                    <span> İnformasiya idarəetmə </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarPages">
+                    <ul class="side-nav-second-level">
                         <li>
-                            <a href="@Url.Action("index", "company", new { area = "Admin" })">Təşkilat</a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("index", "personal", new { area = "Admin" })">Personal</a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("index", "services", new { area = "Admin" })">Xidmət</a>
-                        </li>
-                        <li>
+                            <a href="@Url.Action("index", "department", new { area = "Admin" })">Əsas</a>
+                        </li>-->
+                @*<li>
+                        <a href="@Url.Action("index", "department", new { area = "Admin" })">Şöbə</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("index", "company", new { area = "Admin" })">Təşkilat</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("index", "personal", new { area = "Admin" })">Personal</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("index", "services", new { area = "Admin" })">Xidmət</a>
+                    </li>
+                    <li>
 
-                            <a href="@Url.Action("index", "pricegroup", new { area = "Admin" })">Qiymət qrupu</a>
-                        </li>*@
+                        <a href="@Url.Action("index", "pricegroup", new { area = "Admin" })">Qiymət qrupu</a>
+                    </li>*@
 
-                            @*<li class="side-nav-item">
-                            <a data-bs-toggle="collapse" href="index.html#sidebarPagesAuth" aria-expanded="false" aria-controls="sidebarPagesAuth">
-                                <span> Authentication </span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <div class="collapse" id="sidebarPagesAuth">
-                                <ul class="side-nav-third-level">
-                                    <li>
-                                        <a href="pages-login.html">Login</a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-login-2.html">Login 2</a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-register.html">Register</a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-register-2.html">Register 2</a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-logout.html">Logout</a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-logout-2.html">Logout 2</a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-recoverpw.html">Recover Password</a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-recoverpw-2.html">Recover Password 2</a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-lock-screen.html">Lock Screen</a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-lock-screen-2.html">Lock Screen 2</a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-confirm-mail.html">Confirm Mail</a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-confirm-mail-2.html">Confirm Mail 2</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>*@
-                            @*<li class="side-nav-item">
-                            <a data-bs-toggle="collapse" href="index.html#sidebarPagesAuth" aria-expanded="false" aria-controls="sidebarPagesAuth">
-                                <span></span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <div class="collapse" id="sidebarPagesAuth">
-                                <ul class="side-nav-third-level">
-                                    <li>
-                                        <a href="pages-login.html"></a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-login-2.html"></a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-register.html"></a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-register-2.html"></a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-logout.html"></a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-logout-2.html"></a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-recoverpw.html"></a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-recoverpw-2.html"></a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-lock-screen.html"></a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-lock-screen-2.html"></a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-confirm-mail.html"></a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-confirm-mail-2.html"></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="side-nav-item">
-                            <a data-bs-toggle="collapse" href="index.html#sidebarPagesAuth" aria-expanded="false" aria-controls="sidebarPagesAuth">
-                                <span></span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <div class="collapse" id="sidebarPagesAuth">
-                                <ul class="side-nav-third-level">
-                                    <li>
-                                        <a href="pages-login.html"></a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-login-2.html"></a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-register.html"></a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-register-2.html"></a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-logout.html"></a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-logout-2.html"></a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-recoverpw.html"></a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-recoverpw-2.html"></a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-lock-screen.html"></a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-lock-screen-2.html"></a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-confirm-mail.html"></a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-confirm-mail-2.html"></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>*@
-                            @*<li class="side-nav-item">
-                            <a data-bs-toggle="collapse" href="index.html#sidebarPagesError" aria-expanded="false" aria-controls="sidebarPagesError">
-                                <span> Error </span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <div class="collapse" id="sidebarPagesError">
-                                <ul class="side-nav-third-level">
-                                    <li>
-                                        <a href="pages-404.html">Error 404</a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-404-alt.html">Error 404-alt</a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-500.html">Error 500</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>*@
-                            @*<li class="side-nav-item">
-                            <a data-bs-toggle="collapse" href="index.html#sidebarPagesError" aria-expanded="false" aria-controls="sidebarPagesError">
-                                <span></span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <div class="collapse" id="sidebarPagesError">
-                                <ul class="side-nav-third-level">
-                                    <li>
-                                        <a href="pages-404.html"></a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-404-alt.html"></a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-500.html"></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="side-nav-item">
-                            <a data-bs-toggle="collapse" href="index.html#sidebarPagesError" aria-expanded="false" aria-controls="sidebarPagesError">
-                                <span></span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <div class="collapse" id="sidebarPagesError">
-                                <ul class="side-nav-third-level">
-                                    <li>
-                                        <a href="pages-404.html"></a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-404-alt.html"></a>
-                                    </li>
-                                    <li>
-                                        <a href="pages-500.html"></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>*@
+                @*<li class="side-nav-item">
+                        <a data-bs-toggle="collapse" href="index.html#sidebarPagesAuth" aria-expanded="false" aria-controls="sidebarPagesAuth">
+                            <span> Authentication </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="collapse" id="sidebarPagesAuth">
+                            <ul class="side-nav-third-level">
+                                <li>
+                                    <a href="pages-login.html">Login</a>
+                                </li>
+                                <li>
+                                    <a href="pages-login-2.html">Login 2</a>
+                                </li>
+                                <li>
+                                    <a href="pages-register.html">Register</a>
+                                </li>
+                                <li>
+                                    <a href="pages-register-2.html">Register 2</a>
+                                </li>
+                                <li>
+                                    <a href="pages-logout.html">Logout</a>
+                                </li>
+                                <li>
+                                    <a href="pages-logout-2.html">Logout 2</a>
+                                </li>
+                                <li>
+                                    <a href="pages-recoverpw.html">Recover Password</a>
+                                </li>
+                                <li>
+                                    <a href="pages-recoverpw-2.html">Recover Password 2</a>
+                                </li>
+                                <li>
+                                    <a href="pages-lock-screen.html">Lock Screen</a>
+                                </li>
+                                <li>
+                                    <a href="pages-lock-screen-2.html">Lock Screen 2</a>
+                                </li>
+                                <li>
+                                    <a href="pages-confirm-mail.html">Confirm Mail</a>
+                                </li>
+                                <li>
+                                    <a href="pages-confirm-mail-2.html">Confirm Mail 2</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>*@
+                @*<li class="side-nav-item">
+                        <a data-bs-toggle="collapse" href="index.html#sidebarPagesAuth" aria-expanded="false" aria-controls="sidebarPagesAuth">
+                            <span></span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="collapse" id="sidebarPagesAuth">
+                            <ul class="side-nav-third-level">
+                                <li>
+                                    <a href="pages-login.html"></a>
+                                </li>
+                                <li>
+                                    <a href="pages-login-2.html"></a>
+                                </li>
+                                <li>
+                                    <a href="pages-register.html"></a>
+                                </li>
+                                <li>
+                                    <a href="pages-register-2.html"></a>
+                                </li>
+                                <li>
+                                    <a href="pages-logout.html"></a>
+                                </li>
+                                <li>
+                                    <a href="pages-logout-2.html"></a>
+                                </li>
+                                <li>
+                                    <a href="pages-recoverpw.html"></a>
+                                </li>
+                                <li>
+                                    <a href="pages-recoverpw-2.html"></a>
+                                </li>
+                                <li>
+                                    <a href="pages-lock-screen.html"></a>
+                                </li>
+                                <li>
+                                    <a href="pages-lock-screen-2.html"></a>
+                                </li>
+                                <li>
+                                    <a href="pages-confirm-mail.html"></a>
+                                </li>
+                                <li>
+                                    <a href="pages-confirm-mail-2.html"></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="side-nav-item">
+                        <a data-bs-toggle="collapse" href="index.html#sidebarPagesAuth" aria-expanded="false" aria-controls="sidebarPagesAuth">
+                            <span></span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="collapse" id="sidebarPagesAuth">
+                            <ul class="side-nav-third-level">
+                                <li>
+                                    <a href="pages-login.html"></a>
+                                </li>
+                                <li>
+                                    <a href="pages-login-2.html"></a>
+                                </li>
+                                <li>
+                                    <a href="pages-register.html"></a>
+                                </li>
+                                <li>
+                                    <a href="pages-register-2.html"></a>
+                                </li>
+                                <li>
+                                    <a href="pages-logout.html"></a>
+                                </li>
+                                <li>
+                                    <a href="pages-logout-2.html"></a>
+                                </li>
+                                <li>
+                                    <a href="pages-recoverpw.html"></a>
+                                </li>
+                                <li>
+                                    <a href="pages-recoverpw-2.html"></a>
+                                </li>
+                                <li>
+                                    <a href="pages-lock-screen.html"></a>
+                                </li>
+                                <li>
+                                    <a href="pages-lock-screen-2.html"></a>
+                                </li>
+                                <li>
+                                    <a href="pages-confirm-mail.html"></a>
+                                </li>
+                                <li>
+                                    <a href="pages-confirm-mail-2.html"></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>*@
+                @*<li class="side-nav-item">
+                        <a data-bs-toggle="collapse" href="index.html#sidebarPagesError" aria-expanded="false" aria-controls="sidebarPagesError">
+                            <span> Error </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="collapse" id="sidebarPagesError">
+                            <ul class="side-nav-third-level">
+                                <li>
+                                    <a href="pages-404.html">Error 404</a>
+                                </li>
+                                <li>
+                                    <a href="pages-404-alt.html">Error 404-alt</a>
+                                </li>
+                                <li>
+                                    <a href="pages-500.html">Error 500</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>*@
+                @*<li class="side-nav-item">
+                        <a data-bs-toggle="collapse" href="index.html#sidebarPagesError" aria-expanded="false" aria-controls="sidebarPagesError">
+                            <span></span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="collapse" id="sidebarPagesError">
+                            <ul class="side-nav-third-level">
+                                <li>
+                                    <a href="pages-404.html"></a>
+                                </li>
+                                <li>
+                                    <a href="pages-404-alt.html"></a>
+                                </li>
+                                <li>
+                                    <a href="pages-500.html"></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="side-nav-item">
+                        <a data-bs-toggle="collapse" href="index.html#sidebarPagesError" aria-expanded="false" aria-controls="sidebarPagesError">
+                            <span></span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="collapse" id="sidebarPagesError">
+                            <ul class="side-nav-third-level">
+                                <li>
+                                    <a href="pages-404.html"></a>
+                                </li>
+                                <li>
+                                    <a href="pages-404-alt.html"></a>
+                                </li>
+                                <li>
+                                    <a href="pages-500.html"></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>*@
 
-                        <!--</ul>
+                <!--</ul>
                     </div>
                 </li>-->
-
             }
 
 
             @*<li class="side-nav-item">
-                <a href="landing.html" target="_blank" class="side-nav-link">
-                    <i class="uil-globe"></i>
-                    <span class="badge bg-secondary text-light float-end">New</span>
-                    <span> Landing </span>
-                </a>
-            </li>
-        <li class="side-nav-item">
-            <a href="landing.html" target="_blank" class="side-nav-link">
-                <i class="uil-globe"></i>
-                <span class="badge bg-secondary text-light float-end"></span>
-                <span></span>
-            </a>
-        </li>
-        <li class="side-nav-item">
-            <a href="landing.html" target="_blank" class="side-nav-link">
-                <i class="uil-globe"></i>
-                <span class="badge bg-secondary text-light float-end"></span>
-                <span></span>
-            </a>
-        </li>*@
+                        <a href="landing.html" target="_blank" class="side-nav-link">
+                            <i class="uil-globe"></i>
+                            <span class="badge bg-secondary text-light float-end">New</span>
+                            <span> Landing </span>
+                        </a>
+                    </li>
+                <li class="side-nav-item">
+                    <a href="landing.html" target="_blank" class="side-nav-link">
+                        <i class="uil-globe"></i>
+                        <span class="badge bg-secondary text-light float-end"></span>
+                        <span></span>
+                    </a>
+                </li>
+                <li class="side-nav-item">
+                    <a href="landing.html" target="_blank" class="side-nav-link">
+                        <i class="uil-globe"></i>
+                        <span class="badge bg-secondary text-light float-end"></span>
+                        <span></span>
+                    </a>
+                </li>*@
 
 
             @*<li class="side-nav-item">
-            <a data-bs-toggle="collapse" href="index.html#sidebarLayouts" aria-expanded="false" aria-controls="sidebarLayouts" class="side-nav-link">
-                <i class="uil-window"></i>
-                <span> Layouts </span>
-                <span class="menu-arrow"></span>
-            </a>
-            <div class="collapse" id="sidebarLayouts">
-                <ul class="side-nav-second-level">
-                    <li>
-                        <a href="layouts-horizontal.html" target="_blank">Horizontal</a>
-                    </li>
-                    <li>
-                        <a href="layouts-detached.html" target="_blank">Detached</a>
-                    </li>
-                    <li>
-                        <a href="layouts-full.html" target="_blank">Full View</a>
-                    </li>
-                    <li>
-                        <a href="layouts-fullscreen.html" target="_blank">Fullscreen View</a>
-                    </li>
-                    <li>
-                        <a href="layouts-hover.html" target="_blank">Hover Menu</a>
-                    </li>
-                    <li>
-                        <a href="layouts-compact.html" target="_blank">Compact</a>
-                    </li>
-                    <li>
-                        <a href="layouts-icon-view.html" target="_blank">Icon View</a>
-                    </li>
-                </ul>
-            </div>
-        </li>*@
+                    <a data-bs-toggle="collapse" href="index.html#sidebarLayouts" aria-expanded="false" aria-controls="sidebarLayouts" class="side-nav-link">
+                        <i class="uil-window"></i>
+                        <span> Layouts </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarLayouts">
+                        <ul class="side-nav-second-level">
+                            <li>
+                                <a href="layouts-horizontal.html" target="_blank">Horizontal</a>
+                            </li>
+                            <li>
+                                <a href="layouts-detached.html" target="_blank">Detached</a>
+                            </li>
+                            <li>
+                                <a href="layouts-full.html" target="_blank">Full View</a>
+                            </li>
+                            <li>
+                                <a href="layouts-fullscreen.html" target="_blank">Fullscreen View</a>
+                            </li>
+                            <li>
+                                <a href="layouts-hover.html" target="_blank">Hover Menu</a>
+                            </li>
+                            <li>
+                                <a href="layouts-compact.html" target="_blank">Compact</a>
+                            </li>
+                            <li>
+                                <a href="layouts-icon-view.html" target="_blank">Icon View</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>*@
             @*<li class="side-nav-item">
-            <a data-bs-toggle="collapse" href="index.html#sidebarLayouts" aria-expanded="false" aria-controls="sidebarLayouts" class="side-nav-link">
-                <i class="uil-window"></i>
-                <span></span>
-                <span class="menu-arrow"></span>
-            </a>
-            <div class="collapse" id="sidebarLayouts">
-                <ul class="side-nav-second-level">
-                    <li>
-                        <a href="layouts-horizontal.html" target="_blank"></a>
-                    </li>
-                    <li>
-                        <a href="layouts-detached.html" target="_blank"></a>
-                    </li>
-                    <li>
-                        <a href="layouts-full.html" target="_blank"></a>
-                    </li>
-                    <li>
-                        <a href="layouts-fullscreen.html" target="_blank"></a>
-                    </li>
-                    <li>
-                        <a href="layouts-hover.html" target="_blank"></a>
-                    </li>
-                    <li>
-                        <a href="layouts-compact.html" target="_blank"></a>
-                    </li>
-                    <li>
-                        <a href="layouts-icon-view.html" target="_blank"></a>
-                    </li>
-                </ul>
-            </div>
-        </li>*@
+                    <a data-bs-toggle="collapse" href="index.html#sidebarLayouts" aria-expanded="false" aria-controls="sidebarLayouts" class="side-nav-link">
+                        <i class="uil-window"></i>
+                        <span></span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarLayouts">
+                        <ul class="side-nav-second-level">
+                            <li>
+                                <a href="layouts-horizontal.html" target="_blank"></a>
+                            </li>
+                            <li>
+                                <a href="layouts-detached.html" target="_blank"></a>
+                            </li>
+                            <li>
+                                <a href="layouts-full.html" target="_blank"></a>
+                            </li>
+                            <li>
+                                <a href="layouts-fullscreen.html" target="_blank"></a>
+                            </li>
+                            <li>
+                                <a href="layouts-hover.html" target="_blank"></a>
+                            </li>
+                            <li>
+                                <a href="layouts-compact.html" target="_blank"></a>
+                            </li>
+                            <li>
+                                <a href="layouts-icon-view.html" target="_blank"></a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>*@
             @*<li class="side-nav-item">
-            <a data-bs-toggle="collapse" href="index.html#sidebarLayouts" aria-expanded="false" aria-controls="sidebarLayouts" class="side-nav-link">
-                <i class="uil-window"></i>
-                <span></span>
-                <span class="menu-arrow"></span>
-            </a>
-            <div class="collapse" id="sidebarLayouts">
-                <ul class="side-nav-second-level">
-                    <li>
-                        <a href="layouts-horizontal.html" target="_blank"></a>
-                    </li>
-                    <li>
-                        <a href="layouts-detached.html" target="_blank"></a>
-                    </li>
-                    <li>
-                        <a href="layouts-full.html" target="_blank"></a>
-                    </li>
-                    <li>
-                        <a href="layouts-fullscreen.html" target="_blank"></a>
-                    </li>
-                    <li>
-                        <a href="layouts-hover.html" target="_blank"></a>
-                    </li>
-                    <li>
-                        <a href="layouts-compact.html" target="_blank"></a>
-                    </li>
-                    <li>
-                        <a href="layouts-icon-view.html" target="_blank"></a>
-                    </li>
-                </ul>
-            </div>
-        </li>*@
+                    <a data-bs-toggle="collapse" href="index.html#sidebarLayouts" aria-expanded="false" aria-controls="sidebarLayouts" class="side-nav-link">
+                        <i class="uil-window"></i>
+                        <span></span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarLayouts">
+                        <ul class="side-nav-second-level">
+                            <li>
+                                <a href="layouts-horizontal.html" target="_blank"></a>
+                            </li>
+                            <li>
+                                <a href="layouts-detached.html" target="_blank"></a>
+                            </li>
+                            <li>
+                                <a href="layouts-full.html" target="_blank"></a>
+                            </li>
+                            <li>
+                                <a href="layouts-fullscreen.html" target="_blank"></a>
+                            </li>
+                            <li>
+                                <a href="layouts-hover.html" target="_blank"></a>
+                            </li>
+                            <li>
+                                <a href="layouts-compact.html" target="_blank"></a>
+                            </li>
+                            <li>
+                                <a href="layouts-icon-view.html" target="_blank"></a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>*@
 
 
             @{

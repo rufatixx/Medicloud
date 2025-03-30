@@ -33,7 +33,7 @@ namespace Medicloud.Controllers
         {
           
                 PatientCardRepo patientRequestDAO = new PatientCardRepo(ConnectionString);
-                var response = patientRequestDAO.GetPatientsByDr(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID")));
+                var response = patientRequestDAO.GetPatientsByDr(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID")), Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")));
                 return View(response);
           
             //return View();

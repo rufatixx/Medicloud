@@ -1,4 +1,5 @@
 ﻿using Medicloud.BLL.Service;
+using Medicloud.BLL.Service.Organization;
 using Medicloud.DAL.Repository;
 using Medicloud.Data;
 using Medicloud.Models;
@@ -17,15 +18,15 @@ namespace Medicloud.Areas.Admin.Controllers
         private readonly IWebHostEnvironment _hostingEnvironment;
         public IConfiguration Configuration;
         BuildingRepo buildingRepo;
-        OrganizationService organizationService;
+        IOrganizationService _organizationService;
         //Communications communications;
-        public CompanyController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
+        public CompanyController(IConfiguration configuration, IOrganizationService organizationService, IWebHostEnvironment hostingEnvironment)
         {
             Configuration = configuration;
             _connectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
             _hostingEnvironment = hostingEnvironment;
             buildingRepo = new BuildingRepo(_connectionString);
-            organizationService = new OrganizationService(_connectionString);
+            _organizationService = organizationService;
             //communications = new Communications(Configuration, _hostingEnvironment);
         }
 
@@ -46,7 +47,7 @@ namespace Medicloud.Areas.Admin.Controllers
             {
 
                 dynamic obj = new System.Dynamic.ExpandoObject();
-                obj.organizations = organizationService.GetAllOrganizations();
+                obj.organizations = _organizationService.GetAllOrganizations();
                 obj.buildings = buildingRepo.GetAllBuildings();
                 return Ok(obj);
 
@@ -65,9 +66,9 @@ namespace Medicloud.Areas.Admin.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 CompanyGroupRepo select = new CompanyGroupRepo(_connectionString);
-                List<CompanyGroup> list = select.GetCompanyGroups(organizationID);
-                ResponseDTO<CompanyGroup> response = new ResponseDTO<CompanyGroup>();
-                response.data = new List<CompanyGroup>();
+                List<CompanyGroupDAO> list = select.GetCompanyGroups(organizationID);
+                ResponseDTO<CompanyGroupDAO> response = new ResponseDTO<CompanyGroupDAO>();
+                response.data = new List<CompanyGroupDAO>();
                 response.data = list;
 
                 return Ok(response);
@@ -124,8 +125,8 @@ namespace Medicloud.Areas.Admin.Controllers
             {
                 CompanyRepo select = new CompanyRepo(_connectionString);
                 var list = select.GetCompanies(organizationID);
-                ResponseDTO<Company> response = new ResponseDTO<Company>();
-                response.data = new List<Company>();
+                ResponseDTO<CompanyDAO> response = new ResponseDTO<CompanyDAO>();
+                response.data = new List<CompanyDAO>();
                 response.data = list;
                 return Ok(response);
 

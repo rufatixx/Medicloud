@@ -1,26 +1,22 @@
-﻿using System;
-using Medicloud.Data;
-using Medicloud.Models;
-using System.Net.NetworkInformation;
-using Medicloud.Models.Repository;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
+﻿using Medicloud.BLL.Services;
+using Medicloud.DAL.Entities;
 using Medicloud.DAL.Repository;
 using Medicloud.DAL.Repository.Role;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Medicloud.ViewComponents
 {
-	[Authorize]
+    [Authorize]
 	public class SideNavViewComponent : ViewComponent
 	{
 		private readonly IWebHostEnvironment _hostingEnvironment;
 		public IConfiguration Configuration;
 		string _connectionString;
 		//Communications communications;
-		UserRepo personalDAO;
+		IUserService _userService;
 		private readonly IRoleRepository _roleRepository;
-		public SideNavViewComponent(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IRoleRepository roleRepository)
+		public SideNavViewComponent(IConfiguration configuration,IUserService userService, IWebHostEnvironment hostingEnvironment, IRoleRepository roleRepository)
 		{
 			Configuration = configuration;
 
@@ -28,7 +24,7 @@ namespace Medicloud.ViewComponents
 
 			_connectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
 
-			personalDAO = new UserRepo(_connectionString);
+			_userService = userService;
 			_roleRepository = roleRepository;
 			//communications = new Communications(Configuration, _hostingEnvironment);
 		}
@@ -37,10 +33,10 @@ namespace Medicloud.ViewComponents
 			var userID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID"));
 			int orgId = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
 
-			User user = new User();
+			UserDAO user = new UserDAO();
 			if (userID > 0)
 			{
-				user = personalDAO.GetUserByID(Convert.ToInt32(userID));
+				user = _userService.GetUserById(Convert.ToInt32(userID));
 
 				if (!string.IsNullOrEmpty(user.imagePath))
 				{

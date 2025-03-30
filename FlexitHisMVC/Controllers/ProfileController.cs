@@ -1,12 +1,16 @@
 ﻿using Medicloud.BLL.Service;
+using Medicloud.BLL.Service.Organization;
+using Medicloud.BLL.Services;
+using Medicloud.DAL.Entities;
 using Medicloud.DAL.Repository;
+using Medicloud.DAL.Repository.Kassa;
+using Medicloud.DAL.Repository.Plan;
 using Medicloud.Data;
 using Medicloud.Models;
 using Medicloud.Models.DTO;
 using Medicloud.Models.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -18,23 +22,23 @@ namespace Medicloud.Controllers
         private readonly string _connectionString;
         public IConfiguration _configuration;
         private readonly IWebHostEnvironment _hostingEnvironment;
-        KassaRepo kassaRepo;
-        UserService userService;
-        UserRepo personalDAO;
-		PlanRepository planRepository;
-        OrganizationService organizationService;
+        IKassaRepo _kassaRepo;
+       
+        IUserService _userService;
+		IPlanRepository _planRepository;
+        IOrganizationService _organizationService;
         private ServicesRepo servicesRepo;
-        public ProfileController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
+        public ProfileController(IConfiguration configuration,IPlanRepository planRepository, IOrganizationService organizationService, IWebHostEnvironment hostingEnvironment,IUserService userService,IKassaRepo kassaRepo)
         {
             _configuration = configuration;
             _connectionString = _configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
             _hostingEnvironment = hostingEnvironment;
-            kassaRepo = new KassaRepo(_connectionString);
-            personalDAO = new UserRepo(_connectionString);
-            organizationService = new OrganizationService(_connectionString);
-            userService = new UserService(_connectionString);
+            _kassaRepo = kassaRepo;
+
+            _organizationService = organizationService;
+            _userService = userService;
             servicesRepo = new ServicesRepo(_connectionString);
-			planRepository = new PlanRepository(_connectionString);
+            _planRepository = planRepository;
 
         }
   
@@ -43,8 +47,8 @@ namespace Medicloud.Controllers
         {
             var userID = User.FindFirst("ID")?.Value;
 
-			ViewBag.expiredDate = planRepository.GetUserPlanByUserId(Convert.ToInt32(userID)).expire_date;
-			var user = personalDAO.GetUserByID(Convert.ToInt32(userID));
+			ViewBag.expiredDate = _planRepository.GetUserPlanByUserId(Convert.ToInt32(userID)).expire_date;
+			var user = _userService.GetUserById(Convert.ToInt32(userID));
 			if (!string.IsNullOrEmpty(user.imagePath))
 			{
 				string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", user.imagePath.TrimStart('/'));
@@ -64,8 +68,8 @@ namespace Medicloud.Controllers
         {
             var userID = User.FindFirst("ID")?.Value;
 
-            ViewBag.expiredDate = planRepository.GetUserPlanByUserId(Convert.ToInt32(userID)).expire_date;
-            var user = personalDAO.GetUserByID(Convert.ToInt32(userID));
+            ViewBag.expiredDate = _planRepository.GetUserPlanByUserId(Convert.ToInt32(userID)).expire_date;
+            var user = _userService.GetUserById(Convert.ToInt32(userID));
             if (!string.IsNullOrEmpty(user.imagePath))
             {
                 string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", user.imagePath.TrimStart('/'));
@@ -87,7 +91,7 @@ namespace Medicloud.Controllers
 
             var userID = int.Parse(User.FindFirst("ID")?.Value);
 
-            int updated = personalDAO.UpdateUser(userID, name:name,surname:surname,father:father,fin:fin,passportSerialNum:passportSerialNum);
+            long updated = _userService.UpdateUser(userID, name:name,surname:surname,father:father,fin:fin,passportSerialNum:passportSerialNum);
             return RedirectToAction("Edit");
         }
 
@@ -122,7 +126,7 @@ namespace Medicloud.Controllers
 
             var userID = int.Parse(User.FindFirst("ID")?.Value);
 
-            int updated=personalDAO.UpdateUser(userID, imagePath: relativeFilePath);
+            long updated=_userService.UpdateUser(userID, imagePath: relativeFilePath);
             return RedirectToAction("Edit");
         }
         
@@ -196,20 +200,20 @@ namespace Medicloud.Controllers
 
                 //long formattedPhone = regexPhone(phone);
                 UserDTO status = new UserDTO();
-                status.personal = new User();
-                status.organizations = new List<Organization>();
-                status.kassaList = new List<Kassa>();
+                status.personal = new UserDAO();
+                status.organizations = new List<OrganizationDAO>();
+                status.kassaList = new List<KassaDAO>();
 
                 try
                 {
                   
-                    status.personal = personalDAO.GetUserByID(Convert.ToInt32(userID));
+                    status.personal = _userService.GetUserById(Convert.ToInt32(userID));
 
                    
-                    status.organizations = organizationService.GetOrganizationsByUser(status.personal.ID);
+                    status.organizations = _organizationService.GetOrganizationsByUser(status.personal.ID);
 
 
-                    status.kassaList = kassaRepo.GetUserAllowedKassaList(status.personal.ID);
+                    status.kassaList = _kassaRepo.GetUserAllowedKassaList(status.personal.ID);
 
 
                 }
@@ -233,9 +237,9 @@ namespace Medicloud.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                UserRepo user = new UserRepo(_connectionString);
+               
 
-                return Ok(user.UpdateUser(userID, name, surname, father, specialityID, passportSerialNum, fin, mobile, email, bDate, username, isUser, isDr, isActive, isAdmin));
+                return Ok(_userService.UpdateUser(userID, name, surname, father, specialityID, passportSerialNum, fin, mobile, email, bDate, username, isUser, isDr, isActive, isAdmin));
 
             }
 
@@ -252,7 +256,7 @@ namespace Medicloud.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                userService.SaveSession(HttpContext, key, value);
+                _userService.SaveSession(HttpContext, key, value);
 
                 return Ok();
             }

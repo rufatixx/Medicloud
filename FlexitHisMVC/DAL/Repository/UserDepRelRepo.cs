@@ -1,4 +1,5 @@
 ﻿using System;
+using Medicloud.DAL.Entities;
 using Medicloud.Models;
 using Medicloud.Models.DTO;
 using MySql.Data.MySqlClient;
@@ -77,9 +78,9 @@ namespace Medicloud.Repository
 
             return userDepRelList;
         }
-        public List<User> GetUsersByDepartment(int depID)
+        public List<UserDAO> GetUsersByDepartment(int depID)
         {
-            List<User> userList = new List<User>();
+            List<UserDAO> userList = new List<UserDAO>();
 
             try
             {
@@ -103,7 +104,7 @@ namespace Medicloud.Repository
                         {
                             while (reader.Read())
                             {
-                                User user = new User();
+                                UserDAO user = new UserDAO();
                                 user.ID = Convert.ToInt32(reader["id"]);
                                 user.name = reader["name"].ToString();
                                 user.surname = reader["surname"].ToString();

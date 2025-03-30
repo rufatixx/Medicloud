@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Specialized;
+using Medicloud.DAL.Repository.Kassa;
 using Medicloud.Data;
 using Medicloud.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -15,14 +16,15 @@ namespace Medicloud.ViewComponents
         //Communications communications;
         KassaRepo kassaRepo;
         private readonly string _connectionString;
-        public KassaSelectorViewComponent(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
+        IKassaRepo _kassaRepo;
+        public KassaSelectorViewComponent(IConfiguration configuration,IKassaRepo kassaRepo, IWebHostEnvironment hostingEnvironment)
         {
             Configuration = configuration;
 
             _hostingEnvironment = hostingEnvironment;
             //communications = new Communications(Configuration, _hostingEnvironment);
             _connectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
-            kassaRepo = new KassaRepo(_connectionString);
+            _kassaRepo = kassaRepo;
         }
 
         public async Task<IViewComponentResult> InvokeAsync(/* параметры, если необходимы */)

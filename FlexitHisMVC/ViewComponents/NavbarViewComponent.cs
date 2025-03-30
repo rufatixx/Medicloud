@@ -1,51 +1,52 @@
-﻿using System;
-using System.Collections.Specialized;
-using System.Net.NetworkInformation;
+﻿using Medicloud.BLL.Service.Organization;
+using Medicloud.BLL.Services;
+using Medicloud.DAL.Entities;
 using Medicloud.DAL.Repository;
+using Medicloud.DAL.Repository.Kassa;
 using Medicloud.DAL.Repository.Role;
 using Medicloud.Data;
 using Medicloud.Models;
 using Medicloud.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
-using Org.BouncyCastle.Asn1.X509.SigI;
 
 namespace Medicloud.ViewComponents
 {
-
+	
     public class NavbarViewComponent : ViewComponent
     {
         private readonly IWebHostEnvironment _hostingEnvironment;
         public IConfiguration Configuration;
         //Communications communications;
-        UserRepo personalDAO;
-        OrganizationRepo organizationDAO;
-        KassaRepo kassaDAO;
+        IUserService _userService;
+        IOrganizationService _organizationService;
+        IKassaRepo _kassaRepo;
         private readonly string _connectionString;
 		private readonly IRoleRepository _roleRepository;
-		public NavbarViewComponent(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IRoleRepository roleRepository)
+		public NavbarViewComponent(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IRoleRepository roleRepository,IOrganizationService organizationService,IUserService userService,IKassaRepo kassaRepo)
 		{
 			Configuration = configuration;
 
 			_hostingEnvironment = hostingEnvironment;
 			//communications = new Communications(Configuration, _hostingEnvironment);
 			_connectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
-			personalDAO = new UserRepo(_connectionString);
-			organizationDAO = new OrganizationRepo(_connectionString);
-			kassaDAO = new KassaRepo(_connectionString);
+			_userService = userService;
+			_organizationService = organizationService;
+			_kassaRepo = kassaRepo;
 			_roleRepository = roleRepository;
 		}
 
 		public async Task<IViewComponentResult> InvokeAsync(/* параметры, если необходимы */)
         {
+			
 			int orgId = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
 			int userId = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID"));
 
 			UserDTO obj = new UserDTO();
-            obj.personal = new User();
-            obj.organizations = new List<Organization>();
-            obj.kassaList = new List<Kassa>();
+            obj.personal = new UserDAO();
+            obj.organizations = new List<OrganizationDAO>();
+            obj.kassaList = new List<KassaDAO>();
 
-            obj.personal = personalDAO.GetUserByID(userId);
+            obj.personal = _userService.GetUserById(userId);
 			if (!string.IsNullOrEmpty(obj.personal.imagePath))
 			{
 				string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", obj.personal.imagePath.TrimStart('/'));
@@ -55,7 +56,7 @@ namespace Medicloud.ViewComponents
 				}
 			}
 
-			obj.organizations = organizationDAO.GetOrganizationListByUser(obj.personal.ID);
+			obj.organizations = _organizationService.GetOrganizationsByUser(obj.personal.ID);
 
 			obj.Roles=await _roleRepository.GetUserRoles(orgId, userId);
 			

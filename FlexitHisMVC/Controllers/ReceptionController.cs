@@ -1,4 +1,6 @@
-﻿using Medicloud.DAL.Repository;
+﻿using Medicloud.BLL.Services;
+using Medicloud.DAL.Entities;
+using Medicloud.DAL.Repository;
 using Medicloud.DAL.Repository.Abstract;
 using Medicloud.Data;
 using Medicloud.Models;
@@ -21,7 +23,8 @@ namespace Medicloud.Controllers
         private IServicePriceGroupRepository _servicePriceGroupRepository;
         PatientCardRepo patientCardRepo;
         PatientCardServiceRelRepo patientCardServiceRelRepo;
-        public ReceptionController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IServicePriceGroupRepository  servicePriceGroupRepository)
+        IUserService _userService;
+        public ReceptionController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IUserService userService, IServicePriceGroupRepository  servicePriceGroupRepository)
         {
             Configuration = configuration;
             ConnectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
@@ -30,6 +33,7 @@ namespace Medicloud.Controllers
             _servicePriceGroupRepository = servicePriceGroupRepository;
             patientCardRepo = new PatientCardRepo(ConnectionString);
             patientCardServiceRelRepo = new PatientCardServiceRelRepo(ConnectionString);
+            _userService = userService;
         }
         // GET: /<controller>/
         public IActionResult Index()
@@ -48,7 +52,7 @@ namespace Medicloud.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                var obj = patientCardRepo.GetUnpaidRecipe(cardID);
+                var obj = patientCardRepo.GetRecipe(cardID);
                 return View(obj);
             }
             else
@@ -78,8 +82,8 @@ namespace Medicloud.Controllers
             {
                 CompanyRepo select = new CompanyRepo(ConnectionString);
                 var list = select.GetActiveCompanies(organizationID);
-                ResponseDTO<Company> response = new ResponseDTO<Company>();
-                response.data = new List<Company>();
+                ResponseDTO<CompanyDAO> response = new ResponseDTO<CompanyDAO>();
+                response.data = new List<CompanyDAO>();
                 response.data = list;
                 return Ok(response);
 
@@ -96,11 +100,11 @@ namespace Medicloud.Controllers
             {
                 NewPatientViewDTO pageStruct = new NewPatientViewDTO();
                 pageStruct.requestTypes = new List<RequestType>();
-                pageStruct.personal = new List<User>();
+                pageStruct.personal = new List<UserDAO>();
                 pageStruct.departments = new List<UserDepRel>();
-                pageStruct.referers = new List<User>();
+                pageStruct.referers = new List<UserDAO>();
                 pageStruct.services = new List<ServiceObj>();
-                pageStruct.companies = new List<Company>();
+                pageStruct.companies = new List<CompanyDAO>();
 
                 RequestTypeRepo requestTypeDAO = new RequestTypeRepo(ConnectionString);
 
@@ -121,9 +125,9 @@ namespace Medicloud.Controllers
                 pageStruct.personal.AddRange(userOrganizationRel.GetDoctorsByOrganization(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"))));
 
 
-                UserRepo personalDAO = new UserRepo(ConnectionString);
+             
 
-                pageStruct.referers.AddRange(personalDAO.GetRefererList());
+                pageStruct.referers.AddRange(_userService.GetRefererList());
 
                 CompanyRepo companyRepo = new CompanyRepo(ConnectionString);
                 pageStruct.companies.AddRange(companyRepo.GetActiveCompanies(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"))));
@@ -315,7 +319,7 @@ namespace Medicloud.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 UserDepRelRepo select = new UserDepRelRepo(ConnectionString);
-                List<User> services = select.GetUsersByDepartment(depID);
+                List<UserDAO> services = select.GetUsersByDepartment(depID);
 
                 // Call the GetServicesFromPatientCard function to retrieve the list of dynamic objects
                 if (services != null)

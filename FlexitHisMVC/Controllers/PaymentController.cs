@@ -6,6 +6,8 @@ using Medicloud.BLL.Utils;
 using Medicloud.DAL.Repository;
 using Medicloud.Models;
 using Microsoft.AspNetCore.Authorization;
+using Medicloud.BLL.Services;
+using Medicloud.DAL.Repository.Plan;
 
 namespace Medicloud.Controllers
 {
@@ -16,7 +18,7 @@ namespace Medicloud.Controllers
         public IConfiguration Configuration;
 
         private readonly PaymentRepo paymentRepo;
-        private readonly UserRepo userRepo;
+        private readonly IUserService _userService;
 
         private readonly int _serviceId;
         private readonly string _clientRrn;
@@ -24,7 +26,7 @@ namespace Medicloud.Controllers
         private readonly string _secretKey;
         private string _hash;
 
-        public PaymentController(IConfiguration configuration, HttpClient httpClient)
+        public PaymentController(IConfiguration configuration, HttpClient httpClient,IUserService userService,IPlanRepository planRepository)
         {
             Configuration = configuration;
             ConnectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
@@ -33,8 +35,8 @@ namespace Medicloud.Controllers
             _clientRrn = Guid.NewGuid().ToString();
             _clientIp = "188.213.212.170";
             _secretKey = "Medicloud1234";
-            paymentRepo = new PaymentRepo(ConnectionString);
-            userRepo = new UserRepo(ConnectionString);
+            paymentRepo = new PaymentRepo(ConnectionString,planRepository);
+            _userService = userService;
         }
 
         [HttpPost]

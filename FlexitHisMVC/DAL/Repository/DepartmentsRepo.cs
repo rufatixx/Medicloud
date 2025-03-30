@@ -16,11 +16,11 @@ namespace Medicloud.Data
 
        
 
-        public List<Department> GetDepartmentsByBuilding(int buildingID)
+        public List<DepartmentDAO> GetDepartmentsByBuilding(int buildingID)
 
         {
 
-            List <Department> depListByBuilding = new List<Department>();
+            List <DepartmentDAO> depListByBuilding = new List<DepartmentDAO>();
             try
             {
                 using (MySqlConnection connection = new MySqlConnection(ConnectionString))
@@ -43,7 +43,7 @@ FROM departments a where buildingID = @buildingID ", connection))
                             while (reader.Read())
                             {
 
-                                Department department = new Department();
+                                DepartmentDAO department = new DepartmentDAO();
                                 department.ID = Convert.ToInt64(reader["id"]);
                                 department.name = reader["name"] == DBNull.Value ? "" : reader["name"].ToString();
                                 department.type = reader["depTypeName"] == DBNull.Value ? "" : reader["depTypeName"].ToString();
@@ -82,11 +82,11 @@ FROM departments a where buildingID = @buildingID ", connection))
 
             return depListByBuilding;
         }
-        public List<Department> GetDepartmentsByOrganization(int organizationID)
+        public List<DepartmentDAO> GetDepartmentsByOrganization(int organizationID)
 
         {
 
-            List<Department> depListByBuilding = new List<Department>();
+            List<DepartmentDAO> depListByBuilding = new List<DepartmentDAO>();
             try
             {
                 using (MySqlConnection connection = new MySqlConnection(ConnectionString))
@@ -112,7 +112,7 @@ WHERE a.buildingID IN (SELECT id FROM buildings WHERE organizationID = @organiza
                             while (reader.Read())
                             {
 
-                                Department department = new Department();
+                                DepartmentDAO department = new DepartmentDAO();
                                 department.ID = Convert.ToInt64(reader["id"]);
                                 department.name = reader["name"] == DBNull.Value ? "" : reader["name"].ToString();
                                 department.type = reader["depTypeName"] == DBNull.Value ? "" : reader["depTypeName"].ToString();
@@ -151,11 +151,11 @@ WHERE a.buildingID IN (SELECT id FROM buildings WHERE organizationID = @organiza
 
             return depListByBuilding;
         }
-        public List<Department> GetDepartmentsInService(int serviceID)
+        public List<DepartmentDAO> GetDepartmentsInService(int serviceID)
 
         {
 
-            List<Department> depListByBuilding = new List<Department>();
+            List<DepartmentDAO> depListByBuilding = new List<DepartmentDAO>();
             try
             {
                 using (MySqlConnection connection = new MySqlConnection(ConnectionString))
@@ -178,7 +178,7 @@ WHERE a.serviceID = @serviceID;", connection))
                             while (reader.Read())
                             {
 
-                                Department department = new Department();
+                                DepartmentDAO department = new DepartmentDAO();
                                 department.ID = Convert.ToInt64(reader["depID"]);
                                 department.name = reader["name"] == DBNull.Value ? "" : reader["name"].ToString();
                                

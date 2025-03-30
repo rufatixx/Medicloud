@@ -1,5 +1,7 @@
 ﻿
 using Medicloud.BLL.Service;
+using Medicloud.BLL.Service.Organization;
+using Medicloud.BLL.Services;
 using Medicloud.DAL.Repository;
 using Medicloud.Data;
 using Microsoft.AspNetCore.Authorization;
@@ -14,15 +16,15 @@ namespace Medicloud.Controllers
         private readonly string _connectionString;
         public IConfiguration Configuration;
         private readonly IWebHostEnvironment _hostingEnvironment;
-        UserService userService;
-        OrganizationService organizationService;
+        IUserService _userService;
+        IOrganizationService _organizationService;
         private readonly SpecialityService _specialityService;
-        public RecoveryController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, SpecialityService specialityService)
+        public RecoveryController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IUserService userService,IOrganizationService organizationService, SpecialityService specialityService)
         {
             Configuration = configuration;
             _connectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
-            userService = new UserService(_connectionString);
-            organizationService = new OrganizationService(_connectionString);
+            _userService = userService;
+            _organizationService = organizationService;
             _specialityService = specialityService;
         }
         // GET: /<controller>/
@@ -83,7 +85,7 @@ namespace Medicloud.Controllers
             try
             {
 
-                var result = await userService.SendRecoveryOtpForUser(content,type);
+                var result = await _userService.SendRecoveryOtpForUser(content,type);
                 if (result.Success)
                 {
                     if (type==1)
@@ -126,11 +128,11 @@ namespace Medicloud.Controllers
                 bool result = false;
                 if (!string.IsNullOrEmpty(phone))
                 {
-                    result = userService.CheckRecoveryOtpHash(phone, otpCode, 1);
+                    result = _userService.CheckRecoveryOtpHash(phone, otpCode, 1);
                 }
                 else if (!string.IsNullOrEmpty(email))
                 {
-                    result = userService.CheckRecoveryOtpHash(email, otpCode, 2);
+                    result = _userService.CheckRecoveryOtpHash(email, otpCode, 2);
 
                 }
 
@@ -172,12 +174,12 @@ namespace Medicloud.Controllers
                 var email = HttpContext.Session.GetString("recoveryEmail");
                 if (!string.IsNullOrEmpty(phone))
                 {
-                    userService.UpdatePassword(otpCode, phone, password,1);
+                    _userService.UpdatePassword(otpCode, phone, password,1);
 
                 }
                 else if (!string.IsNullOrEmpty(email))
                 {
-                    userService.UpdatePassword(otpCode, email, password,2);
+                    _userService.UpdatePassword(otpCode, email, password,2);
 
                 }
 

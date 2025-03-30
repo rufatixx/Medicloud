@@ -1,5 +1,9 @@
 ﻿using Medicloud.BLL.Models;
 using Medicloud.BLL.Service;
+using Medicloud.BLL.Service.Communication;
+using Medicloud.BLL.Services;
+using Medicloud.DAL.Repository.Role;
+using Medicloud.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static System.Net.Mime.MediaTypeNames;
@@ -12,25 +16,39 @@ public class AppointmentsController : Controller
     private readonly string ConnectionString;
     public IConfiguration Configuration;
     private readonly AppointmentService appointmentService;
-	private readonly CommunicationService communicationService;
-    private readonly UserService _userService;
-    public AppointmentsController(IConfiguration configuration)
+	private readonly ICommunicationService _communicationService;
+    private readonly IUserService _userService;
+    private readonly IRoleRepository _roleRepository;
+    public AppointmentsController(IConfiguration configuration,IRoleRepository roleRepository, ICommunicationService communicationService, IUserService userService)
     {
         Configuration = configuration;
         ConnectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
-
+ 
         appointmentService = new AppointmentService(ConnectionString);
-		communicationService = new CommunicationService(ConnectionString);
-		_userService = new UserService(ConnectionString);
+        _communicationService = communicationService;
+        _userService = userService;
+        _roleRepository = roleRepository;
     }
 
     [HttpPost]
-    public IActionResult AddAppointment(AddAppointmentDto appointmentDto)
+    public async Task<IActionResult> AddAppointment(AddAppointmentDto appointmentDto)
     {
 	    string referer = Request.Headers["Referer"].ToString();
-	    
-        appointmentDto.OrganizationID = Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID"));
-        appointmentDto.UserId = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "ID")?.Value ?? "0");
+        var userID = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "ID")?.Value ?? "0");
+        var organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
+        var userRoles = await _roleRepository.GetUserRoles(organizationID, userID);
+        var roles = userRoles.Select(r => r.id);
+
+        appointmentDto.OrganizationID = organizationID;
+        if (roles.Contains(4))
+        {
+           
+            appointmentDto.UserId = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "ID")?.Value ?? "0");
+
+        }
+       
+        
+            
 		var user=_userService.GetUserById(appointmentDto.UserId);
 		
 		if (appointmentDto.Id > 0)
@@ -48,7 +66,7 @@ public class AppointmentsController : Controller
 				var date = dateTime.ToString("yyyy-MM-dd");
 				var time = $"{appointmentDto.Time.Hours:D2}:{appointmentDto.Time.Minutes:D2}";
 				var message = $"Hormetli pasient,Sizin Dr {user.name} ile {date} saat {time} randevunuz var.Etrafli: {userTel}";
-				communicationService.sendSMS(message, patientTel.ToString());
+				_communicationService.sendSMS(message, patientTel.ToString());
 			}
 
 		}
@@ -57,9 +75,27 @@ public class AppointmentsController : Controller
     }
 
     [HttpGet]
-    public IActionResult Index([FromQuery] int pageNumber=1)
+    public async Task<IActionResult> Index([FromQuery] int pageNumber=1)
     {
-        var result = appointmentService.GetAllAppointments(Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID")), null, pageNumber);
+        var userID = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "ID")?.Value ?? "0");
+        var organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
+        var userRoles = await _roleRepository.GetUserRoles(organizationID, userID);
+        var roles = userRoles.Select(r => r.id);
+        AppointmentPagedResult result = null;
+        if (roles.Contains(7))
+		{
+             ViewBag.allStaff = _userService.GetUserList(organizationID);
+             result = appointmentService.GetAllAppointments(Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID")), null, pageNumber);
+
+        }
+		else if (roles.Contains(4))
+		{
+             result = appointmentService.GetAllAppointments(Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID")), null, pageNumber);
+
+        }
+
+       
+
         return View(result);
     }
 

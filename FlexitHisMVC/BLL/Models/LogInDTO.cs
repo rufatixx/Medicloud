@@ -6,9 +6,9 @@ namespace Medicloud.Models.DTO
 {
     public class UserDTO
     {
-        public User? personal { get; set; }
-        public List<Organization>? organizations { get; set; }
-        public List<Kassa>? kassaList { get; set; }
+        public UserDAO? personal { get; set; }
+        public List<OrganizationDAO>? organizations { get; set; }
+        public List<KassaDAO>? kassaList { get; set; }
 		public List<RoleDTO> Roles { get; set; }
 	}
 

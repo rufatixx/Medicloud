@@ -1,5 +1,8 @@
 ﻿using Medicloud.BLL.Service;
+using Medicloud.BLL.Service.Organization;
 using Medicloud.DAL.Repository;
+using Medicloud.DAL.Repository.Kassa;
+using Medicloud.DAL.Repository.Role;
 using Medicloud.Data;
 using Medicloud.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -17,17 +20,19 @@ namespace Medicloud.Areas.Admin.Controllers
         private readonly IWebHostEnvironment _hostingEnvironment;
         public IConfiguration Configuration;
         BuildingRepo buildingRepo;
-        OrganizationService _organizationService;
-        KassaRepo _kassaRepo;
+        IOrganizationService _organizationService;
+        IKassaRepo _kassaRepo;
+        IRoleRepository _roleRepository;
         //Communications communications;
-        public CreateOrganizationController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
+        public CreateOrganizationController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IRoleRepository roleRepository, IOrganizationService organizationService, IKassaRepo kassaRepo)
         {
             Configuration = configuration;
             _connectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
             _hostingEnvironment = hostingEnvironment;
             buildingRepo = new BuildingRepo(_connectionString);
-            _organizationService = new OrganizationService(_connectionString);
-            _kassaRepo = new KassaRepo(_connectionString);
+            _organizationService = organizationService;
+            _kassaRepo = kassaRepo;
+            _roleRepository = roleRepository;
             //communications = new Communications(Configuration, _hostingEnvironment);
         }
 
@@ -41,11 +46,11 @@ namespace Medicloud.Areas.Admin.Controllers
         }
 
 
-    
-      
+
+
 
         [HttpPost]
-        public IActionResult CreateOrganizationAjax(string organizationName)
+        public async Task<IActionResult> CreateOrganizationAjax(string organizationName)
         {
             var userIdClaim = User.FindFirst("ID")?.Value;
             if (!int.TryParse(userIdClaim, out int userId))
@@ -53,8 +58,9 @@ namespace Medicloud.Areas.Admin.Controllers
                 return Json(new { success = false, message = "İstifadəçi tapılmadı." });
             }
 
-            var userService = new UserService(_connectionString);
+          
             var orgId = _organizationService.AddOrganizationToNewUser(userId, organizationName);
+
 
             if (orgId <= 0)
             {
@@ -72,6 +78,8 @@ namespace Medicloud.Areas.Admin.Controllers
             {
                 return Json(new { success = false, message = "Kassa istifadəçiyə əlavə olunmadı." });
             }
+            await _roleRepository.AddUserRole(Convert.ToInt32(orgId), userId, 3);
+
 
             return Json(new
             {

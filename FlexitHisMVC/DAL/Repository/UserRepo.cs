@@ -1,14 +1,15 @@
 ﻿using System.Text;
+using Medicloud.DAL.Entities;
 using Medicloud.Models;
 using MySql.Data.MySqlClient;
 
 namespace Medicloud.DAL.Repository
 {
-    public class UserRepo
+    public class UserRepoOLD
     {
         private readonly string _connectionString;
 
-        public UserRepo(string conString)
+        public UserRepoOLD(string conString)
         {
             _connectionString = conString;
         }
@@ -30,9 +31,9 @@ namespace Medicloud.DAL.Repository
         }
 
 
-        public List<User> GetUserList(long organizationID = 0)
+        public List<UserDAO> GetUserList(long organizationID = 0)
         {
-            List<User> personalList = new List<User>();
+            List<UserDAO> personalList = new List<UserDAO>();
 
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
@@ -71,7 +72,7 @@ namespace Medicloud.DAL.Repository
                         while (reader.Read())
                         {
 
-                            User personal = new User();
+                            UserDAO personal = new UserDAO();
                             personal.ID = Convert.ToInt32(reader["id"]);
                             personal.depID = reader["departmentID"] == DBNull.Value ? 0 : Convert.ToInt32(reader["departmentID"]);
                             personal.name = reader["name"] == DBNull.Value ? "" : reader["name"].ToString();
@@ -110,9 +111,9 @@ namespace Medicloud.DAL.Repository
             return personalList;
         }
 
-        public List<User> GetRefererList()
+        public List<UserDAO> GetRefererList()
         {
-            List<User> refererList = new List<User>();
+            List<UserDAO> refererList = new List<UserDAO>();
 
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
@@ -129,7 +130,7 @@ namespace Medicloud.DAL.Repository
                         while (reader.Read())
                         {
 
-                            User referralPersonal = new User();
+                            UserDAO referralPersonal = new UserDAO();
                             referralPersonal.ID = Convert.ToInt32(reader["id"]);
                             referralPersonal.name = reader["name"].ToString();
                             referralPersonal.surname = reader["surname"].ToString();
@@ -150,9 +151,9 @@ namespace Medicloud.DAL.Repository
             return refererList;
         }
 
-        public User GetUser(string content, string pass,int type)
+        public UserDAO GetUser(string content, string pass,int type)
         {
-            User user = new User();
+            UserDAO user = new UserDAO();
 
             string condition = "";
             if (type==1)
@@ -230,9 +231,9 @@ WHERE
             return user;
         }
 
-        public User GetUserByID(int id)
+        public UserDAO GetUserByID(int id)
         {
-            User user = new User();
+            UserDAO user = new UserDAO();
 
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
@@ -311,7 +312,7 @@ WHERE
             return user;
         }
 
-        public User? GetUserByPhone(string mobileNumber)
+        public UserDAO? GetUserByPhone(string mobileNumber)
         {
 
 
@@ -328,7 +329,7 @@ WHERE
                     {
                         if (reader.HasRows)
                         {
-                            User personal = new User();
+                            UserDAO personal = new UserDAO();
 
 
                             while (reader.Read())
@@ -362,7 +363,7 @@ WHERE
             return null;
         }
 
-        public User? GetUserByEmail(string email)
+        public UserDAO? GetUserByEmail(string email)
         {
 
 
@@ -379,7 +380,7 @@ WHERE
                     {
                         if (reader.HasRows)
                         {
-                            User personal = new User();
+                            UserDAO personal = new UserDAO();
 
 
                             while (reader.Read())
@@ -758,7 +759,7 @@ WHERE
         {
 			Console.WriteLine(pwd);
             int updated = 0;
-            List<User> personalList = new List<User>();
+            List<UserDAO> personalList = new List<UserDAO>();
             try
             {
                 using (MySqlConnection connection = new MySqlConnection(_connectionString))

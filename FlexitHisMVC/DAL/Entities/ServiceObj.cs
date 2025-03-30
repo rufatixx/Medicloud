@@ -9,7 +9,7 @@ namespace Medicloud.Models
         public double price { get; set; }
         public double newPrice { get; set; }
         public int organizationID { get; set; }
-        public int serviceGroupID { get; set; }
+        public int? serviceGroupID { get; set; }
         public int serviceTypeID { get; set; }
         public int servicePriceID { get; set; }
         public string serviceGroup { get; set; }

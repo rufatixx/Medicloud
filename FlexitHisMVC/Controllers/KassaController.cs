@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using FlexitHisCore.Models;
+using Medicloud.DAL.Repository.Kassa;
 using Medicloud.Data;
 using Medicloud.Models;
 using Medicloud.Models.DTO;
@@ -27,15 +28,15 @@ namespace Medicloud.Controllers
         private readonly IWebHostEnvironment _hostingEnvironment;
         PatientCardRepo patientRequestRepo;
         PaymentOperationsRepo paymentOperationsRepo;
-        KassaRepo kassaRepo;
-        public KassaController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
+        IKassaRepo _kassaRepo;
+        public KassaController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment,IKassaRepo kassaRepo)
         {
             Configuration = configuration;
             ConnectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
             _hostingEnvironment = hostingEnvironment;
             patientRequestRepo = new PatientCardRepo(ConnectionString);
             paymentOperationsRepo = new PaymentOperationsRepo(ConnectionString);
-            kassaRepo = new KassaRepo(ConnectionString);
+            _kassaRepo = kassaRepo;
         }
         [Authorize]
         // GET: /<controller>/

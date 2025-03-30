@@ -13,7 +13,7 @@ namespace Medicloud.DAL.Repository
 			ConnectionString = conString;
 		}
 
-		public bool InsertAppointment(Appointment appointment)
+		public bool InsertAppointment(AppointmentDAO appointment)
 		{
 			MySqlConnection con = new(ConnectionString);
 			string query = @"INSERT INTO appointments (patient_id, service_id, organization_id, start_date, end_date, user_id, patient_phone)
@@ -178,7 +178,7 @@ WHERE organization_id = @orgID and is_active = 1";
 			return false;
 		}
 
-		public bool UpdateAppointment(Appointment appointment)
+		public bool UpdateAppointment(AppointmentDAO appointment)
 		{
 			MySqlConnection con = new(ConnectionString);
 			string query = $@"UPDATE medicloud.appointments 

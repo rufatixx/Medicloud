@@ -49,9 +49,9 @@
         </div>
     </div>
 </div>
+@await Component.InvokeAsync("AppointmentModal")
 
-
-@Html.Partial("_AppointmentModal")
+@*@Html.Partial("_AppointmentModal")*@
 
 @section Scripts {
     <script src="/assets/vendor/fullcalendar/main.min.js"></script>

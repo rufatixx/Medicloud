@@ -17,7 +17,7 @@ namespace Medicloud.BLL.Service
 
         public bool AddAppointment(AddAppointmentDto appointmentDto)
         {
-            var appointment = new Appointment()
+            var appointment = new AppointmentDAO()
             {
                 patient_id = appointmentDto.PatientId,
                 organization_id = appointmentDto.OrganizationID,
@@ -52,7 +52,7 @@ namespace Medicloud.BLL.Service
 
 		public bool UpdateAppointment(AddAppointmentDto appointmentDto)
 		{
-			var appointment = new Appointment()
+			var appointment = new AppointmentDAO()
 			{
 				id = appointmentDto.Id,
                 organization_id = appointmentDto.OrganizationID,

@@ -13,12 +13,12 @@ namespace Medicloud.Data
         {
             ConnectionString = conString;
         }
-        public List<Company> GetCompanies(int organizationID)
+        public List<CompanyDAO> GetCompanies(int organizationID)
 
         {
 
 
-            List<Company> companyList = new List<Company>();
+            List<CompanyDAO> companyList = new List<CompanyDAO>();
             try
             {
                 using (MySqlConnection connection = new MySqlConnection(ConnectionString))
@@ -40,7 +40,7 @@ namespace Medicloud.Data
                             while (reader.Read())
                             {
 
-                                Company cGroup = new Company();
+                                CompanyDAO cGroup = new CompanyDAO();
                                 cGroup.id = Convert.ToInt64(reader["id"]);
                                 cGroup.groupID = Convert.ToInt32(reader["groupID"]);
                                 cGroup.name = reader["name"] == DBNull.Value ? "" : reader["name"].ToString();
@@ -81,12 +81,12 @@ namespace Medicloud.Data
 
             return companyList;
         }
-        public List<Company> GetActiveCompanies(int organizationID)
+        public List<CompanyDAO> GetActiveCompanies(int organizationID)
 
         {
 
 
-            List<Company> companyList = new List<Company>();
+            List<CompanyDAO> companyList = new List<CompanyDAO>();
             try
             {
                 using (MySqlConnection connection = new MySqlConnection(ConnectionString))
@@ -108,7 +108,7 @@ namespace Medicloud.Data
                             while (reader.Read())
                             {
 
-                                Company cGroup = new Company();
+                                CompanyDAO cGroup = new CompanyDAO();
                                 cGroup.id = Convert.ToInt64(reader["id"]);
                                 cGroup.groupID = Convert.ToInt32(reader["groupID"]);
                                 cGroup.name = reader["name"] == DBNull.Value ? "" : reader["name"].ToString();

@@ -436,7 +436,7 @@ WHERE uhr.userID = @userID and pc.patientID = @patientID and finished= 0", conne
             return objList;
         }
 
-        public List<RecipeDTO> GetUnpaidRecipe(long patientCardID)
+        public List<RecipeDTO> GetRecipe(long patientCardID)
         {
             List<RecipeDTO> patientList = new List<RecipeDTO>();
 
@@ -467,7 +467,7 @@ WHERE uhr.userID = @userID and pc.patientID = @patientID and finished= 0", conne
                 JOIN 
                     organizations hp ON pk.organizationID = hp.id
                 WHERE 
-                    patientCardID = @patientCardID AND pk.finished = 0 
+                    patientCardID = @patientCardID
                 GROUP BY 
                     a.serviceID;
             ";
@@ -486,7 +486,7 @@ WHERE uhr.userID = @userID and pc.patientID = @patientID and finished= 0", conne
         }
 
 
-        public List<PatientDocDTO> GetPatientsByDr(int docID)
+        public List<PatientDocDTO> GetPatientsByDr(int docID, int orgID)
 
         {
 
@@ -503,11 +503,12 @@ WHERE uhr.userID = @userID and pc.patientID = @patientID and finished= 0", conne
                     using (MySqlCommand com = new MySqlCommand($@"SELECT a.id, a.patientID, a.serviceID,a.note, p.name, p.surname, p.father,p.clientPhone,p.bDate,p.genderID,p.fin
 FROM patient_card a
 INNER JOIN patients p ON a.patientID = p.id
-WHERE a.docID = @docID
+WHERE a.docID = @docID and a.organizationID = @orgID
 GROUP BY a.patientID
  ;", connection))
                     {
                         com.Parameters.AddWithValue("@docID", docID);
+                        com.Parameters.AddWithValue("@orgID", orgID);
                         MySqlDataReader reader = com.ExecuteReader();
                         if (reader.HasRows)
                         {

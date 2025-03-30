@@ -1,0 +1,24 @@
+﻿@{
+    Layout = "_Layout";
+    ViewBag.Title = "Rolsuz Giriş";
+}
+
+<div class="row justify-content-center align-items-center" style="height: 80vh;">
+    <div class="col-md-6 text-center">
+
+        <i alt="Unauthorized Access" style="max-width: 300px; font-size:96px" class="mb-4 ri-shield-user-line text-danger "></i>
+
+        <h2 class="text-danger">Sizin hər hansısa rolunuz mövcud deyil</h2>
+        <p class="text-muted mt-3 mb-4">
+            Sistemdə qeydiyyatınız var, lakin sizə təyin olunmuş bir rol aşkar edilmədi. Bu səbəbdən funksionallıqlara çıxışınız məhduddur.
+        </p>
+
+        @*<a href="/" class="btn btn-primary rounded-pill px-4">
+            Əsas səhifəyə qayıt
+        </a>*@
+
+        <a onclick="logout()" class="btn btn-outline-secondary rounded-pill px-4 ms-2">
+            Çıxış et
+        </a>
+    </div>
+</div>

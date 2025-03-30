@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using Medicloud.BLL.DTO;
+using Medicloud.DAL.Entities;
 using Medicloud.DAL.Repository;
 using Medicloud.Data;
 using Medicloud.Models;

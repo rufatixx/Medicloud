@@ -1,5 +1,7 @@
 ﻿
 using Medicloud.BLL.Service;
+using Medicloud.BLL.Service.Organization;
+using Medicloud.BLL.Services;
 using Medicloud.DAL.Repository;
 using Medicloud.Data;
 using Microsoft.AspNetCore.Authorization;
@@ -15,15 +17,15 @@ namespace Medicloud.Controllers
         private readonly string _connectionString;
         public IConfiguration Configuration;
         private readonly IWebHostEnvironment _hostingEnvironment;
-        UserService userService;
-        OrganizationService organizationService;
+        IUserService _userService;
+        IOrganizationService _organizationService;
         private readonly SpecialityService _specialityService;
-        public RegistrationController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, SpecialityService specialityService)
+        public RegistrationController(IConfiguration configuration,IUserService userService, IWebHostEnvironment hostingEnvironment, IOrganizationService organizationService, SpecialityService specialityService)
         {
             Configuration = configuration;
             _connectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
-            userService = new UserService(_connectionString);
-            organizationService = new OrganizationService(_connectionString);
+            _userService = userService;
+            _organizationService = organizationService;
             _specialityService = specialityService;
         }
         // GET: /<controller>/
@@ -87,7 +89,7 @@ namespace Medicloud.Controllers
                 {
                     throw new Exception();
                 }
-                var result =await userService.SendOtpForUserRegistration(content,type);
+                var result =await _userService.SendOtpForUserRegistration(content,type);
 
                 if (result.Success)
                 {
@@ -131,11 +133,11 @@ namespace Medicloud.Controllers
                 bool result = false;
                 if(!string.IsNullOrEmpty(phone))
                 {
-                    result = userService.CheckOtpHash(phone, otpCode,1);
+                    result = _userService.CheckOtpHash(phone, otpCode,1);
                 }
                 else if(!string.IsNullOrEmpty(email))
                 {
-                    result = userService.CheckOtpHash(email, otpCode, 2);
+                    result = _userService.CheckOtpHash(email, otpCode, 2);
 
                 }
 
@@ -175,11 +177,11 @@ namespace Medicloud.Controllers
             bool result = false;
             if (!string.IsNullOrEmpty(phone))
             {
-                result = userService.CheckOtpHash(phone, otpCode, 1);
+                result = _userService.CheckOtpHash(phone, otpCode, 1);
             }
             else if (!string.IsNullOrEmpty(email))
             {
-                result = userService.CheckOtpHash(email, otpCode, 2);
+                result = _userService.CheckOtpHash(email, otpCode, 2);
 
             }
             if (result)
@@ -198,7 +200,7 @@ namespace Medicloud.Controllers
 				}
 
 
-				var newUserID = userService.AddUser(phone,email, name, surname, father, specialityID, fin: fin, bDate: bDate, pwd: pwd, organizationName, 4,relativeFilePath);
+				var newUserID = _userService.AddUser(phone,email, name, surname, father, specialityID, fin: fin, bDate: bDate, pwd: pwd, organizationName, 4,relativeFilePath);
 				if (newUserID)
 				{
 					HttpContext.Session.Remove("recoveryOtpCode");

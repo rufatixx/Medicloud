@@ -1,6 +1,4 @@
-﻿using System;
-using System.Net.NetworkInformation;
-using Medicloud.Models;
+﻿using Medicloud.DAL.Entities;
 using MySql.Data.MySqlClient;
 
 namespace Medicloud.Data

@@ -1,4 +1,5 @@
 ﻿using Medicloud.BLL.Models;
+using Medicloud.DAL.Repository.Plan;
 using Medicloud.Models;
 using MySql.Data.MySqlClient;
 
@@ -7,11 +8,12 @@ namespace Medicloud.DAL.Repository;
 public class PaymentRepo
 {
 	private readonly string ConnectionString;
-	private readonly PlanRepository planRepository;
-	public PaymentRepo(string connectionString)
+	private readonly IPlanRepository _planRepository;
+	public PaymentRepo(string connectionString, IPlanRepository planRepository)
 	{
 		ConnectionString = connectionString;
-		planRepository = new PlanRepository(connectionString);
+		_planRepository = planRepository;
+
 	}
 
 
@@ -71,7 +73,7 @@ VALUES (@user_id, @transaction_id, @payment_reason_id); SELECT LAST_INSERT_ID();
             var isActive = pvm.status == 0;
 
             #region UpdatePlan
-            var plan = planRepository.GetById(pvm.plan_id);
+            var plan = _planRepository.GetById(pvm.plan_id);
 
 				using (MySqlCommand cmd4 = new (@"
 INSERT INTO user_plans (user_id, plan_id, expire_date,isActive) 

@@ -13,12 +13,12 @@ namespace Medicloud.Data
         {
             ConnectionString = conString;
         }
-        public List<CompanyGroup> GetCompanyGroups(int organizationID)
+        public List<CompanyGroupDAO> GetCompanyGroups(int organizationID)
 
         {
 
            
-            List <CompanyGroup> companyGroupList= new List<CompanyGroup>();
+            List <CompanyGroupDAO> companyGroupList= new List<CompanyGroupDAO>();
             try
             {
                 using (MySqlConnection connection = new MySqlConnection(ConnectionString))
@@ -39,7 +39,7 @@ namespace Medicloud.Data
                             while (reader.Read())
                             {
 
-                                CompanyGroup cGroup = new CompanyGroup();
+                                CompanyGroupDAO cGroup = new CompanyGroupDAO();
                                 cGroup.id = Convert.ToInt64(reader["id"]);
                                 cGroup.type = Convert.ToInt32(reader["type"]);
                                 cGroup.name = reader["name"] == DBNull.Value ? "" : reader["name"].ToString();
