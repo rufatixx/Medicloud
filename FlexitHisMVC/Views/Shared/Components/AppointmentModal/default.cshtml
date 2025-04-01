@@ -110,11 +110,11 @@
                                     Xidmət göstərən
                                 </label>
 
-                                <select class="form-select" name="id" id="staff" required>
+                                <select class="form-select" name="UserId" id="UserId" required>
                                     <option selected value="">Seçilməyib</option>
                                     @foreach (var item in Model)
                                     {
-                                        <option selected value="">@item.name @item.surname (@item.speciality.name)</option>
+                                        <option selected value="@item.ID">@item.name @item.surname (@item.speciality.name)</option>
 
 
                                     }

@@ -66,19 +66,19 @@ namespace Medicloud.BLL.Service
 			return result;
 		}
 
-		public AppointmentPagedResult GetAllAppointments(long organizationID, string searchQuery, int pageNumber)
+		public AppointmentPagedResult GetAllAppointments(long organizationID, string searchQuery, int userID = 0,int pageNumber=0)
 		{
-			var app = _appointmentRepo.GetAllAppointments(organizationID,searchQuery, pageNumber);
+			var app = _appointmentRepo.GetAllAppointments(organizationID,searchQuery,userID, pageNumber);
 			return app;
 		}
 
-		public List<AppointmentViewModel> GetAppointmentsByRange(DateTime startDate, DateTime endDate, int userID, int organizationID)
+		public List<AppointmentViewModel> GetAppointmentsByRange(DateTime startDate, DateTime endDate, int organizationID, int userID = 0)
 		{
-			var res = _appointmentRepo.GetAppointmentsByRange(startDate, endDate, userID, organizationID);
+			var res = _appointmentRepo.GetAppointmentsByRange(startDate, endDate, organizationID, userID);
 			return res;
 		}
 
-		public List<AppointmentViewModel> GetAppointmentByDate(DateTime date, int userID, int organizationID)
+		public List<AppointmentViewModel> GetAppointmentByDate(DateTime date, int organizationID, int userID = 0)
 		{
 			var res = _appointmentRepo.GetAppointmentByDate(date, userID, organizationID);
 			return res;

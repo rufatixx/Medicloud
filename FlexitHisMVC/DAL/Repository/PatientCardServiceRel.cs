@@ -13,7 +13,7 @@ namespace Medicloud.Models.Repository
     {
         private readonly string ConnectionString;
 
-        public PatientCardServiceRelRepo(string conString)
+        public PatientCardServiceRelRepo()
         {
             ConnectionString = conString;
         }

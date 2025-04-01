@@ -48,6 +48,7 @@
                                         <th class="text-muted" rowspan="1" colspan="1" style="width: 199px;">Xidmət/Prosedur</th>
                                         <th class="text-muted" rowspan="1" colspan="1" style="width: 231px;">Gün</th>
                                         <th class="text-muted" rowspan="1" colspan="1" style="width: 160px;">Vaxt</th>
+                                        <th class="text-muted" rowspan="1" colspan="1" style="width: 160px;">Xidmət göstərən</th>
                                         <th class="text-muted" rowspan="1" colspan="1" style="width: 160px;">Seçin</th>
                                     </tr>
                                 </thead>
@@ -75,6 +76,9 @@
                                                     </td>
                                                     <td>
                                                         <span>@item.start_date.ToString("HH:mm") - @item.end_date.ToString("HH:mm")</span>
+                                                    </td>
+                                                    <td>
+                                                        <span>@item.user_name @item.user_surname (@item.user_speciality_name)</span>
                                                     </td>
                                                     <td>
                                                         <a style="margin-right: 5px;" onclick="updateAppointment(@item.id)"

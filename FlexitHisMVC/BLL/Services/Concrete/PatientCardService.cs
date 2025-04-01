@@ -22,5 +22,19 @@ namespace Medicloud.BLL.Services.Concrete
             var result=await _repository.GetAllPatientsCards(organizationID, patientID);
             return result;
         }
+
+
+
+        public async Task<List<PatientDocDTO>> GetAllCardsByStaffID(long organizationID, long patientID)
+        {
+            using var con = _unitOfWork.BeginConnection();
+            var result = await _repository.GetAllPatientsCards(organizationID, patientID);
+
+            //foreach (var item in result)
+            //{
+            //    _repository.
+            //}
+            return result;
+        }
     }
 }

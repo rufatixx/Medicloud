@@ -27,8 +27,8 @@
                 <div class="modal-body">
                     <table class="table w-100">
 
-                        <tbody id="appointmentsTableBody">
-                        </tbody>
+                        <thead id="appointmentsTableHead"></thead>
+                        <tbody id="appointmentsTableBody"></tbody>
                     </table>
                 </div>
             </div>
@@ -103,36 +103,48 @@
                 return `${hours}:${minutes}`;
             }
 
-            function fetchAppointmentsForDay(dateStr) {
-                fetch(`@Url.Action("GetAppointmentByDate", "Appointments")/?date=${dateStr.toISOString()}`)
-                    .then(response => {
-                        return response.json();
-                    })
-                    .then(appointments => {
-                        if (appointments?.length > 0) {
-                            const tableBody = document.getElementById('appointmentsTableBody');
-                            tableBody.innerHTML = '';
+          function fetchAppointmentsForDay(dateStr) {
+    fetch(`@Url.Action("GetAppointmentByDate", "Appointments")/?date=${dateStr.toISOString()}`)
+        .then(response => response.json())
+        .then(appointments => {
+            if (appointments?.length > 0) {
+                const tableHead = document.getElementById('appointmentsTableHead');
+                const tableBody = document.getElementById('appointmentsTableBody');
 
-                            appointments.forEach((appointment, index) => {
-                                const row = document.createElement('tr');
-                                row.innerHTML = `
-                                <td style="width:50px">${index + 1}</td>
-                                <td style="width:160px" >${appointment.patient_name} ${appointment.patient_surname}</td >
-                                <td style="width:120px" >${appointment.patient_phone}</td>
-                                <td style="width:300px" >${appointment.service_name}</td>
-                                <td style="width:120px" >${getTimeOfDate(new Date(appointment.start_date))} - ${getTimeOfDate(new Date(appointment.end_date))}</td>
-                            `;
-                                tableBody.appendChild(row);
-                            });
+                tableHead.innerHTML = `
+                    <tr>
+                        <th style="width:50px">№</th>
+                        <th style="width:160px">Ad, Soyad</th>
+                        <th style="width:120px">Telefon</th>
+                        <th style="width:300px">Xidmət</th>
+                        <th style="width:300px">Xidmət göstərən</th>
+                        <th style="width:120px">Vaxt</th>
+                    </tr>
+                `;
 
-                            const appointmentsModal = new bootstrap.Modal(document.getElementById('appointmentsModal'));
-                            appointmentsModal.show();
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Fetch error:', error);
-                    });
+                tableBody.innerHTML = '';
+                appointments.forEach((appointment, index) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td>${appointment.patient_name} ${appointment.patient_surname}</td>
+                        <td>${appointment.patient_phone}</td>
+                        <td>${appointment.service_name}</td>
+                        <td>${appointment.user_name} ${appointment.user_surname} (${appointment.user_speciality_name})</td>
+                        <td>${getTimeOfDate(new Date(appointment.start_date))} - ${getTimeOfDate(new Date(appointment.end_date))}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+
+                const appointmentsModal = new bootstrap.Modal(document.getElementById('appointmentsModal'));
+                appointmentsModal.show();
             }
+        })
+        .catch(error => {
+            console.error('Fetch error:', error);
+        });
+}
+
 
             function fetchAndDisplayEvents() {
 

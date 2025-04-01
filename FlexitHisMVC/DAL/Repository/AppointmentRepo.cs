@@ -216,187 +216,260 @@ WHERE id = @id";
 			return true;
 		}
 
-        public AppointmentPagedResult GetAllAppointments(long organizationID, string searchQuery, int pageNumber=1)
+        public AppointmentPagedResult GetAllAppointments(long organizationID, string searchQuery, int userID = 0, int pageNumber = 1)
         {
             const int pageSize = 10;
             var result = new AppointmentPagedResult
             {
-                Appointments = new List<AppointmentViewModel>()
+                Appointments = new List<AppointmentViewModel>(),
+                CurrentPage = pageNumber
             };
 
-	        result.CurrentPage = pageNumber;
-
-            var totalRecords = 0;
+            int totalRecords = 0;
 
             try
             {
-                using (var connection = new MySqlConnection(ConnectionString))
+                using var connection = new MySqlConnection(ConnectionString);
+                connection.Open();
+
+                // Base query with conditional filter for userID
+                var baseQuery = @"
+            FROM appointments a
+            LEFT JOIN patients p ON p.id = a.patient_id
+            LEFT JOIN services s ON s.id = a.service_id
+            LEFT JOIN users u ON u.id = a.user_id
+            LEFT JOIN speciality sp ON sp.id = u.specialityID
+            WHERE 
+                (a.organization_id = @orgID AND a.is_active = 1)
+                AND (@userID <= 0 OR a.user_id = @userID)
+                AND (
+                    @SearchQuery IS NULL
+                    OR LOWER(p.name) LIKE LOWER(@SearchQuery)
+                    OR LOWER(s.name) LIKE LOWER(@SearchQuery)
+                    OR LOWER(u.name) LIKE LOWER(@SearchQuery)
+                    OR LOWER(u.surname) LIKE LOWER(@SearchQuery)
+                    OR LOWER(sp.name) LIKE LOWER(@SearchQuery)
+                )
+        ";
+
+                // Count query
+                var countQuery = $"SELECT COUNT(*) {baseQuery}";
+
+                using var countCmd = new MySqlCommand(countQuery, connection);
+                countCmd.Parameters.AddWithValue("@SearchQuery", string.IsNullOrEmpty(searchQuery) ? DBNull.Value : $"%{searchQuery}%");
+                countCmd.Parameters.AddWithValue("@orgID", organizationID);
+                countCmd.Parameters.AddWithValue("@userID", userID);
+
+                totalRecords = Convert.ToInt32(countCmd.ExecuteScalar());
+
+                // Main SELECT query
+                var appointmentQuery = $@"
+            SELECT 
+                a.*,
+                p.name AS patient_name,
+                p.surname AS patient_surname,
+                p.id AS patient_id,
+                s.name AS service_name,
+                s.id AS service_id,
+                u.name AS user_name,
+                u.surname AS user_surname,
+                u.specialityID AS user_speciality_id,
+                sp.name AS user_speciality_name
+            {baseQuery}
+            ORDER BY a.id DESC
+            LIMIT {pageSize} OFFSET {(pageNumber - 1) * pageSize}
+        ";
+
+                using var appointmentCommand = new MySqlCommand(appointmentQuery, connection);
+                appointmentCommand.Parameters.AddWithValue("@SearchQuery", string.IsNullOrEmpty(searchQuery) ? DBNull.Value : $"%{searchQuery}%");
+                appointmentCommand.Parameters.AddWithValue("@orgID", organizationID);
+                appointmentCommand.Parameters.AddWithValue("@userID", userID);
+
+                using var reader = appointmentCommand.ExecuteReader();
+
+                while (reader.Read())
                 {
-                    connection.Open();
-
-                    var baseQuery = @"FROM appointments a
-LEFT JOIN patients p ON p.id = a.patient_id
-LEFT JOIN services s ON s.id = a.service_id
-WHERE (a.organization_id = @orgID AND a.is_active = 1) 
-AND (@SearchQuery IS NULL OR LOWER(p.name) LIKE LOWER(@SearchQuery) OR LOWER(s.name) LIKE LOWER(@SearchQuery))";
-
-                    var countQuery = $"SELECT COUNT(*) {baseQuery}";
-
-                    using (var countCmd = new MySqlCommand(countQuery, connection))
+                    var appointment = new AppointmentViewModel
                     {
-                        countCmd.Parameters.AddWithValue("@SearchQuery", string.IsNullOrEmpty(searchQuery) ? DBNull.Value : $"%{searchQuery}%");
-                        countCmd.Parameters.AddWithValue("@orgID", organizationID);
+                        id = Convert.ToInt32(reader["id"]),
+                        patient_id = Convert.ToInt32(reader["patient_id"]),
+                        service_id = Convert.ToInt32(reader["service_id"]),
+                        user_id = Convert.ToInt32(reader["user_id"]),
+                        organization_id = Convert.ToInt32(reader["organization_id"]),
+                        start_date = reader["start_date"] == DBNull.Value ? default : Convert.ToDateTime(reader["start_date"]),
+                        end_date = reader["end_date"] == DBNull.Value ? default : Convert.ToDateTime(reader["end_date"]),
+                        is_active = Convert.ToBoolean(reader["is_active"]),
+                        patient_name = reader["patient_name"].ToString(),
+                        patient_surname = reader["patient_surname"].ToString(),
+                        service_name = reader["service_name"].ToString(),
+                        user_name = reader["user_name"]?.ToString(),
+                        user_surname = reader["user_surname"]?.ToString(),
+                        user_speciality_id = reader["user_speciality_id"] == DBNull.Value ? 0 : Convert.ToInt32(reader["user_speciality_id"]),
+                        user_speciality_name = reader["user_speciality_name"]?.ToString()
+                    };
 
-                        totalRecords = Convert.ToInt32(countCmd.ExecuteScalar());
-                    }
-
-                    var appointmentQuery = $@"SELECT a.*, p.name AS patient_name, p.surname AS patient_surname, p.id AS patient_id,
-s.name AS service_name, s.id AS service_id {baseQuery} ORDER BY a.id DESC LIMIT {pageSize} OFFSET {(pageNumber - 1) * pageSize}";
-
-                    using (var appointmentCommand = new MySqlCommand(appointmentQuery, connection))
-                    {
-                        appointmentCommand.Parameters.AddWithValue("@SearchQuery", string.IsNullOrEmpty(searchQuery) ? DBNull.Value : $"%{searchQuery}%");
-                        appointmentCommand.Parameters.AddWithValue("@orgID", organizationID);
-
-                        using (var reader = appointmentCommand.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                var appointment = new AppointmentViewModel
-                                {
-                                    id = Convert.ToInt32(reader["id"]),
-                                    patient_id = Convert.ToInt32(reader["patient_id"]),
-                                    service_id = Convert.ToInt32(reader["service_id"]),
-									user_id = Convert.ToInt32(reader["user_id"]),
-									organization_id = Convert.ToInt32(reader["organization_id"]),
-                                    start_date = reader["start_date"] == DBNull.Value ? default(DateTime) : Convert.ToDateTime(reader["start_date"]),
-                                    end_date = reader["end_date"] == DBNull.Value ? default(DateTime) : Convert.ToDateTime(reader["end_date"]),
-                                    is_active = Convert.ToBoolean(reader["is_active"]),
-                                    patient_name = reader["patient_name"].ToString(),
-                                    patient_surname = reader["patient_surname"].ToString(),
-                                    service_name = reader["service_name"].ToString()
-                                };
-                                result.Appointments.Add(appointment);
-                            }
-                        }
-                    }
-                    result.TotalPages = (int)Math.Ceiling(totalRecords / (double)pageSize);
+                    result.Appointments.Add(appointment);
                 }
+
+                result.TotalPages = (int)Math.Ceiling(totalRecords / (double)pageSize);
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Error retrieving appointments: " + ex.Message);
-                // Optionally, handle the error more gracefully and inform the calling function
+                // Optionally handle or re-throw
             }
 
             return result;
         }
 
-		public List<AppointmentViewModel> GetAppointmentsByRange(DateTime startDate, DateTime endDate, int userID, int organizationID)
-		{
-			List<AppointmentViewModel> appointments = new List<AppointmentViewModel>();
-			MySqlConnection con = new(ConnectionString);
 
-			string query = $@"SELECT * FROM medicloud.appointments
-                      WHERE start_date >= @startDate AND 
-							start_date <= @endDate AND
-							is_active = 1 AND
-							user_id = @userID AND
-							organization_id = @organizationID";
+        public List<AppointmentViewModel> GetAppointmentsByRange(DateTime startDate, DateTime endDate, int organizationID, int userID)
+        {
+            List<AppointmentViewModel> appointments = new();
 
-			MySqlCommand cmd = new(query, con);
-			cmd.Parameters.AddWithValue("@startDate", startDate);
-			cmd.Parameters.AddWithValue("@endDate", endDate);
-			cmd.Parameters.AddWithValue("@userID", userID);
-			cmd.Parameters.AddWithValue("@organizationID", organizationID);
+            string query = @"
+        SELECT 
+            a.id,
+            a.patient_id,
+            a.user_id,
+            a.service_id,
+            a.organization_id,
+            a.start_date,
+            a.end_date,
+            a.is_active,
+            u.name AS user_name,
+            u.surname AS user_surname,
+            u.specialityID AS user_speciality_id,
+            sp.name AS user_speciality_name
+        FROM medicloud.appointments a
+        LEFT JOIN medicloud.users u ON u.id = a.user_id
+        LEFT JOIN medicloud.speciality sp ON sp.id = u.specialityID
+        WHERE a.start_date BETWEEN @startDate AND @endDate
+          AND a.is_active = 1
+          AND a.organization_id = @organizationID
+          {0}
+        ORDER BY a.start_date ASC;";
 
-			try
-			{
-				con.Open();
-				MySqlDataReader reader = cmd.ExecuteReader();
-				while (reader.Read())
-				{
-					AppointmentViewModel appointment = new AppointmentViewModel
-					{
-						id = Convert.ToInt32(reader["id"]),
-						patient_id = Convert.ToInt32(reader["patient_id"]),
-						user_id = Convert.ToInt32(reader["user_id"]),
-						service_id = Convert.ToInt32(reader["service_id"]),
-						organization_id = reader["organization_id"] == DBNull.Value ? 0 : Convert.ToInt32(reader["organization_id"]),
-						start_date = reader["start_date"] == DBNull.Value ? Convert.ToDateTime("0001-01-01T00:00:00") : Convert.ToDateTime(reader["start_date"]),
-						end_date = reader["end_date"] == DBNull.Value ? Convert.ToDateTime("0001-01-01T00:00:00") : Convert.ToDateTime(reader["end_date"]),
-						is_active = Convert.ToBoolean(reader["is_active"]),
-					};
+            string userFilter = userID > 0 ? "AND a.user_id = @userID" : string.Empty;
+            query = string.Format(query, userFilter);
 
-					appointments.Add(appointment);
-				}
-				appointments.Reverse();
-				con.Close();
-			}
-			catch (Exception ex)
-			{
-				Medicloud.StandardMessages.CallSerilog(ex);
-				Console.WriteLine(ex.Message);
-			}
-			return appointments;
-		}
+            try
+            {
+                using var con = new MySqlConnection(ConnectionString);
+                using var cmd = new MySqlCommand(query, con);
 
-		public List<AppointmentViewModel> GetAppointmentByDate(DateTime date, int userID, int organizationID)
-		{
-			List<AppointmentViewModel> appointments = new List<AppointmentViewModel>();
-			MySqlConnection con = new(ConnectionString);
+                cmd.Parameters.AddWithValue("@startDate", startDate.Date);
+                cmd.Parameters.AddWithValue("@endDate", endDate.Date.AddDays(1).AddSeconds(-1));
+                cmd.Parameters.AddWithValue("@organizationID", organizationID);
 
-			string query = $@"SELECT a.*,
-									 p.name patient_name,
-									 p.surname patient_surname,
-									 p.id patient_id,
-									 s.name service_name,
-									 s.id service_id
-							FROM medicloud.appointments a
-							LEFT JOIN patients p on p.id= a.patient_id
-							LEFT JOIN services s on s.id= a.service_id
-							WHERE DATE(start_date) = DATE(@date) AND 
-							is_active = 1 AND
-							user_id = @userID AND
-							organization_id = @organizationID";
+                if (userID > 0)
+                    cmd.Parameters.AddWithValue("@userID", userID);
 
-			MySqlCommand cmd = new(query, con);
-			cmd.Parameters.AddWithValue("@date", date);
-			cmd.Parameters.AddWithValue("@userID", userID);
-			cmd.Parameters.AddWithValue("@organizationID", organizationID);
-			try
-			{
-				con.Open();
-				MySqlDataReader reader = cmd.ExecuteReader();
-				while (reader.Read())
-				{
-					AppointmentViewModel appointment = new AppointmentViewModel
-					{
-						id = Convert.ToInt32(reader["id"]),
-						patient_id = Convert.ToInt32(reader["patient_id"]),
-						user_id = Convert.ToInt32(reader["user_id"]),
-						service_id = Convert.ToInt32(reader["service_id"]),
-						organization_id = reader["organization_id"] == DBNull.Value ? 0 : Convert.ToInt32(reader["organization_id"]),
-						start_date = reader["start_date"] == DBNull.Value ? Convert.ToDateTime("0001-01-01T00:00:00") : Convert.ToDateTime(reader["start_date"]),
-						end_date = reader["end_date"] == DBNull.Value ? Convert.ToDateTime("0001-01-01T00:00:00") : Convert.ToDateTime(reader["end_date"]),
-						is_active = Convert.ToBoolean(reader["is_active"]),
-						patient_name = reader["patient_name"].ToString(),
-						patient_surname = reader["patient_surname"].ToString(),
-						service_name = reader["service_name"].ToString(),
-						patient_phone = reader["patient_phone"].ToString(),
-					};
+                con.Open();
+                using var reader = cmd.ExecuteReader();
 
-					appointments.Add(appointment);
-				}
-				appointments.Reverse();
-				con.Close();
-			}
-			catch (Exception ex)
-			{
-				Medicloud.StandardMessages.CallSerilog(ex);
-				Console.WriteLine(ex.Message);
-			}
-			return appointments;
-		}
-	}
+                while (reader.Read())
+                {
+                    var appointment = new AppointmentViewModel
+                    {
+                        id = Convert.ToInt32(reader["id"]),
+                        patient_id = Convert.ToInt32(reader["patient_id"]),
+                        user_id = Convert.ToInt32(reader["user_id"]),
+                        service_id = Convert.ToInt32(reader["service_id"]),
+                        organization_id = reader["organization_id"] == DBNull.Value ? 0 : Convert.ToInt32(reader["organization_id"]),
+                        start_date = reader["start_date"] == DBNull.Value ? default : Convert.ToDateTime(reader["start_date"]),
+                        end_date = reader["end_date"] == DBNull.Value ? default : Convert.ToDateTime(reader["end_date"]),
+                        is_active = Convert.ToBoolean(reader["is_active"]),
+                        user_name = reader["user_name"]?.ToString(),
+                        user_surname = reader["user_surname"]?.ToString(),
+                        user_speciality_id = reader["user_speciality_id"] == DBNull.Value ? 0 : Convert.ToInt32(reader["user_speciality_id"]),
+                        user_speciality_name = reader["user_speciality_name"]?.ToString()
+                    };
+
+                    appointments.Add(appointment);
+                }
+            }
+            catch (Exception ex)
+            {
+                Medicloud.StandardMessages.CallSerilog(ex);
+                Console.WriteLine(ex.Message);
+            }
+
+            return appointments;
+        }
+
+
+        public List<AppointmentViewModel> GetAppointmentByDate(DateTime date, int userID, int organizationID)
+        {
+            List<AppointmentViewModel> appointments = new();
+
+            string query = @"
+        SELECT a.*,
+               p.name AS patient_name,
+               p.surname AS patient_surname,
+               p.clientPhone AS patient_phone,
+               s.name AS service_name,
+               u.name AS user_name,
+               u.surname AS user_surname,
+               u.specialityID AS user_speciality_id,
+               sp.name AS user_speciality_name
+        FROM medicloud.appointments a
+        LEFT JOIN medicloud.patients p ON p.id = a.patient_id
+        LEFT JOIN medicloud.services s ON s.id = a.service_id
+        LEFT JOIN medicloud.users u ON u.id = a.user_id
+        LEFT JOIN medicloud.speciality sp ON sp.id = u.specialityID
+        WHERE DATE(a.start_date) = DATE(@date)
+          AND a.is_active = 1
+          AND a.organization_id = @organizationID
+          AND (@userID = 0 OR a.user_id = @userID)
+        ORDER BY a.start_date ASC;";
+
+            try
+            {
+                using var con = new MySqlConnection(ConnectionString);
+                using var cmd = new MySqlCommand(query, con);
+
+                cmd.Parameters.AddWithValue("@date", date.Date);
+                cmd.Parameters.AddWithValue("@userID", userID);
+                cmd.Parameters.AddWithValue("@organizationID", organizationID);
+
+                con.Open();
+                using var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    var appointment = new AppointmentViewModel
+                    {
+                        id = Convert.ToInt32(reader["id"]),
+                        patient_id = Convert.ToInt32(reader["patient_id"]),
+                        user_id = Convert.ToInt32(reader["user_id"]),
+                        service_id = Convert.ToInt32(reader["service_id"]),
+                        organization_id = reader["organization_id"] == DBNull.Value ? 0 : Convert.ToInt32(reader["organization_id"]),
+                        start_date = reader["start_date"] == DBNull.Value ? default : Convert.ToDateTime(reader["start_date"]),
+                        end_date = reader["end_date"] == DBNull.Value ? default : Convert.ToDateTime(reader["end_date"]),
+                        is_active = Convert.ToBoolean(reader["is_active"]),
+                        patient_name = reader["patient_name"]?.ToString(),
+                        patient_surname = reader["patient_surname"]?.ToString(),
+                        patient_phone = reader["patient_phone"]?.ToString(),
+                        service_name = reader["service_name"]?.ToString(),
+                        user_name = reader["user_name"]?.ToString(),
+                        user_surname = reader["user_surname"]?.ToString(),
+                        user_speciality_id = reader["user_speciality_id"] == DBNull.Value ? 0 : Convert.ToInt32(reader["user_speciality_id"]),
+                        user_speciality_name = reader["user_speciality_name"]?.ToString()
+                    };
+
+                    appointments.Add(appointment);
+                }
+            }
+            catch (Exception ex)
+            {
+                Medicloud.StandardMessages.CallSerilog(ex);
+                Console.WriteLine(ex.Message);
+            }
+
+            return appointments;
+        }
+
+
+    }
 }

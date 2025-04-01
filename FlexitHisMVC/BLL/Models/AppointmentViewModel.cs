@@ -15,4 +15,8 @@ public class AppointmentViewModel
 	public bool is_active { get; set; }
 	public int organization_id { get; set; }
 	public int user_id { get; set; }
+	public string user_name { get; set; }
+	public string user_surname { get; set; }
+	public int user_speciality_id { get; set; }
+	public string user_speciality_name { get; set; }
 }
