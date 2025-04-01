@@ -1,4 +1,5 @@
 ﻿using Medicloud.DAL.Repository.Abstract;
+using Medicloud.DAL.Repository.PatientCard;
 using Medicloud.Data;
 using Medicloud.Models;
 using Medicloud.Models.Repository;
@@ -19,23 +20,23 @@ namespace Medicloud.Controllers
         private PriceGroupCompanyRepository priceGroupCompanyRepository;
         private IServicePriceGroupRepository _servicePriceGroupRepository;
         PatientCardRepo patientCardRepo;
-        PatientCardServiceRelRepo patientCardServiceRelRepo;
         PatientRepo patientRepo;
+		private readonly IPatientCardServiceRelRepository _patientCardServiceRelRepository;
 
-        public ClientsController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IServicePriceGroupRepository servicePriceGroupRepository)
-        {
-            Configuration = configuration;
-            ConnectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
-            _hostingEnvironment = hostingEnvironment;
-            priceGroupCompanyRepository = new PriceGroupCompanyRepository(ConnectionString);
-            _servicePriceGroupRepository = servicePriceGroupRepository;
-            patientCardRepo = new PatientCardRepo(ConnectionString);
-            patientCardServiceRelRepo = new PatientCardServiceRelRepo(ConnectionString);
-            patientRepo = new PatientRepo(ConnectionString);
-        }
+		public ClientsController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IServicePriceGroupRepository servicePriceGroupRepository, IPatientCardServiceRelRepository patientCardServiceRelRepository)
+		{
+			Configuration = configuration;
+			ConnectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
+			_hostingEnvironment = hostingEnvironment;
+			priceGroupCompanyRepository = new PriceGroupCompanyRepository(ConnectionString);
+			_servicePriceGroupRepository = servicePriceGroupRepository;
+			patientCardRepo = new PatientCardRepo(ConnectionString);
+			patientRepo = new PatientRepo(ConnectionString);
+			_patientCardServiceRelRepository = patientCardServiceRelRepository;
+		}
 
-        // GET: /<controller>/
-        public IActionResult Index()
+		// GET: /<controller>/
+		public IActionResult Index()
         {
             
     

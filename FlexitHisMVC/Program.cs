@@ -11,6 +11,7 @@ using Medicloud.DAL.Repository.Abstract;
 using Medicloud.DAL.Repository.Concrete;
 using Medicloud.DAL.Repository.Kassa;
 using Medicloud.DAL.Repository.Organization;
+using Medicloud.DAL.Repository.PatientCard;
 using Medicloud.DAL.Repository.Plan;
 using Medicloud.DAL.Repository.Role;
 using Medicloud.DAL.Repository.UserPlan;
@@ -102,6 +103,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IKassaRepo, KassaRepo>();
 builder.Services.AddScoped<ICommunicationService, CommunicationService>();
+builder.Services.AddScoped<IPatientCardServiceRelRepository, PatientCardServiceRelRepository>();
 var app = builder.Build();
 
 app.UseSession();

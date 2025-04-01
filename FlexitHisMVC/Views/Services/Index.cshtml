@@ -4,7 +4,7 @@
 }
 
 @using Medicloud.Models.Domain;
-@model List<dynamic>
+@model List<Medicloud.DAL.Entities.PatientCardServiceDAO>
 <div class="row">
     <div class="col-12">
         <div class="page-title-box">
@@ -200,8 +200,8 @@
             // If not, proceed with showing the modal
             const service = $(this).data('service');
             selectedId = service.id;
-            $('#servicesModal').val(service.ServiceID);
-            $("#priceModal").val(service.ServicePrice);
+            $('#servicesModal').val(service.serviceID);
+            $("#priceModal").val(service.servicePrice);
             $('#addServiceBtn').hide();
             $('#removeServiceBtn').show();
             $("#servicesModal").prop('disabled', true);

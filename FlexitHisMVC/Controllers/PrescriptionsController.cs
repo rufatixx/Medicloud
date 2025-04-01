@@ -1,6 +1,7 @@
 ﻿using Medicloud.BLL.Models;
 using Medicloud.BLL.Services.Abstract;
 using Medicloud.DAL.Repository.Abstract;
+using Medicloud.DAL.Repository.PatientCard;
 using Medicloud.DAL.Repository.Role;
 using Medicloud.Data;
 using Medicloud.Models;
@@ -23,31 +24,31 @@ namespace Medicloud.Controllers
         private PriceGroupCompanyRepository priceGroupCompanyRepository;
         private IServicePriceGroupRepository _servicePriceGroupRepository;
         PatientCardRepo patientCardRepo;
-        PatientCardServiceRelRepo patientCardServiceRelRepo;
         PatientDiagnoseRel patientDiagnoseRel;
         ServicesRepo servicesRepo;
         PatientRepo patientRepo;
         RequestTypeRepo requestTypeDAO;
         private readonly IPatientCardService _patientCardService;
         private readonly IRoleRepository _roleRepository;
-        public PrescriptionsController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment,IRoleRepository roleRepository, IPatientCardService patientCardService, IServicePriceGroupRepository servicePriceGroupRepository)
-        {
-            Configuration = configuration;
-            ConnectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
-            _hostingEnvironment = hostingEnvironment;
-            priceGroupCompanyRepository = new PriceGroupCompanyRepository(ConnectionString);
-            _servicePriceGroupRepository = servicePriceGroupRepository;
-            patientCardRepo = new PatientCardRepo(ConnectionString);
-            patientCardServiceRelRepo = new PatientCardServiceRelRepo(ConnectionString);
-            patientDiagnoseRel = new PatientDiagnoseRel(ConnectionString);
-            servicesRepo = new ServicesRepo(ConnectionString);
-            patientRepo = new PatientRepo(ConnectionString);
-            requestTypeDAO = new RequestTypeRepo(ConnectionString);
-            _patientCardService=patientCardService;
-            _roleRepository = roleRepository;
-        }
-        // GET: /<controller>/
-        public async Task<IActionResult> Index(string patientFullName,int patientID)
+		private readonly IPatientCardServiceRelRepository _patientCardServiceRelRepository;
+		public PrescriptionsController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IRoleRepository roleRepository, IPatientCardService patientCardService, IServicePriceGroupRepository servicePriceGroupRepository, IPatientCardServiceRelRepository patientCardServiceRelRepository)
+		{
+			Configuration = configuration;
+			ConnectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
+			_hostingEnvironment = hostingEnvironment;
+			priceGroupCompanyRepository = new PriceGroupCompanyRepository(ConnectionString);
+			_servicePriceGroupRepository = servicePriceGroupRepository;
+			patientCardRepo = new PatientCardRepo(ConnectionString);
+			patientDiagnoseRel = new PatientDiagnoseRel(ConnectionString);
+			servicesRepo = new ServicesRepo(ConnectionString);
+			patientRepo = new PatientRepo(ConnectionString);
+			requestTypeDAO = new RequestTypeRepo(ConnectionString);
+			_patientCardService = patientCardService;
+			_roleRepository = roleRepository;
+			_patientCardServiceRelRepository = patientCardServiceRelRepository;
+		}
+		// GET: /<controller>/
+		public async Task<IActionResult> Index(string patientFullName,int patientID)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -66,7 +67,7 @@ namespace Medicloud.Controllers
                 }
                 else if (roles.Contains(4))
                 {
-                    response = await _patientCardService.GetAllPatientsCards(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")), patientID);
+                    response = await _patientCardService.GetAllPatientsCards(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")), patientID,userID);
                     ViewBag.patientFullname = patientFullName;
                 }
                 return View(response);
@@ -82,7 +83,7 @@ namespace Medicloud.Controllers
 
         [HttpPost]
 
-        public IActionResult AddPrescription(int requestTypeID,long patientID,long cardID, int serviceID, string note)
+        public async Task<IActionResult> AddPrescription(int requestTypeID,long patientID,long cardID, int serviceID, string note)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -100,7 +101,7 @@ namespace Medicloud.Controllers
                     }
 
                        
-                        var serviceInserted = patientCardServiceRelRepo.InsertServiceToPatientCard(cardID, serviceID, 0,0, userID);
+                        var serviceInserted = await _patientCardServiceRelRepository.InsertServiceToPatientCard(cardID, serviceID, 0,0, userID);
                         if (cardID == 0 || serviceInserted == false)
                         {
                             return BadRequest("Xəstə kartını daxil etmək mümkün olmadı.");

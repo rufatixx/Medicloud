@@ -20,7 +20,6 @@ namespace Medicloud.Controllers
         private PriceGroupCompanyRepository priceGroupCompanyRepository;
         private IServicePriceGroupRepository _servicePriceGroupRepository;
         PatientCardRepo patientCardRepo;
-        PatientCardServiceRelRepo patientCardServiceRelRepo;
         PatientDiagnoseRel patientDiagnoseRel;
         public DiagnosesController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IServicePriceGroupRepository servicePriceGroupRepository)
         {
@@ -30,7 +29,6 @@ namespace Medicloud.Controllers
             priceGroupCompanyRepository = new PriceGroupCompanyRepository(ConnectionString);
             _servicePriceGroupRepository = servicePriceGroupRepository;
             patientCardRepo = new PatientCardRepo(ConnectionString);
-            patientCardServiceRelRepo = new PatientCardServiceRelRepo(ConnectionString);
             patientDiagnoseRel = new PatientDiagnoseRel(ConnectionString);
         }
         // GET: /<controller>/

@@ -388,8 +388,8 @@ GROUP BY
 
                     using (MySqlCommand com = new MySqlCommand($@"SELECT pc.id,pc.cdate
 FROM patient_card pc
-INNER JOIN user_organization_rel uhr ON pc.organizationID = uhr.organizationID
-WHERE uhr.userID = @userID and pc.patientID = @patientID and finished= 0", connection))
+LEFT JOIN user_organization_rel uhr ON pc.organizationID = uhr.organizationID
+WHERE uhr.userID = @userID and pc.patientID = @patientID and finished= 0 GROUP BY pc.id", connection))
                     {
                         com.Parameters.AddWithValue("@userID", userID);
                         com.Parameters.AddWithValue("@patientID", patientID);

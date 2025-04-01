@@ -1,4 +1,5 @@
 using Medicloud.DAL.Repository.Abstract;
+using Medicloud.DAL.Repository.PatientCard;
 using Medicloud.Data;
 using Medicloud.Models;
 using Medicloud.Models.Domain;
@@ -20,25 +21,25 @@ namespace Medicloud.Controllers
 		private PriceGroupCompanyRepository priceGroupCompanyRepository;
 		private IServicePriceGroupRepository _servicePriceGroupRepository;
 		PatientCardRepo patientCardRepo;
-		PatientCardServiceRelRepo patientCardServiceRelRepo;
 		PatientDiagnoseRel patientDiagnoseRel;
 		ServicesRepo servicesRepo;
 		RequestTypeRepo requestTypeRepo;
-		public ServicesController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IServicePriceGroupRepository servicePriceGroupRepository)
+		private readonly IPatientCardServiceRelRepository _patientCardServiceRelRepository;
+		public ServicesController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IServicePriceGroupRepository servicePriceGroupRepository, IPatientCardServiceRelRepository patientCardServiceRelRepository)
 		{
 			Configuration = configuration;
 			ConnectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
 			_hostingEnvironment = hostingEnvironment;
 			priceGroupCompanyRepository = new PriceGroupCompanyRepository(ConnectionString);
-            _servicePriceGroupRepository = servicePriceGroupRepository;
+			_servicePriceGroupRepository = servicePriceGroupRepository;
 			patientCardRepo = new PatientCardRepo(ConnectionString);
-			patientCardServiceRelRepo = new PatientCardServiceRelRepo(ConnectionString);
 			patientDiagnoseRel = new PatientDiagnoseRel(ConnectionString);
-            servicesRepo = new ServicesRepo(ConnectionString);
-            requestTypeRepo = new RequestTypeRepo(ConnectionString);
+			servicesRepo = new ServicesRepo(ConnectionString);
+			requestTypeRepo = new RequestTypeRepo(ConnectionString);
+			_patientCardServiceRelRepository = patientCardServiceRelRepository;
 		}
 		// GET: /<controller>/
-		public IActionResult Index(int cardId)
+		public async Task<IActionResult> Index(int cardId)
 		{
 			if (User.Identity.IsAuthenticated)
 			{
@@ -49,7 +50,8 @@ namespace Medicloud.Controllers
 				ViewBag.requestTypes = requestTypeRepo.GetRequestType();
 				ViewBag.cardID = cardId;
 
-				var response = patientCardServiceRelRepo.GetServicesFromPatientCard(cardId, Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")));
+				//var response = patientCardServiceRelRepo.GetServicesFromPatientCard(cardId, Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")));
+				var response =await _patientCardServiceRelRepository.GetServicesFromPatientCard(cardId, Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")));
 
 				return View(response);
 
@@ -67,7 +69,7 @@ namespace Medicloud.Controllers
 
         [HttpPost]
 
-        public IActionResult AddService(long cardID, int serviceID)
+        public async Task<IActionResult> AddService(long cardID, int serviceID)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -78,7 +80,7 @@ namespace Medicloud.Controllers
 
                     var userID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID"));
                     var organizationID = Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID"));
-                    var serviceInserted = patientCardServiceRelRepo.InsertServiceToPatientCard(cardID, serviceID, 0, 0, userID);
+                    var serviceInserted = await _patientCardServiceRelRepository.InsertServiceToPatientCard(cardID, serviceID, 0, 0, userID);
 
                     if (cardID == 0 || serviceInserted == false)
                     {
@@ -101,7 +103,7 @@ namespace Medicloud.Controllers
 
         [HttpPost]
 
-        public IActionResult RemovePatientServiceByid(int id)
+        public async Task<IActionResult> RemovePatientServiceByid(int id)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -109,7 +111,7 @@ namespace Medicloud.Controllers
                 try
                 {
 
-                    var serviceInserted = patientCardServiceRelRepo.RemovePatientServiceById(id);
+                    var serviceInserted = await _patientCardServiceRelRepository.RemovePatientServiceById(id);
 
 
                     return Ok();
@@ -126,7 +128,7 @@ namespace Medicloud.Controllers
 
         [HttpPost]
 
-        public IActionResult RemoveService(long cardID, int serviceID)
+        public async Task<IActionResult> RemoveService(long cardID, int serviceID)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -137,7 +139,7 @@ namespace Medicloud.Controllers
 
                     var userID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID"));
                     var organizationID = Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID"));
-                    var serviceInserted = patientCardServiceRelRepo.RemoveServiceFromPatientCard(cardID, serviceID);
+                    var serviceInserted = await _patientCardServiceRelRepository.RemoveServiceFromPatientCard(cardID, serviceID);
 
                     if (cardID == 0 || serviceInserted == false)
                     {

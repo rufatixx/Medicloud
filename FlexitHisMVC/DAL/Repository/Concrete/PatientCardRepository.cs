@@ -16,7 +16,7 @@ namespace Medicloud.DAL.Repository.Concrete
             _unitOfWork=unitOfWork;
         }
 
-        public async Task<List<PatientDocDTO>> GetAllPatientsCards(long organizationID, long patientID)
+        public async Task<List<PatientDocDTO>> GetAllPatientsCards(long organizationID,long patientID,int doctorID = 0)
         {
             var queryBuilder = new StringBuilder($@"
         SELECT a.id as patientCardID,
@@ -33,7 +33,7 @@ namespace Medicloud.DAL.Repository.Concrete
                p.genderID,
                p.fin
         FROM patient_card a
-        INNER JOIN patients p ON a.patientID = p.id
+        LEFT JOIN patients p ON a.patientID = p.id
         WHERE a.organizationID = @organizationID");
 
             // Dynamically add patient condition if patientID is greater than 0
@@ -41,10 +41,13 @@ namespace Medicloud.DAL.Repository.Concrete
             {
                 queryBuilder.Append(" AND a.patientID = @patientID");
             }
+			if (doctorID > 0)
+			{
+				queryBuilder.Append(" AND a.userID = @UserID");
+			}
+			queryBuilder.Append(" ORDER BY a.cDate DESC");
 
-            queryBuilder.Append(" ORDER BY a.cDate DESC");
-
-            var parameters = new { organizationID, patientID = patientID > 0 ? patientID : (object)null };
+            var parameters = new { organizationID, patientID = patientID > 0 ? patientID : (object)null, UserID = doctorID > 0 ? doctorID : (object)null };
             try
             {
                 var con = _unitOfWork.GetConnection();

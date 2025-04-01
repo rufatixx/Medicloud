@@ -1339,8 +1339,8 @@
                     $.each(response, function (index, doctor) {
                         var listItem = $('<li>')
                             .attr('class', 'list-group-item')
-                            .attr('value', doctor.RefDocID)
-                            .text(doctor.RefDocName + " " + doctor.RefDocSurname)
+                            .attr('value', doctor.id)
+                            .text(doctor.name + " " + doctor.surname)
                             .on('click', function () {
                                 // Unselect previously selected service
                                 $('#refererDocsInCard .active').removeClass('active');

@@ -2,6 +2,7 @@
 using Medicloud.DAL.Entities;
 using Medicloud.DAL.Repository;
 using Medicloud.DAL.Repository.Abstract;
+using Medicloud.DAL.Repository.PatientCard;
 using Medicloud.Data;
 using Medicloud.Models;
 using Medicloud.Models.Repository;
@@ -22,21 +23,22 @@ namespace Medicloud.Controllers
         private PriceGroupCompanyRepository priceGroupCompanyRepository;
         private IServicePriceGroupRepository _servicePriceGroupRepository;
         PatientCardRepo patientCardRepo;
-        PatientCardServiceRelRepo patientCardServiceRelRepo;
         IUserService _userService;
-        public ReceptionController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IUserService userService, IServicePriceGroupRepository  servicePriceGroupRepository)
-        {
-            Configuration = configuration;
-            ConnectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
-            _hostingEnvironment = hostingEnvironment;
-            priceGroupCompanyRepository = new PriceGroupCompanyRepository(ConnectionString);
-            _servicePriceGroupRepository = servicePriceGroupRepository;
-            patientCardRepo = new PatientCardRepo(ConnectionString);
-            patientCardServiceRelRepo = new PatientCardServiceRelRepo(ConnectionString);
-            _userService = userService;
-        }
-        // GET: /<controller>/
-        public IActionResult Index()
+		private readonly IPatientCardServiceRelRepository _patientCardServiceRelRepository;
+		public ReceptionController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IUserService userService, IServicePriceGroupRepository servicePriceGroupRepository, IPatientCardServiceRelRepository patientCardServiceRelRepository)
+		{
+			Configuration = configuration;
+			ConnectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
+			_hostingEnvironment = hostingEnvironment;
+			priceGroupCompanyRepository = new PriceGroupCompanyRepository(ConnectionString);
+			_servicePriceGroupRepository = servicePriceGroupRepository;
+			patientCardRepo = new PatientCardRepo(ConnectionString);
+
+			_userService = userService;
+			_patientCardServiceRelRepository = patientCardServiceRelRepository;
+		}
+		// GET: /<controller>/
+		public IActionResult Index()
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -173,7 +175,7 @@ namespace Medicloud.Controllers
 
         [HttpPost]
 
-        public IActionResult AddPatient([FromBody] PatientDTO newPatient)
+        public async Task<IActionResult> AddPatient([FromBody] PatientDTO newPatient)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -192,7 +194,7 @@ namespace Medicloud.Controllers
                         //return BadRequest("Xəstə artıq mövcuddur");
                        
                         cardID = patientCardRepo.InsertPatientCardEnterprise(newPatient, Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID")), Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID")), newPatientID);
-                        var serviceInserted = patientCardServiceRelRepo.InsertServiceToPatientCard(cardID, newPatient.serviceID, 0, newPatient.referDocID, newPatient.docID);
+                        var serviceInserted =await _patientCardServiceRelRepository.InsertServiceToPatientCard(cardID, newPatient.serviceID, 0, newPatient.referDocID, newPatient.docID);
                         if (cardID == 0 || serviceInserted == false)
                         {
                             return BadRequest("Xəstə kartını daxil etmək mümkün olmadı.");
@@ -202,7 +204,7 @@ namespace Medicloud.Controllers
                     {
                        
                         cardID = patientCardRepo.InsertPatientCardEnterprise(newPatient, Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID")), Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID")), newPatient.id);
-                        var serviceInserted = patientCardServiceRelRepo.InsertServiceToPatientCard(cardID, newPatient.serviceID, 0, newPatient.referDocID, newPatient.docID);
+                        var serviceInserted =await _patientCardServiceRelRepository.InsertServiceToPatientCard(cardID, newPatient.serviceID, 0, newPatient.referDocID, newPatient.docID);
                         if (cardID == 0 || serviceInserted == false)
                         {
                             return BadRequest("Xəstə kartını daxil etmək mümkün olmadı.");
@@ -245,13 +247,13 @@ namespace Medicloud.Controllers
         }
 
         [HttpGet]
-        public IActionResult InsertServiceToPatientCard(int patientCardID, int serviceID, int depID, int senderDocID, int docID)
+        public async Task<IActionResult> InsertServiceToPatientCard(int patientCardID, int serviceID, int depID, int senderDocID, int docID)
         {
             if (User.Identity.IsAuthenticated)
             {
-                PatientCardServiceRelRepo insert = new PatientCardServiceRelRepo(ConnectionString);
+				var result = await _patientCardServiceRelRepository.InsertServiceToPatientCard(patientCardID, serviceID, depID, senderDocID, docID);
 
-                return Ok(insert.InsertServiceToPatientCard(patientCardID, serviceID, depID, senderDocID, docID));
+				return Ok(result);
             }
             else
             {
@@ -260,15 +262,15 @@ namespace Medicloud.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetServices(int patientCardID)
+        public async Task<IActionResult> GetServices(int patientCardID)
         {
             if (User.Identity.IsAuthenticated)
             {
-                PatientCardServiceRelRepo select = new PatientCardServiceRelRepo(ConnectionString);
-                List<dynamic> services = select.GetServicesFromPatientCard(patientCardID, Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")));
-
-                // Call the GetServicesFromPatientCard function to retrieve the list of dynamic objects
-                if (services != null)
+                //PatientCardServiceRelRepo select = new PatientCardServiceRelRepo(ConnectionString);
+                //List<dynamic> services = select.GetServicesFromPatientCard(patientCardID, Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")));
+				var services= await _patientCardServiceRelRepository.GetServicesFromPatientCard(patientCardID, Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")));
+				// Call the GetServicesFromPatientCard function to retrieve the list of dynamic objects
+				if (services != null)
                 {
                     // Return the list of dynamic objects as JSON
                     return Ok(services);
@@ -287,12 +289,14 @@ namespace Medicloud.Controllers
 
         }
         [HttpGet]
-        public IActionResult GetDoctorsInCard(int patientCardID)
+        public async Task<IActionResult> GetDoctorsInCard(int patientCardID)
         {
             if (User.Identity.IsAuthenticated)
             {
-                PatientCardServiceRelRepo select = new PatientCardServiceRelRepo(ConnectionString);
-                List<dynamic> services = select.GetDoctorsFromPatientCard(patientCardID);
+                //PatientCardServiceRelRepo select = new PatientCardServiceRelRepo(ConnectionString);
+                //List<dynamic> services = select.GetDoctorsFromPatientCard(patientCardID);
+
+				var services=await _patientCardServiceRelRepository.GetDoctorsFromPatientCard(patientCardID);
 
                 // Call the GetServicesFromPatientCard function to retrieve the list of dynamic objects
                 if (services != null)
