@@ -7,6 +7,8 @@ using Medicloud.Areas.Admin.Model;
 using Medicloud.BLL.Service;
 using Medicloud.BLL.Service.Organization;
 using Medicloud.BLL.Services;
+using Medicloud.BLL.Services.WorkHour;
+using Medicloud.DAL.Entities;
 using Medicloud.DAL.Repository;
 using Medicloud.DAL.Repository.Kassa;
 using Medicloud.DAL.Repository.Role;
@@ -35,7 +37,8 @@ namespace Medicloud.Areas.Admin.Controllers
 		SpecialityRepo specialityRepo;
         IOrganizationService _organizationService;
         IKassaRepo _kassaRepo;
-		public PersonalController(IConfiguration configuration,IKassaRepo kassaRepo, IWebHostEnvironment hostingEnvironment, IRoleRepository roleRepository, IOrganizationService organizationService,IUserService userService)
+		private readonly IWorkHourService _workHourService;
+		public PersonalController(IConfiguration configuration, IKassaRepo kassaRepo, IWebHostEnvironment hostingEnvironment, IRoleRepository roleRepository, IOrganizationService organizationService, IUserService userService, IWorkHourService workHourService)
 		{
 			Configuration = configuration;
 			_connectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
@@ -48,6 +51,7 @@ namespace Medicloud.Areas.Admin.Controllers
 			_organizationService = organizationService;
 			_roleRepository = roleRepository;
 			_kassaRepo = kassaRepo;
+			_workHourService = workHourService;
 			//communications = new Communications(Configuration, _hostingEnvironment);
 		}
 		[Authorize]
@@ -76,15 +80,40 @@ namespace Medicloud.Areas.Admin.Controllers
 			{
                 response.organizationList = _organizationService.GetOrganizationListWhereUserIsManager(Convert.ToInt32(userId));
             }
+
+			//var orgs = _organizationService.GetAllOrganizations();
+
+
+
+
+			//foreach (var org in orgs)
+			//{
+			//	Console.WriteLine($"orgID : {org.id}");
+			//	var users = _userService.GetUserList(org.id);
+			//	if(users!=null && users.Any())
+			//	{
+			//		foreach (var user in users)
+			//		{
+			//			Console.WriteLine($"userId : {user.ID}");
+			//			await _workHourService.AddOrganizationUserWorkHourAsync(org.id,user.ID);
+
+			//		}
+			//		Console.WriteLine($"END ORG");
+
+			//	}
+
+			//}
+
+
 			return View(response);
 
 
 
-
-
-
-
 		}
+
+
+
+
 		[HttpGet]
 		public IActionResult OrganizationsByUser(int personalID)
 		{

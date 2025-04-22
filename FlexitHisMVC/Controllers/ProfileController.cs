@@ -1,6 +1,8 @@
-﻿using Medicloud.BLL.Service;
+﻿using Medicloud.BLL.Models;
+using Medicloud.BLL.Service;
 using Medicloud.BLL.Service.Organization;
 using Medicloud.BLL.Services;
+using Medicloud.BLL.Services.WorkHour;
 using Medicloud.DAL.Entities;
 using Medicloud.DAL.Repository;
 using Medicloud.DAL.Repository.Kassa;
@@ -11,6 +13,7 @@ using Medicloud.Models.DTO;
 using Medicloud.Models.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -28,22 +31,23 @@ namespace Medicloud.Controllers
 		IPlanRepository _planRepository;
         IOrganizationService _organizationService;
         private ServicesRepo servicesRepo;
-        public ProfileController(IConfiguration configuration,IPlanRepository planRepository, IOrganizationService organizationService, IWebHostEnvironment hostingEnvironment,IUserService userService,IKassaRepo kassaRepo)
-        {
-            _configuration = configuration;
-            _connectionString = _configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
-            _hostingEnvironment = hostingEnvironment;
-            _kassaRepo = kassaRepo;
+		private readonly IWorkHourService _workHourService;
+		public ProfileController(IConfiguration configuration, IPlanRepository planRepository, IOrganizationService organizationService, IWebHostEnvironment hostingEnvironment, IUserService userService, IKassaRepo kassaRepo, IWorkHourService workHourService)
+		{
+			_configuration = configuration;
+			_connectionString = _configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
+			_hostingEnvironment = hostingEnvironment;
+			_kassaRepo = kassaRepo;
 
-            _organizationService = organizationService;
-            _userService = userService;
-            servicesRepo = new ServicesRepo(_connectionString);
-            _planRepository = planRepository;
+			_organizationService = organizationService;
+			_userService = userService;
+			servicesRepo = new ServicesRepo(_connectionString);
+			_planRepository = planRepository;
+			_workHourService = workHourService;
+		}
 
-        }
-  
-        // GET: /<controller>/
-        public IActionResult Index()
+		// GET: /<controller>/
+		public IActionResult Index()
         {
             var userID = User.FindFirst("ID")?.Value;
 
@@ -266,6 +270,69 @@ namespace Medicloud.Controllers
             }
         }
 
-    }
+		[Authorize]
+		public async Task<IActionResult> WorkHours(int userId = 0, int organizationId = 0)
+		{
+
+
+			if (userId == 0)
+			{
+				userId = int.Parse(User.FindFirst("ID")?.Value);
+			}
+			if (organizationId == 0)
+			{
+				organizationId = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
+			}
+
+			var workHours=await _workHourService.GetOrganizationUserWorkHours(userId, organizationId);
+			//if(workHours != null)
+			//{
+			//	foreach (var item in workHours)
+			//	{
+			//		if (item.Breaks == null) item.Breaks = new();
+			//		Console.WriteLine(item?.startTime);
+			//	}
+			//}
+			var vm = new WorkHourViewModel
+			{
+				WorkHours = workHours,
+			};
+
+			return View(vm);
+
+		}
+
+
+		[HttpPost]
+		public async Task<IActionResult> UpdateWorkHoursWithForm(WorkHourViewModel vm)
+		{
+			if (vm == null)
+			{
+				return RedirectToAction("Index");
+			}
+			Console.WriteLine(vm.OpenedDays);
+			Console.WriteLine(vm.ClosedDays);
+			var openedDaysList = JsonConvert.DeserializeObject<List<int>>(vm.OpenedDays);
+			var closedDaysList = JsonConvert.DeserializeObject<List<int>>(vm.ClosedDays);
+			var dto = new UpdateWorkHourDTO
+			{
+				ClosedDays = closedDaysList,
+				OpenedDays = openedDaysList
+			};
+			var updated = await _workHourService.UpdateWorkHours(dto);
+
+			return RedirectToAction("Step9", new { organizationId = vm.id });
+
+		}
+
+
+		[HttpPost]
+		public async Task<IActionResult> UpdateWorkHours([FromBody] UpdateWorkHourDTO dto)
+		{
+			//int newId = await _staffService.UpdateStaffWorkHours(dto);
+			await _workHourService.UpdateWorkHours(dto);
+			return Ok();
+		}
+	}
 }
 
