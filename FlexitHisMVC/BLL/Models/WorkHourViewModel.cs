@@ -10,5 +10,7 @@ namespace Medicloud.BLL.Models
 		public int id { get; set; }
 		public string ClosedDays { get; set; }
 		public string OpenedDays { get; set; }
+		public bool IsOwnerUser { get; set; }
+		public string UserFullName { get; set; }
 	}
 }

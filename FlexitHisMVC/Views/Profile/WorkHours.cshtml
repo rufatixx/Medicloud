@@ -28,96 +28,106 @@
 
 <div class="container mt-5 d-flex justify-content-center">
     <div class="row col-md-6 text-center justify-content-center ">
-        <div class="">
-            <div class="card-header   align-items-center">
 
-                <div class="text-center flex-grow-1 mb-3">
-                    <h1>İş saatlarınız</h1>
+        @if (Model.WorkHours != null && Model.WorkHours.Count > 0)
+        {
+
+            <div class="">
+                <div class="card-header   align-items-center">
+
+                    <div class="text-center flex-grow-1 mb-3">
+                        <h1>@(Model.IsOwnerUser? "İş saatlarınız":$"{Model.UserFullName} - İş saatları")</h1>
+                    </div>
                 </div>
-            </div>
-            <form id="workHourForm" method="post" asp-action="UpdateWorkHoursWithForm" asp-controller="Profile">
+                <form id="workHourForm" method="post" asp-action="UpdateWorkHoursWithForm" asp-controller="Profile">
 
-                <div class="card-body ">
-                    <input type="hidden" id="closedDays" name="ClosedDays" />
-                    <input type="hidden" id="openedDays" name="OpenedDays" />
-                    <input type="hidden" asp-for="OrganizationId" />
-                    <input type="hidden" asp-for="UserId" />
+                    <div class="card-body ">
+                        <input type="hidden" id="closedDays" name="ClosedDays" />
+                        <input type="hidden" id="openedDays" name="OpenedDays" />
+                        <input type="hidden" asp-for="OrganizationId" />
+                        <input type="hidden" asp-for="UserId" />
 
 
-                    @foreach (var item in Model.WorkHours)
-                    {
-
-                        var dayName = cultureInfo.DateTimeFormat.GetDayName((System.DayOfWeek)(item.dayOfWeek % 7));
-                        var capitalizedDayName = cultureInfo.TextInfo.ToTitleCase(dayName);
-                        string isChecked = "";
-                        string displayTime = "";
-                        string startTime = item.startTime?.ToString(@"hh\:mm")!;
-                        string endTime = item.endTime?.ToString(@"hh\:mm")!;
-                        var breakData = Json.Serialize(item.Breaks?.Select(a => new { start = a.start?.ToString(@"hh\:mm"), end = a.end?.ToString(@"hh\:mm") }));
-                        if (item.startTime == null && item.endTime == null)
+                        @foreach (var item in Model.WorkHours)
                         {
-                            isChecked = "";
-                            displayTime = "Bağlı";
-                        }
-                        else
-                        {
-                            isChecked = "checked";
-                            displayTime = $"{startTime} - {endTime}";
-                        }
-                        <div class="row form-switch align-items-center mb-3">
-                            <div class="col-6 row align-items-center">
-                                <div class="col-4">
-                                    <input class="form-check-input toggle-checkbox" data-day-number="@item.dayOfWeek" @isChecked type="checkbox" id="@item.id">
+
+                            var dayName = cultureInfo.DateTimeFormat.GetDayName((System.DayOfWeek)(item.dayOfWeek % 7));
+                            var capitalizedDayName = cultureInfo.TextInfo.ToTitleCase(dayName);
+                            string isChecked = "";
+                            string displayTime = "";
+                            string startTime = item.startTime?.ToString(@"hh\:mm")!;
+                            string endTime = item.endTime?.ToString(@"hh\:mm")!;
+                            var breakData = Json.Serialize(item.Breaks?.Select(a => new { start = a.start?.ToString(@"hh\:mm"), end = a.end?.ToString(@"hh\:mm") }));
+                            if (item.startTime == null && item.endTime == null)
+                            {
+                                isChecked = "";
+                                displayTime = "Bağlı";
+                            }
+                            else
+                            {
+                                isChecked = "checked";
+                                displayTime = $"{startTime} - {endTime}";
+                            }
+                            <div class="row form-switch align-items-center mb-3">
+                                <div class="col-6 row align-items-center">
+                                    <div class="col-4">
+                                        <input class="form-check-input toggle-checkbox" data-day-number="@item.dayOfWeek" @isChecked type="checkbox" id="@item.id">
+
+                                    </div>
+
+                                    <div class="col-8 text-start">
+                                        <label class="form-check-label text-start" style="cursor:pointer;" for="@item.id">@capitalizedDayName</label>
+
+                                    </div>
 
                                 </div>
-
-                                <div class="col-8 text-start">
-                                    <label class="form-check-label text-start" style="cursor:pointer;" for="@item.id">@capitalizedDayName</label>
-
-                                </div>
-
-                            </div>
-                            <div class="col-6 row align-items-center item-row" data-day="@capitalizedDayName" data-breaks='@breakData' data-id="@item.id" data-day-number="@item.dayOfWeek" data-item-id="@item.id" data-start="@startTime" data-end="@endTime">
-                                <div class="col-10">
-                                    <span class="text-muted" id="time-@item.id">@displayTime</span>
-                                    @if (item.Breaks != null)
-                                    {
-                                        @foreach (var br in item.Breaks)
+                                <div class="col-6 row align-items-center item-row" data-day="@capitalizedDayName" data-breaks='@breakData' data-id="@item.id" data-day-number="@item.dayOfWeek" data-item-id="@item.id" data-start="@startTime" data-end="@endTime">
+                                    <div class="col-10">
+                                        <span class="text-muted" id="time-@item.id">@displayTime</span>
+                                        @if (item.Breaks != null)
                                         {
-                                            <div class="break" data-start="@br.start" data-end="@br.end">
-                                                <span style="font-size:12px;font-weight:500;">Fasilə @br.start?.ToString(@"hh\:mm") - @br.end?.ToString(@"hh\:mm")</span>
-                                            </div>
+                                            @foreach (var br in item.Breaks)
+                                            {
+                                                <div class="break" data-start="@br.start" data-end="@br.end">
+                                                    <span style="font-size:12px;font-weight:500;">Fasilə @br.start?.ToString(@"hh\:mm") - @br.end?.ToString(@"hh\:mm")</span>
+                                                </div>
+                                            }
                                         }
-                                    }
+
+                                    </div>
+                                    <div class="col-2">
+                                        <btn class="btn btn-sm">
+                                            <svg width="20px" height="20px" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#908e8e">
+                                                <path d="M9 5L16 12L9 19" stroke="#737373" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </btn>
+                                    </div>
 
                                 </div>
-                                <div class="col-2">
-                                    <btn class="btn btn-sm">
-                                        <svg width="20px" height="20px" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#908e8e">
-                                            <path d="M9 5L16 12L9 19" stroke="#737373" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-                                    </btn>
-                                </div>
-
                             </div>
-                        </div>
-                    }
+                        }
 
-                </div>
+                    </div>
 
 
-                <div class="mb-3 d-flex justify-content-around align-items-center">
-                    @*<a class="btn btn-sm" asp-action="Step7" asp-route-organizationId="@Model.id" asp-area="Business">
-                        <svg width="32px" height="32px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="#737373">
-                            <path fill="#737373" d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"></path>
-                            <path fill="#737373" d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"></path>
-                        </svg>
-                    </a>*@
-                    <button   class="btn btn-primary"  id="nextButton"> Yadda saxla</button>
-                </div>
-            </form>
-        </div>
+                    <div class="mb-3 d-flex justify-content-around align-items-center">
+                        @*<a class="btn btn-sm" asp-action="Step7" asp-route-organizationId="@Model.id" asp-area="Business">
+                                <svg width="32px" height="32px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="#737373">
+                                    <path fill="#737373" d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"></path>
+                                    <path fill="#737373" d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"></path>
+                                </svg>
+                            </a>*@
+                        <button class="btn btn-primary" id="nextButton"> Yadda saxla</button>
+                    </div>
+                </form>
+            </div>
+        }
+        else
+        {
+            <h4 class="text-center mt-5"> Məlumat tapılmadı.</h4>
+        }
     </div>
+
 </div>
 
 <div class="modal fade" id="editTimeModal" tabindex="-1" aria-labelledby="editTimeModalLabel" aria-hidden="true">
@@ -291,10 +301,10 @@
                     $timeLabel.text(`${start || '09:00'} - ${end || '18:00'}`);
                     breaks.forEach(function (breakData) {
                         $itemRow.find(".col-10").append(`
-                        <div class="break">
-                            <span style="font-size:12px;font-weight:500;">Fasilə ${breakData.start} - ${breakData.end}</span>
-                        </div>
-                    `);
+                                    <div class="break">
+                                        <span style="font-size:12px;font-weight:500;">Fasilə ${breakData.start} - ${breakData.end}</span>
+                                    </div>
+                                `);
                     });
                 } else {
                     $timeLabel.text("Bağlı");
@@ -454,18 +464,18 @@
                 breaks.forEach((brk, index) => {
                     const breakHtml =
                         `<div class="row mb-2 align-items-center" data-index="${index}">
-                    <div class="col-5">
-                        <select class="form-select break-start" data-index="${index}">
-                        </select>
-                    </div>
-                    <div class="col-5">
-                        <select class="form-select break-end" data-index="${index}">
-                        </select>
-                    </div>
-                    <div class="col-2">
-                        <button class="btn btn-danger btn-sm remove-break" data-index="${index}">X</button>
-                    </div>
-                </div>`;
+                                <div class="col-5">
+                                    <select class="form-select break-start" data-index="${index}">
+                                    </select>
+                                </div>
+                                <div class="col-5">
+                                    <select class="form-select break-end" data-index="${index}">
+                                    </select>
+                                </div>
+                                <div class="col-2">
+                                    <button class="btn btn-danger btn-sm remove-break" data-index="${index}">X</button>
+                                </div>
+                            </div>`;
                     $breaksContainer.append(breakHtml);
                 });
 

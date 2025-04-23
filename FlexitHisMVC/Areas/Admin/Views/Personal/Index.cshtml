@@ -4,7 +4,7 @@
     ViewData["Title"] = "- Personal";
 
     var userId = User.FindFirst("ID")?.Value;
-    var currentUser = Model.personalList.FirstOrDefault(p => p.ID.ToString() == userId);
+    var firstUser = Model.personalList.FirstOrDefault();
 }
 
 
@@ -88,17 +88,17 @@
                                     <div class="col-md-4">
                                         <label class="form-label">Registr kodu</label>
                                         <input type="text" class="form-control" id="reqCode"
-                                               value="@currentUser.ID" disabled />
+                                               value="@firstUser.ID" disabled />
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label">Ad</label>
                                         <input type="text" class="form-control" id="name"
-                                               value="@currentUser.name" placeholder="Ad" />
+                                               value="@firstUser.name" placeholder="Ad" />
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label">Soyad</label>
                                         <input type="text" class="form-control" id="surname"
-                                               value="@currentUser.surname" placeholder="Soyad" />
+                                               value="@firstUser.surname" placeholder="Soyad" />
                                     </div>
                                 </div>
                             </div>
@@ -109,18 +109,18 @@
                                     <div class="col-md-4">
                                         <label class="form-label">Ata adı</label>
                                         <input type="text" class="form-control" id="father"
-                                               value="@currentUser.father" placeholder="Ata adı" />
+                                               value="@firstUser.father" placeholder="Ata adı" />
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label">ŞV Seriyası</label>
                                         <input type="text" class="form-control" id="passportSerialNum"
-                                               value="@currentUser.passportSerialNum"
+                                               value="@firstUser.passportSerialNum"
                                                placeholder="ŞV Seriyası" />
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label">ŞV FİN</label>
                                         <input type="text" class="form-control" id="passportFin"
-                                               value="@currentUser.fin" placeholder="FİN" />
+                                               value="@firstUser.fin" placeholder="FİN" />
                                     </div>
                                 </div>
                             </div>
@@ -131,14 +131,14 @@
                                     <div class="col-md-4">
                                         <label class="form-label">Doğum tarixi</label>
                                         <input type="date" class="form-control" id="bDate"
-                                               value="@currentUser.passportSerialNum" />
+                                               value="@firstUser.passportSerialNum" />
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label">İxtisas</label>
                                         <select class="form-select" id="speciality">
                                             @foreach (var item in Model.specialityList)
                                             {
-                                                if (currentUser.speciality.id == item.id)
+                                                if (firstUser.speciality.id == item.id)
                                                 {
                                                     <option value="@item.id" selected data-foo="@item.id">@item.name</option>
                                                 }
@@ -152,7 +152,7 @@
                                     <div class="col-md-4">
                                         <label class="form-label">Mobil nömrə</label>
                                         <input type="text" class="form-control" id="mobile"
-                                               value="@currentUser.mobile" placeholder="(050) ___ __ __" />
+                                               value="@firstUser.mobile" placeholder="(050) ___ __ __" />
                                     </div>
                                 </div>
                             </div>
@@ -163,12 +163,12 @@
                                     <div class="col-md-6">
                                         <label class="form-label">E-poçt ünvanı</label>
                                         <input type="text" class="form-control" id="email"
-                                               value="@currentUser.email" placeholder="e-poçt" />
+                                               value="@firstUser.email" placeholder="e-poçt" />
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">İstifadəçi adı</label>
                                         <input type="text" class="form-control" id="username"
-                                               value="@currentUser.username" placeholder="username" />
+                                               value="@firstUser.username" placeholder="username" />
                                     </div>
                                 </div>
                             </div>
@@ -179,7 +179,7 @@
                                     <div class="col-md-3">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="isActiveCheckBox"
-                                                   @(currentUser.roles?.Count() > 0 ? "checked" : "") />
+                                                   @(firstUser.roles?.Count() > 0 ? "checked" : "") />
                                             <label class="form-check-label">Aktiv</label>
                                         </div>
                                     </div>
@@ -187,7 +187,7 @@
                                     <div class="col-md-3">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="isDrCheckBox"
-                                                   @(currentUser.roles.Select(r => r.id).Contains(4) ? "checked" : "") />
+                                                   @(firstUser.roles.Select(r => r.id).Contains(4) ? "checked" : "") />
                                             <label class="form-check-label">Həkim</label>
                                         </div>
                                     </div>
@@ -195,12 +195,12 @@
                                     <div class="col-md-3">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="isUserCheckBox"
-                                                   @(currentUser.roles.Select(r => r.id).Contains(6) ? "checked" : "") />
+                                                   @(firstUser.roles.Select(r => r.id).Contains(6) ? "checked" : "") />
                                             <label class="form-check-label">İstifadəçi</label>
                                         </div>
                                     </div>
 
-                                    @if (currentUser.roles.Select(r => r.id).Contains(2))
+                                    @if (firstUser.roles.Select(r => r.id).Contains(2))
                                     {
                                         <div class="col-md-3">
                                             <div class="form-check">
@@ -214,7 +214,7 @@
                                     <div class="col-md-3">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="isManagerCheckBox"
-                                                   @(currentUser.roles.Select(r => r.id).Contains(3) ? "checked" : "") />
+                                                   @(firstUser.roles.Select(r => r.id).Contains(3) ? "checked" : "") />
                                             <label class="form-check-label">İnzibatçı</label>
                                         </div>
                                     </div>
@@ -222,14 +222,14 @@
                                     <div class="col-md-3">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="isCashierCheckBox"
-                                                   @(currentUser.roles.Select(r => r.id).Contains(5) ? "checked" : "") />
+                                                   @(firstUser.roles.Select(r => r.id).Contains(5) ? "checked" : "") />
                                             <label class="form-check-label">Kassir</label>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="isReceptionistCheckBox"
-                                                   @(currentUser.roles.Select(r => r.id).Contains(7) ? "checked" : "") />
+                                                   @(firstUser.roles.Select(r => r.id).Contains(7) ? "checked" : "") />
                                             <label class="form-check-label">Qeydiyyatcı</label>
                                         </div>
                                     </div>
@@ -241,9 +241,9 @@
                         <div class="col-md-3">
                             @{
                                 var imageSrc = "/res/user.svg";
-                                if (!string.IsNullOrEmpty(currentUser.imagePath as string))
+                                if (!string.IsNullOrEmpty(firstUser.imagePath as string))
                                 {
-                                    var filePath = currentUser.imagePath.Replace("\\", "/");
+                                    var filePath = firstUser.imagePath.Replace("\\", "/");
                                     imageSrc = filePath;
                                 }
                             }
@@ -257,13 +257,13 @@
                                     Yeni şifrə
                                 </button>
                             </div>
-                            <div>
-                                <button type="button" class="btn btn-outline-primary w-100">
+                            <div class="mb-2">
+                                <button type="button" id="workHoursBtn" class="btn btn-outline-info w-100">
                                     İş saatları
                                 </button>
                             </div>
                             <div>
-                                <button type="button" class="btn btn-outline-info w-100">
+                                <button type="button" class="btn btn-outline-success w-100">
                                     Rəsmi imza (Tezlikə)
                                 </button>
                             </div>
@@ -304,7 +304,7 @@
                                     </div>
                                 </div>
                             </div>
-                            @if (currentUser.roles.Select(r => r.id).Contains(3))
+                            @if (firstUser.roles.Select(r => r.id).Contains(3))
                             {
                                 <div class="col-8">
                                     <button type="button" class="btn btn-light"
@@ -511,10 +511,14 @@
                 <div class="mb-3">
                     <label class="form-label">Müəssisələr</label>
                     <select class="form-select" required id="allOrganizations">
-                        @foreach (var item in Model.organizationList)
+                        @if (Model.organizationList != null)
                         {
-                            <option value="@item.id">@item.organizationName</option>
+                            @foreach (var item in Model.organizationList)
+                            {
+                                <option value="@item.id">@item.organizationName</option>
+                            }
                         }
+
                     </select>
                 </div>
                 <div class="text-center">
@@ -563,7 +567,7 @@
                         <!-- Father, BDate -->
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Ata adı</label>
-                            <input type="text" class="form-control" required id="newUserFather"
+                            <input type="text" class="form-control" id="newUserFather"
                                    placeholder="Ata adı" />
                             <div class="valid-feedback">Əla!</div>
                             <div class="invalid-feedback">Boşluğu doldurun.</div>
@@ -578,14 +582,14 @@
                         <!-- PassportSerialNo, Fin -->
                         <div class="col-md-6 mb-3">
                             <label class="form-label">ŞV seriyası</label>
-                            <input type="text" class="form-control" required id="newUserPassportSerialNo"
+                            <input type="text" class="form-control" id="newUserPassportSerialNo"
                                    placeholder="ŞV seriyası" />
                             <div class="valid-feedback">Əla!</div>
                             <div class="invalid-feedback">Boşluğu doldurun.</div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Fin No</label>
-                            <input type="text" class="form-control" required id="newUserFin"
+                            <input type="text" class="form-control" id="newUserFin"
                                    placeholder="FIN" />
                             <div class="valid-feedback">Əla!</div>
                             <div class="invalid-feedback">Boşluğu doldurun.</div>
@@ -601,7 +605,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Elektron poçt ünvanı</label>
-                            <input type="text" class="form-control" required id="newUserEmail"
+                            <input type="text" class="form-control" id="newUserEmail"
                                    placeholder="E-poçt" />
                             <div class="valid-feedback">Əla!</div>
                             <div class="invalid-feedback">Boşluğu doldurun.</div>
@@ -721,7 +725,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="warningModal" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="warningModalPersonal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -729,7 +733,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                         aria-label="Close"></button>
             </div>
-            <div class="modal-body" id="warningText"></div>
+            <div class="modal-body" id="warningTextPersonal"></div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary"
                         data-bs-dismiss="modal">
@@ -793,12 +797,14 @@
                 // Determine if item is "active" or "inactive"
                 // We'll say active if item.roles.length > 0
                 var isActive = (item.roles && item.roles.length > 0) ? 1 : 0;
+                let activeContent = item.id == @firstUser.ID?"active":""
                 // Compare to the filter
                 if (isActive.toString() === filterVal) {
                     // Build the HTML
-                    var specialistName = item.speciality ? item.speciality.name : "";
+                    console.log(item.speciality)
+                    var specialistName = item.speciality.name || "";
                     var rowHtml = `
-                        <div class="list-group-item list-group-item-action personal-list"
+                        <div class="list-group-item list-group-item-action personal-list ${activeContent}"
                              onclick='personalClicked(this, ${JSON.stringify(item)})'>
                             <div class="row">
                                 <div class="col-6">${item.name} ${item.surname}</div>
@@ -851,8 +857,8 @@
                 { userID: userID, mobile: mobile, email: email, username: username, bDate: bDate, passportSerialNum: passportSerialNum, fin: fin, specialityID: userSpecialityID, name: name, surname: surname, father: father, isActive: isActiveCheckBox, roleIds: selectedValues },
                 function (data) {
                     $('#systemModal').modal('hide');
-                    $('#warningModal').modal('show');
-                    $('#warningText').text(data > 0 ? 'Məlumatlar yeniləndi' : 'Məlumatlar yenilənmədi');
+                    $('#warningModalPersonal').modal('show');
+                    $('#warningTextPersonal').text(data > 0 ? 'Məlumatlar yeniləndi' : 'Məlumatlar yenilənmədi');
                 }
             );
         }
@@ -864,8 +870,8 @@
                 { userID: userID, pwd: pwd },
                 function (data) {
                     $('#systemModal').modal('hide');
-                    $('#warningModal').modal('show');
-                    $('#warningText').text(data > 0 ? 'Şifrə sıfırlandı' : 'Məlumatlar yenilənmədi');
+                    $('#warningModalPersonal').modal('show');
+                    $('#warningTextPersonal').text(data > 0 ? 'Şifrə sıfırlandı' : 'Məlumatlar yenilənmədi');
                 }
             );
         }
@@ -939,7 +945,7 @@
         }
 
         function personalClicked(component, obj) {
-
+            workHoursBtn
             selectedPersonalID = obj.id;
             $('.personal-list').removeClass('active');
             $(component).addClass('active');
@@ -1159,12 +1165,12 @@
                     success: function (data, status, xhr) {
                         if (data > 0) {
                             $('#systemModal').modal('hide');
-                            $('#warningModal').modal('show');
-                            $('#warningText').text('Personal əlavə olundu!');
+                            $('#warningModalPersonal').modal('show');
+                            $('#warningTextPersonal').text('Personal əlavə olundu!');
                         } else {
                             $('#systemModal').modal('hide');
-                            $('#warningModal').modal('show');
-                            $('#warningText').text('Personal artıq mövcuddur!');
+                            $('#warningModalPersonal').modal('show');
+                            $('#warningTextPersonal').text('Personal artıq mövcuddur!');
                         }
                     },
                     error: function (jqXhr, textStatus, errorMessage) {
@@ -1174,8 +1180,8 @@
                             $('#systemModalBtn').removeAttr("hidden");
                         } else {
                             $('#systemModal').modal('hide');
-                            $('#warningModal').modal('show');
-                            $('#warningText').text('Xəta, biraz sonra yenidən cəhd edin');
+                            $('#warningModalPersonal').modal('show');
+                            $('#warningTextPersonal').text('Xəta, biraz sonra yenidən cəhd edin');
                         }
                     }
                 });
@@ -1189,12 +1195,12 @@
                     if (data > 0) {
                         getOrganizationsByUser($('#reqCode').val());
                         $('#systemModal').modal('hide');
-                        $('#warningModal').modal('show');
-                        $('#warningText').text('Müəssisə əlavə olundu!');
+                        $('#warningModalPersonal').modal('show');
+                        $('#warningTextPersonal').text('Müəssisə əlavə olundu!');
                     } else {
                         $('#systemModal').modal('hide');
-                        $('#warningModal').modal('show');
-                        $('#warningText').text('Müəssisə artıq əlavə olunub!');
+                        $('#warningModalPersonal').modal('show');
+                        $('#warningTextPersonal').text('Müəssisə artıq əlavə olunub!');
                     }
                 }
             );
@@ -1207,12 +1213,12 @@
                     if (data > 0) {
                         getOrganizationsByUser($('#reqCode').val());
                         $('#systemModal').modal('hide');
-                        $('#warningModal').modal('show');
-                        $('#warningText').text('Müəssisə silindi!');
+                        $('#warningModalPersonal').modal('show');
+                        $('#warningTextPersonal').text('Müəssisə silindi!');
                     } else {
                         $('#systemModal').modal('hide');
-                        $('#warningModal').modal('show');
-                        $('#warningText').text('Müəssisə silinmədi!');
+                        $('#warningModalPersonal').modal('show');
+                        $('#warningTextPersonal').text('Müəssisə silinmədi!');
                     }
                 }
             );
@@ -1226,12 +1232,12 @@
                     if (data > 0) {
                         getOrganizationsByUser($('#reqCode').val());
                         $('#systemModal').modal('hide');
-                        $('#warningModal').modal('show');
-                        $('#warningText').text('Şöbə əlavə olundu!');
+                        $('#warningModalPersonal').modal('show');
+                        $('#warningTextPersonal').text('Şöbə əlavə olundu!');
                     } else {
                         $('#systemModal').modal('hide');
-                        $('#warningModal').modal('show');
-                        $('#warningText').text('Şöbə artıq əlavə olunub!');
+                        $('#warningModalPersonal').modal('show');
+                        $('#warningTextPersonal').text('Şöbə artıq əlavə olunub!');
                     }
                 }
             );
@@ -1244,12 +1250,12 @@
                     if (data > 0) {
                         getUserDepsByOrganization();
                         $('#systemModal').modal('hide');
-                        $('#warningModal').modal('show');
-                        $('#warningText').text('Şöbə silindi!');
+                        $('#warningModalPersonal').modal('show');
+                        $('#warningTextPersonal').text('Şöbə silindi!');
                     } else {
                         $('#systemModal').modal('hide');
-                        $('#warningModal').modal('show');
-                        $('#warningText').text('Şöbə silinmədi!');
+                        $('#warningModalPersonal').modal('show');
+                        $('#warningTextPersonal').text('Şöbə silinmədi!');
                     }
                 }
             );
@@ -1263,12 +1269,12 @@
                     if (data > 0) {
                         getUserKassaByOrganization();
                         $('#systemModal').modal('hide');
-                        $('#warningModal').modal('show');
-                        $('#warningText').text('Kassa əlavə olundu!');
+                        $('#warningModalPersonal').modal('show');
+                        $('#warningTextPersonal').text('Kassa əlavə olundu!');
                     } else {
                         $('#systemModal').modal('hide');
-                        $('#warningModal').modal('show');
-                        $('#warningText').text('Kassa artıq əlavə olunub!');
+                        $('#warningModalPersonal').modal('show');
+                        $('#warningTextPersonal').text('Kassa artıq əlavə olunub!');
                     }
                 }
             );
@@ -1281,15 +1287,21 @@
                     if (data > 0) {
                         getUserKassaByOrganization();
                         $('#systemModal').modal('hide');
-                        $('#warningModal').modal('show');
-                        $('#warningText').text('Kassa silindi!');
+                        $('#warningModalPersonal').modal('show');
+                        $('#warningTextPersonal').text('Kassa silindi!');
                     } else {
                         $('#systemModal').modal('hide');
-                        $('#warningModal').modal('show');
-                        $('#warningText').text('Kassa silinmədi!');
+                        $('#warningModalPersonal').modal('show');
+                        $('#warningTextPersonal').text('Kassa silinmədi!');
                     }
                 }
             );
         }
+
+
+        $('#workHoursBtn').on('click', function () {
+            window.location.href = '@Url.Action("WorkHours", "Profile", new {area=""})' + '?userId=' + selectedPersonalID;
+        })
+
     </script>
 }

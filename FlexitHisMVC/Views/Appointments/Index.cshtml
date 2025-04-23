@@ -119,7 +119,8 @@
 
 @*@Html.Partial("_AppointmentModal")*@
 
-<script>document.addEventListener('DOMContentLoaded', () => {
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
 
 
         const searchInput = document.getElementById('searchInput');
@@ -326,6 +327,29 @@
             document.getElementById('searchInputService').value = '';
             document.getElementById('Time').value = '';
         }
+
+        $('#MeetingDate').on('change', function () {
+            var date = $(this).val();
+            var selectedUserId = $('#UserId').val();
+            if (selectedUserId) {
+                $.ajax({
+                    url: '/WorkHour/GetUserWorkHours',
+                    type: 'GET',
+                    data: {
+                        userId: selectedUserId,
+                        selectedDay: date
+                    },
+                    success: function (response) {
+
+                        console.log('success:', response);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('error:', error);
+                    }
+                });
+            }
+
+        });
 
         //document.addEventListener('DOMContentLoaded', function () {
         //    flatpickr('#example', {});

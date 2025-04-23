@@ -4,7 +4,7 @@ using Medicloud.BLL.Service.Communication;
 using Medicloud.BLL.Service.Organization;
 using Medicloud.BLL.Services;
 using Medicloud.DAL.Entities;
-
+using Medicloud.DAL.Infrastructure.Abstract;
 using Medicloud.DAL.Repository.Kassa;
 using Medicloud.DAL.Repository.Plan;
 using Medicloud.DAL.Repository.UserPlan;
@@ -27,18 +27,19 @@ namespace Medicloud.BLL.Service
 		ICommunicationService _communicationService;
         IOrganizationService _organizationService;
         IPlanRepository _planRepository;
+		private readonly IUnitOfWork _unitOfWork;
 
-		
-		public UserService(IKassaRepo kassaRepo,ICommunicationService communicationService, IUserPlanRepo userPlanRepo ,IOrganizationService organizationService,IUserRepository userRepository, IPlanRepository planRepository)
+		public UserService(IKassaRepo kassaRepo, ICommunicationService communicationService, IUserPlanRepo userPlanRepo, IOrganizationService organizationService, IUserRepository userRepository, IPlanRepository planRepository, IUnitOfWork unitOfWork)
 		{
 
 
 
 			_communicationService = communicationService;
-            _userRepository = userRepository;
-            _organizationService = organizationService;
+			_userRepository = userRepository;
+			_organizationService = organizationService;
 			_planRepository = planRepository;
 			_userPlanRepo = userPlanRepo;
+			_unitOfWork = unitOfWork;
 			//_nUserRepository = new UserRepository()
 		}
 
@@ -315,14 +316,14 @@ namespace Medicloud.BLL.Service
 					// Optionally send the SMS
 					if (type==1)
 					{
-						_communicationService.sendSMS($"OTP: {randomCode}", content);
+						//_communicationService.sendSMS($"OTP: {randomCode}", content);
 						Console.WriteLine("OTP:" + randomCode);
                         result.Success = true;
                         result.Message = "OTP kod göndərildi";
                     }
 					else if(type==2)
 					{
-						await _communicationService.sendMail($"OTP: {randomCode}", content);
+						//await _communicationService.sendMail($"OTP: {randomCode}", content);
 						Console.WriteLine("OTP:" + randomCode);
                         result.Success = true;
                         result.Message = "OTP kod göndərildi";
@@ -443,7 +444,7 @@ namespace Medicloud.BLL.Service
 		}
 
 
-		public bool AddUser(string phone,string email, string name, string surname, string father, int specialityID, string fin, string bDate, string pwd, string organizationName, int planID,string imagePath)
+		public async Task<bool> AddUser(string phone,string email, string name, string surname, string father, int specialityID, string fin, string bDate, string pwd, string organizationName, int planID,string imagePath)
 		{
 			UserDAO user = null;
 			if (!string.IsNullOrEmpty(phone))
@@ -465,7 +466,7 @@ namespace Medicloud.BLL.Service
 				var kassaID = _kassaRepo.CreateKassa($"{organizationName} (Kassa)", orgID);
 				var kasaUserRelID = _kassaRepo.InsertKassaToUser(user.ID, kassaID, false, true);
 				var plan = _planRepository.GetById(planID);
-				_userPlanRepo.AddUserPlan(user.ID, plan.id, plan.duration, true);
+				_userPlanRepo.AddUserPlan(user.ID, plan.id, plan.duration, true); 
 
 				if (updated > 0 && orgID > 0)
 				{
@@ -627,6 +628,10 @@ namespace Medicloud.BLL.Service
 			int isAdmin = 0, string otp = "", string recoveryOtp = "", DateTime? recoveryOtpSendDate = null, string password = "", int isRegistered = 0, string imagePath = "")
 
         {
+			if (!string.IsNullOrWhiteSpace(password))
+			{
+				password = sha256(password);
+			}
 
 			return _userRepository.UpdateUser(userID, name, surname, father,
 			 specialityID, passportSerialNum, fin,
@@ -646,12 +651,19 @@ namespace Medicloud.BLL.Service
 			return _userRepository.GetUserByID(id);
 		}
 
-        public List<UserDAO> GetUserList(int id = 0)
+
+		public List<UserDAO> GetUserList(int id = 0)
         {
             return _userRepository.GetUserList(id);
         }
 
-    }
+		public async Task<UserDAO> GetOnlyUserById(int id)
+		{
+			using var con = _unitOfWork.BeginConnection();
+			var result=await _userRepository.GetOnlyUserById(id);
+			return result;
+		}
+	}
 
 
 }

@@ -2,6 +2,7 @@
 using Medicloud.BLL.Service;
 using Medicloud.BLL.Service.Organization;
 using Medicloud.BLL.Services;
+using Medicloud.BLL.Services.WorkHour;
 using Medicloud.DAL.Repository;
 using Medicloud.Data;
 using Microsoft.AspNetCore.Authorization;
@@ -20,16 +21,18 @@ namespace Medicloud.Controllers
         IUserService _userService;
         IOrganizationService _organizationService;
         private readonly SpecialityService _specialityService;
-        public RegistrationController(IConfiguration configuration,IUserService userService, IWebHostEnvironment hostingEnvironment, IOrganizationService organizationService, SpecialityService specialityService)
-        {
-            Configuration = configuration;
-            _connectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
-            _userService = userService;
-            _organizationService = organizationService;
-            _specialityService = specialityService;
-        }
-        // GET: /<controller>/
-        public IActionResult Index()
+		private readonly IWorkHourService _workHourService;
+		public RegistrationController(IConfiguration configuration, IUserService userService, IWebHostEnvironment hostingEnvironment, IOrganizationService organizationService, SpecialityService specialityService, IWorkHourService workHourService)
+		{
+			Configuration = configuration;
+			_connectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
+			_userService = userService;
+			_organizationService = organizationService;
+			_specialityService = specialityService;
+			_workHourService = workHourService;
+		}
+		// GET: /<controller>/
+		public IActionResult Index()
         {
             return View();
         }
@@ -200,7 +203,8 @@ namespace Medicloud.Controllers
 				}
 
 
-				var newUserID = _userService.AddUser(phone,email, name, surname, father, specialityID, fin: fin, bDate: bDate, pwd: pwd, organizationName, 4,relativeFilePath);
+				var newUserID = await _userService.AddUser(phone,email, name, surname, father, specialityID, fin: fin, bDate: bDate, pwd: pwd, organizationName, 4,relativeFilePath);
+		
 				if (newUserID)
 				{
 					HttpContext.Session.Remove("recoveryOtpCode");

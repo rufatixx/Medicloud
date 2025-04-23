@@ -217,7 +217,7 @@ namespace Medicloud.DAL.Repository.Users
             AddField("surname", string.IsNullOrEmpty(surname) ? null : surname);
             AddField("father", string.IsNullOrEmpty(father) ? null : father);
             AddField("mobile", string.IsNullOrEmpty(mobile) ? null : mobile);
-            AddField("pwd", string.IsNullOrEmpty(password) ? null : $"SHA2('{password}',256)");
+            AddField("pwd", string.IsNullOrEmpty(password) ? null : password);
             AddField("email", string.IsNullOrEmpty(email) ? null : email);
             AddField("bDate", string.IsNullOrEmpty(bDate) ? null : DateTime.Parse(bDate));
             AddField("username", string.IsNullOrEmpty(username) ? null : username);
@@ -289,5 +289,19 @@ namespace Medicloud.DAL.Repository.Users
             string query = $"SELECT recovery_otp FROM users WHERE {column} = @content";
             return con.QueryFirstOrDefault<string>(query, new { content }) ?? "";
         }
-    }
+
+		public async Task<UserDAO> GetOnlyUserById(int id)
+		{
+			var con = _unitOfWork.GetConnection();
+
+			string query = @"
+                SELECT a.*
+                FROM users a
+                WHERE a.id = @id AND a.isActive = 1";
+
+			var result = await con.QuerySingleOrDefaultAsync<UserDAO>(query, new { id });
+
+			return result ?? new UserDAO();
+		}
+	}
 }

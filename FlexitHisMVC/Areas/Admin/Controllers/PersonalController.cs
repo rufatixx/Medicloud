@@ -173,6 +173,7 @@ namespace Medicloud.Areas.Admin.Controllers
 						}
 
 					}
+					await _workHourService.AddOrganizationUserWorkHourAsync(organizationId, (int)newUserID);
 					return Ok(newUserID);
 				}
 				else

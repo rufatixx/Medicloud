@@ -10,7 +10,8 @@ namespace Medicloud.DAL.Repository.Users
         UserDAO GetUser(string content, string pass, int type);
         Task<UserDAO?> GetUser(string mobileNumber, string pass); 
         UserDAO GetUserByID(int id);
-        UserDAO? GetUserByPhone(string mobileNumber);
+		Task<UserDAO> GetOnlyUserById(int id);
+		UserDAO? GetUserByPhone(string mobileNumber);
         UserDAO? GetUserByEmail(string email);
         long InsertUser(string name = "", string surname = "", string father = "", int specialityID = 0,
             string passportSerialNum = "", string fin = "", string phone = "", string email = "", string bDate = "",
