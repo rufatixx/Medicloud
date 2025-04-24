@@ -203,10 +203,11 @@ namespace Medicloud.Controllers
 				}
 
 
-				var newUserID = await _userService.AddUser(phone,email, name, surname, father, specialityID, fin: fin, bDate: bDate, pwd: pwd, organizationName, 4,relativeFilePath);
+				var newIds = await _userService.AddUser(phone,email, name, surname, father, specialityID, fin: fin, bDate: bDate, pwd: pwd, organizationName, 4,relativeFilePath);
 		
-				if (newUserID)
+				if (newIds.userId>0 && newIds.organizationId>0)
 				{
+                    await _workHourService.AddOrganizationUserWorkHourAsync((int)newIds.organizationId, newIds.userId);
 					HttpContext.Session.Remove("recoveryOtpCode");
 					HttpContext.Session.Remove("recoveryPhone");
 

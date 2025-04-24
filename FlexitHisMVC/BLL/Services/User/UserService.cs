@@ -444,7 +444,7 @@ namespace Medicloud.BLL.Service
 		}
 
 
-		public async Task<bool> AddUser(string phone,string email, string name, string surname, string father, int specialityID, string fin, string bDate, string pwd, string organizationName, int planID,string imagePath)
+		public async Task<(int userId,long organizationId)> AddUser(string phone,string email, string name, string surname, string father, int specialityID, string fin, string bDate, string pwd, string organizationName, int planID,string imagePath)
 		{
 			UserDAO user = null;
 			if (!string.IsNullOrEmpty(phone))
@@ -470,7 +470,7 @@ namespace Medicloud.BLL.Service
 
 				if (updated > 0 && orgID > 0)
 				{
-					return true;
+					return (user.ID,orgID);
 				}
 
 			}
@@ -479,7 +479,7 @@ namespace Medicloud.BLL.Service
 				Console.WriteLine(ex.Message);
 			}
 
-			return false;
+			return (0,0);
 
 		}
 

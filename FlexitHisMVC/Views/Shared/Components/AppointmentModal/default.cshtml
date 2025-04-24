@@ -1,54 +1,5 @@
 ﻿@model List<Medicloud.DAL.Entities.UserDAO>;
 
-<style>
-/*    .dropdown-app {
-        position: relative;
-        display: inline-block;
-        min-width: 100%;
-    }
-
-    .searchInput {
-        box-sizing: border-box;
-        width: 100%;
-        padding: 12px 20px;
-        margin: 8px 0;
-        font-size: 16px;
-        border: 1px solid #ddd;
-        height: 38px;
-        border-radius: 3px;
-    }
-
-        .searchInput:focus {
-            border-color: cornflowerblue;
-            outline: none;
-        }
-
-    .dropdown-content-custom {
-        display: none;
-        position: absolute;
-        background-color: #f9f9f9;
-        width: 100%;
-        max-height: 250px;
-        overflow-y: auto;
-        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-        z-index: 1;
-    }
-
-        .dropdown-content-custom a {
-            color: black;
-            padding: 8px 12px;
-            text-decoration: none;
-            display: block;
-        }
-
-            .dropdown-content-custom a:hover {
-                background-color: #f1f1f1;
-            }
-
-    .show {
-        display: block;
-    }*/
-</style>
 
 <div class="modal fade cus_modal"
      id="add-appointment-modal"
@@ -70,8 +21,7 @@
                 <button type="button"
                         class="btn-close"
                         data-bs-dismiss="modal"
-                        aria-label="Close"
-                         />
+                        aria-label="Close" />
             </div>
 
             <div class="modal-body px-4">
@@ -93,7 +43,6 @@
                     <form class="needs-validation"
                           name="event-form"
                           id="newAppointmentForm"
-                          onsubmit="return validateForm()"
                           asp-controller="Appointments"
                           asp-action="AddAppointment"
                           method="post"
@@ -114,7 +63,7 @@
                                     <option selected value="">Seçilməyib</option>
                                     @foreach (var item in Model)
                                     {
-                                        <option  value="@item.ID">@item.name @item.surname (@item.speciality.name)</option>
+                                        <option value="@item.ID">@item.name @item.surname (@item.speciality.name)</option>
 
 
                                     }
@@ -124,43 +73,21 @@
                             </div>
                         }
 
-                    <div class="mb-3">
-                        <label for="patient_id"
-                               class="form-label">
-                            Ad, soyad, ata adı
-                        </label>
-
-                        <br />
-
-                        @*<div class="dropdown-app">
-            <input type="hidden" name="PatientId" id="PatientId" />
-            <input type="text"
-                   onchange="clearPatientId()"
-                   class="searchInput"
-                   id="searchInput"
-                   placeholder="Pasient seç">
-            <div id="dropdownContent" class="">
-            </div>
-            <p id="validationForPatient" style="color: #fa5c7c; display: none; font-size: 12px">Pasient seçin</p>
-        </div>*@
-
-                    <div class="dropdown">
-                        <input type="text" class="border w-100 rounded-1 px-3 py-1" data-bs-toggle="dropdown" id="userSearch" placeholder="Axtarın..." autocomplete="off">
-                        <ul class="dropdown-menu p-3 w-100 border-1 p-0" id="search-dropdown" aria-labelledby="userSearch">
-                            <li class="d-flex justify-content-center">
-                                <div class="spinner-border" role="status" id="searchLoader" style="display:none;">
-                                    <span class="visually-hidden">Loading...</span>
-                                </div>
-                            </li>
-                            <li>
-                                <ul class="p-0" id="userList" style="max-height:300px; overflow-y:auto">
-                                    <!-- Search results will be injected here -->
+                        <div class="mb-3">
+                            <label for="patient_id"
+                                   class="form-label">
+                                Ad, soyad, ata adı
+                            </label>
+                            <div class="dropdown">
+                                <input type="text" class="border w-100 rounded-1 px-3 py-1" data-bs-toggle="dropdown" id="userSearch" placeholder="Axtarın..." autocomplete="off">
+                                <ul class="dropdown-menu p-3 w-100 border-1 p-0" id="userList" aria-labelledby="userSearch">
                                 </ul>
-                            </li>
-                        </ul>
-                    </div>
+                            </div>
+                            <input name="PatientId" type="number" id="patientId" required class="form-control d-none" />
 
-                    </div>
+                            <div class="invalid-feedback">Pasient seçin</div>
+
+                        </div>
                         <div class="mb-3">
                             <label for="patientMobileModal"
                                    class="form-label">
@@ -190,15 +117,14 @@
                                 Xidmət/Prosedur
                             </label>
 
-                            <br />
-
-                            <div class="dropdown-app">
-                                <input type="hidden" name="ServiceId" id="ServiceId" />
-                                <input onchange="clearServiceId()" class="searchInput" type="text" id="searchInputService" placeholder="Xidmət seç">
-                                <div id="dropdownContentService" class="dropdown-content-custom">
-                                </div>
-                                <p id="validationForService" style="color: #fa5c7c; display: none; font-size: 12px">Xidmət seçin</p>
+                            <div class="dropdown">
+                                <input type="text" class="border w-100 rounded-1 px-3 py-1" data-bs-toggle="dropdown" id="serviceSearch" placeholder="Axtarın..." autocomplete="off">
+                                <ul class="dropdown-menu p-3 w-100 border-1 p-0" id="serviceList" aria-labelledby="serviceSearch">
+                                </ul>
                             </div>
+                            <input name="ServiceId" type="number" id="serviceId" class="form-control d-none" required />
+
+                            <div class="invalid-feedback">Xidmət seçin</div>
 
                         </div>
                         <div class="row">
@@ -241,7 +167,7 @@
 
 
 <script>
-            //document.addEventListener('DOMContentLoaded', function() {
+    @*             //document.addEventListener('DOMContentLoaded', function() {
             //    const phoneInput = document.getElementById('patientPhone');
             //    const checkbox = document.getElementById('not_phone');
 
@@ -333,9 +259,9 @@
                 //}
             //});
 
-            @*document.addEventListener('DOMContentLoaded', function () {
+            document.addEventListener('DOMContentLoaded', function () { *@
 
-                const searchInput = document.getElementById('searchInput');
+    @*   const searchInput = document.getElementById('searchInput');
                 const dropdownContent = document.getElementById('dropdownContent');
 
                 searchInput.addEventListener('change', debounce(function (e) {
@@ -450,8 +376,8 @@
                 document.getElementById('searchInput').value = '';
                 document.getElementById('searchInputService').value = '';
                 //document.getElementById('Time').value = '';
-            }*@
-
+            } *@
+    @* 
             //document.addEventListener('DOMContentLoaded', function () {
             //    flatpickr('#example', {});
             //    flatpickr('.default', {
@@ -459,6 +385,6 @@
             //        dateFormat: "Y-m-d H:i",
             //        minuteIncrement: 10
             //    });
-            //});
+            //}); *@
 
 </script>

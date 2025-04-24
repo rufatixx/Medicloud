@@ -28,22 +28,16 @@ namespace Medicloud.Controllers
 		[HttpGet]
 		public async Task<IActionResult> GetUserWorkHours(int userId,DateTime selectedDay)
 		{
+
 			int organizationId = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
 			var userWorkHours = await _workHourService.GetOrganizationUserWorkHours(userId, organizationId);
+
 			int dayWeek = (int)selectedDay.DayOfWeek;
-			var dayWorkHours = userWorkHours.FirstOrDefault(w => w.dayOfWeek == dayWeek);
+			if(dayWeek==0)dayWeek = 7;
+            var dayWorkHours = userWorkHours.FirstOrDefault(w => w.dayOfWeek == dayWeek);
 			var reserves= _appointmentService.GetAppointmentByDate(selectedDay,organizationId,userId);
 			if(reserves !=null && reserves.Count > 0)
 			{
-				//dayWorkHours.Reserves = reserves.Select(r => new BreakDTO()
-				//{
-
-				//	start = r.start_date.TimeOfDay,
-				//	end = r.end_date.TimeOfDay,
-				//	id = r.id
-				//});
-				Console.WriteLine("here");
-
 				dayWorkHours.Reserves = reserves.Select(r => new BreakDTO()
 				{
 					start = r.start_date.TimeOfDay,

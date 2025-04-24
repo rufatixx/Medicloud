@@ -158,6 +158,7 @@ public class AppointmentsController : Controller
     [HttpDelete]
     public IActionResult DeleteAppointmentById([FromQuery] string id)
     {
+        Console.WriteLine($"id{id}");
         var result = appointmentService.DeleteAppointment(id);
         return Ok(result);
     }
