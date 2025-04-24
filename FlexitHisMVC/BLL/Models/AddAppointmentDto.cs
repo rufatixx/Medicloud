@@ -7,7 +7,8 @@ public class AddAppointmentDto
     public int ServiceId { get; set; }
     public long OrganizationID { get; set; }
     public DateTime MeetingDate { get; set; }
-    public TimeSpan Time { get; set; }
+	public TimeSpan StartTime { get; set; }
+	public TimeSpan EndTime { get; set; }
 	public int UserId { get; set; }
 	public long? PhoneNumber { get; set; }
 }

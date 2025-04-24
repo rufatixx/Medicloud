@@ -1,7 +1,7 @@
 ﻿@model List<Medicloud.DAL.Entities.UserDAO>;
 
 <style>
-    .dropdown-app {
+/*    .dropdown-app {
         position: relative;
         display: inline-block;
         min-width: 100%;
@@ -23,7 +23,7 @@
             outline: none;
         }
 
-    .dropdown-content {
+    .dropdown-content-custom {
         display: none;
         position: absolute;
         background-color: #f9f9f9;
@@ -34,20 +34,20 @@
         z-index: 1;
     }
 
-        .dropdown-content a {
+        .dropdown-content-custom a {
             color: black;
             padding: 8px 12px;
             text-decoration: none;
             display: block;
         }
 
-            .dropdown-content a:hover {
+            .dropdown-content-custom a:hover {
                 background-color: #f1f1f1;
             }
 
     .show {
         display: block;
-    }
+    }*/
 </style>
 
 <div class="modal fade cus_modal"
@@ -71,7 +71,7 @@
                         class="btn-close"
                         data-bs-dismiss="modal"
                         aria-label="Close"
-                        onclick="resetModal()" />
+                         />
             </div>
 
             <div class="modal-body px-4">
@@ -100,7 +100,7 @@
                           autocomplete="off"
                           novalidate>
 
-                        @*<input type="hidden" name="Id" id="Id" />*@
+                        <input type="hidden" name="Id" id="Id" />
 
                         @if (Model != null)
                         {
@@ -114,7 +114,7 @@
                                     <option selected value="">Seçilməyib</option>
                                     @foreach (var item in Model)
                                     {
-                                        <option selected value="@item.ID">@item.name @item.surname (@item.speciality.name)</option>
+                                        <option  value="@item.ID">@item.name @item.surname (@item.speciality.name)</option>
 
 
                                     }
@@ -124,27 +124,43 @@
                             </div>
                         }
 
-                        <div class="mb-3">
-                            <label for="patient_id"
-                                   class="form-label">
-                                Ad, soyad, ata adı
-                            </label>
+                    <div class="mb-3">
+                        <label for="patient_id"
+                               class="form-label">
+                            Ad, soyad, ata adı
+                        </label>
 
-                            <br />
+                        <br />
 
-                            <div class="dropdown-app">
-                                <input type="hidden" name="PatientId" id="PatientId" />
-                                <input type="text"
-                                       onchange="clearPatientId()"
-                                       class="searchInput"
-                                       id="searchInput"
-                                       placeholder="Pasient seç">
-                                <div id="dropdownContent" class="dropdown-content">
+                        @*<div class="dropdown-app">
+            <input type="hidden" name="PatientId" id="PatientId" />
+            <input type="text"
+                   onchange="clearPatientId()"
+                   class="searchInput"
+                   id="searchInput"
+                   placeholder="Pasient seç">
+            <div id="dropdownContent" class="">
+            </div>
+            <p id="validationForPatient" style="color: #fa5c7c; display: none; font-size: 12px">Pasient seçin</p>
+        </div>*@
+
+                    <div class="dropdown">
+                        <input type="text" class="border w-100 rounded-1 px-3 py-1" data-bs-toggle="dropdown" id="userSearch" placeholder="Axtarın..." autocomplete="off">
+                        <ul class="dropdown-menu p-3 w-100 border-1 p-0" id="search-dropdown" aria-labelledby="userSearch">
+                            <li class="d-flex justify-content-center">
+                                <div class="spinner-border" role="status" id="searchLoader" style="display:none;">
+                                    <span class="visually-hidden">Loading...</span>
                                 </div>
-                                <p id="validationForPatient" style="color: #fa5c7c; display: none; font-size: 12px">Pasient seçin</p>
-                            </div>
+                            </li>
+                            <li>
+                                <ul class="p-0" id="userList" style="max-height:300px; overflow-y:auto">
+                                    <!-- Search results will be injected here -->
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
 
-                        </div>
+                    </div>
                         <div class="mb-3">
                             <label for="patientMobileModal"
                                    class="form-label">
@@ -179,7 +195,7 @@
                             <div class="dropdown-app">
                                 <input type="hidden" name="ServiceId" id="ServiceId" />
                                 <input onchange="clearServiceId()" class="searchInput" type="text" id="searchInputService" placeholder="Xidmət seç">
-                                <div id="dropdownContentService" class="dropdown-content">
+                                <div id="dropdownContentService" class="dropdown-content-custom">
                                 </div>
                                 <p id="validationForService" style="color: #fa5c7c; display: none; font-size: 12px">Xidmət seçin</p>
                             </div>
@@ -198,10 +214,16 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="appointment_time" class="form-label">Vaxt</label>
-                                    <select class="form-select" name="Time" id="Time" required>
-                                        <option selected disabled value="">Seçilməyib</option>
-                                    </select>
+                                    <label for="dropdownButton" class="form-label">Vaxt</label>
+                                    <div class="dropdown">
+                                        <button id="dropdownButton" disabled class="btn btn-primary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Saat Seçin
+                                        </button>
+                                        <ul class="dropdown-menu" style="max-height:400px; overflow:auto;" id="timeDropdown"></ul>
+                                    </div>
+                                    <input type="time" required name="StartTime" id="startTime" class="d-none" />
+                                    <input type="time" required name="EndTime" id="endTime" class="d-none" />
+                                    <div class="invalid-feedback">Vaxt seçilməlidir</div>
                                 </div>
                             </div>
                         </div>
@@ -219,224 +241,224 @@
 
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const phoneInput = document.getElementById('patientPhone');
-        const checkbox = document.getElementById('not_phone');
+            //document.addEventListener('DOMContentLoaded', function() {
+            //    const phoneInput = document.getElementById('patientPhone');
+            //    const checkbox = document.getElementById('not_phone');
 
-        checkbox.addEventListener('change', function() {
-            phoneInput.disabled = checkbox.checked;
-            if (checkbox.checked) {
-                phoneInput.value = '';
-            }
-        });
-    });
+            //    checkbox.addEventListener('change', function() {
+            //        phoneInput.disabled = checkbox.checked;
+            //        if (checkbox.checked) {
+            //            phoneInput.value = '';
+            //        }
+            //    });
+            //});
 
-    document.addEventListener('DOMContentLoaded', () => {
-
-
-        const searchInput = document.getElementById('searchInput');
-        const dropdownContent = document.getElementById('dropdownContent');
-
-        const searchInputService = document.getElementById('searchInputService');
-        const dropdownContentService = document.getElementById('dropdownContentService');
-
-        loadTime();
-
-        // searchInput.addEventListener('input', () => {
-        // });
-
-        searchInput.addEventListener('input', () => {
-            dropdownContent.classList.add('show');
-            const filter = searchInput.value.toLowerCase();
-            const links = dropdownContent.getElementsByTagName('a');
-
-            for (let i = 0; i < links.length; i++) {
-                const textValue = links[i].textContent || links[i].innerText;
-                links[i].style.display = textValue.toLowerCase().includes(filter) ? '' : 'none';
-            }
-        });
-
-        document.addEventListener('click', (event) => {
-            if (!event.target.matches('#searchInput')) {
-                dropdownContent.classList.remove('show');
-            }
-        });
-
-        // searchInputService.addEventListener('focus', () => {
-        // });
-
-        searchInputService.addEventListener('input', () => {
-            dropdownContentService.classList.add('show');
-            const filter = searchInputService.value.toLowerCase();
-            const links = dropdownContentService.getElementsByTagName('a');
-
-            for (let i = 0; i < links.length; i++) {
-                const textValue = links[i].textContent || links[i].innerText;
-                links[i].style.display = textValue.toLowerCase().includes(filter) ? '' : 'none';
-            }
-        });
-
-        document.addEventListener('click', (event) => {
-            if (!event.target.matches('#searchInputService')) {
-                dropdownContentService.classList.remove('show');
-            }
-        });
-
-        function loadTime() {
-            const select = document.getElementById('Time');
-            const startHour = 8;
-            const endHour = 21;
-            const interval = 10;
-
-            for (let hour = startHour; hour <= endHour; hour++) {
-                for (let minute = 0; minute < 60; minute += interval) {
-                    let start = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
-                    let endMinute = minute + interval;
-                    let end = `${String(hour).padStart(2, '0')}:${String(endMinute).padStart(2, '0')}`;
-
-                    if (endMinute > 59) {
-                        endMinute = 0;
-                        end = `${String(hour + 1).padStart(2, '0')}:00`;
-                    }
-
-                    let optionValue = `${start}`;
-                    let optionText = `${start} - ${end}`;
-                    let option = document.createElement('option');
-                    option.value = optionValue;
-                    option.textContent = optionText;
-
-                    select.appendChild(option);
-                }
-            }
-        }
-    });
-
-    document.addEventListener('DOMContentLoaded', function () {
-
-        const searchInput = document.getElementById('searchInput');
-        const dropdownContent = document.getElementById('dropdownContent');
-
-        searchInput.addEventListener('change', debounce(function (e) {
-            const search = searchInput.value;
-            fetch(`@Url.Action("GetPatientByName", "Patient")/?search=${encodeURIComponent(search)}`)
-                .then(response => response.json())
-                .then(data => {
-                    let listContent = "";
-                    data.forEach(x => {
-                        const escapedId = document.createElement('div').textContent = x.id;
-
-                        listContent += `<a onclick="selectPatient('${escapedId}', '${x.name}')">${x.name} ${x.surname} ${x.father} (FİN: ${x.fin})</a>`;
-                    });
-                    dropdownContent.innerHTML = listContent;
-                })
-                .catch(error => {
-                    console.error("Error fetching services.", error);
-                });
-        }, 300));
+            //document.addEventListener('DOMContentLoaded', () => {
 
 
-        const searchInputService = document.getElementById('searchInputService');
-        const dropdownContentService = document.getElementById('dropdownContentService');
+            //    const searchInput = document.getElementById('searchInput');
+            //    const dropdownContent = document.getElementById('dropdownContent');
 
-        searchInputService.addEventListener('keyup', debounce(function (e) {
-            const search = searchInputService.value;
+            //    const searchInputService = document.getElementById('searchInputService');
+            //    const dropdownContentService = document.getElementById('dropdownContentService');
 
-            fetch(`@Url.Action("GetAllServices", "Services")/?search=${encodeURIComponent(search)}`)
-                .then(response => response.json())
-                .then(data => {
-                    let listContent = "";
-                    data.forEach(x => {
-                        const escapedId = document.createElement('div').textContent = x.id;
-                        const escapedName = document.createElement('div').textContent = x.name;
-                        listContent += `<a onclick="selectService('${escapedId}', '${escapedName}')">${escapedName}</a>`;
-                    });
-                    dropdownContentService.innerHTML = listContent;
-                })
-                .catch(error => {
-                    console.error("Error fetching services.", error);
-                });
-        }, 300));
-    });
+            //    //loadTime();
 
-    function debounce(func, delay) {
-        let debounceTimer;
-        return function () {
-            const context = this;
-            const args = arguments;
-            clearTimeout(debounceTimer);
-            debounceTimer = setTimeout(() => func.apply(context, args), delay);
-        };
-    }
+            //    // searchInput.addEventListener('input', () => {
+            //    // });
 
-    function validateForm() {
-        let isValid = true;
+            //    searchInput.addEventListener('input', () => {
+            //        dropdownContent.classList.add('show');
+            //        const filter = searchInput.value.toLowerCase();
+            //        const links = dropdownContent.getElementsByTagName('a');
 
-        if (document.getElementById('ServiceId').value.trim().length === 0) {
-            document.getElementById('validationForService').style.display = 'block';
-            isValid = false;
-        } else {
-            document.getElementById('validationForService').style.display = 'none';
-        }
+            //        for (let i = 0; i < links.length; i++) {
+            //            const textValue = links[i].textContent || links[i].innerText;
+            //            links[i].style.display = textValue.toLowerCase().includes(filter) ? '' : 'none';
+            //        }
+            //    });
 
-        if (document.getElementById('PatientId').value.trim().length === 0) {
-            document.getElementById('validationForPatient').style.display = 'block';
-            isValid = false;
-        } else {
-            document.getElementById('validationForPatient').style.display = 'none';
-        }
+            //    document.addEventListener('click', (event) => {
+            //        if (!event.target.matches('#searchInput')) {
+            //            dropdownContent.classList.remove('show');
+            //        }
+            //    });
 
-        return isValid;
-    }
+            //    // searchInputService.addEventListener('focus', () => {
+            //    // });
 
-    function clearPatientId() {
-        document.getElementById('PatientId').value = '';
-    }
+            //    searchInputService.addEventListener('input', () => {
+            //        dropdownContentService.classList.add('show');
+            //        const filter = searchInputService.value.toLowerCase();
+            //        const links = dropdownContentService.getElementsByTagName('a');
 
-    function clearServiceId() {
-        document.getElementById('ServiceId').value = '';
-    }
+            //        for (let i = 0; i < links.length; i++) {
+            //            const textValue = links[i].textContent || links[i].innerText;
+            //            links[i].style.display = textValue.toLowerCase().includes(filter) ? '' : 'none';
+            //        }
+            //    });
 
-    function selectPatient(id, name) {
-        fetch(`@Url.Action("GetPatientById", "Patient")/?id=${id}`)
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('patientPhone').value = data?.phone;
+            //    document.addEventListener('click', (event) => {
+            //        if (!event.target.matches('#searchInputService')) {
+            //            dropdownContentService.classList.remove('show');
+            //        }
+            //    });
+
+                //function loadTime() {
+                //    const select = document.getElementById('Time');
+                //    const startHour = 8;
+                //    const endHour = 21;
+                //    const interval = 10;
+
+                //    for (let hour = startHour; hour <= endHour; hour++) {
+                //        for (let minute = 0; minute < 60; minute += interval) {
+                //            let start = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+                //            let endMinute = minute + interval;
+                //            let end = `${String(hour).padStart(2, '0')}:${String(endMinute).padStart(2, '0')}`;
+
+                //            if (endMinute > 59) {
+                //                endMinute = 0;
+                //                end = `${String(hour + 1).padStart(2, '0')}:00`;
+                //            }
+
+                //            let optionValue = `${start}`;
+                //            let optionText = `${start} - ${end}`;
+                //            let option = document.createElement('option');
+                //            option.value = optionValue;
+                //            option.textContent = optionText;
+
+                //            select.appendChild(option);
+                //        }
+                //    }
+                //}
+            //});
+
+            @*document.addEventListener('DOMContentLoaded', function () {
+
+                const searchInput = document.getElementById('searchInput');
+                const dropdownContent = document.getElementById('dropdownContent');
+
+                searchInput.addEventListener('change', debounce(function (e) {
+                    const search = searchInput.value;
+                    fetch(`@Url.Action("GetPatientByName", "Patient")/?search=${encodeURIComponent(search)}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            let listContent = "";
+                            data.forEach(x => {
+                                const escapedId = document.createElement('div').textContent = x.id;
+
+                                listContent += `<a onclick="selectPatient('${escapedId}', '${x.name}')">${x.name} ${x.surname} ${x.father} (FİN: ${x.fin})</a>`;
+                            });
+                            dropdownContent.innerHTML = listContent;
+                        })
+                        .catch(error => {
+                            console.error("Error fetching services.", error);
+                        });
+                }, 300));
+
+
+                const searchInputService = document.getElementById('searchInputService');
+                const dropdownContentService = document.getElementById('dropdownContentService');
+
+                searchInputService.addEventListener('keyup', debounce(function (e) {
+                    const search = searchInputService.value;
+
+                    fetch(`@Url.Action("GetAllServices", "Services")/?search=${encodeURIComponent(search)}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            let listContent = "";
+                            data.forEach(x => {
+                                const escapedId = document.createElement('div').textContent = x.id;
+                                const escapedName = document.createElement('div').textContent = x.name;
+                                listContent += `<a onclick="selectService('${escapedId}', '${escapedName}')">${escapedName}</a>`;
+                            });
+                            dropdownContentService.innerHTML = listContent;
+                        })
+                        .catch(error => {
+                            console.error("Error fetching services.", error);
+                        });
+                }, 300));
             });
-        document.getElementById('searchInput').value = name;
-        document.getElementById('PatientId').value = id;
-        document.getElementById('validationForPatient').style.display = 'none';
-    }
 
-    function formatTime(date) {
-        let hours = date.getHours().toString().padStart(2, '0');
-        let minutes = date.getMinutes().toString().padStart(2, '0');
-        return `${hours}:${minutes}`;
-    }
+            function debounce(func, delay) {
+                let debounceTimer;
+                return function () {
+                    const context = this;
+                    const args = arguments;
+                    clearTimeout(debounceTimer);
+                    debounceTimer = setTimeout(() => func.apply(context, args), delay);
+                };
+            }
 
-    function selectService(id, name) {
-        document.getElementById('searchInputService').value = name;
-        document.getElementById('ServiceId').value = id;
-        document.getElementById('validationForService').style.display = 'none';
-    }
+            function validateForm() {
+                let isValid = true;
 
-    function clearFields() {
-        document.getElementById('Id').value = '';
-        document.getElementById('ServiceId').value = '';
-        document.getElementById('PatientId').value = '';
-        document.getElementById('MeetingDate').value = '';
-        document.getElementById('patientPhone').value = '';
-        document.getElementById('searchInput').value = '';
-        document.getElementById('searchInputService').value = '';
-        document.getElementById('Time').value = '';
-    }
+                if (document.getElementById('ServiceId').value.trim().length === 0) {
+                    document.getElementById('validationForService').style.display = 'block';
+                    isValid = false;
+                } else {
+                    document.getElementById('validationForService').style.display = 'none';
+                }
 
-    //document.addEventListener('DOMContentLoaded', function () {
-    //    flatpickr('#example', {});
-    //    flatpickr('.default', {
-    //        enableTime: true,
-    //        dateFormat: "Y-m-d H:i",
-    //        minuteIncrement: 10
-    //    });
-    //});
+                if (document.getElementById('PatientId').value.trim().length === 0) {
+                    document.getElementById('validationForPatient').style.display = 'block';
+                    isValid = false;
+                } else {
+                    document.getElementById('validationForPatient').style.display = 'none';
+                }
+
+                return isValid;
+            }
+
+            function clearPatientId() {
+                document.getElementById('PatientId').value = '';
+            }
+
+            function clearServiceId() {
+                document.getElementById('ServiceId').value = '';
+            }
+
+            function selectPatient(id, name) {
+                fetch(`@Url.Action("GetPatientById", "Patient")/?id=${id}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('patientPhone').value = data?.phone;
+                    });
+                document.getElementById('searchInput').value = name;
+                document.getElementById('PatientId').value = id;
+                document.getElementById('validationForPatient').style.display = 'none';
+            }
+
+            function formatTime(date) {
+                let hours = date.getHours().toString().padStart(2, '0');
+                let minutes = date.getMinutes().toString().padStart(2, '0');
+                return `${hours}:${minutes}`;
+            }
+
+            function selectService(id, name) {
+                document.getElementById('searchInputService').value = name;
+                document.getElementById('ServiceId').value = id;
+                document.getElementById('validationForService').style.display = 'none';
+            }
+
+            function clearFields() {
+                document.getElementById('Id').value = '';
+                document.getElementById('ServiceId').value = '';
+                document.getElementById('PatientId').value = '';
+                document.getElementById('MeetingDate').value = '';
+                document.getElementById('patientPhone').value = '';
+                document.getElementById('searchInput').value = '';
+                document.getElementById('searchInputService').value = '';
+                //document.getElementById('Time').value = '';
+            }*@
+
+            //document.addEventListener('DOMContentLoaded', function () {
+            //    flatpickr('#example', {});
+            //    flatpickr('.default', {
+            //        enableTime: true,
+            //        dateFormat: "Y-m-d H:i",
+            //        minuteIncrement: 10
+            //    });
+            //});
 
 </script>

@@ -22,8 +22,8 @@ namespace Medicloud.BLL.Service
                 patient_id = appointmentDto.PatientId,
                 organization_id = appointmentDto.OrganizationID,
                 service_id = appointmentDto.ServiceId,
-                end_date = (appointmentDto.MeetingDate.Date + appointmentDto.Time).AddMinutes(10),
-                start_date = appointmentDto.MeetingDate.Date + appointmentDto.Time,
+				start_date = appointmentDto.MeetingDate.Date + appointmentDto.StartTime,
+				end_date = (appointmentDto.MeetingDate.Date + appointmentDto.EndTime),
 				user_id = appointmentDto.UserId,
 				patient_phone = appointmentDto?.PhoneNumber
             };
@@ -58,8 +58,9 @@ namespace Medicloud.BLL.Service
                 organization_id = appointmentDto.OrganizationID,
 				patient_id = appointmentDto.PatientId,
 				service_id = appointmentDto.ServiceId,
-				end_date = (appointmentDto.MeetingDate.Date + appointmentDto.Time).AddMinutes(10),
-				start_date = appointmentDto.MeetingDate.Date + appointmentDto.Time,
+				start_date = appointmentDto.MeetingDate.Date + appointmentDto.StartTime,
+				end_date = (appointmentDto.MeetingDate.Date + appointmentDto.EndTime),
+				user_id=appointmentDto.UserId,
 				patient_phone = appointmentDto?.PhoneNumber
 			};
 			var result = _appointmentRepo.UpdateAppointment(appointment);

@@ -15,8 +15,6 @@
                 </button>
             </a>
             <a id="new-appointment"
-               type="reset"
-               onclick="clearFields()"
                data-bs-toggle="modal"
                data-bs-target="#add-appointment-modal"
                class="btn btn-primary w-md bg-blue radius-10">
@@ -119,7 +117,7 @@
 
 @*@Html.Partial("_AppointmentModal")*@
 
-<script>
+@*<script>
     document.addEventListener('DOMContentLoaded', () => {
 
 
@@ -169,7 +167,7 @@
             }
         });
 
-    });</script>
+    });</script>*@
 
 
 @section Scripts {
@@ -177,7 +175,90 @@
 
         document.addEventListener('DOMContentLoaded', function () {
 
-            const searchInput = document.getElementById('searchInput');
+
+
+            function debounce(func, delay) {
+                let debounceTimer;
+                return function (...args) {
+                    clearTimeout(debounceTimer);
+                    debounceTimer = setTimeout(() => func.apply(this, args), delay);
+                };
+            }
+
+            // Search logic wrapped in debounce
+            function searchUsers(searchQuery) {
+                // Show the loader when searching
+                $('#searchLoader').show();
+                $('#userList').empty(); // Clear the previous search results
+
+                if (searchQuery.length > 0) {
+                    // Perform an AJAX request to search for users
+                    $.ajax({
+                        url: `@Url.Action("GetPatientByName", "Patient")`, // Replace this with your actual endpoint
+                        method: 'GET',
+                        data: { search: encodeURIComponent(searchQuery) }, // Send the search query to the backend
+                        success: function (response) {
+                            // Assuming the response is an array of users
+                            // Example response format: [{ id: 1, name: 'John Doe' }, ...]
+
+                            // Hide the loader once the search results are ready
+                            $('#searchLoader').hide();
+
+                            // Check if users were returned
+                            if (response.length > 0) {
+                                // Display the filtered results
+                                response.forEach(function (user) {
+                                    var listItem = $('<li>')
+                                        .addClass('user-dropdown-item')
+                                        .text(user.name)
+                                        .data('id', user.id)
+                                        .on('click', function () {
+                                            // This function will run when the user clicks on the list item
+                                            var selectedUser = $(this).text(); // Get the name of the clicked user
+                                            var selectedUserId = $(this).data('id'); // Get the user ID
+
+                                            // Update the input field with the selected user's name
+                                            $('#userSearch').val(selectedUser);
+
+                                            // You can also log or use the user ID for further processing
+                                            console.log('Selected User ID:', selectedUserId);
+
+                                            // Optionally, hide the dropdown after selection
+                                            /*                 $('#search-dropdown').hide();*/
+                                        });
+
+                                    // Append the list item to the user list
+                                    $('#userList').append(listItem);
+                                });
+
+                                // Show the dropdown menu
+                                //$('#search-dropdown').show();
+                            } else {
+                                // If no results, you can display a "No users found" message
+                                $('#userList').append('<li class="dropdown-item">Pasient tapılmadı</li>');
+                            }
+                        },
+                        error: function () {
+                            // Hide the loader in case of error
+                            $('#searchLoader').hide();
+
+                            // Handle the error (e.g., show a message to the user)
+                            $('#userList').append('<li class="dropdown-item">Error fetching data</li>');
+                        }
+                    });
+                } else {
+                    // Hide the loader if the search query is empty
+                    $('#searchLoader').hide();
+                }
+            }
+
+            // Apply debounce to the search input field
+            $('#userSearch').on('input', debounce(function () {
+                var searchQuery = $(this).val();
+                searchUsers(searchQuery); // Call the search function with the query
+            }, 500)); // Delay of 500ms (adjust as needed)
+
+            @*const searchInput = document.getElementById('searchInput');
             const dropdownContent = document.getElementById('dropdownContent');
 
             searchInput.addEventListener('keyup', debounce(function (e) {
@@ -221,39 +302,39 @@
                         console.error("Error fetching services.", error);
                     });
             }, 300));
-        });
+        });*@
 
-        function debounce(func, delay) {
-            let debounceTimer;
-            return function () {
-                const context = this;
-                const args = arguments;
-                clearTimeout(debounceTimer);
-                debounceTimer = setTimeout(() => func.apply(context, args), delay);
-            };
-        }
-
-        function validateForm() {
-            let isValid = true;
-
-            if (document.getElementById('ServiceId').value.trim().length === 0) {
-                document.getElementById('validationForService').style.display = 'block';
-                isValid = false;
-            } else {
-                document.getElementById('validationForService').style.display = 'none';
+            function debounce(func, delay) {
+                let debounceTimer;
+                return function () {
+                    const context = this;
+                    const args = arguments;
+                    clearTimeout(debounceTimer);
+                    debounceTimer = setTimeout(() => func.apply(context, args), delay);
+                };
             }
 
-            if (document.getElementById('PatientId').value.trim().length === 0) {
-                document.getElementById('validationForPatient').style.display = 'block';
-                isValid = false;
-            } else {
-                document.getElementById('validationForPatient').style.display = 'none';
+            function validateForm() {
+                let isValid = true;
+
+                if (document.getElementById('ServiceId').value.trim().length === 0) {
+                    document.getElementById('validationForService').style.display = 'block';
+                    isValid = false;
+                } else {
+                    document.getElementById('validationForService').style.display = 'none';
+                }
+
+                if (document.getElementById('PatientId').value.trim().length === 0) {
+                    document.getElementById('validationForPatient').style.display = 'block';
+                    isValid = false;
+                } else {
+                    document.getElementById('validationForPatient').style.display = 'none';
+                }
+
+                return isValid;
             }
 
-            return isValid;
-        }
-
-        function clearPatientId() {
+        @*function clearPatientId() {
             document.getElementById('PatientId').value = '';
         }
 
@@ -270,95 +351,277 @@
             document.getElementById('searchInput').value = name;
             document.getElementById('PatientId').value = id;
             document.getElementById('validationForPatient').style.display = 'none';
-        }
+        }*@
 
-        function formatTime(date) {
-            let hours = date.getHours().toString().padStart(2, '0');
-            let minutes = date.getMinutes().toString().padStart(2, '0');
-            return `${hours}:${minutes}`;
-        }
+            function formatTime(date) {
+                let hours = date.getHours().toString().padStart(2, '0');
+                let minutes = date.getMinutes().toString().padStart(2, '0');
+                return `${hours}:${minutes}`;
+            }
 
-        function updateAppointment(id) {
-            fetch(`@Url.Action("GetAppointmentById", "Appointments")/?id=${id}`)
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById("Id").value = data?.id;
-                    document.getElementById('ServiceId').value = data?.service_id;
-                    document.getElementById('PatientId').value = data?.patient_id;
-                    document.getElementById('MeetingDate').value = new Date(data?.start_date).toISOString().split('T')[0];
-                    document.getElementById('patientPhone').value = data?.patient_phone;
-                    document.getElementById('searchInput').value = data?.patient_name;
-                    document.getElementById('searchInputService').value = data?.service_name;
-                    document.getElementById('Time').value = `${formatTime(new Date(data?.start_date))}`;
-                });
-        }
+            function updateAppointment(id) {
+                fetch(`@Url.Action("GetAppointmentById", "Appointments")/?id=${id}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data)
+                        document.getElementById("Id").value = data?.id;
+                        document.getElementById('ServiceId').value = data?.service_id;
+                        document.getElementById('PatientId').value = data?.patient_id;
+                        $('#UserId').val(data?.user_id);
+                        //document.getElementById('UserId').value =
+                        document.getElementById('MeetingDate').value = new Date(data?.start_date).toISOString().split('T')[0];
+                        document.getElementById('patientPhone').value = data?.patient_phone;
+                        document.getElementById('searchInput').value = data?.patient_name;
+                        document.getElementById('searchInputService').value = data?.service_name;
 
-        function deleteAppointment(id) {
-            if (confirm("Silmək istədiyinizə əminsiniz?")) {
-                fetch(`@Url.Action("DeleteAppointmentById", "Appointments")/?id=${id}`,{
-                    method: 'DELETE'
-                })
-                    .then(response => {
-                        if (response.ok) {
-                            window.location.reload();
-                        } else {
-                            console.error('Failed to delete appointment');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
+                        let existStart = data?.start_date.split("T")[1].substring(0, 5)
+                        let existEnd = data?.end_date.split("T")[1].substring(0, 5)
+                        $('#startTime').val(existStart)
+                        $('#endTime').val(existEnd)
+                        $('#MeetingDate').trigger('change');
                     });
             }
-        }
 
-        function selectService(id, name) {
-            document.getElementById('searchInputService').value = name;
-            document.getElementById('ServiceId').value = id;
-            document.getElementById('validationForService').style.display = 'none';
-        }
-
-        function clearFields() {
-            document.getElementById('Id').value = '';
-            document.getElementById('ServiceId').value = '';
-            document.getElementById('PatientId').value = '';
-            document.getElementById('MeetingDate').value = '';
-            document.getElementById('patientPhone').value = '';
-            document.getElementById('searchInput').value = '';
-            document.getElementById('searchInputService').value = '';
-            document.getElementById('Time').value = '';
-        }
-
-        $('#MeetingDate').on('change', function () {
-            var date = $(this).val();
-            var selectedUserId = $('#UserId').val();
-            if (selectedUserId) {
-                $.ajax({
-                    url: '/WorkHour/GetUserWorkHours',
-                    type: 'GET',
-                    data: {
-                        userId: selectedUserId,
-                        selectedDay: date
-                    },
-                    success: function (response) {
-
-                        console.log('success:', response);
-                    },
-                    error: function (xhr, status, error) {
-                        console.error('error:', error);
-                    }
-                });
+            function deleteAppointment(id) {
+                if (confirm("Silmək istədiyinizə əminsiniz?")) {
+                    fetch(`@Url.Action("DeleteAppointmentById", "Appointments")/?id=${id}`, {
+                        method: 'DELETE'
+                    })
+                        .then(response => {
+                            if (response.ok) {
+                                window.location.reload();
+                            } else {
+                                console.error('Failed to delete appointment');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                }
             }
 
+            function selectService(id, name) {
+                document.getElementById('searchInputService').value = name;
+                document.getElementById('ServiceId').value = id;
+                document.getElementById('validationForService').style.display = 'none';
+            }
+
+            function clearFields() {
+                //$('#Id').val('');
+                //$('#ServiceId').val('');
+                //$('#PatientId').val('');
+                //$('#patientPhone').val('');
+                //$('#searchInput').val('');
+                //$('#searchInputService').val('');
+                //let today = new Date().toISOString().split('T')[0]; // "yyyy-mm-dd" formatı
+                //$('#MeetingDate').val(today).trigger('change');
+
+                //$('#startTime').val(today);
+                //$('#endTime').val(today);
+
+            }
+            let $form = $('#newAppointmentForm');
+            const $dropdown = $("#timeDropdown");
+            const $button = $("#dropdownButton");
+
+            $('#dropdownButton').on('click', function (e) {
+                if (!$('#UserId').val() || !$('#MeetingDate').val()) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    $('#timeError').text('Xidmət gostərən və tarix seçilməlidir').show()
+                    return;
+                }
+
+            });
+
+            $('#add-appointment-modal').on('hidden.bs.modal', function () {
+                $('#Id').val('');
+                $('#PatientId').val('');
+                $('#searchInput').val('');
+                $('#searchInputService').val('');
+                $('#ServiceId').val('');
+                $form.removeClass('was-validated');
+                $form[0].reset();
+                $('#patientPhone').prop('disabled', false);
+
+                $('#validationForService').hide();
+                $('#validationForPatient').hide();
+                $dropdown.empty();
+                $button.text('Saat seçin');
+                $('#dropdownButton').prop('disabled', true)
+
+            });
+
+            $('#UserId').on('change', function () {
+
+                $('#MeetingDate').val('').trigger('change');
+
+            })
+            $('#not_phone').on('change', function () {
+                if ($(this).prop('checked') === true) {
+                    $('#patientPhone').val('').prop('disabled', true)
+                }
+                else {
+                    $('#patientPhone').val('').prop('disabled', false)
+
+                }
+
+            })
+
+            $('#MeetingDate').on('change', function () {
+                if ($(this).val() && $('#UserId').val()) {
+                    $('#dropdownButton').prop('disabled', false)
+                }
+                else {
+                    $('#dropdownButton').prop('disabled', true)
+                    return;
+                }
+
+                $dropdown.empty();
+                $button.text('Saat seçin');
+                var date = $(this).val();
+                var selectedUserId = $('#UserId').val();
+                if (selectedUserId) {
+                    showLoading()
+                    $.ajax({
+                        url: '/WorkHour/GetUserWorkHours',
+                        type: 'GET',
+                        data: {
+                            userId: selectedUserId,
+                            selectedDay: date
+                        },
+                        success: function (response) {
+                            //var breaks = response.breaks.
+
+                            if (response.startTime && response.endTime) {
+
+                                const breaksFormatted = response.breaks?.map(b => [b.start, b.end]) || [];
+                                const reservesFormatted = response.reserves?.map(b => [b.start, b.end]) || [];
+                                const slots = generateTimeSlots(response.startTime, response.endTime, 15, breaksFormatted, reservesFormatted);
+
+
+                                slots.forEach(slot => {
+                                    let badge = '';
+                                    let itemClass = 'dropdown-item';
+                                    let disabledAttr = '';
+
+                                    switch (slot.status) {
+                                        case "available":
+                                            badge = '<span class="badge bg-success me-2">Uyğun</span>';
+                                            break;
+                                        case "break":
+                                            badge = '<span class="badge bg-warning text-dark me-2">Fasilə</span>';
+                                            itemClass += ' disabled';
+                                            disabledAttr = 'disabled';
+                                            break;
+                                        case "reserved":
+                                            badge = '<span class="badge bg-danger me-2">Rezerv olunub</span>';
+                                            itemClass += ' disabled';
+                                            disabledAttr = 'disabled';
+                                            break;
+                                    }
+
+                                    const $item = $(`<li><a class="${itemClass}" href="#" ${disabledAttr}>${badge}${slot.label}</a></li>`);
+
+                                    if (slot.status === "available") {
+                                        $item.find('a').on('click', function (e) {
+                                            e.preventDefault();
+                                            $button.text(slot.label);
+                                            const [start, end] = slot.label.split(" - ");
+
+                                            // Input'lara yaz
+                                            $('#startTime').val(start);
+                                            $('#endTime').val(end);
+                                        });
+                                    }
+
+                                    if (slot.status === "reserved") {
+                                        let startInput = $('#startTime').val();
+                                        let endInput = $('#endTime').val();
+                                        const [start, end] = slot.label.split(" - ");
+                                        if (start == startInput && end == endInput) {
+                                            $button.text(slot.label);
+
+                                        }
+                                    }
+
+                                    $dropdown.append($item);
+                                });
+                            }
+                            else {
+                                $('#infoText').text('Əmakdaşın iş günü deyil');
+                                $('#infoModal').modal('show');
+
+                            }
+
+                            hideLoading();
+
+                            console.log('success:', response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('error:', error);
+                            hideLoading();
+
+                        }
+                    });
+                }
+
+            });
+
+
+
+
+            function parseTime(timeStr) {
+                const [hour, minute] = timeStr.split(":").map(Number);
+                return hour * 60 + minute;
+            }
+
+            function formatTime(minutes) {
+                const hour = Math.floor(minutes / 60);
+                const minute = minutes % 60;
+                return `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+            }
+
+            function isInRange(startA, endA, startB, endB) {
+                return !(endA <= startB || startA >= endB);
+            }
+
+            function getSlotStatus(startTime, endTime, breaks, reserved) {
+                for (const [start, end] of breaks) {
+                    if (isInRange(startTime, endTime, parseTime(start), parseTime(end))) return "break";
+                }
+                for (const [start, end] of reserved) {
+                    if (isInRange(startTime, endTime, parseTime(start), parseTime(end))) return "reserved";
+                }
+                return "available";
+            }
+
+            function generateTimeSlots(start, end, interval, breaks, reserved) {
+                const slots = [];
+                let current = parseTime(start);
+                const endTime = parseTime(end);
+
+                while (current + interval <= endTime) {
+                    const slotEnd = current + interval;
+                    const label = `${formatTime(current)} - ${formatTime(slotEnd)}`;
+                    const status = getSlotStatus(current, slotEnd, breaks, reserved);
+                    slots.push({ label, status });
+                    current += interval;
+                }
+
+                return slots;
+            }
+
+
+
+            //document.addEventListener('DOMContentLoaded', function () {
+            //    flatpickr('#example', {});
+            //    flatpickr('.default', {
+            //        enableTime: true,
+            //        dateFormat: "Y-m-d H:i",
+            //        minuteIncrement: 10
+            //    });
+            //});
         });
-
-        //document.addEventListener('DOMContentLoaded', function () {
-        //    flatpickr('#example', {});
-        //    flatpickr('.default', {
-        //        enableTime: true,
-        //        dateFormat: "Y-m-d H:i",
-        //        minuteIncrement: 10
-        //    });
-        //});
-
     </script>
 }

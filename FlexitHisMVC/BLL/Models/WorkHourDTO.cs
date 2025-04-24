@@ -10,6 +10,7 @@ namespace Medicloud.BLL.Models
 		public TimeSpan? endTime { get; set; }
 		public int dayOfWeek { get; set; }
 		public List<BreakDTO> Breaks { get; set; }
+		public List<BreakDTO> Reserves { get; set; }
 	}
 
 	public class UpdateWorkHourDTO
