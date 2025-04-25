@@ -36,7 +36,7 @@
                 <div class="card-header   align-items-center">
 
                     <div class="text-center flex-grow-1 mb-3">
-                        <h1>@(Model.IsOwnerUser? "İş saatlarınız":$"{Model.UserFullName} - İş saatları")</h1>
+                        <h1>@(Model.IsOwnerUser ? "İş saatlarınız" : $"{Model.UserFullName} - İş saatları")</h1>
                     </div>
                 </div>
                 <form id="workHourForm" method="post" asp-action="UpdateWorkHoursWithForm" asp-controller="Profile">
@@ -181,50 +181,57 @@
 </div>
 
 
-<div class="modal fade" id="copyTimeModal" tabindex="-1" aria-labelledby="copyTimeModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header align-items-start">
-                <div class="text-center px-2">
-                    <h3 class="modal-title">İş saatlarınız kopyalansın?</h3>
-                    <p>Müəyyən edilmiş iş saatlarını digər günlərə tətbiq etmək istəryirsinizsə siyahıdan günləri seçin</p>
+@if (Model.WorkHours != null)
+{
+
+
+    <div class="modal fade" id="copyTimeModal" tabindex="-1" aria-labelledby="copyTimeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header align-items-start">
+                    <div class="text-center px-2">
+                        <h3 class="modal-title">İş saatlarınız kopyalansın?</h3>
+                        <p>Müəyyən edilmiş iş saatlarını digər günlərə tətbiq etmək istəryirsinizsə siyahıdan günləri seçin</p>
+                    </div>
+
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @{
+                        var weekdata = Model.WorkHours.Select(w => new { id = w.id, day = w.dayOfWeek }).ToList();
+
+                        foreach (var item in Model.WorkHours)
+                        {
+                            var dayName = cultureInfo.DateTimeFormat.GetDayName((System.DayOfWeek)(item.dayOfWeek % 7));
+                            var capitalizedDayName = cultureInfo.TextInfo.ToTitleCase(dayName);
+                            <div class="col-12">
+                                <div class="form-check text-start mb-2">
+                                    <input type="checkbox" style="cursor:pointer;" class="form-check-input" data-id="@item.id" id="copyCheckInput@(item.id)">
+                                    <label class="form-check-label " style="cursor:pointer;" for="copyCheckInput@(item.id)">@capitalizedDayName</label>
+                                </div>
+                            </div>
+
+                        }
+                        // for (int i = 1; i <= Model.; i++)
+                        // {
+
+                        // }
+                    }
+
                 </div>
 
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                @{
-                    var weekdata = Model.WorkHours.Select(w => new { id = w.id, day = w.dayOfWeek }).ToList();
-
-                    foreach (var item in Model.WorkHours)
-                    {
-                        var dayName = cultureInfo.DateTimeFormat.GetDayName((System.DayOfWeek)(item.dayOfWeek % 7));
-                        var capitalizedDayName = cultureInfo.TextInfo.ToTitleCase(dayName);
-                        <div class="col-12">
-                            <div class="form-check text-start mb-2">
-                                <input type="checkbox" style="cursor:pointer;" class="form-check-input" data-id="@item.id" id="copyCheckInput@(item.id)">
-                                <label class="form-check-label " style="cursor:pointer;" for="copyCheckInput@(item.id)">@capitalizedDayName</label>
-                            </div>
-                        </div>
-
-                    }
-                    // for (int i = 1; i <= Model.; i++)
-                    // {
-
-                    // }
-                }
-
-            </div>
-
-            <div class="modal-footer">
-                @* <button type="button" id="noButton" class="btn btn-secondary">Xeyr</button> *@
-                <button type="button" class="btn btn-primary" id="saveButton">Davam et</button>
+                <div class="modal-footer">
+                    @* <button type="button" id="noButton" class="btn btn-secondary">Xeyr</button> *@
+                    <button type="button" class="btn btn-primary" id="saveButton">Davam et</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-@section Scripts{
+}
+
+
+@section Scripts {
 
     <script>
 

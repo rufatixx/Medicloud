@@ -4,7 +4,7 @@
     ViewData["Title"] = "- Personal";
 
     var userId = User.FindFirst("ID")?.Value;
-    var firstUser = Model.personalList.FirstOrDefault();
+    var firstUser = Model.personalList.FirstOrDefault(p=>p.roles?.Count>0) ?? Model.personalList.FirstOrDefault();
 }
 
 
@@ -178,7 +178,7 @@
                                 <div class="row gx-2 gy-2">
                                     <div class="col-md-3">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="isActiveCheckBox"
+                                            <input class="form-check-input" disabled type="checkbox" id="isActiveCheckBox"
                                                    @(firstUser.roles?.Count() > 0 ? "checked" : "") />
                                             <label class="form-check-label">Aktiv</label>
                                         </div>
@@ -775,7 +775,7 @@
 @section Scripts {
     <script>
         var selectedOrganization;
-        var selectedPersonalID = @Model.personalList[0].ID;
+        var selectedPersonalID = @firstUser.ID;
         getOrganizationsByUser(selectedPersonalID);
         var newPersonalIsUser = 0;
                 var allPersonals = @Html.Raw(Json.Serialize(Model.personalList));

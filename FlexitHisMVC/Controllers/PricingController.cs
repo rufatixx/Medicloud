@@ -36,29 +36,37 @@ namespace Medicloud.Controllers
         public IActionResult Index()
         {
 
-			var ownerId = int.Parse(HttpContext.Session.GetString("Medicloud_organizationOwnerId"));
-			var userId = int.Parse(HttpContext.Session.GetString("Medicloud_userID"));
-			bool isOwner = userId == ownerId;
-			return View(isOwner);
+            var ownerId = int.Parse(HttpContext.Session.GetString("Medicloud_organizationOwnerId"));
+            var userId = int.Parse(HttpContext.Session.GetString("Medicloud_userID"));
+            bool isOwner = userId == ownerId;
+            var planExpiryDateString = HttpContext.Session.GetString("Medicloud_UserPlanExpireDate");
+
+            if (!string.IsNullOrEmpty(planExpiryDateString) && DateTime.TryParse(planExpiryDateString, out var planExpiryDate) && DateTime.Now < planExpiryDate && !isOwner)
+            {
+
+                return Redirect("Home/Index");
+            }
+
+            return View(isOwner);
         }
 
-		[HttpGet]
-		public IActionResult SuccessPayment()
-		{
-			return View();
-		}
+        [HttpGet]
+        public IActionResult SuccessPayment()
+        {
+            return View();
+        }
 
-		[HttpGet]
-		public IActionResult FailedPayment()
-		{
-			return View();
-		}
+        [HttpGet]
+        public IActionResult FailedPayment()
+        {
+            return View();
+        }
 
-		[HttpGet]
-		public IActionResult PendingPayment()
-		{
-			return View();
-		}
-	}
+        [HttpGet]
+        public IActionResult PendingPayment()
+        {
+            return View();
+        }
+    }
 }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Medicloud.Areas.Admin.ViewModels;
 using Medicloud.BLL.Service;
 using Medicloud.BLL.Service.Organization;
 using Medicloud.Data;
@@ -45,10 +46,17 @@ namespace Medicloud.Areas.Admin.Controllers
         public IActionResult Index()
         {
             int userID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID"));
+            int organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
+
             if (userID >0)
             {
-               
-                return View(_organizationService.GetOrganizationsByUser(userID));
+                //_organizationService.GetOrganizationsByUser(userID);
+                List<ServiceGroup> serviceGroups = sgRepo.GetGroupsByOrganization(organizationID);
+                var vm = new ServicesViewModel
+                {
+                    ServiceGroups = serviceGroups,
+                };
+                return View(vm);
             }
             return NotFound();
          
@@ -156,8 +164,9 @@ namespace Medicloud.Areas.Admin.Controllers
 
 
         }
-        public IActionResult GetServiceGroups(int organizationID)
+        public IActionResult GetServiceGroups(int organizationID=0)
         {
+            organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
             if (User.Identity.IsAuthenticated)
             {
                 List<ServiceGroup> serviceGroups = sgRepo.GetGroupsByOrganization(organizationID);
@@ -223,6 +232,10 @@ namespace Medicloud.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult InserServiceGroup([FromBody]ServiceGroup serviceGroup)
         {
+            if(serviceGroup !=null)
+            {
+                serviceGroup.organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
+            }
 
             if (User.Identity.IsAuthenticated)
             {

@@ -132,7 +132,6 @@ public class AppointmentsController : Controller
         AppointmentPagedResult result = null;
         if (roles.Contains(7))
         {
-            ViewBag.allStaff = _userService.GetUserList(organizationID);
             result = appointmentService.GetAllAppointments(Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID")), null, 0, pageNumber: pageNumber);
 
         }
@@ -141,8 +140,6 @@ public class AppointmentsController : Controller
             result = appointmentService.GetAllAppointments(Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID")), null,userID, pageNumber: pageNumber);
 
         }
-
-
 
         return View(result);
     }

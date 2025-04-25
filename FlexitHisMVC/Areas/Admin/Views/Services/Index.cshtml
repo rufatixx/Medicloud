@@ -1,8 +1,13 @@
-﻿
+﻿@using Medicloud.Areas.Admin.ViewModels
+
 @{
     ViewData["Title"] = "- Xidmətlər";
 }
 
+@model ServicesViewModel
+@{
+    var headingGroups = Model.ServiceGroups.Where(g => g.isHeading).ToList();
+}
 
 <div class="row">
     <div class="col-12">
@@ -34,10 +39,58 @@
 
 
             </ul>
+
+            <div class="accordion" id="accordionExample">
+                @foreach (var heading in headingGroups)
+                {
+                    var childGroups = Model.ServiceGroups.Where(g => !g.isHeading && g.parent == heading.ID).ToList();
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading@heading.Id">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse@heading.Id" aria-expanded="false" aria-controls="collapse@heading.Id">
+                                @heading.name
+                            </button>
+                        </h2>
+                        <div id="collapse@heading.Id" class="accordion-collapse collapse" aria-labelledby="heading@heading.Id" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                @foreach (var child in childGroups)
+                                {
+                                    <div class="accordion-item">
+                                        <a class="list-group-item list-group-item-action" href="#" data-child-id="@child.ID">
+                                            @child.name
+                                        </a>
+
+                                        <div class="accordion-collapse collapse" id="collapse@child.Id" aria-labelledby="heading@child.Id" data-bs-parent="#collapse@heading.Id">
+                                            <div class="accordion-body">
+                                                <!-- Alt içeriği buraya ekleyebilirsiniz -->
+                                            </div>
+                                        </div>
+
+                                        @*                               <script>
+                                            $(document).ready(function () {
+                                                $('a[data-child-id="@child.ID"]').on('click', function (e) {
+                                                    e.preventDefault();
+                                                    var childId = $(this).data('child-id');
+                                                    $('.accordion .list-group-item').removeClass('active');
+                                                    $(this).addClass('active');
+                                                    $('#showAllServices').prop('checked', false);
+                                                    $('#selectedServiceGroupInSettings').val(childId);
+                                                    fetchServicesWithGroupNames(childId);
+                                                });
+
+                                                // Option'lar client-side eklenmiş gibi simüle etmek isterseniz:
+                                                $('#selectedServiceGroupInSettings').append('<option value="@child.ID">@child.name</option>');
+                                                $('#groupsInModal').append('<option value="@child.ID">@child.name</option>');
+                                            });
+                                        </script> *@
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
             <div class="list-group" id="cGroups">
-
-
-
             </div>
         </div>
 
@@ -579,7 +632,7 @@
                     </div>
                     <div class="form-group mb-3">
                         <label for="serviceName" class="form-label">Kodu</label>
-                        <input type="text" class="form-control"  id="serviceCode" placeholder="Daxil edin...">
+                        <input type="text" class="form-control" id="serviceCode" placeholder="Daxil edin...">
                         <div class="valid-feedback">
                             Əla!
                         </div>
@@ -599,7 +652,7 @@
                     </div>
                     <div class="form-group mb-3">
                         <label for="groupsInModal" class="form-label">Qrup</label>
-                        <select class="form-control cGroupsAll" id="groupsInModal" >
+                        <select class="form-control cGroupsAll" id="groupsInModal">
                         </select>
                     </div>
                     <div class="form-check">
@@ -621,727 +674,746 @@
 
 @section Scripts
 {
-    <script>$('#isHeading').on('change', function () {
-            var isHeadingChecked = $(this).prop('checked');
-            var subGroupSelect = $('#cGroupsInModal').closest('.form-group');
 
-            if (isHeadingChecked) {
-                subGroupSelect.hide();
-            } else {
-                subGroupSelect.show();
-            }
-        });</script>
+    <script>
+        $(document).ready(function () {
+            $('a[data-child-id="@child.ID"]').on('click', function (e) {
+                e.preventDefault();
+                var childId = $(this).data('child-id');
+                $('.accordion .list-group-item').removeClass('active');
+                $(this).addClass('active');
+                $('#showAllServices').prop('checked', false);
+                $('#selectedServiceGroupInSettings').val(childId);
+                fetchServicesWithGroupNames(childId);
+            });
+
+            // Option'lar client-side eklenmiş gibi simüle etmek isterseniz:
+            $('#selectedServiceGroupInSettings').append('<option value="@child.ID">@child.name</option>');
+            $('#groupsInModal').append('<option value="@child.ID">@child.name</option>');
+        });
+    </script>
+
+    <script>
+        $('#isHeading').on('change', function () {
+                    var isHeadingChecked = $(this).prop('checked');
+                    var subGroupSelect = $('#cGroupsInModal').closest('.form-group');
+
+                    if (isHeadingChecked) {
+                        subGroupSelect.hide();
+                    } else {
+                        subGroupSelect.show();
+                    }
+                });</script>
 
 
-    <script>// Function to fetch and populate groups
-        var activeChildGroup;
-        var selectedServiceID;
+    <script>
+        // Function to fetch and populate groups
+                var activeChildGroup;
+                var selectedServiceID;
 
-        $('.generalSettings').show();
-        $('.accessSettings').hide();
-
-        $('.generalSettingsButton').addClass('active');
-        $('.accessSettingsButton').removeClass('active');
-        function settingsBoxClicked(tabIndex) {
-            if (tabIndex === 1) {
                 $('.generalSettings').show();
                 $('.accessSettings').hide();
 
                 $('.generalSettingsButton').addClass('active');
                 $('.accessSettingsButton').removeClass('active');
-            } else if (tabIndex === 2) {
-                $('.generalSettings').hide();
-                $('.accessSettings').show();
+                function settingsBoxClicked(tabIndex) {
+                    if (tabIndex === 1) {
+                        $('.generalSettings').show();
+                        $('.accessSettings').hide();
 
-                $('.generalSettingsButton').removeClass('active');
-                $('.accessSettingsButton').addClass('active');
-            }
-        }
+                        $('.generalSettingsButton').addClass('active');
+                        $('.accessSettingsButton').removeClass('active');
+                    } else if (tabIndex === 2) {
+                        $('.generalSettings').hide();
+                        $('.accessSettings').show();
 
-
-
-
-
-
-        var servicesBeforeAllShown;
-
-
-        $('#showAllServices').on('change', function () {
-            handleCheckboxState()
-            //if ($(this).is(":checked")) {
-            //    // Remove "active" class from all list items within all accordion items
-            //    $('.accordion .list-group-item').removeClass('active');
-
-            //    // Checkbox is checked
-            //    // Save the current state of services
-            //    servicesBeforeAllShown = $('#servicesInGroup').children().clone();
-
-            //    // Call fetchServicesWithGroupNames(0) to show all services
-            //    fetchServicesWithGroupNames(0);
-            //} else {
-            //    // Checkbox is unchecked
-            //    // Restore services to their state before "Show All" was selected
-            //    $('#servicesInGroup').empty().append(servicesBeforeAllShown);
-
-            //    // Reselect the active child group
-            //    if (activeChildGroup) {
-            //        activeChildGroup.click();
-            //    }
-            //}
-        });
-
-        function fetchGroups() {
-            $('#servicesInGroup').empty();
-            $('#selectedServiceGroupInSettings').empty();
-
-            $.ajax({
-                url: '@Url.Action("GetServiceGroups","Services", new {Area = "Admin"})',
-                type: 'GET',
-                data: { organizationID: localStorage.selectedOrganization },
-                success: function (response) {
-                    $('#cGroups').empty();
-                    $('#cGroupsInModal').empty();
-
-                    var accordionElement = $('<div>')
-                        .addClass('accordion')
-                        .attr('id', 'accordionExample');
-
-                    var headingGroups = response.filter(function (group) {
-                        return group.isHeading === true;
-                    });
-
-                    // Fill headings into modal select dropdown
-                    $.each(headingGroups, function (index, headingGroup) {
-                        var optionElement = $('<option>')
-                            .attr('value', headingGroup.id)
-                            .text(headingGroup.name)
-                            .appendTo('#cGroupsInModal');
-                    });
-
-                    $.each(headingGroups, function (index, headingGroup) {
-                        var groupElement = $('<div>')
-                            .addClass('accordion-item')
-                            .appendTo(accordionElement);
-
-                        var headerElement = $('<h2>')
-                            .addClass('accordion-header')
-                            .attr('id', 'heading' + headingGroup.id)
-                            .appendTo(groupElement);
-
-                        var buttonElement = $('<button>')
-                            .addClass('accordion-button')
-                            .attr('type', 'button')
-                            .attr('data-bs-toggle', 'collapse')
-                            .attr('data-bs-target', '#collapse' + headingGroup.id)
-                            .attr('aria-expanded', 'false')
-                            .attr('aria-controls', 'collapse' + headingGroup.id)
-                            .text(headingGroup.name)
-                            .appendTo(headerElement);
-
-                        var collapseElement = $('<div>')
-                            .addClass('accordion-collapse collapse')
-                            .attr('id', 'collapse' + headingGroup.id)
-                            .attr('aria-labelledby', 'heading' + headingGroup.id)
-                            .attr('data-bs-parent', '#accordionExample')
-                            .appendTo(groupElement);
-
-                        var bodyElement = $('<div>')
-                            .addClass('accordion-body')
-                            .appendTo(collapseElement);
-
-                        var childGroups = response.filter(function (childGroup) {
-                            return (
-                                childGroup.isHeading === false && childGroup.parent === headingGroup.id
-                            );
-                        });
-
-                        $.each(childGroups, function (index, childGroup) {
-                            var childElement = $('<div>')
-                                .addClass('accordion-item')
-                                .appendTo(bodyElement);
-
-
-
-                            var childButtonElement = $('<a>')
-                                .addClass('list-group-item list-group-item-action')
-
-                                //.attr('data-bs-toggle', 'collapse')
-                                //.attr('data-bs-target', '#collapse' + childGroup.id)
-                                //.attr('aria-expanded', 'false')
-                                //.attr('aria-controls', 'collapse' + childGroup.id)
-                                .text(childGroup.name)
-                                .appendTo(childElement);
-
-                            var childCollapseElement = $('<div>')
-                                .addClass('accordion-collapse collapse')
-                                .attr('id', 'collapse' + childGroup.id)
-                                .attr('aria-labelledby', 'heading' + childGroup.id)
-                                .attr('data-bs-parent', '#collapse' + headingGroup.id)
-                                .appendTo(childElement);
-
-                            var childBodyElement = $('<div>')
-                                .addClass('accordion-body')
-                                .appendTo(childCollapseElement);
-
-                            var optionElement = $('<option>')
-                                .attr('value', childGroup.id)
-                                .text(childGroup.name)
-                                .appendTo('#selectedServiceGroupInSettings');
-
-                            var groupsInModal = $('<option>')
-                                .attr('value', childGroup.id)
-                                .text(childGroup.name)
-                                .appendTo('#groupsInModal');
-
-
-                            // Update the click handler for childButtonElement
-                            childButtonElement.on('click', function () {
-                                var listItem = $(this);
-
-                                // Remember the clicked child group
-                                activeChildGroup = listItem;
-
-                                // Uncheck the "Show All" checkbox
-                                $('#showAllServices').prop('checked', false);
-
-                                // Remove "active" class from all list items within all accordion items
-                                $('.accordion .list-group-item').removeClass('active');
-
-                                // Add "active" class to the clicked list item
-                                listItem.addClass('active');
-
-                                // Update selectedServiceGroupInSettings dropdown with the selected subgroup
-                                $('#selectedServiceGroupInSettings').val(childGroup.id);
-
-                                // Fetch services with group names
-                                fetchServicesWithGroupNames(childGroup.id);
-                            });
-                        });
-                    });
-
-                    $('#cGroups').append(accordionElement);
-                },
-                error: function (error) {
-                    console.log(error);
+                        $('.generalSettingsButton').removeClass('active');
+                        $('.accessSettingsButton').addClass('active');
+                    }
                 }
-            });
-        }
-        function fetchServicesWithGroupNames(groupId) {
-            $.ajax({
-                url: '@Url.Action("GetServicesWithServiceGroupName","Services", new {Area = "Admin"})',
-                type: 'GET',
-                data: { organizationID: localStorage.selectedOrganization, serviceGroupID: groupId },
-                success: function (response) {
-                    $('#servicesInGroup').empty();
 
-                    if (response.length > 0) {
-                        $.each(response, function (index, service) {
-                            var serviceElement = $('<li>')
-                                .addClass('list-group-item list-group-item-action d-flex justify-content-between')
-                                .click(function () {
-                                    // Unselect previously selected service
-                                    $('#servicesInGroup .active').removeClass('active');
-                                    // Select the current service
-                                    $(this).addClass('active');
-                                    // Fill the service settings card with the information of the selected service
-                                    fillServiceSettings(service);
+
+
+
+
+
+                var servicesBeforeAllShown;
+
+
+                $('#showAllServices').on('change', function () {
+                    handleCheckboxState()
+                    //if ($(this).is(":checked")) {
+                    //    // Remove "active" class from all list items within all accordion items
+                    //    $('.accordion .list-group-item').removeClass('active');
+
+                    //    // Checkbox is checked
+                    //    // Save the current state of services
+                    //    servicesBeforeAllShown = $('#servicesInGroup').children().clone();
+
+                    //    // Call fetchServicesWithGroupNames(0) to show all services
+                    //    fetchServicesWithGroupNames(0);
+                    //} else {
+                    //    // Checkbox is unchecked
+                    //    // Restore services to their state before "Show All" was selected
+                    //    $('#servicesInGroup').empty().append(servicesBeforeAllShown);
+
+                    //    // Reselect the active child group
+                    //    if (activeChildGroup) {
+                    //        activeChildGroup.click();
+                    //    }
+                    //}
+                });
+
+                // function fetchGroups() {
+                //     $('#servicesInGroup').empty();
+                //     $('#selectedServiceGroupInSettings').empty();
+                //     console.log(localStorage)
+                //     $.ajax({
+                //         url: '@Url.Action("GetServiceGroups", "Services", new { Area = "Admin" })',
+                //         type: 'GET',
+                //         success: function (response) {
+                //             $('#cGroups').empty();
+                //             $('#cGroupsInModal').empty();
+
+                //             var accordionElement = $('<div>')
+                //                 .addClass('accordion')
+                //                 .attr('id', 'accordionExample');
+
+                //             var headingGroups = response.filter(function (group) {
+                //                 return group.isHeading === true;
+                //             });
+
+                //             // Fill headings into modal select dropdown
+                //             $.each(headingGroups, function (index, headingGroup) {
+                //                 var optionElement = $('<option>')
+                //                     .attr('value', headingGroup.id)
+                //                     .text(headingGroup.name)
+                //                     .appendTo('#cGroupsInModal');
+                //             });
+
+                //             $.each(headingGroups, function (index, headingGroup) {
+                //                 var groupElement = $('<div>')
+                //                     .addClass('accordion-item')
+                //                     .appendTo(accordionElement);
+
+                //                 var headerElement = $('<h2>')
+                //                     .addClass('accordion-header')
+                //                     .attr('id', 'heading' + headingGroup.id)
+                //                     .appendTo(groupElement);
+
+                //                 var buttonElement = $('<button>')
+                //                     .addClass('accordion-button')
+                //                     .attr('type', 'button')
+                //                     .attr('data-bs-toggle', 'collapse')
+                //                     .attr('data-bs-target', '#collapse' + headingGroup.id)
+                //                     .attr('aria-expanded', 'false')
+                //                     .attr('aria-controls', 'collapse' + headingGroup.id)
+                //                     .text(headingGroup.name)
+                //                     .appendTo(headerElement);
+
+                //                 var collapseElement = $('<div>')
+                //                     .addClass('accordion-collapse collapse')
+                //                     .attr('id', 'collapse' + headingGroup.id)
+                //                     .attr('aria-labelledby', 'heading' + headingGroup.id)
+                //                     .attr('data-bs-parent', '#accordionExample')
+                //                     .appendTo(groupElement);
+
+                //                 var bodyElement = $('<div>')
+                //                     .addClass('accordion-body')
+                //                     .appendTo(collapseElement);
+
+                //                 var childGroups = response.filter(function (childGroup) {
+                //                     return (
+                //                         childGroup.isHeading === false && childGroup.parent === headingGroup.id
+                //                     );
+                //                 });
+
+                //                 $.each(childGroups, function (index, childGroup) {
+                //                     var childElement = $('<div>')
+                //                         .addClass('accordion-item')
+                //                         .appendTo(bodyElement);
+
+
+
+                //                     var childButtonElement = $('<a>')
+                //                         .addClass('list-group-item list-group-item-action')
+
+                //                         //.attr('data-bs-toggle', 'collapse')
+                //                         //.attr('data-bs-target', '#collapse' + childGroup.id)
+                //                         //.attr('aria-expanded', 'false')
+                //                         //.attr('aria-controls', 'collapse' + childGroup.id)
+                //                         .text(childGroup.name)
+                //                         .appendTo(childElement);
+
+                //                     var childCollapseElement = $('<div>')
+                //                         .addClass('accordion-collapse collapse')
+                //                         .attr('id', 'collapse' + childGroup.id)
+                //                         .attr('aria-labelledby', 'heading' + childGroup.id)
+                //                         .attr('data-bs-parent', '#collapse' + headingGroup.id)
+                //                         .appendTo(childElement);
+
+                //                     var childBodyElement = $('<div>')
+                //                         .addClass('accordion-body')
+                //                         .appendTo(childCollapseElement);
+
+                //                     var optionElement = $('<option>')
+                //                         .attr('value', childGroup.id)
+                //                         .text(childGroup.name)
+                //                         .appendTo('#selectedServiceGroupInSettings');
+
+                //                     var groupsInModal = $('<option>')
+                //                         .attr('value', childGroup.id)
+                //                         .text(childGroup.name)
+                //                         .appendTo('#groupsInModal');
+
+
+                //                     // Update the click handler for childButtonElement
+                //                     childButtonElement.on('click', function () {
+                //                         var listItem = $(this);
+
+                //                         // Remember the clicked child group
+                //                         activeChildGroup = listItem;
+
+                //                         // Uncheck the "Show All" checkbox
+                //                         $('#showAllServices').prop('checked', false);
+
+                //                         // Remove "active" class from all list items within all accordion items
+                //                         $('.accordion .list-group-item').removeClass('active');
+
+                //                         // Add "active" class to the clicked list item
+                //                         listItem.addClass('active');
+
+                //                         // Update selectedServiceGroupInSettings dropdown with the selected subgroup
+                //                         $('#selectedServiceGroupInSettings').val(childGroup.id);
+
+                //                         // Fetch services with group names
+                //                         fetchServicesWithGroupNames(childGroup.id);
+                //                     });
+                //                 });
+                //             });
+
+                //             $('#cGroups').append(accordionElement);
+                //         },
+                //         error: function (error) {
+                //             console.log(error);
+                //         }
+                //     });
+                // }
+                function fetchServicesWithGroupNames(groupId) {
+                    $.ajax({
+                        url: '@Url.Action("GetServicesWithServiceGroupName", "Services", new { Area = "Admin" })',
+                        type: 'GET',
+                        data: { organizationID: localStorage.selectedOrganization, serviceGroupID: groupId },
+                        success: function (response) {
+                            $('#servicesInGroup').empty();
+
+                            if (response.length > 0) {
+                                $.each(response, function (index, service) {
+                                    var serviceElement = $('<li>')
+                                        .addClass('list-group-item list-group-item-action d-flex justify-content-between')
+                                        .click(function () {
+                                            // Unselect previously selected service
+                                            $('#servicesInGroup .active').removeClass('active');
+                                            // Select the current service
+                                            $(this).addClass('active');
+                                            // Fill the service settings card with the information of the selected service
+                                            fillServiceSettings(service);
+                                        });
+
+                                    serviceElement.append('<div>' + service.name + '</div>');
+                                    serviceElement.append('<div>' + (service.code ? service.code : '-') + '</div>');
+
+
+                                    $('#servicesInGroup').append(serviceElement);
                                 });
 
-                            serviceElement.append('<div>' + service.name + '</div>');
-                            serviceElement.append('<div>' + (service.code ? service.code : '-') + '</div>');
-
-
-                            $('#servicesInGroup').append(serviceElement);
-                        });
-
-                        // Select the first service button
-                        var firstServiceButton = $('#servicesInGroup li:first');
-                        if (firstServiceButton.length > 0) {
-                            firstServiceButton.addClass('active');
-                            // Fill the service settings card with the information of the selected service
-                            fillServiceSettings(response[0]);
+                                // Select the first service button
+                                var firstServiceButton = $('#servicesInGroup li:first');
+                                if (firstServiceButton.length > 0) {
+                                    firstServiceButton.addClass('active');
+                                    // Fill the service settings card with the information of the selected service
+                                    fillServiceSettings(response[0]);
+                                }
+                            } else {
+                                // No services in the subgroup
+                                // Clear and disable the service settings card
+                                $('#servicesInGroup').empty();
+                                fillServiceSettings(null);
+                            }
+                        },
+                        error: function (error) {
+                            console.log(error);
                         }
+                    });
+                }
+
+
+
+                function fillServiceSettings(service) {
+                    var serviceSettingsCard = $('#serviceSettingsCard');
+
+
+                    if (service) {
+                        // Enable the service settings card
+                        selectedServiceID = service.id;
+                        fetchDepartmentsInService(selectedServiceID)
+                        $('#serviceNameInSettings').prop('disabled', false);
+                        $('#selectedServiceGroupInSettings').prop('disabled', false);
+                        $('#serviceIsActive').prop('disabled', false);
+                        $('#updateService').prop('disabled', false);
+                        $('#serviceDepInSettings').prop('disabled', false);
+                        $('#servicePriceInSettings').prop('disabled', false);
+                        $('#serviceTypeInSettings').prop('disabled', false);
+                        //$('#serviceCodeInSettings').prop('disabled', false);
+
+
+
+                        $('#serviceNameInSettings').val(service.name);
+                        $('#servicePriceInSettings').val(service.price);
+                        $('#serviceTypeInSettings').val(service.serviceTypeID);
+                        $('#serviceCodeInSettings').val(service.code);
+                        $('#serviceDepInSettings').val(service.depID);
+                        $('#selectedServiceGroupInSettings').val(service.serviceGroupID);
+                        $('#serviceIsActive').prop('checked', service.isActive);
+
                     } else {
-                        // No services in the subgroup
-                        // Clear and disable the service settings card
-                        $('#servicesInGroup').empty();
-                        fillServiceSettings(null);
+                        // Disable the service settings card
+                        $('#serviceNameInSettings').prop('disabled', true);
+                        $('#serviceCodeInSettings').prop('disabled', true);
+                        $('#serviceTypeInSettings').prop('disabled', true);
+                        $('#selectedServiceGroupInSettings').prop('disabled', true);
+                        $('#serviceIsActive').prop('disabled', true);
+                        $('#updateService').prop('disabled', true);
+                        $('#serviceDepInSettings').prop('disabled', true);
+                        $('#servicePriceInSettings').prop('disabled', true);
+
+
+                        $('#serviceNameInSettings').val('');
+                        $('#serviceCodeInSettings').val('');
+                        $('#serviceTypeInSettings').val('');
+                        $('#serviceDepInSettings').val('');
+                        $('#selectedServiceGroupInSettings').val('');
+                        $('#servicePriceInSettings').val('');
+                        $('#serviceIsActive').prop('checked', false);
                     }
-                },
-                error: function (error) {
-                    console.log(error);
                 }
-            });
-        }
 
+                function fetchDepartments() {
+                    $.ajax({
+                        url: '@Url.Action("GetDepartmentsInOrganization", "Services", new { Area = "Admin" })',
+                        type: 'GET',
+                        data: { organizationID: localStorage.selectedOrganization },
+                        success: function (response) {
+                            var departmentsSelect = $('#selectDepartment');
 
+                            departmentsSelect.empty();
 
-        function fillServiceSettings(service) {
-            var serviceSettingsCard = $('#serviceSettingsCard');
+                            $.each(response, function (index, department) {
+                                var option = $('<option>')
+                                    .attr('value', department.id)
+                                    .text(department.name);
 
-
-            if (service) {
-                // Enable the service settings card
-                selectedServiceID = service.id;
-                fetchDepartmentsInService(selectedServiceID)
-                $('#serviceNameInSettings').prop('disabled', false);
-                $('#selectedServiceGroupInSettings').prop('disabled', false);
-                $('#serviceIsActive').prop('disabled', false);
-                $('#updateService').prop('disabled', false);
-                $('#serviceDepInSettings').prop('disabled', false);
-                $('#servicePriceInSettings').prop('disabled', false);
-                $('#serviceTypeInSettings').prop('disabled', false);
-                //$('#serviceCodeInSettings').prop('disabled', false);
-
-
-
-                $('#serviceNameInSettings').val(service.name);
-                $('#servicePriceInSettings').val(service.price);
-                $('#serviceTypeInSettings').val(service.serviceTypeID);
-                $('#serviceCodeInSettings').val(service.code);
-                $('#serviceDepInSettings').val(service.depID);
-                $('#selectedServiceGroupInSettings').val(service.serviceGroupID);
-                $('#serviceIsActive').prop('checked', service.isActive);
-
-            } else {
-                // Disable the service settings card
-                $('#serviceNameInSettings').prop('disabled', true);
-                $('#serviceCodeInSettings').prop('disabled', true);
-                $('#serviceTypeInSettings').prop('disabled', true);
-                $('#selectedServiceGroupInSettings').prop('disabled', true);
-                $('#serviceIsActive').prop('disabled', true);
-                $('#updateService').prop('disabled', true);
-                $('#serviceDepInSettings').prop('disabled', true);
-                $('#servicePriceInSettings').prop('disabled', true);
-
-
-                $('#serviceNameInSettings').val('');
-                $('#serviceCodeInSettings').val('');
-                $('#serviceTypeInSettings').val('');
-                $('#serviceDepInSettings').val('');
-                $('#selectedServiceGroupInSettings').val('');
-                $('#servicePriceInSettings').val('');
-                $('#serviceIsActive').prop('checked', false);
-            }
-        }
-
-        function fetchDepartments() {
-            $.ajax({
-                url: '@Url.Action("GetDepartmentsInOrganization","Services", new {Area = "Admin"})',
-                type: 'GET',
-                data: { organizationID: localStorage.selectedOrganization },
-                success: function (response) {
-                    var departmentsSelect = $('#selectDepartment');
-
-                    departmentsSelect.empty();
-
-                    $.each(response, function (index, department) {
-                        var option = $('<option>')
-                            .attr('value', department.id)
-                            .text(department.name);
-
-                        departmentsSelect.append(option);
+                                departmentsSelect.append(option);
+                            });
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
                     });
-                },
-                error: function (error) {
-                    console.log(error);
                 }
-            });
-        }
-        function fetchServiceTypes() {
-            $.ajax({
-                url: '@Url.Action("GetServiceTypes","Services", new {Area = "Admin"})',
-                type: 'GET',
-                success: function (response) {
-                    var serviceTypesSelect = $('#serviceTypeInSettings');
+                function fetchServiceTypes() {
+                    $.ajax({
+                        url: '@Url.Action("GetServiceTypes", "Services", new { Area = "Admin" })',
+                        type: 'GET',
+                        success: function (response) {
+                            var serviceTypesSelect = $('#serviceTypeInSettings');
 
-                    serviceTypesSelect.empty();
+                            serviceTypesSelect.empty();
 
-                    $.each(response, function (index, serviceType) {
-                        var option = $('<option>')
-                            .attr('value', serviceType.id)
-                            .text(serviceType.name);
+                            $.each(response, function (index, serviceType) {
+                                var option = $('<option>')
+                                    .attr('value', serviceType.id)
+                                    .text(serviceType.name);
 
-                        serviceTypesSelect.append(option);
+                                serviceTypesSelect.append(option);
+                            });
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
                     });
-                },
-                error: function (error) {
-                    console.log(error);
                 }
-            });
-        }
-        function fetchDepartmentsInService(serviceID) {
-            $.ajax({
-                url: '@Url.Action("GetDepartmentsInService","Services", new {Area = "Admin"})',
-                type: 'GET',
-                data: { serviceID: serviceID },
-                success: function (response) {
-                    var departmentsSelect = $('#serviceDepInSettings');
+                function fetchDepartmentsInService(serviceID) {
+                    $.ajax({
+                        url: '@Url.Action("GetDepartmentsInService", "Services", new { Area = "Admin" })',
+                        type: 'GET',
+                        data: { serviceID: serviceID },
+                        success: function (response) {
+                            var departmentsSelect = $('#serviceDepInSettings');
 
-                    departmentsSelect.empty();
+                            departmentsSelect.empty();
 
-                    $.each(response, function (index, department) {
-                        var option = $('<option>')
-                            .attr('value', department.id)
-                            .text(department.name);
+                            $.each(response, function (index, department) {
+                                var option = $('<option>')
+                                    .attr('value', department.id)
+                                    .text(department.name);
 
-                        departmentsSelect.append(option);
+                                departmentsSelect.append(option);
+                            });
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
                     });
-                },
-                error: function (error) {
-                    console.log(error);
                 }
-            });
-        }
-        function updateService() {
-            showLoading();
+                function updateService() {
+                    showLoading();
 
-            var serviceName = $('#serviceNameInSettings').val();
-            var servicePrice = $('#servicePriceInSettings').val();
-            var selectedGroupID = $('#selectedServiceGroupInSettings').val();
-            var selectedDepID = $('#serviceDepInSettings').val();
-            var selectedServiceTypeID = $('#serviceTypeInSettings').val();
-            var isActive = $('#serviceIsActive').is(':checked');
+                    var serviceName = $('#serviceNameInSettings').val();
+                    var servicePrice = $('#servicePriceInSettings').val();
+                    var selectedGroupID = $('#selectedServiceGroupInSettings').val();
+                    var selectedDepID = $('#serviceDepInSettings').val();
+                    var selectedServiceTypeID = $('#serviceTypeInSettings').val();
+                    var isActive = $('#serviceIsActive').is(':checked');
 
-            // Create the service object
-            var service = {
-                ID: selectedServiceID,
-                price: servicePrice,
-                name: serviceName,
-                serviceGroupID: selectedGroupID,
-                serviceTypeID: selectedServiceTypeID,
-                depID: selectedDepID,
-                isActive: isActive
-            };
+                    // Create the service object
+                    var service = {
+                        ID: selectedServiceID,
+                        price: servicePrice,
+                        name: serviceName,
+                        serviceGroupID: selectedGroupID,
+                        serviceTypeID: selectedServiceTypeID,
+                        depID: selectedDepID,
+                        isActive: isActive
+                    };
 
-            $.ajax({
-                url: '@Url.Action("UpdateService","Services", new {Area = "Admin"})',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(service),
-                success: function (response) {
-                    alert('Service updated successfully.');
-                    // Perform any additional actions or UI updates as needed
+                    $.ajax({
+                        url: '@Url.Action("UpdateService", "Services", new { Area = "Admin" })',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify(service),
+                        success: function (response) {
+                            alert('Service updated successfully.');
+                            // Perform any additional actions or UI updates as needed
 
-                    // Update the specific elements on the page
-                    $('#servicesInGroup .active').text(serviceName);
-                    $('#servicesInGroup .active').data('groupid', selectedGroupID);
+                            // Update the specific elements on the page
+                            $('#servicesInGroup .active').text(serviceName);
+                            $('#servicesInGroup .active').data('groupid', selectedGroupID);
 
-                    // Check if checkbox is checked
+                            // Check if checkbox is checked
+                            if ($('#showAllServices').is(":checked")) {
+                                // If checked, perform the same operations as in the change event handler
+
+                                $('.accordion .list-group-item').removeClass('active');
+                                servicesBeforeAllShown = $('#servicesInGroup').children().clone();
+                                fetchServicesWithGroupNames(0);
+
+                            } else {
+                                // If not checked, perform the operations for the unchecked case
+
+                                $('#servicesInGroup').empty().append(servicesBeforeAllShown);
+                                if (activeChildGroup) {
+                                    activeChildGroup.click();
+                                }
+                            }
+
+
+                            hideLoading();
+                        },
+                        error: function (error) {
+                            alert('Error occurred while updating service:', error);
+                            // Handle the error scenario appropriately
+                            hideLoading();
+                        }
+                    });
+                }
+
+                function handleCheckboxState() {
                     if ($('#showAllServices').is(":checked")) {
                         // If checked, perform the same operations as in the change event handler
-
                         $('.accordion .list-group-item').removeClass('active');
                         servicesBeforeAllShown = $('#servicesInGroup').children().clone();
                         fetchServicesWithGroupNames(0);
-
                     } else {
                         // If not checked, perform the operations for the unchecked case
-
                         $('#servicesInGroup').empty().append(servicesBeforeAllShown);
                         if (activeChildGroup) {
                             activeChildGroup.click();
                         }
                     }
-
-
-                    hideLoading();
-                },
-                error: function (error) {
-                    alert('Error occurred while updating service:', error);
-                    // Handle the error scenario appropriately
-                    hideLoading();
                 }
-            });
-        }
-
-        function handleCheckboxState() {
-            if ($('#showAllServices').is(":checked")) {
-                // If checked, perform the same operations as in the change event handler
-                $('.accordion .list-group-item').removeClass('active');
-                servicesBeforeAllShown = $('#servicesInGroup').children().clone();
-                fetchServicesWithGroupNames(0);
-            } else {
-                // If not checked, perform the operations for the unchecked case
-                $('#servicesInGroup').empty().append(servicesBeforeAllShown);
-                if (activeChildGroup) {
-                    activeChildGroup.click();
-                }
-            }
-        }
-        function loadData() {
-            showLoading();
+                function loadData() {
+                    showLoading();
 
 
 
-            // Once all data loading is complete
-            // Fill service settings and hide loading indicator
-            Promise.all([
-                fetchDepartments(),
-                fetchServiceTypes(),
-                fetchGroups(),
-                handleCheckboxState()
-
-            ]).then(function () {
-                fillServiceSettings(null);
-                hideLoading();
-            }).catch(function (error) {
-                console.log(error);
-                hideLoading();
-            });
-        }
-
-        function insertGroup() {
-            // Show loading
-            showLoading();
-
-            // Check the checkbox
-            var isHeadingCheckbox = document.getElementById('isHeading');
-            var isHeadingValue = isHeadingCheckbox.checked;
-
-            // Get the group name
-            var groupNameInput = document.getElementById('groupName');
-            var groupNameValue = groupNameInput.value;
-
-            // Make sure the group name is not empty
-            if (!groupNameValue) {
-                alert('Zəhmət olmasa adı qeyd edin');
-                hideLoading()
-                return;
-            }
-
-            // Get the parent group
-            var parentGroupSelect = document.getElementById('cGroupsInModal');
-            var parentGroupValue = parentGroupSelect.value || 0;
-
-            // Create the service group object
-            var serviceGroup = {
-                id: 0,
-                name: groupNameValue,
-                isHeading: isHeadingValue,
-                organizationID: localStorage.selectedOrganization,
-                parent: isHeadingValue ? 0 : parseInt(parentGroupValue) // Convert string to integer
-            };
-
-            // Call the server-side function
-            fetch('/Admin/services/InserServiceGroup', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(serviceGroup),
-            })
-                .then(response => {
-                    hideLoading();
-
-                    if (response.ok) {
-                        console.log('Success');
-                        alert('Uğurlu əməliyyat!');
-
-                        fetchGroups()
-                        // Check if checkbox is checked
-                        if ($('#showAllServices').is(":checked")) {
-                            // If checked, perform the same operations as in the change event handler
-
-                            $('.accordion .list-group-item').removeClass('active');
-                            servicesBeforeAllShown = $('#servicesInGroup').children().clone();
-                            fetchServicesWithGroupNames(0);
-
-                        } else {
-                            // If not checked, perform the operations for the unchecked case
-
-                            $('#servicesInGroup').empty().append(servicesBeforeAllShown);
-                            if (activeChildGroup) {
-                                activeChildGroup.click();
-                            }
-                        }
-
-                    }
-                    else if (response.status === 401) {
-                        console.log('Unauthorized');
-                        logout()
-                    }
-                    else {
-                        console.log('Error');
-                        alert('An error occurred while trying to add the group.');
-                    }
-                })
-                .catch((error) => {
-                    hideLoading();
-                    console.error('Error:', error);
-                    alert('An unexpected error occurred.');
-                });
-        }
-
-        function generateUniqueServiceCode() {
-            // Get the current date and time
-            const now = new Date();
-
-            // Format the date and time to include year, month, day, hours, minutes, seconds, and milliseconds
-            // This creates a string like '20230307T141520123'
-            const uniqueCode = now.getFullYear().toString() +
-                (now.getMonth() + 1).toString().padStart(2, '0') + // Months are 0-based
-                now.getDate().toString().padStart(2, '0') +
-                'T' + // Separating date and time with a 'T'
-                now.getHours().toString().padStart(2, '0') +
-                now.getMinutes().toString().padStart(2, '0') +
-                now.getSeconds().toString().padStart(2, '0') +
-                now.getMilliseconds().toString().padStart(3, '0');
-
-            // Set the generated unique code as the value of the 'serviceCode' input field
-            $('#serviceCode').val(uniqueCode);
-
-            // For purposes outside of setting the value directly, you might want to return it
-            return uniqueCode;
-        }
-
-        function insertService() {
-
-
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            var forms = document.getElementsByClassName('needs-validation');
-            // Loop over them and prevent submission
-            var validation = Array.prototype.filter.call(forms, function (form) {
-
-
-                if (form.checkValidity() === false) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                    //alert('sucess');
-                }
-                //else {
-                //    form.reportValidity()
-                //    //alert('asas');
-                //}
-                form.classList.add('was-validated');
-
-
-            });
-
-            if (forms[0].checkValidity()) {
-                generateUniqueServiceCode()
-                // Get the values from the modal's fields
-                let serviceName = $('#serviceName').val();
-                let servicePrice = $('#servicePrice').val();
-                let serviceCode = $('#serviceCode').val();
-                let groupID = $('#groupsInModal').val();
-                let isActive = $('#newServiceIsActive').is(':checked');
-
-                // Check if any of the fields is empty
-                if (serviceName === "" || servicePrice === "" || groupID === "") {
-                    alert("Zəhmət olmasa bütün boşluqları doldurun");
-                    return; // End the function here if any field is empty
-                }
-                if (serviceCode == '') {
-                    generateUniqueServiceCode()
-                    serviceCode = $('#serviceCode').val();
-                }
-
-                // Construct the service object
-                let serviceObj = {
-                    name: serviceName,
-                    code: serviceCode,
-                    price: servicePrice,
-                    serviceGroupID: groupID,
-                    organizationID: localStorage.selectedOrganization,
-                    isActive: isActive
-                };
-
-                // Send the service object to the server-side endpoint for insertion
-                $.ajax({
-                    url: '@Url.Action("InsertService","Services", new {Area = "Admin"})',
-                    type: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify(serviceObj),
-                    success: function (response) {
-                        // Handle success (refresh the data, clear the fields, close the modal, etc.)
-                        $('#addGroup').modal('hide');
-                        alert("Xidmət uğurla əlavə olundu");
-
+                    // Once all data loading is complete
+                    // Fill service settings and hide loading indicator
+                    Promise.all([
+                        fetchDepartments(),
+                        fetchServiceTypes(),
+                        // fetchGroups(),
                         handleCheckboxState()
-                        // Refresh your data here (e.g., call a function that fetches and displays the new list of services)
-                    },
-                    error: function (xhr, status, error) {
-                        if (xhr.status === 400) {
-                            // Bad Request - Invalid data or missing required fields
-                            alert(xhr.responseText); // Display the error message from the backend
-                        } else if (xhr.status === 409) {
-                            // Conflict - A matching record already exists
-                            alert(xhr.responseText); // Display the error message from the backend
-                        } else {
-                            // Other errors
-                            alert("Xəta biraz sonra, yenidən yoxlayın");
-                            console.error('Error inserting service:', error);
-                        }
-                    }
-                });
-            }
 
-
-        }
-
-
-
-        function addDepartmentToService() {
-            showLoading();
-            // Get the selected department from the dropdown
-            var selectedDepartmentId = $("#selectDepartment").val();
-
-            // Validate that a department was selected
-            if (!selectedDepartmentId) {
-                alert("Zəhmət olmasa şöbə seçin");
-                return;
-            }
-
-            // Assuming you have the serviceId available, add the department to the service
-            // This will need to be an AJAX call or similar to your backend system, like:
-            $.ajax({
-                url: '@Url.Action("InsertDepartmentToService","Services", new {Area = "Admin"})',
-                type: 'GET',
-                data: {
-                    serviceId: selectedServiceID, // Update this with how you are storing the current service ID
-                    departmentId: selectedDepartmentId
-                },
-                success: function (response) {
-                    hideLoading();
-                    alert("Şöbə xidmətə uğurla əlavə edildi");
-                    fetchDepartmentsInService(selectedServiceID)
-                    // Handle any updates to your UI here
-                },
-                error: function (error) {
-                    hideLoading();
-                    console.log(error);
-                    alert("Xəta baş verdi");
+                    ]).then(function () {
+                        fillServiceSettings(null);
+                        hideLoading();
+                    }).catch(function (error) {
+                        console.log(error);
+                        hideLoading();
+                    });
                 }
-            });
-        }
 
+                function insertGroup() {
+                    // Show loading
+                    showLoading();
 
-        function organizationChanged() {
-            // Reload all data with the new hospital ID
-            loadData();
-        }
+                    // Check the checkbox
+                    var isHeadingCheckbox = document.getElementById('isHeading');
+                    var isHeadingValue = isHeadingCheckbox.checked;
 
+                    // Get the group name
+                    var groupNameInput = document.getElementById('groupName');
+                    var groupNameValue = groupNameInput.value;
 
-        $(document).ready(function () {
-
-            $('#serviceSearch').on('keyup input', function () {
-                var value = $(this).val().toLowerCase();
-
-                $("#servicesInGroup .list-group-item").each(function () {
-                    var serviceName = $(this).find('div').first().text().toLowerCase();
-
-                    if (serviceName.includes(value)) {
-                        $(this).removeClass('d-none');
-                    } else {
-                        $(this).addClass('d-none');
+                    // Make sure the group name is not empty
+                    if (!groupNameValue) {
+                        alert('Zəhmət olmasa adı qeyd edin');
+                        hideLoading()
+                        return;
                     }
-                });
-            });
 
-            loadData()
+                    // Get the parent group
+                    var parentGroupSelect = document.getElementById('cGroupsInModal');
+                    var parentGroupValue = parentGroupSelect.value || 0;
 
-        });</script>
+                    // Create the service group object
+                    var serviceGroup = {
+                        id: 0,
+                        name: groupNameValue,
+                        isHeading: isHeadingValue,
+                        parent: isHeadingValue ? 0 : parseInt(parentGroupValue) // Convert string to integer
+                    };
+
+                    // Call the server-side function
+                    fetch('/Admin/services/InserServiceGroup', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(serviceGroup),
+                    })
+                        .then(response => {
+                            hideLoading();
+
+                            if (response.ok) {
+                                console.log('Success');
+                                alert('Uğurlu əməliyyat!');
+
+                                fetchGroups()
+                                // Check if checkbox is checked
+                                if ($('#showAllServices').is(":checked")) {
+                                    // If checked, perform the same operations as in the change event handler
+
+                                    $('.accordion .list-group-item').removeClass('active');
+                                    servicesBeforeAllShown = $('#servicesInGroup').children().clone();
+                                    fetchServicesWithGroupNames(0);
+
+                                } else {
+                                    // If not checked, perform the operations for the unchecked case
+
+                                    $('#servicesInGroup').empty().append(servicesBeforeAllShown);
+                                    if (activeChildGroup) {
+                                        activeChildGroup.click();
+                                    }
+                                }
+
+                            }
+                            else if (response.status === 401) {
+                                console.log('Unauthorized');
+                                logout()
+                            }
+                            else {
+                                console.log('Error');
+                                alert('An error occurred while trying to add the group.');
+                            }
+                        })
+                        .catch((error) => {
+                            hideLoading();
+                            console.error('Error:', error);
+                            alert('An unexpected error occurred.');
+                        });
+                }
+
+                function generateUniqueServiceCode() {
+                    // Get the current date and time
+                    const now = new Date();
+
+                    // Format the date and time to include year, month, day, hours, minutes, seconds, and milliseconds
+                    // This creates a string like '20230307T141520123'
+                    const uniqueCode = now.getFullYear().toString() +
+                        (now.getMonth() + 1).toString().padStart(2, '0') + // Months are 0-based
+                        now.getDate().toString().padStart(2, '0') +
+                        'T' + // Separating date and time with a 'T'
+                        now.getHours().toString().padStart(2, '0') +
+                        now.getMinutes().toString().padStart(2, '0') +
+                        now.getSeconds().toString().padStart(2, '0') +
+                        now.getMilliseconds().toString().padStart(3, '0');
+
+                    // Set the generated unique code as the value of the 'serviceCode' input field
+                    $('#serviceCode').val(uniqueCode);
+
+                    // For purposes outside of setting the value directly, you might want to return it
+                    return uniqueCode;
+                }
+
+                function insertService() {
+
+
+                    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                    var forms = document.getElementsByClassName('needs-validation');
+                    // Loop over them and prevent submission
+                    var validation = Array.prototype.filter.call(forms, function (form) {
+
+
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                            //alert('sucess');
+                        }
+                        //else {
+                        //    form.reportValidity()
+                        //    //alert('asas');
+                        //}
+                        form.classList.add('was-validated');
+
+
+                    });
+
+                    if (forms[0].checkValidity()) {
+                        generateUniqueServiceCode()
+                        // Get the values from the modal's fields
+                        let serviceName = $('#serviceName').val();
+                        let servicePrice = $('#servicePrice').val();
+                        let serviceCode = $('#serviceCode').val();
+                        let groupID = $('#groupsInModal').val();
+                        let isActive = $('#newServiceIsActive').is(':checked');
+
+                        // Check if any of the fields is empty
+                        if (serviceName === "" || servicePrice === "" || groupID === "") {
+                            alert("Zəhmət olmasa bütün boşluqları doldurun");
+                            return; // End the function here if any field is empty
+                        }
+                        if (serviceCode == '') {
+                            generateUniqueServiceCode()
+                            serviceCode = $('#serviceCode').val();
+                        }
+
+                        // Construct the service object
+                        let serviceObj = {
+                            name: serviceName,
+                            code: serviceCode,
+                            price: servicePrice,
+                            serviceGroupID: groupID,
+                            organizationID: localStorage.selectedOrganization,
+                            isActive: isActive
+                        };
+
+                        // Send the service object to the server-side endpoint for insertion
+                        $.ajax({
+                            url: '@Url.Action("InsertService", "Services", new { Area = "Admin" })',
+                            type: 'POST',
+                            contentType: 'application/json',
+                            data: JSON.stringify(serviceObj),
+                            success: function (response) {
+                                // Handle success (refresh the data, clear the fields, close the modal, etc.)
+                                $('#addGroup').modal('hide');
+                                alert("Xidmət uğurla əlavə olundu");
+
+                                handleCheckboxState()
+                                // Refresh your data here (e.g., call a function that fetches and displays the new list of services)
+                            },
+                            error: function (xhr, status, error) {
+                                if (xhr.status === 400) {
+                                    // Bad Request - Invalid data or missing required fields
+                                    alert(xhr.responseText); // Display the error message from the backend
+                                } else if (xhr.status === 409) {
+                                    // Conflict - A matching record already exists
+                                    alert(xhr.responseText); // Display the error message from the backend
+                                } else {
+                                    // Other errors
+                                    alert("Xəta biraz sonra, yenidən yoxlayın");
+                                    console.error('Error inserting service:', error);
+                                }
+                            }
+                        });
+                    }
+
+
+                }
+
+
+
+                function addDepartmentToService() {
+                    showLoading();
+                    // Get the selected department from the dropdown
+                    var selectedDepartmentId = $("#selectDepartment").val();
+
+                    // Validate that a department was selected
+                    if (!selectedDepartmentId) {
+                        alert("Zəhmət olmasa şöbə seçin");
+                        return;
+                    }
+
+                    // Assuming you have the serviceId available, add the department to the service
+                    // This will need to be an AJAX call or similar to your backend system, like:
+                    $.ajax({
+                        url: '@Url.Action("InsertDepartmentToService", "Services", new { Area = "Admin" })',
+                        type: 'GET',
+                        data: {
+                            serviceId: selectedServiceID, // Update this with how you are storing the current service ID
+                            departmentId: selectedDepartmentId
+                        },
+                        success: function (response) {
+                            hideLoading();
+                            alert("Şöbə xidmətə uğurla əlavə edildi");
+                            fetchDepartmentsInService(selectedServiceID)
+                            // Handle any updates to your UI here
+                        },
+                        error: function (error) {
+                            hideLoading();
+                            console.log(error);
+                            alert("Xəta baş verdi");
+                        }
+                    });
+                }
+
+
+                function organizationChanged() {
+                    // Reload all data with the new hospital ID
+                    loadData();
+                }
+
+
+                $(document).ready(function () {
+
+                    $('#serviceSearch').on('keyup input', function () {
+                        var value = $(this).val().toLowerCase();
+
+                        $("#servicesInGroup .list-group-item").each(function () {
+                            var serviceName = $(this).find('div').first().text().toLowerCase();
+
+                            if (serviceName.includes(value)) {
+                                $(this).removeClass('d-none');
+                            } else {
+                                $(this).addClass('d-none');
+                            }
+                        });
+                    });
+
+                    loadData()
+
+                });</script>
     @*<script src="~/js/admin/companies/companySettings.js" asp-append-version="true"></script>*@
 
 }

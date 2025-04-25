@@ -54,7 +54,9 @@ namespace Medicloud.Areas.Admin.Controllers
         {
             var userID = User.FindFirst("ID")?.Value;
 
-            ViewBag.expiredDate = _planRepository.GetUserPlanByUserId(Convert.ToInt32(userID)).expire_date;
+            //ViewBag.expiredDate = _planRepository.GetUserPlanByUserId(Convert.ToInt32(userID)).expire_date;
+            DateTime.TryParse(HttpContext.Session.GetString("Medicloud_UserPlanExpireDate"), out var planExpiryDate);
+            ViewBag.expiredDate = planExpiryDate;
             ViewBag.SelectedOrganization = HttpContext.Session.GetString("Medicloud_organizationName");
             ViewBag.patientStatisticsDTO = _patientRepo.GetPatientStatistics(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")));
             ViewBag.patientCardStatisticsDTO = _patientCardRepo.GetPatientCardStatistics(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")));
