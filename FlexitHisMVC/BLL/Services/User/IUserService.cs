@@ -6,7 +6,7 @@ namespace Medicloud.BLL.Services
 {
     public interface IUserService
     {
-        UserDTO SignIn(string content, string pass, int type);
+        Task<UserDTO> SignIn(string content, string pass, int type);
         List<UserDAO> GetRefererList();
         Task<OtpResult> SendOtpForUserRegistration(string content, int type);
         Task<OtpResult> SendRecoveryOtpForUser(string content, int type);

@@ -157,9 +157,7 @@
                             var isActive = item.organizationID == ViewBag.SelectedOrganizationID ? "active" : "";
 
                             <a class="dropdown-item @isActive" id="@item.organizationID"
-                               onclick="UpdateOrganizationSelection('@item.organizationID', '@item.organizationName').then(() => {
-                    window.location.reload();
-               });">
+                               onclick="SwitchOrganization('@item.organizationID');">
                                 @item.organizationName
                             </a>
                         }

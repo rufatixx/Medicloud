@@ -2,6 +2,7 @@
 using Medicloud.DAL.Entities;
 using Medicloud.DAL.Repository;
 using Medicloud.DAL.Repository.Organization;
+using Medicloud.DAL.Repository.Role;
 using Medicloud.Models;
 
 namespace Medicloud.BLL.Service.Organization
@@ -10,7 +11,6 @@ namespace Medicloud.BLL.Service.Organization
     {
       
         readonly IOrganizationRepo _organizationRepo;
-
         public OrganizationService(IOrganizationRepo organizationRepo)
         {
 
@@ -18,21 +18,21 @@ namespace Medicloud.BLL.Service.Organization
 
         }
 
-        public long AddOrganization(string organizationName)
+        public long AddOrganization(string organizationName,int ownerId)
         {
 
-            if (string.IsNullOrEmpty(organizationName))
+            if (string.IsNullOrEmpty(organizationName) || ownerId==0)
             {
                 throw new ArgumentException("Organization name must not be empty", nameof(organizationName));
             }
 
-            return _organizationRepo.InsertOrganization(organizationName);
+            return _organizationRepo.InsertOrganization(organizationName,ownerId);
 
 
         }
         public long AddOrganizationToNewUser(long userID, string organizationName)
         {
-            long orgID = AddOrganization(organizationName);
+            long orgID = AddOrganization(organizationName,(int)userID);
             var orgToUserRelID = _organizationRepo.InsertOrganizationToUser(userID, orgID);
 
             if (orgToUserRelID > 0)
@@ -92,7 +92,12 @@ namespace Medicloud.BLL.Service.Organization
                 : _organizationRepo.RemoveOrganizationFromUser(userID, organizationID);
         }
 
-    }
+		public async Task<OrganizationDAO> GetOrganizationById(int organizationId)
+		{
+			var org= await _organizationRepo.GetOrganizationById(organizationId);
+			return org;
+		}
+	}
 
 
 }

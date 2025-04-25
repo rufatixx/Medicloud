@@ -4,6 +4,7 @@ public class UserPlanDAO
 {
 	public int id { get; set; }
 	public int user_id { get; set; }
+	public int organization_id { get; set; }
 	public int plan_id { get; set; }
 	public DateTime	cDate { get; set; }
 	public DateTime? expire_date { get; set; }

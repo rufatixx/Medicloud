@@ -2,106 +2,136 @@
     ViewData["Title"] = "- Tarif və xidmətlər";
 
 }
-
+@model bool
 <div class="container-fluid">
 
     <!-- start page title -->
     <!--<div class="row">
         <div class="col-12">
             <div class="page-title-box">-->
-                @*<div class="page-title-right">
-                        <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Hyper</a></li>
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Pages</a></li>
-                            <li class="breadcrumb-item active">Pricing</li>
-                        </ol>
-                    </div>*@
-                <!--<h4 class="page-title">Tarif və xidmətlər</h4>
+    @*<div class="page-title-right">
+            <ol class="breadcrumb m-0">
+                <li class="breadcrumb-item"><a href="javascript: void(0);">Hyper</a></li>
+                <li class="breadcrumb-item"><a href="javascript: void(0);">Pages</a></li>
+                <li class="breadcrumb-item active">Pricing</li>
+            </ol>
+        </div>*@
+    <!--<h4 class="page-title">Tarif və xidmətlər</h4>
             </div>
         </div>
     </div>-->
     <!-- end page title -->
 
- 
-    <div class="row justify-content-center">
-        <div class="col-xxl-10">
-
-            <!-- Pricing Title-->
-            <div class="text-center">
-                <h3 class="mb-2">Tarif planları</h3>
-                <p class="text-muted w-50 m-auto">
-                    İlk 1ay ÖDƏNİŞSİZDİR
-                </p>
-            </div>
+    @if (Model)
+    {
 
 
+        <div class="row justify-content-center">
+            <div class="col-xxl-10">
 
-
-            <!-- Plans -->
-            <div class="row mt-sm-5 mt-3 mb-3">
-                <div class="col-md-4">
-                    <div class="card card-pricing">
-                        <div class="card-body text-center">
-                            <p class="card-pricing-plan-name fw-bold text-uppercase">Aylıq</p>
-                            <h2 class="card-pricing-price">100₼ <span>/ ay</span></h2>
-                            <ul class="card-pricing-features">
-                                <li>Pasient / müştəri  qeydiyyatı</li>
-                                <li>eNövbə təyin etmək</li>
-                                <li>Pasientin / müştərinin tarixçəsi</li>
-                                <li>Ətraflı statistika</li>
-                                <li>SMS bildirişlər</li>
-                                <li>Xüsusi peşəkar təqvimi</li>
-                            </ul>
-                            <button onclick="setPayment(100, 1, 1)" class="btn btn-primary mt-4 mb-2 rounded-pill">Seçin</button>
-                        </div>
-                    </div> <!-- end Pricing_card -->
-                </div> <!-- end col -->
-
-                <div class="col-md-4">
-                    <div class="card card-pricing card-pricing-recommended">
-                        <div class="card-body text-center">
-                            <div class="card-pricing-plan-tag">Tövsiyə olunan</div>
-                            <p class="card-pricing-plan-name fw-bold text-uppercase">6 aylıq</p>
-                            <h2 class="card-pricing-price">81₼ <span>/ ay</span></h2>
-                            <ul class="card-pricing-features">
-                                <li>Pasient / müştəri qeydiyyatı</li>
-                                <li>eNövbə təyin etmək</li>
-                                <li>Pasientin / müştərinin tarixçəsi</li>
-                                <li>Ətraflı statistika</li>
-                                <li>SMS bildirişlər</li>
-                                <li>Xüsusi peşəkar təqvimi</li>
-                            </ul>
-                            <button onclick="setPayment(487, 6, 2)" class="btn btn-primary mt-4 mb-2 rounded-pill">Seçin</button>
-                        </div>
-                    </div> <!-- end Pricing_card -->
-                </div> <!-- end col -->
-
-                <div class="col-md-4">
-                    <div class="card card-pricing">
-                        <div class="card-body text-center">
-                            <p class="card-pricing-plan-name fw-bold text-uppercase">İllik</p>
-                            <h2 class="card-pricing-price">76.9₼ <span>/ ay</span></h2>
-                            <ul class="card-pricing-features">
-                                <li>Pasient / müştəri qeydiyyatı</li>
-                                <li>eNövbə təyin etmək</li>
-                                <li>Pasientin / müştərinin tarixçəsi</li>
-                                <li>Ətraflı statistika</li>
-                                <li>SMS bildirişlər</li>
-                                <li>Xüsusi peşəkar təqvimi</li>
-                            </ul>
-                            <button onclick="setPayment(923, 12, 3)" class="btn btn-primary mt-4 mb-2 rounded-pill">Seçin</button>
-                        </div>
-                    </div> <!-- end Pricing_card -->
-                </div> <!-- end col -->
-
-            </div>
-            <!-- end row -->
+                <!-- Pricing Title-->
+                <div class="text-center">
+                    <h3 class="mb-2">Tarif planları</h3>
+                    <p class="text-muted w-50 m-auto">
+                        İlk 1ay ÖDƏNİŞSİZDİR
+                    </p>
+                </div>
 
 
 
-        </div> <!-- end col-->
-    </div>
-    <!-- end row --> 
+
+                <!-- Plans -->
+                <div class="row mt-sm-5 mt-3 mb-3">
+                    <div class="col-md-4">
+                        <div class="card card-pricing">
+                            <div class="card-body text-center">
+                                <p class="card-pricing-plan-name fw-bold text-uppercase">Aylıq</p>
+                                <h2 class="card-pricing-price">100₼ <span>/ ay</span></h2>
+                                <ul class="card-pricing-features">
+                                    <li>Pasient / müştəri  qeydiyyatı</li>
+                                    <li>eNövbə təyin etmək</li>
+                                    <li>Pasientin / müştərinin tarixçəsi</li>
+                                    <li>Ətraflı statistika</li>
+                                    <li>SMS bildirişlər</li>
+                                    <li>Xüsusi peşəkar təqvimi</li>
+                                </ul>
+                                <button onclick="setPayment(100, 1, 1)" class="btn btn-primary mt-4 mb-2 rounded-pill">Seçin</button>
+                            </div>
+                        </div> <!-- end Pricing_card -->
+                    </div> <!-- end col -->
+
+                    <div class="col-md-4">
+                        <div class="card card-pricing card-pricing-recommended">
+                            <div class="card-body text-center">
+                                <div class="card-pricing-plan-tag">Tövsiyə olunan</div>
+                                <p class="card-pricing-plan-name fw-bold text-uppercase">6 aylıq</p>
+                                <h2 class="card-pricing-price">81₼ <span>/ ay</span></h2>
+                                <ul class="card-pricing-features">
+                                    <li>Pasient / müştəri qeydiyyatı</li>
+                                    <li>eNövbə təyin etmək</li>
+                                    <li>Pasientin / müştərinin tarixçəsi</li>
+                                    <li>Ətraflı statistika</li>
+                                    <li>SMS bildirişlər</li>
+                                    <li>Xüsusi peşəkar təqvimi</li>
+                                </ul>
+                                <button onclick="setPayment(487, 6, 2)" class="btn btn-primary mt-4 mb-2 rounded-pill">Seçin</button>
+                            </div>
+                        </div> <!-- end Pricing_card -->
+                    </div> <!-- end col -->
+
+                    <div class="col-md-4">
+                        <div class="card card-pricing">
+                            <div class="card-body text-center">
+                                <p class="card-pricing-plan-name fw-bold text-uppercase">İllik</p>
+                                <h2 class="card-pricing-price">76.9₼ <span>/ ay</span></h2>
+                                <ul class="card-pricing-features">
+                                    <li>Pasient / müştəri qeydiyyatı</li>
+                                    <li>eNövbə təyin etmək</li>
+                                    <li>Pasientin / müştərinin tarixçəsi</li>
+                                    <li>Ətraflı statistika</li>
+                                    <li>SMS bildirişlər</li>
+                                    <li>Xüsusi peşəkar təqvimi</li>
+                                </ul>
+                                <button onclick="setPayment(923, 12, 3)" class="btn btn-primary mt-4 mb-2 rounded-pill">Seçin</button>
+                            </div>
+                        </div> <!-- end Pricing_card -->
+                    </div> <!-- end col -->
+
+                </div>
+                <!-- end row -->
+
+
+
+            </div> <!-- end col-->
+        </div>
+        <!-- end row -->
+    }
+    else
+    {
+        <div class="row justify-content-center">
+            <div class="col-xxl-10">
+
+
+
+                <!-- Plans -->
+                <div class="row mt-sm-5 mt-3 mb-3">
+                    <div class="">
+                        <div class="card card-pricing">
+                            <div class="card-body text-center">
+                                <div class="alert alert-danger text-center py-3" role="alert">
+                                    Hörmətli istifadəçi, vaxtı keçmiş abunəliyə görə müəssisənizin Medicloud funksiyalarına girişi dayandırılıb.
+                                </div>
+                            </div>
+                        </div> <!-- end Pricing_card -->
+                    </div> <!-- end col -->
+                </div>
+                <!-- end row -->
+
+
+
+            </div> <!-- end col-->
+        </div>
+    }
 
 </div> <!-- container -->
 

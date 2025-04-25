@@ -7,6 +7,7 @@ using Medicloud.DAL.Entities;
 using Medicloud.DAL.Infrastructure.Abstract;
 using Medicloud.DAL.Repository.Kassa;
 using Medicloud.DAL.Repository.Plan;
+using Medicloud.DAL.Repository.Role;
 using Medicloud.DAL.Repository.UserPlan;
 
 using Medicloud.DAL.Repository.Users;
@@ -20,7 +21,8 @@ namespace Medicloud.BLL.Service
 	public class UserService:IUserService
 	{
 		private readonly string _connectionString;
-		KassaRepo _kassaRepo;
+		//KassaRepo _kassaRepo;
+		private readonly IKassaRepo _kassaRepo;
 		IUserRepository _userRepository;
 
         IUserPlanRepo _userPlanRepo;
@@ -28,8 +30,8 @@ namespace Medicloud.BLL.Service
         IOrganizationService _organizationService;
         IPlanRepository _planRepository;
 		private readonly IUnitOfWork _unitOfWork;
-
-		public UserService(IKassaRepo kassaRepo, ICommunicationService communicationService, IUserPlanRepo userPlanRepo, IOrganizationService organizationService, IUserRepository userRepository, IPlanRepository planRepository, IUnitOfWork unitOfWork)
+		private readonly IRoleRepository _roleRepository;
+		public UserService(IKassaRepo kassaRepo, ICommunicationService communicationService, IUserPlanRepo userPlanRepo, IOrganizationService organizationService, IUserRepository userRepository, IPlanRepository planRepository, IUnitOfWork unitOfWork, IRoleRepository roleRepository)
 		{
 
 
@@ -40,10 +42,12 @@ namespace Medicloud.BLL.Service
 			_planRepository = planRepository;
 			_userPlanRepo = userPlanRepo;
 			_unitOfWork = unitOfWork;
+			_kassaRepo = kassaRepo;
+			_roleRepository = roleRepository;
 			//_nUserRepository = new UserRepository()
 		}
 
-		public  UserDTO SignIn(string content, string pass,int type)
+		public async Task<UserDTO> SignIn(string content, string pass,int type)
 		{
 
 			//long formattedPhone = regexPhone(phone);
@@ -61,7 +65,11 @@ namespace Medicloud.BLL.Service
 
 				status.organizations = _organizationService.GetOrganizationsByUser(status.personal.ID);
 
-		
+				foreach (var item in status.organizations)
+				{
+					var itemroles = await _roleRepository.GetUserRoles(item.organizationID, status.personal.ID);
+					item.Roles = itemroles;
+				}
 				status.kassaList = _kassaRepo.GetUserAllowedKassaList(status.personal.ID);
 
 

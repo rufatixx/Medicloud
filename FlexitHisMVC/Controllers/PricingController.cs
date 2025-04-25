@@ -35,7 +35,11 @@ namespace Medicloud.Controllers
 
         public IActionResult Index()
         {
-            return View();
+
+			var ownerId = int.Parse(HttpContext.Session.GetString("Medicloud_organizationOwnerId"));
+			var userId = int.Parse(HttpContext.Session.GetString("Medicloud_userID"));
+			bool isOwner = userId == ownerId;
+			return View(isOwner);
         }
 
 		[HttpGet]

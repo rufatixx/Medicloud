@@ -22,15 +22,15 @@ namespace Medicloud.DAL.Repository.Organization
         /// <summary>
         /// Inserts a new organization record and returns its primary key.
         /// </summary>
-        public long InsertOrganization(string organizationName)
+        public long InsertOrganization(string organizationName,int ownerId)
         {
             _unitOfWork.BeginConnection();
             var con = _unitOfWork.GetConnection();
 
-            const string query = @"INSERT INTO organizations (name) VALUES (@name);";
+            const string query = @"INSERT INTO organizations (name,ownerId) VALUES (@name,@OwnerId);";
 
             // Execute insert
-            con.Execute(query, new { name = organizationName });
+            con.Execute(query, new { name = organizationName, OwnerId=ownerId });
 
             // Fetch the last inserted ID
             long lastId = con.QuerySingle<long>("SELECT LAST_INSERT_ID();");
@@ -70,7 +70,8 @@ namespace Medicloud.DAL.Repository.Organization
             const string query = @"
                 SELECT 
                     a.*,
-                    o.name AS organizationName
+                    o.name AS organizationName,
+					o.ownerId
                 FROM user_organization_rel a
                 JOIN organizations o ON o.id = a.organizationID
                 WHERE a.userID = @userID
@@ -144,5 +145,22 @@ namespace Medicloud.DAL.Repository.Organization
             int rowsAffected = con.Execute(sql, new { userID, organizationID });
             return rowsAffected;
         }
-    }
+
+		public async Task<OrganizationDAO> GetOrganizationById(int organizationId)
+		{
+			_unitOfWork.BeginConnection();
+			var con = _unitOfWork.GetConnection();
+
+			const string query = @"
+                SELECT 
+					o.ID AS organizationID,
+                    o.name AS organizationName,
+                    o.ownerId
+                FROM organizations o
+                WHERE o.ID = @OrganizationId";
+			var result = await con.QuerySingleOrDefaultAsync<OrganizationDAO>(query, new { OrganizationId=organizationId });
+			return result;
+		}
+
+	}
 }

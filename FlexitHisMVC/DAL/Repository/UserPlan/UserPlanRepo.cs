@@ -1,5 +1,6 @@
 ﻿using System;
 using Dapper;
+using Medicloud.DAL.Entities;
 using Medicloud.DAL.Infrastructure.Abstract;
 
 namespace Medicloud.DAL.Repository.UserPlan
@@ -31,7 +32,7 @@ namespace Medicloud.DAL.Repository.UserPlan
                     plan_id = planId,
                     expire_date = DateTime.Now.AddMonths(duration),
                     isActive
-                }, transaction);
+				}, transaction);
 
                 transaction.Commit();
             }
@@ -41,5 +42,14 @@ namespace Medicloud.DAL.Repository.UserPlan
                 throw new Exception("Failed to add user plan", ex);
             }
         }
-    }
+
+		public async Task<UserPlanDAO> GetPlansByUserId(int userId)
+		{
+			using var con=_unitOfWork.BeginConnection();
+			var query = "SELECT * FROM user_plans WHERE user_id =@UserId AND isActive=1";
+
+			var result = await con.QuerySingleOrDefaultAsync<UserPlanDAO>(query, new { UserId = userId });
+			return result;
+		}
+	}
 }

@@ -24,11 +24,9 @@ namespace Medicloud.DAL.Repository.Users
             if (string.IsNullOrEmpty(column)) return new UserDAO();
 
             string query = $@"
-                SELECT u.*, up.expire_date AS subscription_expire_date
+                SELECT u.*
                 FROM users u
-                LEFT JOIN user_plans up ON u.id = up.user_id AND up.isActive = 1
                 WHERE u.pwd = SHA2(@pass, 256) AND {column} = @content AND u.isActive = 1 AND u.isRegistered = 1";
-
             return con.Query<UserDAO>(query, new { pass, content }).FirstOrDefault() ?? new UserDAO();
         }
 
