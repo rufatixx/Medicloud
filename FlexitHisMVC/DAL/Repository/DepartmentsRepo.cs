@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Medicloud.Models;
 using MySql.Data.MySqlClient;
+using Mysqlx.Crud;
 
 namespace Medicloud.Data
 {
@@ -312,8 +313,60 @@ WHERE a.serviceID = @serviceID;", connection))
             }
 
             return false;
-
         }
+
+        public bool DeleteDepartmentFromService(int serviceID, int depID)
+        {
+
+            try
+            {
+                int affected = 0;
+                using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+                {
+
+                    connection.Open();
+
+
+
+
+
+                    using (MySqlCommand com = new MySqlCommand(@"DELETE FROM service_dep_rel WHERE serviceID = @serviceID AND depID =@depID", connection))
+
+                    {
+                        com.Parameters.AddWithValue("@serviceID", serviceID);
+                        com.Parameters.AddWithValue("@depID", depID);
+
+
+                        affected= com.ExecuteNonQuery();
+                    }
+
+
+                    connection.Close();
+
+                    if (affected > 0)
+                    {
+
+                        return true;
+
+                        //response.status = 1; //inserted
+                    }
+
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Medicloud.StandardMessages.CallSerilog(ex);
+                Console.WriteLine(ex.Message);
+
+                //response.status = 4; // not inserted (error)
+            }
+
+            return false;
+        }
+
+      
         public bool UpdateDepartments(int id, int gender, long buildingID, int depTypeID, int drIsRequired, int isActive, int isRandevuActive)
         {
             var affectedRows = 0;

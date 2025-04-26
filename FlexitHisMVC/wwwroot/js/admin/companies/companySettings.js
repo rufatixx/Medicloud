@@ -88,144 +88,144 @@ $.each(gender, function () {
 
 function getPageData() {
   
-    showLoading();
-    $("#companiesInBuilding").empty();
-    $("#cGroups").empty();
+    //showLoading();
+    //$("#companiesInBuilding").empty();
+    //$("#cGroups").empty();
    
-    $("#companiesIsActive").prop('checked', true);
-    $("#groupsIsActive").prop('checked', true);
+    //$("#companiesIsActive").prop('checked', true);
+    //$("#groupsIsActive").prop('checked', true);
 
-    $.ajax({
-        type: 'POST',
-        url: `/admin/companies/getCompanyGroups`,
-        data: { organizationID: localStorage.selectedOrganization },
-        dataType: 'json',
-        success: function (data, status, xhr) {   // success callback function
-            //  var json = JSON.stringify(data)
-            if (data.status != 4) {
-                if (typeof (Storage) !== "undefined") {
+    //$.ajax({
+    //    type: 'POST',
+    //    url: `/admin/companies/getCompanyGroups`,
+    //    data: { organizationID: localStorage.selectedOrganization },
+    //    dataType: 'json',
+    //    success: function (data, status, xhr) {   // success callback function
+    //        //  var json = JSON.stringify(data)
+    //        if (data.status != 4) {
+    //            if (typeof (Storage) !== "undefined") {
 
-                    localStorage.requestToken = data.requestToken
-                } else {
+    //                localStorage.requestToken = data.requestToken
+    //            } else {
 
-                    // Sorry! No Web Storage support..
-                }
+    //                // Sorry! No Web Storage support..
+    //            }
           
 
-groupsInBuilding = data.data;
+    //        groupsInBuilding = data.data;
 
-            //alert(data.requestTypes[0].name)
-            $.each(data.data, function () {
-                if(this.isActive == 1)
-                {
-                 $("#cGroups").append($(`<a class='list-group-item list-group-item-action companyGroupInBuildingItem' id='selectedCompanyGroup${this.id}'  onclick='{selectGroup(this,${this.id})}' />`).text(this.name));
-                }
+    //        //alert(data.requestTypes[0].name)
+    //        $.each(data.data, function () {
+    //            if(this.isActive == 1)
+    //            {
+    //             $("#cGroups").append($(`<a class='list-group-item list-group-item-action companyGroupInBuildingItem' id='selectedCompanyGroup${this.id}'  onclick='{selectGroup(this,${this.id})}' />`).text(this.name));
+    //            }
                 
-                $(".cGroupsAll").append($("<option />").val(this.id).text(this.name));
+    //            $(".cGroupsAll").append($("<option />").val(this.id).text(this.name));
                
-            });
+    //        });
 
 
-            $.ajax({
-                type: 'POST',
-                url: `/admin/companies/getCompanies`,
-                data: { organizationID: localStorage.selectedOrganization },
-                dataType: 'json',
-                success: function (data, status, xhr) {   // success callback function
-                    //  var json = JSON.stringify(data)
-                    if (data.status != 4) {
-                        if (typeof (Storage) !== "undefined") {
+    //        $.ajax({
+    //            type: 'POST',
+    //            url: `/admin/companies/getCompanies`,
+    //            data: { organizationID: localStorage.selectedOrganization },
+    //            dataType: 'json',
+    //            success: function (data, status, xhr) {   // success callback function
+    //                //  var json = JSON.stringify(data)
+    //                if (data.status != 4) {
+    //                    if (typeof (Storage) !== "undefined") {
         
-                            localStorage.requestToken = data.requestToken
-                             //alert(data.requestTypes[0].name)
-                    $.each(data.data, function () {
-                        if(this.isActive == 1)
-                        {
-                            $("#companiesInBuilding").append($(`<a class='list-group-item list-group-item-action companyInBuildingItem' id='selectedCompany${this.id}'  onclick='{selectCompany(this,${this.id})}' />`).text(this.name));
-                        }
+    //                        localStorage.requestToken = data.requestToken
+    //                         //alert(data.requestTypes[0].name)
+    //                $.each(data.data, function () {
+    //                    if(this.isActive == 1)
+    //                    {
+    //                        $("#companiesInBuilding").append($(`<a class='list-group-item list-group-item-action companyInBuildingItem' id='selectedCompany${this.id}'  onclick='{selectCompany(this,${this.id})}' />`).text(this.name));
+    //                    }
                        
-                    });
+    //                });
         
-        companiesInBuilding = data.data;
+    //    companiesInBuilding = data.data;
         
-                        } else {
+    //                    } else {
         
-                            // Sorry! No Web Storage support..
-                        }
-                    }
+    //                        // Sorry! No Web Storage support..
+    //                    }
+    //                }
         
         
         
                    
-                    hideLoading();
+    //                hideLoading();
         
-                },
-                error: function (jqXhr, textStatus, errorMessage) { // error callback
+    //            },
+    //            error: function (jqXhr, textStatus, errorMessage) { // error callback
         
-                    hideLoading();
+    //                hideLoading();
         
-                    switch (jqXhr.status) {
-                        case 401:
-                            localStorage.clear()
-                            $('#systemModalTitle').text("Sessiyanız başa çatıb");
-                            $('#systemModalText').html(`<p id="systemModalText">Zəhmət olmasa yenidən giriş edin</p>`);
-                            $('#systemModalBtn').removeAttr("hidden");
-                            $('#systemModal').modal("show");
-                            break;
-                        case 0:
-                            $('#warningModal').modal('show')
-                            $('#warningTitle').text(`Şəbəkə xətası`);
-                            $('#warningText').text(`Serverlərimizlə əlaqə yoxdur`);
-                            break;
-                        default:
-                            $('#warningModal').modal('show')
-                            $('#warningTitle').text(`Server xətası`);
-                            $('#warningText').text(`Status: ${jqXhr.status}`);
-                            break;
+    //                switch (jqXhr.status) {
+    //                    case 401:
+    //                        localStorage.clear()
+    //                        $('#systemModalTitle').text("Sessiyanız başa çatıb");
+    //                        $('#systemModalText').html(`<p id="systemModalText">Zəhmət olmasa yenidən giriş edin</p>`);
+    //                        $('#systemModalBtn').removeAttr("hidden");
+    //                        $('#systemModal').modal("show");
+    //                        break;
+    //                    case 0:
+    //                        $('#warningModal').modal('show')
+    //                        $('#warningTitle').text(`Şəbəkə xətası`);
+    //                        $('#warningText').text(`Serverlərimizlə əlaqə yoxdur`);
+    //                        break;
+    //                    default:
+    //                        $('#warningModal').modal('show')
+    //                        $('#warningTitle').text(`Server xətası`);
+    //                        $('#warningText').text(`Status: ${jqXhr.status}`);
+    //                        break;
         
-                    }
+    //                }
         
-                    //  $('#alert').text('Error: ' + errorMessage);
-                }
+    //                //  $('#alert').text('Error: ' + errorMessage);
+    //            }
         
-            });
-        }
-        else{
-            $('#warningModal').modal('show')
-                    $('#warningTitle').text(`Server xətası`);
+    //        });
+    //    }
+    //    else{
+    //        $('#warningModal').modal('show')
+    //                $('#warningTitle').text(`Server xətası`);
                   
-        }
+    //    }
 
-        },
-        error: function (jqXhr, textStatus, errorMessage) { // error callback
+    //    },
+    //    error: function (jqXhr, textStatus, errorMessage) { // error callback
 
-            hideLoading();
+    //        hideLoading();
 
-            switch (jqXhr.status) {
-                case 401:
-                    localStorage.clear()
-                    $('#systemModalTitle').text("Sessiyanız başa çatıb");
-                    $('#systemModalText').html(`<p id="systemModalText">Zəhmət olmasa yenidən giriş edin</p>`);
-                    $('#systemModalBtn').removeAttr("hidden");
-                    $('#systemModal').modal("show");
-                    break;
-                case 0:
-                    $('#warningModal').modal('show')
-                    $('#warningTitle').text(`Şəbəkə xətası`);
-                    $('#warningText').text(`Serverlərimizlə əlaqə yoxdur`);
-                    break;
-                default:
-                    $('#warningModal').modal('show')
-                    $('#warningTitle').text(`Server xətası`);
-                    $('#warningText').text(`Status: ${jqXhr.status}`);
-                    break;
+    //        switch (jqXhr.status) {
+    //            case 401:
+    //                localStorage.clear()
+    //                $('#systemModalTitle').text("Sessiyanız başa çatıb");
+    //                $('#systemModalText').html(`<p id="systemModalText">Zəhmət olmasa yenidən giriş edin</p>`);
+    //                $('#systemModalBtn').removeAttr("hidden");
+    //                $('#systemModal').modal("show");
+    //                break;
+    //            case 0:
+    //                $('#warningModal').modal('show')
+    //                $('#warningTitle').text(`Şəbəkə xətası`);
+    //                $('#warningText').text(`Serverlərimizlə əlaqə yoxdur`);
+    //                break;
+    //            default:
+    //                $('#warningModal').modal('show')
+    //                $('#warningTitle').text(`Server xətası`);
+    //                $('#warningText').text(`Status: ${jqXhr.status}`);
+    //                break;
 
-            }
+    //        }
 
-            //  $('#alert').text('Error: ' + errorMessage);
-        }
+    //        //  $('#alert').text('Error: ' + errorMessage);
+    //    }
 
-    });
+    //});
 
 }
 
@@ -509,7 +509,8 @@ function updateCompanyGroup() {
          
             id: $(".groupSettings").prop('id'),
             organizationID: localStorage.selectedOrganization,
-            name:$("#groupNameInSettings").val(),
+            name: $("#groupNameInSettings").val(),
+            groupTypeId: $("#groupTypeIdInSettings").val(),
             isActive: groupIsActive,
            
         },

@@ -202,7 +202,7 @@ namespace Medicloud.Data
 
             return false;
         }
-        public bool UpdateCompany(int userID, int organizationID, int id, string name, int isActive)
+        public bool UpdateCompany(int userID, int organizationID, int id, string name,int groupId, int isActive)
         {
             try
             {
@@ -217,11 +217,12 @@ namespace Medicloud.Data
 
 
                     using (MySqlCommand com = new MySqlCommand(@"UPDATE company
-SET name = @name,isActive = @isActive WHERE id = @id and organizationID = @organizationID;", connection))
+SET name = @name,groupID=@groupId,isActive = @isActive WHERE id = @id and organizationID = @organizationID;", connection))
 
                     {
                         com.Parameters.AddWithValue("@id", id);
                         com.Parameters.AddWithValue("@name", name);
+                        com.Parameters.AddWithValue("@groupId", groupId);
                         com.Parameters.AddWithValue("@isActive", isActive);
                         com.Parameters.AddWithValue("@organizationID", organizationID);
                         com.Parameters.AddWithValue("@userID", userID);

@@ -1,7 +1,10 @@
-﻿
+﻿@using Medicloud.Areas.Admin.ViewModels
+
 @{
     ViewData["Title"] = "- Təşkilatlar";
 }
+
+@model CompanyViewModel
 
 <div class="row">
     <div class="col-12">
@@ -11,7 +14,7 @@
 
 
 
-                   
+
                     <a class="btn border-left ms-2"
                        onclick=" $('#addCompany').modal('show');">
                         <span class="input-group-text bg-primary border-primary text-white">
@@ -34,7 +37,7 @@
     </div>
 </div>
 
-<form class="needs-validation" novalidate style="margin-top:2%" id="form1">
+<div style="margin-top:2%">
 
     <div class="row">
         <div class="col-md-4">
@@ -43,7 +46,7 @@
                     <div class="row">
                         <div class="col-md-6">Qruplar</div>
                         <div class="col-md-6 text-right">
-                            <input class="form-check-input" type="checkbox" id="groupsIsActive" onclick="filterGroups()"
+                            <input class="form-check-input" type="checkbox" id="groupsIsActive"
                                    checked>
                             <label class="form-check-label">
                                 Aktiv
@@ -52,7 +55,14 @@
                     </div>
                 </div>
                 <div class="list-group" id="cGroups">
-
+                    @if (Model.CompanyGroups != null)
+                    {
+                        foreach (var item in Model.CompanyGroups)
+                        {
+                            var display = item.isActive==1 ? "" : "display:none;";
+                            <a id='selectedCompanyGroup@(item.id)' class='list-group-item list-group-item-action companyGroupInBuildingItem' style="@display" data-is-active="@item.isActive" data-item='@Json.Serialize(item)'>@item.name</a>
+                        }
+                    }
 
 
                 </div>
@@ -75,9 +85,15 @@
                     </div>
                 </div>
                 <div class="list-group" id="companiesInBuilding">
+                    @if (Model.CompanyGroups != null)
+                    {
+                        foreach (var item in Model.Companies)
+                        {
+                            var display = item.isActive==1 ? "" : "display:none;";
 
-
-
+                            <a id='selectedCompany@(item.id)' class='list-group-item list-group-item-action companyInBuildingItem' data-group-id="@item.groupID" style="@display" data-is-active="@item.isActive" data-item='@Json.Serialize(item)'>@item.name</a>
+                        }
+                    }
                 </div>
 
 
@@ -100,47 +116,52 @@
                 </div>
                 <div class="card-body">
                     <div class="generalSettings">
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label for="exampleFormControlSelect1">Qrup adı</label>
-                                    <input type="text" class="form-control" required id="groupNameInSettings"
-                                           placeholder="Qrup adı">
+                        <form id="updateCompanyGroupForm" novalidate>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="exampleFormControlSelect1">Qrup adı</label>
+                                        <input type="text" class="form-control" required id="groupNameInSettings"
+                                               placeholder="Qrup adı">
+                                        <div class="valid-feedback">
+                                            Əla!
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Boşluğu doldurun.
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="exampleFormControlSelect1">Tipi</label>
+                                        <select class="form-control" required id="selectedCompanyGroupTypeInSettings">
+                                            <option value="1">Ödənişli</option>
+                                            <option value="2">Rəsmi</option>
+
+                                        </select>
+
+                                    </div>
 
                                 </div>
-                                <div class="col-md-6">
-                                    <label for="exampleFormControlSelect1">Tipi</label>
-                                    <select class="form-control" required id="selectedCompanyGroupTypeInSettings" disabled>
-                                        <option value="1">Ödənişli</option>
-                                        <option value="2">Rəsmi</option>
-
-                                    </select>
-
-                                </div>
-
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-12 text-center">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
 
-                                    <button type="button" class="btn btn-primary justify-content-center"
-                                            onclick="updateCompanyGroup()">
-                                        Yadda saxla
-                                    </button>
+                                        <button class="btn btn-primary justify-content-center mt-2">
+                                            Yadda saxla
+                                        </button>
+
+                                    </div>
+
 
                                 </div>
-
-
                             </div>
-                        </div>
-
+                        </form>
                     </div>
                     <div class="accessSettings">
 
                         <div class="form-group">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" onclick="updateCompanyGroup()" id="groupIsActive">
+                                <input class="form-check-input" type="checkbox" id="groupIsActive">
                                 <label class="form-check-label">
                                     Aktiv
                                 </label>
@@ -167,46 +188,64 @@
                 </div>
                 <div class="card-body">
                     <div class="generalSettings">
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label for="exampleFormControlSelect1">Təşkilat adı</label>
-                                    <input type="text" class="form-control" required id="companyNameInSettings"
-                                           placeholder="Təşkilat adı">
+                        <form id="updateCompanyForm" novalidate>
+                            <div class="form-group">
+                                <div class="row">
+
+
+
+                                    <div class="col-md-6">
+                                        <label for="exampleFormControlSelect1">Təşkilat adı</label>
+                                        <input type="text" class="form-control" required id="companyNameInSettings"
+                                               placeholder="Təşkilat adı">
+                                        <div class="valid-feedback">
+                                            Əla!
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Boşluğu doldurun.
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <label for="exampleFormControlSelect1">Qrup</label>
+                                        <select class="form-control cGroupsAll" id="selectedCompanyGroupInSettings" required>
+                                            <option value="0">Seçin</option>
+
+                                            @if (Model.CompanyGroups != null)
+                                            {
+                                                foreach (var item in Model.CompanyGroups.Where(c=>c.isActive==1))
+                                                {
+                                                    <option value="@item.id">@item.name</option>
+
+                                                }
+                                            }
+                                        </select>
+
+
+                                    </div>
 
                                 </div>
-                                <div class="col-md-6">
-
-                                    <label for="exampleFormControlSelect1">Qrup</label>
-                                    <select class="form-control cGroupsAll" id="selectedCompanyGroupInSettings" required disabled>
-                                    </select>
-
-
-                                </div>
-
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-12 text-center">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
 
-                                    <button type="button" class="btn btn-primary justify-content-center"
-                                            onclick="updateCompany()">
-                                        Yadda saxla
-                                    </button>
+                                        <button  class="btn btn-primary justify-content-center mt-2">
+                                            Yadda saxla
+                                        </button>
+
+                                    </div>
+
 
                                 </div>
-
-
                             </div>
-                        </div>
-
+                        </form>
                     </div>
                     <div class="accessSettings">
 
                         <div class="form-group">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" onclick="updateCompany()" id="companyIsActive">
+                                <input class="form-check-input" type="checkbox" id="companyIsActive">
                                 <label class="form-check-label">
                                     Aktiv
                                 </label>
@@ -227,7 +266,7 @@
     </div>
 
 
-</form>
+</div>
 
 <div class="modal fade" id="addCompanyGroup" data-backdrop="static" data-keyboard="false" tabindex="-1"
      aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -238,7 +277,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form id="addCompanyGroupForm" novalidate>
 
 
                     <div class="row">
@@ -326,8 +365,7 @@
                                     <div class="col-md-12 text-center">
 
 
-                                        <button type="button" class="btn btn-primary justify-content-center"
-                                                onclick="insertCGroup()">
+                                        <button class="btn btn-primary justify-content-center mt-2">
                                             Əlavə et
                                         </button>
 
@@ -368,7 +406,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form id="addCompanyForm" novalidate>
 
 
                     <div class="row">
@@ -433,6 +471,15 @@
 
                                         <label>Qrup</label>
                                         <select class="form-control cGroupsAll" id="cGroupsInModal" required>
+                                            <option selected value="0">Seçin</option>
+                                            @if (Model.CompanyGroups != null)
+                                            {
+                                                foreach (var item in Model.CompanyGroups.Where(c => c.isActive==1))
+                                                {
+                                                    <option value="@item.id">@item.name</option>
+
+                                                }
+                                            }
                                         </select>
 
 
@@ -453,8 +500,7 @@
                                     <div class="col-md-12 text-center">
 
 
-                                        <button type="button" class="btn btn-primary justify-content-center"
-                                                onclick="insertCompany()">
+                                        <button class="btn btn-primary justify-content-center mt-2">
                                             Əlavə et
                                         </button>
 
@@ -488,6 +534,380 @@
 </div>
 @section Scripts
 {
-    <script src="~/js/admin/companies/companySettings.js" asp-append-version="true"></script>
+@* <script src="~/js/admin/companies/companySettings.js" asp-append-version="true"></script> *@
+
+    <script>
+
+        function settingsBoxClicked(box) {
+            switch (box) {
+                case 1:
+                    $('.accessSettings').hide();
+                    $('.generalSettings').show()
+                    $(".generalSettingsButton").addClass("active")
+                    $(".accessSettingsButton").removeClass("active")
+                    break;
+
+                case 2:
+                    $('.generalSettings').hide();
+                    $('.accessSettings').show();
+                    $(".accessSettingsButton").addClass("active")
+                    $(".generalSettingsButton").removeClass("active")
+                    break;
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded",function(){
+
+            $('.accessSettings').hide();
+            $('.generalSettings').show()
+
+
+        let $companyGroupForm = $('#addCompanyGroupForm');
+
+        $companyGroupForm.on('submit', function(e) {
+                e.preventDefault();
+                var form=$(this)[0];
+                $(form).addClass('was-validated');
+                if(!form.checkValidity()){
+                    return;
+                }
+                else{
+
+                    let data={
+                        organizationID: 0,
+                        cGroupName: $("#groupName").val(),
+                        cGroupType: $("#cGroupType").val(),
+                    }
+
+                  showLoading();
+                  $.ajax({
+                    type: 'POST',
+                    url: `/admin/companies/insertCompanyGroup`,
+                    data: data,
+                    dataType: 'json',
+                    success: function (data, status, xhr) {
+                        window.location.reload();
+
+                    },
+                    error: function (jqXhr, textStatus, errorMessage) { // error callback
+                        $('#addCompanyGroup').modal('hide')
+                        showError(jqXhr.status);
+                        hideLoading();
+                    }
+
+                   });
+                }
+
+            });
+
+
+           function updateCompanyGroup(){
+
+                var groupIsActive = 0
+                if ($("#groupIsActive").is(':checked')) {
+                    groupIsActive = 1;  // checked
+                }
+                let data={
+                    id: $(".groupSettings").prop('id'),
+                    organizationID: 0,
+                    name:$("#groupNameInSettings").val(),
+                    groupTypeId:$("#selectedCompanyGroupTypeInSettings").val(),
+                    isActive: groupIsActive,
+                }
+                showLoading();
+                $.ajax({
+                  type: 'POST',
+                  url: `/admin/companies/updateCompanyGroup`,
+                  data: data,
+                  dataType: 'json',
+                  success: function (data, status, xhr) {
+                      window.location.reload();
+
+                  },
+                  error: function (jqXhr, textStatus, errorMessage) { // error callback
+                      showError(jqXhr.status);
+                      hideLoading();
+                  }
+
+                 });
+
+           }
+
+           $('#groupIsActive').on('change',function(){
+
+                updateCompanyGroup();
+           });
+
+           let $updateCompanyGroupForm = $('#updateCompanyGroupForm');
+
+            $updateCompanyGroupForm.on('submit', function(e) {
+
+
+                e.preventDefault();
+                var form=$(this)[0];
+                $(form).addClass('was-validated');
+                if(!form.checkValidity()){
+                    return;
+                }
+                else{
+                    updateCompanyGroup()
+                }
+
+            })
+
+
+
+
+            let $companyForm = $('#addCompanyForm');
+
+            $companyForm.on('submit', function(e) {
+                e.preventDefault();
+                var form=$(this)[0];
+                $(form).addClass('was-validated');
+                if(!form.checkValidity()){
+                    return;
+                }
+                else{
+
+                    let data={
+                        organizationID: 0,
+                        companyName: $("#companyName").val(),
+                        cGroupID: $("#cGroupsInModal").val(),
+                    }
+
+                  showLoading();
+                  $.ajax({
+                    type: 'POST',
+                    url: `/admin/companies/insertCompany`,
+                    data: data,
+                    dataType: 'json',
+                    success: function (data, status, xhr) {
+                        window.location.reload();
+
+                    },
+                    error: function (jqXhr, textStatus, errorMessage) { // error callback
+                        $('#addCompany').modal('hide')
+                        showError(jqXhr.status);
+                        hideLoading();
+                    }
+
+                   });
+                }
+
+            })
+
+
+
+           function updateCompany(){
+
+                var companyIsActive = 0
+                if ($("#companyIsActive").is(':checked')) {
+                    companyIsActive = 1;  // checked
+                }
+                let data={
+                    id: $(".companySettings").prop('id'),
+                    organizationID: 0,
+                    name:$("#companyNameInSettings").val(),
+                    groupId:$("#selectedCompanyGroupInSettings").val(),
+                    isActive: companyIsActive,
+                }
+
+                showLoading();
+                $.ajax({
+                  type: 'POST',
+                  url: `/admin/companies/updateCompany`,
+                  data: data,
+                  dataType: 'json',
+                  success: function (data, status, xhr) {
+                      window.location.reload();
+
+                  },
+                  error: function (jqXhr, textStatus, errorMessage) { // error callback
+                      showError(jqXhr.status);
+                      hideLoading();
+                  }
+
+                 });
+
+           }
+
+           $('#companyIsActive').on('change',function(){
+
+                updateCompany();
+           });
+
+           let $updateCompanyForm = $('#updateCompanyForm');
+
+            $updateCompanyForm.on('submit', function(e) {
+
+
+                e.preventDefault();
+                var form=$(this)[0];
+                $(form).addClass('was-validated');
+                if(!form.checkValidity()){
+                    return;
+                }
+                else{
+                    updateCompany()
+                }
+
+            })
+
+
+            $('.companyGroupInBuildingItem').on('click',function(){
+
+                if ($(this).hasClass('active')) {
+                    $(this).removeClass('active');
+                    $('.companyInBuildingItem').show(); 
+                    $(".groupSettings").hide();
+                    return;
+                }
+
+
+               $('.companyGroupInBuildingItem').removeClass('active')
+               $('.companyInBuildingItem').removeClass('active')
+               $(this).addClass('active');
+               var item=$(this).data('item');
+               $("#groupNameInSettings").val(item.name);
+               $("#selectedCompanyGroupTypeInSettings").val(item.type);
+               $(".groupSettings").attr("id", item.id);
+
+               $(".groupSettings").show();
+               $(".companySettings").hide();
+               switch (item.isActive) {
+                  case 0:
+                      $('#groupIsActive').prop('checked', false);
+                      break;
+
+                  case 1:
+                      $('#groupIsActive').prop('checked', true);
+                      break;
+                }
+
+
+                let selectedGroupID = item.id;
+
+                $('.companyInBuildingItem').each(function () {
+                    let companyGroupID = $(this).data('group-id');
+                    if (companyGroupID == selectedGroupID) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+
+            })
+
+            $('.companyInBuildingItem').on('click',function(){
+                $(".companyInBuildingItem").removeClass("active");
+                $('.companyGroupInBuildingItem').removeClass('active')
+
+                $(this).addClass('active');
+                var item=$(this).data('item');
+
+                $("#companyNameInSettings").val(item.name);
+                $("#selectedCompanyGroupInSettings").val(item.groupID);
+                switch (item.isActive) {
+                    case 0:
+                        $('#companyIsActive').prop('checked', false);
+                        break;
+
+                    case 1:
+                        $('#companyIsActive').prop('checked', true);
+                        break;
+                }
+
+                $(".companySettings").attr("id", item.id);
+                $(".companySettings").show();
+                $(".groupSettings").hide();
+            });
+
+             // $('#groupsIsActive').trigger('change');
+
+
+            $('#groupsIsActive').on('change', function () {
+                filterGroups();
+            });
+
+
+           function filterGroups() {
+            let showOnlyActive = $('#groupsIsActive').is(':checked');
+
+              $('.companyGroupInBuildingItem').each(function () {
+                  let isActive = $(this).data('is-active');
+                  if (showOnlyActive) {
+
+                      if (isActive == 1) {
+                          $(this).show();
+                      } else {
+                          $(this).hide();
+                      }
+                  } else {
+
+                      if (isActive == 0) {
+                          $(this).show();
+                      } else {
+                          $(this).hide();
+                      }
+                  }
+              });
+           }
+
+
+            $('#companiesIsActive').on('change', function () {
+                filterCompanies();
+            });
+
+
+           function filterCompanies() {
+            let showOnlyActive = $('#companiesIsActive').is(':checked');
+
+              $('.companyInBuildingItem').each(function () {
+                  let isActive = $(this).data('is-active');
+                  if (showOnlyActive) {
+
+                      if (isActive == 1) {
+                          $(this).show();
+                      } else {
+                          $(this).hide();
+                      }
+                  } else {
+
+                      if (isActive == 0) {
+                          $(this).show();
+                      } else {
+                          $(this).hide();
+                      }
+                  }
+              });
+           }
+
+
+           function showError(status){
+
+               switch (status) {
+                  case 401:
+                      $('#systemModalTitle').text("Sessiyanız başa çatıb");
+                      $('#systemModalText').html(`<p id="systemModalText">Zəhmət olmasa yenidən giriş edin</p>`);
+                      $('#systemModalBtn').removeAttr("hidden");
+                      $('#systemModal').modal("show");
+                      break;
+                  case 0:
+                      $('#warningModal').modal('show')
+                      $('#warningTitle').text(`Şəbəkə xətası`);
+                      $('#warningText').text(`Serverlərimizlə əlaqə yoxdur`);
+                      break;
+                  default:
+                      $('#warningModal').modal('show')
+                      $('#warningTitle').text(`Server xətası`);
+                      $('#warningText').text(`Status: ${status}`);
+                      break;
+
+               }
+           }
+        });
+
+
+    </script>
 
 }

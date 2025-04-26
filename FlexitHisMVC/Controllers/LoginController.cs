@@ -95,6 +95,7 @@ namespace Medicloud.Controllers
                 {
                     _userService.SaveSession(HttpContext, "Medicloud_UserPlanExpireDate", plan.expire_date.ToString());
                 }
+
                 //if (currentOrganization?.Roles != null)
                 //{
                 //	var rolesIds = currentOrganization.Roles.Select(r => r.id);

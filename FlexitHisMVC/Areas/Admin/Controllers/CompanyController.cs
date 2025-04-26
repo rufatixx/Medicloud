@@ -1,4 +1,5 @@
-﻿using Medicloud.BLL.Service;
+﻿using Medicloud.Areas.Admin.ViewModels;
+using Medicloud.BLL.Service;
 using Medicloud.BLL.Service.Organization;
 using Medicloud.DAL.Repository;
 using Medicloud.Data;
@@ -34,8 +35,18 @@ namespace Medicloud.Areas.Admin.Controllers
         // GET: /<controller>/
         public IActionResult Index()
         {
-
-            return View();
+            int userID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID"));
+            int organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
+            CompanyGroupRepo companyGroupRepo = new CompanyGroupRepo(_connectionString);
+            List<CompanyGroupDAO> companyGroups = companyGroupRepo.GetCompanyGroups(organizationID);
+            CompanyRepo companyRepo = new CompanyRepo(_connectionString);
+            var companies = companyRepo.GetCompanies(organizationID);
+            var vm = new CompanyViewModel
+            {
+                Companies = companies,
+                CompanyGroups= companyGroups,
+            };
+            return View(vm);
 
         }
 
@@ -61,10 +72,12 @@ namespace Medicloud.Areas.Admin.Controllers
 
         [HttpPost]
         [Route("admin/companies/getCompanyGroups")]
-        public IActionResult getCompanyGroups(int organizationID)
+        public IActionResult getCompanyGroups(int organizationID=0)
         {
             if (User.Identity.IsAuthenticated)
             {
+
+
                 CompanyGroupRepo select = new CompanyGroupRepo(_connectionString);
                 List<CompanyGroupDAO> list = select.GetCompanyGroups(organizationID);
                 ResponseDTO<CompanyGroupDAO> response = new ResponseDTO<CompanyGroupDAO>();
@@ -86,6 +99,8 @@ namespace Medicloud.Areas.Admin.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
+                organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
+
                 CompanyGroupRepo insert = new CompanyGroupRepo(_connectionString);
                 var response = insert.InsertCompanyGroup(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID")), organizationID, cGroupName, cGroupType);
 
@@ -105,6 +120,8 @@ namespace Medicloud.Areas.Admin.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
+                organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
+
                 CompanyRepo insert = new CompanyRepo(_connectionString);
                 var response = insert.InsertCompany(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID")), organizationID, companyName, cGroupID);
 
@@ -138,12 +155,13 @@ namespace Medicloud.Areas.Admin.Controllers
         }
         [HttpPost]
         [Route("admin/companies/updateCompanyGroup")]
-        public IActionResult UpdateCompanyGroup(int organizationID, int id, string name, int isActive)
+        public IActionResult UpdateCompanyGroup(int organizationID, int id, string name,int groupTypeId , int isActive)
         {
             if (User.Identity.IsAuthenticated)
             {
+                organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
                 CompanyGroupRepo insert = new CompanyGroupRepo(_connectionString);
-                var response = insert.UpdateCompanyGroup(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID")), organizationID, id, name, isActive);
+                var response = insert.UpdateCompanyGroup(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID")), organizationID, id, name,groupTypeId, isActive);
 
 
                 return Ok(response);
@@ -156,12 +174,14 @@ namespace Medicloud.Areas.Admin.Controllers
         }
         [HttpPost]
         [Route("admin/companies/updateCompany")]
-        public IActionResult UpdateCompany(int organizationID, int id, string name, int isActive)
+        public IActionResult UpdateCompany(int organizationID, int id, string name,int groupId, int isActive)
         {
             if (User.Identity.IsAuthenticated)
             {
+                organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
+
                 CompanyRepo insert = new CompanyRepo(_connectionString);
-                var response = insert.UpdateCompany(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID")), organizationID, id, name, isActive);
+                var response = insert.UpdateCompany(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID")), organizationID, id, name,groupId, isActive);
                 return Ok(response);
 
             }

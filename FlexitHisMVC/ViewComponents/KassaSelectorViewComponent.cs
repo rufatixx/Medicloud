@@ -31,8 +31,8 @@ namespace Medicloud.ViewComponents
         {
             var organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
             var userId = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID"));
-            var kassaList = kassaRepo.GetUserKassaByOrganization(organizationID, userId);
-
+            var kassaList = _kassaRepo.GetUserKassaByOrganization(organizationID, userId);
+            Console.WriteLine(kassaList?.Count>0?kassaList.Count.ToString():"nulldu");
             var selectedKassaName = HttpContext.Session.GetString("Medicloud_kassaName");
          
 

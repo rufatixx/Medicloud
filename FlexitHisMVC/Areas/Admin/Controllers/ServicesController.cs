@@ -52,9 +52,13 @@ namespace Medicloud.Areas.Admin.Controllers
             {
                 //_organizationService.GetOrganizationsByUser(userID);
                 List<ServiceGroup> serviceGroups = sgRepo.GetGroupsByOrganization(organizationID);
+                List<DepartmentDAO> departments = departmentsRepo.GetDepartmentsByOrganization(organizationID);
+                List<ServiceObj> serviceObjs = sRepo.GetServicesByOrganization(organizationID);
                 var vm = new ServicesViewModel
                 {
                     ServiceGroups = serviceGroups,
+                    Departments=departments,
+                    Services=serviceObjs
                 };
                 return View(vm);
             }
@@ -114,6 +118,7 @@ namespace Medicloud.Areas.Admin.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
+                organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
                 List<DepartmentDAO> departments = departmentsRepo.GetDepartmentsByOrganization(organizationID);
                 return Ok(departments);
             }
@@ -129,6 +134,7 @@ namespace Medicloud.Areas.Admin.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
+
                 List<DepartmentDAO> departments = departmentsRepo.GetDepartmentsInService(serviceID);
                 return Ok(departments);
             }
@@ -155,6 +161,32 @@ namespace Medicloud.Areas.Admin.Controllers
                 }
               
               
+            }
+            else
+            {
+                return Unauthorized();
+            }
+
+
+
+        }
+
+        public IActionResult DeleteDepartmentFromService(int serviceId, int departmentId)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var updateResult = departmentsRepo.DeleteDepartmentFromService(serviceId, departmentId);
+
+                if (updateResult)
+                {
+                    return Ok(); // Return HTTP 200 OK if the update was successful
+                }
+                else
+                {
+                    return BadRequest("Service not deleted"); // Return HTTP 400 Bad Request if the update failed
+                }
+
+
             }
             else
             {
@@ -203,6 +235,7 @@ namespace Medicloud.Areas.Admin.Controllers
 
             if (User.Identity.IsAuthenticated)
             {
+                serviceObj.organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
                 var result = sRepo.InsertService(serviceObj);
                 if (result>0)
                 {
