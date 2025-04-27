@@ -9,7 +9,8 @@ namespace Medicloud.Areas.Admin.Model
         public List<UserDAO> personalList { get; set; }
         public List<Speciality> specialityList { get; set; }
         public List<OrganizationDAO> organizationList { get; set; }
-      
+        public bool isOwner { get; set; }
+
     }
 }
 

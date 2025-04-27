@@ -583,17 +583,19 @@
 
               });
 
-              $('#newAppointmentForm').on('submit',function(e){
-                  e.preventDefault();
-                  if(!$form[0].checkValidity()){
-                      return;
-                  }
-                  else{
+            $('#newAppointmentForm').on('submit', function (e) {
+                e.preventDefault();
+
+                const $form = $(this);
+
+                if (!$form[0].checkValidity()) {
+                    return;
+                } else {
                     showLoading();
 
-                      $(this).submit();
-                  }
-              })
+                    $form[0].submit();
+                }
+            });
 
         });
 

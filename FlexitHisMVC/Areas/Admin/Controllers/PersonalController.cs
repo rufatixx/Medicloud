@@ -62,7 +62,14 @@ namespace Medicloud.Areas.Admin.Controllers
 
 			int organizationId = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
 
-			response.personalList = _userService.GetUserList(organizationId);
+			var organization=await _organizationService.GetOrganizationById(organizationId);
+            int userID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID"));
+			if (organization?.ownerId== userID)
+			{
+				response.isOwner = true;
+			}
+
+            response.personalList = _userService.GetUserList(organizationId);
 			foreach (var user in response.personalList)
 			{
 				user.roles = await _roleRepository.GetUserRoles(organizationId, user.ID);

@@ -26,8 +26,8 @@
     </div>
 
     <!-- ===================================
-         MAIN CONTENT
-         =================================== -->
+    MAIN CONTENT
+    =================================== -->
     <!-- Main Content -->
     <div class="row">
         <!-- LEFT COLUMN: Filter + Personal List -->
@@ -308,7 +308,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                @if (firstUser.roles.Select(r => r.id).Contains(3))
+                                @if (firstUser.roles.Select(r => r.id).Contains(3) && Model.isOwner)
                                 {
                                     <div class="col-8">
                                         <button type="button" class="btn btn-light"
@@ -394,8 +394,8 @@
     <!-- row -->
     <!-- ================================================== -->
     <!-- ALL MODALS (Pass Change, Add Kassa, Dep, Org, etc.)
-         NOW UPDATED FOR BOOTSTRAP 5
-         ================================================== -->
+    NOW UPDATED FOR BOOTSTRAP 5
+    ================================================== -->
     <!-- PASS CHANGE MODAL -->
     <div class="modal fade" id="passChangeModal" data-bs-backdrop="static" data-bs-keyboard="false"
          tabindex="-1" aria-hidden="true">
@@ -528,9 +528,11 @@
                         </select>
                     </div>
                     <div class="text-center">
-                        <button type="button" class="btn btn-primary" onclick="addOrganizationToUser()">
-                            Əlavə et
-                        </button>
+                            <button type="button" class="btn btn-primary" onclick="addOrganizationToUser()">
+                                Əlavə et
+                            </button>
+                        
+
                     </div>
                 </div>
             </div>
