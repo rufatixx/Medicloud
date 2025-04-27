@@ -213,7 +213,7 @@
                 </li>
             }
 
-            @if (roles.Contains(7))
+            @if (roles.Contains(7) || roles.Contains(3))
             {
                 <li class="side-nav-item">
                     <a href="@Url.Action("index", "Reception", new { area = "" })" class="side-nav-link">
@@ -222,7 +222,7 @@
                     </a>
                 </li>
             }
-            @if (roles.Contains(7) || roles.Contains(4))
+            @if (roles.Contains(7) || roles.Contains(4) || roles.Contains(3))
             {
 
 
@@ -274,7 +274,7 @@
                     </a>
                 </li>
             }
-            @if (roles.Contains(5))
+            @if (roles.Contains(5) || roles.Contains(3))
 
             {
                 <li class="side-nav-item">
@@ -300,7 +300,6 @@
             }
 
             @if (roles.Contains(2) || roles.Contains(3))
-
             {
                 <li class="side-nav-item">
                     <a href="@Url.Action("index", "Home", new { area = "Admin" })" class="side-nav-link">

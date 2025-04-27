@@ -119,9 +119,18 @@ namespace Medicloud.Areas.Admin.Controllers
 		{
 			if (User.Identity.IsAuthenticated)
 			{
-				
+                int currentuserID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID"));
+                int organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
 
-				return Ok(_organizationService.GetOrganizationsByUser(personalID));
+
+				var currentUserOrganizations= _organizationService.GetOrganizationsByUser(currentuserID);
+				var personalOrganizations= _organizationService.GetOrganizationsByUser(personalID);
+
+
+                var commonOrganizations = personalOrganizations
+				.Where(p => currentUserOrganizations.Any(c => c.organizationID ==p.organizationID && c.ownerId==currentuserID))
+				.ToList();
+                return Ok(commonOrganizations);
 
 			}
 
@@ -207,8 +216,8 @@ namespace Medicloud.Areas.Admin.Controllers
 		[HttpPost]
 		public IActionResult AddOrganizationToUser(long userID, int organizationID)
 		{
-            //organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
-            if (User.Identity.IsAuthenticated)
+			organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
+			if (User.Identity.IsAuthenticated)
 			{
 				
 
@@ -225,8 +234,8 @@ namespace Medicloud.Areas.Admin.Controllers
 		[HttpPost]
 		public IActionResult RemoveOrganizationFromUser(int userID, int organizationID)
 		{
-            //organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
-            if (User.Identity.IsAuthenticated)
+			organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
+			if (User.Identity.IsAuthenticated)
 			{
 				
 

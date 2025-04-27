@@ -211,7 +211,7 @@
                                 <div class="form-group mb-3">
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <label class="form-label">Müraciyət növü</label>
+                                            <label class="form-label">Müraciət növü</label>
                                             <select class="form-control" required id="requestType">
                                                 <!-- <option>1</option>
                                             <option>2</option>
@@ -228,7 +228,7 @@
                                         </div>
                                         <div class="col-md-4">
                                             <label class="form-label">Qiymət qrupu</label>
-                                            <select class="form-control" id="priceGroup" required disabled>
+                                            <select class="form-control" required id="priceGroup" >
                                             </select>
                                             <div class="valid-feedback">
                                                 Əla!
@@ -809,7 +809,8 @@
             $servicesDropdown.append($("<option  disabled selected />").val("").text(`Seçin..`));
             // Populate options based on the response
             response.forEach(function (item) {
-                $servicesDropdown.append($(`<option id=${item.serviceID} />`).val(item.servicePrice).text(`${item.serviceName}`));
+                console.log(item)
+                $servicesDropdown.append($(`<option id=${item.serviceID} />`).val(item.price).text(`${item.serviceName}`));
             });
         },
         error: function (error) {
@@ -936,7 +937,6 @@
             $("#selectedPatientForm").hide();
         }
     function foundPatientClicked(item) {
-
             selectedPatientID = item.id;
             populatePatientCards(selectedPatientID);
             $("#selectedPatientForm").show()
@@ -1001,6 +1001,9 @@
                 var date = new Date(bDate);
                 var isoBdate = date.toISOString();
 
+
+
+                console.log()
                 showLoading();
 
                 $.ajax({
@@ -1010,6 +1013,7 @@
                     type: 'POST',
                     url: `@Url.Action("AddPatient", "Reception")`,
                     data: JSON.stringify({
+                        "id":selectedPatientID,
                         "name": name,
                         "surname": surname,
                         "father": father,
@@ -1299,13 +1303,13 @@
         }
         function fetchDoctorsInDepartment(depID) {
             $.ajax({
-                url: '@Url.Action("GetDoctorsInDepartment", "Reception");',
+                url: '@Url.Action("GetDoctorsInDepartment", "Reception")',
                 type: 'GET',
                 data: { depID: depID },
                 success: function (response) {
                     var doctorsSelect = $('#docsInService');
                     //doctorsSelect.empty();
-
+                    console.log(response)
                     $.each(response, function (index, doctor) {
                         var listItem = $('<li>')
                             .attr('class', 'list-group-item')
@@ -1329,21 +1333,22 @@
 
         function fetchDoctorsInCard() {
             $.ajax({
-                url: '@Url.Action("GetDoctorsInCard", "Reception");',
+                url: '@Url.Action("GetDoctorsInCard", "Reception")',
                 type: 'GET',
                 data: { patientCardID: selectedCardID },
                 success: function (response) {
-                    var refDoctorsSelect = $('#refererDocsInCard');
+                    var refDoctorsSelect = $('#docsInService');
                     //doctorsSelect.empty();
 
                     $.each(response, function (index, doctor) {
+
                         var listItem = $('<li>')
                             .attr('class', 'list-group-item')
                             .attr('value', doctor.id)
                             .text(doctor.name + " " + doctor.surname)
                             .on('click', function () {
                                 // Unselect previously selected service
-                                $('#refererDocsInCard .active').removeClass('active');
+                                $('#docsInService .active').removeClass('active');
                                 // Select the current service
                                 $(this).addClass('active');
 
@@ -1421,14 +1426,16 @@
 
                     if (data && data.length > 0) {
                         data.forEach(function (service, index) {
+                            console.log(service)
                             var tableRow = $('<tr>');
                             tableRow.append('<th scope="row">' + (index + 1) + '</th>');
-                            tableRow.append('<td>' + service.ServiceCode + '</td>');
-                            tableRow.append('<td>' + service.ServiceName + '</td>');
-                            tableRow.append('<td>' + service.ServicePrice + '</td>');
+                            tableRow.append('<td>' + service.serviceCode + '</td>');
+                            tableRow.append('<td>' + service.serviceName + '</td>');
+                            tableRow.append('<td>' + service.servicePrice + '</td>');
 
-                            tableRow.append('<td>' + service.SenderDocName + service.SenderDocSurname + '</td>');
-                            tableRow.append('<td>' + service.DocName + service.DocSurname + '</td>');
+                            tableRow.append('<td>' + ((service.senderDocName || '') + ' ' + (service.senderDocSurname || '')) + '</td>');
+                            tableRow.append('<td>' + ((service.docName || '') + ' ' + (service.docSurname || '')) + '</td>');
+
                             servicesTable.append(tableRow);
                         });
                     } else {
@@ -1503,6 +1510,7 @@
 
         function servicesChanged(a) {
             //alert($(a).val())
+            console.log(a);
             $("#price").val($(a).val());
         }
 

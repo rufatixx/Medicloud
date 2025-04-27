@@ -324,14 +324,14 @@ namespace Medicloud.BLL.Service
 					// Optionally send the SMS
 					if (type==1)
 					{
-						//_communicationService.sendSMS($"OTP: {randomCode}", content);
+						_communicationService.sendSMS($"OTP: {randomCode}", content);
 						Console.WriteLine("OTP:" + randomCode);
                         result.Success = true;
                         result.Message = "OTP kod göndərildi";
                     }
 					else if(type==2)
 					{
-						//await _communicationService.sendMail($"OTP: {randomCode}", content);
+						await _communicationService.sendMail($"OTP: {randomCode}", content);
 						Console.WriteLine("OTP:" + randomCode);
                         result.Success = true;
                         result.Message = "OTP kod göndərildi";

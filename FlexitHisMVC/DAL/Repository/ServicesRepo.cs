@@ -20,7 +20,7 @@ namespace Medicloud.Models.Repository
             using (var connection = new MySqlConnection(ConnectionString))
             {
                 connection.Open();
-                string query = "SELECT * FROM services WHERE organizationID = @organizationID AND isActive = 1 ORDER BY id DESC;";
+                string query = "SELECT * FROM services WHERE organizationID = @organizationID  ORDER BY id DESC;";
                 var serviceList = connection.Query<ServiceObj>(query, new { organizationID }).ToList();
                 return serviceList;
             }

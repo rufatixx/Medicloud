@@ -73,7 +73,7 @@ namespace Medicloud.Areas.Admin.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-               
+                organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
                 var list = buildingRepo.GetBuildings(organizationID);
                 list.Reverse();
                 ResponseDTO<BuildingDAO> response = new ResponseDTO<BuildingDAO>();

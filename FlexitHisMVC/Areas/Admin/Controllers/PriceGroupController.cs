@@ -388,8 +388,9 @@ public class PriceGroupController : Controller
     [HttpPost]
     public IActionResult getActiveCompanies(int organizationID)
     {
-     
-            CompanyRepo select = new CompanyRepo(_connectionString);
+        organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
+
+        CompanyRepo select = new CompanyRepo(_connectionString);
             var list = select.GetActiveCompanies(organizationID);
             ResponseDTO<CompanyDAO> response = new ResponseDTO<CompanyDAO>();
             response.data = new List<CompanyDAO>();

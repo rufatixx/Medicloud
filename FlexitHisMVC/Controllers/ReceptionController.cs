@@ -82,6 +82,7 @@ namespace Medicloud.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
+                organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
                 CompanyRepo select = new CompanyRepo(ConnectionString);
                 var list = select.GetActiveCompanies(organizationID);
                 ResponseDTO<CompanyDAO> response = new ResponseDTO<CompanyDAO>();
@@ -150,7 +151,7 @@ namespace Medicloud.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-
+                Console.WriteLine($"cmpid {companyID}");
                 var results = priceGroupCompanyRepository.GetPriceGroupDataForCompany(companyID);
                 return Ok(results);
 

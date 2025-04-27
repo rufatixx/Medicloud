@@ -40,7 +40,7 @@
 
             </ul>
 
-            <div class="list-group" id="cGroups">
+            <div class="list-group" style="max-height:55vh;overflow:auto;" id="cGroups">
 
                 <div class="accordion" id="accordionExample">
                     @foreach (var heading in headingGroups)
@@ -58,7 +58,7 @@
                                     @foreach (var child in childGroups)
                                     {
                                         <div class="accordion-item">
-                                            <a class="list-group-item list-group-item-action" href="#" data-child-id="@child.ID">
+                                            <a class="list-group-item list-group-item-action group-item" href="#" data-child-id="@child.ID">
                                                 @child.name
                                             </a>
 
@@ -126,7 +126,7 @@
                         <strong class="text-primary">KODU</strong>
                     </div>
                 </div>
-                <ul class="list-group rounded-0 " id="servicesInGroup">
+                <ul class="list-group rounded-0 " style="max-height:55vh;overflow:auto;" id="servicesInGroup">
                     @if (Model.Services != null)
                     {
                         foreach (var service in Model.Services)
@@ -957,6 +957,45 @@ Daha çox
              });
 
 
+             $('#showAllServices').on('change', function () {
+             
+                 if($(this).prop('checked')){
+                    $('.group-item').removeClass('active');
+                    $('#servicesInGroup li').removeClass('active d-none')
+                    fillServiceSettings(null);
+                 }
+
+             
+             });
+
+             $('.group-item').on('click', function () {
+
+
+                 if ($(this).hasClass('active')) {
+                     $('#showAllServices').prop('checked', true);
+                     $('.group-item').removeClass('active');
+                     $('#servicesInGroup li').removeClass('active d-none');
+                     fillServiceSettings(null);
+                     return;
+                 }
+                 let groupId=$(this).data('child-id');
+                 $('.group-item').removeClass('active');
+                 $(this).addClass('active')
+                 $('#servicesInGroup li').removeClass('active')
+                 $('#servicesInGroup li').each(function () {
+                     console.log($(this).data('servicegroupid'))
+                     console.log(groupId)
+                       if ($(this).data('servicegroupid') == groupId) {
+                        $(this).removeClass('d-none');
+                       } else {
+                        $(this).addClass('d-none'); 
+                       }
+
+                 });
+                 fillServiceSettings(null);
+                 $('#showAllServices').prop('checked',false)
+             });
+
 
            function showError(status){
 
@@ -1018,32 +1057,33 @@ Daha çox
 
 
 
-                var servicesBeforeAllShown;
+                // var servicesBeforeAllShown;
 
 
-                $('#showAllServices').on('change', function () {
-                    handleCheckboxState()
-                    if ($(this).is(":checked")) {
-                       // Remove "active" class from all list items within all accordion items
-                       $('.accordion .list-group-item').removeClass('active');
+                // $('#showAllServices').on('change', function () {
+                //     handleCheckboxState()
+                //     if ($(this).is(":checked")) {
+                //        // Remove "active" class from all list items within all accordion items
+                //        $('.accordion .list-group-item').removeClass('active');
 
-                       // Checkbox is checked
-                       // Save the current state of services
-                       servicesBeforeAllShown = $('#servicesInGroup').children().clone();
+                //        // Checkbox is checked
 
-                       // Call fetchServicesWithGroupNames(0) to show all services
-                       // fetchServicesWithGroupNames(0);
-                    } else {
-                       // Checkbox is unchecked
-                       // Restore services to their state before "Show All" was selected
-                       $('#servicesInGroup').empty().append(servicesBeforeAllShown);
+                //        // Save the current state of services
+                //        servicesBeforeAllShown = $('#servicesInGroup').children().clone();
 
-                       // Reselect the active child group
-                       if (activeChildGroup) {
-                           activeChildGroup.click();
-                       }
-                    }
-                });
+                //        // Call fetchServicesWithGroupNames(0) to show all services
+                //        // fetchServicesWithGroupNames(0);
+                //     } else {
+                //        // Checkbox is unchecked
+                //        // Restore services to their state before "Show All" was selected
+                //        $('#servicesInGroup').empty().append(servicesBeforeAllShown);
+
+                //        // Reselect the active child group
+                //        if (activeChildGroup) {
+                //            activeChildGroup.click();
+                //        }
+                //     }
+                // });
 
 
 
@@ -1080,6 +1120,7 @@ Daha çox
                         $('#serviceIsActive').prop('checked', service.isActive);
                         $('#updateButton').show();
                         $('#addDepBtn').show();
+                        $('#deleteDepBtn').show();
 
                     } else {
                         // Disable the service settings card
@@ -1102,6 +1143,7 @@ Daha çox
                         $('#serviceIsActive').prop('checked', false);
                         $('#updateButton').hide();
                         $('#addDepBtn').hide();
+                        $('#deleteDepBtn').hide();
 
                     }
                 }
@@ -1167,20 +1209,20 @@ Daha çox
                 }
 
 
-                function handleCheckboxState() {
-                    if ($('#showAllServices').is(":checked")) {
-                        // If checked, perform the same operations as in the change event handler
-                        $('.accordion .list-group-item').removeClass('active');
-                        servicesBeforeAllShown = $('#servicesInGroup').children().clone();
-                        // fetchServicesWithGroupNames(0);
-                    } else {
-                        // If not checked, perform the operations for the unchecked case
-                        $('#servicesInGroup').empty().append(servicesBeforeAllShown);
-                        if (activeChildGroup) {
-                            activeChildGroup.click();
-                        }
-                    }
-                }
+                // function handleCheckboxState() {
+                //     if ($('#showAllServices').is(":checked")) {
+                //         // If checked, perform the same operations as in the change event handler
+                //         $('.accordion .list-group-item').removeClass('active');
+                //         servicesBeforeAllShown = $('#servicesInGroup').children().clone();
+                //         // fetchServicesWithGroupNames(0);
+                //     } else {
+                //         // If not checked, perform the operations for the unchecked case
+                //         $('#servicesInGroup').empty().append(servicesBeforeAllShown);
+                //         if (activeChildGroup) {
+                //             activeChildGroup.click();
+                //         }
+                //     }
+                // }
                 function loadData() {
                     showLoading();
 
@@ -1192,7 +1234,7 @@ Daha çox
                         // fetchDepartments(),
                         fetchServiceTypes(),
                         // fetchGroups(),
-                        handleCheckboxState()
+                        // handleCheckboxState()
 
                     ]).then(function () {
                         fillServiceSettings(null);

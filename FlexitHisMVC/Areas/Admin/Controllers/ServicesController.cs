@@ -54,6 +54,7 @@ namespace Medicloud.Areas.Admin.Controllers
                 List<ServiceGroup> serviceGroups = sgRepo.GetGroupsByOrganization(organizationID);
                 List<DepartmentDAO> departments = departmentsRepo.GetDepartmentsByOrganization(organizationID);
                 List<ServiceObj> serviceObjs = sRepo.GetServicesByOrganization(organizationID);
+
                 var vm = new ServicesViewModel
                 {
                     ServiceGroups = serviceGroups,
