@@ -22,12 +22,17 @@ namespace Medicloud.DAL.Repository.Concrete
             _unitOfWork.BeginConnection();
             var con = _unitOfWork.GetConnection();
             string query = @"
-            SELECT a.*, s.name AS serviceName
+            SELECT a.* ,a.price as price, s.name AS serviceName 
             FROM medicloud.service_pricegroup a
             JOIN medicloud.services s ON a.serviceID = s.id
             WHERE a.priceGroupID = @priceGroupID";
 
                 var results = con.Query(query, new { priceGroupID }).ToList();
+			foreach (var item in results)
+			{
+				Console.WriteLine(item.price);
+				Console.WriteLine(item.serviceName);
+			}
                 return results;
             
         }

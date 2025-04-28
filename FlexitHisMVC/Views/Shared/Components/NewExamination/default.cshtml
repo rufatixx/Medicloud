@@ -1,0 +1,210 @@
+﻿
+@model Medicloud.ViewModels.ExaminationViewModel
+
+<div class="col-12 ">
+    <div class="card">
+        <div class="card-header ">
+
+            <div class="row">
+                <div class="col">
+                    <h4>Müayinə məlumatları</h4>
+                </div>
+                <div class="col-auto">
+                    <label class="form-label">Kartlar</label>
+                    <select class="form-control dropdown" id="patientCardSelector">
+                        <option selected value="">Yeni Kart</option>
+                    </select>
+                </div>
+            </div>
+
+
+
+        </div>
+        <div class="card-body">
+            <div class="form-group">
+
+
+                <div id="newPatientContainer">
+
+                    <div class="form-group mb-3">
+                        <!-- <h3 style="text-align:right; margin-right:2%"><span class="badge badge-secondary">Cəmi: ---</span></h1> -->
+                        <div class="row">
+
+                            <div class="col-md-3">
+                                <label class="form-label">Təşkilat</label>
+                                <select class="form-control dropdown" @(Model.Companies?.Count==1?"disabled":"") required id="companies">
+                                    @if (Model?.Companies != null)
+                                    {
+                                        foreach (var item in Model.Companies)
+                                        {
+                                            <option value="@item.id">@item.name</option>
+                                        }
+                                    }
+                                </select>
+
+
+                                <div class="valid-feedback">
+                                    Əla!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Boşluğu doldurun.
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group mb-3">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label class="form-label">Müraciət növü</label>
+                                <select class="form-control" required id="requestType">
+                                    <option value="">Seçin</option>
+                                    @if (Model?.RequestTypes != null)
+                                    {
+                                        foreach (var item in Model.RequestTypes)
+                                        {
+                                            <option value="@item.ID">@item.name</option>
+                                        }
+                                    }
+                                </select>
+                                <div class="valid-feedback">
+                                    Əla!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Boşluğu doldurun.
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Qiymət qrupu</label>
+                                <select class="form-control" required id="priceGroup">
+
+                                </select>
+                                <div class="valid-feedback">
+                                    Əla!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Boşluğu doldurun.
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Xidmət</label>
+                                <select class="form-control" required id="services" onchange="servicesChanged(this)">
+                                    <!-- <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option> -->
+                                </select>
+                                <div class="valid-feedback">
+                                    Əla!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Boşluğu doldurun.
+                                </div>
+                            </div>
+
+                            <!--<div class="col-md-4">
+                            <label for="exampleFormControlSelect1">Poliklinika</label>
+                            <select class="form-control" required id="departments" onchange="depChanged(this)">-->
+                            <!-- <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option> -->
+                            <!--</select>
+                                <div class="valid-feedback">
+                                    Əla!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Boşluğu doldurun.
+                                </div>
+                            </div>-->
+                        </div>
+                    </div>
+                    <div class="form-group mb-3">
+                        <div class="row">
+
+                            <div class="col-md-4">
+                                <label class="form-label">Müəssisədə xidmət edən personal</label>
+                                <select class="form-control" required id="doctors">
+                                    <option value="">Seçin</option>
+                                    @if (Model?.Doctors != null)
+                                    {
+                                        foreach (var item in Model.Doctors)
+                                        {
+                                            <option value="@item.ID">@item.name @item.surname (@item.speciality.name)</option>
+                                        }
+                                    }
+                                </select>
+                                <div class="valid-feedback">
+                                    Əla!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Boşluğu doldurun.
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+
+                                <label class="form-label">Gödərən</label>
+                                <select class="form-control" id="referer">
+                                    <!-- <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option> -->
+                                </select>
+                                <div class="valid-feedback">
+                                    Əla!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Boşluğu doldurun.
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Qiymət (AZN)</label>
+                                <input type="tel" class="form-control" required id="price" placeholder="Məbləğ" disabled>
+                                <div class="valid-feedback">
+                                    Əla!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Boşluğu doldurun.
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    @*<div class="form-group">
+                            <div class="row">
+
+
+                            </div>
+                        </div>*@
+                    <div class="form-group mb-3">
+
+                        <label class="form-label">Qeyd</label>
+                        <textarea class="form-control" id="note" rows="3" placeholder="Qeydlərinizi daxil edin"></textarea>
+                        <div class="valid-feedback">
+                            Əla!
+                        </div>
+                        <div class="invalid-feedback">
+                            Boşluğu doldurun.
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="form-group mb-3">
+
+
+
+                <button type="button" id="createCard" class="btn btn-primary " onclick="AddPatient()">Qeydə al</button>
+
+                <button type="button" class="btn btn-info " onclick="loadAddServiceIntoPatientCardModal()">Xidmətlər</button>
+
+                <button type="button" class="btn btn-primary" onclick="generateRecipe()">Çek əldə et</button>
+
+            </div>
+        </div>
+    </div>
+</div>

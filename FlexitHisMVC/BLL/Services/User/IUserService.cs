@@ -33,6 +33,7 @@ namespace Medicloud.BLL.Services
         bool SaveCookie(HttpContext context, string key, string value);
         bool ResetUserKassaCookies(HttpContext context, string organizationID, string userID);
 		Task<UserDAO> GetOnlyUserById(int id);
+		Task<List<UserDAO>> GetDoctorUsersByOrganization(int organizationID);
 
 	}
 }

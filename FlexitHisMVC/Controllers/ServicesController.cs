@@ -1,3 +1,4 @@
+using Medicloud.BLL.Services.Abstract;
 using Medicloud.DAL.Repository.Abstract;
 using Medicloud.DAL.Repository.PatientCard;
 using Medicloud.Data;
@@ -23,9 +24,9 @@ namespace Medicloud.Controllers
 		PatientCardRepo patientCardRepo;
 		PatientDiagnoseRel patientDiagnoseRel;
 		ServicesRepo servicesRepo;
-		RequestTypeRepo requestTypeRepo;
 		private readonly IPatientCardServiceRelRepository _patientCardServiceRelRepository;
-		public ServicesController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IServicePriceGroupRepository servicePriceGroupRepository, IPatientCardServiceRelRepository patientCardServiceRelRepository)
+		private readonly IRequestTypeService _requestTypeService;
+		public ServicesController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IServicePriceGroupRepository servicePriceGroupRepository, IPatientCardServiceRelRepository patientCardServiceRelRepository, IRequestTypeService requestTypeService)
 		{
 			Configuration = configuration;
 			ConnectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
@@ -35,19 +36,19 @@ namespace Medicloud.Controllers
 			patientCardRepo = new PatientCardRepo(ConnectionString);
 			patientDiagnoseRel = new PatientDiagnoseRel(ConnectionString);
 			servicesRepo = new ServicesRepo(ConnectionString);
-			requestTypeRepo = new RequestTypeRepo(ConnectionString);
 			_patientCardServiceRelRepository = patientCardServiceRelRepository;
+			_requestTypeService = requestTypeService;
 		}
 		// GET: /<controller>/
 		public async Task<IActionResult> Index(int cardId)
 		{
 			if (User.Identity.IsAuthenticated)
 			{
+				int organizationId = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
 
+				ViewBag.services = servicesRepo.GetServicesByOrganization(organizationId);
 
-				ViewBag.services = servicesRepo.GetServicesByOrganization(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")));
-
-				ViewBag.requestTypes = requestTypeRepo.GetRequestType();
+				ViewBag.requestTypes = await _requestTypeService.GetRequestTypesAsync(organizationId);
 				ViewBag.cardID = cardId;
 
 				//var response = patientCardServiceRelRepo.GetServicesFromPatientCard(cardId, Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")));

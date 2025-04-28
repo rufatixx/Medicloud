@@ -27,7 +27,6 @@ namespace Medicloud.Controllers
         PatientDiagnoseRel patientDiagnoseRel;
         ServicesRepo servicesRepo;
         PatientRepo patientRepo;
-        RequestTypeRepo requestTypeDAO;
         private readonly IPatientCardService _patientCardService;
         private readonly IRoleRepository _roleRepository;
 		private readonly IPatientCardServiceRelRepository _patientCardServiceRelRepository;
@@ -42,7 +41,6 @@ namespace Medicloud.Controllers
 			patientDiagnoseRel = new PatientDiagnoseRel(ConnectionString);
 			servicesRepo = new ServicesRepo(ConnectionString);
 			patientRepo = new PatientRepo(ConnectionString);
-			requestTypeDAO = new RequestTypeRepo(ConnectionString);
 			_patientCardService = patientCardService;
 			_roleRepository = roleRepository;
 			_patientCardServiceRelRepository = patientCardServiceRelRepository;

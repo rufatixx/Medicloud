@@ -9,7 +9,7 @@
     }
 </style>
 <div class="container ">
-   
+
     <!--<div class="row border-bottom">
         <div class="col-12">
             <div class="page-title-box">
@@ -39,323 +39,16 @@
     </div>-->
 
     <form class="needs-validation mt-3" novalidate id="form1">
-        
+
 
         <div class="row">
-            <div class="col-12">
-                <div class="card">
 
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h4>Şəxsi məlumatlar</h4>
-                        <a class="btn shadow-lg input-group-text me-1" onclick=" $('#patientSearch').modal('show');"><i class="mdi mdi-account-search "></i> <span>Axtarış</span></a>
+            @await Component.InvokeAsync("NewPatient")
 
-                    </div>
-                    <div class="card-body">
-                        <div class="form-group mb-3">
-
-                            <!-- <h3 style="text-align:right; margin-right:2%"><span class="badge badge-secondary">Cəmi: ---</span></h1> -->
-                            <div class="row">
-
-                                <div class="col-md-4">
-                                    <label class="form-label">Ad</label>
-                                    <input type="text" class="form-control" required id="name" placeholder="Ad">
-                                    <div class="valid-feedback">
-                                        Əla!
-                                    </div>
-                                    <div class="invalid-feedback">
-                                        Boşluğu doldurun.
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="form-label">Soyad</label>
-                                    <input type="text" class="form-control" required id="surname" placeholder="Soyad">
-                                    <div class="valid-feedback">
-                                        Əla!
-                                    </div>
-                                    <div class="invalid-feedback">
-                                        Boşluğu doldurun.
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="form-label">Ata adı</label>
-                                    <input type="text" class="form-control" required id="father" placeholder="Ata adı">
-                                    <div class="valid-feedback">
-                                        Əla!
-                                    </div>
-                                    <div class="invalid-feedback">
-                                        Boşluğu doldurun.
-                                    </div>
-                                </div>
-
-
-                            </div>
-                        </div>
-                        <div class="form-group mb-3 ">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <label class="form-label">Cins</label>
-                                    <select class="form-control dropdown" required id="gender">
-                                        <option value="" disabled selected>Seçin...</option>
-                                        <option value="1">Kişi</option>
-                                        <option value="2">Qadın</option>
-
-                                    </select>
-
-
-                                    <div class="valid-feedback">
-                                        Əla!
-                                    </div>
-                                    <div class="invalid-feedback">
-                                        Boşluğu doldurun.
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="form-label">Əlaqə nömrəsi</label>
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="basic-addon1">+994</span>
-                                        </div>
-                                        <input type="tel" class="form-control" placeholder="51XXXXXXX" id="clientPhone" maxlength="9" aria-describedby="emailHelp" required>
-                                        <div class="valid-feedback">
-                                            Əla!
-                                        </div>
-                                        <div class="invalid-feedback">
-                                            Boşluğu doldurun.
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="form-label">ŞV Fin</label>
-                                    <input type="text" class="form-control" required id="fin" placeholder="Şəxsiyyət vəsiqəsinin fin kodu">
-                                    <div class="valid-feedback">
-                                        Əla!
-                                    </div>
-                                    <div class="invalid-feedback">
-                                        Boşluğu doldurun.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <label class="form-label">Döğum tarixi:</label>
-                                    <input class="form-control" type="date" id="bDate"
-                                           name="meeting-time" value="2018-06-12T19:30" max=""
-                                           required>
-                                    <div class="valid-feedback">
-                                        Əla!
-                                    </div>
-                                    <div class="invalid-feedback">
-                                        Boşluğu doldurun.
-                                    </div>
-                                </div>
-
-                            </div>
-
-                        </div>
-                        <div class="form-group mb-3" style="display:none" id="selectedPatientForm">
-
-                            <div class="row">
-                                <div class="col-md-12 text-right">
-                                    <button type="button" class="btn btn-danger " onclick="DeleteSelectedPatient()">Xanaları təmizlə</button>
-                                    @*<button type="button" class="btn btn-success " onclick="DeleteSelectedPatient()">yenile</button>*@
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 ">
-                <div class="card">
-                    <div class="card-header ">
-
-                        <div class="row">
-                            <div class="col">
-                                <h4>Müayinə məlumatları</h4>
-                            </div>
-                            <div class="col-auto">
-                                <label class="form-label">Kartlar</label>
-                                <select class="form-control dropdown" id="patientCardSelector"></select>
-                            </div>
-                        </div>
+            @await Component.InvokeAsync("NewExamination")
 
 
 
-                    </div>
-                    <div class="card-body">
-                        <div class="form-group">
-
-
-                            <div id="newPatientContainer">
-
-                                <div class="form-group mb-3">
-                                    <!-- <h3 style="text-align:right; margin-right:2%"><span class="badge badge-secondary">Cəmi: ---</span></h1> -->
-                                    <div class="row">
-
-                                        <div class="col-md-3">
-                                            <label class="form-label">Təşkilat</label>
-                                            <select class="form-control dropdown" required id="companies">
-                                            </select>
-
-
-                                            <div class="valid-feedback">
-                                                Əla!
-                                            </div>
-                                            <div class="invalid-feedback">
-                                                Boşluğu doldurun.
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="form-group mb-3">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <label class="form-label">Müraciət növü</label>
-                                            <select class="form-control" required id="requestType">
-                                                <!-- <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option> -->
-                                            </select>
-                                            <div class="valid-feedback">
-                                                Əla!
-                                            </div>
-                                            <div class="invalid-feedback">
-                                                Boşluğu doldurun.
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label class="form-label">Qiymət qrupu</label>
-                                            <select class="form-control" required id="priceGroup" >
-                                            </select>
-                                            <div class="valid-feedback">
-                                                Əla!
-                                            </div>
-                                            <div class="invalid-feedback">
-                                                Boşluğu doldurun.
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label class="form-label">Xidmət</label>
-                                            <select class="form-control" required id="services" onchange="servicesChanged(this)">
-                                                <!-- <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option> -->
-                                            </select>
-                                            <div class="valid-feedback">
-                                                Əla!
-                                            </div>
-                                            <div class="invalid-feedback">
-                                                Boşluğu doldurun.
-                                            </div>
-                                        </div>
-
-                                        <!--<div class="col-md-4">
-                                    <label for="exampleFormControlSelect1">Poliklinika</label>
-                                    <select class="form-control" required id="departments" onchange="depChanged(this)">-->
-                                        <!-- <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option> -->
-                                        <!--</select>
-                                        <div class="valid-feedback">
-                                            Əla!
-                                        </div>
-                                        <div class="invalid-feedback">
-                                            Boşluğu doldurun.
-                                        </div>
-                                    </div>-->
-                                    </div>
-                                </div>
-                                <div class="form-group mb-3">
-                                    <div class="row">
-
-                                        <div class="col-md-4">
-                                            <label class="form-label">Müəssisədə xidmət edən personal</label>
-                                            <select class="form-control" required id="doctors">
-                                                <!-- <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option> -->
-                                            </select>
-                                            <div class="valid-feedback">
-                                                Əla!
-                                            </div>
-                                            <div class="invalid-feedback">
-                                                Boşluğu doldurun.
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-
-                                            <label class="form-label">Gödərən</label>
-                                            <select class="form-control" id="referer">
-                                                <!-- <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option> -->
-                                            </select>
-                                            <div class="valid-feedback">
-                                                Əla!
-                                            </div>
-                                            <div class="invalid-feedback">
-                                                Boşluğu doldurun.
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label class="form-label">Qiymət (AZN)</label>
-                                            <input type="tel" class="form-control" required id="price" placeholder="Məbləğ" disabled>
-                                            <div class="valid-feedback">
-                                                Əla!
-                                            </div>
-                                            <div class="invalid-feedback">
-                                                Boşluğu doldurun.
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                @*<div class="form-group">
-                                    <div class="row">
-
-
-                                    </div>
-                                </div>*@
-                                <div class="form-group mb-3">
-
-                                    <label class="form-label">Qeyd</label>
-                                    <textarea class="form-control" id="note" rows="3" placeholder="Qeydlərinizi daxil edin"></textarea>
-                                    <div class="valid-feedback">
-                                        Əla!
-                                    </div>
-                                    <div class="invalid-feedback">
-                                        Boşluğu doldurun.
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group mb-3">
-
-
-
-                            <button type="button" id="createCard" class="btn btn-primary " onclick="AddPatient()">Qeydə al</button>
-
-                            <button type="button" class="btn btn-info " onclick="loadAddServiceIntoPatientCardModal()">Xidmətlər</button>
-
-                            <button type="button" class="btn btn-primary" onclick="generateRecipe()">Çek əldə et</button>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </form>
     <div class="modal fade" id="addServiceToPatient" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -609,7 +302,8 @@
 @section Scripts{
 
     @*<script src="~/js/new_patient/new_patient.js" asp-append-version="true"></script>*@
-<script>var json = localStorage.getItem("json")
+    <script>
+var json = localStorage.getItem("json")
         var pageData;
         var parsedJSON = JSON.parse(json)
         var selectedCardID = 0;
@@ -625,6 +319,23 @@
         var $newPatientContainer = $("#newPatientContainer");
         var $createCard = $("#createCard");
 
+
+
+    $requestTypeDropdown.on("change", function () {
+        var selectedValue = $(this).val();
+
+
+        if (selectedValue === "3") {
+
+            // If requestTypeDropdown is selected with value 3
+            // Disable the otherDropdown, make it not required, and select the first item
+            $doctorDropdown.prop("disabled", true).prop("required", false).val("");
+        } else {
+            // If requestTypeDropdown is not selected with value 3
+            // Enable the otherDropdown and make it required
+            $doctorDropdown.prop("disabled", false).prop("required", true);
+        }
+    });
 
         var servicesBeforeAllShown;
     var selectedPatientCardID = 0;
@@ -651,52 +362,21 @@
 
                 pageData = data;
 
-                $requestTypeDropdown.empty();
-                $requestTypeDropdown.append($("<option  disabled selected />").val('').text(`Seçin..`));
 
-                $.each(data.requestTypes, function () {
-                    $requestTypeDropdown.append($("<option />").val(this.id).text(this.name));
-                });
+                //$refererDropdown.empty(); // Clear existing options
 
-                $requestTypeDropdown.on("change", function () {
-                    var selectedValue = $(this).val();
+                //$refererDropdown.append($("<option  disabled selected />").val('').text(`Seçin..`));
 
-
-                    if (selectedValue === "3") {
-
-                        // If requestTypeDropdown is selected with value 3
-                        // Disable the otherDropdown, make it not required, and select the first item
-                        $doctorDropdown.prop("disabled", true).prop("required", false).val("");
-                    } else {
-                        // If requestTypeDropdown is not selected with value 3
-                        // Enable the otherDropdown and make it required
-                        $doctorDropdown.prop("disabled", false).prop("required", true);
-                    }
-                });
-
-
-                $doctorDropdown.empty(); // Clear existing options
-
-                $doctorDropdown.append($("<option  disabled selected />").val('').text(`Seçin..`));
-
-                $.each(data.personal, function () {
-                    $doctorDropdown.append($("<option />").val(this.id).text(`${this.name} ${this.surname} (${this.speciality.name})`));
-                });
-
-                $refererDropdown.empty(); // Clear existing options
-
-                $refererDropdown.append($("<option  disabled selected />").val('').text(`Seçin..`));
-
-                $.each(data.referers, function () {
-                    $refererDropdown.append($("<option />").val(this.id).text(`${this.name} ${this.surname} ${this.father}`));
-                });
-                $companiesDropdown.empty();
-                $companiesDropdown.append($("<option  disabled selected />").val('').text(`Seçin..`));
-                $.each(data.companies, function () {
-                    $companiesDropdown.append($("<option />").val(this.id).text(`${this.name}`));
-                });
+                //$.each(data.referers, function () {
+                //    $refererDropdown.append($("<option />").val(this.id).text(`${this.name} ${this.surname} ${this.father}`));
+                //});
+                //$companiesDropdown.empty();
+                //$companiesDropdown.append($("<option  disabled selected />").val('').text(`Seçin..`));
+                //$.each(data.companies, function () {
+                //    $companiesDropdown.append($("<option />").val(this.id).text(`${this.name}`));
+                //});
                 $("#price").val($("#services").val());
-                $patientCardsDropdown.append($("<option />").val("").text(`Yeni Kart`));
+/*                $patientCardsDropdown.append($("<option />").val("").text(`Yeni Kart`));*/
                 hideLoading();
             },
             error: function (jqXhr, textStatus, errorMessage) {
@@ -712,6 +392,7 @@
             }
         });
 
+        populatePriceGroupDropdown($('#companies').val());
         $("#companies").on('change', function () {
 
             var selectedCompanyID = $(this).val();
@@ -721,32 +402,41 @@
         // Function to populate the "otherDropdown" based on the selected company
         function populatePriceGroupDropdown(selectedCompanyID) {
             // Make an API call to fetch data for the "otherDropdown"
-            $.ajax({
-                type: 'GET',
-                url: "@Url.Action("GetPriceGroupDataForCompany", "Reception")" , // Replace with your API endpoint
-                data: { companyID: selectedCompanyID },
-                success: function (response) {
-                    // Clear previous options and populate the "otherDropdown"
-                    var $otherDropdown = $("#priceGroup");
-                    $otherDropdown.empty();
+            console.log(selectedCompanyID)
+            if (selectedCompanyID) {
 
-                    // Populate options based on the response
-                    response.forEach(function (item) {
-                        $otherDropdown.append($("<option />").val(item.priceGroupID).text(`${item.priceGroupName}`));
 
-                    });
+                $.ajax({
+                    type: 'GET',
+                    url: "@Url.Action("GetPriceGroupDataForCompany", "Reception")" , // Replace with your API endpoint
+                    data: { companyID: selectedCompanyID },
+                    success: function (response) {
+                        // Clear previous options and populate the "otherDropdown"
+                        var $otherDropdown = $("#priceGroup");
+                        $otherDropdown.empty();
 
-                    if (response.length > 0) {
-                        var firstPriceGroupID = response[0].priceGroupID;
-                        // Call another API to fill the second dropdown using the firstPriceGroupID
-                        getServicesInPriceGroup(firstPriceGroupID);
+                        // Populate options based on the response
+                        response.forEach(function (item) {
+                            $otherDropdown.append($("<option />").val(item.priceGroupID).text(`${item.priceGroupName}`));
+
+                        });
+
+                        if (response.length > 0) {
+                            var firstPriceGroupID = response[0].priceGroupID;
+                            // Call another API to fill the second dropdown using the firstPriceGroupID
+                            getServicesInPriceGroup(firstPriceGroupID);
+                        }
+
+                        if (response.length == 1) {
+                            $otherDropdown.prop('disabled',true)
+                        }
+                    },
+                    error: function (error) {
+                        console.error('API error:', error);
+                        // Handle API errors here, e.g., show an error message
                     }
-                },
-                error: function (error) {
-                    console.error('API error:', error);
-                    // Handle API errors here, e.g., show an error message
-                }
-            });
+                });
+            }
         }
 
          function populatePatientCards(patientID) {
@@ -757,7 +447,6 @@
                 data: { patientID: patientID },
                 success: function (response) {
                     // Clear previous options and populate the "otherDropdown"
-
                     $patientCardsDropdown.empty();
 
                     // Populate options based on the response
@@ -1549,7 +1238,8 @@
             }
             return "";
         }</script>
-    <script>$(document).ready(function () {
+    <script>
+    $(document).ready(function () {
             $('#serviceSearch').on('keyup input', function () {
                 var value = $(this).val().toLowerCase();
 

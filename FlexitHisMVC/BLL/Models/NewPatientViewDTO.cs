@@ -10,7 +10,7 @@ namespace Medicloud.Models
     public class NewPatientViewDTO
     { 
    
-       public List<RequestType> requestTypes { get; set; }
+       public List<RequestTypeDAO> requestTypes { get; set; }
         public List<ServiceObj> services { get; set; }
         public List<UserDepRel> departments { get; set; }
         public List<UserDAO> personal { get; set; }

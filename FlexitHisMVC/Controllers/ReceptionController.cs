@@ -102,16 +102,13 @@ namespace Medicloud.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 NewPatientViewDTO pageStruct = new NewPatientViewDTO();
-                pageStruct.requestTypes = new List<RequestType>();
                 pageStruct.personal = new List<UserDAO>();
                 pageStruct.departments = new List<UserDepRel>();
                 pageStruct.referers = new List<UserDAO>();
                 pageStruct.services = new List<ServiceObj>();
                 pageStruct.companies = new List<CompanyDAO>();
 
-                RequestTypeRepo requestTypeDAO = new RequestTypeRepo(ConnectionString);
 
-                pageStruct.requestTypes.AddRange(requestTypeDAO.GetRequestType());
 
                 ServicesRepo servicesDAO = new ServicesRepo(ConnectionString);
 
@@ -125,15 +122,15 @@ namespace Medicloud.Controllers
                 UserOrganizationRel userOrganizationRel = new UserOrganizationRel(ConnectionString);
 
 
-                pageStruct.personal.AddRange(userOrganizationRel.GetDoctorsByOrganization(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"))));
+                //pageStruct.personal.AddRange(userOrganizationRel.GetDoctorsByOrganization(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"))));
 
 
              
 
-                pageStruct.referers.AddRange(_userService.GetRefererList());
+                //pageStruct.referers.AddRange(_userService.GetRefererList());
 
                 CompanyRepo companyRepo = new CompanyRepo(ConnectionString);
-                pageStruct.companies.AddRange(companyRepo.GetActiveCompanies(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"))));
+                //pageStruct.companies.AddRange(companyRepo.GetActiveCompanies(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"))));
 
                 pageStruct.status = 1;
 

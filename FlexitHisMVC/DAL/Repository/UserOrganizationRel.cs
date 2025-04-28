@@ -14,7 +14,7 @@ namespace Medicloud.Repository
         public List<UserDAO> GetDoctorsByOrganization(int organizationID)
 
         {
-
+			Console.WriteLine(organizationID);
             List<UserDAO> userDepRelList = new List<UserDAO>();
 
             try
@@ -28,7 +28,7 @@ namespace Medicloud.Repository
                     using (MySqlCommand com = new MySqlCommand($@"SELECT a.*, b.name,b.isDr,b.specialityID, b.surname, c.name as speciality
 FROM user_organization_rel a
 INNER JOIN users b ON a.userID = b.id
-INNER JOIN speciality c ON b.specialityID = c.id
+LEFT JOIN speciality c ON b.specialityID = c.id
 WHERE a.organizationID = @organizationID and b.isDr = 1 group by userID;", connection))
                     {
                         com.Parameters.AddWithValue("@organizationID", organizationID);

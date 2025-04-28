@@ -14,7 +14,9 @@ using Medicloud.DAL.Repository.Kassa;
 using Medicloud.DAL.Repository.Organization;
 using Medicloud.DAL.Repository.PatientCard;
 using Medicloud.DAL.Repository.Plan;
+using Medicloud.DAL.Repository.RequestType;
 using Medicloud.DAL.Repository.Role;
+using Medicloud.DAL.Repository.UserOrganization;
 using Medicloud.DAL.Repository.UserPlan;
 using Medicloud.DAL.Repository.Users;
 using Medicloud.DAL.Repository.WorkHour;
@@ -91,8 +93,8 @@ var con= builder.Configuration.GetConnectionString("DefaultConnectionString");
 builder.Services.AddScoped<IUnitOfWork>(provider => new UnitOfWork(con));
 builder.Services.AddScoped<IServicesRepository, ServicesRepository>();
 builder.Services.AddScoped<IServicesService, ServicesService>();
-builder.Services.AddScoped<IRequestTypeRepository, RequestTypeRepository>();
 builder.Services.AddScoped<IRequestTypeService, RequestTypeService>();
+builder.Services.AddScoped<IRequestTypeRepository, RequestTypeRepository>();
 builder.Services.AddScoped<IPatientCardRepository, PatientCardRepository>();
 builder.Services.AddScoped<IPatientCardService, PatientCardService>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
@@ -101,6 +103,7 @@ builder.Services.AddScoped<IOrganizationRepo, OrganizationRepo>();
 builder.Services.AddScoped<IOrganizationService, OrganizationService>();
 builder.Services.AddScoped<IPlanRepository, PlanRepository>();
 builder.Services.AddScoped<IUserPlanRepo, UserPlanRepo>();
+builder.Services.AddScoped<IUserOrganizationRelRepository, UserOrganizationRelRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IKassaRepo, KassaRepo>();
@@ -108,6 +111,8 @@ builder.Services.AddScoped<ICommunicationService, CommunicationService>();
 builder.Services.AddScoped<IPatientCardServiceRelRepository, PatientCardServiceRelRepository>();
 builder.Services.AddScoped<IWorkHourRepository, WorkHourRepository>();
 builder.Services.AddScoped<IWorkHourService, WorkHourService>();
+
+
 var app = builder.Build();
 
 app.UseSession();

@@ -8,6 +8,7 @@ using Medicloud.DAL.Infrastructure.Abstract;
 using Medicloud.DAL.Repository.Kassa;
 using Medicloud.DAL.Repository.Plan;
 using Medicloud.DAL.Repository.Role;
+using Medicloud.DAL.Repository.UserOrganization;
 using Medicloud.DAL.Repository.UserPlan;
 
 using Medicloud.DAL.Repository.Users;
@@ -31,7 +32,8 @@ namespace Medicloud.BLL.Service
         IPlanRepository _planRepository;
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IRoleRepository _roleRepository;
-		public UserService(IKassaRepo kassaRepo, ICommunicationService communicationService, IUserPlanRepo userPlanRepo, IOrganizationService organizationService, IUserRepository userRepository, IPlanRepository planRepository, IUnitOfWork unitOfWork, IRoleRepository roleRepository)
+		private readonly IUserOrganizationRelRepository _userOrganizationRelRepository;
+		public UserService(IKassaRepo kassaRepo, ICommunicationService communicationService, IUserPlanRepo userPlanRepo, IOrganizationService organizationService, IUserRepository userRepository, IPlanRepository planRepository, IUnitOfWork unitOfWork, IRoleRepository roleRepository, IUserOrganizationRelRepository userOrganizationRelRepository)
 		{
 
 
@@ -44,6 +46,7 @@ namespace Medicloud.BLL.Service
 			_unitOfWork = unitOfWork;
 			_kassaRepo = kassaRepo;
 			_roleRepository = roleRepository;
+			_userOrganizationRelRepository = userOrganizationRelRepository;
 			//_nUserRepository = new UserRepository()
 		}
 
@@ -669,6 +672,13 @@ namespace Medicloud.BLL.Service
 		{
 			using var con = _unitOfWork.BeginConnection();
 			var result=await _userRepository.GetOnlyUserById(id);
+			return result;
+		}
+
+		public async Task<List<UserDAO>> GetDoctorUsersByOrganization(int organizationID)
+		{
+			using var con = _unitOfWork.BeginConnection();
+			var result = await _userOrganizationRelRepository.GetDoctorsByOrganization(organizationID);
 			return result;
 		}
 	}
