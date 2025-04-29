@@ -1,11 +1,11 @@
 ﻿using Medicloud.BLL.Services.Abstract;
 using Medicloud.DAL.Infrastructure.Abstract;
-using Medicloud.DAL.Repository.Abstract;
+using Medicloud.DAL.Repository.PatientCard;
 using Medicloud.Models;
 
 namespace Medicloud.BLL.Services.Concrete
 {
-    public class PatientCardService : IPatientCardService
+	public class PatientCardService : IPatientCardService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPatientCardRepository _repository;

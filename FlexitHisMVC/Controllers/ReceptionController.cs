@@ -25,7 +25,8 @@ namespace Medicloud.Controllers
         PatientCardRepo patientCardRepo;
         IUserService _userService;
 		private readonly IPatientCardServiceRelRepository _patientCardServiceRelRepository;
-		public ReceptionController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IUserService userService, IServicePriceGroupRepository servicePriceGroupRepository, IPatientCardServiceRelRepository patientCardServiceRelRepository)
+		private readonly IPatientCardRepository _patientCardRepository;
+		public ReceptionController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IUserService userService, IServicePriceGroupRepository servicePriceGroupRepository, IPatientCardServiceRelRepository patientCardServiceRelRepository, IPatientCardRepository patientCardRepository)
 		{
 			Configuration = configuration;
 			ConnectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
@@ -36,6 +37,7 @@ namespace Medicloud.Controllers
 
 			_userService = userService;
 			_patientCardServiceRelRepository = patientCardServiceRelRepository;
+			_patientCardRepository = patientCardRepository;
 		}
 		// GET: /<controller>/
 		public IActionResult Index()
@@ -108,16 +110,18 @@ namespace Medicloud.Controllers
                 pageStruct.services = new List<ServiceObj>();
                 pageStruct.companies = new List<CompanyDAO>();
 
+				int organizationId = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
 
 
-                ServicesRepo servicesDAO = new ServicesRepo(ConnectionString);
+				ServicesRepo servicesDAO = new ServicesRepo(ConnectionString);
 
-                pageStruct.services.AddRange(servicesDAO.GetServicesByOrganization(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"))));
+                pageStruct.services.AddRange(servicesDAO.GetServicesByOrganization(organizationId));
 
 
-                UserDepRelRepo departmentsDAO = new UserDepRelRepo(ConnectionString);
+                //UserDepRelRepo departmentsDAO = new UserDepRelRepo(ConnectionString);
+                DepartmentsRepo departmentsDAO = new DepartmentsRepo(ConnectionString);
 
-                pageStruct.departments = departmentsDAO.GetUserDepartments(1);
+                //pageStruct.departments = departmentsDAO.GetDepartmentsByOrganization(organizationId);
 
                 UserOrganizationRel userOrganizationRel = new UserOrganizationRel(ConnectionString);
 
@@ -177,22 +181,42 @@ namespace Medicloud.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
+				int userId = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID"));
+				int organzationId = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
 
-                try
+				try
                 {
 
                     long cardID = 0;
                     PatientRepo patientRepo = new PatientRepo(ConnectionString);
 
+					var pCardDAO = new PatientCardDAO
+					{
+						serviceID = newPatient.serviceID,
+						departmentID = newPatient.depID,
+						docID = newPatient.docID,
+						note = newPatient.note,
+						priceGroupID = newPatient.priceGroupID,
+						organizationID = organzationId,
+						userID = userId,
+						referDocID = (int)newPatient.referDocID,
+						requestTypeID = newPatient.requestTypeID,
+						startDate = DateTime.Now,
+						endDate = DateTime.Now.AddHours(1),
 
-                    var newPatientID = patientRepo.InsertPatient(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID")), Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID")), newPatient);
+					};
+					var newPatientID = patientRepo.InsertPatient(userId, organzationId, newPatient);
 
                     if (newPatientID > 0)
                     {
-                        //return BadRequest("Xəstə artıq mövcuddur");
-                       
-                        cardID = patientCardRepo.InsertPatientCardEnterprise(newPatient, Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID")), Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID")), newPatientID);
-                        var serviceInserted =await _patientCardServiceRelRepository.InsertServiceToPatientCard(cardID, newPatient.serviceID, 0, newPatient.referDocID, newPatient.docID);
+						//return BadRequest("Xəstə artıq mövcuddur");
+
+						pCardDAO.patientID = (int)newPatientID;
+
+						//cardID =patientCardRepo.InsertPatientCardEnterprise(newPatient, userId, organzationId, newPatientID);
+						cardID = await _patientCardRepository.AddAsync(pCardDAO);
+
+						var serviceInserted =await _patientCardServiceRelRepository.InsertServiceToPatientCard(cardID, newPatient.serviceID, 0, newPatient.referDocID, newPatient.docID);
                         if (cardID == 0 || serviceInserted == false)
                         {
                             return BadRequest("Xəstə kartını daxil etmək mümkün olmadı.");
@@ -200,9 +224,11 @@ namespace Medicloud.Controllers
                     }
                     else
                     {
-                       
-                        cardID = patientCardRepo.InsertPatientCardEnterprise(newPatient, Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID")), Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID")), newPatient.id);
-                        var serviceInserted =await _patientCardServiceRelRepository.InsertServiceToPatientCard(cardID, newPatient.serviceID, 0, newPatient.referDocID, newPatient.docID);
+						pCardDAO.patientID = newPatient.id;
+
+						cardID = await _patientCardRepository.AddAsync(pCardDAO);
+						//cardID = patientCardRepo.InsertPatientCardEnterprise(newPatient,userId, organzationId, newPatient.id);
+						var serviceInserted =await _patientCardServiceRelRepository.InsertServiceToPatientCard(cardID, newPatient.serviceID, 0, newPatient.referDocID, newPatient.docID);
                         if (cardID == 0 || serviceInserted == false)
                         {
                             return BadRequest("Xəstə kartını daxil etmək mümkün olmadı.");

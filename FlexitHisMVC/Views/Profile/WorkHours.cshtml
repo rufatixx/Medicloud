@@ -113,10 +113,19 @@
 
 
                         @*<div class="dropdown">
-                            <button id="dropdownButton"  class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Saat Seçin
-                            </button>
-                            <ul class="dropdown-menu" style="max-height:400px; overflow:auto;" id="timeDropdown"></ul>
+            <button id="dropdownButton"  class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Saat Seçin
+            </button>
+            <ul class="dropdown-menu" style="max-height:400px; overflow:auto;" id="timeDropdown"></ul>
+        </div>*@
+
+
+                        @*<div class="form-group">
+                            <select id="availableStartTime" class="form-select"></select>
+                        </div>
+
+                        <div class="form-group">
+                            <select id="availableEndTime" class="form-select"></select>
                         </div>*@
                     </div>
 
@@ -234,6 +243,80 @@
 @section Scripts {
 
     <script>
+        //function generateTimeOptions(start, end) {
+        //    const options = [];
+        //    let currentTime = new Date(`1970-01-01T${start}:00`);
+        //    const endTimeMoment = new Date(`1970-01-01T${end}:00`);
+
+        //    while (currentTime <= endTimeMoment) {
+        //        options.push(currentTime.toTimeString().substring(0, 5));
+        //        currentTime.setMinutes(currentTime.getMinutes() + 5);
+        //    }
+        //    return options;
+        //}
+
+        //const workStart = "09:00";
+        //const workEnd = "17:00";
+        //const breaks = [
+        //    ["12:00", "13:00"],
+        //    ["15:30", "16:45"]
+        //];
+
+        //const reservedSlots = [
+        //    ["10:00", "10:30"],
+        //    ["14:15", "14:30"]
+        //];
+        //const intervalMinutes = 15;
+
+
+        //generateAvailableTimeOptionsWithBreaksAndReservations(workStart, workEnd, breaks, reservedSlots)
+
+        //function generateAvailableTimeOptionsWithBreaksAndReservations(start, end, breaks, reservedTimes) {
+        //    let options = generateTimeOptions(start, end);
+
+        //    // Molaları filtrele
+        //    breaks.forEach(brk => {
+        //        options = options.filter(time => time < brk.start || time >= brk.end);
+        //    });
+
+        //    // Rezerveleri filtrele
+        //    reservedTimes.forEach(res => {
+        //        options = options.filter(time => time < res.start || time >= res.end);
+        //    });
+
+        //    return options;
+        //}
+
+
+
+
+        //function populateAvailableTimeOptionsWithAllConstraints() {
+        //    const $availableStart = $("#availableStartTime");
+        //    const $availableEnd = $("#availableEndTime");
+
+        //    $availableStart.empty();
+        //    $availableEnd.empty();
+
+        //    const options = generateAvailableTimeOptionsWithBreaksAndReservations(selectedStart, selectedEnd, breaks, reservedTimes);
+
+        //    if (options.length < 2) {
+        //        $availableStart.append(`<option value="">Uygun saat yok</option>`);
+        //        $availableEnd.append(`<option value="">Uygun saat yok</option>`);
+        //        return;
+        //    }
+
+        //    options.forEach(time => {
+        //        $availableStart.append(`<option value="${time}">${time}</option>`);
+        //        $availableEnd.append(`<option value="${time}">${time}</option>`);
+        //    });
+
+        //    $availableStart.val(options[0]);
+        //    $availableEnd.val(options[options.length - 1]);
+        //}
+
+
+
+
 
 
         //const workStart = "09:00";
@@ -347,72 +430,72 @@
 
 
 
-        //function parseTime(timeStr) {
-        //    const [hour, minute] = timeStr.split(":").map(Number);
-        //    return hour * 60 + minute;
-        //}
+        function parseTime(timeStr) {
+            const [hour, minute] = timeStr.split(":").map(Number);
+            return hour * 60 + minute;
+        }
 
-        //function formatTime(minutes) {
-        //    const hour = Math.floor(minutes / 60);
-        //    const minute = minutes % 60;
-        //    return `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
-        //}
+        function formatTime(minutes) {
+            const hour = Math.floor(minutes / 60);
+            const minute = minutes % 60;
+            return `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+        }
 
-        //function isInRange(startA, endA, startB, endB) {
-        //    return !(endA <= startB || startA >= endB);
-        //}
+        function isInRange(startA, endA, startB, endB) {
+            return !(endA <= startB || startA >= endB);
+        }
 
-        //function getSlotStatus(startTime, endTime, breaks, reserved) {
-        //    for (const [start, end] of breaks) {
-        //        if (isInRange(startTime, endTime, parseTime(start), parseTime(end))) return "break";
-        //    }
-        //    for (const [start, end] of reserved) {
-        //        if (isInRange(startTime, endTime, parseTime(start), parseTime(end))) return "reserved";
-        //    }
-        //    return "available";
-        //}
+        function getSlotStatus(startTime, endTime, breaks, reserved) {
+            for (const [start, end] of breaks) {
+                if (isInRange(startTime, endTime, parseTime(start), parseTime(end))) return "break";
+            }
+            for (const [start, end] of reserved) {
+                if (isInRange(startTime, endTime, parseTime(start), parseTime(end))) return "reserved";
+            }
+            return "available";
+        }
 
-        //function generateTimeSlots(start, end, interval, breaks, reserved) {
-        //    const slots = [];
-        //    let current = parseTime(start);
-        //    const endTime = parseTime(end);
+        function generateTimeSlots(start, end, interval, breaks, reserved) {
+            const slots = [];
+            let current = parseTime(start);
+            const endTime = parseTime(end);
 
-        //    while (current + interval <= endTime) {
-        //        const slotEnd = current + interval;
-        //        const label = `${formatTime(current)} - ${formatTime(slotEnd)}`;
-        //        const status = getSlotStatus(current, slotEnd, breaks, reserved);
-        //        slots.push({ label, status });
-        //        current += interval;
-        //    }
+            while (current + interval <= endTime) {
+                const slotEnd = current + interval;
+                const label = `${formatTime(current)} - ${formatTime(slotEnd)}`;
+                const status = getSlotStatus(current, slotEnd, breaks, reserved);
+                slots.push({ label, status });
+                current += interval;
+            }
 
-        //    return slots;
-        //}
+            return slots;
+        }
 
-        //$(document).ready(function () {
-        //    const slots = generateTimeSlots(workStart, workEnd, intervalMinutes, breaks, reservedSlots);
-        //    const $dropdown = $("#timeDropdown");
+        $(document).ready(function () {
+            const slots = generateTimeSlots(workStart, workEnd, intervalMinutes, breaks, reservedSlots);
+            const $dropdown = $("#timeDropdown");
 
-        //    slots.forEach(slot => {
-        //        let badge = '';
-        //        let itemClass = 'dropdown-item';
+            slots.forEach(slot => {
+                let badge = '';
+                let itemClass = 'dropdown-item';
 
-        //        switch (slot.status) {
-        //            case "available":
-        //                badge = '<span class="badge bg-success me-2">Uygun</span>';
-        //                break;
-        //            case "break":
-        //                badge = '<span class="badge bg-warning text-dark me-2">Break time</span>';
-        //                itemClass += ' disabled';
-        //                break;
-        //            case "reserved":
-        //                badge = '<span class="badge bg-danger me-2">Reserved time</span>';
-        //                itemClass += ' disabled';
-        //                break;
-        //        }
+                switch (slot.status) {
+                    case "available":
+                        badge = '<span class="badge bg-success me-2">Uygun</span>';
+                        break;
+                    case "break":
+                        badge = '<span class="badge bg-warning text-dark me-2">Break time</span>';
+                        itemClass += ' disabled';
+                        break;
+                    case "reserved":
+                        badge = '<span class="badge bg-danger me-2">Reserved time</span>';
+                        itemClass += ' disabled';
+                        break;
+                }
 
-        //        $dropdown.append(`<li><a class="${itemClass}" href="#">${badge}${slot.label}</a></li>`);
-        //    });
-        //});
+                $dropdown.append(`<li><a class="${itemClass}" href="#">${badge}${slot.label}</a></li>`);
+            });
+        });
 
 
 

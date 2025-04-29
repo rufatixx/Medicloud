@@ -10,6 +10,7 @@ namespace Medicloud.Models
         public string surname { get; set; }
         public string father { get; set; }
         public string clientPhone { get; set; }
+        public string clientEmail { get; set; }
         public int genderID { get; set; }
         public string fin { get; set; }
         public int requestTypeID { get; set; }
@@ -20,5 +21,7 @@ namespace Medicloud.Models
         public int referDocID { get; set; }
         public string birthDate { get; set; }
         public string note { get; set; }
-    }
+		public DateTime? startDate { get; set; }
+		public DateTime? endDate { get; set; }
+	}
 }

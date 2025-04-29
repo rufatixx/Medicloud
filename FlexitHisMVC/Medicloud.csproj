@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="BLL\Services\Role\" />
+    <Folder Include="DAL\Repository\NewFolder\" />
     <Folder Include="DAL\Repository\WorkHourBreak\" />
     <Folder Include="wwwroot\js\menu\" />
     <Folder Include="wwwroot\js\new_patient\" />

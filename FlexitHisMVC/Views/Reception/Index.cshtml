@@ -309,10 +309,11 @@ var json = localStorage.getItem("json")
         var selectedCardID = 0;
         var selectedPatientID = 0;
         var foundPatientID = 0;
-    var $requestTypeDropdown = $("#requestType");
+        var $requestTypeDropdown = $("#requestType");
         var $servicesDropdown = $("#services");
         var $policlinicDropdown = $("#departments");
         var $doctorDropdown = $("#doctors");
+        var $priceGroupDropdown = $("#priceGroup");
         var $refererDropdown = $("#referer");
         var $companiesDropdown = $("#companies");
         var $patientCardsDropdown = $("#patientCardSelector");
@@ -394,15 +395,21 @@ var json = localStorage.getItem("json")
 
         populatePriceGroupDropdown($('#companies').val());
         $("#companies").on('change', function () {
-
             var selectedCompanyID = $(this).val();
             populatePriceGroupDropdown(selectedCompanyID);
+        });
+
+
+        $("#priceGroup").on('change', function () {
+            var selectedPriceGroupId = $(this).val();
+            getServicesInPriceGroup(selectedPriceGroupId);
         });
 
         // Function to populate the "otherDropdown" based on the selected company
         function populatePriceGroupDropdown(selectedCompanyID) {
             // Make an API call to fetch data for the "otherDropdown"
             console.log(selectedCompanyID)
+            $priceGroupDropdown.empty();
             if (selectedCompanyID) {
 
 
@@ -411,13 +418,10 @@ var json = localStorage.getItem("json")
                     url: "@Url.Action("GetPriceGroupDataForCompany", "Reception")" , // Replace with your API endpoint
                     data: { companyID: selectedCompanyID },
                     success: function (response) {
-                        // Clear previous options and populate the "otherDropdown"
-                        var $otherDropdown = $("#priceGroup");
-                        $otherDropdown.empty();
 
                         // Populate options based on the response
                         response.forEach(function (item) {
-                            $otherDropdown.append($("<option />").val(item.priceGroupID).text(`${item.priceGroupName}`));
+                            $priceGroupDropdown.append($("<option />").val(item.priceGroupID).text(`${item.priceGroupName}`));
 
                         });
 
@@ -428,7 +432,7 @@ var json = localStorage.getItem("json")
                         }
 
                         if (response.length == 1) {
-                            $otherDropdown.prop('disabled',true)
+                            $priceGroupDropdown.prop('disabled',true)
                         }
                     },
                     error: function (error) {
@@ -486,7 +490,8 @@ var json = localStorage.getItem("json")
     });
 
     function getServicesInPriceGroup(selectedPriceGroupID) {
-
+        $servicesDropdown.empty();
+        $('#price').val('');
     $.ajax({
         type: 'GET',
         url: "@Url.Action("GetActiveServicesByPriceGroupID", "Reception")", // Replace with your second API endpoint
@@ -494,7 +499,6 @@ var json = localStorage.getItem("json")
         success: function (response) {
             // Clear previous options and populate the second dropdown
 
-            $servicesDropdown.empty(); // Clear existing options
             $servicesDropdown.append($("<option  disabled selected />").val("").text(`Seçin..`));
             // Populate options based on the response
             response.forEach(function (item) {
@@ -707,6 +711,7 @@ var json = localStorage.getItem("json")
                         "surname": surname,
                         "father": father,
                         "clientPhone": phone,
+                        "clientEmail": $('#cliendEmail').val(),
                         "genderID": parseInt(genderID),
                         "fin": fin,
                         "requestTypeID": parseInt(requestTypeID),
@@ -716,7 +721,9 @@ var json = localStorage.getItem("json")
                         "docID": parseInt(depDocID),
                         "referDocID": parseInt(referDocID),
                         "birthDate": bDate,
-                        "note": note
+                        "note": note,
+                        "startDate": new Date(),
+                        "endDate": new Date()
                     }),
                     success: function (data, status, xhr) {
                         if (data > 0) {

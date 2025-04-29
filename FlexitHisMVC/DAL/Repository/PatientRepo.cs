@@ -30,8 +30,8 @@ namespace Medicloud.Models.Repository
 
 
                     using (MySqlCommand com = new MySqlCommand(@"
-INSERT INTO patients (userID, organizationID, name, surname, father, clientPhone, bDate, genderID, fin) 
-SELECT @userID, @organizationID, @name, @surname, @father, @clientPhone, @bDate, @genderID, @fin FROM DUAL
+INSERT INTO patients (userID, organizationID, name, surname, father, clientPhone,email bDate, genderID, fin) 
+SELECT @userID, @organizationID, @name, @surname, @father, @clientPhone,@email @bDate, @genderID, @fin FROM DUAL
 WHERE NOT EXISTS (
     SELECT * FROM patients 
     WHERE name = @name 
@@ -47,6 +47,7 @@ WHERE NOT EXISTS (
                         com.Parameters.AddWithValue("@surname", newPatient.surname);
                         com.Parameters.AddWithValue("@father", newPatient.father);
                         com.Parameters.AddWithValue("@clientPhone", newPatient.clientPhone);
+                        com.Parameters.AddWithValue("@email", newPatient.clientEmail);
                         com.Parameters.AddWithValue("@bDate", newPatient.birthDate); // Assuming this date is already in the correct format
                         com.Parameters.AddWithValue("@genderID", newPatient.genderID);
                         com.Parameters.AddWithValue("@fin", newPatient.fin);
