@@ -17,14 +17,15 @@ namespace Medicloud.DAL.Repository.PatientCard
 			_unitOfWork = unitOfWork;
 		}
 
-		public async Task<bool> InsertServiceToPatientCard(long patientCardID, int serviceID, int? depID, int? senderDocID, int? docID)
+		public async Task<bool> InsertServiceToPatientCard(long patientCardID, int serviceID, int? depID, int? senderDocID, int? docID,int priceGroupId)
 		{
 			try
 			{
-				string sql = "INSERT INTO patient_card_service_rel (patientCardID, serviceID";
+				string sql = "INSERT INTO patient_card_service_rel (patientCardID, serviceID,priceGroupId";
 				var parameters = new DynamicParameters();
 				parameters.Add("patientCardID", patientCardID);
 				parameters.Add("serviceID", serviceID);
+				parameters.Add("priceGroupId", priceGroupId);
 
 				if (depID.HasValue)
 				{
@@ -44,7 +45,7 @@ namespace Medicloud.DAL.Repository.PatientCard
 					parameters.Add("docID", docID.Value);
 				}
 
-				sql += ") VALUES (@patientCardID, @serviceID";
+				sql += ") VALUES (@patientCardID, @serviceID,@priceGroupId";
 
 				if (depID.HasValue)
 					sql += ", @depID";

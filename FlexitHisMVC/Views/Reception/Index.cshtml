@@ -677,26 +677,30 @@ var json = localStorage.getItem("json")
             });
 
             if (forms[0].checkValidity()) {
-                var foundPatientID = selectedPatientID;
-                var name = $('#name').val();
-                var surname = $('#surname').val();
-                var father = $('#father').val();
-                var phone = $('#clientPhone').val();
-                var genderID = $('#gender').val();
-                var bDate = $('#bDate').val();
-                var fin = $("#fin").val();
-                var requestTypeID = $("#requestType").val();
-                var priceGroupID = $("#priceGroup").val();
-                var serviceID = $("#services").children(":selected").attr("id");
-                var depDocID = $("#doctors").val() ?? 0;
-                var referDocID = $("#referer").val() ?? 0;
-                var note = $("#note").val();
-                var date = new Date(bDate);
-                var isoBdate = date.toISOString();
+                let data = {
+                    id: selectedPatientID,
+                    name: $('#name').val(),
+                    surname: $('#surname').val(),
+                    father: $('#father').val(),
+                    clientPhone: $('#clientPhone').val() ,
+                    clientEmail: $('#clientEmail').val(),
+                    genderID: parseInt($('#gender').val()),
+                    fin: $("#fin").val(),
+                    requestTypeID: parseInt($("#requestType").val()),
+                    priceGroupID: parseInt($("#priceGroup").val()),
+                    serviceID: parseInt($("#services").children(":selected").attr("id")),
+                    foundPatientID: parseInt(foundPatientID),
+                    docID: parseInt($("#doctors").val() ?? 0),
+                    referDocID: parseInt($("#referer").val() ?? 0),
+                    birthDate: $('#bDate').val(),
+                    note: $("#note").val(),
+                    startDate: new Date(),
+                    endDate: new Date()
 
+                }
 
-
-                console.log()
+                //console.log(data);
+                //return
                 showLoading();
 
                 $.ajax({
@@ -705,26 +709,7 @@ var json = localStorage.getItem("json")
                     },
                     type: 'POST',
                     url: `@Url.Action("AddPatient", "Reception")`,
-                    data: JSON.stringify({
-                        "id":selectedPatientID,
-                        "name": name,
-                        "surname": surname,
-                        "father": father,
-                        "clientPhone": phone,
-                        "clientEmail": $('#cliendEmail').val(),
-                        "genderID": parseInt(genderID),
-                        "fin": fin,
-                        "requestTypeID": parseInt(requestTypeID),
-                        "priceGroupID": parseInt(priceGroupID),
-                        "serviceID": parseInt(serviceID),
-                        "foundPatientID": parseInt(foundPatientID),
-                        "docID": parseInt(depDocID),
-                        "referDocID": parseInt(referDocID),
-                        "birthDate": bDate,
-                        "note": note,
-                        "startDate": new Date(),
-                        "endDate": new Date()
-                    }),
+                    data: JSON.stringify(data),
                     success: function (data, status, xhr) {
                         if (data > 0) {
                             hideLoading();

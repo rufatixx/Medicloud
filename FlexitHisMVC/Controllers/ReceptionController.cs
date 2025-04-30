@@ -2,6 +2,7 @@
 using Medicloud.DAL.Entities;
 using Medicloud.DAL.Repository;
 using Medicloud.DAL.Repository.Abstract;
+using Medicloud.DAL.Repository.Patient;
 using Medicloud.DAL.Repository.PatientCard;
 using Medicloud.Data;
 using Medicloud.Models;
@@ -26,7 +27,8 @@ namespace Medicloud.Controllers
         IUserService _userService;
 		private readonly IPatientCardServiceRelRepository _patientCardServiceRelRepository;
 		private readonly IPatientCardRepository _patientCardRepository;
-		public ReceptionController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IUserService userService, IServicePriceGroupRepository servicePriceGroupRepository, IPatientCardServiceRelRepository patientCardServiceRelRepository, IPatientCardRepository patientCardRepository)
+		private readonly IPatientRepository _patientRepository;
+		public ReceptionController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IUserService userService, IServicePriceGroupRepository servicePriceGroupRepository, IPatientCardServiceRelRepository patientCardServiceRelRepository, IPatientCardRepository patientCardRepository, IPatientRepository patientRepository)
 		{
 			Configuration = configuration;
 			ConnectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
@@ -38,6 +40,7 @@ namespace Medicloud.Controllers
 			_userService = userService;
 			_patientCardServiceRelRepository = patientCardServiceRelRepository;
 			_patientCardRepository = patientCardRepository;
+			_patientRepository = patientRepository;
 		}
 		// GET: /<controller>/
 		public IActionResult Index()
@@ -188,8 +191,6 @@ namespace Medicloud.Controllers
                 {
 
                     long cardID = 0;
-                    PatientRepo patientRepo = new PatientRepo(ConnectionString);
-
 					var pCardDAO = new PatientCardDAO
 					{
 						serviceID = newPatient.serviceID,
@@ -205,42 +206,36 @@ namespace Medicloud.Controllers
 						endDate = DateTime.Now.AddHours(1),
 
 					};
-					var newPatientID = patientRepo.InsertPatient(userId, organzationId, newPatient);
-
-                    if (newPatientID > 0)
-                    {
-						//return BadRequest("Xəstə artıq mövcuddur");
-
-						pCardDAO.patientID = (int)newPatientID;
-
-						//cardID =patientCardRepo.InsertPatientCardEnterprise(newPatient, userId, organzationId, newPatientID);
-						cardID = await _patientCardRepository.AddAsync(pCardDAO);
-
-						var serviceInserted =await _patientCardServiceRelRepository.InsertServiceToPatientCard(cardID, newPatient.serviceID, 0, newPatient.referDocID, newPatient.docID);
-                        if (cardID == 0 || serviceInserted == false)
-                        {
-                            return BadRequest("Xəstə kartını daxil etmək mümkün olmadı.");
-                        }
-                    }
-                    else
-                    {
+					if(newPatient.id>0)
+					{
 						pCardDAO.patientID = newPatient.id;
+					}
+					else
+					{
 
-						cardID = await _patientCardRepository.AddAsync(pCardDAO);
-						//cardID = patientCardRepo.InsertPatientCardEnterprise(newPatient,userId, organzationId, newPatient.id);
-						var serviceInserted =await _patientCardServiceRelRepository.InsertServiceToPatientCard(cardID, newPatient.serviceID, 0, newPatient.referDocID, newPatient.docID);
-                        if (cardID == 0 || serviceInserted == false)
-                        {
-                            return BadRequest("Xəstə kartını daxil etmək mümkün olmadı.");
-                        }
+						pCardDAO.patientID = await _patientRepository.AddAsync(new()
+						{
+							name = newPatient.name,
+							surname = newPatient.surname,
+							clientEmail = newPatient.clientEmail,
+							bDate = newPatient.birthDate,
+							clientPhone = newPatient.clientPhone,
+							father = newPatient.father,
+							fin = newPatient.fin,
+							genderID = newPatient.genderID,
+							organizationID = organzationId,
+							userID = userId,
+						});
 
-                    }
+					}
+					cardID = await _patientCardRepository.AddAsync(pCardDAO);
+					var serviceInserted = await _patientCardServiceRelRepository.InsertServiceToPatientCard(cardID, newPatient.serviceID, 0, newPatient.referDocID, newPatient.docID,newPatient.priceGroupID);
+					if (cardID == 0 || serviceInserted == false)
+					{
+						return BadRequest("Xəstə kartını daxil etmək mümkün olmadı.");
+					}
 
-
-
-
-
-                    return Ok(cardID);
+					return Ok(cardID);
                 }
                 catch (Exception ex)
                 {
@@ -271,11 +266,11 @@ namespace Medicloud.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> InsertServiceToPatientCard(int patientCardID, int serviceID, int depID, int senderDocID, int docID)
+        public async Task<IActionResult> InsertServiceToPatientCard(int patientCardID, int serviceID, int depID, int senderDocID, int docID,int priceGroupId)
         {
             if (User.Identity.IsAuthenticated)
             {
-				var result = await _patientCardServiceRelRepository.InsertServiceToPatientCard(patientCardID, serviceID, depID, senderDocID, docID);
+				var result = await _patientCardServiceRelRepository.InsertServiceToPatientCard(patientCardID, serviceID, depID, senderDocID, docID, priceGroupId);
 
 				return Ok(result);
             }

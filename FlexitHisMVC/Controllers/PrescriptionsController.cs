@@ -99,7 +99,7 @@ namespace Medicloud.Controllers
                     }
 
                        
-                        var serviceInserted = await _patientCardServiceRelRepository.InsertServiceToPatientCard(cardID, serviceID, 0,0, userID);
+                        var serviceInserted = await _patientCardServiceRelRepository.InsertServiceToPatientCard(cardID, serviceID, 0,0, userID,0);
                         if (cardID == 0 || serviceInserted == false)
                         {
                             return BadRequest("Xəstə kartını daxil etmək mümkün olmadı.");

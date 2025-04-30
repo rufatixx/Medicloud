@@ -81,7 +81,7 @@ namespace Medicloud.Controllers
 
                     var userID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID"));
                     var organizationID = Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID"));
-                    var serviceInserted = await _patientCardServiceRelRepository.InsertServiceToPatientCard(cardID, serviceID, 0, 0, userID);
+                    var serviceInserted = await _patientCardServiceRelRepository.InsertServiceToPatientCard(cardID, serviceID, 0, 0, userID, 0);
 
                     if (cardID == 0 || serviceInserted == false)
                     {
