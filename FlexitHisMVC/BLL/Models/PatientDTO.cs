@@ -21,7 +21,8 @@ namespace Medicloud.Models
         public int referDocID { get; set; }
         public string birthDate { get; set; }
         public string note { get; set; }
-		public DateTime? startDate { get; set; }
-		public DateTime? endDate { get; set; }
-	}
+        public DateTime selectedDate { get; set; }
+        public TimeSpan startTime { get; set; }
+        public TimeSpan endTime { get; set; }
+    }
 }

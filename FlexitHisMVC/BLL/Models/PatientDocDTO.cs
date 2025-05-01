@@ -12,6 +12,8 @@ namespace Medicloud.Models
         public int totalCardNumbers { get; set; }
         public int finished { get; set; }
         public string note { get; set; }
-       
+        public DateTime startDate { get; set; }
+        public DateTime endDate { get; set; }
+
     }
 }

@@ -86,5 +86,35 @@ namespace Medicloud.DAL.Repository.PatientCard
 			var newId = await con.QuerySingleOrDefaultAsync<int>(AddSql, dao);
 			return newId;
 		}
-	}
+
+        public async Task<List<PatientCardDAO>> GetPatientsCardsByDate(DateTime date, long organizationID, int doctorID = 0)
+        {
+            var queryBuilder = new StringBuilder($@"
+        SELECT a.*
+        FROM patient_card a
+        WHERE a.organizationID = @organizationID AND DATE(a.startDate) = DATE(@SelectedDate)");
+
+            // Dynamically add patient condition if patientID is greater than 0
+            if (doctorID > 0)
+            {
+                queryBuilder.Append(" AND a.docID = @UserID");
+            }
+            queryBuilder.Append(" ORDER BY a.cDate DESC");
+
+            var parameters = new { organizationID, UserID = doctorID > 0 ? doctorID : (object)null, SelectedDate=date };
+            try
+            {
+                var con = _unitOfWork.GetConnection();
+
+                var patientList = await con.QueryAsync<PatientCardDAO>(queryBuilder.ToString(), parameters);
+                return patientList.ToList();
+            }
+            catch (Exception ex)
+            {
+                StandardMessages.CallSerilog(ex);
+                Console.WriteLine(ex.Message);
+                return new();
+            }
+        }
+    }
 }

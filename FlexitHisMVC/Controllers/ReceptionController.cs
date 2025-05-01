@@ -219,8 +219,8 @@ namespace Medicloud.Controllers
 						userID = userId,
 						referDocID = (int)newPatient.referDocID,
 						requestTypeID = newPatient.requestTypeID,
-						startDate = DateTime.Now,
-						endDate = DateTime.Now.AddHours(1),
+						startDate =newPatient.selectedDate.Date + newPatient.startTime,
+                        endDate =newPatient.selectedDate.Date + newPatient.endTime,
 
 					};
 					if(newPatient.id>0)
