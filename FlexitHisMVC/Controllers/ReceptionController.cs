@@ -8,6 +8,7 @@ using Medicloud.Data;
 using Medicloud.Models;
 using Medicloud.Models.Repository;
 using Medicloud.Repository;
+using Medicloud.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,6 +29,8 @@ namespace Medicloud.Controllers
 		private readonly IPatientCardServiceRelRepository _patientCardServiceRelRepository;
 		private readonly IPatientCardRepository _patientCardRepository;
 		private readonly IPatientRepository _patientRepository;
+		private readonly DepartmentsRepo _departmentsRepo;
+
 		public ReceptionController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IUserService userService, IServicePriceGroupRepository servicePriceGroupRepository, IPatientCardServiceRelRepository patientCardServiceRelRepository, IPatientCardRepository patientCardRepository, IPatientRepository patientRepository)
 		{
 			Configuration = configuration;
@@ -41,13 +44,27 @@ namespace Medicloud.Controllers
 			_patientCardServiceRelRepository = patientCardServiceRelRepository;
 			_patientCardRepository = patientCardRepository;
 			_patientRepository = patientRepository;
+			_departmentsRepo= new DepartmentsRepo(ConnectionString);
 		}
 		// GET: /<controller>/
 		public IActionResult Index()
         {
             if (User.Identity.IsAuthenticated)
             {
-                return View();
+				int organizationId = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
+
+				var departments = _departmentsRepo.GetDepartmentsByOrganization(organizationId);
+				var userID = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "ID")?.Value ?? "0");
+				var organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
+				//var doctors = await _userService.GetDoctorUsersByOrganization(organizationID);
+
+
+
+				var vm = new ReceptionViewModel
+				{
+					Departments = departments,
+				};
+                return View(vm);
             }
             else
             {

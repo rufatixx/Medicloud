@@ -16,10 +16,7 @@ namespace Medicloud.DAL.Repository.Patient
 		public async Task<int> AddAsync(PatientDAO patientDAO)
 		{
 			string checkSql = @$"SELECT id FROM patients 
-		WHERE name = @name 
-			AND surname = @surname 
-			AND father = @father 
-			AND bDate = @bDate 
+		WHERE clientPhone = @ClientPhone 
 			AND organizationID = @organizationID";
 
 			string AddSql = $@"
@@ -41,10 +38,7 @@ namespace Medicloud.DAL.Repository.Patient
 
 			int existId = await con.QuerySingleOrDefaultAsync<int>(checkSql, new
 			{
-				name = patientDAO.name,
-				surname = patientDAO.surname,
-				father = patientDAO.father,
-				bDate = patientDAO.bDate,
+				ClientPhone = patientDAO.clientPhone,
 				organizationID = patientDAO.organizationID,
 			});
 			if (existId == 0)

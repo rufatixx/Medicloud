@@ -2,6 +2,8 @@
     ViewData["Title"] = "- Qəbul";
 }
 
+@model Medicloud.ViewModels.ReceptionViewModel
+
 <style>
     .dropdown-menu-scrollable {
         max-height: 200px; /* Adjust the maximum height as needed */
@@ -51,174 +53,8 @@
 
         </div>
     </form>
-    <div class="modal fade" id="addServiceToPatient" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-fullscreen">
-            <div class="modal-content">
-                <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title" id="staticBackdropLabel">
-                        <img src="/res/pencil.svg" style="width: 30px; height: 30px;" />
-                        Xidmətin karta əlavə edilməsi
-                    </h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="card" style="max-height:60vh;">
-                                <ul class="nav nav-tabs nav-bordered" role="tablist">
-                                    <li class="nav-item" role="presentation">
-                                        <a data-bs-toggle="tab" class="nav-link active py-2" aria-selected="true" role="tab">
-                                            Qruplar
-                                        </a>
-                                    </li>
-                                </ul>
-                                <div class="list-group overflow-auto" id="cGroups">
-                                    <!-- Группы здесь -->
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-5">
-                            <div class="card " style="max-height:60vh;">
-                                <ul class="nav nav-tabs nav-bordered" role="tablist">
-                                    <li class="nav-item" role="presentation">
-                                        <a data-bs-toggle="tab" class="nav-link active py-2" aria-selected="true" role="tab" onclick="settingsBoxClicked(1)">
-                                            Xidmətlər
-                                        </a>
-                                    </li>
-                                </ul>
-                                <div class="card-header border-bottom">
-                                    <div class="row align-items-center">
-                                        <div class="col-md-10">
-                                            <!-- Начало блока поиска -->
-                                            <div class="app-search">
-                                                <form>
-                                                    <div class="mb-2 w-100 position-relative">
-                                                        <input type="search" class="form-control" id="serviceSearch" placeholder="Axtar...">
-                                                        <span class="mdi mdi-magnify search-icon"></span>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                            <!-- Конец блока поиска -->
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="form-check text-md-end">
-                                                <input class="form-check-input" type="checkbox" id="showAllServices" checked>
-                                                <label class="form-check-label" for="showAllServices">Hamısı</label>
-                                            </div>
-                                        </div>
-                                    </div>
 
-                                </div>
-                                <div class="row p-2 ">
-                                    <div class="col-md-6 text-left">
-                                        <strong class="text-primary">ADI</strong>
-                                    </div>
-                                    <div class="col-md-6 d-flex justify-content-end">
-                                        <strong class="text-primary">KODU</strong>
-                                    </div>
-                                </div>
-                                <div class="card-body border-top overflow-auto p-0">
-
-                                    <div class="list-group rounded-0" id="servicesInGroup">
-                                        <!-- Сервисы здесь -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card " style="max-height:30vh;">
-                                <ul class="nav nav-tabs nav-bordered" role="tablist">
-                                    <li class="nav-item" role="presentation">
-                                        <a data-bs-toggle="tab" class="nav-link active py-2" aria-selected="true" role="tab" onclick="settingsBoxClicked(1)">
-                                            Şöbələr
-                                        </a>
-                                    </li>
-                                </ul>
-
-                                <div class="row p-2">
-                                    <div class="col-md-6 text-left">
-                                        <strong class="text-primary">ADI</strong>
-                                    </div>
-                                </div>
-                                <div class="card-body border-top overflow-auto p-0">
-
-                                    <div class="list-group rounded-0" id="depsInService">
-                                        <!-- Отделы здесь -->
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card " style="max-height:30vh;">
-                                <ul class="nav nav-tabs nav-bordered" role="tablist">
-                                    <li class="nav-item" role="presentation">
-                                        <a data-bs-toggle="tab" class="nav-link active py-2" aria-selected="true" role="tab" onclick="settingsBoxClicked(1)">
-                                            Yönəldən Həkimlər
-                                        </a>
-                                    </li>
-                                </ul>
-                                <div class="row p-2">
-                                    <div class="col-md-6 text-left">
-                                        <strong class="text-primary">ADI</strong>
-                                    </div>
-                                </div>
-                                <div class="card-body border-top overflow-auto  p-0">
-
-                                    <div class="list-group rounded-0" id="refererDocsInCard">
-                                        <!-- Докторы здесь -->
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card " style="max-height:30vh;">
-                                <ul class="nav nav-tabs nav-bordered" role="tablist">
-                                    <li class="nav-item" role="presentation">
-                                        <a data-bs-toggle="tab" class="nav-link active py-2" aria-selected="true" role="tab" onclick="settingsBoxClicked(1)">
-                                            Həkimlər
-                                        </a>
-                                    </li>
-                                </ul>
-                                <div class="row p-2">
-                                    <div class="col-md-6 text-left">
-                                        <strong class="text-primary">ADI</strong>
-                                    </div>
-                                </div>
-                                <div class="card-body border-top overflow-auto  p-0">
-
-                                    <div class="list-group rounded-0" id="docsInService">
-                                        <!-- Докторы здесь -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <h5 class="mt-4">Əlavə olunmuş xidmətlər</h5>
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th>#</th>
-                                    <th>Kodu</th>
-                                    <th>Xidmət</th>
-                                    <th>Qiymət</th>
-                                    <th>Yönəldən həkim</th>
-                                    <th>Xidmət edən həkim</th>
-
-                                </tr>
-                            </thead>
-                            <tbody id="servicesList">
-                                <!-- Динамические данные будут заполняться здесь -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="modal-footer  sticky-bottom">
-                    <button type="button" class="btn btn-success" onclick="insertServiceToPatientCard()">
-                        Əlavə et
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    @await Component.InvokeAsync("AddServiceModal", new Medicloud.ViewModels.AddServiceModalViewModel { Departments=Model.Departments})
 
 
 
@@ -363,19 +199,6 @@ var json = localStorage.getItem("json")
 
                 pageData = data;
 
-
-                //$refererDropdown.empty(); // Clear existing options
-
-                //$refererDropdown.append($("<option  disabled selected />").val('').text(`Seçin..`));
-
-                //$.each(data.referers, function () {
-                //    $refererDropdown.append($("<option />").val(this.id).text(`${this.name} ${this.surname} ${this.father}`));
-                //});
-                //$companiesDropdown.empty();
-                //$companiesDropdown.append($("<option  disabled selected />").val('').text(`Seçin..`));
-                //$.each(data.companies, function () {
-                //    $companiesDropdown.append($("<option />").val(this.id).text(`${this.name}`));
-                //});
                 $("#price").val($("#services").val());
 /*                $patientCardsDropdown.append($("<option />").val("").text(`Yeni Kart`));*/
                 hideLoading();
@@ -443,7 +266,7 @@ var json = localStorage.getItem("json")
             }
         }
 
-         function populatePatientCards(patientID) {
+        function populatePatientCards(patientID) {
             // Make an API call to fetch data for the "otherDropdown"
             $.ajax({
                 type: 'GET',
@@ -472,24 +295,24 @@ var json = localStorage.getItem("json")
             });
          }
 
-    $patientCardsDropdown.on('change', function () {
+        $patientCardsDropdown.on('change', function () {
 
-        if ($(this).val() != "") {
-            $newPatientContainer.hide()
-            selectedCardID = $(this).val();
-            $createCard.hide();
+            if ($(this).val() != "") {
+                $newPatientContainer.hide()
+                selectedCardID = $(this).val();
+                $createCard.hide();
 
-        }
-        else {
-            selectedCardID = 0;
-            $createCard.show();
-            $newPatientContainer.show()
-        }
+            }
+            else {
+                selectedCardID = 0;
+                $createCard.show();
+                $newPatientContainer.show()
+            }
         //var selectedCompanyID = $(this).val();
         //populatePriceGroupDropdown(selectedCompanyID);
     });
 
-    function getServicesInPriceGroup(selectedPriceGroupID) {
+        function getServicesInPriceGroup(selectedPriceGroupID) {
         $servicesDropdown.empty();
         $('#price').val('');
     $.ajax({
@@ -629,7 +452,7 @@ var json = localStorage.getItem("json")
             selectedPatientID = 0;
             $("#selectedPatientForm").hide();
         }
-    function foundPatientClicked(item) {
+        function foundPatientClicked(item) {
             selectedPatientID = item.id;
             populatePatientCards(selectedPatientID);
             $("#selectedPatientForm").show()
@@ -740,11 +563,10 @@ var json = localStorage.getItem("json")
         function fetchGroups() {
             $('#servicesInGroup').empty();
             $('#selectedServiceGroupInSettings').empty();
-
             $.ajax({
                 url: '@Url.Action("GetServiceGroups", "Services", new { area = "Admin" })',
                 type: 'GET',
-                data: { organizationID: localStorage.selectedOrganization },
+                data: { organizationID: localStorage.selectedOrganization, priceGroupId: $('#priceGroup').val() },
                 success: function (response) {
                     $('#cGroups').empty();
                     $('#cGroupsInModal').empty();
@@ -872,7 +694,7 @@ var json = localStorage.getItem("json")
             $.ajax({
                 url: '@Url.Action("GetServicesWithServiceGroupName", "Services", new { area = "Admin" })',
                 type: 'GET',
-                data: { organizationID: localStorage.selectedOrganization, serviceGroupID: groupId },
+                data: { organizationID: localStorage.selectedOrganization, serviceGroupID: groupId, priceGroupId: $('#priceGroup').val() },
                 success: function (response) {
                     $('#servicesInGroup').empty();
 
@@ -1231,7 +1053,7 @@ var json = localStorage.getItem("json")
             return "";
         }</script>
     <script>
-    $(document).ready(function () {
+        $(document).ready(function () {
             $('#serviceSearch').on('keyup input', function () {
                 var value = $(this).val().toLowerCase();
 
@@ -1250,6 +1072,145 @@ var json = localStorage.getItem("json")
         });</script>
 
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        function getAvailableSlots(startTime, endTime, blocks) {
+            const parseTime = str => {
+                const [h, m] = str.split(":").map(Number);
+                return new Date(0, 0, 0, h, m); // tarih sabit, sadece saat önemli
+            };
 
+            const formatTime = date => date.toTimeString().slice(0, 5);
+
+            const start = parseTime(startTime);
+            const end = parseTime(endTime);
+
+            const allBlocks = blocks
+                .map(b => [parseTime(b.start), parseTime(b.end)])
+                .sort((a, b) => a[0] - b[0]);
+
+            const available = [];
+            let current = new Date(start);
+
+            for (const [blockStart, blockEnd] of allBlocks) {
+                if (blockStart > current) {
+                    available.push([new Date(current), new Date(blockStart)]);
+                }
+                current = blockEnd > current ? blockEnd : current;
+            }
+
+            if (current < end) {
+                available.push([current, end]);
+            }
+
+            return available.map(([s, e]) => [formatTime(s), formatTime(e)]);
+        }
+
+
+
+        $('#MeetingDate').on('change', function () {
+            var date = $(this).val();
+            var selectedUserId = $('#doctors').val();
+            if (selectedUserId) {
+                showLoading()
+                $.ajax({
+                    url: '/WorkHour/GetUserWorkHours',
+                    type: 'GET',
+                    data: {
+                        userId: selectedUserId,
+                        selectedDay: date
+                    },
+                    success: function (response) {
+                        console.log('success:', response);
+                        if (response && response.startTime && response.endTime) {
+
+                            const breaksFormatted = response.breaks?.map(b => [b.start, b.end]) || [];
+                            const reservesFormatted = response.reserves?.map(b => [b.start, b.end]) || [];
+
+                            let breaks= [
+                                { start: "12:00", end: "12:30" },
+                            ]
+                             let reserves=[
+                                    { start: "15:00", end: "16:00" },
+                                    { start: "16:10", end: "16:30" }
+                                ]
+                            const blocks = [...(breaks || []), ...(reserves || [])];
+                            const availableSlots = getAvailableSlots(response.startTime, response.endTime, blocks);
+                            console.log("Available slots:", availableSlots);
+
+                            //const slots = generateTimeSlots(response.startTime, response.endTime, 15, breaksFormatted, reservesFormatted);
+
+
+                            //slots.forEach(slot => {
+                            //    let badge = '';
+                            //    let itemClass = 'dropdown-item';
+                            //    let disabledAttr = '';
+
+                            //    switch (slot.status) {
+                            //        case "available":
+                            //            badge = '<span class="badge bg-success me-2">Uyğun</span>';
+                            //            break;
+                            //        case "break":
+                            //            badge = '<span class="badge bg-warning text-dark me-2">Fasilə</span>';
+                            //            itemClass += ' disabled';
+                            //            disabledAttr = 'disabled';
+                            //            break;
+                            //        case "reserved":
+                            //            badge = '<span class="badge bg-danger me-2">Rezerv olunub</span>';
+                            //            itemClass += ' disabled';
+                            //            disabledAttr = 'disabled';
+                            //            break;
+                            //    }
+
+                            //    const $item = $(`<li><a class="${itemClass}" href="#" ${disabledAttr}>${badge}${slot.label}</a></li>`);
+
+                            //    if (slot.status === "available") {
+                            //        $item.find('a').on('click', function (e) {
+                            //            e.preventDefault();
+                            //            $button.text(slot.label);
+                            //            const [start, end] = slot.label.split(" - ");
+
+                            //            // Input'lara yaz
+                            //            $('#startTime').val(start);
+                            //            $('#endTime').val(end);
+                            //        });
+                            //    }
+
+                            //    if (slot.status === "reserved") {
+                            //        let startInput = $('#startTime').val();
+                            //        let endInput = $('#endTime').val();
+                            //        const [start, end] = slot.label.split(" - ");
+                            //        if (start == startInput && end == endInput) {
+                            //            $button.text(slot.label);
+
+                            //        }
+                            //    }
+
+                            //    $dropdown.append($item);
+                            //});
+                        }
+                        else {
+                            $('#infoText').text('Əmakdaşın iş günü deyil');
+                            $('#infoModal').modal('show');
+
+                        }
+
+                        hideLoading();
+
+
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('error:', error);
+                        hideLoading();
+
+                    }
+                });
+            }
+
+        });
+
+
+    })
+</script>
 }
 

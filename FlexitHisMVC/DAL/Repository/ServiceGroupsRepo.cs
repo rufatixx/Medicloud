@@ -28,8 +28,7 @@ namespace Medicloud.Data
                     if (reader.HasRows)
                     {
 
-
-                        while (reader.Read())
+						while (reader.Read())
                         {
                             ServiceGroup serviceGroup = new ServiceGroup();
 

@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Medicloud.Areas.Admin.ViewModels;
 using Medicloud.BLL.Service;
 using Medicloud.BLL.Service.Organization;
+using Medicloud.DAL.Repository.Abstract;
+using Medicloud.DAL.Repository.ServiceGroupNew;
 using Medicloud.Data;
 using Medicloud.Models;
 using Medicloud.Models.Domain;
@@ -27,21 +29,25 @@ namespace Medicloud.Areas.Admin.Controllers
         private ServicesRepo sRepo;
         private IOrganizationService _organizationService;
         private DepartmentsRepo departmentsRepo;
-        //Communications communications;
-        public ServicesController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IOrganizationService organizationService)
-        {
-            Configuration = configuration;
-            ConnectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
-            _hostingEnvironment = hostingEnvironment;
-            sgRepo = new ServiceGroupsRepo(ConnectionString);
-            sRepo = new ServicesRepo(ConnectionString);
-            _organizationService = organizationService;
-            departmentsRepo = new DepartmentsRepo(ConnectionString);
-            stRepo = new ServiceTypeRepo(ConnectionString);
-            //communications = new Communications(Configuration, _hostingEnvironment);
-        }
+		private readonly IServicePriceGroupRepository _servicePriceGroupRepo;
+		private readonly IServiceGroupRepository _serviceGroupRepo;
+		//Communications communications;
+		public ServicesController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IOrganizationService organizationService, IServicePriceGroupRepository servicePriceGroupRepo, IServiceGroupRepository serviceGroupRepo)
+		{
+			Configuration = configuration;
+			ConnectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
+			_hostingEnvironment = hostingEnvironment;
+			sgRepo = new ServiceGroupsRepo(ConnectionString);
+			sRepo = new ServicesRepo(ConnectionString);
+			_organizationService = organizationService;
+			departmentsRepo = new DepartmentsRepo(ConnectionString);
+			stRepo = new ServiceTypeRepo(ConnectionString);
+			_servicePriceGroupRepo = servicePriceGroupRepo;
+			_serviceGroupRepo = serviceGroupRepo;
+			//communications = new Communications(Configuration, _hostingEnvironment);
+		}
 
-        [Authorize]
+		[Authorize]
         // GET: /<controller>/
         public IActionResult Index()
         {
@@ -68,14 +74,14 @@ namespace Medicloud.Areas.Admin.Controllers
            
         }
 
-        public IActionResult GetServicesWithServiceGroupName(int organizationID,int serviceGroupID = 0)
+        public IActionResult GetServicesWithServiceGroupName(int organizationID,int serviceGroupID = 0,int priceGroupId=0)
         {
 
              organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
           
             if (User.Identity.IsAuthenticated)
             {
-                List<ServiceObj> serviceObjs = sRepo.GetServicesWithServiceGroupName(organizationID,serviceGroupID);
+                List<ServiceObj> serviceObjs = sRepo.GetServicesWithServiceGroupName(organizationID,serviceGroupID,priceGroupId);
                 return Ok(serviceObjs);
             }
 
@@ -197,12 +203,20 @@ namespace Medicloud.Areas.Admin.Controllers
 
 
         }
-        public IActionResult GetServiceGroups(int organizationID=0)
+        public async Task<IActionResult> GetServiceGroups(int organizationID=0,int priceGroupId=0)
         {
             organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
             if (User.Identity.IsAuthenticated)
             {
-                List<ServiceGroup> serviceGroups = sgRepo.GetGroupsByOrganization(organizationID);
+				List<ServiceGroup> serviceGroups = null;
+				if(priceGroupId > 0)
+				{
+					serviceGroups=await _serviceGroupRepo.GetServiceGroupsByOrganizationAndPriceGroup(organizationID, priceGroupId);
+				}
+				else
+				{
+					serviceGroups=sgRepo.GetGroupsByOrganization(organizationID);
+				}
                 return Ok(serviceGroups);
             }
             else

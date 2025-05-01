@@ -27,21 +27,24 @@ namespace Medicloud.Models.Repository
         }
 
 
-        public List<ServiceObj> GetServicesWithServiceGroupName(int organizationID, int serviceGroupID = 0)
+        public List<ServiceObj> GetServicesWithServiceGroupName(int organizationID, int serviceGroupID = 0,int priceGroupId=0)
         {
             using (var connection = new MySqlConnection(ConnectionString))
             {
                 connection.Open();
 
-                var query = @"
+
+				var query = @"
             SELECT s.id, s.name, s.price, s.organizationID, s.cDate, s.serviceGroupID, s.serviceTypeID, s.code, s.isActive, 
                    sg.name AS serviceGroup
             FROM services s
             left JOIN service_group sg ON s.serviceGroupID = sg.id
-            WHERE s.organizationID = @organizationID";
+			JOIN service_pricegroup spg ON s.id = spg.serviceID
+            WHERE s.organizationID = @organizationID AND spg.priceGroupID = @PriceGroupId";
 
                 var parameters = new DynamicParameters();
                 parameters.Add("@organizationID", organizationID);
+                parameters.Add("@PriceGroupId", priceGroupId);
 
                 if (serviceGroupID > 0)
                 {

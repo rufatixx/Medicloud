@@ -17,6 +17,7 @@ using Medicloud.DAL.Repository.PatientCard;
 using Medicloud.DAL.Repository.Plan;
 using Medicloud.DAL.Repository.RequestType;
 using Medicloud.DAL.Repository.Role;
+using Medicloud.DAL.Repository.ServiceGroupNew;
 using Medicloud.DAL.Repository.UserOrganization;
 using Medicloud.DAL.Repository.UserPlan;
 using Medicloud.DAL.Repository.Users;
@@ -113,6 +114,7 @@ builder.Services.AddScoped<IPatientCardServiceRelRepository, PatientCardServiceR
 builder.Services.AddScoped<IWorkHourRepository, WorkHourRepository>();
 builder.Services.AddScoped<IWorkHourService, WorkHourService>();
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();
+builder.Services.AddScoped<IServiceGroupRepository, ServiceGroupRepository>();
 
 
 var app = builder.Build();
