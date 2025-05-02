@@ -47,7 +47,7 @@ namespace Medicloud.Controllers
 			_departmentsRepo= new DepartmentsRepo(ConnectionString);
 		}
 		// GET: /<controller>/
-		public IActionResult Index()
+		public async Task<IActionResult> Index()
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -56,13 +56,13 @@ namespace Medicloud.Controllers
 				var departments = _departmentsRepo.GetDepartmentsByOrganization(organizationId);
 				var userID = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "ID")?.Value ?? "0");
 				var organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
-				//var doctors = await _userService.GetDoctorUsersByOrganization(organizationID);
-
+				var doctors = await _userService.GetDoctorUsersByOrganization(organizationID);
 
 
 				var vm = new ReceptionViewModel
 				{
 					Departments = departments,
+					Doctors=doctors,
 				};
                 return View(vm);
             }

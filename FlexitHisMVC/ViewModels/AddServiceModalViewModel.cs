@@ -1,4 +1,5 @@
-﻿using Medicloud.Models;
+﻿using Medicloud.DAL.Entities;
+using Medicloud.Models;
 
 namespace Medicloud.ViewModels
 {
@@ -7,5 +8,6 @@ namespace Medicloud.ViewModels
 		public List<DepartmentDAO> Departments { get; set; }
 		public List<ServiceGroup> ServiceGroups { get; set; }
 		public List<ServiceObj> Services { get; set; }
+		public List<UserDAO> Doctors { get; set; }
 	}
 }

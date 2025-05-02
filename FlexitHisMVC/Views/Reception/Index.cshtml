@@ -47,14 +47,14 @@
 
             @await Component.InvokeAsync("NewPatient")
 
-            @await Component.InvokeAsync("NewExamination")
+            @await Component.InvokeAsync("NewExamination", new Medicloud.ViewModels.ExaminationViewModel { Doctors = Model.Doctors })
 
 
 
         </div>
     </form>
 
-    @await Component.InvokeAsync("AddServiceModal", new Medicloud.ViewModels.AddServiceModalViewModel { Departments=Model.Departments })
+    @await Component.InvokeAsync("AddServiceModal", new Medicloud.ViewModels.AddServiceModalViewModel { Departments = Model.Departments, Doctors = Model.Doctors })
 
 
 
@@ -297,20 +297,40 @@
 
                 $patientCardsDropdown.on('change', function () {
 
-                    if ($(this).val() != "") {
-                        $newPatientContainer.hide()
-                        selectedCardID = $(this).val();
-                        $createCard.hide();
+                        if ($(this).val() != "") {
+                            $newPatientContainer.hide()
+                            selectedCardID = $(this).val();
+                            $createCard.hide();
 
-                    }
-                    else {
-                        selectedCardID = 0;
-                        $createCard.show();
-                        $newPatientContainer.show()
-                    }
-                //var selectedCompanyID = $(this).val();
-                //populatePriceGroupDropdown(selectedCompanyID);
-            });
+                            showLoading();
+
+
+
+                            // Once all data loading is complete
+                            // Fill service settings and hide loading indicator
+                            Promise.all([
+                                fetchGroups(),
+                                //fetchDoctorsInCard(),
+                                getServicesInTheCard(),
+                                handleCheckboxState()
+
+                            ]).then(function () {
+
+                                hideLoading();
+                            }).catch(function (error) {
+                                console.log(error);
+                                hideLoading();
+                            });
+
+                        }
+                        else {
+                            selectedCardID = 0;
+                            $createCard.show();
+                            $newPatientContainer.show()
+                        }
+                    //var selectedCompanyID = $(this).val();
+                    //populatePriceGroupDropdown(selectedCompanyID);
+                });
 
                 function getServicesInPriceGroup(selectedPriceGroupID) {
                 $servicesDropdown.empty();
@@ -433,26 +453,23 @@
                 }
                 function DeleteSelectedPatient() {
 
-                    $("#name").prop("disabled", false);
-                    $("#surname").prop("disabled", false);
-                    $("#father").prop("disabled", false);
-                    $("#clientPhone").prop("disabled", false);
-                    $("#fin").prop("disabled", false);
-                    $("#bDate").prop("disabled", false);
-                    $(`#gender`).prop("disabled", false);
-
-                    $("#name").val("");
-                    $("#surname").val("");
-                    $("#father").val("");
-
-                    $("#clientPhone").val("");
-                    $("#fin").val("");
-                    $("#bDate").val("");
+                    $("#name").prop("disabled", false).val('');
+                    $("#surname").prop("disabled", false).val('');;
+                    $("#father").prop("disabled", false).val('');;
+                    $("#clientPhone").prop("disabled", false).val('');;
+                    $("#clientEmail").prop("disabled", false).val('');;
+                    $("#fin").prop("disabled", false).val('');;
+                    $("#bDate").prop("disabled", false).val('');
+                    $(`#gender`).prop("disabled", false).val('');
 
                     selectedPatientID = 0;
                     $("#selectedPatientForm").hide();
                 }
-                function foundPatientClicked(item) {
+                function ResetForm() {
+                }
+
+        function foundPatientClicked(item) {
+                    console.log(item)
                     selectedPatientID = item.id;
                     populatePatientCards(selectedPatientID);
                     $("#selectedPatientForm").show()
@@ -461,6 +478,7 @@
                     $("#father").prop("disabled", true);
 
                     $("#clientPhone").prop("disabled", true);
+            $("#clientEmail").prop("disabled", true);
                     $("#fin").prop("disabled", true);
 
 
@@ -474,8 +492,9 @@
                             $("#surname").val(item.surname);
                             $("#father").val(item.father);
                             var lastNine = item.phone.toString().slice(-9);
-                            $("#clientPhone").val(lastNine);
-                            $("#fin").val(item.fin);
+                    $("#clientPhone").val(lastNine);
+                    $("#clientEmail").val(item.clientEmail);
+                     $("#fin").val(item.fin);
 
                             var today = new Date(item.bDate).toISOString().split('T')[0];
 
@@ -486,24 +505,7 @@
 
                     $('#patientSearch').modal('hide');
 
-                }
-                function AddPatient() {
-                    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                    var forms = document.getElementsByClassName('needs-validation');
-                    // Loop over them and prevent submission
-                    var validation = Array.prototype.filter.call(forms, function (form) {
-                        if (form.checkValidity() === false) {
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }
-                        form.classList.add('was-validated');
-                    });
-
-                    if (forms[0].checkValidity()) {
-
-                    }
-                }
-
+             }
                 function fetchGroups() {
                     $('#servicesInGroup').empty();
                     $('#selectedServiceGroupInSettings').empty();
@@ -632,7 +634,7 @@
                     });
                 }
 
-                function fetchServicesWithGroupNames(groupId) {
+            function fetchServicesWithGroupNames(groupId) {
 
 
                     $.ajax({
@@ -652,34 +654,35 @@
                                             $('#servicesInGroup .active').removeClass('active');
                                             // Select the current service
                                             $(this).addClass('active');
+                                            $('#serviceIdInServices').val(service.id)
+                                            console.log(service)
+                                            //var doctorsSelect = $('#docsInService');
+                                            //doctorsSelect.empty();
 
-                                            var doctorsSelect = $('#docsInService');
-                                            doctorsSelect.empty();
-
-                                            var departmentsSelect = $('#depsInService');
-                                            departmentsSelect.empty();
+                                            //var departmentsSelect = $('#depsInService');
+                                            //departmentsSelect.empty();
 
                                             // Fill the service settings card with the information of the selected service
-                                            fetchDepartmentsInService(service.id);
+                                            //fetchDepartmentsInService(service.id);
                                         })
                                         .val(service.id);
-                //                        .on('dblclick', function () {
-                //                            // On double click, call the InsertServiceToPatientCard function
-                //                            // Replace the parameters with the actual values
-                //                            var patientCardID = ;
-                //                    var serviceID = service.id;
-                //                var depID = department.id;
-                //                var senderDocID = 0;
-                //        var docID = ...;
+                         //                        .on('dblclick', function () {
+                         //                            // On double click, call the InsertServiceToPatientCard function
+                         //                            // Replace the parameters with the actual values
+                         //                            var patientCardID = ;
+                         //                    var serviceID = service.id;
+                         //                var depID = department.id;
+                         //                var senderDocID = 0;
+                         //        var docID = ...;
 
-                //                if ($(this).data('docIsRequired') == 1 && !docID) {
-                //                    $('#warningModal').show();
-                //                    $('#warningText').text('Bu şöbə üçün həkim seçmək lazımdır.');
+                         //                if ($(this).data('docIsRequired') == 1 && !docID) {
+                         //                    $('#warningModal').show();
+                         //                    $('#warningText').text('Bu şöbə üçün həkim seçmək lazımdır.');
 
-                //    } else {
-                //        InsertServiceToPatientCard(patientCardID, serviceID, depID, senderDocID, docID);
-                //    }
-                //});
+                         //    } else {
+                         //        InsertServiceToPatientCard(patientCardID, serviceID, depID, senderDocID, docID);
+                         //    }
+                         //});
 
                 serviceElement.append('<div>' + service.name + '</div>');
                 serviceElement.append('<div>' + service.code + '</div>');
@@ -690,124 +693,24 @@
                 // Select the first service button
                 var firstServiceButton = $('#servicesInGroup li:first');
                 if (firstServiceButton.length > 0) {
-                    firstServiceButton.addClass('active');
+                    //firstServiceButton.addClass('active');
                     // Fill the service settings card with the information of the selected service
 
 
-                    fetchDepartmentsInService(response[0].id);
+                    //fetchDepartmentsInService(response[0].id);
                 }
                                     } else {
                     // No services in the subgroup
                     // Clear and disable the service settings card
-                    $('#servicesInGroup').empty();
-                    fillServiceSettings(null);
+                    //$('#servicesInGroup').empty();
+                    //fillServiceSettings(null);
                 }
                                 },
                 error: function (error) {
                     console.log(error);
                 }
                             });
-                        }
-                function fetchDepartmentsInService(serviceID) {
-                    $.ajax({
-                        url: '@Url.Action("GetDepartmentsInService", "Services", new { area = "Admin" })',
-                        type: 'GET',
-                        data: { serviceID: serviceID },
-                        success: function (response) {
-                            var departmentsSelect = $('#depsInService');
-                            //departmentsSelect.empty();
-
-                            $.each(response, function (index, department) {
-                                var listItem = $('<li>')
-                                    .attr('class', 'list-group-item clickable')
-                                    .attr('data-docIsRequired', department.docIsRequired) // Store docIsRequired as a data-* attribute
-                                    .attr('value', department.id)
-                                    .text(department.name)
-                                    .on('click', function () {
-                                        // Unselect previously selected service
-                                        $('#depsInService .active').removeClass('active');
-                                        // Select the current service
-                                        $(this).addClass('active');
-                                        fetchDoctorsInDepartment(department.id);
-                                    })
-                                    .val(department.id);
-
-                                departmentsSelect.append(listItem);
-
-                                // Select the first service button
-                                var firstDepButton = $('#depsInService li:first');
-                                // If it's the first item in the list, fetch the doctors for this department
-                                if (index === 0) {
-                                    firstDepButton.addClass('active');
-                                    fetchDoctorsInDepartment(department.id);
-                                }
-                            });
-                        },
-                        error: function (error) {
-                            console.log(error);
-                        }
-                    });
-                }
-                function fetchDoctorsInDepartment(depID) {
-                    $.ajax({
-                        url: '@Url.Action("GetDoctorsInDepartment", "Reception")',
-                        type: 'GET',
-                        data: { depID: depID },
-                        success: function (response) {
-                            var doctorsSelect = $('#docsInService');
-                            //doctorsSelect.empty();
-                            console.log(response)
-                            $.each(response, function (index, doctor) {
-                                var listItem = $('<li>')
-                                    .attr('class', 'list-group-item')
-                                    .attr('value', doctor.id)
-                                    .text(doctor.name)
-                                    .on('click', function () {
-                                        // Unselect previously selected service
-                                        $('#docsInService .active').removeClass('active');
-                                        // Select the current service
-                                        $(this).addClass('active');
-
-                                    });
-                                doctorsSelect.append(listItem);
-                            });
-                        },
-                        error: function (error) {
-                            console.log(error);
-                        }
-                    });
-                }
-
-                function fetchDoctorsInCard() {
-                    $.ajax({
-                        url: '@Url.Action("GetDoctorsInCard", "Reception")',
-                        type: 'GET',
-                        data: { patientCardID: selectedCardID },
-                        success: function (response) {
-                            var refDoctorsSelect = $('#docsInService');
-                            //doctorsSelect.empty();
-
-                            $.each(response, function (index, doctor) {
-
-                                var listItem = $('<li>')
-                                    .attr('class', 'list-group-item')
-                                    .attr('value', doctor.id)
-                                    .text(doctor.name + " " + doctor.surname)
-                                    .on('click', function () {
-                                        // Unselect previously selected service
-                                        $('#docsInService .active').removeClass('active');
-                                        // Select the current service
-                                        $(this).addClass('active');
-
-                                    });
-                                refDoctorsSelect.append(listItem);
-                            });
-                        },
-                        error: function (error) {
-                            console.log(error);
-                        }
-                    });
-                }
+            }
                 function handleCheckboxState() {
                     if ($('#showAllServices').is(":checked")) {
                         // If checked, perform the same operations as in the change event handler
@@ -826,7 +729,7 @@
                     if (selectedCardID>0) {
 
                         $('#cardNumber').val(selectedCardID);
-                        $('#addServiceToPatient').modal('show');
+
 
 
 
@@ -839,7 +742,7 @@
                         // Fill service settings and hide loading indicator
                         Promise.all([
                             fetchGroups(),
-                            fetchDoctorsInCard(),
+                            //fetchDoctorsInCard(),
                             getServicesInTheCard(),
                             handleCheckboxState()
 
@@ -850,6 +753,7 @@
                             console.log(error);
                             hideLoading();
                         });
+                        $('#addServiceToPatient').modal('show');
                     }
                     else {
 
@@ -880,7 +784,7 @@
                                     tableRow.append('<td>' + service.serviceName + '</td>');
                                     tableRow.append('<td>' + service.servicePrice + '</td>');
 
-                                    tableRow.append('<td>' + ((service.senderDocName || '') + ' ' + (service.senderDocSurname || '')) + '</td>');
+                                    //tableRow.append('<td>' + ((service.senderDocName || '') + ' ' + (service.senderDocSurname || '')) + '</td>');
                                     tableRow.append('<td>' + ((service.docName || '') + ' ' + (service.docSurname || '')) + '</td>');
 
                                     servicesTable.append(tableRow);
@@ -897,49 +801,58 @@
                             console.log(errorMessage);
                         }
                     });
-                }
+        }
+
+        let $serviceForm = $('#addServiceForm');
 
                 function insertServiceToPatientCard() {
 
+                    //e.preventDefault();
+                    //e.stopPropagation();
+                    if (!$serviceForm[0].checkValidity()) {
+                        $serviceForm.addClass('was-validated');
+                        return;
+                    } else {
 
+                        // Get the selected service details
+                        var selectedService = $('#servicesInGroup .active').val();
 
-                    // Get the selected service details
-                    var selectedService = $('#servicesInGroup .active').val();
+                        // Get the values for the parameters
+                        var patientCardID = selectedCardID;/* Replace with your logic to get the patient card ID */;
+                        var serviceID = $('#serviceIdInService').val();
+                        var docID = $('#doctorIdInService').val();
+                        //var depID = $('#depsInService .active').val();/* Replace with your logic to get the department ID */;
+                        //var senderDocID = $('#refererDocsInCard .active').val()  /* Replace with your logic to get the sender doctor ID */;
+                        //var docID = $('#docsInService .active').val()/* Replace with your logic to get the doctor ID */;
 
-                    // Get the values for the parameters
-                    var patientCardID = selectedCardID;/* Replace with your logic to get the patient card ID */;
-                    var serviceID = selectedService;
-                    var depID = $('#depsInService .active').val();/* Replace with your logic to get the department ID */;
-                    var senderDocID = $('#refererDocsInCard .active').val()  /* Replace with your logic to get the sender doctor ID */;
-                    var docID = $('#docsInService .active').val()/* Replace with your logic to get the doctor ID */;
+                        //if (selectedService.data('docIsRequired') === 1 && !docID) {
+                        //    $('#warningModal').show();
+                        //    $('#warningText').text('Bu şöbə üçün həkim seçmək lazımdır.');
+                        //    return;
+                        //}
 
-                    //if (selectedService.data('docIsRequired') === 1 && !docID) {
-                    //    $('#warningModal').show();
-                    //    $('#warningText').text('Bu şöbə üçün həkim seçmək lazımdır.');
-                    //    return;
-                    //}
-
-                    // Make an HTTP GET request to the API endpoint
-                    $.ajax({
-                        url: '@Url.Action("InsertServiceToPatientCard", "Reception")',
-                        type: 'GET',
-                        data: {
-                            patientCardID: patientCardID,
-                            serviceID: serviceID,
-                            depID: depID,
-                            senderDocID: senderDocID,
-                            docID: docID
-                        },
-                        success: function (response) {
-                            // Handle the successful response here
-                            getServicesInTheCard()
-                            console.log(response);
-                        },
-                        error: function (error) {
-                            // Handle any errors here
-                            console.log(error);
-                        }
-                    });
+                        // Make an HTTP GET request to the API endpoint
+                        $.ajax({
+                            url: '@Url.Action("InsertServiceToPatientCard", "Reception")',
+                            type: 'GET',
+                            data: {
+                                patientCardID: patientCardID,
+                                serviceID: serviceID,
+                                depID: 0,
+                                senderDocID: 0,
+                                docID: docID
+                            },
+                            success: function (response) {
+                                // Handle the successful response here
+                                getServicesInTheCard()
+                                console.log(response);
+                            },
+                            error: function (error) {
+                                // Handle any errors here
+                                console.log(error);
+                            }
+                        });
+                    }
                 }
 
                 function generateRecipe() {
@@ -961,26 +874,26 @@
                     $("#price").val($(a).val());
                 }
 
-                function depChanged(dep) {
+                //function depChanged(dep) {
 
-                    $servicesDropdown.empty();
-                    $doctorDropdown.empty();
-                    $.each(pageData.services, function () {
+                //    $servicesDropdown.empty();
+                //    $doctorDropdown.empty();
+                //    $.each(pageData.services, function () {
 
-                        if (this.depID == $(dep).val()) {
-                            $servicesDropdown.append($(`<option id=${this.id} />`).val(this.price).text(this.name));
-                        }
+                //        if (this.depID == $(dep).val()) {
+                //            $servicesDropdown.append($(`<option id=${this.id} />`).val(this.price).text(this.name));
+                //        }
 
-                    });
+                //    });
 
-                    $.each(pageData.personal, function () {
-                        if (this.depID == $(dep).val()) {
-                            $doctorDropdown.append($("<option />").val(this.id).text(`${this.name} ${this.surname} ${this.father}`));
-                        }
+                //    $.each(pageData.personal, function () {
+                //        if (this.depID == $(dep).val()) {
+                //            $doctorDropdown.append($("<option />").val(this.id).text(`${this.name} ${this.surname} ${this.father}`));
+                //        }
 
-                    });
-                    $("#price").val($("#services").val());
-                }
+                //    });
+                //    $("#price").val($("#services").val());
+                //}
                 function getCookie(cname) {
                     var name = cname + "=";
                     var decodedCookie = decodeURIComponent(document.cookie);
@@ -1145,7 +1058,15 @@
             });
              $('#doctors').on('change', function () {
 
-                $('#MeetingDate').val('').trigger('change');
+                 const today = new Date();
+                 const dateStr = today.toISOString().split('T')[0];
+
+                 const hours = String(today.getHours()).padStart(2, '0');
+                 const minutes = String(today.getMinutes()).padStart(2, '0');
+                 const timeStr = `${hours}:${minutes}`;
+
+                 $('#startTime').val(timeStr);
+                 $('#MeetingDate').val(dateStr).trigger('change');
                 $('#infoContent').empty();
                 $('#infoHoursButton').hide();
 
@@ -1258,6 +1179,8 @@
                                     $('#warningText').text('Məlumatlar qeydə alındı');
                                     selectedCardID = data
                                     $('#MeetingDate').trigger('change');
+                                    $('#createCard').prop('disabled', true);
+                                    $form.find('input, select, textarea').prop('disabled', true);
                                 }
 
 
@@ -1279,11 +1202,149 @@
 
 
                       // $form[0].submit();
-                  }
+                }
+
 
             });
 
+
+            $('#resetButton').on('click', function (e) {
+                DeleteSelectedPatient();
+
+                $(`#companies`).prop("disabled", false);
+                $(`#priceGroup`).prop("disabled", false);
+                $(`#requestType`).prop("disabled", false).val('');
+                $(`#services`).prop("disabled", false).val('');
+                $(`#price`).val('');
+                $(`#doctors`).prop("disabled", false).val('');
+                $(`#note`).prop("disabled", false).val('');
+                $('#patientCardSelector')
+                    .prop("disabled", false)
+                    .val('')
+                    .find('option').not('[value=""]').remove();
+                $(`#MeetingDate`).prop("disabled", false).val('');
+                $(`#startTime`).prop("disabled", false).val('');
+                $(`#endTime`).prop("disabled", false).val('');
+                $(`#createCard`).prop("disabled", false);
+                $('#infoContent').empty();
+                $(`#infoHoursButton`).hide();
+                selectedUserWorkHours = null;
+
+            });
+
+
+            $('.doctor-item').on('click', function (e) {
+                let selectedId = $(this).data('item-id');
+                $('.doctor-item').removeClass('active')
+                $('#doctorIdInService').val(selectedId)
+
+                $(this).addClass('active')
+            });
+
         })
+
+
+
+                        @*function fetchDepartmentsInService(serviceID) {
+                    $.ajax({
+                        url: '@Url.Action("GetDepartmentsInService", "Services", new { area = "Admin" })',
+                        type: 'GET',
+                        data: { serviceID: serviceID },
+                        success: function (response) {
+                            var departmentsSelect = $('#depsInService');
+                            //departmentsSelect.empty();
+
+                            $.each(response, function (index, department) {
+                                var listItem = $('<li>')
+                                    .attr('class', 'list-group-item clickable')
+                                    .attr('data-docIsRequired', department.docIsRequired) // Store docIsRequired as a data-* attribute
+                                    .attr('value', department.id)
+                                    .text(department.name)
+                                    .on('click', function () {
+                                        // Unselect previously selected service
+                                        $('#depsInService .active').removeClass('active');
+                                        // Select the current service
+                                        $(this).addClass('active');
+                                        fetchDoctorsInDepartment(department.id);
+                                    })
+                                    .val(department.id);
+
+                                departmentsSelect.append(listItem);
+
+                                // Select the first service button
+                                var firstDepButton = $('#depsInService li:first');
+                                // If it's the first item in the list, fetch the doctors for this department
+                                if (index === 0) {
+                                    firstDepButton.addClass('active');
+                                    fetchDoctorsInDepartment(department.id);
+                                }
+                            });
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                }
+                function fetchDoctorsInDepartment(depID) {
+                    $.ajax({
+                        url: '@Url.Action("GetDoctorsInDepartment", "Reception")',
+                        type: 'GET',
+                        data: { depID: depID },
+                        success: function (response) {
+                            var doctorsSelect = $('#docsInService');
+                            //doctorsSelect.empty();
+                            console.log(response)
+                            $.each(response, function (index, doctor) {
+                                var listItem = $('<li>')
+                                    .attr('class', 'list-group-item')
+                                    .attr('value', doctor.id)
+                                    .text(doctor.name)
+                                    .on('click', function () {
+                                        // Unselect previously selected service
+                                        $('#docsInService .active').removeClass('active');
+                                        // Select the current service
+                                        $(this).addClass('active');
+
+                                    });
+                                doctorsSelect.append(listItem);
+                            });
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                }
+
+                function fetchDoctorsInCard() {
+                    $.ajax({
+                        url: '@Url.Action("GetDoctorsInCard", "Reception")',
+                        type: 'GET',
+                        data: { patientCardID: selectedCardID },
+                        success: function (response) {
+                            var refDoctorsSelect = $('#docsInService');
+                            //doctorsSelect.empty();
+
+                            $.each(response, function (index, doctor) {
+
+                                var listItem = $('<li>')
+                                    .attr('class', 'list-group-item')
+                                    .attr('value', doctor.id)
+                                    .text(doctor.name + " " + doctor.surname)
+                                    .on('click', function () {
+                                        // Unselect previously selected service
+                                        $('#docsInService .active').removeClass('active');
+                                        // Select the current service
+                                        $(this).addClass('active');
+
+                                    });
+                                refDoctorsSelect.append(listItem);
+                            });
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                }*@
     </script>
 }
 

@@ -27,22 +27,27 @@ namespace Medicloud.ViewComponents
 			_servicesRepo = new(_connectionString);
 		}
 
-		public async Task<IViewComponentResult> InvokeAsync()
+		public async Task<IViewComponentResult> InvokeAsync(ExaminationViewModel vm=null)
 		{
 			var userID = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "ID")?.Value ?? "0");
 			var organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
-			var doctors = await _userService.GetDoctorUsersByOrganization(organizationID);
-			var requestTypes = await _requestTypeService.GetRequestTypesAsync(organizationID);
-			var companies=_companyRepo.GetActiveCompanies(organizationID);
-			var services=_servicesRepo.GetServicesByOrganization(organizationID);
-			var vm = new ExaminationViewModel
+
+			if (vm == null)
 			{
-				Doctors = doctors,
-				RequestTypes = requestTypes,
-				Companies = companies,
-				Services = services
+				vm=new ExaminationViewModel();
+			}
+			//var doctors = await _userService.GetDoctorUsersByOrganization(organizationID);
+			vm.RequestTypes = await _requestTypeService.GetRequestTypesAsync(organizationID);
+			vm.Companies= _companyRepo.GetActiveCompanies(organizationID);
+			vm.Services=_servicesRepo.GetServicesByOrganization(organizationID);
+			//var vm = new ExaminationViewModel
+			//{
+			//	Doctors = doctors,
+			//	RequestTypes = requestTypes,
+			//	Companies = companies,
+			//	Services = services
 				
-			};
+			//};
 			return View(vm);
 		}
 	}

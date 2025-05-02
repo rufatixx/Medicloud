@@ -29,8 +29,8 @@ namespace Medicloud.ViewComponents
 				vm = new AddServiceModalViewModel();
 
 			}
-			vm.Services=_servicesRepo.GetServicesByOrganization(organizationID);
-			vm.ServiceGroups = _serviceGroupsRepo.GetGroupsByOrganization(organizationID);
+			//vm.Services=_servicesRepo.GetServicesByOrganization(organizationID);
+			//vm.ServiceGroups = _serviceGroupsRepo.GetGroupsByOrganization(organizationID);
 			return View(vm);
 		}
 	}

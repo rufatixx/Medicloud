@@ -1,10 +1,9 @@
 ﻿
 
 @model Medicloud.ViewModels.AddServiceModalViewModel
-
-@{
-    var headingGroups = Model.ServiceGroups.Where(g => g.isHeading).ToList();
-}
+@*@{
+        var headingGroups = Model.ServiceGroups.Where(g => g.isHeading).ToList();
+    }*@
 
 <div class="modal fade" id="addServiceToPatient" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-fullscreen">
@@ -17,194 +16,221 @@
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="card" style="max-height:60vh;">
-                            <ul class="nav nav-tabs nav-bordered" role="tablist">
-                                <li class="nav-item" role="presentation">
-                                    <a data-bs-toggle="tab" class="nav-link active py-2" aria-selected="true" role="tab">
-                                        Qruplar
-                                    </a>
-                                </li>
-                            </ul>
-                            <div class="list-group overflow-auto" id="cGroups">
-                                @*<div class="accordion" id="accordionExample">
-                                    @foreach (var heading in headingGroups)
-                                    {
-                                        var childGroups = Model.ServiceGroups.Where(g => !g.isHeading && g.parent == heading.ID).ToList();
-
-                                        <div class="accordion-item">
-                                            <h2 class="accordion-header" id="heading@(heading.ID)">
-                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse@(heading.ID)" aria-expanded="false" aria-controls="collapse@(heading.ID)">
-                                                    @heading.name
-                                                </button>
-                                            </h2>
-                                            <div id="collapse@(heading.ID)" class="accordion-collapse collapse" aria-labelledby="heading@(heading.ID)" data-bs-parent="#accordionExample">
-                                                <div class="accordion-body">
-                                                    @foreach (var child in childGroups)
-                                                    {
-                                                        <div class="accordion-item">
-                                                            <a class="list-group-item list-group-item-action group-item" href="#" data-child-id="@child.ID">
-                                                                @child.name
-                                                            </a>
-
-                                                            <div class="accordion-collapse collapse" id="collapse@(child.ID)" aria-labelledby="heading@(child.ID)" data-bs-parent="#collapse@(heading.ID)">
-                                                                <div class="accordion-body">
-                                                                </div>
-                                                            </div>
 
 
+                <form id="addServiceForm" novalidate>
+                    <div class="row">
+
+                        <div class="col-md-3">
+                            <div class="card" style="max-height:60vh;">
+                                <ul class="nav nav-tabs nav-bordered" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <a data-bs-toggle="tab" class="nav-link active py-2" aria-selected="true" role="tab">
+                                            Qruplar
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div class="list-group overflow-auto" id="cGroups">
+                                    @*<div class="accordion" id="accordionExample">
+                            @foreach (var heading in headingGroups)
+                            {
+                                var childGroups = Model.ServiceGroups.Where(g => !g.isHeading && g.parent == heading.ID).ToList();
+
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="heading@(heading.ID)">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse@(heading.ID)" aria-expanded="false" aria-controls="collapse@(heading.ID)">
+                                            @heading.name
+                                        </button>
+                                    </h2>
+                                    <div id="collapse@(heading.ID)" class="accordion-collapse collapse" aria-labelledby="heading@(heading.ID)" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            @foreach (var child in childGroups)
+                                            {
+                                                <div class="accordion-item">
+                                                    <a class="list-group-item list-group-item-action group-item" href="#" data-child-id="@child.ID">
+                                                        @child.name
+                                                    </a>
+
+                                                    <div class="accordion-collapse collapse" id="collapse@(child.ID)" aria-labelledby="heading@(child.ID)" data-bs-parent="#collapse@(heading.ID)">
+                                                        <div class="accordion-body">
                                                         </div>
-                                                    }
-                                                </div>
-                                            </div>
-                                        </div>
-                                    }
-                                </div>*@
-                            </div>
+                                                    </div>
 
-                        </div>
-                    </div>
-                    <div class="col-md-5">
-                        <div class="card " style="max-height:60vh;">
-                            <ul class="nav nav-tabs nav-bordered" role="tablist">
-                                <li class="nav-item" role="presentation">
-                                    @*<a data-bs-toggle="tab" class="nav-link active py-2" aria-selected="true" role="tab" onclick="settingsBoxClicked(1)">*@
-                                    <a data-bs-toggle="tab" class="nav-link active py-2" aria-selected="true" role="tab">
-                                        Xidmətlər
-                                    </a>
-                                </li>
-                            </ul>
-                            <div class="card-header border-bottom">
-                                <div class="row align-items-center">
-                                    <div class="col-md-10">
-                                        <!-- Начало блока поиска -->
-                                        <div class="app-search">
-                                            <form>
-                                                <div class="mb-2 w-100 position-relative">
-                                                    <input type="search" class="form-control" id="serviceSearch" placeholder="Axtar...">
-                                                    <span class="mdi mdi-magnify search-icon"></span>
+
                                                 </div>
-                                            </form>
-                                        </div>
-                                        <!-- Конец блока поиска -->
-                                    </div>
-                                    <div class="col-md-2">
-                                        <div class="form-check text-md-end">
-                                            <input class="form-check-input" type="checkbox" id="showAllServices" checked>
-                                            <label class="form-check-label" for="showAllServices">Hamısı</label>
+                                            }
                                         </div>
                                     </div>
                                 </div>
+                            }
+                        </div>*@
+                                </div>
 
-                            </div>
-                            <div class="row p-2 ">
-                                <div class="col-md-6 text-left">
-                                    <strong class="text-primary">ADI</strong>
-                                </div>
-                                <div class="col-md-6 d-flex justify-content-end">
-                                    <strong class="text-primary">KODU</strong>
-                                </div>
-                            </div>
-                            <div class="card-body border-top overflow-auto p-0">
-
-                                <div class="list-group rounded-0" id="servicesInGroup">
-                                    @*@if (Model.Services != null)
-                                    {
-                                        foreach (var service in Model.Services)
-                                        {
-                                            <li class="list-group-item list-group-item-action d-flex justify-content-between"
-                                                data-id="@service.ID"
-                                                data-name="@service.name"
-                                                data-price="@service.price"
-                                                data-code="@service.code"
-                                                data-servicetypeid="@service.serviceTypeID"
-                                                data-depid=""
-                                                data-servicegroupid="@service.serviceGroupID"
-                                                data-isactive="@service.isActive.ToString().ToLower()">
-                                                <div>@service.name</div>
-                                                <div>@(string.IsNullOrEmpty(service.code) ? "-" : service.code)</div>
-                                            </li>
-                                        }
-                                    }*@
-                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        @if (Model.Departments != null && Model.Departments.Count > 0)
-                        {
-                            <div class="card " style="max-height:30vh;">
 
+                        <div class="col-md-5">
+                            <div class="card " style="max-height:60vh;">
                                 <ul class="nav nav-tabs nav-bordered" role="tablist">
                                     <li class="nav-item" role="presentation">
                                         @*<a data-bs-toggle="tab" class="nav-link active py-2" aria-selected="true" role="tab" onclick="settingsBoxClicked(1)">*@
                                         <a data-bs-toggle="tab" class="nav-link active py-2" aria-selected="true" role="tab">
-                                            Şöbələr
+                                            Xidmətlər
                                         </a>
                                     </li>
                                 </ul>
+                                <div class="card-header border-bottom">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-10">
+                                            <!-- Начало блока поиска -->
+                                            <div class="app-search">
+                                                @*<form>*@
+                                                <div class="mb-2 w-100 position-relative">
+                                                    <input type="search" class="form-input" id="serviceSearch" placeholder="Axtar...">
+                                                    <span class="mdi mdi-magnify search-icon"></span>
+                                                </div>
+                                                @*</form>*@
+                                            </div>
+                                            <!-- Конец блока поиска -->
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-check text-md-end">
+                                                <input class="form-check-input" type="checkbox" id="showAllServices" checked>
+                                                <label class="form-check-label" for="showAllServices">Hamısı</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row p-2 ">
+                                    <div class="col-md-6 text-left">
+                                        <strong class="text-primary">ADI</strong>
+                                    </div>
+                                    <div class="col-md-6 d-flex justify-content-end">
+                                        <strong class="text-primary">KODU</strong>
+                                    </div>
+                                </div>
+                                <div class="card-body border-top overflow-auto p-0">
+
+                                    <div class="list-group rounded-0" id="servicesInGroup">
+                                        @*@if (Model.Services != null)
+                            {
+                                foreach (var service in Model.Services)
+                                {
+                                    <li class="list-group-item list-group-item-action d-flex justify-content-between"
+                                        data-id="@service.ID"
+                                        data-name="@service.name"
+                                        data-price="@service.price"
+                                        data-code="@service.code"
+                                        data-servicetypeid="@service.serviceTypeID"
+                                        data-depid=""
+                                        data-servicegroupid="@service.serviceGroupID"
+                                        data-isactive="@service.isActive.ToString().ToLower()">
+                                        <div>@service.name</div>
+                                        <div>@(string.IsNullOrEmpty(service.code) ? "-" : service.code)</div>
+                                    </li>
+                                }
+                            }*@
+                                    </div>
+
+                                    <div class="">
+                                        <input id="serviceIdInService" type="number" class="form-control d-none" required />
+                                        <div class="invalid-feedback">
+                                            Xidmət seçilməyib
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            @if (Model.Departments != null && Model.Departments.Count > 0)
+                            {
+                                <div class="card " style="max-height:30vh;">
+
+                                    <ul class="nav nav-tabs nav-bordered" role="tablist">
+                                        <li class="nav-item" role="presentation">
+                                            @*<a data-bs-toggle="tab" class="nav-link active py-2" aria-selected="true" role="tab" onclick="settingsBoxClicked(1)">*@
+                                            <a data-bs-toggle="tab" class="nav-link active py-2" aria-selected="true" role="tab">
+                                                Şöbələr
+                                            </a>
+                                        </li>
+                                    </ul>
 
 
+                                    <div class="row p-2">
+                                        <div class="col-md-6 text-left">
+                                            <strong class="text-primary">ADI</strong>
+                                        </div>
+                                    </div>
+                                    <div class="card-body border-top overflow-auto p-0">
+
+                                        <div class="list-group rounded-0" id="depsInService">
+                                            <!-- Отделы здесь -->
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                            <!--<div class="card " style="max-height:30vh;">
+            <ul class="nav nav-tabs nav-bordered" role="tablist">
+                <li class="nav-item" role="presentation">-->
+                            @*<a data-bs-toggle="tab" class="nav-link active py-2" aria-selected="true" role="tab" onclick="settingsBoxClicked(1)">*@
+                            <!--<a data-bs-toggle="tab" class="nav-link active py-2" aria-selected="true" role="tab" >
+                        Yönəldən Həkimlər
+                    </a>
+                </li>
+            </ul>
+            <div class="row p-2">
+                <div class="col-md-6 text-left">
+                    <strong class="text-primary">ADI</strong>
+                </div>
+            </div>
+            <div class="card-body border-top overflow-auto  p-0">
+
+                <div class="list-group rounded-0" id="refererDocsInCard">-->
+                            <!-- Докторы здесь -->
+                            <!--</div>
+                </div>
+            </div>-->
+                            <div class="card " style="max-height:30vh;">
+                                <ul class="nav nav-tabs nav-bordered" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        @*<a data-bs-toggle="tab" class="nav-link active py-2" aria-selected="true" role="tab" onclick="settingsBoxClicked(1)">*@
+                                        <a data-bs-toggle="tab" class="nav-link active py-2" aria-selected="true" role="tab">
+                                            Həkimlər
+                                        </a>
+                                    </li>
+                                </ul>
                                 <div class="row p-2">
                                     <div class="col-md-6 text-left">
                                         <strong class="text-primary">ADI</strong>
                                     </div>
                                 </div>
-                                <div class="card-body border-top overflow-auto p-0">
+                                <div class="card-body border-top overflow-auto  p-0">
 
-                                    <div class="list-group rounded-0" id="depsInService">
-                                        <!-- Отделы здесь -->
+                                    <ul class="list-group rounded-0" id="docsInService">
+
+                                        @if (Model.Doctors != null)
+                                        {
+                                            @foreach (var item in Model.Doctors)
+                                            {
+                                                <li class="list-group-item doctor-item" data-item-id="@item.ID">@item.name @item.surname (@item.speciality.name)</li>
+                                            }
+                                        }
+                                    </ul>
+                                    <div class="">
+                                        <input id="doctorIdInService" type="number" class="form-control d-none" required />
+                                        <div class="invalid-feedback">
+                                            Həkim seçilməyib
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        }
 
-                        <div class="card " style="max-height:30vh;">
-                            <ul class="nav nav-tabs nav-bordered" role="tablist">
-                                <li class="nav-item" role="presentation">
-                                    @*<a data-bs-toggle="tab" class="nav-link active py-2" aria-selected="true" role="tab" onclick="settingsBoxClicked(1)">*@
-                                    <a data-bs-toggle="tab" class="nav-link active py-2" aria-selected="true" role="tab" >
-                                        Yönəldən Həkimlər
-                                    </a>
-                                </li>
-                            </ul>
-                            <div class="row p-2">
-                                <div class="col-md-6 text-left">
-                                    <strong class="text-primary">ADI</strong>
-                                </div>
-                            </div>
-                            <div class="card-body border-top overflow-auto  p-0">
-
-                                <div class="list-group rounded-0" id="refererDocsInCard">
-                                    <!-- Докторы здесь -->
-                                </div>
-                            </div>
                         </div>
-                        <div class="card " style="max-height:30vh;">
-                            <ul class="nav nav-tabs nav-bordered" role="tablist">
-                                <li class="nav-item" role="presentation">
-                                    @*<a data-bs-toggle="tab" class="nav-link active py-2" aria-selected="true" role="tab" onclick="settingsBoxClicked(1)">*@
-                                    <a data-bs-toggle="tab" class="nav-link active py-2" aria-selected="true" role="tab">
-                                        Həkimlər
-                                    </a>
-                                </li>
-                            </ul>
-                            <div class="row p-2">
-                                <div class="col-md-6 text-left">
-                                    <strong class="text-primary">ADI</strong>
-                                </div>
-                            </div>
-                            <div class="card-body border-top overflow-auto  p-0">
 
-                                <div class="list-group rounded-0" id="docsInService">
-                                    <!-- Докторы здесь -->
-                                </div>
-                            </div>
-                        </div>
                     </div>
-                </div>
-
+                </form>
                 <h5 class="mt-4">Əlavə olunmuş xidmətlər</h5>
                 <div class="table-responsive">
                     <table class="table table-striped">
@@ -214,7 +240,7 @@
                                 <th>Kodu</th>
                                 <th>Xidmət</th>
                                 <th>Qiymət</th>
-                                <th>Yönəldən həkim</th>
+                                @*<th>Yönəldən həkim</th>*@
                                 <th>Xidmət edən həkim</th>
 
                             </tr>
