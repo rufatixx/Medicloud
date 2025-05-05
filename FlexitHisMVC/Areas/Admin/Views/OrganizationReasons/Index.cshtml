@@ -1,0 +1,127 @@
+﻿@using Medicloud.Areas.Admin.ViewModels
+@model OrganizationReasonsViewModel
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+
+                <h4 class="page-title">Səbəblər</h4>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="col-md-9">
+            <div class="table-responsive">
+
+                <table class="table" id="">
+                    <thead>
+                        <tr>
+
+                            <th scope="col">Başlıq</th>
+                            @* <th scope="col"></th> *@
+
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.OrganizationReasons != null)
+                        {
+                            @foreach (var item in Model.OrganizationReasons)
+                            {
+                                <tr class="reason-row" data-item-id="@item.id">
+                                    <td>@item.name</td>
+                                    @*                                 <td>Dəyiş</td>
+                                <td>Sil</td> *@
+                                </tr>
+
+                            }
+                        }
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card serviceSettings">
+                <div class="card-body">
+                    <div class="">
+                        <form id="reasonForm" novalidate>
+
+                            <div class="form-group">
+                                <div class="row align-items-center">
+                                    <div class="col-md-12 mb-3">
+                                        <label class="form-label">Başlıq</label>
+                                        <input type="text" class="form-control" required id="serviceNameInSettings"
+                                               placeholder="Başlıq daxil edin">
+
+                                    </div>
+                                    <div class="mb-3 col-md-12 align-items-center">
+                                        <div class="form-check" id="activeContent" style="display:none;">
+                                            <input class="form-check-input" type="checkbox" id="serviceIsActive">
+                                            <label class="form-check-label">
+                                                Aktiv
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <input type="hidden" name="" />
+                                    <div class=" align-items-center col-md-12">
+                                        <button id="saveButton" class="btn btn-primary w-100 justify-content-center">
+                                            Yadda saxla
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
+
+
+                    </div>
+                    @*                 <div class="accessSettings">
+
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="serviceIsActive">
+                            <label class="form-check-label">
+                                Aktiv
+                            </label>
+                        </div>
+
+                    </div>
+
+
+                </div> *@
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+
+    <script>
+        document.addEventListener('DOMContentLoaded',function()
+
+
+        });
+
+
+    </script>
+}

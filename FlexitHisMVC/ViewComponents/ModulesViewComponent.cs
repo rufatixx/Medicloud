@@ -53,7 +53,10 @@ namespace Medicloud.ViewComponents
                     module.img = "/res/admin/personal.png";
                     submoduleList.Add(module);
 
-                   
+                    module.name = "Səbəblər";
+                    module.img = "/assets/images/mc_logo.svg";
+                    module.url = "/Admin/OrganizationReasons";
+                    submoduleList.Add(module);
 
                     //module.name = "Səbəb tərifi";
                     //module.url = "/Admin/Personal";

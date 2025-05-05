@@ -62,11 +62,11 @@
     <None Remove="BLL\Service\Communication\" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="BLL\Services\NewFolder\" />
     <Folder Include="BLL\Services\Role\" />
     <Folder Include="DAL\Repository\WorkHourBreak\" />
     <Folder Include="wwwroot\js\menu\" />
     <Folder Include="wwwroot\js\new_patient\" />
-    <Folder Include="Areas\Admin\Controllers\" />
     <Folder Include="wwwroot\js\admin\departments\" />
     <Folder Include="Areas\Admin\ViewComponents\" />
     <Folder Include="Areas\Admin\Views\Department\" />

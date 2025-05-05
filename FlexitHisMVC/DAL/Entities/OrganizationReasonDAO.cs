@@ -1,6 +1,6 @@
 ﻿namespace Medicloud.DAL.Entities
 {
-	public class OrganizationRefererDAO
+	public class OrganizationReasonDAO
 	{
 		public int id { get; set; }
 		public string name { get; set; }
