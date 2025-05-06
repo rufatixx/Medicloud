@@ -162,7 +162,9 @@ WHERE LOWER(CONCAT( name,  ' ', surname )) LIKE  LOWER(@fullNamePattern) and org
                                 patient.father = reader["father"] == DBNull.Value ? "" : reader["father"].ToString();
                                 patient.genderID = reader["genderID"] == DBNull.Value ? 0 : Convert.ToInt32(reader["genderID"]);
                                 patient.fin = reader["fin"] == DBNull.Value ? "" : Convert.ToString(reader["fin"]);
-                                patient.phone = reader["clientPhone"] == DBNull.Value ? 0 : Convert.ToInt64(reader["clientPhone"]);
+                                patient.phone = reader["clientPhone"] == DBNull.Value ? "" : reader["clientPhone"].ToString();
+                                patient.email = reader["clientPhone"] == DBNull.Value ? "" : reader["email"].ToString();
+                                patient.orgReasonId = reader["orgReasonId"] == DBNull.Value ? 0 : Convert.ToInt32(reader["orgReasonId"]);
                                 patient.bDate = reader["bDate"] == DBNull.Value ? Convert.ToDateTime("0001-01-01T00:00:00") : Convert.ToDateTime(reader["bDate"]);
 
 
@@ -319,8 +321,8 @@ AND organizationID = @organizationId;";
                         father = reader["father"] == DBNull.Value ? "" : reader["father"].ToString(),
                         genderID = reader["genderID"] == DBNull.Value ? 0 : Convert.ToInt32(reader["genderID"]),
                         fin = reader["fin"] == DBNull.Value ? "" : Convert.ToString(reader["fin"]),
-                        phone = reader["clientPhone"] == DBNull.Value ? 0 : Convert.ToInt64(reader["clientPhone"]),
-                        bDate = reader["bDate"] == DBNull.Value ? Convert.ToDateTime("0001-01-01T00:00:00") : Convert.ToDateTime(reader["bDate"])
+						phone = reader["clientPhone"] == DBNull.Value ? "" : reader["clientPhone"].ToString(),
+						bDate = reader["bDate"] == DBNull.Value ? Convert.ToDateTime("0001-01-01T00:00:00") : Convert.ToDateTime(reader["bDate"])
                     };
                     patients.Add(patient);
                 }
@@ -363,8 +365,8 @@ AND organizationID = @organizationId;";
                         father = reader["father"] == DBNull.Value ? "" : reader["father"].ToString(),
                         genderID = reader["genderID"] == DBNull.Value ? 0 : Convert.ToInt32(reader["genderID"]),
                         fin = reader["fin"] == DBNull.Value ? "" : Convert.ToString(reader["fin"]),
-                        phone = reader["clientPhone"] == DBNull.Value ? 0 : Convert.ToInt64(reader["clientPhone"]),
-                        bDate = reader["bDate"] == DBNull.Value ? Convert.ToDateTime("0001-01-01T00:00:00") : Convert.ToDateTime(reader["bDate"])
+						phone = reader["clientPhone"] == DBNull.Value ? "" : reader["clientPhone"].ToString(),
+						bDate = reader["bDate"] == DBNull.Value ? Convert.ToDateTime("0001-01-01T00:00:00") : Convert.ToDateTime(reader["bDate"])
                     };
                 }
                 con.Close();

@@ -13,5 +13,6 @@
 		public int genderID { get; set; }
 		public string fin { get; set; }
 		public string bDate { get; set; }
+		public int orgReasonId { get; set; }
 	}
 }

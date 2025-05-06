@@ -1,6 +1,5 @@
 ﻿@using Medicloud.Areas.Admin.ViewModels
 @model OrganizationReasonsViewModel
-
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
@@ -18,67 +17,49 @@
         </div>
     </div>
     <div class="row">
-
         <div class="col-md-9">
-            <div class="table-responsive">
-
-                <table class="table" id="">
-                    <thead>
-                        <tr>
-
-                            <th scope="col">Başlıq</th>
-                            @* <th scope="col"></th> *@
-
-
-
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (Model.OrganizationReasons != null)
+            <div class="">
+                <ul class="list-group" style="max-height:55vh;overflow:auto">
+                    @if (Model.OrganizationReasons != null)
+                    {
+                        @foreach (var item in Model.OrganizationReasons)
                         {
-                            @foreach (var item in Model.OrganizationReasons)
-                            {
-                                <tr class="reason-row" data-item-id="@item.id">
-                                    <td>@item.name</td>
-                                    @*                                 <td>Dəyiş</td>
-                                <td>Sil</td> *@
-                                </tr>
+                            <li class="reason-row list-group-item" style="cursor:pointer;" data-item-id="@item.id" data-is-active="@item.isActive">
+                                @item.name
+                            </li>
 
-                            }
                         }
-
-                    </tbody>
-                </table>
-
+                    }
+                </ul>
             </div>
         </div>
         <div class="col-md-3">
             <div class="card serviceSettings">
                 <div class="card-body">
                     <div class="">
-                        <form id="reasonForm" novalidate>
+                        <form id="reasonForm" method="post" action="@Url.Action("AddOrUpdate","OrganizationReasons")" novalidate>
 
                             <div class="form-group">
                                 <div class="row align-items-center">
                                     <div class="col-md-12 mb-3">
                                         <label class="form-label">Başlıq</label>
-                                        <input type="text" class="form-control" required id="serviceNameInSettings"
+                                        <input type="text" class="form-control" required id="name" name="name"
                                                placeholder="Başlıq daxil edin">
+                                        <div class="invalid-feedback">Bu sahə boş ola bilməz</div>
 
                                     </div>
                                     <div class="mb-3 col-md-12 align-items-center">
-                                        <div class="form-check" id="activeContent" style="display:none;">
-                                            <input class="form-check-input" type="checkbox" id="serviceIsActive">
-                                            <label class="form-check-label">
-                                                Aktiv
-                                            </label>
+                                        <div class="form-check text-start mb-2" id="activeContent" style="display:none;">
+                                            <input type="hidden" name="isActive" value="false">
+                                            <input type="checkbox" style="cursor:pointer;" class="form-check-input" name="isActive" value="true" id="isActive">
+                                            <label class="form-check-label " style="cursor:pointer;" for="isActive">Aktiv</label>
                                         </div>
                                     </div>
 
-                                    <input type="hidden" name="" />
+                                    <input type="hidden" name="id" id="id" />
                                     <div class=" align-items-center col-md-12">
                                         <button id="saveButton" class="btn btn-primary w-100 justify-content-center">
-                                            Yadda saxla
+                                            Əlavə et
                                         </button>
                                     </div>
 
@@ -88,20 +69,6 @@
 
 
                     </div>
-                    @*                 <div class="accessSettings">
-
-                    <div class="form-group">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="serviceIsActive">
-                            <label class="form-check-label">
-                                Aktiv
-                            </label>
-                        </div>
-
-                    </div>
-
-
-                </div> *@
                 </div>
 
             </div>
@@ -117,7 +84,50 @@
 @section Scripts {
 
     <script>
-        document.addEventListener('DOMContentLoaded',function()
+        document.addEventListener('DOMContentLoaded', function () {
+
+            $('.reason-row').on('click', function () {
+                if ($(this).hasClass('active')) {
+                    $('.reason-row').removeClass('active');
+                    $('#name').val('');
+                    $('#id').val('');
+                    $('#isActive').prop('checked', false);
+                    $('#activeContent').hide();
+                    $('#saveButton').text('Əlavə et');
+
+                } else {
+                    $('.reason-row').removeClass('active');
+                    $(this).addClass('active');
+
+                    let name = $(this).text().trim();
+                    let id = $(this).data('item-id');
+                    let isActive = $(this).data('is-active');
+
+                    $('#name').val(name);
+                    $('#id').val(id);
+                    $('#isActive').prop('checked', isActive.toString().toLowerCase() === 'true');
+                    $('#activeContent').show();
+                    $('#saveButton').text('Yadda saxla');
+                }
+            })
+
+
+            let $form = $('#reasonForm');
+            $form.on('submit', function (e) {
+                e.preventDefault();
+                if (!$form[0].checkValidity()) {
+                    $form.addClass('was-validated');
+                    return
+                }
+                else {
+                    if ($('#isActive').is(':checked')) {
+                        $('input[type="hidden"][name="isActive"]').remove();
+                    }
+                    showLoading();
+                    $form[0].submit();
+                }
+            })
+
 
 
         });

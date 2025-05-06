@@ -27,12 +27,35 @@ namespace Medicloud.DAL.Repository.OrganizationReasons
             return newId;
         }
 
-		public async Task<List<OrganizationReasonDAO>> GetByOrganizationId(int organizationId)
+		public async Task<List<OrganizationReasonDAO>> GetByOrganizationId(int organizationId,bool isActive=false)
 		{
-            string sql = @"SELECT * FROM organization_reasons WHERE organizationId=@OrganizationId AND isActive=1";
+			string activeCondition = "";
+			if (isActive)
+			{
+				activeCondition = " AND isActive=1";
+			}
+            string sql = @$"SELECT * FROM organization_reasons WHERE organizationId=@OrganizationId {activeCondition}";
             var con = _unitOfWork.BeginConnection();
             var result = await con.QueryAsync<OrganizationReasonDAO>(sql, new { OrganizationId =organizationId});
             return result.ToList();
         }
+
+		public async Task<bool> UpdateAsync(OrganizationReasonDAO dao)
+		{
+			string sql = @"UPDATE organization_reasons SET 
+					name=@Name,
+					isActive=@IsActive
+					WHERE id=@Id
+				";
+
+			var con = _unitOfWork.BeginConnection();
+			int result = await con.ExecuteAsync(sql, new
+			{
+				Name = dao.name,
+				IsActive = dao.isActive?1:0,
+				Id = dao.id
+			});
+			return result >0;
+		}
 	}
 }

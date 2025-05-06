@@ -121,7 +121,7 @@
                         </div>
                     </div>
                     <div class="form-group mb-3">
-                        <div class="row">
+                        <div class="row align-items-end d-flex">
 
                             <div class="col-md-4">
                                 <label class="form-label">Müəssisədə xidmət edən personal</label>
@@ -142,23 +142,23 @@
                                     Boşluğu doldurun.
                                 </div>
                             </div>
-@*                             <div class="col-md-4">
+                            @*                             <div class="col-md-4">
 
-                                <label class="form-label">Gödərən</label>
-                                <select class="form-control" id="referer">
-                                    <!-- <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option> -->
-                                </select>
-                                <div class="valid-feedback">
-                                    Əla!
-                                </div>
-                                <div class="invalid-feedback">
-                                    Boşluğu doldurun.
-                                </div>
-                            </div> *@
+            <label class="form-label">Gödərən</label>
+            <select class="form-control" id="referer">
+                <!-- <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option> -->
+            </select>
+            <div class="valid-feedback">
+                Əla!
+            </div>
+            <div class="invalid-feedback">
+                Boşluğu doldurun.
+            </div>
+        </div> *@
                             <div class="col-md-4">
                                 <label class="form-label">Qiymət (AZN)</label>
                                 <input type="tel" class="form-control" required id="price" placeholder="Məbləğ" disabled>
@@ -169,7 +169,13 @@
                                     Boşluğu doldurun.
                                 </div>
                             </div>
-
+                            <div class="col-md-4">
+                                <div class="form-check text-start " id="onlineContent">
+                                    @*<input type="hidden" name="isOnline" value="false">*@
+                                    <input type="checkbox" style="cursor:pointer;" class="form-check-input" name="isOnline" value="" id="isOnline">
+                                    <label class="form-check-label " style="cursor:pointer;" for="isOnline">Onlayn</label>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -200,9 +206,9 @@
                                         <div class="invalid-feedback">
                                             Boşluğu doldurun.
                                         </div>
-@*                                         <div class="d-flex align-items-center">
+                                        @*                                         <div class="d-flex align-items-center">
 
-                                        </div> *@
+                                            </div> *@
 
                                     </div>
                                     <div class="col-md-5">
@@ -214,9 +220,9 @@
                                         <div class="invalid-feedback">
                                             Boşluğu doldurun.
                                         </div>
-@*                                         <div class="d-flex align-items-center">
- 
-                                        </div> *@
+                                        @*                                         <div class="d-flex align-items-center">
+
+                                            </div> *@
 
                                     </div>
                                     <div class="col-md-2">

@@ -5,7 +5,8 @@ namespace Medicloud.DAL.Repository.OrganizationReasons
 	public interface IOrganizationReasonsRepository
 	{
 		Task<int> AddAsync(OrganizationReasonDAO dao);
-		Task<List<OrganizationReasonDAO>> GetByOrganizationId(int organizationId);
+		Task<bool> UpdateAsync(OrganizationReasonDAO dao);
+		Task<List<OrganizationReasonDAO>> GetByOrganizationId(int organizationId, bool isActive = false);
 
     }
 }

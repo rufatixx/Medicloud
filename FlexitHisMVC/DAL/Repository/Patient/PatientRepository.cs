@@ -21,7 +21,7 @@ namespace Medicloud.DAL.Repository.Patient
 
 			string AddSql = $@"
 			INSERT INTO patients
-            (userID,name,surname,father,clientPhone,organizationId,bDate,genderID,fin,email)
+            (userID,name,surname,father,clientPhone,organizationId,bDate,genderID,fin,email,orgReasonId)
 			VALUES (@{nameof(PatientDAO.userID)},
             @{nameof(PatientDAO.name)},
             @{nameof(PatientDAO.surname)},
@@ -31,7 +31,8 @@ namespace Medicloud.DAL.Repository.Patient
             @{nameof(PatientDAO.bDate)},
             @{nameof(PatientDAO.genderID)},
             @{nameof(PatientDAO.fin)},
-            @{nameof(PatientDAO.clientEmail)});
+            @{nameof(PatientDAO.clientEmail)},
+            @{nameof(PatientDAO.orgReasonId)});
 
 			SELECT LAST_INSERT_ID();";
 			var con = _unitOfWork.BeginConnection();

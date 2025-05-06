@@ -24,5 +24,8 @@ namespace Medicloud.Models
         public DateTime selectedDate { get; set; }
         public TimeSpan startTime { get; set; }
         public TimeSpan endTime { get; set; }
-    }
+		public bool isOnline { get; set; }
+		public int orgReasonId { get; set; }
+		public int companyID { get; set; }
+	}
 }

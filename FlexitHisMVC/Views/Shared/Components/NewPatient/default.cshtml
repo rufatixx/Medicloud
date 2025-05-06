@@ -1,4 +1,6 @@
-﻿<div class="col-12">
+﻿@model Medicloud.ViewModels.NewPatientViewModel
+
+<div class="col-12">
     <div class="card">
 
         <div class="card-header d-flex justify-content-between align-items-center">
@@ -66,6 +68,18 @@
                         </div>
                     </div>
                     <div class="col-md-4">
+                        <label class="form-label">Doğum tarixi:</label>
+                        <input class="form-control" type="date" id="bDate"
+                               name="meeting-time" value="2018-06-12T19:30" max=""
+                               required>
+                        <div class="valid-feedback">
+                            Əla!
+                        </div>
+                        <div class="invalid-feedback">
+                            Boşluğu doldurun.
+                        </div>
+                    </div>
+                    <div class="col-md-4">
                         <label class="form-label">Əlaqə nömrəsi</label>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
@@ -80,19 +94,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                            <label class="form-label">Email</label>
-                            <input type="email" class="form-control" placeholder="Email" id="clientEmail" aria-describedby="emailHelp">
-                            <div class="valid-feedback">
-                                Əla!
-                            </div>
-                            <div class="invalid-feedback">
-                                Boşluğu doldurun.
-                            </div>
-                    </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label class="form-label">ŞV Fin</label>
                         <input type="text" class="form-control" id="fin" placeholder="Şəxsiyyət vəsiqəsinin fin kodu">
                         <div class="valid-feedback">
@@ -102,11 +106,9 @@
                             Boşluğu doldurun.
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <label class="form-label">Doğum tarixi:</label>
-                        <input class="form-control" type="date" id="bDate"
-                               name="meeting-time" value="2018-06-12T19:30" max=""
-                               required>
+                    <div class="col-md-4">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" placeholder="Email" id="clientEmail" aria-describedby="emailHelp">
                         <div class="valid-feedback">
                             Əla!
                         </div>
@@ -114,7 +116,26 @@
                             Boşluğu doldurun.
                         </div>
                     </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Səbəb:</label>
+                        <select class="form-control" id="orgReason">
+                            <option value="">Seçin</option>
+                            @if (Model.OrgReasons != null)
+                            {
+                                foreach (var item in Model.OrgReasons)
+                                {
+                                    <option value="@item.id">@item.name</option>
 
+                                }
+                            }
+                        </select>
+                        <div class="valid-feedback">
+                            Əla!
+                        </div>
+                        <div class="invalid-feedback">
+                            Boşluğu doldurun.
+                        </div>
+                    </div>
                 </div>
 
             </div>

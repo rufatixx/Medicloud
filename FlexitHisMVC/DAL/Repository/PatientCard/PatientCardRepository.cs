@@ -68,7 +68,7 @@ namespace Medicloud.DAL.Repository.PatientCard
 		{
 			string AddSql = $@"
 			INSERT INTO patient_card
-            (requestTypeID,userID,patientID,organizationID,serviceID,docID,priceGroupID,note,referDocID,startDate,endDate)
+            (requestTypeID,userID,patientID,organizationID,serviceID,docID,priceGroupID,note,referDocID,startDate,endDate,isOnline,companyID)
 			VALUES (@{nameof(PatientCardDAO.requestTypeID)},
             @{nameof(PatientCardDAO.userID)},
             @{nameof(PatientCardDAO.patientID)},
@@ -79,7 +79,9 @@ namespace Medicloud.DAL.Repository.PatientCard
             @{nameof(PatientCardDAO.note)},
             @{nameof(PatientCardDAO.referDocID)},
             @{nameof(PatientCardDAO.startDate)},
-            @{nameof(PatientCardDAO.endDate)});
+            @{nameof(PatientCardDAO.endDate)},
+            @{nameof(PatientCardDAO.isOnline)},
+            @{nameof(PatientCardDAO.companyID)});
 
 			SELECT LAST_INSERT_ID();";
 			var con = _unitOfWork.BeginConnection();
@@ -116,5 +118,28 @@ namespace Medicloud.DAL.Repository.PatientCard
                 return new();
             }
         }
-    }
+
+		public async Task<PatientCardDAO> GetPatientCardById(int id)
+		{
+			var queryBuilder = new StringBuilder($@"
+        SELECT a.*
+        FROM patient_card a
+        WHERE a.id=@Id");
+
+			// Dynamically add patient condition if patientID is greater than 0
+			try
+			{
+				var con = _unitOfWork.GetConnection();
+
+				var patientCard = await con.QuerySingleOrDefaultAsync<PatientCardDAO>(queryBuilder.ToString(), new {Id=id});
+				return patientCard;
+			}
+			catch (Exception ex)
+			{
+				StandardMessages.CallSerilog(ex);
+				Console.WriteLine(ex.Message);
+				return new();
+			}
+		}
+	}
 }

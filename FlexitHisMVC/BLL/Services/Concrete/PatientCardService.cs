@@ -50,5 +50,12 @@ namespace Medicloud.BLL.Services.Concrete
             //}
             return result;
         }
-    }
+
+		public async Task<PatientCardDAO> GetPatientCardById(int id)
+		{
+			using var con= _unitOfWork.BeginConnection();
+			var result=await _repository.GetPatientCardById(id);
+			return result;
+		}
+	}
 }

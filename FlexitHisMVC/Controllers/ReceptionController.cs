@@ -1,4 +1,5 @@
 ﻿using Medicloud.BLL.Services;
+using Medicloud.BLL.Services.Abstract;
 using Medicloud.DAL.Entities;
 using Medicloud.DAL.Repository;
 using Medicloud.DAL.Repository.Abstract;
@@ -30,8 +31,9 @@ namespace Medicloud.Controllers
 		private readonly IPatientCardRepository _patientCardRepository;
 		private readonly IPatientRepository _patientRepository;
 		private readonly DepartmentsRepo _departmentsRepo;
+		private readonly IPatientCardService _patientCardService;
 
-		public ReceptionController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IUserService userService, IServicePriceGroupRepository servicePriceGroupRepository, IPatientCardServiceRelRepository patientCardServiceRelRepository, IPatientCardRepository patientCardRepository, IPatientRepository patientRepository)
+		public ReceptionController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IUserService userService, IServicePriceGroupRepository servicePriceGroupRepository, IPatientCardServiceRelRepository patientCardServiceRelRepository, IPatientCardRepository patientCardRepository, IPatientRepository patientRepository, IPatientCardService patientCardService)
 		{
 			Configuration = configuration;
 			ConnectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
@@ -44,7 +46,8 @@ namespace Medicloud.Controllers
 			_patientCardServiceRelRepository = patientCardServiceRelRepository;
 			_patientCardRepository = patientCardRepository;
 			_patientRepository = patientRepository;
-			_departmentsRepo= new DepartmentsRepo(ConnectionString);
+			_departmentsRepo = new DepartmentsRepo(ConnectionString);
+			_patientCardService = patientCardService;
 		}
 		// GET: /<controller>/
 		public async Task<IActionResult> Index()
@@ -221,7 +224,8 @@ namespace Medicloud.Controllers
 						requestTypeID = newPatient.requestTypeID,
 						startDate =newPatient.selectedDate.Date + newPatient.startTime,
                         endDate =newPatient.selectedDate.Date + newPatient.endTime,
-
+						isOnline=newPatient.isOnline,
+						companyID = newPatient.companyID,
 					};
 					if(newPatient.id>0)
 					{
@@ -242,6 +246,7 @@ namespace Medicloud.Controllers
 							genderID = newPatient.genderID,
 							organizationID = organzationId,
 							userID = userId,
+							orgReasonId=newPatient.orgReasonId,
 						});
 
 					}
@@ -282,7 +287,23 @@ namespace Medicloud.Controllers
 
         }
 
-        [HttpGet]
+		[HttpGet]
+		public async Task<IActionResult> GetCardById(int cardId)
+		{
+			if (User.Identity.IsAuthenticated)
+			{
+				var response=await _patientCardService.GetPatientCardById(cardId);
+				Console.WriteLine(response.companyID);
+				return Ok(response);
+
+			}
+
+			return Unauthorized();
+
+
+		}
+
+		[HttpGet]
         public async Task<IActionResult> InsertServiceToPatientCard(int patientCardID, int serviceID, int depID, int senderDocID, int docID,int priceGroupId)
         {
             if (User.Identity.IsAuthenticated)

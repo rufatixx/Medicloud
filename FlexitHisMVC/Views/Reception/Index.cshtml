@@ -138,7 +138,7 @@
 @section Scripts {
 
     @*<script src="~/js/new_patient/new_patient.js" asp-append-version="true"></script>*@
-    <script>
+<script>
         var json = localStorage.getItem("json")
                 var pageData;
                 var parsedJSON = JSON.parse(json)
@@ -199,7 +199,7 @@
 
                         pageData = data;
 
-                        $("#price").val($("#services").val());
+                        $("#price").val($("#services").data('price'));
         /*                $patientCardsDropdown.append($("<option />").val("").text(`Yeni Kart`));*/
                         hideLoading();
                     },
@@ -218,6 +218,7 @@
 
                 populatePriceGroupDropdown($('#companies').val());
                 $("#companies").on('change', function () {
+                    console.log("WORKEDDD")
                     var selectedCompanyID = $(this).val();
                     populatePriceGroupDropdown(selectedCompanyID);
                 });
@@ -278,6 +279,7 @@
 
                             // Populate options based on the response
                             $patientCardsDropdown.append($("<option />").val("").text(`Yeni Kart`));
+                            console.log(response)
                             response.forEach(function (item) {
                                 $patientCardsDropdown.append($("<option />").val(item.cardID).text(`${item.cDate}`));
 
@@ -298,7 +300,7 @@
                 $patientCardsDropdown.on('change', function () {
 
                         if ($(this).val() != "") {
-                            $newPatientContainer.hide()
+                            //$newPatientContainer.hide()
                             selectedCardID = $(this).val();
                             $createCard.hide();
 
@@ -309,10 +311,11 @@
                             // Once all data loading is complete
                             // Fill service settings and hide loading indicator
                             Promise.all([
-                                fetchGroups(),
-                                //fetchDoctorsInCard(),
-                                getServicesInTheCard(),
-                                handleCheckboxState()
+                                //fetchGroups(),
+                                ////fetchDoctorsInCard(),
+                                //getServicesInTheCard(),
+                                //handleCheckboxState(),
+                               getAndFillCardData(selectedCardID),
 
                             ]).then(function () {
 
@@ -326,7 +329,7 @@
                         else {
                             selectedCardID = 0;
                             $createCard.show();
-                            $newPatientContainer.show()
+                            //$newPatientContainer.show()
                         }
                     //var selectedCompanyID = $(this).val();
                     //populatePriceGroupDropdown(selectedCompanyID);
@@ -335,25 +338,25 @@
                 function getServicesInPriceGroup(selectedPriceGroupID) {
                 $servicesDropdown.empty();
                 $('#price').val('');
-            $.ajax({
-                type: 'GET',
-                url: "@Url.Action("GetActiveServicesByPriceGroupID", "Reception")", // Replace with your second API endpoint
-                data: { priceGroupID: selectedPriceGroupID },
-                success: function (response) {
-                    // Clear previous options and populate the second dropdown
+                        $.ajax({
+                            type: 'GET',
+                            url: "@Url.Action("GetActiveServicesByPriceGroupID", "Reception")", // Replace with your second API endpoint
+                            data: { priceGroupID: selectedPriceGroupID },
+                            success: function (response) {
+                                // Clear previous options and populate the second dropdown
 
-                    $servicesDropdown.append($("<option  disabled selected />").val("").text(`Seçin..`));
-                    // Populate options based on the response
-                    response.forEach(function (item) {
-                        console.log(item)
-                        $servicesDropdown.append($(`<option id=${item.serviceID} />`).val(item.price).text(`${item.serviceName}`));
-                    });
-                },
-                error: function (error) {
-                    console.error('API error:', error);
-                    // Handle API errors here, e.g., show an error message
-                }
-            });
+                                $servicesDropdown.append($("<option  disabled selected />").val("").text(`Seçin..`));
+                                // Populate options based on the response
+                                response.forEach(function (item) {
+                                    console.log(item)
+                                    $servicesDropdown.append($(`<option  />`).val(item.serviceID).text(`${item.serviceName}`).data('price', item.price));
+                                });
+                            },
+                            error: function (error) {
+                                console.error('API error:', error);
+                                // Handle API errors here, e.g., show an error message
+                            }
+                        });
 
 
                 }
@@ -465,47 +468,32 @@
                     selectedPatientID = 0;
                     $("#selectedPatientForm").hide();
                 }
-                function ResetForm() {
-                }
 
         function foundPatientClicked(item) {
-                    console.log(item)
-                    selectedPatientID = item.id;
-                    populatePatientCards(selectedPatientID);
-                    $("#selectedPatientForm").show()
-                    $("#name").prop("disabled", true);
-                    $("#surname").prop("disabled", true);
-                    $("#father").prop("disabled", true);
+            console.log(item)
+            selectedPatientID = item.id;
+            populatePatientCards(selectedPatientID);
+            $("#selectedPatientForm").show()
+            $("#name").prop("disabled", true).val(item.name);
+            $("#surname").prop("disabled", true).val(item.surname);
+            $("#father").prop("disabled", true).val(item.father);
+            $("#clientEmail").prop("disabled", true).val(item.email);
+            $("#fin").prop("disabled", true).val(item.fin);
+            $("#orgReason").prop("disabled", true).val(item.orgReasonId > 0 ? item.orgReasonId : '');
+            $("#bDate").prop("disabled", true);
+            $(`#gender`).prop("disabled", true);
 
-                    $("#clientPhone").prop("disabled", true);
-            $("#clientEmail").prop("disabled", true);
-                    $("#fin").prop("disabled", true);
+            var lastNine = item.phone.toString().slice(-9);
+            $("#clientPhone").prop("disabled", true).val(lastNine);
+            console.log(item.orgReasonId)
 
+            var today = new Date(item.bDate).toISOString().split('T')[0];
 
+            $("#bDate").val(today);
+            $(`#gender option[value="${item.genderID}"]`).attr("selected", "selected");
+            $('#patientSearch').modal('hide');
 
-                    $("#bDate").prop("disabled", true);
-                    $(`#gender`).prop("disabled", true);
-
-
-
-                            $("#name").val(item.name);
-                            $("#surname").val(item.surname);
-                            $("#father").val(item.father);
-                            var lastNine = item.phone.toString().slice(-9);
-                    $("#clientPhone").val(lastNine);
-                    $("#clientEmail").val(item.clientEmail);
-                     $("#fin").val(item.fin);
-
-                            var today = new Date(item.bDate).toISOString().split('T')[0];
-
-                            $("#bDate").val(today);
-                            $(`#gender option[value="${item.genderID}"]`).attr("selected", "selected");
-                            //$("#gender").prop("selectedIndex", this.genderID);
-
-
-                    $('#patientSearch').modal('hide');
-
-             }
+        }
                 function fetchGroups() {
                     $('#servicesInGroup').empty();
                     $('#selectedServiceGroupInSettings').empty();
@@ -753,7 +741,7 @@
                             console.log(error);
                             hideLoading();
                         });
-                        $('#addServiceToPatient').modal('show');
+                        //$('#addServiceToPatient').modal('show');
                     }
                     else {
 
@@ -795,7 +783,7 @@
                             }
 
                             // Show the modal
-                            $('#addServiceToPatient').modal('show');
+                            //$('#addServiceToPatient').modal('show');
                         },
                         error: function (jqXhr, textStatus, errorMessage) {
                             console.log(errorMessage);
@@ -803,6 +791,112 @@
                     });
         }
 
+
+    function getAndFillCardData(cardId) {
+
+        @*function waitForDropdownToLoad(checkSelector, maxWait = 3000, interval = 100) {
+            return new Promise((resolve, reject) => {
+                const start = Date.now();
+                const check = () => {
+                    if ($(checkSelector).children().length > 1) {
+                        resolve();
+                    } else if (Date.now() - start > maxWait) {
+                        reject("Beklenen dropdown yüklenmedi: " + checkSelector);
+                    } else {
+                        setTimeout(check, interval);
+                    }
+                };
+                check();
+            });
+        }
+
+
+        $.ajax({
+            type: 'GET',
+            url: `@Url.Action("GetCardById", "Reception")?cardID=${cardId}`,
+            success: function (data, status, xhr) {
+                console.log(data)
+                console.log(data.companyID)
+                console.log("heree")
+
+                populatePriceGroupDropdown(data.companyID);
+                getServicesInPriceGroup(data.priceGroupId);
+                $("#companies").prop('disabled', true).val(data.companyID);
+                $("#requestType").prop('disabled', true).val(data.requestTypeID);
+                $("#priceGroup").prop('disabled', true).val(data.priceGroupID);
+                $("#services").prop('disabled', true).val(data.serviceID);
+                $("#doctors").prop('disabled', true).val(data.docID);
+                $("#note").prop('disabled', true).val(data.note);
+                $("#MeetingDate").prop('disabled', true).val(data.startDate);
+
+                var startTime = data.startDate.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+                var endTime = data.endDate.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+                $("#startTime").prop('disabled', true).val(startTime);
+                $("#endTime").prop('disabled', true).val(endTime);
+                $("#isOnline").prop('disabled', true).val(data.isOnline).prop('checked', data.isOnline);
+                $("#orgReasonId").prop('disabled', true).val(data.orgReasonId);
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                console.log(errorMessage);
+            }
+        });*@
+
+
+       function waitForDropdownToLoad(checkSelector, maxWait = 3000, interval = 100) {
+        return new Promise((resolve, reject) => {
+            const start = Date.now();
+            const check = () => {
+                if ($(checkSelector).children().length > 1) {
+                    resolve();
+                } else if (Date.now() - start > maxWait) {
+                    reject("error load " + checkSelector);
+                } else {
+                    setTimeout(check, interval);
+                }
+            };
+            check();
+        });
+        }
+
+        $.ajax({
+            type: 'GET',
+            url: `@Url.Action("GetCardById", "Reception")?cardID=${cardId}`,
+            success: async function (data) {
+                console.log(data);
+
+               
+                populatePriceGroupDropdown(data.companyID);
+                await waitForDropdownToLoad("#priceGroup");
+
+                getServicesInPriceGroup(data.priceGroupID);
+                await waitForDropdownToLoad("#services");
+
+
+                $("#companies").val(data.companyID).prop('disabled', true);
+                $("#requestType").val(data.requestTypeID).prop('disabled', true);
+                $("#priceGroup").val(data.priceGroupID).prop('disabled', true);
+                $("#services").val(data.serviceID).prop('disabled', true);
+                $("#doctors").val(data.docID).prop('disabled', true);
+                $("#note").val(data.note).prop('disabled', true);
+                $("#orgReasonId").val(data.orgReasonId).prop('disabled', true);
+
+                // 3. Tarih ve saatleri ayarla
+                $("#MeetingDate").val(data.startDate).prop('disabled', true);
+
+                const startDate = new Date(data.startDate);
+                const endDate = new Date(data.endDate);
+                const startTime = startDate.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+                const endTime = endDate.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+
+                $("#startTime").val(startTime).prop('disabled', true);
+                $("#endTime").val(endTime).prop('disabled', true);
+                $("#isOnline").prop('checked', data.isOnline).prop('disabled', true);
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                console.log(errorMessage);
+            }
+        });
+    }
         let $serviceForm = $('#addServiceForm');
 
                 function insertServiceToPatientCard() {
@@ -867,11 +961,10 @@
                         $('#warningText').text('Zəhmət olmasa xəstəyə kart yaradın və ya seçin');
                     }
                 }
-
                 function servicesChanged(a) {
                     //alert($(a).val())
                     console.log(a);
-                    $("#price").val($(a).val());
+                    $("#price").val($(a).data('price'));
                 }
 
                 //function depChanged(dep) {
@@ -1151,7 +1244,7 @@
                             fin: $("#fin").val(),
                             requestTypeID: parseInt($("#requestType").val()),
                             priceGroupID: parseInt($("#priceGroup").val()),
-                            serviceID: parseInt($("#services").children(":selected").attr("id")),
+                            serviceID: parseInt($("#services").val()),
                             foundPatientID: parseInt(foundPatientID),
                             docID: parseInt($("#doctors").val() ?? 0),
                             referDocID: parseInt($("#referer").val() ?? 0),
@@ -1160,6 +1253,9 @@
                             selectedDate: $("#MeetingDate").val(),
                             startTime: $("#startTime").val(),
                             endTime: $("#endTime").val(),
+                            isOnline: $("#isOnline").prop('checked'),
+                            orgReasonId: $("#orgReason").val(),
+                            companyID: $("#companies").val(),
                         }
 
                         console.log(data);
@@ -1226,6 +1322,7 @@
                 $(`#startTime`).prop("disabled", false).val('');
                 $(`#endTime`).prop("disabled", false).val('');
                 $(`#createCard`).prop("disabled", false);
+                $(`#orgReason`).prop("disabled", false).val('');
                 $('#infoContent').empty();
                 $(`#infoHoursButton`).hide();
                 selectedUserWorkHours = null;
