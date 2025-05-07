@@ -202,6 +202,11 @@ namespace Medicloud.Controllers
 
         public async Task<IActionResult> AddPatient([FromBody] PatientDTO newPatient)
         {
+
+			if(newPatient == null)
+			{
+				Console.WriteLine("NEWPATIENT NULL");
+			}
             if (User.Identity.IsAuthenticated)
             {
 				int userId = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID"));

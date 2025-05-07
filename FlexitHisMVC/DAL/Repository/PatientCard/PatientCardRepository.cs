@@ -1,7 +1,9 @@
 ﻿using Dapper;
+using Medicloud.BLL.Models;
 using Medicloud.DAL.Entities;
 using Medicloud.DAL.Infrastructure.Abstract;
 using Medicloud.Models;
+using MySql.Data.MySqlClient;
 using System.Dynamic;
 using System.Text;
 
@@ -89,35 +91,35 @@ namespace Medicloud.DAL.Repository.PatientCard
 			return newId;
 		}
 
-        public async Task<List<PatientCardDAO>> GetPatientsCardsByDate(DateTime date, long organizationID, int doctorID = 0)
-        {
-            var queryBuilder = new StringBuilder($@"
+		public async Task<List<PatientCardDAO>> GetPatientsCardsByDate(DateTime date, long organizationID, int doctorID = 0)
+		{
+			var queryBuilder = new StringBuilder($@"
         SELECT a.*
         FROM patient_card a
         WHERE a.organizationID = @organizationID AND DATE(a.startDate) = DATE(@SelectedDate)");
 
-            // Dynamically add patient condition if patientID is greater than 0
-            if (doctorID > 0)
-            {
-                queryBuilder.Append(" AND a.docID = @UserID");
-            }
-            queryBuilder.Append(" ORDER BY a.cDate DESC");
+			// Dynamically add patient condition if patientID is greater than 0
+			if (doctorID > 0)
+			{
+				queryBuilder.Append(" AND a.docID = @UserID");
+			}
+			queryBuilder.Append(" ORDER BY a.cDate DESC");
 
-            var parameters = new { organizationID, UserID = doctorID > 0 ? doctorID : (object)null, SelectedDate=date };
-            try
-            {
-                var con = _unitOfWork.GetConnection();
+			var parameters = new { organizationID, UserID = doctorID > 0 ? doctorID : (object)null, SelectedDate = date };
+			try
+			{
+				var con = _unitOfWork.GetConnection();
 
-                var patientList = await con.QueryAsync<PatientCardDAO>(queryBuilder.ToString(), parameters);
-                return patientList.ToList();
-            }
-            catch (Exception ex)
-            {
-                StandardMessages.CallSerilog(ex);
-                Console.WriteLine(ex.Message);
-                return new();
-            }
-        }
+				var patientList = await con.QueryAsync<PatientCardDAO>(queryBuilder.ToString(), parameters);
+				return patientList.ToList();
+			}
+			catch (Exception ex)
+			{
+				StandardMessages.CallSerilog(ex);
+				Console.WriteLine(ex.Message);
+				return new();
+			}
+		}
 
 		public async Task<PatientCardDAO> GetPatientCardById(int id)
 		{
@@ -131,8 +133,112 @@ namespace Medicloud.DAL.Repository.PatientCard
 			{
 				var con = _unitOfWork.GetConnection();
 
-				var patientCard = await con.QuerySingleOrDefaultAsync<PatientCardDAO>(queryBuilder.ToString(), new {Id=id});
+				var patientCard = await con.QuerySingleOrDefaultAsync<PatientCardDAO>(queryBuilder.ToString(), new { Id = id });
 				return patientCard;
+			}
+			catch (Exception ex)
+			{
+				StandardMessages.CallSerilog(ex);
+				Console.WriteLine(ex.Message);
+				return new();
+			}
+		}
+
+
+
+		public async Task<List<AppointmentViewModel>> GetCardsByRange(DateTime startDate, DateTime endDate, int organizationID, int userID)
+		{
+
+			string userFilter = userID > 0 ? "AND a.user_id = @userID" : string.Empty;
+			string query = @$"
+        SELECT 
+            pc.id,
+            pc.patientID AS patient_id,
+            pc.docID AS user_id,
+            pc.serviceID AS service_id,
+            pc.organizationID AS organization_id,
+            pc.startDate AS start_date,
+            pc.endDate AS end_date,
+            pc.isActive AS is_active,
+            u.name AS user_name,
+            u.surname AS user_surname,
+            u.specialityID AS user_speciality_id,
+            sp.name AS user_speciality_name
+        FROM medicloud.patient_card pc
+        LEFT JOIN medicloud.users u ON u.id = pc.docID
+        LEFT JOIN medicloud.speciality sp ON sp.id = u.specialityID
+        WHERE pc.startDate BETWEEN @startDate AND @endDate
+          
+          AND pc.organizationID = @organizationID
+          {userFilter}
+        ORDER BY pc.startDate ASC;";
+
+
+
+			try
+			{
+				var con = _unitOfWork.GetConnection();
+				var result = await con.QueryAsync<AppointmentViewModel>(query, new
+				{
+					startDate = startDate.Date,
+					endDate = endDate.Date.AddDays(1).AddSeconds(-1),
+					organizationID = organizationID,
+					userID = userID,
+				});
+				return result.ToList();
+			}
+			catch (Exception ex)
+			{
+				Medicloud.StandardMessages.CallSerilog(ex);
+				Console.WriteLine(ex.Message);
+				return new List<AppointmentViewModel>();
+			}
+		}
+
+
+		public async Task<List<AppointmentViewModel>> GetCardsByDate(DateTime date, long organizationID, int doctorID = 0)
+		{
+
+			string query = @"
+        SELECT
+				pc.id,
+				pc.patientID AS patient_id,
+				pc.docID AS user_id,
+				pc.serviceID AS service_id,
+				pc.organizationID AS organization_id,
+				pc.startDate AS start_date,
+				pc.endDate AS end_date,
+				pc.isActive AS is_active,
+               p.name AS patient_name,
+               p.surname AS patient_surname,
+               p.clientPhone AS patient_phone,
+               s.name AS service_name,
+               u.name AS user_name,
+               u.surname AS user_surname,
+               u.specialityID AS user_speciality_id,
+               sp.name AS user_speciality_name
+        FROM medicloud.patient_card pc
+        LEFT JOIN medicloud.patients p ON p.id = pc.patientID
+        LEFT JOIN medicloud.services s ON s.id = pc.serviceID
+        LEFT JOIN medicloud.users u ON u.id = pc.docID
+        LEFT JOIN medicloud.speciality sp ON sp.id = u.specialityID
+        WHERE DATE(pc.startDate) = DATE(@date)
+         
+          AND pc.organizationID = @organizationID
+          AND (@userID = 0 OR pc.docID = @userID)
+        ORDER BY pc.startDate ASC;";
+
+			try
+			{
+				var con = _unitOfWork.GetConnection();
+
+				var patientList = await con.QueryAsync<AppointmentViewModel>(query, new
+				{
+					date=date,
+					organizationID = organizationID,
+					userID=doctorID
+				});
+				return patientList.ToList();
 			}
 			catch (Exception ex)
 			{
@@ -143,3 +249,5 @@ namespace Medicloud.DAL.Repository.PatientCard
 		}
 	}
 }
+
+

@@ -1,5 +1,7 @@
 ﻿using Medicloud.BLL.Models;
+using Medicloud.BLL.Service;
 using Medicloud.BLL.Services.Abstract;
+using Medicloud.DAL.Entities;
 using Medicloud.DAL.Repository.Abstract;
 using Medicloud.DAL.Repository.PatientCard;
 using Medicloud.DAL.Repository.Role;
@@ -15,20 +17,20 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Medicloud.Controllers
 {
-    [Authorize]
-    public class PrescriptionsController : Controller
-    {
-        private readonly string ConnectionString;
-        public IConfiguration Configuration;
-        private readonly IWebHostEnvironment _hostingEnvironment;
-        private PriceGroupCompanyRepository priceGroupCompanyRepository;
-        private IServicePriceGroupRepository _servicePriceGroupRepository;
-        PatientCardRepo patientCardRepo;
-        PatientDiagnoseRel patientDiagnoseRel;
-        ServicesRepo servicesRepo;
-        PatientRepo patientRepo;
-        private readonly IPatientCardService _patientCardService;
-        private readonly IRoleRepository _roleRepository;
+	[Authorize]
+	public class PrescriptionsController : Controller
+	{
+		private readonly string ConnectionString;
+		public IConfiguration Configuration;
+		private readonly IWebHostEnvironment _hostingEnvironment;
+		private PriceGroupCompanyRepository priceGroupCompanyRepository;
+		private IServicePriceGroupRepository _servicePriceGroupRepository;
+		PatientCardRepo patientCardRepo;
+		PatientDiagnoseRel patientDiagnoseRel;
+		ServicesRepo servicesRepo;
+		PatientRepo patientRepo;
+		private readonly IPatientCardService _patientCardService;
+		private readonly IRoleRepository _roleRepository;
 		private readonly IPatientCardServiceRelRepository _patientCardServiceRelRepository;
 		public PrescriptionsController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IRoleRepository roleRepository, IPatientCardService patientCardService, IServicePriceGroupRepository servicePriceGroupRepository, IPatientCardServiceRelRepository patientCardServiceRelRepository)
 		{
@@ -46,82 +48,133 @@ namespace Medicloud.Controllers
 			_patientCardServiceRelRepository = patientCardServiceRelRepository;
 		}
 		// GET: /<controller>/
-		public async Task<IActionResult> Index(string patientFullName,int patientID)
-        {
-            if (User.Identity.IsAuthenticated)
-            {
-                var userID = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "ID")?.Value ?? "0");
-                var organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
-                var userRoles = await _roleRepository.GetUserRoles(organizationID, userID);
-                var roles = userRoles.Select(r => r.id);
-                List<PatientDocDTO> response = new List<PatientDocDTO>();
-                if (roles.Contains(7))
-                {
-                    response = await _patientCardService.GetAllPatientsCards(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")), patientID);
-
-                    
-                   
-                    ViewBag.patientFullname = patientFullName;
-                }
-                else if (roles.Contains(4))
-                {
-                    response = await _patientCardService.GetAllPatientsCards(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")), patientID,userID);
-                    ViewBag.patientFullname = patientFullName;
-                }
-                return View(response);
-           
-            }
-            else
-            {
-                return RedirectToAction("Index", "Login");
-            }
-        }
+		public async Task<IActionResult> Index(string patientFullName, int patientID)
+		{
+			if (User.Identity.IsAuthenticated)
+			{
+				var userID = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "ID")?.Value ?? "0");
+				var organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
+				var userRoles = await _roleRepository.GetUserRoles(organizationID, userID);
+				var roles = userRoles.Select(r => r.id);
+				List<PatientDocDTO> response = new List<PatientDocDTO>();
+				if (roles.Contains(7))
+				{
+					response = await _patientCardService.GetAllPatientsCards(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")), patientID);
 
 
 
-        [HttpPost]
+					ViewBag.patientFullname = patientFullName;
+				}
+				else if (roles.Contains(4))
+				{
+					response = await _patientCardService.GetAllPatientsCards(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")), patientID, userID);
+					ViewBag.patientFullname = patientFullName;
+				}
+				return View(response);
 
-        public async Task<IActionResult> AddPrescription(int requestTypeID,long patientID,long cardID, int serviceID, string note)
-        {
-            if (User.Identity.IsAuthenticated)
-            {
-
-                try
-                {
-
-
-                    var userID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID"));
-                    var organizationID = Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID"));
-
-                    if (cardID==0)
-                    {
-                        cardID = patientCardRepo.CreatePatientCard(requestTypeID, userID, patientID, organizationID, serviceID,note:note);
-                    }
-
-                       
-                        var serviceInserted = await _patientCardServiceRelRepository.InsertServiceToPatientCard(cardID, serviceID, 0,0, userID,0);
-                        if (cardID == 0 || serviceInserted == false)
-                        {
-                            return BadRequest("Xəstə kartını daxil etmək mümkün olmadı.");
-                        }
-
-                   
-
-                    return Ok(cardID);
-                }
-                catch (Exception ex)
-                {
-                    // Handle the exception and return an appropriate response
-                    return StatusCode(StatusCodes.Status500InternalServerError, "Sorğunu emal edərkən xəta baş verdi.");
-                }
-            }
-            return Unauthorized();
-        }
+			}
+			else
+			{
+				return RedirectToAction("Index", "Login");
+			}
+		}
 
 
 
+		[HttpPost]
+
+		public async Task<IActionResult> AddPrescription(int requestTypeID, long patientID, long cardID, int serviceID, string note)
+		{
+			if (User.Identity.IsAuthenticated)
+			{
+
+				try
+				{
 
 
-    }
+					var userID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID"));
+					var organizationID = Convert.ToInt64(HttpContext.Session.GetString("Medicloud_organizationID"));
+
+					if (cardID == 0)
+					{
+						cardID = patientCardRepo.CreatePatientCard(requestTypeID, userID, patientID, organizationID, serviceID, note: note);
+					}
+
+
+					var serviceInserted = await _patientCardServiceRelRepository.InsertServiceToPatientCard(cardID, serviceID, 0, 0, userID, 0);
+					if (cardID == 0 || serviceInserted == false)
+					{
+						return BadRequest("Xəstə kartını daxil etmək mümkün olmadı.");
+					}
+
+
+
+					return Ok(cardID);
+				}
+				catch (Exception ex)
+				{
+					// Handle the exception and return an appropriate response
+					return StatusCode(StatusCodes.Status500InternalServerError, "Sorğunu emal edərkən xəta baş verdi.");
+				}
+			}
+			return Unauthorized();
+		}
+
+
+
+		[HttpGet]
+		public async Task<IActionResult> GetPresctiptionsByDate([FromQuery] DateTime date)
+		{
+
+			var userID = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "ID")?.Value ?? "0");
+			var organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
+			var userRoles = await _roleRepository.GetUserRoles(organizationID, userID);
+			var roles = userRoles.Select(r => r.id);
+
+			List<AppointmentViewModel> result = new List<AppointmentViewModel>();
+			//List<PatientCardDAO> result = new List<PatientCardDAO>();
+
+			if (roles.Contains(7) || roles.Contains(3))
+			{
+				result = await _patientCardService.GetCardsByDate(date, organizationID, 0);
+
+			}
+			else if (roles.Contains(4))
+			{
+				result = await _patientCardService.GetCardsByDate(date, organizationID, userID);
+			}
+
+
+			return Ok(result);
+
+		}
+
+
+
+		[HttpGet]
+		public async Task<IActionResult> GetCardsByRange([FromQuery] DateTime startDate, [FromQuery] DateTime endDate)
+		{
+			var userID = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "ID")?.Value ?? "0");
+			var organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
+			var userRoles = await _roleRepository.GetUserRoles(organizationID, userID);
+			var roles = userRoles.Select(r => r.id);
+
+			List<AppointmentViewModel> result = new List<AppointmentViewModel>();
+
+			if (roles.Contains(7) || roles.Contains(3))
+			{
+				result = await _patientCardService.GetCardsByRange(startDate, endDate, organizationID, 0);
+
+			}
+			else if (roles.Contains(4))
+			{
+				result = await _patientCardService.GetCardsByRange(startDate, endDate, organizationID, userID);
+			}
+
+
+			return Ok(result);
+		}
+
+	}
 }
 

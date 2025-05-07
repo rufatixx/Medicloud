@@ -1,4 +1,5 @@
-﻿using Medicloud.BLL.Services.Abstract;
+﻿using Medicloud.BLL.Models;
+using Medicloud.BLL.Services.Abstract;
 using Medicloud.DAL.Entities;
 using Medicloud.DAL.Infrastructure.Abstract;
 using Medicloud.DAL.Repository.PatientCard;
@@ -56,6 +57,20 @@ namespace Medicloud.BLL.Services.Concrete
 			using var con= _unitOfWork.BeginConnection();
 			var result=await _repository.GetPatientCardById(id);
 			return result;
+		}
+
+		public async Task<List<AppointmentViewModel>> GetCardsByRange(DateTime startDate, DateTime endDate, int organizationID, int userID)
+		{
+			using var con = _unitOfWork.BeginConnection();
+			var result = await _repository.GetCardsByRange(startDate,endDate,organizationID,userID);
+			return result;
+		}
+
+		public async Task<List<AppointmentViewModel>> GetCardsByDate(DateTime date, long organizationID, int doctorID = 0)
+		{
+			using var con = _unitOfWork.BeginConnection();
+			var result = await _repository.GetCardsByDate(date, organizationID, doctorID);
+			return result; ;
 		}
 	}
 }

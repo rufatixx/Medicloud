@@ -85,9 +85,9 @@
                                             <!-- Начало блока поиска -->
                                             <div class="app-search">
                                                 @*<form>*@
-                                                <div class="mb-2 w-100 position-relative">
-                                                    <input type="search" class="form-input" id="serviceSearch" placeholder="Axtar...">
-                                                    <span class="mdi mdi-magnify search-icon"></span>
+                                                <div class="d-flex align-items-center">
+                                                    <input type="search" class="form-control" id="serviceSearch" placeholder="Axtar...">
+                                                    @*<span class="ms-2 mdi mdi-magnify search-icon " style=""></span>*@
                                                 </div>
                                                 @*</form>*@
                                             </div>
@@ -114,30 +114,31 @@
 
                                     <div class="list-group rounded-0" id="servicesInGroup">
                                         @*@if (Model.Services != null)
-                            {
-                                foreach (var service in Model.Services)
-                                {
-                                    <li class="list-group-item list-group-item-action d-flex justify-content-between"
-                                        data-id="@service.ID"
-                                        data-name="@service.name"
-                                        data-price="@service.price"
-                                        data-code="@service.code"
-                                        data-servicetypeid="@service.serviceTypeID"
-                                        data-depid=""
-                                        data-servicegroupid="@service.serviceGroupID"
-                                        data-isactive="@service.isActive.ToString().ToLower()">
-                                        <div>@service.name</div>
-                                        <div>@(string.IsNullOrEmpty(service.code) ? "-" : service.code)</div>
-                                    </li>
-                                }
-                            }*@
+                {
+                    foreach (var service in Model.Services)
+                    {
+                        <li class="list-group-item list-group-item-action d-flex justify-content-between"
+                            data-id="@service.ID"
+                            data-name="@service.name"
+                            data-price="@service.price"
+                            data-code="@service.code"
+                            data-servicetypeid="@service.serviceTypeID"
+                            data-depid=""
+                            data-servicegroupid="@service.serviceGroupID"
+                            data-isactive="@service.isActive.ToString().ToLower()">
+                            <div>@service.name</div>
+                            <div>@(string.IsNullOrEmpty(service.code) ? "-" : service.code)</div>
+                        </li>
+                    }
+                }*@
                                     </div>
 
-                                    <div class="">
-                                        <input id="serviceIdInService" type="number" class="form-control d-none" required />
-                                        <div class="invalid-feedback">
-                                            Xidmət seçilməyib
-                                        </div>
+
+                                </div>
+                                <div class="">
+                                    <input id="serviceIdInService" type="number" class="form-control d-none" required />
+                                    <div class="invalid-feedback">
+                                        Xidmət seçilməyib
                                     </div>
                                 </div>
                             </div>
@@ -192,40 +193,40 @@
                             <!--</div>
                 </div>
             </div>-->
-                            <div class="card " style="max-height:30vh;">
-                                <ul class="nav nav-tabs nav-bordered" role="tablist">
-                                    <li class="nav-item" role="presentation">
-                                        @*<a data-bs-toggle="tab" class="nav-link active py-2" aria-selected="true" role="tab" onclick="settingsBoxClicked(1)">*@
-                                        <a data-bs-toggle="tab" class="nav-link active py-2" aria-selected="true" role="tab">
-                                            Həkimlər
-                                        </a>
-                                    </li>
-                                </ul>
-                                <div class="row p-2">
-                                    <div class="col-md-6 text-left">
-                                        <strong class="text-primary">ADI</strong>
-                                    </div>
-                                </div>
-                                <div class="card-body border-top overflow-auto  p-0">
-
-                                    <ul class="list-group rounded-0" id="docsInService">
-
-                                        @if (Model.Doctors != null)
-                                        {
-                                            @foreach (var item in Model.Doctors)
-                                            {
-                                                <li class="list-group-item doctor-item" data-item-id="@item.ID">@item.name @item.surname (@item.speciality.name)</li>
-                                            }
-                                        }
-                                    </ul>
-                                    <div class="">
-                                        <input id="doctorIdInService" type="number" class="form-control d-none" required />
-                                        <div class="invalid-feedback">
-                                            Həkim seçilməyib
-                                        </div>
-                                    </div>
+                        <div class="card " style="max-height:30vh;">
+                            <ul class="nav nav-tabs nav-bordered" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    @*<a data-bs-toggle="tab" class="nav-link active py-2" aria-selected="true" role="tab" onclick="settingsBoxClicked(1)">*@
+                                    <a data-bs-toggle="tab" class="nav-link active py-2" aria-selected="true" role="tab">
+                                        Həkimlər
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="row p-2">
+                                <div class="col-md-6 text-left">
+                                    <strong class="text-primary">ADI</strong>
                                 </div>
                             </div>
+                            <div class="card-body border-top overflow-auto  p-0">
+
+                                <ul class="list-group rounded-0" id="docsInService">
+
+                                    @if (Model.Doctors != null)
+                                    {
+                                        @foreach (var item in Model.Doctors)
+                                        {
+                                            <li class="list-group-item doctor-item" data-item-id="@item.ID">@item.name @item.surname (@item.speciality.name)</li>
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                            <div class="">
+                                <input id="doctorIdInService" type="number" class="form-control d-none" required />
+                                <div class="invalid-feedback">
+                                    Həkim seçilməyib
+                                </div>
+                            </div>
+                        </div>
 
                         </div>
 

@@ -49,7 +49,7 @@
         </div>
     </div>
 </div>
-@await Component.InvokeAsync("AppointmentModal")
+@*@await Component.InvokeAsync("AppointmentModal")*@
 
 @*@Html.Partial("_AppointmentModal")*@
 
@@ -104,10 +104,11 @@
             }
 
           function fetchAppointmentsForDay(dateStr) {
-            fetch(`@Url.Action("GetAppointmentByDate", "Appointments")/?date=${dateStr.toISOString()}`)
+            fetch(`@Url.Action("GetPresctiptionsByDate", "Prescriptions")/?date=${dateStr.toISOString()}`)
                 .then(response => response.json())
                 .then(appointments => {
                     if (appointments?.length > 0) {
+                        console.log(appointments)
                         const tableHead = document.getElementById('appointmentsTableHead');
                         const tableBody = document.getElementById('appointmentsTableBody');
 
@@ -151,11 +152,12 @@
                 const startDate = calendar.view.activeStart;
                 const endDate = calendar.view.activeEnd;
 
-                fetch(`@Url.Action("GetAppointmentsByRange", "Appointments")/?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`)
+                fetch(`@Url.Action("GetCardsByRange", "Prescriptions")/?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`)
                     .then(response => {
                         return response.json();
                     })
                     .then(data => {
+                        console.log(data)
                         const appointmentsCount = {};
                         data.forEach(appointment => {
                             const date = appointment.start_date.split('T')[0];

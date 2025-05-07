@@ -27,5 +27,8 @@ namespace Medicloud.Models
 		public bool isOnline { get; set; }
 		public int orgReasonId { get; set; }
 		public int companyID { get; set; }
+
+
+
 	}
 }
