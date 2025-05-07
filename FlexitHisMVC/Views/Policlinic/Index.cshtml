@@ -1,4 +1,5 @@
-﻿@model List<Medicloud.Models.PatientDocDTO>
+﻿@using Medicloud.ViewModels
+@model PoliclinicViewModel
 @{
     ViewData["Title"] = "Kabinetim";
 }
@@ -22,11 +23,11 @@
                 <h5 class="mb-0">Pasientlər</h5>
             </div>
             <div class="list-group list-group-flush" id="patientListGroup">
-                @if (Model != null && Model.Count > 0)
+                @if (Model.Patients != null && Model.Patients.Count > 0)
                 {
-                    foreach (var item in Model)
+                    foreach (var item in Model.Patients)
                     {
-                        <button type="button"
+                        <a href="@Url.Action("Index","Policlinic",new{id=item.patientCardID})"
                                 id="patientItem-@item.ID"
                                 class="list-group-item list-group-item-action patient-item d-flex align-items-center"
                                 onclick="showPatientDetails(@item.ID)">
@@ -35,7 +36,7 @@
                                  width="35" height="35"
                                  alt="Avatar" />
                             <span>@item.name @item.surname</span>
-                        </button>
+                        </a>
                     }
                 }
                 else
@@ -224,7 +225,7 @@
 
 @{
     // If zero patients, show "No Patients" modal automatically
-    if (Model == null || Model.Count == 0)
+    if (Model.Patients == null || Model.Patients.Count == 0)
     {
         <script>$(document).ready(function () {
                 $("#noPatientsModal").modal("show");

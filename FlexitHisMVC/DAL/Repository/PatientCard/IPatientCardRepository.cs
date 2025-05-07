@@ -12,5 +12,7 @@ namespace Medicloud.DAL.Repository.PatientCard
 		Task<PatientCardDAO> GetPatientCardById(int id);
 		Task<List<AppointmentViewModel>> GetCardsByRange(DateTime startDate, DateTime endDate, int organizationID, int userID);
 		Task<List<AppointmentViewModel>> GetCardsByDate(DateTime date, long organizationID, int doctorID = 0);
-	}
+		Task<List<PatientDocDTO>> GetPatientsWithCardsByDr(int docID, int orgID);
+
+    }
 }

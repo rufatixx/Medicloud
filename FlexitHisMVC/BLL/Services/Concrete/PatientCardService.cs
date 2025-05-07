@@ -72,5 +72,12 @@ namespace Medicloud.BLL.Services.Concrete
 			var result = await _repository.GetCardsByDate(date, organizationID, doctorID);
 			return result; ;
 		}
-	}
+
+        public async Task<List<PatientDocDTO>> GetPatientsWithCardsByDr(int docID, int orgID)
+        {
+            using var con = _unitOfWork.BeginConnection();
+            var result = await _repository.GetPatientsWithCardsByDr(docID, orgID);
+            return result; ;
+        }
+    }
 }

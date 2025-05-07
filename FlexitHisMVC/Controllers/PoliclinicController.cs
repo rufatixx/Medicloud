@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Medicloud.BLL.Services.Abstract;
 using Medicloud.Data;
 using Medicloud.Models;
 using Medicloud.Models.Domain;
 using Medicloud.Models.Repository;
 using Medicloud.Repository;
+using Medicloud.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,22 +22,31 @@ namespace Medicloud.Controllers
         private readonly string ConnectionString;
         public IConfiguration Configuration;
         private readonly IWebHostEnvironment _hostingEnvironment;
-        public PoliclinicController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
+        private readonly IPatientCardService _petientCardService;
+        public PoliclinicController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IPatientCardService petientCardService)
         {
             Configuration = configuration;
             ConnectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
             _hostingEnvironment = hostingEnvironment;
-
+            _petientCardService=petientCardService;
         }
         [Authorize]
         // GET: /<controller>/
-        public IActionResult Index()
+        public async Task<IActionResult> Index(int id = 0)
         {
-          
-                PatientCardRepo patientRequestDAO = new PatientCardRepo(ConnectionString);
-                var response = patientRequestDAO.GetPatientsByDr(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID")), Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")));
-                return View(response);
-          
+            int userId = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID"));
+            int organizationId = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
+            //PatientCardRepo patientRequestDAO = new PatientCardRepo(ConnectionString);
+            //var response = patientRequestDAO.GetPatientsByDr(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID")), Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")));
+            var response = await _petientCardService.GetPatientsWithCardsByDr(userId, organizationId);
+            Console.WriteLine(id);
+            var vm = new PoliclinicViewModel
+            {
+                Patients=response,
+                SelectedCardId=id
+            };
+            return View(vm);
+
             //return View();
         }
         [HttpGet]
@@ -153,7 +164,7 @@ namespace Medicloud.Controllers
                     videoFile.CopyTo(stream);
                 }
                 RecordingsRepo recordingsRepo = new RecordingsRepo(ConnectionString);
-                var recordingID = recordingsRepo.InsertIntoRecordings(fileName, Path.Combine(folderName, patientID.ToString(),fileName));
+                var recordingID = recordingsRepo.InsertIntoRecordings(fileName, Path.Combine(folderName, patientID.ToString(), fileName));
                 if (recordingID > 0)
                 {
                     PatientRecordRelRepo patientRecordRelRepo = new PatientRecordRelRepo(ConnectionString);

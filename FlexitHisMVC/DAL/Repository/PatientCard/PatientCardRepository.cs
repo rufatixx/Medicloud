@@ -3,6 +3,7 @@ using Medicloud.BLL.Models;
 using Medicloud.DAL.Entities;
 using Medicloud.DAL.Infrastructure.Abstract;
 using Medicloud.Models;
+using Medicloud.Models.Domain;
 using MySql.Data.MySqlClient;
 using System.Dynamic;
 using System.Text;
@@ -149,7 +150,7 @@ namespace Medicloud.DAL.Repository.PatientCard
 		public async Task<List<AppointmentViewModel>> GetCardsByRange(DateTime startDate, DateTime endDate, int organizationID, int userID)
 		{
 
-			string userFilter = userID > 0 ? "AND a.user_id = @userID" : string.Empty;
+			string userFilter = userID > 0 ? "AND pc.docID = @userID" : string.Empty;
 			string query = @$"
         SELECT 
             pc.id,
@@ -247,7 +248,25 @@ namespace Medicloud.DAL.Repository.PatientCard
 				return new();
 			}
 		}
-	}
+
+        public async Task<List<PatientDocDTO>> GetPatientsWithCardsByDr(int docID, int orgID)
+        {
+            //Console.WriteLine(docID);
+            //Console.WriteLine(orgID);
+			string query = $@"SELECT a.id as patientCardID, a.patientID as id, a.serviceID,a.note, p.name, p.surname, p.father,p.clientPhone,p.bDate,p.genderID,p.fin
+FROM patient_card a
+INNER JOIN patients p ON a.patientID = p.id
+WHERE a.docID = @docID and a.organizationID = @orgID AND a.finished=0
+GROUP BY a.patientID
+ORDER BY a.startDate DESC
+ ;
+            ";
+
+            using var con = _unitOfWork.GetConnection();
+			var result = await con.QueryAsync<PatientDocDTO>(query, new { docID = docID, orgID = orgID });
+			return	result.ToList();
+        }
+    }
 }
 
 

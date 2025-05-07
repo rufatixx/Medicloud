@@ -503,7 +503,7 @@ WHERE uhr.userID = @userID and pc.patientID = @patientID and finished= 0 GROUP B
                     using (MySqlCommand com = new MySqlCommand($@"SELECT a.id, a.patientID, a.serviceID,a.note, p.name, p.surname, p.father,p.clientPhone,p.bDate,p.genderID,p.fin
 FROM patient_card a
 INNER JOIN patients p ON a.patientID = p.id
-WHERE a.docID = @docID and a.organizationID = @orgID
+WHERE a.docID = @docID and a.organizationID = @orgID AND a.finished =0
 GROUP BY a.patientID
  ;", connection))
                     {
