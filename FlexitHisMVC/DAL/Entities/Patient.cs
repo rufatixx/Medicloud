@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Medicloud.DAL.Entities;
+using System;
 namespace Medicloud.Models.Domain
 {
 	public class Patient
@@ -13,6 +14,7 @@ namespace Medicloud.Models.Domain
         public string fin { get; set; }
         public DateTime bDate { get; set; }
 		public int orgReasonId { get; set; }
+
 	}
 }
 

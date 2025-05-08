@@ -55,5 +55,55 @@ namespace Medicloud.DAL.Repository.Patient
 		{
 			throw new NotImplementedException();
 		}
+
+		public async Task<List<PatientDAO>> GetPatientsWithCardsByDr(int docID, int orgID)
+		{
+			//Console.WriteLine(docID);
+			//Console.WriteLine(orgID);
+			string query = $@"SELECT 
+    p.id,
+    p.name,
+    p.surname,
+    p.father,
+    p.clientPhone,
+    p.bDate,
+    p.genderID,
+    p.fin,
+    a.id AS PatientCardID,
+	a.id,
+    a.serviceID,
+    a.startDate,
+    a.docID
+FROM 
+    patients p
+INNER JOIN 
+    patient_card a ON p.id = a.patientID
+WHERE 
+    a.docID = @docID 
+    AND a.organizationID = @orgID 
+    AND a.finished = 0
+ORDER BY 
+     a.startDate DESC;
+ ;
+            ";
+
+			var con = _unitOfWork.GetConnection();
+			//var result =  con.Query<PatientDocDTO>(query, new { docID = docID, orgID = orgID });
+			//return result.ToList();
+
+			var patients = await con.QueryAsync<PatientDAO, PatientCardDAO, PatientDAO>(
+				query,
+				(patient, card) =>
+				{
+					patient.Cards = new();
+					patient.Cards.Add(card);
+					return patient;
+				},
+				new { docID, orgID },
+				splitOn: "PatientCardID"
+			);
+
+			return patients.ToList();
+		}
 	}
 }

@@ -4,11 +4,15 @@ using Medicloud.BLL.Service.Communication;
 using Medicloud.BLL.Service.Organization;
 using Medicloud.BLL.Services;
 using Medicloud.BLL.Services.Abstract;
+using Medicloud.BLL.Services.Anamnesis;
 using Medicloud.BLL.Services.Concrete;
+using Medicloud.BLL.Services.Patient;
 using Medicloud.BLL.Services.WorkHour;
 using Medicloud.DAL.Infrastructure.Abstract;
 using Medicloud.DAL.Infrastructure.Concrete;
 using Medicloud.DAL.Repository.Abstract;
+using Medicloud.DAL.Repository.Anamnesis;
+using Medicloud.DAL.Repository.AnamnesisTemplate;
 using Medicloud.DAL.Repository.Concrete;
 using Medicloud.DAL.Repository.Kassa;
 using Medicloud.DAL.Repository.Organization;
@@ -117,6 +121,10 @@ builder.Services.AddScoped<IWorkHourService, WorkHourService>();
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 builder.Services.AddScoped<IServiceGroupRepository, ServiceGroupRepository>();
 builder.Services.AddScoped<IOrganizationReasonsRepository, OrganizationReasonsRepository>();
+builder.Services.AddScoped<IPatientService, NPatientService>();
+builder.Services.AddScoped<IAnamnesisRepository, AnamnesisRepository>();
+builder.Services.AddScoped<IAnamnesisTemplateRepository, AnamnesisTemplateRepository>();
+builder.Services.AddScoped<IAnamnesisService, AnamnesisService>();
 
 
 var app = builder.Build();

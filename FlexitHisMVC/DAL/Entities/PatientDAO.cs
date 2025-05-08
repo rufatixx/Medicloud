@@ -14,5 +14,6 @@
 		public string fin { get; set; }
 		public string bDate { get; set; }
 		public int orgReasonId { get; set; }
+		public List<PatientCardDAO> Cards { get; set; }
 	}
 }
