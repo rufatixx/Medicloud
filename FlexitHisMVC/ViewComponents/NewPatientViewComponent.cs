@@ -13,14 +13,15 @@ namespace Medicloud.ViewComponents
 			_organizationReasonsRepository = organizationReasonsRepository;
 		}
 
-		public async Task<IViewComponentResult> InvokeAsync()
+		public async Task<IViewComponentResult> InvokeAsync(bool hasHeader=true)
 		{
 			int organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
 
 			var orgReasons = await _organizationReasonsRepository.GetByOrganizationId(organizationID, true);
 			var vm = new NewPatientViewModel
 			{
-				OrgReasons = orgReasons
+				OrgReasons = orgReasons,
+				HasHeader = hasHeader
 			};
 			return View(vm);
 		}

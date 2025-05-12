@@ -4,6 +4,7 @@ namespace Medicloud.BLL.Models
 {
 	public class AddAnamnesisDTO
 	{
+		public int id { get; set; }
 		public List<AnamnesisAnswerDAO> Fields {  get; set; }
 		public int CardId { get; set; }
 		public int DoctorId { get; set; }

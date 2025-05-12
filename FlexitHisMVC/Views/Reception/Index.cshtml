@@ -278,7 +278,7 @@
                             $patientCardsDropdown.empty();
 
                             // Populate options based on the response
-                            $patientCardsDropdown.append($("<option />").val("").text(`Yeni Kart`));
+                            $patientCardsDropdown.append($("<option />").val("").text(`Yeni Növbə`));
                             console.log(response)
                             response.forEach(function (item) {
                                 $patientCardsDropdown.append($("<option />").val(item.cardID).text(`${item.cDate}`));

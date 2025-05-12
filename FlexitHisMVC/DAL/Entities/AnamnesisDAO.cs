@@ -8,5 +8,6 @@
 		public DateTime createDate { get; set; }
 		public bool isActive { get; set; }
 		public List<AnamnesisAnswerDAO> AnamnesisAnswers { get; set; }
+		public UserDAO Doctor { get; set; }
 	}
 }

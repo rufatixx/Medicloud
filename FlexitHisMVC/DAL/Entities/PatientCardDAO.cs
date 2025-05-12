@@ -21,5 +21,6 @@ namespace Medicloud.DAL.Entities
 		public DateTime? endDate { get; set; }
 		public bool isOnline { get; set; }
 		public int companyID { get; set; }
+		public bool isActive { get; set; }
 	}
 }

@@ -73,5 +73,10 @@ namespace Medicloud.BLL.Services.Concrete
 			return result; ;
 		}
 
-    }
+		public async Task<bool> RemoveAsync(int id)
+		{
+			using var con = _unitOfWork.BeginConnection();
+			return await _repository.RemoveAsync(id);
+		}
+	}
 }

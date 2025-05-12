@@ -4,7 +4,7 @@ using Medicloud.DAL.Infrastructure.Abstract;
 
 namespace Medicloud.DAL.Repository.Patient
 {
-	public class PatientRepository:IPatientRepository
+	public class PatientRepository : IPatientRepository
 	{
 		private readonly IUnitOfWork _unitOfWork;
 
@@ -82,6 +82,7 @@ WHERE
     a.docID = @docID 
     AND a.organizationID = @orgID 
     AND a.finished = 0
+	AND a.isActive=1
 ORDER BY 
      a.startDate DESC;
  ;
@@ -104,6 +105,26 @@ ORDER BY
 			);
 
 			return patients.ToList();
+		}
+
+		public async Task<int> UpdateAsync(PatientDAO patientDAO)
+		{
+			string sql = $@"
+			UPDATE patients SET 
+            name = @{nameof(PatientDAO.name)},
+            surname=@{nameof(PatientDAO.surname)},
+            father=@{nameof(PatientDAO.father)},
+            clientPhone=@{nameof(PatientDAO.clientPhone)},
+            bDate=@{nameof(PatientDAO.bDate)},
+            genderID=@{nameof(PatientDAO.genderID)},
+            fin=@{nameof(PatientDAO.fin)},
+            email=@{nameof(PatientDAO.clientEmail)},
+            orgReasonId=@{nameof(PatientDAO.orgReasonId)} 
+			WHERE id=@{nameof(PatientDAO.id)};";
+			var con = _unitOfWork.BeginConnection();
+
+			var newId = await con.ExecuteAsync(sql, patientDAO);
+			return newId;
 		}
 	}
 }

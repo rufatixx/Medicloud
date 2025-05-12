@@ -12,7 +12,7 @@
                 <a href="javascript:window.print()">
                     <button type="button" class="btn btn-primary w-md bg-blue-light radius-10"><i class="ri-printer-line"></i>Çap et</button>
                 </a>
-                <button type="button" class="btn btn-primary" onclick="showClientModal()">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#customerInfoModal">
                     + Yeni pasient / müştəri
                 </button>
             </div>
@@ -39,7 +39,7 @@
                                         <th class="text-muted" rowspan="1" colspan="1" style="width: 199px;">Mobil Nömrə</th>
                                         <th class="text-muted" rowspan="1" colspan="1" style="width: 231px;">Cins</th>
                                         <th class="text-muted" rowspan="1" colspan="1" style="width: 231px;">Yaş</th>
-                                        <th class="text-muted" rowspan="1" colspan="1" style="width: 231px;">Müayinə Kartları</th>
+                                        <th class="text-muted" rowspan="1" colspan="1" style="width: 231px;">Növbələr</th>
                                         @*<th class="text-muted" rowspan="1" colspan="1" style="width: 175px;">Seçin</th>*@
                                     </tr>
                                 </thead>
@@ -79,7 +79,7 @@
                                                 }
                                                 <td onclick="event.stopPropagation()">
                                                     <a href="@Url.Action("Index", "Prescriptions", new { area = "", patientFullName = $"{item.name} {item.surname}", patientID = item.ID })">
-                                                     aktiv kart sayı: @item.totalCardNumbers
+                                                        aktiv növbə sayı: @item.totalCardNumbers
                                                     </a>
                                                 </td>
                                                 @*<td style="float: right">
@@ -123,270 +123,354 @@
                 <h4 class="modal-title" id="customerInfoModalLabel">Müştəri məlumatları</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <form class="needs-validation" novalidate>
-                    <div class="form-group mb-3">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label class="form-label">Ad</label>
-                                <input type="text" class="form-control" required id="name" placeholder="Ad">
-                                <div class="invalid-feedback">Adı daxil edin.</div>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label">Soyad</label>
-                                <input type="text" class="form-control" required id="surname" placeholder="Soyad">
-                                <div class="invalid-feedback">Soyadı daxil edin.</div>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label">Ata adı</label>
-                                <input type="text" class="form-control" required id="father" placeholder="Ata adı">
-                                <div class="invalid-feedback">Ata adını daxil edin.</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group mb-3">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label class="form-label">Cins</label>
-                                <select class="form-control" required id="gender">
-                                    <option value="" disabled selected>Seçin...</option>
-                                    <option value="1">Kişi</option>
-                                    <option value="2">Qadın</option>
-                                </select>
-                                <div class="invalid-feedback">Cinsi seçin.</div>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label">Əlaqə nömrəsi</label>
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text" id="basic-addon1">+994</span>
-                                    <input type="tel" class="form-control" placeholder="51XXXXXXX" id="clientPhone" maxlength="9" required>
-                                    <div class="invalid-feedback">Əlaqə nömrəni daxil edin.</div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label">ŞV Fin</label>
-                                <input type="text" class="form-control" required id="fin" placeholder="Şəxsiyyət vəsiqəsinin fin kodu">
-                                <div class="invalid-feedback">FIN kodu daxil edin.</div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3">
-                                <label class="form-label">Doğum tarixi:</label>
-                                <input class="form-control" type="date" id="bDate" name="meeting-time" value="2018-06-12T19:30" required>
-                                <div class="invalid-feedback">Doğum tarixini daxil edin.</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" id="addClientBtn" onclick="AddPatient()">Əlavə et</button>
-                        <button type="button" class="btn btn-warning" id="updateClientBtn" onclick="UpdatePatient()">Yenilə</button>
-                    </div>
-                </form>
-            </div>
+            <form id="addPatientForm" data-action="add" novalidate>
+                <div class="modal-body p-0">
+
+                    @await Component.InvokeAsync("NewPatient", new { hasHeader = false })
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" id="addClientBtn">Əlavə et</button>
+                    @*<button type="button" class="btn btn-warning" id="updateClientBtn" onclick="UpdatePatient()">Yenilə</button>*@
+                </div>
+            </form>
+
         </div>
     </div>
 </div>
 @section Scripts{
+
     <script>
-        var selectedClientID = 0;
-        $('.client-row').on('click', function () {
+       document.addEventListener('DOMContentLoaded', function (){
+           const $form = $('#addPatientForm');
+           var selectedClientID = 0;
+           $form.on('submit', function (e) {
+               e.preventDefault();
 
-            const client = $(this).data('client');
+               if (!$form[0].checkValidity()) {
+                   $form.addClass('was-validated');
+                   return;
+               }
+               else {
+
+                   let data = {
+                       name: $('#name').val(),
+                       surname: $('#surname').val(),
+                       father: $('#father').val(),
+                       clientPhone: $('#clientPhone').val(),
+                       clientEmail: $('#clientEmail').val(),
+                       genderID: parseInt($('#gender').val()),
+                       fin: $("#fin").val(),
+                       birthDate: $('#bDate').val(),
+                       orgReasonId: parseInt($("#orgReason").val() || 0, 10),
+
+                   }
 
 
-            $('#name').val(client.name);
-            $('#surname').val(client.surname);
-            $('#father').val(client.father);
-            $('#gender').val(client.genderID);
-            $('#clientPhone').val(client.phone);
-            $('#fin').val(client.fin);
+                   let action = $form.data('action');
+                   console.log(data)
 
-            $('#bDate').val(client.bDate.split('T')[0]);
+                   //console.log(action)
+                   //return;
+                   if (action === 'add') {
+                       showLoading();
+                       $.ajax({
+                           type: 'POST',
+                           url: `@Url.Action("AddClient", "Clients")`,
+                           contentType: 'application/json',
+                           data: JSON.stringify(data),
+                           success: function (data) {
+                               if (data > 0) {
+                                   window.location.reload();
+                               }
+                           },
+                           error: function (jqXhr, textStatus, errorMessage) {
+                               hideLoading();
+                               if (jqXhr.status == 401) {
+                                   localStorage.clear();
+                                   $('#systemModalTitle').text("Sessiyanız başa çatıb");
+                                   $('#systemModalText').html(`<p id="systemModalText">Zəhmət olmasa yenidən giriş edin</p>`);
+                                   $('#systemModalBtn').removeAttr("hidden");
+                               }
+                               else {
 
-            selectedClientID = client.id;
+                                   $('#warningModal').modal("show");
+                                   $('#warningText').text(jqXhr.responseText);
+                               }
+                           }
+                       });
+                   }
+                   else if (action === 'update') {
+                       data.id = selectedClientID;
+                       showLoading();
+                       $.ajax({
+                           type: 'POST',
+                           url: `@Url.Action("UpdateClient", "Clients")`,
+                           contentType: 'application/json',
+                           data: JSON.stringify(data),
+                           success: function (data) {
+                               if (data > 0) {
+                                   window.location.reload();
+                               }
+                           },
+                           error: function (jqXhr, textStatus, errorMessage) {
+                               hideLoading();
+                               if (jqXhr.status == 401) {
+                                   localStorage.clear();
+                                   $('#systemModalTitle').text("Sessiyanız başa çatıb");
+                                   $('#systemModalText').html(`<p id="systemModalText">Zəhmət olmasa yenidən giriş edin</p>`);
+                                   $('#systemModalBtn').removeAttr("hidden");
+                               }
+                               else {
+
+                                   $('#warningModal').modal("show");
+                                   $('#warningText').text(jqXhr.responseText);
+                               }
+                           }
+                       });
+                   }
 
 
-            $('#updateClientBtn').show()
-            $('#addClientBtn').hide()
+               }
 
-            $('#customerInfoModal').modal('show');
-        });
+           })
+
+
+           $('#customerInfoModal').on('hidden.bs.modal', function () {
+               $form[0].reset();
+               $form.removeClass('was-validated');
+               $form.data('action', 'add');
+               $('#addClientBtn').text('Əlavə et').removeClass('btn-warning').addClass('btn-primary')
+
+           });
+
+           $('.client-row').on('click', function () {
+
+               const client = $(this).data('client');
+
+
+               $('#name').val(client.name);
+               $('#surname').val(client.surname);
+               $('#father').val(client.father);
+               $('#gender').val(client.genderID);
+               $('#clientPhone').val(client.phone);
+               $('#fin').val(client.fin);
+               $('#bDate').val(client.bDate.split('T')[0]);
+               $("#clientEmail").val(client.email);
+               $("#orgReason").val(client.orgReasonId > 0 ? client.orgReasonId : '');
+
+
+               selectedClientID = client.id;
+
+               $('#addClientBtn').text('Yenilə').removeClass('btn-primary').addClass('btn-warning')
+               $form.data('action', 'update');
+               $('#customerInfoModal').modal('show');
+           });
+
+       })
     </script>
 
-<script>
+    @*<script>
 
-    function showClientModal() {
+                $('.client-row').on('click', function () {
 
-        $('#name').val("");
-        $('#surname').val("");
-        $('#father').val("");
-        $('#gender').val("");
-        $('#clientPhone').val("");
-        $('#fin').val("");
-
-        $('#bDate').val("");
+                    const client = $(this).data('client');
 
 
-        $('#updateClientBtn').hide()
-        $('#addClientBtn').show()
+                    $('#name').val(client.name);
+                    $('#surname').val(client.surname);
+                    $('#father').val(client.father);
+                    $('#gender').val(client.genderID);
+                    $('#clientPhone').val(client.phone);
+                    $('#fin').val(client.fin);
 
-        $('#customerInfoModal').modal('show');
-    }
+                    $('#bDate').val(client.bDate.split('T')[0]);
 
-</script>
-    <script>function AddPatient() {
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            var forms = document.getElementsByClassName('needs-validation');
-            // Loop over them and prevent submission
-            var validation = Array.prototype.filter.call(forms, function (form) {
-                if (form.checkValidity() === false) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-                form.classList.add('was-validated');
-            });
-
-            if (forms[0].checkValidity()) {
-
-                var name = $('#name').val();
-                var surname = $('#surname').val();
-                var father = $('#father').val();
-                var phone = $('#clientPhone').val();
-                var genderID = $('#gender').val();
-                var bDate = $('#bDate').val();
-                var fin = $("#fin").val();
-
-                var date = new Date(bDate);
-                var isoBdate = date.toISOString();
-
-                showLoading();
-
-                $.ajax({
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    type: 'POST',
-                    url: `@Url.Action("AddClient", "Clients")`,
-                    data: JSON.stringify({
-                        "name": name,
-                        "surname": surname,
-                        "father": father,
-                        "clientPhone": phone,
-                        "genderID": parseInt(genderID),
-                        "fin": fin,
-                        "birthDate": bDate,
-
-                    }),
-                    success: function (data, status, xhr) {
-
-                        if (data > 0) {
-
-                            location.reload();
-
-                            window.addEventListener('beforeunload', hideLoading);
-
-                        }
-                        else {
-                            hideLoading();
-                            $('#warningModal').modal("show");
-                            $('#warningText').text('Xəta baş verdi, zəhmət olmasa biraz sonra yenidən cəht edin');
-                        }
+                    selectedClientID = client.id;
 
 
-                    },
-                    error: function (jqXhr, textStatus, errorMessage) {
-                        hideLoading();
-                        if (jqXhr.status == 401) {
-                            localStorage.clear();
-                            $('#systemModalTitle').text("Sessiyanız başa çatıb");
-                            $('#systemModalText').html(`<p id="systemModalText">Zəhmət olmasa yenidən giriş edin</p>`);
-                            $('#systemModalBtn').removeAttr("hidden");
-                        }
-                        else {
+                    $('#updateClientBtn').show()
+                    $('#addClientBtn').hide()
 
-                            $('#warningModal').modal("show");
-                            $('#warningText').text(jqXhr.responseText);
-                        }
-                    }
+                    $('#customerInfoModal').modal('show');
                 });
-            }
-        }</script>
-    <script>function UpdatePatient() {
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            var forms = document.getElementsByClassName('needs-validation');
-            // Loop over them and prevent submission
-            var validation = Array.prototype.filter.call(forms, function (form) {
-                if (form.checkValidity() === false) {
-                    event.preventDefault();
-                    event.stopPropagation();
+            </script>
+
+            <script>
+
+                function showClientModal() {
+
+                    $('#name').val("");
+                    $('#surname').val("");
+                    $('#father').val("");
+                    $('#gender').val("");
+                    $('#clientPhone').val("");
+                    $('#fin').val("");
+
+                    $('#bDate').val("");
+
+
+                    $('#updateClientBtn').hide()
+                    $('#addClientBtn').show()
+
+                    $('#customerInfoModal').modal('show');
                 }
-                form.classList.add('was-validated');
-            });
 
-            if (forms[0].checkValidity()) {
-
-                var name = $('#name').val();
-                var surname = $('#surname').val();
-                var father = $('#father').val();
-                var phone = $('#clientPhone').val();
-                var genderID = $('#gender').val();
-                var bDate = $('#bDate').val();
-                var fin = $("#fin").val();
-
-                var date = new Date(bDate);
-                var isoBdate = date.toISOString();
-
-                showLoading();
-
-                $.ajax({
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    type: 'POST',
-                    url: `@Url.Action("UpdateClient", "Clients")`,
-                    data: JSON.stringify({
-                        "id": selectedClientID,
-                        "name": name,
-                        "surname": surname,
-                        "father": father,
-                        "clientPhone": phone,
-                        "genderID": parseInt(genderID),
-                        "fin": fin,
-                        "birthDate": bDate,
-
-                    }),
-                    success: function (data, status, xhr) {
-
-                        if (data > 0) {
-
-                            location.reload();
-
-                            window.addEventListener('beforeunload', hideLoading);
-
+            </script>
+            <script>
+        function AddPatient() {
+                    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                    var forms = document.getElementsByClassName('needs-validation');
+                    // Loop over them and prevent submission
+                    var validation = Array.prototype.filter.call(forms, function (form) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
                         }
-                        else {
-                            hideLoading();
-                            $('#warningModal').modal("show");
-                            $('#warningText').text('Xəta baş verdi, zəhmət olmasa biraz sonra yenidən cəht edin');
-                        }
+                        form.classList.add('was-validated');
+                    });
+
+                    if (forms[0].checkValidity()) {
+
+                        var name = $('#name').val();
+                        var surname = $('#surname').val();
+                        var father = $('#father').val();
+                        var phone = $('#clientPhone').val();
+                        var genderID = $('#gender').val();
+                        var bDate = $('#bDate').val();
+                        var fin = $("#fin").val();
+
+                        var date = new Date(bDate);
+                        var isoBdate = date.toISOString();
+
+                        showLoading();
+
+                        $.ajax({
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            type: 'POST',
+                            url: `@Url.Action("AddClient", "Clients")`,
+                            data: JSON.stringify({
+                                "name": name,
+                                "surname": surname,
+                                "father": father,
+                                "clientPhone": phone,
+                                "genderID": parseInt(genderID),
+                                "fin": fin,
+                                "birthDate": bDate,
+
+                            }),
+                            success: function (data, status, xhr) {
+
+                                if (data > 0) {
+
+                                    location.reload();
+
+                                    window.addEventListener('beforeunload', hideLoading);
+
+                                }
+                                else {
+                                    hideLoading();
+                                    $('#warningModal').modal("show");
+                                    $('#warningText').text('Xəta baş verdi, zəhmət olmasa biraz sonra yenidən cəht edin');
+                                }
 
 
-                    },
-                    error: function (jqXhr, textStatus, errorMessage) {
-                        hideLoading();
-                        if (jqXhr.status == 401) {
-                            localStorage.clear();
-                            $('#systemModalTitle').text("Sessiyanız başa çatıb");
-                            $('#systemModalText').html(`<p id="systemModalText">Zəhmət olmasa yenidən giriş edin</p>`);
-                            $('#systemModalBtn').removeAttr("hidden");
-                        }
-                        else {
+                            },
+                            error: function (jqXhr, textStatus, errorMessage) {
+                                hideLoading();
+                                if (jqXhr.status == 401) {
+                                    localStorage.clear();
+                                    $('#systemModalTitle').text("Sessiyanız başa çatıb");
+                                    $('#systemModalText').html(`<p id="systemModalText">Zəhmət olmasa yenidən giriş edin</p>`);
+                                    $('#systemModalBtn').removeAttr("hidden");
+                                }
+                                else {
 
-                            $('#warningModal').modal("show");
-                            $('#warningText').text(jqXhr.responseText);
-                        }
+                                    $('#warningModal').modal("show");
+                                    $('#warningText').text(jqXhr.responseText);
+                                }
+                            }
+                        });
                     }
-                });
-            }
-        }</script>
+                }</script>
+            <script>
+        function UpdatePatient() {
+                    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                    var forms = document.getElementsByClassName('needs-validation');
+                    // Loop over them and prevent submission
+                    var validation = Array.prototype.filter.call(forms, function (form) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    });
+
+                    if (forms[0].checkValidity()) {
+
+                        var name = $('#name').val();
+                        var surname = $('#surname').val();
+                        var father = $('#father').val();
+                        var phone = $('#clientPhone').val();
+                        var genderID = $('#gender').val();
+                        var bDate = $('#bDate').val();
+                        var fin = $("#fin").val();
+
+                        var date = new Date(bDate);
+                        var isoBdate = date.toISOString();
+
+                        showLoading();
+
+                        $.ajax({
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            type: 'POST',
+                            url: `@Url.Action("UpdateClient", "Clients")`,
+                            data: JSON.stringify({
+                                "id": selectedClientID,
+                                "name": name,
+                                "surname": surname,
+                                "father": father,
+                                "clientPhone": phone,
+                                "genderID": parseInt(genderID),
+                                "fin": fin,
+                                "birthDate": bDate,
+
+                            }),
+                            success: function (data, status, xhr) {
+
+                                if (data > 0) {
+
+                                    location.reload();
+
+                                    window.addEventListener('beforeunload', hideLoading);
+
+                                }
+                                else {
+                                    hideLoading();
+                                    $('#warningModal').modal("show");
+                                    $('#warningText').text('Xəta baş verdi, zəhmət olmasa biraz sonra yenidən cəht edin');
+                                }
+
+
+                            },
+                            error: function (jqXhr, textStatus, errorMessage) {
+                                hideLoading();
+                                if (jqXhr.status == 401) {
+                                    localStorage.clear();
+                                    $('#systemModalTitle').text("Sessiyanız başa çatıb");
+                                    $('#systemModalText').html(`<p id="systemModalText">Zəhmət olmasa yenidən giriş edin</p>`);
+                                    $('#systemModalBtn').removeAttr("hidden");
+                                }
+                                else {
+
+                                    $('#warningModal').modal("show");
+                                    $('#warningText').text(jqXhr.responseText);
+                                }
+                            }
+                        });
+                    }
+                }</script>*@
 }

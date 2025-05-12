@@ -23,15 +23,15 @@
                 @if (ViewBag.cardID > 0)
                 {
                     <a class="btn btn-primary" href="@Url.Action("Recipe", "Reception",new {cardID = ViewBag.cardID  })">Ödəniş çeki</a>
-                    <button type="button" class="btn btn-primary" onclick="showAddServiceModal()">
+                    @*<button type="button" class="btn btn-primary" onclick="showAddServiceModal()">
                         + Yeni xidmət
-                    </button>
+                    </button>*@
 
                 }
 
             </div>
             @{
-                var title = ViewBag.cardID > 0 ? $"Müayinə kartı № {ViewBag.cardID}" : "Müayinələr";
+                var title = ViewBag.cardID > 0 ? $"Növbə № {ViewBag.cardID}" : "Müayinələr";
             }
 
             <h2 class="page-title">@title</h2>
@@ -59,7 +59,7 @@
 
                                         @if (ViewBag.cardID==0)
                                         {
-                                            <th class="text-muted" rowspan="1" colspan="1" style="width: 231px;">Kart nömrəsi</th>
+                                            <th class="text-muted" rowspan="1" colspan="1" style="width: 231px;">Növbə nömrəsi</th>
                                         }
 
                                         @*<th class="text-muted" rowspan="1" colspan="1" style="width: 175px;">Seçin</th>*@
@@ -75,7 +75,7 @@
                                             <tr class="service-row" data-service='@Html.Raw(Json.Serialize(item))' style="cursor:pointer">
                                                 <th class="text-muted dtr-control" tabindex="0">@rowNumber</th>
                                                 <td>@item.patientName @item.patientSurname</td>
-                                                <td>@item.cDate.ToString("dd.MM.yyyy")</td>
+                                                <td>@item.cDate.ToString("dd.MM.yyyy HH:mm")</td>
 
 
                                                 <td>

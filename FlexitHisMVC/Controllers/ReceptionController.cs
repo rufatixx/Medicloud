@@ -1,10 +1,13 @@
-﻿using Medicloud.BLL.Services;
+﻿using Medicloud.BLL.Models;
+using Medicloud.BLL.Service;
+using Medicloud.BLL.Services;
 using Medicloud.BLL.Services.Abstract;
 using Medicloud.DAL.Entities;
 using Medicloud.DAL.Repository;
 using Medicloud.DAL.Repository.Abstract;
 using Medicloud.DAL.Repository.Patient;
 using Medicloud.DAL.Repository.PatientCard;
+using Medicloud.DAL.Repository.Role;
 using Medicloud.Data;
 using Medicloud.Models;
 using Medicloud.Models.Repository;
@@ -32,8 +35,8 @@ namespace Medicloud.Controllers
 		private readonly IPatientRepository _patientRepository;
 		private readonly DepartmentsRepo _departmentsRepo;
 		private readonly IPatientCardService _patientCardService;
-
-		public ReceptionController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IUserService userService, IServicePriceGroupRepository servicePriceGroupRepository, IPatientCardServiceRelRepository patientCardServiceRelRepository, IPatientCardRepository patientCardRepository, IPatientRepository patientRepository, IPatientCardService patientCardService)
+		private readonly IRoleRepository _roleRepository;
+		public ReceptionController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IUserService userService, IServicePriceGroupRepository servicePriceGroupRepository, IPatientCardServiceRelRepository patientCardServiceRelRepository, IPatientCardRepository patientCardRepository, IPatientRepository patientRepository, IPatientCardService patientCardService, IRoleRepository roleRepository)
 		{
 			Configuration = configuration;
 			ConnectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
@@ -48,6 +51,7 @@ namespace Medicloud.Controllers
 			_patientRepository = patientRepository;
 			_departmentsRepo = new DepartmentsRepo(ConnectionString);
 			_patientCardService = patientCardService;
+			_roleRepository = roleRepository;
 		}
 		// GET: /<controller>/
 		public async Task<IActionResult> Index()
@@ -60,6 +64,17 @@ namespace Medicloud.Controllers
 				var userID = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "ID")?.Value ?? "0");
 				var organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
 				var doctors = await _userService.GetDoctorUsersByOrganization(organizationID);
+				var userRoles = await _roleRepository.GetUserRoles(organizationID, userID);
+				var roles = userRoles.Select(r => r.id);
+
+				List<AppointmentViewModel> result = new List<AppointmentViewModel>();
+
+				if (!roles.Contains(7) && !roles.Contains(3) && roles.Contains(4))
+				{
+					doctors = doctors.Where(d => d.ID == userID).ToList();
+
+				}
+
 
 
 				var vm = new ReceptionViewModel
@@ -231,6 +246,7 @@ namespace Medicloud.Controllers
                         endDate =newPatient.selectedDate.Date + newPatient.endTime,
 						isOnline=newPatient.isOnline,
 						companyID = newPatient.companyID,
+						isActive=true
 					};
 					if(newPatient.id>0)
 					{

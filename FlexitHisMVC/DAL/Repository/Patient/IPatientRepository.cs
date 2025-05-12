@@ -6,6 +6,7 @@ namespace Medicloud.DAL.Repository.Patient
 	public interface IPatientRepository
 	{
 		Task<int>AddAsync(PatientDAO patientDAO);
+		Task<int>UpdateAsync(PatientDAO patientDAO);
 		Task<PatientDAO> GetByIdAsync(int id);
 		Task<List<PatientDAO>> GetPatientsWithCardsByDr(int docID, int orgID);
 

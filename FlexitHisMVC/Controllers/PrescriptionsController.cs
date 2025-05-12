@@ -32,6 +32,7 @@ namespace Medicloud.Controllers
 		private readonly IPatientCardService _patientCardService;
 		private readonly IRoleRepository _roleRepository;
 		private readonly IPatientCardServiceRelRepository _patientCardServiceRelRepository;
+
 		public PrescriptionsController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IRoleRepository roleRepository, IPatientCardService patientCardService, IServicePriceGroupRepository servicePriceGroupRepository, IPatientCardServiceRelRepository patientCardServiceRelRepository)
 		{
 			Configuration = configuration;
@@ -57,7 +58,7 @@ namespace Medicloud.Controllers
 				var userRoles = await _roleRepository.GetUserRoles(organizationID, userID);
 				var roles = userRoles.Select(r => r.id);
 				List<PatientDocDTO> response = new List<PatientDocDTO>();
-				if (roles.Contains(7))
+				if (roles.Contains(7) || roles.Contains(3))
 				{
 					response = await _patientCardService.GetAllPatientsCards(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")), patientID);
 
@@ -119,6 +120,31 @@ namespace Medicloud.Controllers
 			}
 			return Unauthorized();
 		}
+
+
+
+		[HttpPost]
+
+		public async Task<IActionResult> RemoveCard(int cardId)
+		{
+			if (User.Identity.IsAuthenticated)
+			{
+
+				try
+				{
+					bool result=await _patientCardService.RemoveAsync(cardId);
+
+					return Ok(result);
+				}
+				catch (Exception ex)
+				{
+					// Handle the exception and return an appropriate response
+					return StatusCode(StatusCodes.Status500InternalServerError, "Sorğunu emal edərkən xəta baş verdi.");
+				}
+			}
+			return Unauthorized();
+		}
+
 
 
 

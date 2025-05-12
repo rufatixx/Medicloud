@@ -2,6 +2,7 @@
 using Medicloud.BLL.Models;
 using Medicloud.DAL.Entities;
 using Medicloud.DAL.Infrastructure.Abstract;
+using System.Numerics;
 
 namespace Medicloud.DAL.Repository.Anamnesis
 {
@@ -113,16 +114,32 @@ namespace Medicloud.DAL.Repository.Anamnesis
 
 
 
+			//			string sql = @"
+			//SELECT 
+			//    a.id,
+			//    a.doctorId,
+			//    a.patientCardId,
+			//    a.createDate
+			//FROM anamnesis a
+			//WHERE 
+			//    a.patientCardId = @CardId AND a.isActive=1;
+			//			";
+
 			string sql = @"
 SELECT 
     a.id,
     a.doctorId,
     a.patientCardId,
-    a.createDate
+    a.createDate,
+    
+    d.id AS DoctorId,
+    d.name,
+    d.surname
 FROM anamnesis a
+INNER JOIN users d ON a.doctorId = d.id
 WHERE 
-    a.patientCardId = @CardId AND a.isActive=1;
-			";
+    a.patientCardId = @CardId AND a.isActive = 1;
+";
 
 
 			string answersQuery = @"
@@ -134,7 +151,19 @@ WHERE
 			";
 			var con = _unitOfWork.GetConnection();
 
-			var anamnesis = await con.QueryAsync<AnamnesisDAO>(sql, new { CardId = cardId });
+			//var anamnesis = await con.QueryAsync<AnamnesisDAO>(sql, new { CardId = cardId });
+
+
+			var anamnesis = await con.QueryAsync<AnamnesisDAO, UserDAO, AnamnesisDAO>(
+				sql,
+				(anamnesis, doctor) =>
+				{
+					anamnesis.Doctor = doctor;
+					return anamnesis;
+				},
+				new { CardId = cardId },
+				splitOn: "DoctorId"
+			);
 			if (anamnesis != null)
 			{
 				//Console.WriteLine("Count");
@@ -144,8 +173,67 @@ WHERE
 					item.AnamnesisAnswers=result.ToList();
 				}
 			}
-			return anamnesis.ToList();
+			return anamnesis?.ToList();
 		}
+
+
+
+		public async Task<AnamnesisDAO> GetAnamnesisById(int id)
+		{
+
+
+			string sql = @"
+SELECT 
+    a.id,
+    a.doctorId,
+    a.patientCardId,
+    a.createDate,
+    
+    d.id AS DoctorId,
+    d.name,
+    d.surname
+FROM anamnesis a
+INNER JOIN users d ON a.doctorId = d.id
+WHERE 
+    a.id = @Id AND a.isActive = 1;
+";
+
+
+			string answersQuery = @"
+SELECT 
+    aa.*
+FROM anamnesis_answers aa
+WHERE 
+    aa.anamnesisId=@AnamnesisId;
+			";
+			var con = _unitOfWork.GetConnection();
+
+			var result = await con.QueryAsync<AnamnesisDAO, UserDAO, AnamnesisDAO>(
+				sql,
+				(anamnesis, doctor) =>
+				{
+					anamnesis.Doctor = doctor;
+					return anamnesis;
+				},
+				new { Id = id },
+				splitOn: "DoctorId"
+			);
+
+
+			var anamnesis = result.FirstOrDefault();
+			if (anamnesis!= null)
+			{
+				var answers = await con.QueryAsync<AnamnesisAnswerDAO>(
+					answersQuery,
+					new { AnamnesisId = anamnesis.id }
+				);
+
+				anamnesis.AnamnesisAnswers = answers.ToList();
+			}
+
+			return anamnesis;
+		}
+
 
 		public async Task<List<AnamnesisFieldDAO>> GetFieldsWithTemplatesByDoctorId(int doctorID)
 		{
@@ -179,6 +267,35 @@ WHERE
 			);
 
 			return fields.ToList();
+		}
+
+		public async Task<int> GetAnamnesisAnswerByFieldAndAnamnesisId(int fieldId, int anamnesisId)
+		{
+			string sql = @"SELECT id FROM anamnesis_answers WHERE anamnesisFieldId=@FieldId AND anamnesisId=@AnamnesisId";
+			var con=_unitOfWork.GetConnection();
+			var transaction=_unitOfWork.GetTransaction();
+			var result = await con.QuerySingleOrDefaultAsync<int>(sql, new { FieldId = fieldId, AnamnesisId = anamnesisId },transaction);
+			return result;
+		}
+
+		public async Task<int> UpdateAnamnesisAnswer(int answerId,string answerText)
+		{
+
+			string sql = @"UPDATE anamnesis_answers SET answerText =@AnswerText WHERE id=@AnswerId";
+			var con = _unitOfWork.GetConnection();
+			var transaction = _unitOfWork.GetTransaction();
+			var result = await con.ExecuteAsync(sql, new { AnswerId = answerId, AnswerText =answerText},transaction);
+			return result;
+		}
+
+
+		public async Task<bool> RemoveAnamnesis(int anamnesisId)
+		{
+
+			string sql = @"UPDATE anamnesis SET isActive = 0 WHERE id=@Id";
+			var con = _unitOfWork.GetConnection();
+			var result = await con.ExecuteAsync(sql, new { Id = anamnesisId });
+			return result>0;
 		}
 	}
 }

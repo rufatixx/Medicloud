@@ -29,6 +29,9 @@ namespace Medicloud.DAL.Repository.PatientCard
                a.serviceID, 
                a.note,
                a.finished,
+			   a.startDate,
+			   a.endDate,
+			   a.isActive,
                p.name, 
                p.surname, 
                p.father,
@@ -36,6 +39,7 @@ namespace Medicloud.DAL.Repository.PatientCard
                p.bDate,
                p.genderID,
                p.fin
+
         FROM patient_card a
         LEFT JOIN patients p ON a.patientID = p.id
         WHERE a.organizationID = @organizationID");
@@ -72,7 +76,7 @@ namespace Medicloud.DAL.Repository.PatientCard
 		{
 			string AddSql = $@"
 			INSERT INTO patient_card
-            (requestTypeID,userID,patientID,organizationID,serviceID,docID,priceGroupID,note,referDocID,startDate,endDate,isOnline,companyID)
+            (requestTypeID,userID,patientID,organizationID,serviceID,docID,priceGroupID,note,referDocID,startDate,endDate,isOnline,companyID,isActive)
 			VALUES (@{nameof(PatientCardDAO.requestTypeID)},
             @{nameof(PatientCardDAO.userID)},
             @{nameof(PatientCardDAO.patientID)},
@@ -85,7 +89,8 @@ namespace Medicloud.DAL.Repository.PatientCard
             @{nameof(PatientCardDAO.startDate)},
             @{nameof(PatientCardDAO.endDate)},
             @{nameof(PatientCardDAO.isOnline)},
-            @{nameof(PatientCardDAO.companyID)});
+            @{nameof(PatientCardDAO.companyID)},
+            @{nameof(PatientCardDAO.isActive)});
 
 			SELECT LAST_INSERT_ID();";
 			var con = _unitOfWork.BeginConnection();
@@ -98,7 +103,7 @@ namespace Medicloud.DAL.Repository.PatientCard
 			var queryBuilder = new StringBuilder($@"
         SELECT a.*
         FROM patient_card a
-        WHERE a.organizationID = @organizationID AND DATE(a.startDate) = DATE(@SelectedDate)");
+        WHERE a.organizationID = @organizationID AND DATE(a.startDate) = DATE(@SelectedDate) AND a.isActive=1");
 
 			// Dynamically add patient condition if patientID is greater than 0
 			if (doctorID > 0)
@@ -170,7 +175,7 @@ namespace Medicloud.DAL.Repository.PatientCard
         LEFT JOIN medicloud.users u ON u.id = pc.docID
         LEFT JOIN medicloud.speciality sp ON sp.id = u.specialityID
         WHERE pc.startDate BETWEEN @startDate AND @endDate
-          
+          AND pc.isActive=1
           AND pc.organizationID = @organizationID
           {userFilter}
         ORDER BY pc.startDate ASC;";
@@ -249,9 +254,16 @@ namespace Medicloud.DAL.Repository.PatientCard
 				return new();
 			}
 		}
+		public async Task<bool> RemoveAsync(int id)
+		{
+			string sql = $@"
+			UPDATE  patient_card SET isActive=0 WHERE id=@Id ";
+			var con = _unitOfWork.GetConnection();
+			var result = await con.QuerySingleOrDefaultAsync<int>(sql, new {Id=id});
+			return result>0;
+		}
 
-     
-    }
+	}
 }
 
 

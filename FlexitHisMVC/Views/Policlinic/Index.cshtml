@@ -109,7 +109,7 @@
                                             }
                                         }
                                         <p class="mb-1"><strong>Doğum tarixi:</strong> <span id="bDate">@formattedDate</span></p>
-                                        <p class="mb-1"><strong>Qeyd:</strong> <span id="note"></span></p>
+                                        @*<p class="mb-1"><strong>Qeyd:</strong> <span id="note"></span></p>*@
                                     </div>
                                 </div>
                                 <div class="d-flex justify-content-end">
@@ -142,19 +142,23 @@
                                             {
                                                 foreach (var item in Model.CardAnamnesis)
                                                 {
-                                                    <div class="list-group-item p-0 border-0">
+                                                    <div class="list-group-item p-0 border-0 anamnesis-card" data-item-id="@item.id" style="cursor:pointer;">
                                                         <div class="card position-relative">
                                                             <div class="card-body">
                                                                 <h5 class="card-title">Anamnez №@item.id</h5>
                                                                 <p class="card-text">
-                                                                    <strong>Həkim:</strong> @item.doctorId<br />
-                                                                    @* <strong>Növbə No:</strong> @item.patientCardId<br /> *@
+                                                                    <strong>Həkim:</strong> @item.Doctor?.name @item.Doctor?.surname<br />
+                 
                                                                     <strong>Tarix:</strong> @item.createDate.ToString("dd.MM.yyyy")
                                                                 </p>
                                                                 <div class="position-absolute top-0 end-0 m-2">
-                                                                    <button class="btn btn-sm border me-1">Bax</button>
-                                                                    <button class="btn btn-sm btn-primary me-1">Dəyiş</button>
-                                                                    <button class="btn btn-sm btn-danger">Sil</button>
+                     
+                                                                    @if (item.doctorId == int.Parse(User.FindFirst("ID").Value))
+                                                                    {
+                                                                        <button class="btn btn-sm edit-anamnesis btn-primary me-1" data-item-id="@item.id">Dəyiş</button>
+                                                                        <button class="btn btn-sm delete-anamnesis btn-danger" data-item-id="@item.id">Sil</button>
+                                                                    }
+
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -169,7 +173,7 @@
                         </div>
 
 
-                        <div class="accordion mb-3" id="diagnosessAccordion">
+                        @*<div class="accordion mb-3" id="diagnosessAccordion">
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="headingDiagnoses">
                                     <button class="accordion-button d-flex justify-content-between align-items-center w-100 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDiagnoses" aria-expanded="false" aria-controls="collapseDiagnoses">
@@ -220,7 +224,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>*@
 
                     </div>
                 }
@@ -291,7 +295,7 @@
                     foreach (var item in selectedPatient.Cards)
                     {
                         <div class="text-start">
-                            <a href="@Url.Action("Index","Policlinic",new { id = item.id })" class="link">Geliş tarixi: @item.startDate?.ToString("dd MMM yyyy HH:mm", culture)</a>
+                            <a href="@Url.Action("Index","Policlinic",new { id = item.id })" class="link">Növbə tarixi: @item.startDate?.ToString("dd MMM yyyy HH:mm", culture)</a>
                         </div>
                     }
                 }
@@ -308,7 +312,8 @@
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-light text-dark">
-                <h5 class="modal-title">Yeni anamnez</h5>
+                <h5 class="modal-title" id="anamnesisModalTitle">Yeni anamnez</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body text-center text-start">
 
@@ -328,7 +333,7 @@
                             </div>
                         }*@
                 }
-                <form id="anamnezForm" novalidate>
+                <form id="anamnezForm" data-action="add" novalidate>
                     <div class="row">
                         <div class="col-md-6 text-start mb-3 anamnez-field" data-field-id="1">
                             <label class="form-label ">Şikayəti</label>
@@ -404,6 +409,10 @@
         </div>
     </div>
 </div>
+
+
+@await Component.InvokeAsync("AnamnesisDetailModal")
+
 
 <!-- NO PATIENTS MODAL (if Model.Count == 0) -->
 <div class="modal fade" id="noPatientsModal" tabindex="-1" aria-hidden="true">
@@ -840,17 +849,23 @@
             $anamnezForm.on('submit', function (e) {
                 e.preventDefault();
 
-                if (!$anamnezForm[0].checkValidity()) {
-                    $anamnezForm.addClass('was-validated')
-                    return;
-                } else {
+                //if (!$anamnezForm[0].checkValidity()) {
+                //    $anamnezForm.addClass('was-validated')
+                //    return;
+                //} else {
 
-                    var data = {};
-                    data.cardId='@Model.SelectedCardId'
-                    answers = [];
+                var data = {};
+                data.cardId='@Model.SelectedCardId'
+                answers = [];
+                var isAnyAnswerFilled = false;
+
                     $("#anamnezForm .anamnez-field").each(function () {
                         var fieldID = $(this).data("field-id");
                         var answerText = $(this).find(".answer").val();
+
+                        if (answerText.trim() !== "") {
+                            isAnyAnswerFilled = true;
+                        }
 
                         answers.push({
                             anamnesisFieldId: fieldID,
@@ -858,8 +873,24 @@
                         });
                     });
 
-                    data.fields = answers
-                    console.log(data)
+                if (!isAnyAnswerFilled) {
+                    $('#infoText').text('Zəhmət olmasa ən azı bir sahəni doldurun');
+                    $('#infoModal').modal('show');
+                    return;
+                }
+
+
+
+
+                data.fields = answers
+
+
+                let action = $(this).data('action');
+                let itemId = $(this).data('item-id');
+
+                if (action === 'add') {
+                    //console.log(data)
+                    //return;
                     showLoading();
 
                     $.ajax({
@@ -869,18 +900,176 @@
                         data: JSON.stringify(data),
                         success: function (response) {
                             if (response > 0) {
-                                alert("Insert success!");
                                 window.location.reload();
                             }
                         },
                         error: function (xhr) {
-                            alert("error: " + xhr.responseText);
+                            //alert("error: " + xhr.responseText);
+                            hideLoading();
+                        }
+                    });
+                    return;
+                }
+                else if (action == 'update') {
+                    data.id = itemId;
+                    //console.log(data)
+                    //return;
+                    showLoading();
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/Policlinic/UpdateAnamnesis",
+                        contentType: "application/json",
+                        data: JSON.stringify(data),
+                        success: function (response) {
+                            if (response > 0) {
+                                window.location.reload();
+                            }
+                        },
+                        error: function (xhr) {
+                            //alert("error: " + xhr.responseText);
                             hideLoading();
                         }
                     });
 
-                }
+                }             
+
+                //}
             })
+
+
+            function fillDetailAnamnesis(response) {
+                if (response) {
+                    response.anamnesisAnswers.forEach(function (item) {
+                        var fieldId = item.anamnesisFieldId;
+                        var text = item.answerText || 'N/A';
+
+                        var label = $("#anamnesisDetailModal .anamnez-field[data-field-id='" + fieldId + "'] .form-control");
+                        if (label.attr('id')) {
+                            label.text(text);
+                        }
+                    });
+
+                    $("#anamnesisDetailModal .anamnez-field .form-control").each(function () {
+                        var label = $(this);
+                        if (label.attr('id') && !label.text().trim()) {
+                            label.text('N/A');
+                        }
+                    });
+
+                    $("#anamnesisDetailTitle").text("Anamnez Detalları");
+
+                    $('#anamnesisDetailModal').modal('show');
+                    hideLoading();
+                }
+            }
+
+            function fillEditAnamnesis(response) {
+                if (response) {
+
+                    const answers = response.anamnesisAnswers || [];
+
+                    answers.forEach(function (item) {
+                        var fieldId = item.anamnesisFieldId;
+                        var text = item.answerText || '';
+
+                        // Formda həmin field-id-ə uyğun sahəni tapırıq
+                        var input = $("#anamnezForm .anamnez-field[data-field-id='" + fieldId + "'] .answer");
+                        if (input.length > 0) {
+                            input.val(text);
+                        }
+                    });
+
+                    $("#anamnesisModalTitle").text("Redaktə et");
+                    $('#anamnesisModal').modal('show'); 
+                    $anamnezForm.data('action', 'update');
+                    $anamnezForm.data('item-id', response.id);
+                    hideLoading();
+                } else {
+                }
+            }
+
+
+            $('.anamnesis-card').on('click', function () {
+                let itemId = $(this).data('item-id');
+                loadAnamnesisData(itemId, fillDetailAnamnesis);
+            })
+
+            $('.edit-anamnesis').on('click', function (e) {
+                e.stopPropagation();
+                let itemId = $(this).data('item-id');
+                loadAnamnesisData(itemId, fillEditAnamnesis);
+            })
+
+
+
+            function loadAnamnesisData(id,callback) {
+                showLoading();
+                $.ajax({
+                    url: "/Policlinic/GetAnamnesisById",
+                    method: 'GET',
+                    data: { id: id },
+                    success: function (response) {
+                        console.log(response);
+                        callback(response)
+
+                    },
+                    error: function (error) {
+                        console.error("error: ", error);
+                        hideLoading();
+
+                    }
+                });
+            }
+
+
+            $('#anamnesisDetailModal').on('hidden.bs.modal', function () {
+                $("#anamnesisDetailModal .anamnez-field[data-field-id]").each(function () {
+                    var label = $(this).find(".form-control");
+                    label.text('');
+
+                });
+            });
+
+            $('#anamnesisModal').on('hidden.bs.modal', function () {
+                $("#anamnesisModalTitle").text("Yeni anamnez");
+                $anamnezForm[0].reset();
+                $anamnezForm.data('action','add');
+            });
+
+
+            $('.delete-anamnesis').on('click', function (e) {
+                e.stopPropagation();
+                let itemId = $(this).data('item-id');
+                $('#confirmModal').data('item-id', itemId);
+                $('#confirmText').text('Ananmezi silmək istədiyinizə əminsiniz?');
+                $('#confirmModal').modal('show');
+                
+
+            })
+
+            $('#confirmModalButton').on('click', function (e) {
+                e.stopPropagation();
+                let itemId = $('#confirmModal').data('item-id');
+
+                showLoading();
+                $.ajax({
+                    url: "/Policlinic/DeleteAnamnesis",
+                    method: 'POST',
+                    data: { anamnesisId: itemId },
+                    success: function (response) {
+                        //console.log(response);
+                        window.location.reload()
+                    },
+                    error: function (error) {
+                        console.error("error: ", error);
+                        hideLoading();
+
+                    }
+                });
+
+            })
+            
 
         })
 

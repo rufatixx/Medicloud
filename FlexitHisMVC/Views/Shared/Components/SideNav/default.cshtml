@@ -213,7 +213,7 @@
                 </li>
             }
 
-            @if (roles.Contains(7) || roles.Contains(3))
+            @if (roles.Contains(7) || roles.Contains(3) || roles.Contains(4))
             {
                 <li class="side-nav-item">
                     <a href="@Url.Action("index", "Reception", new { area = "" })" class="side-nav-link">
@@ -236,7 +236,7 @@
                 <li class="side-nav-item">
                     <a href="@Url.Action("Index", "Prescriptions", new { area = "" })" class="side-nav-link">
                         <i class="ri-clipboard-line"></i>
-                        <span> Müayinə Kartları </span>
+                        <span> Növbələr </span>
                     </a>
                 </li>
                 <li class="side-nav-item">
@@ -245,12 +245,12 @@
                         <span> Müayinələr </span>
                     </a>
                 </li>
-                <li class="side-nav-item">
+                @*<li class="side-nav-item">
                     <a href="@Url.Action("Index", "Appointments", new { area = "" })" class="side-nav-link">
                         <i class="ri-time-line"></i>
                         <span> eNövbə </span>
                     </a>
-                </li>
+                </li>*@
 
                 <li class="side-nav-item">
                     <a href="@Url.Action("Index", "Calendar", new { area = "" })" class="side-nav-link">

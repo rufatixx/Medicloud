@@ -44,10 +44,6 @@ namespace Medicloud.BLL.Services.Anamnesis
 							answerText = item.answerText
 						});
 					}
-					else
-					{
-						return 0;
-					}
 				}
 				_unitOfWork.SaveChanges();
 				return anamnesisId;
@@ -65,6 +61,57 @@ namespace Medicloud.BLL.Services.Anamnesis
 			using var con = _unitOfWork.BeginConnection();
 			var result= await _anamnesisRepository.GetAnamnesisByCardId(cardId);
 			return result;
+		}
+
+		public async Task<AnamnesisDAO> GetAnamnesisById(int id)
+		{
+			using var con = _unitOfWork.BeginConnection();
+			var result=await _anamnesisRepository.GetAnamnesisById(id);
+			return result;
+		}
+
+		public async Task<int> UpdateAnamnesis(AddAnamnesisDTO dto)
+		{
+			using var transaction = _unitOfWork.BeginTransaction();
+			try
+			{
+				foreach (var item in dto.Fields)
+				{
+					if (item.anamnesisFieldId > 0)
+					{
+						var exist = await _anamnesisRepository.GetAnamnesisAnswerByFieldAndAnamnesisId(item.anamnesisFieldId, dto.id);
+						if (exist>0)
+						{
+							await _anamnesisRepository.UpdateAnamnesisAnswer(exist,item.answerText);
+						}
+						else
+						{
+							await _anamnesisRepository.AddAnamnesisAnswerAsync(new()
+							{
+								anamnesisFieldId = item.anamnesisFieldId,
+								anamnesisId = dto.id,
+								answerText = item.answerText
+							});
+						}
+
+					}
+				}
+				_unitOfWork.SaveChanges();
+				return dto.id;
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"error update anamnesis {ex.Message}");
+				transaction.Rollback();
+				return 0;
+			}
+		}
+
+		public async Task<bool> RemoveAnamnesis(int anamnesisId)
+		{
+			using var con = _unitOfWork.BeginConnection();
+			return await _anamnesisRepository.RemoveAnamnesis(anamnesisId);
+
 		}
 	}
 }

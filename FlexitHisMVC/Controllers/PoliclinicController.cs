@@ -114,6 +114,23 @@ namespace Medicloud.Controllers
 			}
 			//return View();
 		}
+
+
+		[HttpGet]
+		public async Task<IActionResult> GetAnamnesisById(int id)
+		{
+			if (User.Identity.IsAuthenticated)
+			{
+				var anamnesis = await _anamnesisService.GetAnamnesisById(id);
+				return Ok(anamnesis);
+			}
+			else
+			{
+				return Unauthorized();
+			}
+			//return View();
+		}
+
 		[HttpPost]
 		public async Task<IActionResult> AddAnamnesis([FromBody] AddAnamnesisDTO dto)
 		{
@@ -130,8 +147,39 @@ namespace Medicloud.Controllers
 			{
 				return Unauthorized();
 			}
-			//return View();
 		}
+
+		[HttpPost]
+		public async Task<IActionResult> UpdateAnamnesis([FromBody] AddAnamnesisDTO dto)
+		{
+			if (dto == null) Console.WriteLine("DTO NULL");
+			if (User.Identity.IsAuthenticated)
+			{
+				int userId = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID"));
+				dto.DoctorId = userId;
+				int response = await _anamnesisService.UpdateAnamnesis(dto);
+				return Ok(response);
+			}
+			else
+			{
+				return Unauthorized();
+			}
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> DeleteAnamnesis(int anamnesisId)
+		{
+			if (User.Identity.IsAuthenticated)
+			{
+				bool deleted= await _anamnesisService.RemoveAnamnesis(anamnesisId);
+				return Ok(deleted);
+			}
+			else
+			{
+				return Unauthorized();
+			}
+		}
+
 		[HttpGet]
 		public IActionResult GetDiagnoses(int patientID)
 		{

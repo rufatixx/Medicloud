@@ -579,7 +579,7 @@ GROUP BY a.patientID
 FROM 
     patients p
 LEFT JOIN 
-    patient_card pc ON p.id = pc.patientID AND pc.finished = 0
+    patient_card pc ON p.id = pc.patientID 
 WHERE 
     p.organizationID = @organizationID
 GROUP BY 
@@ -603,14 +603,26 @@ ORDER BY
                                 patient.surname = reader["surname"].ToString();
                                 patient.father = reader["father"].ToString();
 								patient.phone = reader["clientPhone"].ToString();
-								patient.bDate = Convert.ToDateTime(reader["bDate"]);
-                                patient.genderID = Convert.ToInt32(reader["genderID"]);
-                                patient.totalCardNumbers = Convert.ToInt32(reader["totalCardNumbers"]);
-                                patient.fin = reader["fin"].ToString();
-                              
+								patient.email = reader["email"].ToString();
+								//patient.bDate = Convert.ToDateTime(reader["bDate"]);
+
+								patient.bDate = reader["bDate"] != DBNull.Value
+								? Convert.ToDateTime(reader["bDate"])
+								: DateTime.MinValue;
+
+								patient.genderID = Convert.ToInt32(reader["genderID"]);
+								patient.orgReasonId = reader["orgReasonId"] != DBNull.Value
+									? Convert.ToInt32(reader["orgReasonId"])
+									: 0;
+								//patient.totalCardNumbers = Convert.ToInt32(reader["totalCardNumbers"]);
+								patient.totalCardNumbers = reader["totalCardNumbers"] != DBNull.Value
+								? Convert.ToInt32(reader["totalCardNumbers"])
+								: 0;
+								patient.fin = reader["fin"].ToString();
 
 
-                                patientList.Add(patient);
+
+								patientList.Add(patient);
 
 
                             }

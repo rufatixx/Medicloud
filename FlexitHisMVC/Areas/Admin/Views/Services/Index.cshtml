@@ -891,8 +891,8 @@ Daha çox
                         serviceTypeID: selectedServiceTypeID,
                         depID: selectedDepID,
                         isActive: isActive
-                    };
-
+                  };
+     
                     $.ajax({
                         url: '@Url.Action("UpdateService", "Services", new { Area = "Admin" })',
                         type: 'POST',

@@ -14,6 +14,6 @@ namespace Medicloud.Models
         public string note { get; set; }
         public DateTime startDate { get; set; }
         public DateTime endDate { get; set; }
-
-    }
+		public bool isActive { get; set; }
+	}
 }

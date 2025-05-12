@@ -31,18 +31,18 @@
 
                 @* <button type="reset" class="btn btn-primary w-md bg-blue radius-10" onclick=" $('#patientSearch').modal('show');">+ Yeni müayinə kartı</button> *@
                 @*<button type="reset" class="btn btn-primary w-md bg-blue radius-10" onclick=" $('#patientSearch').modal('show');">+ Yeni xidmət</button>
-            <button type="reset" class="btn btn-primary w-md bg-blue radius-10" onclick=" $('#patientSearch').modal('show');">+ Yeni diagnoz</button>*@
+                    <button type="reset" class="btn btn-primary w-md bg-blue radius-10" onclick=" $('#patientSearch').modal('show');">+ Yeni diagnoz</button>*@
 
             </div>
 
             <h2 class="page-title">
                 @if (!string.IsNullOrEmpty(ViewBag.patientFullname))
                 {
-                    @($"{ViewBag.patientFullname} - Müayinə Kartları")
+                    @($"{ViewBag.patientFullname} - Növbələr")
                 }
                 else
                 {
-                    @Html.Raw("Müayinə Kartları")
+                    @Html.Raw("Növbələr")
                 }
             </h2>
 
@@ -61,13 +61,13 @@
                             <table style="border: 0px; width: 1183px;" id="datatable" class="table table table-striped table-borderless dt-responsive nowrap w-100 dataTable no-footer dtr-inline" role="grid" aria-describedby="datatable_info">
                                 <thead>
                                     <tr role="row">
-                                        <th class="text-muted" rowspan="1" colspan="1" style="width: 43px;">#</th>
-                                        <th class="text-muted" rowspan="1" colspan="1" style="width: 160px;">Ad, Soyad</th>
-                                        <th class="text-muted" rowspan="1" colspan="1" style="width: 199px;">Tarix</th>
-                                        <th class="text-muted" rowspan="1" colspan="1" style="width: 231px;">Diagnoz</th>
-                                        <th class="text-muted" rowspan="1" colspan="1" style="width: 231px;">Kart nömrəsi</th>
-                                        <th class="text-muted" rowspan="1" colspan="1" style="width: 231px;">Status</th>
-                                        @*<th class="text-muted" rowspan="1" colspan="1" style="width: 175px;">Seçin</th>*@
+                                        <th class="text-muted">#</th>
+                                        <th class="text-muted">Ad, Soyad</th>
+                                        <th class="text-muted">Tarix</th>
+                                        @*<th class="text-muted" >Diagnoz</th>*@
+                                        <th class="text-muted">Növbə nömrəsi</th>
+                                        <th class="text-muted">Status</th>
+                                        <th class="text-muted"></th>
                                     </tr>
                                 </thead>
                                 <tbody style="vertical-align:middle; font-weight:500;">
@@ -77,37 +77,80 @@
                                         {
                                             rowNumber++;
 
-                                                                        <tr class="odd">
-                                                                            <th class="text-muted dtr-control" tabindex="0">@rowNumber</th>
-                                                                            <td>@item.name @item.surname</td>
-                                                                            <td>@item.cDate.ToString("dd.MM.yyyy")</td>
+                                            <tr class="odd">
+                                                <th class="text-muted dtr-control" tabindex="0">@rowNumber</th>
+                                                <td>@item.name @item.surname</td>
+                                                @*<td>@item.cDate.ToString("dd.MM.yyyy")</td>*@
+                                                <td>
+                                                    @{
+                                                        var date = item.startDate.ToString("dd.MM.yyyy");
+                                                        var startTime = item.startDate.ToString("HH:mm");
+                                                        var endTime = item.endDate.ToString("HH:mm");
+                                                        var formatDate = $"{date} {startTime} - {endTime}";
+                                                    }
+                                                    @formatDate
+                                                </td>
 
 
-                                                                            <td>
-                                                                                <a href="@Url.Action("Index", "Diagnoses", new {area="",patientFullName=$"{@item.name} {@item.surname}",patientID =item.ID})">
-                                                                                    Bax
-                                                                                </a>
-                                                                            </td>
-                                                                            <td>
-                                                                                <a href="@Url.Action("Index", "Services", new { area = "",cardId=$"{@item.patientCardID}"})">
-                                                                                    № @item.patientCardID
-                                                                                </a>
-                                                                            </td>
-                                                                            <td>
-                                                                                <span class="badge @(item.finished == 1 ? "bg-danger" : "bg-success")">
-                                                                                    @(item.finished == 1 ? "Ödənilib və bağlanıb" : "Aktiv")
-                                                                                </span>
-                                                                               
-                                                                            </td>
-                                                                            @*<td style="float: right">
-        <a href="patient-edit.php?patient_id=61294"><button type="button" class="btn btn-light btn-sm edit-button" data-id="1"><i class="far fa-edit"></i></button></a>
-        <a href="javascript:void(0);" class="delete-link" data-patient-id="61294">
-        <button type="button" class="btn btn-light btn-sm delete-button">
-        <i class="far fa-trash-alt"></i>
-        </button>
-        </a>
-        </td>*@
-                                                                        </tr>
+                                                @*<td>
+                                                        <a href="@Url.Action("Index", "Diagnoses", new {area="",patientFullName=$"{@item.name} {@item.surname}",patientID =item.ID})">
+                                                            Bax
+                                                        </a>
+                                                    </td>*@
+                                                <td>
+                                                    <a href="@Url.Action("Index", "Services", new { area = "",cardId=$"{@item.patientCardID}"})">
+                                                        № @item.patientCardID
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    @*<span class="badge @(item.finished == 1 ? "bg-info" : "bg-success")">
+                                                            @(item.finished == 1 ? "Ödənilib və bağlanıb" : "Aktiv")
+                                                        </span>*@
+                                                    @{
+                                                        string className = "";
+                                                        string text = "";
+                                                        if (item.finished == 1)
+                                                        {
+                                                            className = "bg-info";
+                                                            text = "Ödənilib və bağlanıb";
+                                                        }
+                                                        else
+                                                        {
+                                                            if (item.isActive)
+                                                            {
+                                                                className = "bg-success";
+                                                                text = "Aktiv";
+                                                            }
+                                                            else
+                                                            {
+                                                                className = "bg-danger";
+                                                                text = "İmtina edilib";
+                                                            }
+                                                        }
+                                                    }
+                                                    <span class="badge @className">
+                                                        @text
+                                                    </span>
+
+                                                </td>
+                                                <td>
+                                                    @*<button class="btn btn-sm edit-anamnesis btn-primary me-1" data-item-id="@item.id">Dəyiş</button>*@
+                                                    @if (item.finished != 1 && item.isActive)
+                                                    {
+                                                        <button class="btn btn-sm remove-card btn-danger" data-item-id="@item.patientCardID">İmtina</button>
+                                                    }
+
+                                                </td>
+
+                                                @*<td style="float: right">
+                                                    <a href="patient-edit.php?patient_id=61294"><button type="button" class="btn btn-light btn-sm edit-button" data-id="1"><i class="far fa-edit"></i></button></a>
+                                                    <a href="javascript:void(0);" class="delete-link" data-patient-id="61294">
+                                                    <button type="button" class="btn btn-light btn-sm delete-button">
+                                                    <i class="far fa-trash-alt"></i>
+                                                    </button>
+                                                    </a>
+                                                    </td>*@
+                                            </tr>
 
                                         }
                                     }
@@ -222,6 +265,41 @@
             $('#serviceForm')[0].reset();
             $('#serviceForm').removeClass('was-validated');
         });
+
+
+
+
+        $('.remove-card').on('click', function (e) {
+            e.stopPropagation();
+            let itemId = $(this).data('item-id');
+            $('#confirmModal').data('item-id', itemId);
+            $('#confirmText').text('Növbəni ləğv etmək istədiyinizə əminsiniz?');
+            $('#confirmModal').modal('show');
+
+
+        })
+
+        $('#confirmModalButton').on('click', function (e) {
+            e.stopPropagation();
+            let itemId = $('#confirmModal').data('item-id');
+            //console.log(itemId);
+            showLoading();
+            $.ajax({
+                url: "/Prescriptions/RemoveCard",
+                method: 'POST',
+                data: { cardId: itemId },
+                success: function (response) {
+                    //console.log(response);
+                    window.location.reload()
+                },
+                error: function (error) {
+                    console.error("error: ", error);
+                    hideLoading();
+
+                }
+            });
+
+        })
     </script>
 
 
