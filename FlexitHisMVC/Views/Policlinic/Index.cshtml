@@ -95,7 +95,7 @@
                                         <p class="mb-1"><strong>Soyadı:</strong> <span id="surname">@selectedPatient.surname</span></p>
                                         <p class="mb-1"><strong>Atasının adı:</strong> <span id="father">@selectedPatient.father</span></p>
                                         <p class="mb-1"><strong>FIN:</strong> <span id="fin">@selectedPatient.fin</span></p>
-                                        <p class="mb-1"><strong>Cinsi:</strong> <span id="gender">@selectedPatient.genderID</span></p>
+                                        <p class="mb-1"><strong>Cinsi:</strong> <span id="gender">@(selectedPatient.genderID==1?"Kişi":"Qadın")</span></p>
                                         @{
                                             DateTime parsedDate;
                                             string formattedDate;
@@ -120,36 +120,107 @@
                     </div>
 
 
-                    <div class="row">
-                        <h4 class="text-center">Növbə No @lastPatientCard?.id - Tarix: @lastPatientCard?.startDate?.ToString("dd MMM yyyy HH:mm", culture) </h4>
-                        <div class="d-flex justify-content-between mb-3">
-                            <h3>Anamnezlər</h3>
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#anamnesisModal">Anamnez əlavə et</button>
-                        </div>
-                        @if (Model.CardAnamnesis != null)
-                        {
-                            foreach (var item in Model.CardAnamnesis)
-                            {
-                                <div class="col-12 mb-3">
-                                    <div class="card position-relative">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Anamnez ID: @item.id</h5>
-                                            <p class="card-text">
-                                                <strong>Həkim:</strong> @item.doctorId<br />
-                                                <strong>Növbə No:</strong> @item.patientCardId<br />
-                                                <strong>Tarix:</strong> @item.createDate.ToString("dd.MM.yyyy")
-                                            </p>
+                    <div class="mt-0">
+                        <h4 class="text-center">Növbə № @lastPatientCard?.id - Tarix: @lastPatientCard?.startDate?.ToString("dd MMM yyyy HH:mm", culture) </h4>
 
-                                            <div class="position-absolute top-0 end-0 m-2">
-                                                <button class="btn btn-sm btn-primary me-1">Dəyiş</button>
-                                                <button class="btn btn-sm btn-danger">Sil</button>
-                                            </div>
+                        <div class="accordion mb-3" id="anamnesisAccordion">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingAnamnesis">
+                                    <button class="accordion-button d-flex justify-content-between align-items-center w-100 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAnamnesis" aria-expanded="false" aria-controls="collapseAnamnesis">
+                                        Xəstənin Anamnezləri
+                                    </button>
+                                </h2>
+                                <div id="collapseAnamnesis" class="accordion-collapse collapse " aria-labelledby="headingAnamnesis" data-bs-parent="#anamnesisAccordion">
+                                    <div class="accordion-body">
+
+                                        <div class="d-flex justify-content-end mb-2">
+                                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#anamnesisModal">Anamnez əlavə et</button>
                                         </div>
+
+                                        <div class="list-group list-group-flush" style="max-height: 250px; overflow-y: auto;">
+                                            @if (Model.CardAnamnesis != null)
+                                            {
+                                                foreach (var item in Model.CardAnamnesis)
+                                                {
+                                                    <div class="list-group-item p-0 border-0">
+                                                        <div class="card position-relative">
+                                                            <div class="card-body">
+                                                                <h5 class="card-title">Anamnez №@item.id</h5>
+                                                                <p class="card-text">
+                                                                    <strong>Həkim:</strong> @item.doctorId<br />
+                                                                    @* <strong>Növbə No:</strong> @item.patientCardId<br /> *@
+                                                                    <strong>Tarix:</strong> @item.createDate.ToString("dd.MM.yyyy")
+                                                                </p>
+                                                                <div class="position-absolute top-0 end-0 m-2">
+                                                                    <button class="btn btn-sm border me-1">Bax</button>
+                                                                    <button class="btn btn-sm btn-primary me-1">Dəyiş</button>
+                                                                    <button class="btn btn-sm btn-danger">Sil</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            }
+                                        </div>
+
                                     </div>
                                 </div>
-                            }
-                        }
+                            </div>
+                        </div>
 
+
+                        <div class="accordion mb-3" id="diagnosessAccordion">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingDiagnoses">
+                                    <button class="accordion-button d-flex justify-content-between align-items-center w-100 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDiagnoses" aria-expanded="false" aria-controls="collapseDiagnoses">
+                                        Xəstənin Diaqnozları
+                                    </button>
+                                </h2>
+                                <div id="collapseDiagnoses" class="accordion-collapse collapse " aria-labelledby="headingDiagnoses" data-bs-parent="#diagnosessAccordion">
+                                    <div class="accordion-body">
+
+                                        <div class="d-flex justify-content-end mb-2">
+                                            <button type="button" class="btn btn-sm btn-outline-primary"
+                                                    onclick="$('#patientSearch').modal('show');">
+                                                Diaqnoz əlavə et
+                                            </button>
+                                        </div>
+
+                                        <div class="list-group list-group-flush" style="max-height: 250px; overflow-y: auto;">
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="accordion mb-3" id="videosAccordion">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingVideos">
+                                    <button class="accordion-button d-flex justify-content-between align-items-center w-100 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseVideos" aria-expanded="false" aria-controls="collapseVideos">
+                                        Video yazılar siyahısı
+                                    </button>
+                                </h2>
+                                <div id="collapseVideos" class="accordion-collapse collapse " aria-labelledby="headingVideos" data-bs-parent="#videosAccordion">
+                                    <div class="accordion-body">
+
+                                        <div class="d-flex justify-content-end mb-2">
+                                            <button type="button" class="btn btn-sm btn-outline-success" onclick="openVideoModal()">
+                                                Yeni rekord başlat
+                                            </button>
+                                        </div>
+
+                                        <div class="list-group list-group-flush" style="max-height: 250px; overflow-y: auto;">
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
                 }
@@ -164,6 +235,8 @@
                         </div>
                     </div>
                 }
+
+
 
                 <!-- DIAGNOSES CARD (hidden until a patient is selected) -->
                 <div class="col-12" id="diagnosesCard" style="display: none;">
@@ -757,59 +830,59 @@
 }
 
 
-@section Scripts{
+@section Scripts {
 
     <script>
-    document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function () {
 
-        $anamnezForm = $('#anamnezForm');
+            $anamnezForm = $('#anamnezForm');
 
-        $anamnezForm.on('submit', function (e) {
-            e.preventDefault();
+            $anamnezForm.on('submit', function (e) {
+                e.preventDefault();
 
-            if (!$anamnezForm[0].checkValidity()) {
-                $anamnezForm.addClass('was-validated')
-                return;
-            } else {
+                if (!$anamnezForm[0].checkValidity()) {
+                    $anamnezForm.addClass('was-validated')
+                    return;
+                } else {
 
-                var data = {};
-                data.cardId='@Model.SelectedCardId'
-                answers = [];
-                $("#anamnezForm .anamnez-field").each(function () {
-                    var fieldID = $(this).data("field-id");
-                    var answerText = $(this).find(".answer").val();
+                    var data = {};
+                    data.cardId='@Model.SelectedCardId'
+                    answers = [];
+                    $("#anamnezForm .anamnez-field").each(function () {
+                        var fieldID = $(this).data("field-id");
+                        var answerText = $(this).find(".answer").val();
 
-                    answers.push({
-                        anamnesisFieldId: fieldID,
-                        answerText: answerText || ""
+                        answers.push({
+                            anamnesisFieldId: fieldID,
+                            answerText: answerText || ""
+                        });
                     });
-                });
 
-                data.fields = answers
-                console.log(data)
-                showLoading();
+                    data.fields = answers
+                    console.log(data)
+                    showLoading();
 
-                $.ajax({
-                    type: "POST",
-                    url: "/Policlinic/AddAnamnesis",
-                    contentType: "application/json",
-                    data: JSON.stringify(data),
-                    success: function (response) {
-                        if (response > 0) {
-                            alert("Insert success!");
-                            window.location.reload();
+                    $.ajax({
+                        type: "POST",
+                        url: "/Policlinic/AddAnamnesis",
+                        contentType: "application/json",
+                        data: JSON.stringify(data),
+                        success: function (response) {
+                            if (response > 0) {
+                                alert("Insert success!");
+                                window.location.reload();
+                            }
+                        },
+                        error: function (xhr) {
+                            alert("error: " + xhr.responseText);
+                            hideLoading();
                         }
-                    },
-                    error: function (xhr) {
-                        alert("error: " + xhr.responseText);
-                        hideLoading();
-                    }
-                });
+                    });
 
-            }
+                }
+            })
+
         })
-
-    })
 
     </script>
 }
