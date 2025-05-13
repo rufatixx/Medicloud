@@ -1,10 +1,12 @@
-﻿using Medicloud.DAL.Repository.Abstract;
+﻿using Medicloud.BLL.Services.Patient;
+using Medicloud.DAL.Repository.Abstract;
 using Medicloud.DAL.Repository.Patient;
 using Medicloud.DAL.Repository.PatientCard;
 using Medicloud.Data;
 using Medicloud.Models;
 using Medicloud.Models.Repository;
 using Medicloud.Repository;
+using Medicloud.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,8 +26,8 @@ namespace Medicloud.Controllers
 		PatientRepo patientRepo;
 		private readonly IPatientCardServiceRelRepository _patientCardServiceRelRepository;
 		private readonly IPatientRepository _patientRepository;
-
-		public ClientsController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IServicePriceGroupRepository servicePriceGroupRepository, IPatientCardServiceRelRepository patientCardServiceRelRepository, IPatientRepository patientRepository)
+		private readonly IPatientService _patientService;
+		public ClientsController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, IServicePriceGroupRepository servicePriceGroupRepository, IPatientCardServiceRelRepository patientCardServiceRelRepository, IPatientRepository patientRepository, IPatientService patientService)
 		{
 			Configuration = configuration;
 			ConnectionString = Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnectionString").Value;
@@ -36,17 +38,24 @@ namespace Medicloud.Controllers
 			patientRepo = new PatientRepo(ConnectionString);
 			_patientCardServiceRelRepository = patientCardServiceRelRepository;
 			_patientRepository = patientRepository;
+			_patientService = patientService;
 		}
 
 		// GET: /<controller>/
-		public IActionResult Index()
+		public async Task<IActionResult> Index(string search=null)
 		{
+			var userID = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "ID")?.Value ?? "0");
+			var organizationID = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
 
+			//var response = patientCardRepo.GetPatientsByOrganization(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")));
+			var response = await _patientService.GetPatients(organizationID, 0, search);
+			var vm = new ClientsViewModel
+			{
+				Patients = response,
+				SearchText = search
+			};
 
-			var response = patientCardRepo.GetPatientsByOrganization(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")));
-
-
-			return View(response);
+			return View(vm);
 
 		}
 

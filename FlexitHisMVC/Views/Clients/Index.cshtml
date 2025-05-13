@@ -3,19 +3,28 @@
 
 }
 
-@using Medicloud.Models.Domain;
-@model List<PatientDocDTO>
+@model Medicloud.ViewModels.ClientsViewModel
 <div class="row">
     <div class="col-12">
         <div class="page-title-box">
-            <div class="page-title-right">
-                <a href="javascript:window.print()">
-                    <button type="button" class="btn btn-primary w-md bg-blue-light radius-10"><i class="ri-printer-line"></i>Çap et</button>
-                </a>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#customerInfoModal">
-                    + Yeni pasient / müştəri
-                </button>
-            </div>
+            <form asp-controller="Clients" asp-action="Index">
+                <div class="page-title-right align-items-center">
+
+                    <div class="d-inline-block">
+                        <input id="searchInput" name="search" type="text" class=" me-1 form-control" placeholder="Axtarın" value="@Model.SearchText" style="min-width: 220px;">
+                    </div>
+
+
+                    <a href="javascript:window.print()">
+                        <button type="button" class="btn btn-primary w-md bg-blue-light radius-10"><i class="ri-printer-line"></i>Çap et</button>
+                    </a>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#customerInfoModal">
+                        + Yeni pasient / müştəri
+                    </button>
+
+                </div>
+            </form>
+
 
             <h2 class="page-title">Pasientlər / müştərilər</h2>
         </div>
@@ -45,7 +54,7 @@
                                 </thead>
                                 <tbody style="vertical-align:middle; font-weight:500;">
                                     @{ var rowNumber = 0;
-                                        foreach (var item in Model)
+                                        foreach (var item in Model.Patients)
                                         {
                                             rowNumber++;
 
@@ -78,8 +87,8 @@
                                                     <td>@age</td>
                                                 }
                                                 <td onclick="event.stopPropagation()">
-                                                    <a href="@Url.Action("Index", "Prescriptions", new { area = "", patientFullName = $"{item.name} {item.surname}", patientID = item.ID })">
-                                                        aktiv növbə sayı: @item.totalCardNumbers
+                                                    <a href="@Url.Action("Index", "Prescriptions", new {  patientID = item.ID })">
+                                                        növbə sayı: @item.totalCardNumbers
                                                     </a>
                                                 </td>
                                                 @*<td style="float: right">

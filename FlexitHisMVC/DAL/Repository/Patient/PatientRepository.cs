@@ -1,6 +1,8 @@
 ﻿using Dapper;
+using MailKit.Search;
 using Medicloud.DAL.Entities;
 using Medicloud.DAL.Infrastructure.Abstract;
+using static Mysqlx.Expect.Open.Types;
 
 namespace Medicloud.DAL.Repository.Patient
 {
@@ -56,10 +58,31 @@ namespace Medicloud.DAL.Repository.Patient
 			throw new NotImplementedException();
 		}
 
-		public async Task<List<PatientDAO>> GetPatientsWithCardsByDr(int docID, int orgID)
+		public async Task<List<PatientDAO>> GetPatientsWithCards(int orgID ,int docID=0,string search=null,bool onlyActiveCards=true)
 		{
 			//Console.WriteLine(docID);
 			//Console.WriteLine(orgID);
+			var parameters = new DynamicParameters();
+			parameters.Add("orgID", orgID);
+			string Condition = "";
+			if (docID > 0)
+			{
+				parameters.Add("docID", docID);
+
+				Condition = " AND a.docID = @docID";
+			}
+
+			if (!string.IsNullOrWhiteSpace(search))
+			{
+				search = "%" + search.Trim().ToLower() + "%";
+				Condition += " AND LOWER(CONCAT(p.name, ' ', p.surname ,' ',p.father)) LIKE LOWER(@SearchTerm) OR LOWER(p.clientPhone) LIKE LOWER(@SearchTerm)";
+				parameters.Add("@SearchTerm", search);
+			}
+
+			if (onlyActiveCards)
+			{
+				Condition = " AND a.isActive=1";
+			}
 			string query = $@"SELECT 
     p.id,
     p.name,
@@ -73,16 +96,16 @@ namespace Medicloud.DAL.Repository.Patient
 	a.id,
     a.serviceID,
     a.startDate,
-    a.docID
+    a.docID,
+	a.finished,
+	a.isActive
 FROM 
     patients p
 INNER JOIN 
     patient_card a ON p.id = a.patientID
-WHERE 
-    a.docID = @docID 
-    AND a.organizationID = @orgID 
-    AND a.finished = 0
-	AND a.isActive=1
+WHERE   
+    a.organizationID = @orgID 
+    {Condition}
 ORDER BY 
      a.startDate DESC;
  ;
@@ -100,7 +123,7 @@ ORDER BY
 					patient.Cards.Add(card);
 					return patient;
 				},
-				new { docID, orgID },
+				parameters,
 				splitOn: "PatientCardID"
 			);
 
@@ -126,5 +149,6 @@ ORDER BY
 			var newId = await con.ExecuteAsync(sql, patientDAO);
 			return newId;
 		}
+
 	}
 }

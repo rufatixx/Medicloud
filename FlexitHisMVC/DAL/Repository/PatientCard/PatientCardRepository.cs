@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using MySql.Data.MySqlClient;
 using System.Dynamic;
 using System.Text;
+using static Mysqlx.Expect.Open.Types;
 
 namespace Medicloud.DAL.Repository.PatientCard
 {
@@ -20,8 +21,11 @@ namespace Medicloud.DAL.Repository.PatientCard
 			_unitOfWork = unitOfWork;
 		}
 
-		public async Task<List<PatientDocDTO>> GetAllPatientsCards(long organizationID, long patientID, int doctorID = 0)
+		public async Task<List<PatientDocDTO>> GetAllPatientsCards(long organizationID, long patientID, int doctorID = 0,string search=null)
 		{
+
+			var parameters = new DynamicParameters();
+			parameters.Add("organizationID", organizationID);
 			var queryBuilder = new StringBuilder($@"
         SELECT a.id as patientCardID,
                a.cDate,
@@ -48,14 +52,23 @@ namespace Medicloud.DAL.Repository.PatientCard
 			if (patientID > 0)
 			{
 				queryBuilder.Append(" AND a.patientID = @patientID");
+				parameters.Add("patientID", patientID);
 			}
 			if (doctorID > 0)
 			{
 				queryBuilder.Append(" AND a.userID = @UserID");
+				parameters.Add("UserID", doctorID);
+
 			}
+			if (!string.IsNullOrWhiteSpace(search))
+			{
+				search = "%" + search.Trim().ToLower() + "%";
+				queryBuilder.Append(" AND LOWER(CONCAT(p.name, ' ', p.surname ,' ',p.father)) LIKE LOWER(@SearchTerm) OR LOWER(p.clientPhone) LIKE LOWER(@SearchTerm)");
+				parameters.Add("@SearchTerm", search);
+			}
+
 			queryBuilder.Append(" ORDER BY a.cDate DESC");
 
-			var parameters = new { organizationID, patientID = patientID > 0 ? patientID : (object)null, UserID = doctorID > 0 ? doctorID : (object)null };
 			try
 			{
 				var con = _unitOfWork.GetConnection();

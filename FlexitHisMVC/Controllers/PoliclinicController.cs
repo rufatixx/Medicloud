@@ -45,7 +45,7 @@ namespace Medicloud.Controllers
 			int organizationId = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
 			//PatientCardRepo patientRequestDAO = new PatientCardRepo(ConnectionString);
 			//var response = patientRequestDAO.GetPatientsByDr(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID")), Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")));
-			var response = await _patientService.GetPatientsWithCardsByDr(userId, organizationId);
+			var response = await _patientService.GetPatientsWithCardsByDr(organizationId,userId);
 			//Console.WriteLine(id);
 			var anamnesisFields = await _anamnesisService.GetFieldsWithTemplatesByDoctorId(userId);
 

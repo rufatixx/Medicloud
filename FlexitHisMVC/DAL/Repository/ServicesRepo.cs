@@ -40,7 +40,7 @@ namespace Medicloud.Models.Repository
             FROM services s
             left JOIN service_group sg ON s.serviceGroupID = sg.id
 			JOIN service_pricegroup spg ON s.id = spg.serviceID
-            WHERE s.organizationID = @organizationID AND spg.priceGroupID = @PriceGroupId";
+            WHERE s.organizationID = @organizationID AND s.isActive=1 AND spg.priceGroupID = @PriceGroupId";
 
                 var parameters = new DynamicParameters();
                 parameters.Add("@organizationID", organizationID);

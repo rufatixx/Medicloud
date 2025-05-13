@@ -138,7 +138,7 @@
 @section Scripts {
 
     @*<script src="~/js/new_patient/new_patient.js" asp-append-version="true"></script>*@
-<script>
+    <script>
         var json = localStorage.getItem("json")
                 var pageData;
                 var parsedJSON = JSON.parse(json)
@@ -864,7 +864,7 @@
             success: async function (data) {
                 console.log(data);
 
-               
+
                 populatePriceGroupDropdown(data.companyID);
                 await waitForDropdownToLoad("#priceGroup");
 
@@ -1072,7 +1072,7 @@
             $('#MeetingDate').on('change', function () {
                 var date = $(this).val();
                 var selectedUserId = $('#doctors').val();
-                console.log(selectedUserId)
+                //console.log(selectedUserId)
                 if (selectedUserId && date) {
                     showLoading()
                     $.ajax({
@@ -1091,36 +1091,72 @@
 
                                 const blocks = [...(response.breaks || []), ...(response.reserves || [])];
                                 const availableSlots = getAvailableSlots(response.startTime, response.endTime, blocks);
-                                console.log("Available slots:", availableSlots);
+                                //console.log("Available slots:", availableSlots);
 
                                 var content='';
                                 const selectedDoctor = $('#doctors option:selected').text();
                                 content += `<p>Seçilmiş personal</p>`;
                                 content += `<p>${selectedDoctor}</p>`;
 
-                                response.breaks?.forEach(function(data) {
-                                    content += `
-                                        <div class="d-flex align-items-center mb-2">
-                                            <span class="badge bg-warning me-2">Fasilə</span>
-                                            <span>${formatTimeWithoutSeconds(data.start)} - ${formatTimeWithoutSeconds(data.end)}</span>
-                                        </div>
-                                    `;
+
+                                let allSlots = [];
+
+                                response.breaks?.forEach(function (data) {
+                                    allSlots.push({
+                                        type: "break",
+                                        start: data.start,
+                                        end: data.end
+                                    });
+                                });
+
+                                response.reserves?.forEach(function (data) {
+                                    allSlots.push({
+                                        type: "reserve",
+                                        start: formatTimeWithoutSeconds(data.start),
+                                        end: formatTimeWithoutSeconds(data.end)
+                                    });
+                                });
+
+                                availableSlots?.forEach(function ([start, end]) {
+                                    allSlots.push({
+                                        type: "available",
+                                        start: start,
+                                        end: end
+                                    });
                                 });
 
 
-                                response.reserves?.forEach(function(data) {
-                                    content += `
-                                        <div class="d-flex align-items-center mb-2">
-                                            <span class="badge bg-danger me-2">Rezerv olunub</span>
-                                            <span>${formatTimeWithoutSeconds(data.start)} - ${formatTimeWithoutSeconds(data.end)}</span>
-                                        </div>
-                                    `;
+
+                                allSlots.sort(function (a, b) {
+                                    return new Date('1970-01-01T' + a.start) - new Date('1970-01-01T' + b.start);
                                 });
-                                availableSlots?.forEach(function([start, end]) {
+
+
+                                console.log(allSlots)
+
+                                allSlots.forEach(function (data) {
+                                    let badgeClass = "";
+                                    let badgeText = "";
+
+                                    switch (data.type) {
+                                        case "break":
+                                            badgeClass = "bg-warning";
+                                            badgeText = "Fasilə";
+                                            break;
+                                        case "reserve":
+                                            badgeClass = "bg-danger";
+                                            badgeText = "Rezerv olunub";
+                                            break;
+                                        case "available":
+                                            badgeClass = "bg-success";
+                                            badgeText = "Uyğun";
+                                            break;
+                                    }
+
                                     content += `
                                         <div class="d-flex align-items-center mb-2">
-                                            <span class="badge bg-success me-2">Uyöun</span>
-                                            <span>${start} - ${end}</span>
+                                            <span class="badge ${badgeClass} w-50 me-2">${badgeText}</span>
+                                            <span>${formatTimeWithoutSeconds(data.start)} - ${formatTimeWithoutSeconds(data.end)}</span>
                                         </div>
                                     `;
                                 });
@@ -1128,7 +1164,8 @@
 
 
 
-                                $('#infoHoursButton').off().on('click',function(){
+                                $('#infoHoursButton').off().on('click', function () {
+                                    $('#infoText').text('');
                                     $('#infoError').text('').hide();
                                     $('#infoModal').modal('show');
                                 });
@@ -1163,12 +1200,16 @@
                  const minutes = String(today.getMinutes()).padStart(2, '0');
                  const timeStr = `${hours}:${minutes}`;
 
-                 $('#startTime').val(timeStr);
-                 $('#MeetingDate').val(dateStr).trigger('change');
+                $('#startTime').val(timeStr);
                 $('#infoContent').empty();
                 $('#infoHoursButton').hide();
+                $('#MeetingDate').val(dateStr).trigger('change');
+             })
 
-              })
+             if (@Model.Doctors.Count == 1)
+                {
+                    $('#doctors').trigger('change');
+                }
 
 
             let $form = $('#cardForm');

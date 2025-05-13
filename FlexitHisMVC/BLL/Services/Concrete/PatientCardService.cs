@@ -19,10 +19,10 @@ namespace Medicloud.BLL.Services.Concrete
             _repository=repository;
         }
 
-        public async Task<List<PatientDocDTO>> GetAllPatientsCards(long organizationID, long patientID,int doctorID)
+        public async Task<List<PatientDocDTO>> GetAllPatientsCards(long organizationID, long patientID,int doctorID,string search=null)
         {
             using var con = _unitOfWork.BeginConnection();
-            var result=await _repository.GetAllPatientsCards(organizationID, patientID,doctorID);
+            var result=await _repository.GetAllPatientsCards(organizationID, patientID,doctorID,search);
             return result;
         }
 
@@ -78,5 +78,6 @@ namespace Medicloud.BLL.Services.Concrete
 			using var con = _unitOfWork.BeginConnection();
 			return await _repository.RemoveAsync(id);
 		}
+
 	}
 }

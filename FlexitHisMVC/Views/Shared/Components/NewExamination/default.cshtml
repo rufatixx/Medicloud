@@ -126,13 +126,21 @@
                             <div class="col-md-4">
                                 <label class="form-label">Müəssisədə xidmət edən personal</label>
                                 <select class="form-control" required id="doctors">
-                                    <option value="">Seçin</option>
                                     @if (Model?.Doctors != null)
                                     {
-                                        foreach (var item in Model.Doctors)
+                                        @if (Model.Doctors.Count == 1)
                                         {
-                                            <option value="@item.ID">@item.name @item.surname (@item.speciality.name)</option>
+                                            <option selected value="@Model.Doctors[0].ID">@Model.Doctors[0].name @Model.Doctors[0].surname (@Model.Doctors[0].speciality.name)</option>
                                         }
+                                        else
+                                        {
+                                            <option value="">Seçin</option>
+                                            foreach (var item in Model.Doctors)
+                                            {
+                                                <option value="@item.ID">@item.name @item.surname (@item.speciality.name)</option>
+                                            }
+                                        }
+
                                     }
                                 </select>
                                 <div class="valid-feedback">
@@ -144,21 +152,21 @@
                             </div>
                             @*                             <div class="col-md-4">
 
-            <label class="form-label">Gödərən</label>
-            <select class="form-control" id="referer">
-                <!-- <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option> -->
-            </select>
-            <div class="valid-feedback">
-                Əla!
-            </div>
-            <div class="invalid-feedback">
-                Boşluğu doldurun.
-            </div>
-        </div> *@
+                                    <label class="form-label">Gödərən</label>
+                                    <select class="form-control" id="referer">
+                                        <!-- <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option> -->
+                                    </select>
+                                    <div class="valid-feedback">
+                                        Əla!
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Boşluğu doldurun.
+                                    </div>
+                                </div> *@
                             <div class="col-md-4">
                                 <label class="form-label">Qiymət (AZN)</label>
                                 <input type="tel" class="form-control" required id="price" placeholder="Məbləğ" disabled>

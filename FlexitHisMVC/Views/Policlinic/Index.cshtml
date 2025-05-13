@@ -294,9 +294,34 @@
                 {
                     foreach (var item in selectedPatient.Cards)
                     {
-                        <div class="text-start">
-                            <a href="@Url.Action("Index","Policlinic",new { id = item.id })" class="link">Növbə tarixi: @item.startDate?.ToString("dd MMM yyyy HH:mm", culture)</a>
-                        </div>
+                            string className = "";
+                            string text = "";
+                            if (item.finished)
+                            {
+                                className = "bg-info";
+                                text = "Ödənilib və bağlanıb";
+                            }
+                            else
+                            {
+                                if (item.isActive)
+                                {
+                                    className = "bg-success";
+                                    text = "Aktiv";
+                                }
+                                else
+                                {
+                                    className = "bg-danger";
+                                    text = "İmtina edilib";
+                                }
+                            }
+                        
+
+                <div class="text-start">
+                    <a href="@Url.Action("Index","Policlinic",new { id = item.id })" class="link">Növbə tarixi: @item.startDate?.ToString("dd MMM yyyy HH:mm", culture)</a>
+                    <span class="ms-3 badge @className">
+                        @text
+                    </span>
+                </div>
                     }
                 }
 
@@ -942,7 +967,7 @@
                 if (response) {
                     response.anamnesisAnswers.forEach(function (item) {
                         var fieldId = item.anamnesisFieldId;
-                        var text = item.answerText || 'N/A';
+                        var text = item.answerText || '';
 
                         var label = $("#anamnesisDetailModal .anamnez-field[data-field-id='" + fieldId + "'] .form-control");
                         if (label.attr('id')) {
@@ -953,7 +978,7 @@
                     $("#anamnesisDetailModal .anamnez-field .form-control").each(function () {
                         var label = $(this);
                         if (label.attr('id') && !label.text().trim()) {
-                            label.text('N/A');
+                            label.text('');
                         }
                     });
 

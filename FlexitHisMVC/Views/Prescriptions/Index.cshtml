@@ -1,44 +1,60 @@
 ﻿
 
+
 @{
-    // Determine the title based on ViewBag.patientFullname
-    if (!string.IsNullOrEmpty(ViewBag.patientFullname))
+    string patientFullname = "";
+    if (Model.PatientId > 0)
     {
-        // Format the title and set it in ViewData
-        ViewData["Title"] = $"({ViewBag.patientFullname} - Müayinə Kartları)";
+        var firstItem = Model.PatientCards?.FirstOrDefault();
+        patientFullname = firstItem != null ? $"{firstItem.name} {firstItem.surname}":"";
+        ViewData["Title"] = $"({patientFullname} - Növbələr)";
+
     }
+    // Determine the title based on ViewBag.patientFullname
+    //if (!string.IsNullOrEmpty(ViewBag.patientFullname))
+    //{
+    //    // Format the title and set it in ViewData
+    //    ViewData["Title"] = $"({ViewBag.patientFullname} - Növbələr)";
+    //}
     else
     {
         // Set the default title
-        ViewData["Title"] = " - Müayinə Kartları";
+        ViewData["Title"] = " - Növbələr";
     }
 }
 
 
-@using Medicloud.Models.Domain;
-@model List<PatientDocDTO>
+@model Medicloud.ViewModels.PrescriptionsViewModel
 
 
 <div class="row">
     <div class="col-12">
         <div class="page-title-box">
-            <div class="page-title-right">
+            <form asp-action="Index" asp-controller="Prescriptions">
 
-                <a href="javascript:window.print()">
-                    <button type="button" class="btn btn-primary w-md bg-blue-light radius-10"><i class="ri-printer-line"></i>Çap et</button>
-                </a>
+                <div class="page-title-right">
 
 
-                @* <button type="reset" class="btn btn-primary w-md bg-blue radius-10" onclick=" $('#patientSearch').modal('show');">+ Yeni müayinə kartı</button> *@
-                @*<button type="reset" class="btn btn-primary w-md bg-blue radius-10" onclick=" $('#patientSearch').modal('show');">+ Yeni xidmət</button>
-                    <button type="reset" class="btn btn-primary w-md bg-blue radius-10" onclick=" $('#patientSearch').modal('show');">+ Yeni diagnoz</button>*@
+                    <div class="d-inline-block">
+                        <input id="searchInput" name="search" type="text" class=" me-1 form-control" placeholder="Axtarın" value="@Model.SearchText" style="min-width: 220px;">
+                    </div>
 
-            </div>
+                    <a href="javascript:window.print()">
+                        <button type="button" class="btn btn-primary w-md bg-blue-light radius-10"><i class="ri-printer-line"></i>Çap et</button>
+                    </a>
+
+
+                    @* <button type="reset" class="btn btn-primary w-md bg-blue radius-10" onclick=" $('#patientSearch').modal('show');">+ Yeni müayinə kartı</button> *@
+                    @*<button type="reset" class="btn btn-primary w-md bg-blue radius-10" onclick=" $('#patientSearch').modal('show');">+ Yeni xidmət</button>
+                        <button type="reset" class="btn btn-primary w-md bg-blue radius-10" onclick=" $('#patientSearch').modal('show');">+ Yeni diagnoz</button>*@
+
+                </div>
+            </form>
 
             <h2 class="page-title">
-                @if (!string.IsNullOrEmpty(ViewBag.patientFullname))
+                @if (!string.IsNullOrEmpty(patientFullname))
                 {
-                    @($"{ViewBag.patientFullname} - Növbələr")
+                    @($"{patientFullname} - Növbələr")
                 }
                 else
                 {
@@ -64,7 +80,7 @@
                                         <th class="text-muted">#</th>
                                         <th class="text-muted">Ad, Soyad</th>
                                         <th class="text-muted">Tarix</th>
-                                        @*<th class="text-muted" >Diagnoz</th>*@
+                                        @*<th class="text-muted" >Kabinet</th>*@
                                         <th class="text-muted">Növbə nömrəsi</th>
                                         <th class="text-muted">Status</th>
                                         <th class="text-muted"></th>
@@ -73,13 +89,17 @@
                                 <tbody style="vertical-align:middle; font-weight:500;">
                                     @{
                                         var rowNumber = 0;
-                                        foreach (var item in Model)
+                                        foreach (var item in Model.PatientCards)
                                         {
                                             rowNumber++;
 
                                             <tr class="odd">
                                                 <th class="text-muted dtr-control" tabindex="0">@rowNumber</th>
-                                                <td>@item.name @item.surname</td>
+                                                <td>
+                                                    <a href="@Url.Action("Index", "Policlinic", new {id =item.patientCardID})">
+                                                        @item.name @item.surname
+                                                    </a>
+                                                </td>
                                                 @*<td>@item.cDate.ToString("dd.MM.yyyy")</td>*@
                                                 <td>
                                                     @{
@@ -91,9 +111,8 @@
                                                     @formatDate
                                                 </td>
 
-
                                                 @*<td>
-                                                        <a href="@Url.Action("Index", "Diagnoses", new {area="",patientFullName=$"{@item.name} {@item.surname}",patientID =item.ID})">
+                                                        <a href="@Url.Action("Index", "Policlinic", new {id =item.patientCardID})">
                                                             Bax
                                                         </a>
                                                     </td>*@
@@ -169,8 +188,8 @@
     </div> <!-- end col -->
 </div>
 
-@await Component.InvokeAsync("PrescriptionModal")
-@await Component.InvokeAsync("SearchPatient")
+@*@await Component.InvokeAsync("PrescriptionModal")
+@await Component.InvokeAsync("SearchPatient")*@
 
 @section Scripts {
 
