@@ -813,7 +813,7 @@
                 // Compare to the filter
                 if (isActive.toString() === filterVal) {
                     // Build the HTML
-                    console.log(item.speciality)
+                    //console.log(item.speciality)
                     var specialistName = item.speciality.name || "";
                     var rowHtml = `
                         <div class="list-group-item list-group-item-action personal-list ${activeContent}"
@@ -1176,9 +1176,11 @@
                     },
                     success: function (data, status, xhr) {
                         if (data > 0) {
-                            $('#systemModal').modal('hide');
+                            //$('#systemModal').modal('hide');
                             $('#warningModalPersonal').modal('show');
                             $('#warningTextPersonal').text('Personal əlavə olundu!');
+
+                            window.location.reload();
                         } else {
                             $('#systemModal').modal('hide');
                             $('#warningModalPersonal').modal('show');

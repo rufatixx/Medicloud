@@ -4,7 +4,7 @@
 }
 
 @using Medicloud.Models.Domain;
-@model List<Medicloud.DAL.Entities.PatientCardServiceDAO>
+@model Medicloud.ViewModels.ServicesViewModel
 <div class="row">
     <div class="col-12">
         <div class="page-title-box">
@@ -13,25 +13,25 @@
                 <a href="javascript:window.print()">
                     <button type="button" class="btn btn-primary w-md bg-blue-light radius-10"><i class="ri-printer-line"></i>Çap et</button>
                 </a>
-@*                 @if (ViewBag.cardID == 0)
+                @*                 @if (ViewBag.cardID == 0)
+                    {
+                        <button type="reset" class="btn btn-primary w-md bg-blue radius-10" onclick=" $('#patientSearch').modal('show');">+ Yeni müayinə</button>
+
+                    } *@
+
+
+                @if (Model.CardId > 0)
                 {
-                    <button type="reset" class="btn btn-primary w-md bg-blue radius-10" onclick=" $('#patientSearch').modal('show');">+ Yeni müayinə</button>
-
-                } *@
-
-
-                @if (ViewBag.cardID > 0)
-                {
-                    <a class="btn btn-primary" href="@Url.Action("Recipe", "Reception",new {cardID = ViewBag.cardID  })">Ödəniş çeki</a>
+                    <a class="btn btn-primary" href="@Url.Action("Recipe", "Reception",new {cardID = Model.CardId  })">Ödəniş çeki</a>
                     @*<button type="button" class="btn btn-primary" onclick="showAddServiceModal()">
-                        + Yeni xidmət
-                    </button>*@
+                            + Yeni xidmət
+                        </button>*@
 
                 }
 
             </div>
             @{
-                var title = ViewBag.cardID > 0 ? $"Növbə № {ViewBag.cardID}" : "Müayinələr";
+                var title = Model.CardId > 0 ? $"Növbə № {Model.CardId}" : "Müayinələr";
             }
 
             <h2 class="page-title">@title</h2>
@@ -57,7 +57,7 @@
 
                                         <th class="text-muted" rowspan="1" colspan="1" style="width: 160px;">(Həkim) Ad, Soyad</th>
 
-                                        @if (ViewBag.cardID==0)
+                                        @if (Model.CardId == 0)
                                         {
                                             <th class="text-muted" rowspan="1" colspan="1" style="width: 231px;">Növbə nömrəsi</th>
                                         }
@@ -68,7 +68,7 @@
                                 <tbody style="vertical-align:middle; font-weight:500;">
                                     @{
                                         var rowNumber = 0;
-                                        foreach (var item in Model)
+                                        foreach (var item in Model.PatientCardServices)
                                         {
                                             rowNumber++;
 
@@ -84,25 +84,25 @@
                                                 <td>
                                                     @item.DocName @item.DocSurname
                                                 </td>
-                                                @if (ViewBag.cardID==0)
+                                                @if (Model.CardId == 0)
                                                 {
                                                     <td class="cardIdCol">
                                                         <a href="@Url.Action("Index", "Services", new { area = "",cardId=$"{@item.card_id}"})">
                                                             № @item.card_id
                                                         </a>
-                                                       
+
                                                     </td>
                                                 }
 
 
                                                 @*<td style="float: right">
-                                        <a href="patient-edit.php?patient_id=61294"><button type="button" class="btn btn-light btn-sm edit-button" data-id="1"><i class="far fa-edit"></i></button></a>
-                                        <a href="javascript:void(0);" class="delete-link" data-patient-id="61294">
-                                        <button type="button" class="btn btn-light btn-sm delete-button">
-                                        <i class="far fa-trash-alt"></i>
-                                        </button>
-                                        </a>
-                                        </td>*@
+                                                    <a href="patient-edit.php?patient_id=61294"><button type="button" class="btn btn-light btn-sm edit-button" data-id="1"><i class="far fa-edit"></i></button></a>
+                                                    <a href="javascript:void(0);" class="delete-link" data-patient-id="61294">
+                                                    <button type="button" class="btn btn-light btn-sm delete-button">
+                                                    <i class="far fa-trash-alt"></i>
+                                                    </button>
+                                                    </a>
+                                                    </td>*@
                                             </tr>
 
                                         }
@@ -144,11 +144,16 @@
                                 <label class="form-label">Xidmət</label>
                                 <select class="form-control" required id="servicesModal" onchange="servicesChangedServiceModal(this)">
                                     <option value="">Seçin...</option>
-                                    @foreach (var service in ViewBag.services)
-                                    {
-                                        <option value="@service.ID" data-price="@service.price">@service.name</option>
 
+                                    @if (Model.Services!= null)
+                                    {
+                                        @foreach (var service in Model.Services)
+                                        {
+                                            <option value="@service.ID" data-price="@service.price">@service.name</option>
+
+                                        }
                                     }
+
                                 </select>
                                 <div class="valid-feedback">Əla!</div>
                                 <div class="invalid-feedback">
@@ -170,7 +175,7 @@
                             <button type="button" id="addServiceBtn" class="btn btn-primary" onclick="addService()">Əlavə et</button>
                             <button type="button" id="removeServiceBtn" class="btn btn-danger" onclick="removeService()">Sil</button>
                             @*<button type="button" class="btn btn-info" onclick="loadAddServiceIntoPatientCardModal()">Xidmətlər</button>
-                            <button type="button" class="btn btn-primary" onclick="generateRecipe()">Çek əldə et</button>*@
+                                <button type="button" class="btn btn-primary" onclick="generateRecipe()">Çek əldə et</button>*@
                         </div>
                     </div>
                 </form>
@@ -187,7 +192,7 @@
 
 
     <script>
-        var selectedCardID = @ViewBag.cardID;
+        var selectedCardID = @Model.CardId;
         let selectedId;
 
 

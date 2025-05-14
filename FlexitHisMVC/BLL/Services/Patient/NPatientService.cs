@@ -37,7 +37,7 @@ namespace Medicloud.BLL.Services.Patient
 					{
 						result.Add(new()
 						{
-							bDate = DateTime.Parse(item.bDate),
+							bDate = DateTime.Parse(item?.bDate??"01.01.0001"),
 							email = item.clientEmail,
 							phone = item.clientPhone,
 							totalCardNumbers = item.Cards?.Count ?? 0,

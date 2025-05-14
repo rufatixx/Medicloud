@@ -6,7 +6,7 @@
     if (Model.PatientId > 0)
     {
         var firstItem = Model.PatientCards?.FirstOrDefault();
-        patientFullname = firstItem != null ? $"{firstItem.name} {firstItem.surname}":"";
+        patientFullname = firstItem != null ? $"{firstItem.name} {firstItem.surname}" : "";
         ViewData["Title"] = $"({patientFullname} - Növbələr)";
 
     }
@@ -29,16 +29,28 @@
 
 <div class="row">
     <div class="col-12">
-        <div class="page-title-box">
+        <div class="d-flex align-items-md-center flex-column flex-md-row justify-content-between my-2">
+            <h2 class="">
+                @if (!string.IsNullOrEmpty(patientFullname))
+                {
+                    @($"{patientFullname} - Növbələr")
+                }
+                else
+                {
+                    @Html.Raw("Növbələr")
+                }
+            </h2>
             <form asp-action="Index" asp-controller="Prescriptions">
 
-                <div class="page-title-right">
+                <div class="d-flex align-items-md-center flex-column flex-md-row">
 
 
-                    <div class="d-inline-block">
-                        <input id="searchInput" name="search" type="text" class=" me-1 form-control" placeholder="Axtarın" value="@Model.SearchText" style="min-width: 220px;">
+                    <div class="d-inline-flex align-items-center bg-white border me-2 rounded">
+                        <input type="text" id="searchInput" class="form-control  border-0" name="search" value="@Model.SearchText" placeholder="Axtarın" style="">
+                        <button type="submit" class="btn btn-sm btn-outline-light-gray mb-0" id="searchButton">
+                            <img src="~/res/search.svg" />
+                        </button>
                     </div>
-
                     <a href="javascript:window.print()">
                         <button type="button" class="btn btn-primary w-md bg-blue-light radius-10"><i class="ri-printer-line"></i>Çap et</button>
                     </a>
@@ -51,16 +63,7 @@
                 </div>
             </form>
 
-            <h2 class="page-title">
-                @if (!string.IsNullOrEmpty(patientFullname))
-                {
-                    @($"{patientFullname} - Növbələr")
-                }
-                else
-                {
-                    @Html.Raw("Növbələr")
-                }
-            </h2>
+
 
         </div>
     </div>
@@ -103,10 +106,16 @@
                                                 @*<td>@item.cDate.ToString("dd.MM.yyyy")</td>*@
                                                 <td>
                                                     @{
-                                                        var date = item.startDate.ToString("dd.MM.yyyy");
-                                                        var startTime = item.startDate.ToString("HH:mm");
-                                                        var endTime = item.endDate.ToString("HH:mm");
-                                                        var formatDate = $"{date} {startTime} - {endTime}";
+                                                        string formatDate = "";
+                                                        if (item.startDate != DateTime.MinValue)
+                                                        {
+
+                                                            var date = item.startDate.ToString("dd.MM.yyyy");
+                                                            var startTime = item.startDate.ToString("HH:mm");
+                                                            var endTime = item.endDate.ToString("HH:mm");
+                                                            formatDate = $"{date} {startTime} - {endTime}";
+                                                        }
+
                                                     }
                                                     @formatDate
                                                 </td>
@@ -189,7 +198,7 @@
 </div>
 
 @*@await Component.InvokeAsync("PrescriptionModal")
-@await Component.InvokeAsync("SearchPatient")*@
+    @await Component.InvokeAsync("SearchPatient")*@
 
 @section Scripts {
 

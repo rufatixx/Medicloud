@@ -155,7 +155,7 @@ namespace Medicloud.Models.Repository
 
 
                             // Проверяем, все ли услуги оплачены
-                            var cmdCheckAllPaid = new MySqlCommand("SELECT COUNT(*) FROM patient_card_service_rel WHERE patientCardId = @patientCardID and is_paid = 0", connection, transaction);
+                            var cmdCheckAllPaid = new MySqlCommand("SELECT COUNT(*) FROM patient_card_service_rel WHERE patientCardId = @patientCardID and is_paid = 0 and is_removed=0", connection, transaction);
                             cmdCheckAllPaid.Parameters.AddWithValue("@patientCardID", patientCardID);
                             var allServicesPaid = (long)cmdCheckAllPaid.ExecuteScalar() == 0;
 

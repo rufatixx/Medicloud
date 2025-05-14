@@ -312,6 +312,7 @@ namespace Medicloud.Controllers
             {
                 var workHours = await _workHourService.GetOrganizationUserWorkHours(userId, organizationId);
                 vm.WorkHours = workHours;
+				vm.UserId=userId;
             }
 
 
@@ -351,7 +352,7 @@ namespace Medicloud.Controllers
             };
             var updated = await _workHourService.UpdateWorkHours(dto);
 
-            return RedirectToAction("Step9", new { organizationId = vm.id });
+            return RedirectToAction("WorkHours", new {userId=vm.UserId});
 
         }
 

@@ -1,3 +1,4 @@
+using Medicloud.ViewModels;
 using Medicloud.BLL.Services.Abstract;
 using Medicloud.DAL.Repository.Abstract;
 using Medicloud.DAL.Repository.PatientCard;
@@ -46,15 +47,18 @@ namespace Medicloud.Controllers
 			{
 				int organizationId = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
 
-				ViewBag.services = servicesRepo.GetServicesByOrganization(organizationId);
 
-				ViewBag.requestTypes = await _requestTypeService.GetRequestTypesAsync(organizationId);
-				ViewBag.cardID = cardId;
+
+				var vm = new ServicesViewModel()
+				{
+					Services= servicesRepo.GetServicesByOrganization(organizationId),
+					RequestTypes= await _requestTypeService.GetRequestTypesAsync(organizationId),
+					CardId= cardId,
+					PatientCardServices= await _patientCardServiceRelRepository.GetServicesFromPatientCard(cardId, Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")))
+				};
 
 				//var response = patientCardServiceRelRepo.GetServicesFromPatientCard(cardId, Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")));
-				var response =await _patientCardServiceRelRepository.GetServicesFromPatientCard(cardId, Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")));
-
-				return View(response);
+				return View(vm);
 
 			}
 			else

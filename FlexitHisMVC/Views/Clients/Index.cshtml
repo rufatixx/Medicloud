@@ -6,19 +6,24 @@
 @model Medicloud.ViewModels.ClientsViewModel
 <div class="row">
     <div class="col-12">
-        <div class="page-title-box">
-            <form asp-controller="Clients" asp-action="Index">
-                <div class="page-title-right align-items-center">
+        <div class="d-flex align-items-md-center flex-column flex-md-row justify-content-between my-2">
+            <h2 class="">Pasientlər / müştərilər</h2>
 
-                    <div class="d-inline-block">
-                        <input id="searchInput" name="search" type="text" class=" me-1 form-control" placeholder="Axtarın" value="@Model.SearchText" style="min-width: 220px;">
+            <form asp-controller="Clients" asp-action="Index">
+                <div class="d-flex align-items-md-center flex-column flex-md-row">
+
+                    <div class="d-inline-flex align-items-center bg-white border me-2 rounded">
+                        <input type="text" id="searchInput" class="form-control  border-0" name="search" value="@Model.SearchText" placeholder="Axtarın" style="">
+                        <button type="submit" class="btn btn-sm btn-outline-light-gray mb-0" id="searchButton">
+                            <img src="~/res/search.svg" />
+                        </button>
                     </div>
 
 
-                    <a href="javascript:window.print()">
+                    <a href="javascript:window.print()" class="me-2 mt-2 mt-md-0 ">
                         <button type="button" class="btn btn-primary w-md bg-blue-light radius-10"><i class="ri-printer-line"></i>Çap et</button>
                     </a>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#customerInfoModal">
+                    <button type="button" class="btn btn-primary mt-2 mt-md-0" data-bs-toggle="modal" data-bs-target="#customerInfoModal">
                         + Yeni pasient / müştəri
                     </button>
 
@@ -26,7 +31,6 @@
             </form>
 
 
-            <h2 class="page-title">Pasientlər / müştərilər</h2>
         </div>
     </div>
 </div>
