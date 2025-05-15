@@ -1,16 +1,17 @@
 ﻿@model KassaDTO;
 
-@if (string.IsNullOrEmpty(ViewBag.warningText))
+@if (string.IsNullOrEmpty(Model.warningText))
 {
     <div class="row">
         <div class="col-12">
-            <div class="page-title-box">
-                <div class="page-title-right">
+            <div class="d-flex align-items-md-center flex-column flex-md-row justify-content-between my-2">
+                <h4 class="page-title">Ödənilmiş qəbzlərin siyahısı 📄</h4>
+                <div class="">
                     <form class="d-flex">
                         @await Component.InvokeAsync("KassaSelector")
                     </form>
                 </div>
-                <h4 class="page-title">Ödənilmiş qəbzlərin siyahısı 📄</h4>
+
             </div>
         </div>
     </div>
@@ -71,6 +72,6 @@
 else
 {
     <center>
-        <h1>@ViewBag.warningText</h1>
+        <h1>@Model.warningText</h1>
     </center>
 }

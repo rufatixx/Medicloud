@@ -11,6 +11,7 @@ namespace Medicloud.Models
        
         public double kassaSum { get; set; }
        public List<Recipe> recipeList { get; set; }
-    }
+		public string warningText { get; set; }
+	}
     
 }

@@ -41,8 +41,11 @@ namespace Medicloud.Controllers
             }
             else
             {
-                ViewBag.warningText = "Sizin heç bir kassaya icazəniz yoxdur";
-                return View();
+				KassaDTO response = new()
+				{
+					warningText = "Sizin heç bir kassaya icazəniz yoxdur"
+				};
+                return View(response);
             }
 
           

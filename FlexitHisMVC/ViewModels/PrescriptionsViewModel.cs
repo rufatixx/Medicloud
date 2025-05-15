@@ -7,5 +7,6 @@ namespace Medicloud.ViewModels
 		public int PatientId { get; set; }
 		public string SearchText { get; set; }
 		public List<PatientDocDTO> PatientCards  { get; set; }
+		public bool isDoctor { get; set; }
 	}
 }

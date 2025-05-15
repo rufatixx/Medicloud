@@ -39,13 +39,13 @@ namespace Medicloud.Controllers
 		}
 		[Authorize]
 		// GET: /<controller>/
-		public async Task<IActionResult> Index(int id = 0)
+		public async Task<IActionResult> Index(int id = 0,string search=null)
 		{
 			int userId = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID"));
 			int organizationId = Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID"));
 			//PatientCardRepo patientRequestDAO = new PatientCardRepo(ConnectionString);
 			//var response = patientRequestDAO.GetPatientsByDr(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_userID")), Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")));
-			var response = await _patientService.GetPatientsWithCardsByDr(organizationId,userId);
+			var response = await _patientService.GetPatientsWithCardsByDr(organizationId,userId,search);
 			//Console.WriteLine(id);
 			var anamnesisFields = await _anamnesisService.GetFieldsWithTemplatesByDoctorId(userId);
 
@@ -62,7 +62,8 @@ namespace Medicloud.Controllers
 			{
 				Patients = response,
 				SelectedCardId = id,
-				AnamnesisFields = anamnesisFields
+				AnamnesisFields = anamnesisFields,
+				SearchText = search
 			};
 
 			if (id > 0)

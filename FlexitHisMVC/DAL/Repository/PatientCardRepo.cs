@@ -327,7 +327,7 @@ LEFT JOIN
 WHERE 
     pcsr.patientCardID = @cardID
 GROUP BY 
-    s.id, s.name, s.price
+    s.id, s.name, s.price,pcsr.id, pcsr.is_paid
 ";
 
                         using (var serviceCommand = new MySqlCommand(serviceQuery, connection))

@@ -9,5 +9,6 @@ namespace Medicloud.ViewModels
         public int SelectedCardId { get; set; }
 		public List<AnamnesisFieldDAO> AnamnesisFields { get; set; }
 		public List<AnamnesisDAO> CardAnamnesis { get; set; }
+		public string SearchText { get; set; }
 	}
 }

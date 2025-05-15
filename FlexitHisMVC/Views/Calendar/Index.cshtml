@@ -1,4 +1,8 @@
-﻿<link rel="shortcut icon" href="assets/images/favicon.ico">
+﻿@{
+    @removeTagHelper "Microsoft.AspNetCore.Mvc.TagHelpers.*, Microsoft.AspNetCore.Mvc.TagHelpers"
+}
+
+<link rel="shortcut icon" href="assets/images/favicon.ico">
 <link href="assets/vendor/fullcalendar/main.min.css" rel="stylesheet" type="text/css" />
 <link href="assets/css/app-saas.min.css" rel="stylesheet" type="text/css" id="app-style" />
 <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
@@ -8,10 +12,49 @@
         cursor: pointer;
     }
 </style>
-<div class="col-12">
-    <div class="page-title-box">
 
+@*row d-flex align-items-md-center flex-column flex-md-row*@
+<div class="row align-items-center py-2">
+    <div class="col">
         <h2 class="page-title">Təqvim</h2>
+    </div>
+    <div class="col-md-6">
+        <div class="row">
+
+            @{
+                var currentYear = DateTime.Now.Year;
+                var startYear = 2022;
+                var endYear = currentYear + 2;
+                var currentMonth = DateTime.Now.Month;
+                var monthNames = new[] { "Yanvar", "Fevral", "Mart", "Aprel", "May", "İyun", "İyul", "Avqust", "Sentyabr", "Oktyabr", "Noyabr", "Dekabr" };
+            }
+            <div class="col-md-6 mb-md-0 mb-2">
+                <div class="form-floating">
+                    <select id="yearSelect" class="form-select" aria-label="İl seçin">
+                        @for (int year = startYear; year <= endYear; year++)
+                        {
+                            <option value="@year" @(year == currentYear ? "selected" : "")>@year</option>
+                        }
+                    </select>
+                    <label for="yearSelect">İl</label>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-floating">
+                    <select id="monthSelect" class="form-select" aria-label="Ay seçin">
+                        @for (int i = 1; i <= 12; i++)
+                        {
+                            <option value="@i" @(i == currentMonth ? "selected" : "")>@monthNames[i - 1]</option>
+                        }
+                    </select>
+                    <label for="monthSelect">Ay</label>
+                </div>
+            </div>
+        </div>
+
+
+
     </div>
 </div>
 
@@ -25,11 +68,14 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <table class="table w-100">
+                    <div class="table-responsive">
+                        <table class="table w-100">
 
-                        <thead id="appointmentsTableHead"></thead>
-                        <tbody id="appointmentsTableBody"></tbody>
-                    </table>
+                            <thead id="appointmentsTableHead"></thead>
+                            <tbody id="appointmentsTableBody"></tbody>
+                        </table>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -62,24 +108,26 @@
             const calendarEl = document.getElementById('calendar');
             const calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
+                contentHeight:"auto",
                 headerToolbar: {
                     left: "prev,next today",
                     center: "title",
-                    right: "newAppointment"
+                    //right: "newAppointment"
+                    right: ""
                 },
                 buttonText: {
                     prev: "<",
                     next: ">",
                     today: "Bu gün"
                 },
-                customButtons: {
-                    newAppointment: {
-                        text: 'Yeni Növbə',
-                        click: function () {
-                            $('#add-appointment-modal').modal('show');
-                        }
-                    }
-                },
+                //customButtons: {
+                //    newAppointment: {
+                //        text: 'Yeni Növbə',
+                //        click: function () {
+                //            $('#add-appointment-modal').modal('show');
+                //        }
+                //    }
+                //},
                 dateClick: function (info) {
                     fetchAppointmentsForDay(new Date(info.dateStr));
                 },
@@ -96,6 +144,16 @@
 
             calendar.render();
 
+
+            $('#yearSelect, #monthSelect').on('change', function () {
+                const year = $('#yearSelect').val();
+                const month = $('#monthSelect').val().padStart(2, '0'); // 1 → 01
+
+                const newDateStr = `${year}-${month}-01`;
+                calendar.gotoDate(newDateStr);
+                fetchAndDisplayEvents();
+            });
+
             function getTimeOfDate(date) {
                 let hours = date.getHours().toString().padStart(2, '0');
                 let minutes = date.getMinutes().toString().padStart(2, '0');
@@ -103,7 +161,8 @@
                 return `${hours}:${minutes}`;
             }
 
-          function fetchAppointmentsForDay(dateStr) {
+            function fetchAppointmentsForDay(dateStr) {
+                showLoading();
             fetch(`@Url.Action("GetPresctiptionsByDate", "Prescriptions")/?date=${dateStr.toISOString()}`)
                 .then(response => response.json())
                 .then(appointments => {
@@ -140,9 +199,12 @@
                         const appointmentsModal = new bootstrap.Modal(document.getElementById('appointmentsModal'));
                         appointmentsModal.show();
                     }
+                    hideLoading();
                 })
                 .catch(error => {
                     console.error('Fetch error:', error);
+                    hideLoading();
+
                 });
                 }
 
@@ -152,12 +214,16 @@
                 const startDate = calendar.view.activeStart;
                 const endDate = calendar.view.activeEnd;
 
+
+                calendar.getEvents().forEach(event => event.remove());
+                showLoading();
                 fetch(`@Url.Action("GetCardsByRange", "Prescriptions")/?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`)
                     .then(response => {
+
                         return response.json();
                     })
                     .then(data => {
-                        console.log(data)
+                        //console.log(data)
                         const appointmentsCount = {};
                         data.forEach(appointment => {
                             const date = appointment.start_date.split('T')[0];
@@ -175,9 +241,13 @@
                                 allDay: true,
                             });
                         }
+                        hideLoading();
+
                     })
                     .catch(error => {
                         console.error('fetch error:', error);
+                        hideLoading();
+
                     });
             }
 

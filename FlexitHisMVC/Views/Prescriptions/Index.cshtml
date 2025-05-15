@@ -25,49 +25,100 @@
 
 
 @model Medicloud.ViewModels.PrescriptionsViewModel
+@*<div class="row">
+        <div class="col-12">
+            <div class="d-flex align-items-md-center flex-column flex-md-row justify-content-between my-2">
+                <h2 class="">
+                    @if (!string.IsNullOrEmpty(patientFullname))
+                    {
+                        @($"{patientFullname} - Növbələr")
+                    }
+                    else
+                    {
+                        @Html.Raw("Növbələr")
+                    }
+                </h2>
+                <form asp-action="Index" asp-controller="Prescriptions">
+
+                    <div class="d-flex align-items-md-center flex-column flex-md-row">
 
 
-<div class="row">
-    <div class="col-12">
-        <div class="d-flex align-items-md-center flex-column flex-md-row justify-content-between my-2">
-            <h2 class="">
-                @if (!string.IsNullOrEmpty(patientFullname))
-                {
-                    @($"{patientFullname} - Növbələr")
-                }
-                else
-                {
-                    @Html.Raw("Növbələr")
-                }
-            </h2>
-            <form asp-action="Index" asp-controller="Prescriptions">
-
-                <div class="d-flex align-items-md-center flex-column flex-md-row">
+                        <div class="d-inline-flex align-items-center bg-white border me-2 rounded">
+                            <input type="text" id="searchInput" class="form-control  border-0" name="search" value="@Model.SearchText" placeholder="Axtarın" style="">
+                            <button type="submit" class="btn btn-sm btn-outline-light-gray mb-0" id="searchButton">
+                                <img src="~/res/search.svg" />
+                            </button>
+                        </div>
+                        <a href="javascript:window.print()">
+                            <button type="button" class="btn btn-primary w-md bg-blue-light radius-10"><i class="ri-printer-line"></i>Çap et</button>
+                        </a>
 
 
-                    <div class="d-inline-flex align-items-center bg-white border me-2 rounded">
-                        <input type="text" id="searchInput" class="form-control  border-0" name="search" value="@Model.SearchText" placeholder="Axtarın" style="">
-                        <button type="submit" class="btn btn-sm btn-outline-light-gray mb-0" id="searchButton">
-                            <img src="~/res/search.svg" />
+
+
+                    </div>
+                </form>
+
+
+
+            </div>
+        </div>
+    </div>*@
+
+
+<div class="row d-flex align-items-center py-3">
+    <div class="col-md-6">
+        <h2 class="mt-0 mb-2 mb-md-0">
+            @if (!string.IsNullOrEmpty(patientFullname))
+            {
+                @($"{patientFullname} - Növbələr")
+            }
+            else
+            {
+                @Html.Raw("Növbələr")
+            }
+        </h2>
+    </div>
+
+    <div class="col-md-6">
+        <form asp-controller="Prescriptions" asp-action="Index" class="">
+            <div class="row d-flex align-items-center justify-content-end">
+                <div class="col-md-6">
+                    <div class="input-group mb-2 mb-md-0">
+                        <input type="text"
+                               id="searchInput"
+                               name="search"
+                               value="@Model.SearchText"
+                               class="form-control border-0"
+                               placeholder="Axtarın" />
+                        <button type="submit" class="btn btn-sm btn-info mb-0" id="searchButton">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M16.3333 17.5L11.0833 12.25C10.6667 12.5833 10.1875 12.8472 9.64583 13.0417C9.10417 13.2361 8.52778 13.3333 7.91667 13.3333C6.40278 13.3333 5.12153 12.809 4.07292 11.7604C3.02431 10.7118 2.5 9.43056 2.5 7.91667C2.5 6.40278 3.02431 5.12153 4.07292 4.07292C5.12153 3.02431 6.40278 2.5 7.91667 2.5C9.43056 2.5 10.7118 3.02431 11.7604 4.07292C12.809 5.12153 13.3333 6.40278 13.3333 7.91667C13.3333 8.52778 13.2361 9.10417 13.0417 9.64583C12.8472 10.1875 12.5833 10.6667 12.25 11.0833L17.5 16.3333L16.3333 17.5ZM7.91667 11.6667C8.95833 11.6667 9.84375 11.3021 10.5729 10.5729C11.3021 9.84375 11.6667 8.95833 11.6667 7.91667C11.6667 6.875 11.3021 5.98958 10.5729 5.26042C9.84375 4.53125 8.95833 4.16667 7.91667 4.16667C6.875 4.16667 5.98958 4.53125 5.26042 5.26042C4.53125 5.98958 4.16667 6.875 4.16667 7.91667C4.16667 8.95833 4.53125 9.84375 5.26042 10.5729C5.98958 11.3021 6.875 11.6667 7.91667 11.6667Z" fill="currentColor" />
+                            </svg>
                         </button>
                     </div>
-                    <a href="javascript:window.print()">
-                        <button type="button" class="btn btn-primary w-md bg-blue-light radius-10"><i class="ri-printer-line"></i>Çap et</button>
-                    </a>
-
-
-                    @* <button type="reset" class="btn btn-primary w-md bg-blue radius-10" onclick=" $('#patientSearch').modal('show');">+ Yeni müayinə kartı</button> *@
-                    @*<button type="reset" class="btn btn-primary w-md bg-blue radius-10" onclick=" $('#patientSearch').modal('show');">+ Yeni xidmət</button>
-                        <button type="reset" class="btn btn-primary w-md bg-blue radius-10" onclick=" $('#patientSearch').modal('show');">+ Yeni diagnoz</button>*@
-
                 </div>
-            </form>
+
+                <div class="col-md-3">
+                    <button type="button"
+                            class="btn btn-primary w-100 bg-blue-light radius-10 mb-2 mb-md-0 py-1"
+                            onclick="window.print()">
+                        <i class="ri-printer-line"></i> Çap et
+                    </button>
+                </div>
 
 
-
-        </div>
+                @*<div class="col-md-4">
+                    @* <button type="reset" class="btn btn-primary w-md bg-blue radius-10" onclick=" $('#patientSearch').modal('show');">+ Yeni müayinə kartı</button> *@
+                @*<button type="reset" class="btn btn-primary w-md bg-blue radius-10" onclick=" $('#patientSearch').modal('show');">+ Yeni xidmət</button>
+                    <button type="reset" class="btn btn-primary w-md bg-blue radius-10" onclick=" $('#patientSearch').modal('show');">+ Yeni diagnoz</button>
+                        </div>*@
+            </div>
+        </form>
     </div>
+
 </div>
+
 <div class="row ">
     <div class="col-12">
         <div class="card  rounded-4">
@@ -99,9 +150,17 @@
                                             <tr class="odd">
                                                 <th class="text-muted dtr-control" tabindex="0">@rowNumber</th>
                                                 <td>
-                                                    <a href="@Url.Action("Index", "Policlinic", new {id =item.patientCardID})">
+                                                    @if (Model.isDoctor)
+                                                    {
+                                                        <a href="@Url.Action("Index", "Policlinic", new {id =item.patientCardID})">
+                                                            @item.name @item.surname
+                                                        </a>
+                                                    }
+                                                    else
+                                                    {
                                                         @item.name @item.surname
-                                                    </a>
+                                                    }
+
                                                 </td>
                                                 @*<td>@item.cDate.ToString("dd.MM.yyyy")</td>*@
                                                 <td>

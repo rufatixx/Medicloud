@@ -16,10 +16,11 @@ namespace Medicloud.BLL.Services.Patient
 			_patientRepository = patientRepository;
 		}
 
-		public async Task<List<PatientDAO>> GetPatientsWithCardsByDr(int orgID, int docID = 0)
+		public async Task<List<PatientDAO>> GetPatientsWithCardsByDr(int orgID, int docID = 0, string search = null)
 		{
 			using var con = _unitOfWork.BeginConnection();
-			var result = await _patientRepository.GetPatientsWithCards(orgID, docID);
+			bool onlyActiveCards=string.IsNullOrEmpty(search);
+			var result = await _patientRepository.GetPatientsWithCards(orgID, docID,search,onlyActiveCards);
 			return result;
 		}
 

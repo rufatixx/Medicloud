@@ -4,7 +4,9 @@
 
 }
 
-@if (string.IsNullOrEmpty(ViewBag.warningText))
+@model string
+
+@if (string.IsNullOrEmpty(Model))
 {
 
 
@@ -14,7 +16,7 @@
             @await Component.InvokeAsync("KassaSelector")
         </center>
 
-        <div class="row justify-content-md-center" role="group" aria-label="Basic example" style="margin-top:64px">
+        <div class="row justify-content-center" role="group" aria-label="Basic example" style="margin-top:64px">
             <button type="button" class="btn col-md-2 btn-outline-secondary m-3" onclick="incomeClicked()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96" fill="none">
                     <rect width="96" height="96" rx="16" fill="url(#paint0_linear_506_1962)" />
@@ -228,7 +230,7 @@
 else
 {
     <center>
-        <h1>@ViewBag.warningText</h1>
+        <h1>@Model</h1>
        
     </center>
 }
@@ -329,6 +331,7 @@ else
 
                     //alert(JSON.parse(json).name)
                     //document.cookie = "jsonData="+data;
+                    $("#pType").empty();
                     $.each(data, function () {
 
                         $("#pType").append($(`<option  />`).val(this.id).text(`${this.name}`));
@@ -566,6 +569,7 @@ else
                     localStorage.selectedDebtorPatientID = response[0].id;
 
                     getPaymentTypes();
+                    $('#debtorPrice').empty();
                 } else {
                     $('#systemModal').modal('hide');
                     $('#warningModal').modal('show');
@@ -623,7 +627,7 @@ else
             $('#debtorPrice tr').each(function () {
                 const isPaid = $(this).data('is-paid');
                 if (!isPaid) {
-                    const price = parseFloat($(this).data('service-price'));
+                    const price = parseFloat($(this).data('debt'));
                     if (!isNaN(price)) {
                         totalSum += price;
                     }
@@ -642,10 +646,12 @@ else
             $('#debtorPrice tr').each(function () {
                 const isPaid = $(this).data('is-paid');
                 if (!isPaid) {
+                    //const totalPaid = $(this).data('total-paid');
+
                     // Check if the checkbox in the current row is checked
                     if ($(this).find('input[type="checkbox"]').is(':checked')) {
                         // Add the service price to the new total
-                        const price = parseFloat($(this).data('service-price') || 0);
+                        const price = parseFloat($(this).data('debt') || 0);
                         newTotal += price;
                     }
                 }
@@ -681,6 +687,7 @@ else
                     $('#warningModal').modal('show');
                     $('#warningText').text('Odəniş qeydə alındı');
                     incomeClicked();
+
                     // Additional actions on success, e.g., resetting form, updating UI
                 },
                 error: function (jqXhr, textStatus, errorMessage) {

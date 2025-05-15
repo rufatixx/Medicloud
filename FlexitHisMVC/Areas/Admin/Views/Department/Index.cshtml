@@ -5,28 +5,29 @@
 
 <div class="row">
     <div class="col-12">
-        <div class="page-title-box">
-            <div class="page-title-right">
+        <div class="d-flex align-items-md-center flex-column flex-md-row justify-content-between my-2">
+            <h4 class="">Şöbə</h4>
+            <div class="d-flex align-items-md-center flex-column flex-md-row">
                 <form class="d-flex">
 
 
-@* 
-                    <div class="input-group ms-2">
-                        <span class="input-group-text bg-primary border-primary text-white">
-                            Bina
-                        </span>
-                        <select class="form-control form-control-light" required id="buildings" onchange="buildingChanged()">
-                            <!-- <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-        <option>5</option> -->
-                        </select>
+                    @*
+                            <div class="input-group ms-2">
+                                <span class="input-group-text bg-primary border-primary text-white">
+                                    Bina
+                                </span>
+                                <select class="form-control form-control-light" required id="buildings" onchange="buildingChanged()">
+                                    <!-- <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option> -->
+                                </select>
 
-                    </div> *@
+                            </div> *@
 
 
-                    <div class="input-group ms-2">
+                    <div class="input-group">
                         <span class="input-group-text bg-primary border-primary text-white">
                             Status
                         </span>
@@ -43,7 +44,7 @@
 
                 </form>
             </div>
-            <h4 class="page-title">Şöbə</h4>
+
         </div>
     </div>
 </div>
@@ -214,9 +215,8 @@
         <div class="modal-content">
             <div class="modal-header">
 
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
             </div>
             <div class="modal-body">
                 <form>
@@ -307,7 +307,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Ləğv et</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Ləğv et</button>
                 <button type="button" class="btn btn-primary" onclick="insertDep()">Əlavə et</button>
             </div>
         </div>

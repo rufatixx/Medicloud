@@ -52,7 +52,7 @@ namespace Medicloud.Controllers
 			_patientService = patientService;
 		}
 		// GET: /<controller>/
-		public async Task<IActionResult> Index(int patientID,string search=null)
+		public async Task<IActionResult> Index(int patientID, string search = null)
 		{
 			if (User.Identity.IsAuthenticated)
 			{
@@ -62,11 +62,10 @@ namespace Medicloud.Controllers
 				var roles = userRoles.Select(r => r.id);
 				List<PatientDocDTO> response = new List<PatientDocDTO>();
 
-
 				if (roles.Contains(7) || roles.Contains(3))
 				{
 					//response = await _patientCardService.GetAllPatientsCards(Convert.ToInt32(HttpContext.Session.GetString("Medicloud_organizationID")), patientID);
-					response = await _patientCardService.GetAllPatientsCards(organizationID, patientID,0,search);
+					response = await _patientCardService.GetAllPatientsCards(organizationID, patientID, 0, search);
 
 
 
@@ -74,14 +73,15 @@ namespace Medicloud.Controllers
 				}
 				else if (roles.Contains(4))
 				{
-					response = await _patientCardService.GetAllPatientsCards(organizationID, patientID, userID,search);
+					response = await _patientCardService.GetAllPatientsCards(organizationID, patientID, userID, search);
 					//ViewBag.patientFullname = patientFullName;
 				}
 				var vm = new PrescriptionsViewModel()
 				{
 					PatientCards = response,
 					PatientId = patientID,
-					SearchText = search
+					SearchText = search,
+					isDoctor = roles?.Contains(4) ?? false,
 				};
 				return View(vm);
 
@@ -144,7 +144,7 @@ namespace Medicloud.Controllers
 
 				try
 				{
-					bool result=await _patientCardService.RemoveAsync(cardId);
+					bool result = await _patientCardService.RemoveAsync(cardId);
 
 					return Ok(result);
 				}

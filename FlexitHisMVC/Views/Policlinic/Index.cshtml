@@ -26,274 +26,303 @@
 
 <!-- PAGE HEADER -->
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-12 py-3">
-            <h4 class="mb-0">Kabinetim</h4>
-        </div>
-    </div>
-</div>
-
-<!-- MAIN LAYOUT: Two columns -->
-<div class="row flex-nowrap" style="height: 70vh">
-
-    <!-- LEFT SIDEBAR: Patients List -->
-    <div class="col-3 border-end" style="overflow-y: auto;">
-        <div class="card border-0 h-100 shadow-sm">
-            <div class="card-header">
-                <h5 class="mb-0">Pasientlər</h5>
+    @*<div class="row">
+            <div class="col-12 py-3">
+                <h4 class="mb-0">Kabinetim</h4>
             </div>
-            <div class="list-group list-group-flush" id="patientListGroup">
-                @if (patientList != null && patientList.Count > 0)
-                {
-                    foreach (var item in patientList)
-                    {
-                        <a href="@Url.Action("Index","Policlinic",new { id = item.Cards.First()?.id })"
-                           id="patientItem-@item.id"
-                           class="list-group-item list-group-item-action patient-item d-flex align-items-center @(selectedPatient?.id==item.id?"active":"")">
-                            <img src="~/res/user.svg"
-                                 class="img-fluid rounded-circle me-2"
-                                 width="35" height="35"
-                                 alt="Avatar" />
-                            <span>@item.name @item.surname</span>
-                        </a>
-                    }
-                }
-                else
-                {
-                    <div class="list-group-item text-center text-muted">
-                        Hələki pasient yoxdur
+        </div>*@
+
+    <div class="row d-flex align-items-center py-3">
+        <div class="col-md-5">
+            <h2 class="mt-0 mb-2 mb-md-0">Kabinetim</h2>
+        </div>
+
+        <div class="col-md-7">
+            <form asp-controller="Policlinic" asp-action="Index" class="">
+                <div class="row d-flex align-items-center justify-content-end">
+                    <div class="col-md-5 px-1">
+                        <div class="input-group mb-2 mb-md-0">
+                            <input type="text"
+                                   id="searchInput"
+                                   name="search"
+                                   value="@Model.SearchText"
+                                   class="form-control border-0"
+                                   placeholder="Axtarın" />
+                            <button type="submit" class="btn btn-sm btn-info mb-0" id="searchButton">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16.3333 17.5L11.0833 12.25C10.6667 12.5833 10.1875 12.8472 9.64583 13.0417C9.10417 13.2361 8.52778 13.3333 7.91667 13.3333C6.40278 13.3333 5.12153 12.809 4.07292 11.7604C3.02431 10.7118 2.5 9.43056 2.5 7.91667C2.5 6.40278 3.02431 5.12153 4.07292 4.07292C5.12153 3.02431 6.40278 2.5 7.91667 2.5C9.43056 2.5 10.7118 3.02431 11.7604 4.07292C12.809 5.12153 13.3333 6.40278 13.3333 7.91667C13.3333 8.52778 13.2361 9.10417 13.0417 9.64583C12.8472 10.1875 12.5833 10.6667 12.25 11.0833L17.5 16.3333L16.3333 17.5ZM7.91667 11.6667C8.95833 11.6667 9.84375 11.3021 10.5729 10.5729C11.3021 9.84375 11.6667 8.95833 11.6667 7.91667C11.6667 6.875 11.3021 5.98958 10.5729 5.26042C9.84375 4.53125 8.95833 4.16667 7.91667 4.16667C6.875 4.16667 5.98958 4.53125 5.26042 5.26042C4.53125 5.98958 4.16667 6.875 4.16667 7.91667C4.16667 8.95833 4.53125 9.84375 5.26042 10.5729C5.98958 11.3021 6.875 11.6667 7.91667 11.6667Z" fill="currentColor" />
+                                </svg>
+                            </button>
+                        </div>
                     </div>
-                }
-            </div>
+                </div>
+            </form>
         </div>
+
+
     </div>
 
-    <!-- RIGHT SIDE: Initially shows "Please select" message; once patient is chosen, show the 3 cards -->
-    <div class="col ">
-        <div class="container-fluid h-100" style="overflow-y: auto;">
-            <div class="row gy-3">
+    <!-- MAIN LAYOUT: Two columns -->
+    <div class="row ">
+
+        <!-- LEFT SIDEBAR: Patients List -->
+        <div class="col-md-3 border-end" style="overflow-y: auto;  height: 70vh;">
+            <div class="card border-0 h-100 shadow-sm">
+                <div class="card-header">
+                    <h5 class="mb-0">Pasientlər</h5>
+                </div>
+                <div class="list-group list-group-flush" id="patientListGroup">
+                    @if (patientList != null && patientList.Count > 0)
+                    {
+                        foreach (var item in patientList)
+                        {
+                            <a href="@Url.Action("Index","Policlinic",new { id = item.Cards.First()?.id,search=Model.SearchText })"
+                               id="patientItem-@item.id"
+                               class="list-group-item list-group-item-action patient-item d-flex align-items-center @(selectedPatient?.id==item.id?"active":"")">
+                                <img src="~/res/user.svg"
+                                     class="img-fluid rounded-circle me-2"
+                                     width="35" height="35"
+                                     alt="Avatar" />
+                                <span>@item.name @item.surname</span>
+                            </a>
+                        }
+                    }
+                    else
+                    {
+                        <div class="list-group-item text-center text-muted">
+                            Hələki pasient yoxdur
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT SIDE: Initially shows "Please select" message; once patient is chosen, show the 3 cards -->
+        <div class="col ">
+            <div class="container-fluid h-100" style="overflow-y: auto; height:70vh;">
+                <div class="row gy-3">
 
 
 
-                <!-- PATIENT DETAILS CARD (hidden until a patient is selected) -->
-                @if (selectedPatient != null)
-                {
-                    <div class="col-12" id="patientDetailsCard">
-                        <div class="card shadow-sm">
-                            <div class="card-header">
-                                <h5 class="mb-0">Şəxsi məlumatlar</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="d-flex align-items-start">
-                                    <img id="patientPhoto"
-                                         src="~/res/user.svg"
-                                         class="img-fluid rounded-circle me-3"
-                                         width="80" height="80"
-                                         alt="avatar" />
-                                    <div>
-                                        <p class="mb-1"><strong>Adı:</strong> <span id="name">@selectedPatient.name</span></p>
-                                        <p class="mb-1"><strong>Soyadı:</strong> <span id="surname">@selectedPatient.surname</span></p>
-                                        <p class="mb-1"><strong>Atasının adı:</strong> <span id="father">@selectedPatient.father</span></p>
-                                        <p class="mb-1"><strong>FIN:</strong> <span id="fin">@selectedPatient.fin</span></p>
-                                        <p class="mb-1"><strong>Cinsi:</strong> <span id="gender">@(selectedPatient.genderID==1?"Kişi":"Qadın")</span></p>
-                                        @{
-                                            DateTime parsedDate;
-                                            string formattedDate;
-                                            if (DateTime.TryParse(selectedPatient.bDate, out parsedDate))
-                                            {
-                                                formattedDate = parsedDate.ToString("dd MMM yyyy", culture);
-                                            }
-                                            else
-                                            {
-                                                formattedDate = "Qeyd olunmayıb";
-                                            }
-                                        }
-                                        <p class="mb-1"><strong>Doğum tarixi:</strong> <span id="bDate">@formattedDate</span></p>
-                                        @*<p class="mb-1"><strong>Qeyd:</strong> <span id="note"></span></p>*@
-                                    </div>
+                    <!-- PATIENT DETAILS CARD (hidden until a patient is selected) -->
+                    @if (selectedPatient != null)
+                    {
+                        <div class="col-12 px-md-2 px-0 mt-2 mt-md-0" id="patientDetailsCard">
+                            <div class="card shadow-sm">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Şəxsi məlumatlar</h5>
                                 </div>
-                                <div class="d-flex justify-content-end">
-                                    <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#historyModal">Tarixçə</button>
+                                <div class="card-body">
+                                    <div class="d-flex align-items-start">
+                                        <img id="patientPhoto"
+                                             src="~/res/user.svg"
+                                             class="img-fluid rounded-circle me-3"
+                                             width="80" height="80"
+                                             alt="avatar" />
+                                        <div>
+                                            <p class="mb-1"><strong>Adı:</strong> <span id="name">@selectedPatient.name</span></p>
+                                            <p class="mb-1"><strong>Soyadı:</strong> <span id="surname">@selectedPatient.surname</span></p>
+                                            <p class="mb-1"><strong>Atasının adı:</strong> <span id="father">@selectedPatient.father</span></p>
+                                            <p class="mb-1"><strong>FIN:</strong> <span id="fin">@selectedPatient.fin</span></p>
+                                            <p class="mb-1"><strong>Cinsi:</strong> <span id="gender">@(selectedPatient.genderID==1?"Kişi":"Qadın")</span></p>
+                                            @{
+                                                DateTime parsedDate;
+                                                string formattedDate;
+                                                if (DateTime.TryParse(selectedPatient.bDate, out parsedDate))
+                                                {
+                                                    formattedDate = parsedDate.ToString("dd MMM yyyy", culture);
+                                                }
+                                                else
+                                                {
+                                                    formattedDate = "Qeyd olunmayıb";
+                                                }
+                                            }
+                                            <p class="mb-1"><strong>Doğum tarixi:</strong> <span id="bDate">@formattedDate</span></p>
+                                            @*<p class="mb-1"><strong>Qeyd:</strong> <span id="note"></span></p>*@
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-end">
+                                        <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#historyModal">Tarixçə</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
 
-                    <div class="mt-0">
-                        <h4 class="text-center">Növbə № @lastPatientCard?.id - Tarix: @lastPatientCard?.startDate?.ToString("dd MMM yyyy HH:mm", culture) </h4>
+                        <div class="mt-0 px-md-2 px-0 ">
+                            <h4 class="text-center">Növbə № @lastPatientCard?.id - Tarix: @lastPatientCard?.startDate?.ToString("dd MMM yyyy HH:mm", culture) </h4>
 
-                        <div class="accordion mb-3" id="anamnesisAccordion">
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingAnamnesis">
-                                    <button class="accordion-button d-flex justify-content-between align-items-center w-100 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAnamnesis" aria-expanded="false" aria-controls="collapseAnamnesis">
-                                        Xəstənin Anamnezləri
-                                    </button>
-                                </h2>
-                                <div id="collapseAnamnesis" class="accordion-collapse collapse " aria-labelledby="headingAnamnesis" data-bs-parent="#anamnesisAccordion">
-                                    <div class="accordion-body">
+                            <div class="accordion mb-3" id="anamnesisAccordion">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingAnamnesis">
+                                        <button class="accordion-button d-flex justify-content-between align-items-center w-100 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAnamnesis" aria-expanded="false" aria-controls="collapseAnamnesis">
+                                            Xəstənin Anamnezləri
+                                        </button>
+                                    </h2>
+                                    <div id="collapseAnamnesis" class="accordion-collapse collapse " aria-labelledby="headingAnamnesis" data-bs-parent="#anamnesisAccordion">
+                                        <div class="accordion-body">
 
-                                        <div class="d-flex justify-content-end mb-2">
-                                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#anamnesisModal">Anamnez əlavə et</button>
-                                        </div>
+                                            <div class="d-flex justify-content-end mb-2">
+                                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#anamnesisModal">Anamnez əlavə et</button>
+                                            </div>
 
-                                        <div class="list-group list-group-flush" style="max-height: 250px; overflow-y: auto;">
-                                            @if (Model.CardAnamnesis != null)
-                                            {
-                                                foreach (var item in Model.CardAnamnesis)
+                                            <div class="list-group list-group-flush" style="max-height: 250px; overflow-y: auto;">
+                                                @if (Model.CardAnamnesis != null)
                                                 {
-                                                    <div class="list-group-item p-0 border-0 anamnesis-card" data-item-id="@item.id" style="cursor:pointer;">
-                                                        <div class="card position-relative">
-                                                            <div class="card-body">
-                                                                <h5 class="card-title">Anamnez №@item.id</h5>
-                                                                <p class="card-text">
-                                                                    <strong>Həkim:</strong> @item.Doctor?.name @item.Doctor?.surname<br />
-                 
-                                                                    <strong>Tarix:</strong> @item.createDate.ToString("dd.MM.yyyy")
-                                                                </p>
-                                                                <div class="position-absolute top-0 end-0 m-2">
-                     
-                                                                    @if (item.doctorId == int.Parse(User.FindFirst("ID").Value))
-                                                                    {
-                                                                        <button class="btn btn-sm edit-anamnesis btn-primary me-1" data-item-id="@item.id">Dəyiş</button>
-                                                                        <button class="btn btn-sm delete-anamnesis btn-danger" data-item-id="@item.id">Sil</button>
-                                                                    }
+                                                    foreach (var item in Model.CardAnamnesis)
+                                                    {
+                                                        <div class="list-group-item p-0 border-0 anamnesis-card" data-item-id="@item.id" style="cursor:pointer;">
+                                                            <div class="card position-relative">
+                                                                <div class="card-body">
+                                                                    <h5 class="card-title">Anamnez №@item.id</h5>
+                                                                    <p class="card-text">
+                                                                        <strong>Həkim:</strong> @item.Doctor?.name @item.Doctor?.surname<br />
 
+                                                                        <strong>Tarix:</strong> @item.createDate.ToString("dd.MM.yyyy")
+                                                                    </p>
+                                                                    <div class="position-absolute top-0 end-0 m-2">
+
+                                                                        @if (item.doctorId == int.Parse(User.FindFirst("ID").Value))
+                                                                        {
+                                                                            <button class="btn btn-sm edit-anamnesis btn-primary me-1" data-item-id="@item.id">Dəyiş</button>
+                                                                            <button class="btn btn-sm delete-anamnesis btn-danger" data-item-id="@item.id">Sil</button>
+                                                                        }
+
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    }
                                                 }
-                                            }
-                                        </div>
+                                            </div>
 
+                                        </div>
                                     </div>
+                                </div>
+                            </div>
+
+
+                            @*<div class="accordion mb-3" id="diagnosessAccordion">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingDiagnoses">
+                                            <button class="accordion-button d-flex justify-content-between align-items-center w-100 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDiagnoses" aria-expanded="false" aria-controls="collapseDiagnoses">
+                                                Xəstənin Diaqnozları
+                                            </button>
+                                        </h2>
+                                        <div id="collapseDiagnoses" class="accordion-collapse collapse " aria-labelledby="headingDiagnoses" data-bs-parent="#diagnosessAccordion">
+                                            <div class="accordion-body">
+
+                                                <div class="d-flex justify-content-end mb-2">
+                                                    <button type="button" class="btn btn-sm btn-outline-primary"
+                                                            onclick="$('#patientSearch').modal('show');">
+                                                        Diaqnoz əlavə et
+                                                    </button>
+                                                </div>
+
+                                                <div class="list-group list-group-flush" style="max-height: 250px; overflow-y: auto;">
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="accordion mb-3" id="videosAccordion">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingVideos">
+                                            <button class="accordion-button d-flex justify-content-between align-items-center w-100 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseVideos" aria-expanded="false" aria-controls="collapseVideos">
+                                                Video yazılar siyahısı
+                                            </button>
+                                        </h2>
+                                        <div id="collapseVideos" class="accordion-collapse collapse " aria-labelledby="headingVideos" data-bs-parent="#videosAccordion">
+                                            <div class="accordion-body">
+
+                                                <div class="d-flex justify-content-end mb-2">
+                                                    <button type="button" class="btn btn-sm btn-outline-success" onclick="openVideoModal()">
+                                                        Yeni rekord başlat
+                                                    </button>
+                                                </div>
+
+                                                <div class="list-group list-group-flush" style="max-height: 250px; overflow-y: auto;">
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>*@
+
+                        </div>
+                    }
+                    else
+                    {
+                        <!-- "SELECT A PATIENT" MESSAGE -->
+                        <div class="col-12" id="noPatientSelectedMsg">
+                            <div class="card shadow-sm">
+                                <div class="card-body text-muted">
+                                    Zəhmət olmasa pasient seçin
                                 </div>
                             </div>
                         </div>
-
-
-                        @*<div class="accordion mb-3" id="diagnosessAccordion">
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingDiagnoses">
-                                    <button class="accordion-button d-flex justify-content-between align-items-center w-100 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDiagnoses" aria-expanded="false" aria-controls="collapseDiagnoses">
-                                        Xəstənin Diaqnozları
-                                    </button>
-                                </h2>
-                                <div id="collapseDiagnoses" class="accordion-collapse collapse " aria-labelledby="headingDiagnoses" data-bs-parent="#diagnosessAccordion">
-                                    <div class="accordion-body">
-
-                                        <div class="d-flex justify-content-end mb-2">
-                                            <button type="button" class="btn btn-sm btn-outline-primary"
-                                                    onclick="$('#patientSearch').modal('show');">
-                                                Diaqnoz əlavə et
-                                            </button>
-                                        </div>
-
-                                        <div class="list-group list-group-flush" style="max-height: 250px; overflow-y: auto;">
-
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    }
 
 
 
-                        <div class="accordion mb-3" id="videosAccordion">
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingVideos">
-                                    <button class="accordion-button d-flex justify-content-between align-items-center w-100 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseVideos" aria-expanded="false" aria-controls="collapseVideos">
-                                        Video yazılar siyahısı
-                                    </button>
-                                </h2>
-                                <div id="collapseVideos" class="accordion-collapse collapse " aria-labelledby="headingVideos" data-bs-parent="#videosAccordion">
-                                    <div class="accordion-body">
-
-                                        <div class="d-flex justify-content-end mb-2">
-                                            <button type="button" class="btn btn-sm btn-outline-success" onclick="openVideoModal()">
-                                                Yeni rekord başlat
-                                            </button>
-                                        </div>
-
-                                        <div class="list-group list-group-flush" style="max-height: 250px; overflow-y: auto;">
-
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>*@
-
-                    </div>
-                }
-                else
-                {
-                    <!-- "SELECT A PATIENT" MESSAGE -->
-                    <div class="col-12" id="noPatientSelectedMsg">
+                    <!-- DIAGNOSES CARD (hidden until a patient is selected) -->
+                    <div class="col-12" id="diagnosesCard" style="display: none;">
                         <div class="card shadow-sm">
-                            <div class="card-body text-muted">
-                                Zəhmət olmasa pasient seçin
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">Xəstənin Diaqnozları</h5>
+                                <button type="button" class="btn btn-sm btn-outline-primary"
+                                        onclick="$('#patientSearch').modal('show');">
+                                    Diaqnoz əlavə et
+                                </button>
+                            </div>
+                            <div class="list-group list-group-flush"
+                                 style="max-height: 250px; overflow-y: auto;"
+                                 id="patientDiagnoses">
+                                <!-- Filled by JS once a patient is selected -->
                             </div>
                         </div>
                     </div>
-                }
 
-
-
-                <!-- DIAGNOSES CARD (hidden until a patient is selected) -->
-                <div class="col-12" id="diagnosesCard" style="display: none;">
-                    <div class="card shadow-sm">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">Xəstənin Diaqnozları</h5>
-                            <button type="button" class="btn btn-sm btn-outline-primary"
-                                    onclick="$('#patientSearch').modal('show');">
-                                Diaqnoz əlavə et
-                            </button>
-                        </div>
-                        <div class="list-group list-group-flush"
-                             style="max-height: 250px; overflow-y: auto;"
-                             id="patientDiagnoses">
-                            <!-- Filled by JS once a patient is selected -->
+                    <!-- VIDEO RECORDS CARD (hidden until a patient is selected) -->
+                    <div class="col-12" id="videoCard" style="display: none;">
+                        <div class="card shadow-sm">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">Video yazılar siyahısı</h5>
+                                <button type="button" class="btn btn-sm btn-outline-success" onclick="openVideoModal()">
+                                    Yeni rekord başlat
+                                </button>
+                            </div>
+                            <div class="list-group list-group-flush"
+                                 style="max-height: 250px; overflow-y: auto;"
+                                 id="patientRecs">
+                                <!-- Filled by JS once a patient is selected -->
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- VIDEO RECORDS CARD (hidden until a patient is selected) -->
-                <div class="col-12" id="videoCard" style="display: none;">
-                    <div class="card shadow-sm">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">Video yazılar siyahısı</h5>
-                            <button type="button" class="btn btn-sm btn-outline-success" onclick="openVideoModal()">
-                                Yeni rekord başlat
-                            </button>
-                        </div>
-                        <div class="list-group list-group-flush"
-                             style="max-height: 250px; overflow-y: auto;"
-                             id="patientRecs">
-                            <!-- Filled by JS once a patient is selected -->
-                        </div>
-                    </div>
                 </div>
-
             </div>
         </div>
     </div>
-</div>
 
 
-<div class="modal fade" id="historyModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-light text-dark">
-                <h5 class="modal-title">Pasientin tarixçəsi</h5>
-            </div>
-            <div class="modal-body text-center">
-                @if (selectedPatient != null && selectedPatient.Cards != null)
-                {
-                    foreach (var item in selectedPatient.Cards)
+    <div class="modal fade" id="historyModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-light text-dark">
+                    <h5 class="modal-title">Pasientin tarixçəsi</h5>
+                </div>
+                <div class="modal-body text-center">
+                    @if (selectedPatient != null && selectedPatient.Cards != null)
                     {
+                        foreach (var item in selectedPatient.Cards)
+                        {
                             string className = "";
                             string text = "";
                             if (item.finished)
@@ -314,41 +343,55 @@
                                     text = "İmtina edilib";
                                 }
                             }
-                        
 
-                <div class="text-start">
-                    <a href="@Url.Action("Index","Policlinic",new { id = item.id })" class="link">Növbə tarixi: @item.startDate?.ToString("dd MMM yyyy HH:mm", culture)</a>
-                    <span class="ms-3 badge @className">
-                        @text
-                    </span>
-                </div>
+
+                            <div class="text-start">
+                                <a href="@Url.Action("Index","Policlinic",new { id = item.id })" class="link">Növbə tarixi: @item.startDate?.ToString("dd MMM yyyy HH:mm", culture)</a>
+                                <span class="ms-3 badge @className">
+                                    @text
+                                </span>
+                            </div>
+                        }
                     }
-                }
 
+                </div>
+                @*<div class="modal-footer">
+                        <a class="btn btn-primary" href="/">Əsas səhifə</a>
+                    </div>*@
             </div>
-            @*<div class="modal-footer">
-                    <a class="btn btn-primary" href="/">Əsas səhifə</a>
-                </div>*@
         </div>
     </div>
-</div>
 
-<div class="modal fade" id="anamnesisModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-light text-dark">
-                <h5 class="modal-title" id="anamnesisModalTitle">Yeni anamnez</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body text-center text-start">
+    <div class="modal fade" id="anamnesisModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-light text-dark">
+                    <h5 class="modal-title" id="anamnesisModalTitle">Yeni anamnez</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center text-start">
 
-                @if (Model.AnamnesisFields != null)
-                {
-                    @*foreach (var item in Model.AnamnesisFields)
-                        {
-                            <div class="col-md-6 text-start mb-3">
-                                <label class="form-label ">@item.name</label>
-                                <textarea type="text" class="form-control" id="input(@item.id)" rows="3" placeholder="@item.name daxil edin"></textarea>
+                    @if (Model.AnamnesisFields != null)
+                    {
+                        @*foreach (var item in Model.AnamnesisFields)
+                            {
+                                <div class="col-md-6 text-start mb-3">
+                                    <label class="form-label ">@item.name</label>
+                                    <textarea type="text" class="form-control" id="input(@item.id)" rows="3" placeholder="@item.name daxil edin"></textarea>
+                                    <div class="valid-feedback">
+                                        Əla!
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Boşluğu doldurun.
+                                    </div>
+                                </div>
+                            }*@
+                    }
+                    <form id="anamnezForm" data-action="add" novalidate>
+                        <div class="row">
+                            <div class="col-md-6 text-start mb-3 anamnez-field" data-field-id="1">
+                                <label class="form-label ">Şikayəti</label>
+                                <textarea type="text" class="form-control answer" id="" rows="3" required placeholder="Şikayəti daxil edin"></textarea>
                                 <div class="valid-feedback">
                                     Əla!
                                 </div>
@@ -356,204 +399,190 @@
                                     Boşluğu doldurun.
                                 </div>
                             </div>
-                        }*@
-                }
-                <form id="anamnezForm" data-action="add" novalidate>
-                    <div class="row">
-                        <div class="col-md-6 text-start mb-3 anamnez-field" data-field-id="1">
-                            <label class="form-label ">Şikayəti</label>
-                            <textarea type="text" class="form-control answer" id="" rows="3" required placeholder="Şikayəti daxil edin"></textarea>
-                            <div class="valid-feedback">
-                                Əla!
+                            <div class="col-md-6 text-start mb-3 anamnez-field" data-field-id="2">
+                                <label class="form-label ">Anamnez Kliniki Gedişat</label>
+                                <textarea type="text" class="form-control answer" id="" rows="3" required placeholder="Anamnez Kliniki Gedişat daxil edin"></textarea>
+                                <div class="valid-feedback">
+                                    Əla!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Boşluğu doldurun.
+                                </div>
                             </div>
-                            <div class="invalid-feedback">
-                                Boşluğu doldurun.
+                            <div class="col-md-6 text-start mb-3 anamnez-field" data-field-id="3">
+                                <label class="form-label ">Öncəki xəstəliklər</label>
+                                <textarea type="text" class="form-control answer" id="" rows="3" required placeholder="Öncəki xəstəliklər daxil edin"></textarea>
+                                <div class="valid-feedback">
+                                    Əla!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Boşluğu doldurun.
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6 text-start mb-3 anamnez-field" data-field-id="2">
-                            <label class="form-label ">Anamnez Kliniki Gedişat</label>
-                            <textarea type="text" class="form-control answer" id="" rows="3" required placeholder="Anamnez Kliniki Gedişat daxil edin"></textarea>
-                            <div class="valid-feedback">
-                                Əla!
+                            <div class="col-md-6 text-start mb-3 anamnez-field" data-field-id="4">
+                                <label class="form-label ">Müayinə planı</label>
+                                <textarea type="text" class="form-control answer" id="" rows="3" required placeholder="Müayinə planı daxil edin"></textarea>
+                                <div class="valid-feedback">
+                                    Əla!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Boşluğu doldurun.
+                                </div>
                             </div>
-                            <div class="invalid-feedback">
-                                Boşluğu doldurun.
+                            <div class="col-md-6 text-start mb-3 anamnez-field" data-field-id="5">
+                                <label class="form-label ">Tətbiq olunan müalicə</label>
+                                <textarea type="text" class="form-control answer" id="" rows="3" required placeholder="Tətbiq olunan müalicə daxil edin"></textarea>
+                                <div class="valid-feedback">
+                                    Əla!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Boşluğu doldurun.
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6 text-start mb-3 anamnez-field" data-field-id="3">
-                            <label class="form-label ">Öncəki xəstəliklər</label>
-                            <textarea type="text" class="form-control answer" id="" rows="3" required placeholder="Öncəki xəstəliklər daxil edin"></textarea>
-                            <div class="valid-feedback">
-                                Əla!
-                            </div>
-                            <div class="invalid-feedback">
-                                Boşluğu doldurun.
-                            </div>
-                        </div>
-                        <div class="col-md-6 text-start mb-3 anamnez-field" data-field-id="4">
-                            <label class="form-label ">Müayinə planı</label>
-                            <textarea type="text" class="form-control answer" id="" rows="3" required placeholder="Müayinə planı daxil edin"></textarea>
-                            <div class="valid-feedback">
-                                Əla!
-                            </div>
-                            <div class="invalid-feedback">
-                                Boşluğu doldurun.
-                            </div>
-                        </div>
-                        <div class="col-md-6 text-start mb-3 anamnez-field" data-field-id="5">
-                            <label class="form-label ">Tətbiq olunan müalicə</label>
-                            <textarea type="text" class="form-control answer" id="" rows="3" required placeholder="Tətbiq olunan müalicə daxil edin"></textarea>
-                            <div class="valid-feedback">
-                                Əla!
-                            </div>
-                            <div class="invalid-feedback">
-                                Boşluğu doldurun.
+                            <div class="col-md-6 text-start mb-3 anamnez-field" data-field-id="6">
+                                <label class="form-label ">Digər qeydlər</label>
+                                <textarea type="text" class="form-control answer" id="" rows="3" required placeholder="Digər qeydlər daxil edin"></textarea>
+                                <div class="valid-feedback">
+                                    Əla!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Boşluğu doldurun.
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6 text-start mb-3 anamnez-field" data-field-id="6">
-                            <label class="form-label ">Digər qeydlər</label>
-                            <textarea type="text" class="form-control answer" id="" rows="3" required placeholder="Digər qeydlər daxil edin"></textarea>
-                            <div class="valid-feedback">
-                                Əla!
-                            </div>
-                            <div class="invalid-feedback">
-                                Boşluğu doldurun.
-                            </div>
+                        <div class="col-12 d-flex justify-content-end">
+                            <button class="btn btn-primary">Yadda saxla</button>
                         </div>
-                    </div>
-                    <div class="col-12 d-flex justify-content-end">
-                        <button class="btn btn-primary">Yadda saxla</button>
-                    </div>
-                </form>
+                    </form>
 
 
+                </div>
+                @*<div class="modal-footer">
+                        <a class="btn btn-primary" href="/">Əsas səhifə</a>
+                    </div>*@
             </div>
-            @*<div class="modal-footer">
+        </div>
+    </div>
+
+
+    @await Component.InvokeAsync("AnamnesisDetailModal")
+
+
+    <!-- NO PATIENTS MODAL (if Model.Count == 0) -->
+    <div class="modal fade" id="noPatientsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-warning text-dark">
+                    <h5 class="modal-title">Pasient yoxdur</h5>
+                </div>
+                <div class="modal-body text-center">
+                    Sizin hələki pasientiniz yoxdur
+                </div>
+                <div class="modal-footer">
                     <a class="btn btn-primary" href="/">Əsas səhifə</a>
-                </div>*@
-        </div>
-    </div>
-</div>
-
-
-@await Component.InvokeAsync("AnamnesisDetailModal")
-
-
-<!-- NO PATIENTS MODAL (if Model.Count == 0) -->
-<div class="modal fade" id="noPatientsModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-warning text-dark">
-                <h5 class="modal-title">Pasient yoxdur</h5>
-            </div>
-            <div class="modal-body text-center">
-                Sizin hələki pasientiniz yoxdur
-            </div>
-            <div class="modal-footer">
-                <a class="btn btn-primary" href="/">Əsas səhifə</a>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- DIAGNOSIS SEARCH MODAL -->
-<div class="modal fade" id="patientSearch" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Diaqnoz axtarışı</h5>
-                <button type="button" class="btn-close"
-                        data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="mb-3">
-                    <label for="icdID" class="form-label">ICD Kodu</label>
-                    <input type="text" class="form-control" id="icdID" placeholder="A00 və s." />
+    <!-- DIAGNOSIS SEARCH MODAL -->
+    <div class="modal fade" id="patientSearch" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Diaqnoz axtarışı</h5>
+                    <button type="button" class="btn-close"
+                            data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="mb-3">
-                    <label for="diagnoseName" class="form-label">Adı</label>
-                    <input type="text" class="form-control" id="diagnoseName" placeholder="Diaqnoz adı" />
-                </div>
-                <div class="mb-3">
-                    <label for="foundDiagnoseList" class="form-label">Axtarış Nəticələri</label>
-                    <select class="form-select" size="5" id="foundDiagnoseList"
-                            onchange="addDiagnose(patientIDglobal, $(this).val())">
-                    </select>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ləğv et</button>
-                <button type="button" class="btn btn-primary" onclick="searchForDiagnose()">Axtar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- VIDEO RECORDING MODAL -->
-<div class="modal fade" id="videoModal" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Video Qeydiyyat</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                        aria-label="Close" onclick="stopPreview()"></button>
-            </div>
-            <div class="modal-body">
-                <div class="mb-3">
-                    <label for="videoInputDevice" class="form-label">Kamera seçin</label>
-                    <select class="form-select" id="videoInputDevice">
-                        <option value="">Varsayılan Kamera</option>
-                    </select>
-                </div>
-                <div class="text-center position-relative">
-                    <video id="videoPreview" width="360" height="240"
-                           autoplay muted style="background: #000;"></video>
-                    <!-- Blinking "Recording..." indicator -->
-                    <div id="recordIndicator"
-                         style="display:none; position:absolute; top:8px; left:8px; background:rgba(255,0,0,0.7); color:#fff; padding:3px 8px; border-radius:4px; animation: blinkRecord 1s infinite;">
-                        Recording...
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="icdID" class="form-label">ICD Kodu</label>
+                        <input type="text" class="form-control" id="icdID" placeholder="A00 və s." />
+                    </div>
+                    <div class="mb-3">
+                        <label for="diagnoseName" class="form-label">Adı</label>
+                        <input type="text" class="form-control" id="diagnoseName" placeholder="Diaqnoz adı" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="foundDiagnoseList" class="form-label">Axtarış Nəticələri</label>
+                        <select class="form-select" size="5" id="foundDiagnoseList"
+                                onchange="addDiagnose(patientIDglobal, $(this).val())">
+                        </select>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button id="startRecordingBtn" class="btn btn-primary" onclick="startVideoRecording()">Start</button>
-                <button id="stopRecordingBtn" class="btn btn-danger" style="display: none;" onclick="stopVideoRecording()">Stop</button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ləğv et</button>
+                    <button type="button" class="btn btn-primary" onclick="searchForDiagnose()">Axtar</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- KEYFRAMES FOR BLINKING THE RECORDING INDICATOR -->
-<style>
-    @@keyframes blinkRecord {
-        0% {
-            opacity: 1;
+    <!-- VIDEO RECORDING MODAL -->
+    <div class="modal fade" id="videoModal" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Video Qeydiyyat</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close" onclick="stopPreview()"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="videoInputDevice" class="form-label">Kamera seçin</label>
+                        <select class="form-select" id="videoInputDevice">
+                            <option value="">Varsayılan Kamera</option>
+                        </select>
+                    </div>
+                    <div class="text-center position-relative">
+                        <video id="videoPreview" width="360" height="240"
+                               autoplay muted style="background: #000;"></video>
+                        <!-- Blinking "Recording..." indicator -->
+                        <div id="recordIndicator"
+                             style="display:none; position:absolute; top:8px; left:8px; background:rgba(255,0,0,0.7); color:#fff; padding:3px 8px; border-radius:4px; animation: blinkRecord 1s infinite;">
+                            Recording...
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="startRecordingBtn" class="btn btn-primary" onclick="startVideoRecording()">Start</button>
+                    <button id="stopRecordingBtn" class="btn btn-danger" style="display: none;" onclick="stopVideoRecording()">Stop</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- KEYFRAMES FOR BLINKING THE RECORDING INDICATOR -->
+    <style>
+        @@keyframes blinkRecord {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
         }
+    </style>
 
-        50% {
-            opacity: 0;
+    @{
+        // If zero patients, show "No Patients" modal automatically
+        if (Model.Patients == null || Model.Patients.Count == 0)
+        {
+            <script>
+                $(document).ready(function () {
+                    $("#noPatientsModal").modal("show");
+                });</script>
+            ;
         }
-
-        100% {
-            opacity: 1;
-        }
-    }
-</style>
-
-@{
-    // If zero patients, show "No Patients" modal automatically
-    if (Model.Patients == null || Model.Patients.Count == 0)
-    {
-        <script>
-            $(document).ready(function () {
-                $("#noPatientsModal").modal("show");
-            });</script>
-        ;
-    }
-    else
-    {
-        // Full JS for Diagnoses, Video, etc.
-        <script>
+        else
+        {
+            // Full JS for Diagnoses, Video, etc.
+            <script>
             var patientIDglobal = null;
             var stream = null;
             var mediaRecorder = null;
@@ -858,15 +887,15 @@
                     }
                 });
             }
-        </script>
-        ;
+            </script>
+            ;
+        }
     }
-}
 
 
-@section Scripts {
+    @section Scripts {
 
-    <script>
+        <script>
         document.addEventListener('DOMContentLoaded', function () {
 
             $anamnezForm = $('#anamnezForm');
@@ -957,7 +986,7 @@
                         }
                     });
 
-                }             
+                }
 
                 //}
             })
@@ -1006,7 +1035,7 @@
                     });
 
                     $("#anamnesisModalTitle").text("Redaktə et");
-                    $('#anamnesisModal').modal('show'); 
+                    $('#anamnesisModal').modal('show');
                     $anamnezForm.data('action', 'update');
                     $anamnezForm.data('item-id', response.id);
                     hideLoading();
@@ -1069,7 +1098,7 @@
                 $('#confirmModal').data('item-id', itemId);
                 $('#confirmText').text('Ananmezi silmək istədiyinizə əminsiniz?');
                 $('#confirmModal').modal('show');
-                
+
 
             })
 
@@ -1094,9 +1123,9 @@
                 });
 
             })
-            
+
 
         })
 
-    </script>
-}
+        </script>
+    }
