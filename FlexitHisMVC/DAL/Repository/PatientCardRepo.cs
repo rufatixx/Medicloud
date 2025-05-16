@@ -248,6 +248,8 @@ namespace Medicloud.Models.Repository
                     var patientCardQuery = @"
                 SELECT 
                     pc.id AS cardID,
+                    pc.startDate,
+                    pc.endDate,
                     pc.cDate AS cDate,
                     p.id AS patientID,
 p.id as patientID,
@@ -270,20 +272,74 @@ p.id as patientID,
                         {
                             while (reader.Read())
                             {
-                                DateTime cDateValue;
-                                string formattedDate = "";
-                                if (DateTime.TryParse(reader["cDate"].ToString(), out cDateValue))
-                                {
-                                    // Successfully parsed as DateTime, now format it
-                                    formattedDate = cDateValue.ToString("MM.dd.yyyy HH:mm");
-                                    // Use formattedDate as needed
-                                }
+								//                        DateTime cDateValue;
+								//                        string formattedDate = "";
+								//                        if (DateTime.TryParse(reader["cDate"].ToString(), out cDateValue))
+								//                        {
+								//                            // Successfully parsed as DateTime, now format it
+								//                            formattedDate = cDateValue.ToString("MM.dd.yyyy HH:mm");
+								//                            // Use formattedDate as needed
+								//                        }
+								//DateTime startDateValue;
+								//string formattedStartDate = "";
+								//if (DateTime.TryParse(reader["startDate"].ToString(), out cDateValue))
+								//{
+								//	// Successfully parsed as DateTime, now format it
+								//	formattedDate = cDateValue.ToString("MM.dd.yyyy HH:mm");
+								//	// Use formattedDate as needed
+								//}
+								//DateTime endDateValue;
+								//string formattedEndDate = "";
+								//if (DateTime.TryParse(reader["endDate"].ToString(), out cDateValue))
+								//{
+								//	// Successfully parsed as DateTime, now format it
+								//	formattedDate = cDateValue.ToString("MM.dd.yyyy HH:mm");
+								//	// Use formattedDate as needed
+								//}
 
-                                var patientCard = new PatientCardDTO
+
+								DateTime cDateValue;
+								string formattedDate = "";
+								DateTime startDateValue;
+								DateTime endDateValue;
+								string formattedResult = "";
+
+								// Try to parse cDate first (this is always available)
+								if (DateTime.TryParse(reader["cDate"].ToString(), out cDateValue))
+								{
+									// If startDate exists, use startDate and append the time part of endDate
+									if (DateTime.TryParse(reader["startDate"].ToString(), out startDateValue))
+									{
+										formattedResult = startDateValue.ToString("MM.dd.yyyy HH:mm");
+										// If endDate exists, combine startDate with the time part of endDate
+										if (DateTime.TryParse(reader["endDate"].ToString(), out endDateValue))
+										{
+											//formattedResult = startDateValue.Date.Add(endDateValue.TimeOfDay).ToString("MM.dd.yyyy HH:mm");
+
+											formattedResult += " - " + endDateValue.ToString("HH:mm");
+										}
+
+									}
+									else
+									{
+										// If startDate doesn't exist, use cDate and append the time part of endDate
+										if (DateTime.TryParse(reader["endDate"].ToString(), out endDateValue))
+										{
+											formattedResult = cDateValue.Date.Add(endDateValue.TimeOfDay).ToString("MM.dd.yyyy HH:mm");
+										}
+										else
+										{
+											formattedResult = cDateValue.ToString("MM.dd.yyyy HH:mm");
+										}
+									}
+								}
+
+
+								var patientCard = new PatientCardDTO
                                 {
                                     CardID = Convert.ToInt64(reader["cardID"]), // Use cardID for unique identification of each card
                                     ID = Convert.ToInt64(reader["patientID"]), // Use cardID for unique identification of each card
-                                    cDate = formattedDate, // Use cardID for unique identification of each card
+                                    cDate = formattedResult, // Use cardID for unique identification of each card
                                     name = reader["name"].ToString(),
                                     surname = reader["surname"].ToString(),
                                     father = reader["father"].ToString(),

@@ -149,19 +149,21 @@
 
                                             <tr class="odd">
                                                 <th class="text-muted dtr-control" tabindex="0">@rowNumber</th>
-                                                <td>
-                                                    @if (Model.isDoctor)
-                                                    {
+                                                @if (Model.isDoctor)
+                                                {
+                                                    <td>
                                                         <a href="@Url.Action("Index", "Policlinic", new {id =item.patientCardID})">
-                                                            @item.name @item.surname
+                                                            @item.name  @item.surname
                                                         </a>
-                                                    }
-                                                    else
-                                                    {
-                                                        @item.name @item.surname
-                                                    }
 
-                                                </td>
+
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td> @item.name @item.surname</td>
+
+                                                }
                                                 @*<td>@item.cDate.ToString("dd.MM.yyyy")</td>*@
                                                 <td>
                                                     @{

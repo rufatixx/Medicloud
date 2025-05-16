@@ -76,6 +76,23 @@
                     {
                         foreach (var item in patientList)
                         {
+
+
+                            string className = "";
+                            string text = "";
+                            if (item.Cards != null)
+                            {
+                                if (item.Cards.Any(c => !c.finished))
+                                {
+                                    className = "bg-success";
+                                    text = "Aktiv";
+                                }
+                                else
+                                {
+                                    className = "bg-info";
+                                    text = "Arxiv";
+                                }
+                            }
                             <a href="@Url.Action("Index","Policlinic",new { id = item.Cards.First()?.id,search=Model.SearchText })"
                                id="patientItem-@item.id"
                                class="list-group-item list-group-item-action patient-item d-flex align-items-center @(selectedPatient?.id==item.id?"active":"")">
@@ -83,7 +100,10 @@
                                      class="img-fluid rounded-circle me-2"
                                      width="35" height="35"
                                      alt="Avatar" />
-                                <span>@item.name @item.surname</span>
+                                <span class="w-50">@item.name @item.surname</span>
+                                <span class="ms-3 badge @className">
+                                    @text
+                                </span>
                             </a>
                         }
                     }
